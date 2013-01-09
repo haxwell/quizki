@@ -1,0 +1,193 @@
+* {
+	font-family:sans-serif;
+}
+
+body {
+	margin-right:50px;
+	margin-left:50px;
+}
+
+textarea {
+	width:100%;
+}
+
+table.center{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+table.displayExam {
+	width:100%;
+	
+}
+
+.header {
+	background-color:#7D7578;
+	width:100%;
+	font-weight:bold;
+	font-size:14px;
+	color:white;
+}
+
+.hidden {
+		display:none;
+}
+
+.rowHighlight {
+	background-color:#F0F0EE;
+}
+
+span.redText {
+	color:red;
+}
+
+span.greenText {
+	color:green;
+}
+
+div.greenText {
+	color:green;
+}
+
+div.redText {
+	color:red;
+}
+
+div.aboutBox {
+	border:1px solid #C2D6D6;   position:relative;
+	width:250px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+div.listOfQuestions {
+	border:1px solid #C2D6D6;   position:relative;
+}
+
+div.createQuestionForm {
+	background-color:#f0bcae;
+}
+
+div.createQuestionFormTopicsField {
+	background-color:#ffffff;
+}
+
+div.createQuestionFormChoicesField {
+	background-color:#ffffff;
+}
+
+div.createQuestionFormTextField {
+	background-color:#ffffff;
+}
+
+table.spaceUnder
+{
+	border-collapse:separate; 
+	border-spacing:5em;
+	margin: 4px;  
+}
+
+div.selectedAndCorrect {
+	color:green;
+}
+
+div.selectedButNotCorrect {
+	color:red;
+}
+
+div.correctButNotSelected {
+	color:red;
+	font-style:italic;
+	font-weight:bold;
+}
+
+
+a.homeLink:visited {
+	color:#FFFFFF;
+}
+
+a.homeLink:link {
+	color:#FFFFFF;
+}
+
+a:active {
+	color:#807A7C;
+}
+
+a:hover {
+	color:#00FF00;
+}
+
+a:visited {
+	color:#807A7C;
+}
+
+a:link {
+	color:#807A7C;
+}
+
+a.darkerHomeLink:active {
+	color:#FFFFFF;
+}
+
+a.darkerHomeLink:hover {
+	color:#BDB5B8;
+}
+
+a.darkerHomeLink:visited {
+	color:#BDB5B8;
+}
+
+a.darkerHomeLink:link {
+	color:#BDB5B8;
+}
+
+a.homeLink:active {
+	color:#FFFFFF;
+}
+
+a.homeLink:hover {
+	color:#F7EBF0;
+}
+
+a.whatIsThis:visited {
+	color:#7D7578;
+}
+
+a.whatIsThis:link {
+	color:#7D7578;
+}
+
+a.whatIsThis:active {
+	color:#7D7578;
+}
+
+a.whatIsThis:hover {
+	color:#F7EBF0;
+}
+
+a.q_aIsCorrect_true:link {
+	color:#00FF00; /* unvisited link */
+}
+
+a.q_aIsCorrect_true:visited {
+	color:#00FF00;
+}  /* visited link */
+
+a.q_aIsCorrect_true:hover {
+	color:#00CF00;
+}  /* mouse over link */
+
+a.q_aIsCorrect_true:active {
+	color:#0000FF;
+}  /* selected link */	
+
+a.q_aIsCorrect_false:link {
+	color:#FF0000; /* unvisited link */
+}
+
+	a.q_aIsCorrect_false:visited {color:#FF0000;}  /* visited link */
+	a.q_aIsCorrect_false:hover {color:#CF0000;}  /* mouse over link */
+	a.q_aIsCorrect_false:active {color:#0000FF;}  /* selected link */	
+}
+

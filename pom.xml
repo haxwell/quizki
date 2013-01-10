@@ -17,6 +17,10 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>EclipseLink</id>
+			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -53,6 +57,13 @@
 			<artifactId>shiro-core</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa</artifactId>
+			<version>2.3.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency><groupId>org.eclipse.persistence</groupId><artifactId>javax.persistence</artifactId><version>2.0.4.v201112161009</version><type>jar</type><scope>compile</scope><optional>false</optional></dependency><dependency><groupId>org.eclipse.persistence</groupId><artifactId>org.eclipse.persistence.asm</artifactId><version>3.3.1.v201206041142</version><type>jar</type><scope>compile</scope><optional>false</optional></dependency><dependency><groupId>org.eclipse.persistence</groupId><artifactId>org.eclipse.persistence.antlr</artifactId><version>3.2.0.v201206041011</version><type>jar</type><scope>compile</scope><optional>false</optional></dependency><dependency><groupId>org.eclipse.persistence</groupId><artifactId>org.eclipse.persistence.jpa.jpql</artifactId><version>2.4.0</version><type>jar</type><scope>compile</scope><optional>false</optional></dependency><dependency><groupId>org.eclipse.persistence</groupId><artifactId>org.eclipse.persistence.core</artifactId><version>2.4.0</version><type>jar</type><scope>compile</scope><optional>false</optional></dependency>
 	</dependencies>
 	<profiles>
 		<profile>

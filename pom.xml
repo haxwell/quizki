@@ -83,7 +83,7 @@
 						<version>2.1.1</version>
 						<configuration>
 							<outputDirectory>webapps</outputDirectory>
-							<warName>quizki</warName>
+							<warName>ROOT</warName>
 						</configuration>
 					</plugin>
 				</plugins>

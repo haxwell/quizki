@@ -135,4 +135,14 @@
     <url-pattern>/takeExam.jsp</url-pattern>
     <url-pattern>/displayQuestion.jsp</url-pattern>
   </filter-mapping>
+  
+  <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<url-pattern>/quizki/LoginServlet</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

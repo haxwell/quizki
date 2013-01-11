@@ -136,13 +136,89 @@
     <url-pattern>/displayQuestion.jsp</url-pattern>
   </filter-mapping>
   
+
+
+<!-- SERVLET DEFINITIONS -->
+
   <servlet>
   	<servlet-name>LoginServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
-  	<url-pattern>/quizki/LoginServlet</url-pattern>
+  	<url-pattern>/LoginServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>BeginExamServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.BeginExamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>BeginExamServlet</servlet-name>
+  	<url-pattern>/BeginExamServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>ExamServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ExamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ExamServlet</servlet-name>
+  	<url-pattern>/ExamServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>GenerateExamServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.GenerateExamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>GenerateExamServlet</servlet-name>
+  	<url-pattern>/GenerateExamServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>ListExamsServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ListExamsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ListExamsServlet</servlet-name>
+  	<url-pattern>/ListExamsServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>ListQuestionsServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ListQuestionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ListQuestionsServlet</servlet-name>
+  	<url-pattern>/ListQuestionsServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>TakeExamServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.TakeExamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>TakeExamServlet</servlet-name>
+  	<url-pattern>/TakeExamServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>RegisterUserServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.RegisterUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>RegisterUserServlet</servlet-name>
+  	<url-pattern>/RegisterUserServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>QuestionServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.QuestionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>QuestionServlet</servlet-name>
+  	<url-pattern>/QuestionServlet</url-pattern>
+  </servlet-mapping>
+
 </web-app>

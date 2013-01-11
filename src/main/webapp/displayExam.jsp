@@ -76,7 +76,7 @@
 			</c:otherwise></c:choose>
 			
 				<td>${question.id}</td>   
-				<td><a href="/quizki/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></td>
+				<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></td>
 				<td>
 					<c:forEach var="topic" items="${question.topics}">
 						${topic.text}<br/>
@@ -91,7 +91,7 @@
 	</div>
 	<br/><br/>
 
-	<a href="/quizki/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a> 
+	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a> 
 
 </body>
 </html>

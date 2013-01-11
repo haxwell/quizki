@@ -32,7 +32,7 @@ public abstract class AbstractHttpServlet extends HttpServlet {
     
     protected void redirectToJSP(HttpServletRequest request, HttpServletResponse response, String jsp) throws IOException, ServletException
 	{
-    	String path = Constants.APP_URL_ROOT + jsp;
+    	String path = /*Constants.APP_URL_ROOT + */ jsp;
     	
     	response.sendRedirect(path);
 	}

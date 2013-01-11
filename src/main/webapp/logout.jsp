@@ -21,7 +21,7 @@ org.apache.shiro.SecurityUtils.getSubject().logout();
 request.getSession().setAttribute("currentUserEntity", null);
 //request.getSession().setAttribute("shiroSubject", null);
 
-response.sendRedirect("/quizki/index.jsp");
+response.sendRedirect("/index.jsp");
 </jsp:scriptlet>
 	
 </body>

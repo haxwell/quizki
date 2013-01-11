@@ -37,11 +37,11 @@
 	
 
 	<c:forEach var="answeredQuestion" items="${currentExamHistory.iterator}">
-		<div class="qIsCorrect_${answeredQuestion.isCorrect}"><a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/quizki/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.text}</a></div>
+		<div class="qIsCorrect_${answeredQuestion.isCorrect}"><a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.text}</a></div>
 	</c:forEach>
 	
 	<br/><br/><br/>
-	<a href="/quizki/index.jsp">home</a>
+	<a href="/index.jsp">home</a>
 	
 </body>
 </html>

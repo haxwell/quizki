@@ -154,7 +154,7 @@ tinyMCE.init({
 		<!-- TODO: Add ability to store and display references for a question -->
 		
 		<br/><br/>
-	<a href="/quizki/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a>
+	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a>
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected=""/>??1</div></div>

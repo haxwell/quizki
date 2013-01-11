@@ -62,7 +62,7 @@ tinyMCE.init({
 		<c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
 		<div >
-		<form action="/quizki/secured/QuestionServlet" method="post">
+		<form action="/secured/QuestionServlet" method="post">
 			<div >
 			Description: <input type="text" size="45" name="questionDescription" value="${currentQuestion.description}"/><br/><br/>
 			<textarea name="questionText" cols="50" rows="15" value="Enter a question...?">${currentQuestion.text}</textarea><br/>  
@@ -131,7 +131,7 @@ tinyMCE.init({
 	</c:choose>
 	
 	<br/><br/>
-	<a href="/quizki/index.jsp">home</a>  ---  <a href="listQuestions.jsp">List All Questions</a>
+	<a href="/index.jsp">home</a>  ---  <a href="listQuestions.jsp">List All Questions</a>
 	
 
 </body>

@@ -26,7 +26,7 @@
 	<h1>Generate Exam</h1>
 	<br/><br/>
 
-	<form action="/quizki/GenerateExamServlet" method="post">
+	<form action="/GenerateExamServlet" method="post">
 		
 		<table style="width:100%">
 			<tr><td>
@@ -130,7 +130,7 @@
 	</form>
 	
 	<br/><br/><br/>
-	<a href="/quizki/index.jsp">home</a>
+	<a href="/index.jsp">home</a>
 
 </body>
 </html>

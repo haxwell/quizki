@@ -26,7 +26,7 @@
 <jsp:include page="header.jsp"></jsp:include>
 
 
-	<form action="/quizki/TakeExamServlet" method="post">
+	<form action="/TakeExamServlet" method="post">
 	<br/><br/><br/><br/>
 	You've completed this exam!<br/><br/>
 	You can go back and review/change your answers, or click <input type="submit" value="GRADE IT!" name="button"/> to see how you did!<br/><br/>
@@ -36,7 +36,7 @@
 	</form>
 	
 	<br/><br/>
-	<a href="/quizki/index.jsp">home</a>
+	<a href="/index.jsp">home</a>
 	
 	<div class="hidden" id="radioButtonExample"><input type="radio" name="group1" value="??2" />??1<br/></div>	
 	<div class="hidden" id="checkboxExample"><input type="checkbox" name="??2" value="??2" />??1<br/></div>

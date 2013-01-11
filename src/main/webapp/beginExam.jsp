@@ -28,7 +28,7 @@
 <br/><br/>
 		There are ${totalNumberOfQuestionsInCurrentExam} questions in this exam!<br/><br/>
 		
-		<form action="/quizki/BeginExamServlet" method="post">
+		<form action="/BeginExamServlet" method="post">
 		
 			<div class="hidden" id="radioButtonExample"><input type="text" name="examId" value="${requestScope.examId}"/><input type="text" name="topicId" value="${requestScope.topicId}"/></div> 
 			<hr/>			
@@ -37,7 +37,7 @@
 		</form>
 		
 <br/><br/><br/><br/>
-<a href="/quizki/index.jsp">home</a> <br/>
+<a href="/index.jsp">home</a> <br/>
 
 
 </body>

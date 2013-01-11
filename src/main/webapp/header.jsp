@@ -4,10 +4,10 @@
 <table style="width:100%">
 <tr>
 <td style="width:33%">
-<a class="homeLink" href="/quizki/index.jsp">Quizki</a>
+<a class="homeLink" href="/index.jsp">Quizki</a>
 </td>
 <td style="text-align:center; width:34%">
-<a class="whatIsThis" href="/quizki/about.jsp">What is this?</a>
+<a class="whatIsThis" href="/about.jsp">What is this?</a>
 </td>
 <td style="text-align:right; width:33%;">
     <c:choose>

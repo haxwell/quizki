@@ -43,7 +43,7 @@
 
 	<c:choose><c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
-	<form action="/quizki/secured/ExamServlet" method="post">
+	<form action="/secured/ExamServlet" method="post">
 		Title: <input type="text" name="examTitle" value="${currentExam.title}"/>  
 		<br/><br/>
 		List of Questions
@@ -108,7 +108,7 @@
 		</c:choose>
 	
 	<br/><br/>
-	<a href="/quizki/index.jsp">home</a> -- <a href="/quizki/listExams.jsp">View All Exams</a> 
+	<a href="/index.jsp">home</a> -- <a href="/listExams.jsp">View All Exams</a> 
 
 </body>
 </html>

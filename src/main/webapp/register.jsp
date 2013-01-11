@@ -42,7 +42,7 @@
       	<br/>      	
       </c:if>
 
-	<form action="/quizki/RegisterUserServlet" method="post">
+	<form action="/RegisterUserServlet" method="post">
 		Requested Username: <input type="text" name="username"/>
 		<br/><br/>
 		Requested Password: <input type="text" name="password"/>
@@ -52,7 +52,7 @@
 	</form>
 
 	<br/><br/>
-	<a href="/quizki/index.jsp">home</a>
+	<a href="/index.jsp">home</a>
 	
 </body>
 </html>

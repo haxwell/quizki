@@ -115,7 +115,7 @@ tinyMCE.init({
       	</c:forEach>
       </c:if>
 
-	<form action="/quizki/TakeExamServlet" method="post">
+	<form action="/TakeExamServlet" method="post">
 		<br/>
 		<div class="examTitle">${currentExam.title}  -- Question ${currentQuestionNumber} of ${totalNumberOfQuestionsInCurrentExam}</div>  
 		<br/>
@@ -135,7 +135,7 @@ tinyMCE.init({
 	</form>
 	
 	<br/><br/>
-	<a href="/quizki/index.jsp">Quit this exam.</a>
+	<a href="/index.jsp">Quit this exam.</a>
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>

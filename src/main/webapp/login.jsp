@@ -25,7 +25,7 @@
 
 	If you're not yet a user, <a href="register.jsp">click here</a>!<br/><br/>
 
-	<form action="/quizki/LoginServlet" method="post">
+	<form action="/LoginServlet" method="post">
 		Username: <input type="text" name="username"/>
 		<br/><br/>
 		Password: <input type="text" name="password"/>
@@ -35,7 +35,7 @@
 	</form>
 
 	<br/><br/>
-	<a href="/quizki/index.jsp">home</a>
+	<a href="/index.jsp">home</a>
 	
 </body>
 </html>

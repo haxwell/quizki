@@ -24,7 +24,7 @@
 		These are the available exams:
 		<br/><br/>
 
-		<form action="/quizki/ListExamsServlet" method="post">
+		<form action="/ListExamsServlet" method="post">
 		<table>
 			<c:forEach var="exam" items="${fa_listofexamstobedisplayed}">
 				<tr>
@@ -45,14 +45,14 @@
 		</form>
 		<br/>		<br/>
 
-		<form action="/quizki/ListExamsServlet" method="post">		
+		<form action="/ListExamsServlet" method="post">		
 		Show Exams for <input type="radio" name="group1" value="everyone" selected=""/>Everyone or <input type="radio" name="group1" value="mine" selected=""/>The ones I created.
 		<br/>
 		<input type="submit" value="Refresh The List" name="button"/>
 		</form>
 		
 <br/><br/><br/><br/>
-<a href="/quizki/index.jsp">home</a><br/>
+<a href="/index.jsp">home</a><br/>
 
 
 </body>

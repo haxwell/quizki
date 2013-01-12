@@ -57,10 +57,13 @@ public class LoginServlet extends AbstractHttpServlet {
 		Subject currentUser = SecurityUtils.getSubject(); // Each time we need the Shiro subject, we get it this way..
 		
 		HttpSession session = request.getSession();
+
+		log.log(Level.INFO, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
 		
 		try {
 			currentUser.login(token); 
-			
+
+			log.log(Level.INFO, "..about to get user object for [" + username + "]");
 			User user = UserManager.getUser(username);
 			log.log(Level.INFO, "..got user object for [" + username + "]");
 			

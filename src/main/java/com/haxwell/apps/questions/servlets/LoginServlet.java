@@ -47,6 +47,7 @@ public class LoginServlet extends AbstractHttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.log(Level.INFO, "Entered LoginServlet::doPost()...");
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");

@@ -50,6 +50,8 @@ public class LoginServlet extends AbstractHttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.log(Level.INFO, "Entered LoginServlet::doPost()...");
 		
+		log.log(Level.INFO, request.getParameterNames().toString());
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
@@ -85,7 +87,6 @@ public class LoginServlet extends AbstractHttpServlet {
 			log.log(Level.INFO, "..nothing set for originallyRequestedPage, so fwd to index.jsp");
 			fwdPage = "/index.jsp";
 		}
-		
 
 		log.log(Level.INFO, "about to redirect to: " + fwdPage);
 		redirectToJSP(request, response, fwdPage);

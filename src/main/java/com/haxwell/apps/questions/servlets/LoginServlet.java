@@ -71,6 +71,8 @@ public class LoginServlet extends AbstractHttpServlet {
 		}
 		catch (Exception e)
 		{
+			log.log(Level.INFO, "..OH NO! An Exception!!");
+			
 			e.printStackTrace();
 			forwardToJSP(request, response, "/failedLogin.jsp");
 		}
@@ -83,6 +85,8 @@ public class LoginServlet extends AbstractHttpServlet {
 			fwdPage = "/index.jsp";
 		}
 		
+
+		log.log(Level.INFO, "about to redirect to: " + fwdPage);
 		redirectToJSP(request, response, fwdPage);
 	}
 }

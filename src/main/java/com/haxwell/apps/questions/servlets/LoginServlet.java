@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
@@ -61,19 +62,19 @@ public class LoginServlet extends AbstractHttpServlet {
 		log.log(Level.INFO, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
 		
 		try {
-			currentUser.login(token); 
-
 			log.log(Level.INFO, "..about to get user object for [" + username + "]");
 			User user = UserManager.getUser(username);
 			log.log(Level.INFO, "..got user object for [" + username + "]");
 			
+			currentUser.login(token);
+			
 			session.setAttribute(Constants.CURRENT_USER_ENTITY, user);
 		}
-		catch (Exception e)
+		catch (AuthenticationException ae)
 		{
 			log.log(Level.INFO, "..OH NO! An Exception!!");
 			
-			e.printStackTrace();
+//			e.printStackTrace();
 			forwardToJSP(request, response, "/failedLogin.jsp");
 		}
 		

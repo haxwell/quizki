@@ -1,15 +1,15 @@
 10
 
 dir
-373
-https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/WebContent/META-INF
+0
+https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/META-INF
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
+add
 
 
 
-2013-01-08T06:09:40.776039Z
-373
-haxwell
+
+
 
 
 
@@ -31,32 +31,5 @@ file
 
 
 
-
-2013-01-06T20:35:46.000000Z
-b10f37c8bb1803d98c127a01d1a71cc5
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-39
+add
 

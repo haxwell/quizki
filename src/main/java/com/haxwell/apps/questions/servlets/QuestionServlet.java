@@ -65,12 +65,12 @@ public class QuestionServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("Add Choice")) {
 			addChoice(request, questionObj);
-			setQuestionText(request, questionObj);
+			setTheQuestionAttributes(request, questionObj);
 		}
 		else if (button.equals("Add True/False")) {
 			addChoice(questionObj, "True", getIsCorrectParameter(request));
 			addChoice(questionObj, "False", !getIsCorrectParameter(request));
-			setQuestionText(request, questionObj);
+			setTheQuestionAttributes(request, questionObj);
 		}
 		else if (button.equals("Add Topic")) {
 			addTopic(request, questionObj);
@@ -94,7 +94,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 				else if (action.equals("Delete"))
 					ChoiceManager.delete(choices, c);
 				
-				setQuestionText(request, questionObj);
+				setTheQuestionAttributes(request, questionObj);
 			}
 			
 			// they clicked a topic specific button..
@@ -121,13 +121,13 @@ public class QuestionServlet extends AbstractHttpServlet {
 		forwardToJSP(request, response, fwdPage);
 	}
 
-	private void setQuestionText(HttpServletRequest request,
+	private void setTheQuestionAttributes(HttpServletRequest request,
 			Question questionObj) {
-		String text = request.getParameter("questionText");
-		String desc = request.getParameter("questionDescription");
 
-		questionObj.setText(text);
-		questionObj.setDescription(desc);
+		questionObj.setText(request.getParameter("questionText"));
+		questionObj.setDescription(request.getParameter("questionDescription"));
+		questionObj.setDifficulty(DifficultyUtil.convertToObject(request.getParameter("difficulty")));
+		questionObj.setQuestionType(TypeUtil.convertToObject(request.getParameter("type")));
 	}
 
 	private void addTopic(HttpServletRequest request, Question questionObj) {
@@ -155,9 +155,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 	}
 
 	private void addQuestion(HttpServletRequest request, Question questionObj) {
-		setQuestionText(request, questionObj);
-		questionObj.setDifficulty(DifficultyUtil.convertToObject(request.getParameter("difficulty")));
-		questionObj.setQuestionType(TypeUtil.convertToObject(request.getParameter("type")));
+		setTheQuestionAttributes(request, questionObj);
 		
 		List<String> errors = QuestionManager.validate(questionObj);
 		

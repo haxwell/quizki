@@ -1,15 +1,15 @@
 10
 
 dir
-373
-https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions
+0
+https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
+add
 
 
 
-2013-01-08T06:09:40.776039Z
-373
-haxwell
+
+
 
 
 
@@ -26,30 +26,66 @@ haxwell
 
 88918532-b083-4d74-ad28-6f926b24a1da
 
-utils
-dir
-
-interfaces
-dir
-
-shiro
-dir
-
-entities
-dir
-
-checkers
-dir
-
-servlets
-dir
-
 constants
 dir
+
+
+
+add
 
 managers
 dir
+
+
+
+add
 
 factories
 dir
+
+
+
+add
+
+utils
+dir
+
+
+
+add
+
+interfaces
+dir
+
+
+
+add
+
+shiro
+dir
+
+
+
+add
+
+entities
+dir
+
+
+
+add
+
+checkers
+dir
+
+
+
+add
+
+servlets
+dir
+
+
+
+add
 

@@ -1,15 +1,15 @@
 10
 
 dir
-375
+0
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/.settings
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
+add
 
 
 
-2013-01-12T05:25:00.539395Z
-375
-haxwell
+
+
 
 
 
@@ -26,343 +26,94 @@ haxwell
 
 88918532-b083-4d74-ad28-6f926b24a1da
 
-org.eclipse.jpt.core.prefs
-file
-
-
-
-
-2013-01-06T20:38:06.000000Z
-01134df28bb7461483a69753d6848fd4
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-127
-
-.jsdtscope
-file
-
-
-
-
-2013-01-06T20:35:46.000000Z
-a8af45432f8aa5684388bd4a04f145a0
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-491
-
-org.eclipse.wst.common.component
-file
-
-
-
-
-2013-01-11T05:05:52.000000Z
-2e00dd732f2a49dc04e91fe38c4a9c19
-2013-01-12T05:25:00.539395Z
-375
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-463
-
-org.eclipse.jdt.core.prefs
-file
-
-
-
-
-2013-01-11T04:17:37.000000Z
-9cb8aaabdf8de4bebaac7d34838f2a87
-2013-01-12T05:25:00.539395Z
-375
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-422
-
-org.eclipse.m2e.core.prefs
-file
-
-
-
-
-2013-01-11T04:17:14.000000Z
-b662ec9b2a9e308f5ae8e4b034ea7799
-2013-01-12T05:25:00.539395Z
-375
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-86
-
-org.eclipse.wst.jsdt.ui.superType.name
-file
-
-
-
-
-2013-01-06T20:35:46.000000Z
-c89686a387d2b12b3c729ce35a0bcb5b
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6
-
-org.eclipse.wst.jsdt.ui.superType.container
-file
-
-
-
-
-2013-01-06T20:35:46.000000Z
-b27d1cf62dde4473bab7c433317bb0ce
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-49
-
 org.eclipse.wst.common.project.facet.core.prefs.xml
 file
 
 
 
-
-2013-01-06T20:38:03.000000Z
-c9f9b488e92de08ddb3dda227bcee75c
-2013-01-08T06:09:40.776039Z
-373
-haxwell
+add
+
+org.eclipse.jst.j2ee.ejb.annotations.xdoclet.prefs
+file
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-159
+add
 
 org.eclipse.core.resources.prefs
 file
 
 
 
-
-2013-01-11T04:17:37.000000Z
-dce3bc6c45f4e083c424d669e4efd568
-2013-01-12T05:25:00.539395Z
-375
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-120
+add
 
 org.eclipse.wst.common.project.facet.core.xml
 file
 
 
 
-
-2013-01-06T20:38:05.000000Z
-5aabab3fadf5150fa1623b77f07b627b
-2013-01-08T06:09:40.776039Z
-373
-haxwell
+add
+
+org.eclipse.wst.ws.service.policy.prefs
+file
 
 
 
+add
+
+org.eclipse.ltk.core.refactoring.prefs
+file
 
 
 
+add
+
+org.eclipse.jpt.core.prefs
+file
 
 
 
+add
+
+.jsdtscope
+file
 
 
 
+add
+
+org.eclipse.wst.common.component
+file
 
 
 
+add
+
+org.eclipse.jdt.core.prefs
+file
 
 
 
+add
+
+org.eclipse.m2e.core.prefs
+file
 
 
 
-380
+add
+
+org.eclipse.wst.jsdt.ui.superType.name
+file
+
+
+
+add
+
+org.eclipse.wst.jsdt.ui.superType.container
+file
+
+
+
+add
 

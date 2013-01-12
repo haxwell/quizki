@@ -1,15 +1,15 @@
 10
 
 dir
-375
+0
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
+add
 
 
 
-2013-01-12T05:25:00.539395Z
-375
-haxwell
+
+
 
 
 
@@ -28,146 +28,64 @@ haxwell
 
 src
 dir
+
+
+
+add
 
 pom.xml
 file
 
 
 
+add
 
-2013-01-11T05:51:48.000000Z
-f7681ef0cfecc33ef9c22d136cfdbb3b
-2013-01-12T05:25:00.539395Z
-375
-haxwell
+
+
+
+
 has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3802
+has-prop-mods
 
 README
 file
 
 
 
+add
 
-2013-01-11T04:02:27.000000Z
-03b0023614c4ae3712cbf9d2bf40f483
-2013-01-12T05:25:00.539395Z
-375
-haxwell
+
+
+
+
 has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5254
+has-prop-mods
 
 .settings
 dir
+
+
+
+add
 
 .classpath
 file
 
 
 
-
-2013-01-11T05:05:51.000000Z
-1830e3ce53bc99db5ec2f0a59afeb3ee
-2013-01-12T05:25:00.539395Z
-375
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1286
+add
 
 webapps
 dir
+
+
+
+add
 
 .project
 file
 
 
 
-
-2013-01-11T05:00:56.000000Z
-d5ca689ee2742eb0ba7800af93b64aaa
-2013-01-12T05:25:00.539395Z
-375
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1393
+add
 

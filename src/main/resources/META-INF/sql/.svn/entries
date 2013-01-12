@@ -1,15 +1,15 @@
 10
 
 dir
-373
-https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/sql
+0
+https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/main/resources/META-INF/sql
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
+add
 
 
 
-2013-01-08T06:09:40.776039Z
-373
-haxwell
+
+
 
 
 
@@ -28,7 +28,15 @@ haxwell
 
 mysql
 dir
+
+
+
+add
 
 derby
 dir
+
+
+
+add
 

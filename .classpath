@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="java"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
+	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1.1-redhat-1/activation-1.1.1-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/enterprise/cdi-api/1.0-SP4-redhat-1/cdi-api-1.0-SP4-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1-redhat-1/javax.inject-1-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/jws/jsr181-api/1.0-MR1-redhat-1/jsr181-api-1.0-MR1-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4.4-redhat-1/mail-1.4.4-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.0.0.GA-redhat-1/validation-api-1.0.0.GA-redhat-1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/interceptor/jboss-interceptors-api_1.1_spec/1.0.1.Final-redhat-1/jboss-interceptors-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/annotation/jboss-annotations-api_1.1_spec/1.0.1.Final-redhat-1/jboss-annotations-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final-redhat-1/hibernate-jpa-2.0-api-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/ejb/jboss-ejb-api_3.1_spec/1.0.2.Final-redhat-1/jboss-ejb-api_3.1_spec-1.0.2.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/el/jboss-el-api_2.2_spec/1.0.1.Final-redhat-1/jboss-el-api_2.2_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/enterprise/deploy/jboss-jad-api_1.2_spec/1.0.1.Final-redhat-1/jboss-jad-api_1.2_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/faces/jboss-jsf-api_2.1_spec/2.0.2.Final-redhat-1/jboss-jsf-api_2.1_spec-2.0.2.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/management/j2ee/jboss-j2eemgmt-api_1.1_spec/1.0.1.Final-redhat-1/jboss-j2eemgmt-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/resource/jboss-connector-api_1.6_spec/1.0.1.Final-redhat-1/jboss-connector-api_1.6_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/security/jacc/jboss-jacc-api_1.4_spec/1.0.2.Final-redhat-1/jboss-jacc-api_1.4_spec-1.0.2.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/servlet/jboss-servlet-api_3.0_spec/1.0.1.Final-redhat-1/jboss-servlet-api_3.0_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/security/auth/message/jboss-jaspi-api_1.0_spec/1.0.1.Final-redhat-1/jboss-jaspi-api_1.0_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/registry/jboss-jaxr-api_1.0_spec/1.0.2.Final-redhat-1/jboss-jaxr-api_1.0_spec-1.0.2.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/jms/jboss-jms-api_1.1_spec/1.0.1.Final-redhat-1/jboss-jms-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/servlet/jsp/jboss-jsp-api_2.2_spec/1.0.1.Final-redhat-1/jboss-jsp-api_2.2_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/servlet/jstl/jboss-jstl-api_1.2_spec/1.0.3.Final-redhat-1/jboss-jstl-api_1.2_spec-1.0.3.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xalan/xalan/2.7.1-redhat-1/xalan-2.7.1-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1-redhat-1/serializer-2.7.1-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/transaction/jboss-transaction-api_1.1_spec/1.0.1.Final-redhat-1/jboss-transaction-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/ws/rs/jboss-jaxrs-api_1.1_spec/1.0.1.Final-redhat-1/jboss-jaxrs-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/bind/jboss-jaxb-api_2.2_spec/1.0.4.Final-redhat-1/jboss-jaxb-api_2.2_spec-1.0.4.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/rpc/jboss-jaxrpc-api_1.1_spec/1.0.1.Final-redhat-1/jboss-jaxrpc-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/soap/jboss-saaj-api_1.3_spec/1.0.2.Final-redhat-1/jboss-saaj-api_1.3_spec-1.0.2.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/ws/jboss-jaxws-api_2.2_spec/2.0.1.Final-redhat-1/jboss-jaxws-api_2.2_spec-2.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/shiro/shiro-core/1.2.1/shiro-core-1.2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/persistence/org.eclipse.persistence.jpa/2.3.3/org.eclipse.persistence.jpa-2.3.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/persistence/org.eclipse.persistence.asm/3.3.1.v201206041142/org.eclipse.persistence.asm-3.3.1.v201206041142.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/persistence/org.eclipse.persistence.core/2.4.0/org.eclipse.persistence.core-2.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/persistence/org.eclipse.persistence.antlr/3.2.0.v201206041011/org.eclipse.persistence.antlr-3.2.0.v201206041011.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/persistence/javax.persistence/2.0.4.v201112161009/javax.persistence-2.0.4.v201112161009.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/persistence/org.eclipse.persistence.jpa.jpql/2.4.0/org.eclipse.persistence.jpa.jpql-2.4.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EclipseLink 2.3.3 - Indigo">
 		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 			<attribute name="owner.project.facets" value="jpt.jpa"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

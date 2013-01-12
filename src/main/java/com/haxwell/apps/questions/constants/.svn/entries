@@ -1,15 +1,15 @@
 10
 
 dir
-373
-https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/constants
+0
+https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/constants
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
+add
 
 
 
-2013-01-08T06:09:40.776039Z
-373
-haxwell
+
+
 
 
 
@@ -31,100 +31,19 @@ file
 
 
 
-
-2013-01-08T02:51:06.000000Z
-1a50b036712706826fcb58c84b6a951c
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2492
+add
 
 TypeConstants.java
 file
 
 
 
-
-2012-11-12T01:23:27.000000Z
-fba79e0bba12886daacc25838a08428f
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1264
+add
 
 DifficultyConstants.java
 file
 
 
 
-
-2012-12-04T04:57:18.000000Z
-078882e682b4f4429ea3886b0ab75f95
-2013-01-08T06:09:40.776039Z
-373
-haxwell
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1298
+add
 

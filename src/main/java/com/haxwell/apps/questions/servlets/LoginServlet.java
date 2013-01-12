@@ -82,7 +82,6 @@ public class LoginServlet extends AbstractHttpServlet {
 			
 			ae.printStackTrace();
 			
-//			e.printStackTrace();
 			forwardToJSP(request, response, "/failedLogin.jsp");
 		}
 		

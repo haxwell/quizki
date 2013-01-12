@@ -1,6 +1,8 @@
 package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +26,8 @@ import com.haxwell.apps.questions.utils.StringUtil;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final Logger log = Logger.getLogger(LoginServlet.class.getName());
+
     /**
      * @see HttpServlet#HttpServlet()
      */

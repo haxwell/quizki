@@ -68,6 +68,10 @@ public class LoginServlet extends AbstractHttpServlet {
 			User user = UserManager.getUser(username);
 			log.log(Level.INFO, "..got user object for [" + username + "]");
 			
+			log.log(Level.INFO, token.getPassword().toString() + " / " + token.getUsername());
+			log.log(Level.INFO, user.getPassword() + " / " + user.getUsername());
+			log.log(Level.INFO, "-------=---=---===---------=-");
+			
 			currentUser.login(token);
 			
 			session.setAttribute(Constants.CURRENT_USER_ENTITY, user);
@@ -75,6 +79,8 @@ public class LoginServlet extends AbstractHttpServlet {
 		catch (AuthenticationException ae)
 		{
 			log.log(Level.INFO, "..OH NO! An Exception!!");
+			
+			ae.printStackTrace();
 			
 //			e.printStackTrace();
 			forwardToJSP(request, response, "/failedLogin.jsp");

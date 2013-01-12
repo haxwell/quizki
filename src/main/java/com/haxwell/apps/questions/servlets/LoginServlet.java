@@ -68,7 +68,7 @@ public class LoginServlet extends AbstractHttpServlet {
 			User user = UserManager.getUser(username);
 			log.log(Level.INFO, "..got user object for [" + username + "]");
 			
-			log.log(Level.INFO, token.getPassword().toString() + " / " + token.getUsername());
+			log.log(Level.INFO, String.valueOf(token.getPassword()) + " / " + token.getUsername());
 			log.log(Level.INFO, user.getPassword() + " / " + user.getUsername());
 			log.log(Level.INFO, "-------=---=---===---------=-");
 			

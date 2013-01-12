@@ -1,14 +1,14 @@
 10
 
 dir
-373
+375
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
 
 
 
-2013-01-08T06:09:40.776039Z
-373
+2013-01-12T05:25:00.539395Z
+375
 haxwell
 
 
@@ -29,10 +29,6 @@ haxwell
 META-INF
 dir
 
-com
+main
 dir
-
-
-
-delete
 

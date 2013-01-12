@@ -1,14 +1,14 @@
 10
 
 dir
-373
+375
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/.settings
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
 
 
 
-2013-01-08T06:09:40.776039Z
-373
+2013-01-12T05:25:00.539395Z
+375
 haxwell
 
 
@@ -100,10 +100,10 @@ file
 
 
 
-2013-01-07T04:36:19.000000Z
-38126b209f61db9eeb7a72c172b2fb2c
-2013-01-08T06:09:40.776039Z
-373
+2013-01-11T05:05:52.000000Z
+2e00dd732f2a49dc04e91fe38c4a9c19
+2013-01-12T05:25:00.539395Z
+375
 haxwell
 
 
@@ -126,7 +126,7 @@ haxwell
 
 
 
-462
+463
 
 org.eclipse.jdt.core.prefs
 file
@@ -134,10 +134,10 @@ file
 
 
 
-2013-01-06T20:35:45.000000Z
-9cd0e49b6e58dcdec563c462753f77ae
-2013-01-08T06:09:40.776039Z
-373
+2013-01-11T04:17:37.000000Z
+9cb8aaabdf8de4bebaac7d34838f2a87
+2013-01-12T05:25:00.539395Z
+375
 haxwell
 
 
@@ -160,7 +160,41 @@ haxwell
 
 
 
-357
+422
+
+org.eclipse.m2e.core.prefs
+file
+
+
+
+
+2013-01-11T04:17:14.000000Z
+b662ec9b2a9e308f5ae8e4b034ea7799
+2013-01-12T05:25:00.539395Z
+375
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+86
 
 org.eclipse.wst.jsdt.ui.superType.name
 file
@@ -263,6 +297,40 @@ haxwell
 
 
 159
+
+org.eclipse.core.resources.prefs
+file
+
+
+
+
+2013-01-11T04:17:37.000000Z
+dce3bc6c45f4e083c424d669e4efd568
+2013-01-12T05:25:00.539395Z
+375
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+120
 
 org.eclipse.wst.common.project.facet.core.xml
 file

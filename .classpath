@@ -8,7 +8,6 @@
 	<classpathentry kind="var" path="M2_REPO/javax/jws/jsr181-api/1.0-MR1-redhat-1/jsr181-api-1.0-MR1-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4.4-redhat-1/mail-1.4.4-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.0.0.GA-redhat-1/validation-api-1.0.0.GA-redhat-1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/interceptor/jboss-interceptors-api_1.1_spec/1.0.1.Final-redhat-1/jboss-interceptors-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/annotation/jboss-annotations-api_1.1_spec/1.0.1.Final-redhat-1/jboss-annotations-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.1.Final-redhat-1/hibernate-jpa-2.0-api-1.0.1.Final-redhat-1.jar"/>
@@ -47,6 +46,11 @@
 		<attributes>
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 			<attribute name="owner.project.facets" value="jpt.jpa"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_05">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

@@ -58,6 +58,7 @@ public class LoginServlet extends AbstractHttpServlet {
 			currentUser.login(token); 
 			
 			User user = UserManager.getUser(username);
+			log.log(Level.INFO, "..got user object for [" + username + "]");
 			
 			session.setAttribute(Constants.CURRENT_USER_ENTITY, user);
 		}
@@ -71,6 +72,7 @@ public class LoginServlet extends AbstractHttpServlet {
 		
 		if (StringUtil.isNullOrEmpty(fwdPage))
 		{
+			log.log(Level.INFO, "..nothing set for originallyRequestedPage, so fwd to index.jsp");
 			fwdPage = "/index.jsp";
 		}
 		

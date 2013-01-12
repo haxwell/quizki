@@ -14,7 +14,6 @@
 		<title>Login - Quizki</title>
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
-				
 	</head>
 <body>
 

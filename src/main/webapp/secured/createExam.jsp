@@ -14,6 +14,7 @@
 		<title>Create Exam</title>
 		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
 		
 		<jsp:text>
 			<![CDATA[ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script> ]]>
@@ -78,9 +79,24 @@
 				<br/>
 
 		<div class="listOfQuestions" style="overflow:auto; height:150px; width:100%">
-			<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
-				<input type="checkbox" name="a_chkbox_${question.id}">  ${question.text}</input><br/>
-			</c:forEach>
+			<table  style="width:100%">
+
+				<c:set var="rowNum" value="0"/>
+				<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
+					<c:set var="rowNum" value="${rowNum + 1}" />
+					<c:choose><c:when test="${rowNum % 2 == 0}">
+					<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
+					</c:when>
+					<c:otherwise>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					</c:otherwise></c:choose>
+		
+					<td>
+						<input type="checkbox" name="a_chkbox_${question.id}">	${question.textWithoutHTML}</input>
+					</td>
+					<jsp:text><![CDATA[</tr>]]></jsp:text>				
+				</c:forEach>
+			</table>
 		</div>
 		
 		<br/>
@@ -90,9 +106,24 @@
 		List of questions on this exam:<br/>
 		
 		<div class="listOfQuestions" style="overflow:auto; height:150px; width:100%">
-			<c:forEach var="question" items="${currentExam.questions}">
-				<input type="checkbox" name="d_chkbox_${question.id}">  ${question.text}</input><br/>
-			</c:forEach>
+			<table  style="width:100%">
+
+				<c:set var="rowNum" value="0"/>
+				<c:forEach var="question" items="${currentExam.questions}">
+					<c:set var="rowNum" value="${rowNum + 1}" />
+					<c:choose><c:when test="${rowNum % 2 == 0}">
+					<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
+					</c:when>
+					<c:otherwise>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					</c:otherwise></c:choose>
+		
+					<td>
+						<input type="checkbox" name="a_chkbox_${question.id}">	${question.textWithoutHTML}</input>
+					</td>
+					<jsp:text><![CDATA[</tr>]]></jsp:text>				
+				</c:forEach>
+			</table>
 		</div>			
 		<br/>
 		<input type="submit" value="Delete Questions" name="button"/>

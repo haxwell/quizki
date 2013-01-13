@@ -1,29 +1,29 @@
 K 25
 svn:wc:ra_dav:version-url
-V 122
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/plugins/paste
-END
-editor_plugin_src.js
-K 25
-svn:wc:ra_dav:version-url
-V 143
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/plugins/paste/editor_plugin_src.js
-END
-pastetext.htm
-K 25
-svn:wc:ra_dav:version-url
-V 136
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/plugins/paste/pastetext.htm
+V 127
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/plugins/paste
 END
 editor_plugin.js
 K 25
 svn:wc:ra_dav:version-url
-V 139
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/plugins/paste/editor_plugin.js
+V 144
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/plugins/paste/editor_plugin.js
 END
 pasteword.htm
 K 25
 svn:wc:ra_dav:version-url
-V 136
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/plugins/paste/pasteword.htm
+V 141
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/plugins/paste/pasteword.htm
+END
+editor_plugin_src.js
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/plugins/paste/editor_plugin_src.js
+END
+pastetext.htm
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/plugins/paste/pastetext.htm
 END

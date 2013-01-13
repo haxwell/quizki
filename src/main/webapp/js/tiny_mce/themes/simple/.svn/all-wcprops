@@ -1,17 +1,17 @@
 K 25
 svn:wc:ra_dav:version-url
-V 122
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/themes/simple
-END
-editor_template.js
-K 25
-svn:wc:ra_dav:version-url
-V 141
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/themes/simple/editor_template.js
+V 127
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/themes/simple
 END
 editor_template_src.js
 K 25
 svn:wc:ra_dav:version-url
-V 145
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/tiny_mce/themes/simple/editor_template_src.js
+V 150
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/themes/simple/editor_template_src.js
+END
+editor_template.js
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/tiny_mce/themes/simple/editor_template.js
 END

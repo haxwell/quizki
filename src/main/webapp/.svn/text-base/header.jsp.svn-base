@@ -12,10 +12,10 @@
 <td style="text-align:right; width:33%;">
     <c:choose>
      <c:when test="${empty sessionScope.currentUserEntity}">
-	<a class="homeLink" href="login.jsp">register / login</a>
+	<a class="homeLink" href="/login.jsp">register / login</a>
      </c:when>
      <c:otherwise>
-     	Hello, ${sessionScope.currentUserEntity.username} <a class="darkerHomeLink" href="logout.jsp">logout</a><br/>
+     	Hello, ${sessionScope.currentUserEntity.username} <a class="darkerHomeLink" href="/logout.jsp">logout</a><br/>
      </c:otherwise>
     </c:choose>
 </td>

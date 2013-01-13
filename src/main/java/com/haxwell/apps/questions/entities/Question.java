@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.haxwell.apps.questions.interfaces.IQuestion;
 
@@ -91,6 +92,11 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		this.description = description;
 	}
 
+	@Transient
+	public String getTextWithoutHTML() {
+		return this.text.replaceAll("\\<.*?>","");
+	}
+	
 	public String getText() {
 		return this.text;
 	}

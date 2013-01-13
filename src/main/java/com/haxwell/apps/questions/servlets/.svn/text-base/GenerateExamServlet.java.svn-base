@@ -171,6 +171,4 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		return sb.toString();
 	}
 	
-	
-	
 }

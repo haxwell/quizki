@@ -1,17 +1,17 @@
 K 25
 svn:wc:ra_dav:version-url
-V 104
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/WEB-INF
-END
-shiro.ini
-K 25
-svn:wc:ra_dav:version-url
-V 114
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/WEB-INF/shiro.ini
+V 109
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/WEB-INF
 END
 web.xml
 K 25
 svn:wc:ra_dav:version-url
-V 112
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/WEB-INF/web.xml
+V 117
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/WEB-INF/web.xml
+END
+shiro.ini
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/haxwell_svn.haxwell_repo/!svn/ver/383/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/WEB-INF/shiro.ini
 END

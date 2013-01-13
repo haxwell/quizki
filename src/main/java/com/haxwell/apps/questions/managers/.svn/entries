@@ -1,15 +1,15 @@
 10
 
 dir
-0
+381
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers
 https://subversion.assembla.com/svn/haxwell_svn.haxwell_repo
-add
 
 
 
-
-
+2013-01-12T19:15:08.199547Z
+381
+haxwell
 
 
 
@@ -26,52 +26,241 @@ add
 
 88918532-b083-4d74-ad28-6f926b24a1da
 
-ExamGenerationManager.java
-file
-
-
-
-add
-
-QuestionManager.java
-file
-
-
-
-add
-
 ChoiceManager.java
 file
 
 
 
-add
+
+2013-01-12T16:38:16.000000Z
+eb6432c3152d4a556c341ee3821f9739
+2013-01-12T19:15:08.199547Z
+381
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2981
 
 ExamManager.java
 file
+385
 
 
 
-add
+2013-01-13T21:21:05.000000Z
+1cebe65a73ad5e6b02817ef24c86aad0
+2013-01-13T21:34:00.584940Z
+385
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4697
 
 TopicManager.java
 file
 
 
 
-add
+
+2013-01-12T16:38:16.000000Z
+2fc916aab8d4feb175fc81d756579bc7
+2013-01-12T19:15:08.199547Z
+381
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3178
 
 UserManager.java
 file
 
 
 
-add
+
+2013-01-12T16:38:16.000000Z
+36bc8a0a11db670e75e74e4d29448b6f
+2013-01-12T19:15:08.199547Z
+381
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2069
 
 Manager.java
 file
 
 
 
-add
+
+2013-01-12T16:38:16.000000Z
+dd8e55fd703f3c5ccf8a92a5a97bc052
+2013-01-12T19:15:08.199547Z
+381
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1316
+
+ExamGenerationManager.java
+file
+
+
+
+
+2013-01-12T16:38:16.000000Z
+d2825ac77883417b644170ba9b16fba8
+2013-01-12T19:15:08.199547Z
+381
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3739
+
+QuestionManager.java
+file
+384
+
+
+
+2013-01-13T01:22:19.000000Z
+902409f52c1cf0047b2966ae026330ae
+2013-01-13T21:33:13.115893Z
+384
+haxwell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5705
 

@@ -30,7 +30,7 @@
 
 <jsp:include page="../header.jsp"></jsp:include>
 
-		<form action="/quizki/ListQuestionsServlet" method="post">
+		<form action="/ListQuestionsServlet" method="post">
 				<table style="float:right;">
 					<tr>
 						<td >
@@ -63,7 +63,7 @@
 		<h1>List All Questions</h1>
 
 
-		<form action="/quizki/ListQuestionsServlet" method="post">
+		<form action="/ListQuestionsServlet" method="post">
 		<br/><br/>
 			<div id="center" class="listOfQuestions"  style="overflow:auto; height:225px; width:100%">
 			
@@ -94,7 +94,7 @@
 					</c:when>
 					</c:choose>
 				</td>   
-				<td><a href="/quizki/displayQuestion.jsp?questionId=${question.id}">${question.description}</a>
+				<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a>
 				</td>
 				<td>
 					<c:forEach var="topic" items="${question.topics}">
@@ -114,7 +114,7 @@
 		
 
 <br/>
-<a href="/quizki/index.jsp">home</a> <br/>
+<a href="/index.jsp">home</a> <br/>
 
 
 </body>

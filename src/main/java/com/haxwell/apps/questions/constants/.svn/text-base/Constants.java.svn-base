@@ -2,8 +2,7 @@ package com.haxwell.apps.questions.constants;
 
 public class Constants {
 
-	public static final String APP_URL_ROOT = "/quizki";
-	public static final String LOGIN_JSP_URL = APP_URL_ROOT + "/login.jsp";
+	public static final String LOGIN_JSP_URL = "/login.jsp";
 	
 	public static final String CURRENT_EXAM = "currentExam";
 	public static final String CURRENT_QUESTION = "currentQuestion";

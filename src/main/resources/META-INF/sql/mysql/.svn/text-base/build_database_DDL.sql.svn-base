@@ -78,6 +78,28 @@ CREATE TABLE question_choice (
 	FOREIGN KEY (choice_id) REFERENCES choice(id)
 	);
 
+CREATE TABLE exam (
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	title	VARCHAR(128)	NOT NULL,
+	user_id	BIGINT	NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+	);
+
+CREATE TABLE exam_question (
+	exam_id	BIGINT	NOT NULL,
+	question_id	BIGINT	NOT NULL,
+	FOREIGN KEY (exam_id) REFERENCES exam(id),	
+	FOREIGN KEY (question_id) REFERENCES question(id)
+	);
+
+CREATE TABLE question_topic (
+	question_id	BIGINT	NOT NULL,
+	topic_id	BIGINT	NOT NULL,
+	FOREIGN KEY (question_id) REFERENCES question(id),	
+	FOREIGN KEY (topic_id) REFERENCES topic(id)
+	);
+
 --CREATE TABLE user_question (
 --	question_id	BIGINT	NOT NULL,
 --	user_id	BIGINT	NOT NULL,
@@ -103,20 +125,6 @@ CREATE TABLE question_choice (
 --	isCorrect	BIGINT	NOT NULL
 --	);
 
-CREATE TABLE exam (
-	id BIGINT NOT NULL AUTO_INCREMENT,
-	title	VARCHAR(128)	NOT NULL,
-	user_id	BIGINT	NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (user_id) REFERENCES users(id)
-	);
-
-CREATE TABLE exam_question (
-	exam_id	BIGINT	NOT NULL,
-	question_id	BIGINT	NOT NULL,
-	FOREIGN KEY (exam_id) REFERENCES exam(id),	
-	FOREIGN KEY (question_id) REFERENCES question(id)
-	);
 
 --CREATE TABLE user_exam (
 --	exam_id	BIGINT	NOT NULL,
@@ -125,17 +133,9 @@ CREATE TABLE exam_question (
 --	FOREIGN KEY (user_id) REFERENCES users(id)
 --	);
 
-CREATE TABLE question_topic (
-	question_id	BIGINT	NOT NULL,
-	topic_id	BIGINT	NOT NULL,
-	FOREIGN KEY (question_id) REFERENCES question(id),	
-	FOREIGN KEY (topic_id) REFERENCES topic(id)
-	);
-
 --CREATE TABLE vote (
 --	user_id	BIGINT	FOREIGN KEY REFERENCES users(id),
 --	question_id	BIGINT	FOREIGN KEY REFERENCES question(id)
 --	question_version	BIGINT 	NOT NULL,
 --	vote	BIGINT	NOT NULL
 --	);
-

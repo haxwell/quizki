@@ -42,8 +42,6 @@ tinyMCE.init({
 
 	<h1>Create Question</h1>
 
-		<div class="testing">This didn't get replaced by Javascript doings..</div>
-
       <c:if test="${not empty requestScope.successes}">
       	<c:forEach var="str" items="${requestScope.successes}">
       		<span class="greenText">${str}</span><br/>	
@@ -67,10 +65,10 @@ tinyMCE.init({
 			Description: <input type="text" size="45" name="questionDescription" value="${currentQuestion.description}"/><br/><br/>
 			<textarea name="questionText" cols="50" rows="15" value="Enter a question...?">${currentQuestion.text}</textarea><br/>  
 			Difficulty: <select name="difficulty">
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 1}"><option value="Junior" selected="selected">Junior</option></c:when><c:otherwise><option value="Junior" >Junior</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 2}"><option value="Intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="Intermediate" >Intermediate</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 3}"><option value="Well-versed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="Well-versed" >Well-versed</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 4}"><option value="Guru" selected="selected">Guru</option></c:when><c:otherwise><option value="Guru" >Guru</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.difficulty.id == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.difficulty.id == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.difficulty.id == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.difficulty.id == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru" >Guru</option></c:otherwise></c:choose>
 				</select> | Type: <select name="type">
 				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multi" selected="selected">Multi</option></c:when><c:otherwise><option value="Multi">Multi</option></c:otherwise></c:choose>

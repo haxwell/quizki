@@ -1,29 +1,29 @@
 K 25
 svn:wc:ra_dav:version-url
-V 95
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/sql/derby
-END
-populate_database.sql
-K 25
-svn:wc:ra_dav:version-url
-V 117
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/sql/derby/populate_database.sql
+V 123
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/resources/META-INF/sql/derby
 END
 build_database_DDL.sql
 K 25
 svn:wc:ra_dav:version-url
-V 118
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/sql/derby/build_database_DDL.sql
+V 146
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/resources/META-INF/sql/derby/build_database_DDL.sql
 END
 populate_database_real_world.sql
 K 25
 svn:wc:ra_dav:version-url
-V 128
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/sql/derby/populate_database_real_world.sql
+V 156
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/resources/META-INF/sql/derby/populate_database_real_world.sql
 END
 populate_database_minimum.sql
 K 25
 svn:wc:ra_dav:version-url
-V 125
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/sql/derby/populate_database_minimum.sql
+V 153
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/resources/META-INF/sql/derby/populate_database_minimum.sql
+END
+populate_database.sql
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/resources/META-INF/sql/derby/populate_database.sql
 END

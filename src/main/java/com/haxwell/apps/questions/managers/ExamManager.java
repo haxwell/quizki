@@ -29,16 +29,17 @@ public class ExamManager extends Manager {
 		return exam;
 	}
 	
-//	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public static void persistExam(Exam exam) 
+	public static long persistExam(Exam exam) 
 	{
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
 		
-		em.merge(exam);
+		Exam rtn = em.merge(exam);
 		
 		em.getTransaction().commit();
+		
+		return rtn.getId();
 	}
 	
 	public static Set<String> getAllQuestionTopics(Exam exam)

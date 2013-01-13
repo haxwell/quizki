@@ -19,12 +19,19 @@ public class DifficultyUtil {
 		return 1;
 	}
 
+	public static String getDisplayString(String str)
+	{
+		if (str.equals(DifficultyConstants.WELL_VERSED_STR))
+			return "Well-versed";
+		
+		return str;
+	}
+	
 	public static Difficulty convertToObject(String parameter) {
-		Difficulty d = new Difficulty(parameter);
+		Difficulty d = new Difficulty(getDisplayString(parameter));
 		
 		d.setId(convertToInt(parameter));
 		
 		return d;
 	}
-
 }

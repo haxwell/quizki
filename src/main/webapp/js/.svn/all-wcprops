@@ -1,23 +1,29 @@
 K 25
 svn:wc:ra_dav:version-url
-V 99
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js
+V 104
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js
 END
-createQuestion.js
+choiceFunctions.js
 K 25
 svn:wc:ra_dav:version-url
-V 117
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/createQuestion.js
+V 123
+/svn/haxwell_svn.haxwell_repo/!svn/ver/389/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/choiceFunctions.js
 END
 jquery.dataTables.min.js
 K 25
 svn:wc:ra_dav:version-url
-V 124
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/jquery.dataTables.min.js
+V 129
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/jquery.dataTables.min.js
 END
 listQuestions.js
 K 25
 svn:wc:ra_dav:version-url
-V 116
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/WebContent/js/listQuestions.js
+V 121
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/listQuestions.js
+END
+createQuestion.js
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/createQuestion.js
 END

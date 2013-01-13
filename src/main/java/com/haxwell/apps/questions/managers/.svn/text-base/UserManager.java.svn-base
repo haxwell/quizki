@@ -3,6 +3,8 @@ package com.haxwell.apps.questions.managers;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,20 +25,30 @@ public class UserManager extends Manager {
 		em = emf.createEntityManager();
 	}
 
+	private static final Logger log = Logger.getLogger(UserManager.class.getName());
+	
 	public static User getUser(String username)
 	{
+		log.log(Level.INFO, "..beginning UserManager::getUser(" + username + ")");
+		
 		boolean b = em.isOpen();
 		Query query = em.createNativeQuery("SELECT * FROM users WHERE username = ?1", User.class);
 		
 		query.setParameter(1, username);
 		
 		List<User> list = (List<User>)query.getResultList();
+		
+		User rtn = (list.size() > 0 ? list.get(0) : null);
+		
+		log.log(Level.INFO, "Returning from getUser().. no errors() ");
 
-		return (list.size() > 0 ? list.get(0) : null);
+		return rtn;
 	}
 	
 	public static void createUser(String username, String password)
 	{
+		log.log(Level.INFO, "..beginning Usermanager::createUser("+username+","+password+")");
+		
 		User user = new User();
 		
 		user.setUsername(username);
@@ -59,5 +71,7 @@ public class UserManager extends Manager {
 		em.persist(user);
 		
 		em.getTransaction().commit();
+		
+		log.log(Level.INFO, "Returning from createUser().. no errors() ");
 	}
 }

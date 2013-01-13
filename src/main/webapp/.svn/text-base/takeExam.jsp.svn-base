@@ -19,90 +19,40 @@
 			<![CDATA[ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="js/choiceFunctions.js" type="text/javascript" ></script> ]]>
 			<![CDATA[
 			<script type="text/javascript">
-tinyMCE.init({
-        mode : "textareas",
-        readonly : 1,
-		content_css : "css/custom_content.css"
-});
-</script>
-]]>
+				tinyMCE.init({
+				        mode : "textareas",
+				        readonly : 1,
+						content_css : "css/custom_content.css"
+				});
+			</script>
+			]]>
 			<![CDATA[
 				<script type="text/javascript">
-						$(document).ready(function() {
-			var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-			var values = ${listOfCurrentQuestionsChoicesValues};
-			var selected = ${listSayingAnElementIsCheckedOrNot};			
-			
-			if (${currentQuestion.questionType.id} == 1)
-				{
-					$('div.choices').html('');
-					
-					// find the div, and create the html to put in there, for these choices and 
-					//  this question type..
-					
-					for (var counter=0;fieldNames.length>counter;counter++)
-					{
-						var str = $('#radioButtonExample').html();
-						
-						str = str.replace('??1', values[counter]);
-						str = str.replace('??2', fieldNames[counter]);
-						str = str.replace('??2', fieldNames[counter]);
-						
-						if (selected !== undefined && selected[counter] !== undefined && selected[counter] == 'true')
-							str = str.replace("selected=\"\"", 'checked');
-						
-						if (counter%2 == 0) {
-							str = str.replace('??4', 'rowHighlight'); 
-						} else {
-							str = str.replace('??4', '');
-						}
+	
+					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
+					var values = ${listOfCurrentQuestionsChoicesValues};
+					var selected = ${listSayingAnElementIsCheckedOrNot};
 
-						var previous = $('div.choices').html();
+					$(document).ready(function() {
 						
-						previous += str;
-						
-						$('div.choices').html(previous);
-					}
-				}
-			else if (${currentQuestion.questionType.id} == 2)
-				{
-					$('div.choices').html('');
-					
-					// find the div, and create the html to put in there, for these choices and 
-					//  this question type..
-					
-					for (var counter=0;fieldNames.length>counter;counter++)
-					{
-						var str = $('#checkboxExample').html();
-						
-						str = str.replace("??1", values[counter]);
-						str = str.replace("??2", fieldNames[counter]);
-						str = str.replace("??2", fieldNames[counter]);						
-						
-						if (selected !== undefined && selected[counter] !== undefined && selected[counter] == 'true')
-							str = str.replace("selected=\"\"", 'checked');
-						
-						if (counter%2 == 0) {
-							str = str.replace('??4', 'rowHighlight'); 
-						} else {
-							str = str.replace('??4', '');
-						}
+						$('div.choices').html('');
 
-						var previous = $('div.choices').html();
-						
-						previous += str;
-						
-						$('div.choices').html(previous);
-					}
-				}
-		});
+						if (${currentQuestion.questionType.id} == 1)
+						{
+							addChoiceInputsForThisQuestionType('#radioButtonExample');
+						}
+						else if (${currentQuestion.questionType.id} == 2)
+						{
+							addChoiceInputsForThisQuestionType('#checkboxExample');
+						}
+					});
+
 				</script>
-			
 			]]>
 		</jsp:text>
-
 	</head>
 <body>
 

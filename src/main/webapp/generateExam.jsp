@@ -32,7 +32,7 @@
 			<tr><td>
 			Number Of Questions: <input type="text" name="numberOfQuestions" value="10"/>
 			<br/>  
-			Difficulty: <select name="difficulty">
+			Max. Difficulty: <select name="difficulty">
 					<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 					<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
 					<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
@@ -54,6 +54,7 @@
 			</td>
 			</tr>
 		</table>				
+
 		<br/>
 		List of topics:<br/>
 		<div class="listOfQuestions" style="overflow:auto; width:100%">

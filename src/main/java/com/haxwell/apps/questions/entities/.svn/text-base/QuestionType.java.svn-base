@@ -40,5 +40,10 @@ public class QuestionType implements EntityWithAnIntegerIDBehavior, Serializable
 	public void setText(String text) {
 		this.text = text;
 	}
+	
+	public String toString()
+	{
+		return "id: " + id + " | type: " + text;
+	}
 
 }

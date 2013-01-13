@@ -115,7 +115,7 @@ tinyMCE.init({
 	<h1>Display Question</h1>
 
 		<form action=".">
-		Id: ${currentQuestion.id}  -- Creator: ${currentQuestion.user.username}<br/>
+		Creator: ${currentQuestion.user.username}<br/>
 		Description: ${currentQuestion.description}<br/>
 		<br/>
 		Text: <textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea><br/>  

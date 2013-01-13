@@ -63,7 +63,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				
 				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 				
-				forwardToJSP(request, response, fwdPage);
+//				redirectToJSP(request, response, fwdPage);
 			}
 			else {
 				
@@ -125,6 +125,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			fwdPage = "/examReportCard.jsp";
 		}
 
+		
 		redirectToJSP(request, response, fwdPage);
 	}
 	

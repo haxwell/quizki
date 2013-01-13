@@ -22,12 +22,19 @@
 	<h1>Login</h1>
 	<br/><br/>
 
+      <c:if test="${not empty requestScope.validationErrors}">
+      	<c:forEach var="str" items="${validationErrors}">
+      		<span class="redText">${str}</span><br/>
+      	</c:forEach>
+      	<br/>
+      </c:if>
+
 	If you're not yet a user, <a href="register.jsp">click here</a>!<br/><br/>
 
 	<form action="/LoginServlet" method="post">
 		Username: <input type="text" name="username"/>
 		<br/><br/>
-		Password: <input type="text" name="password"/>
+		Password: <input type="password" name="password"/>
 		<br/><br/>
 		
 		<input type="submit" value="Log In" name="button" />

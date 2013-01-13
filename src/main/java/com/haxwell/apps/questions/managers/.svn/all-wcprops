@@ -1,47 +1,47 @@
 K 25
 svn:wc:ra_dav:version-url
-V 125
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers
-END
-ChoiceManager.java
-K 25
-svn:wc:ra_dav:version-url
-V 144
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/ChoiceManager.java
-END
-ExamManager.java
-K 25
-svn:wc:ra_dav:version-url
-V 142
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/ExamManager.java
-END
-TopicManager.java
-K 25
-svn:wc:ra_dav:version-url
-V 143
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/TopicManager.java
-END
-UserManager.java
-K 25
-svn:wc:ra_dav:version-url
-V 142
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/UserManager.java
-END
-Manager.java
-K 25
-svn:wc:ra_dav:version-url
-V 138
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/Manager.java
+V 135
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers
 END
 ExamGenerationManager.java
 K 25
 svn:wc:ra_dav:version-url
-V 152
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/ExamGenerationManager.java
+V 162
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/ExamGenerationManager.java
 END
 QuestionManager.java
 K 25
 svn:wc:ra_dav:version-url
-V 146
-/svn/haxwell_svn.haxwell_repo/!svn/ver/373/trunk/projects/questions/src/quizki-tomcat/src/com/haxwell/apps/questions/managers/QuestionManager.java
+V 156
+/svn/haxwell_svn.haxwell_repo/!svn/ver/384/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/QuestionManager.java
+END
+ChoiceManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/ChoiceManager.java
+END
+ExamManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/haxwell_svn.haxwell_repo/!svn/ver/385/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/ExamManager.java
+END
+TopicManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/TopicManager.java
+END
+UserManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/UserManager.java
+END
+Manager.java
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/java/com/haxwell/apps/questions/managers/Manager.java
 END

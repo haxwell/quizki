@@ -164,7 +164,7 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>ExamServlet</servlet-name>
-  	<url-pattern>/ExamServlet</url-pattern>
+  	<url-pattern>/secured/ExamServlet</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -218,7 +218,7 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>QuestionServlet</servlet-name>
-  	<url-pattern>/QuestionServlet</url-pattern>
+  	<url-pattern>/secured/QuestionServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

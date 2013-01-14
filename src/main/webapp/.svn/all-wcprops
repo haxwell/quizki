@@ -3,6 +3,30 @@ svn:wc:ra_dav:version-url
 V 101
 /svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp
 END
+failedLogin.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/failedLogin.jsp
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/index.html
+END
+displayExam.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/displayExam.jsp
+END
+examReportCard.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/examReportCard.jsp
+END
 register.jsp
 K 25
 svn:wc:ra_dav:version-url
@@ -45,6 +69,12 @@ svn:wc:ra_dav:version-url
 V 122
 /svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/examWillBeGraded.jsp
 END
+favicon.ico
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/haxwell_svn.haxwell_repo/!svn/ver/390/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/favicon.ico
+END
 generateExam.jsp
 K 25
 svn:wc:ra_dav:version-url
@@ -61,13 +91,13 @@ index.jsp
 K 25
 svn:wc:ra_dav:version-url
 V 111
-/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/index.jsp
+/svn/haxwell_svn.haxwell_repo/!svn/ver/391/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/index.jsp
 END
 login.jsp
 K 25
 svn:wc:ra_dav:version-url
 V 111
-/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/login.jsp
+/svn/haxwell_svn.haxwell_repo/!svn/ver/390/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/login.jsp
 END
 logout.jsp
 K 25
@@ -86,28 +116,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 111
 /svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/about.jsp
-END
-failedLogin.jsp
-K 25
-svn:wc:ra_dav:version-url
-V 117
-/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/failedLogin.jsp
-END
-index.html
-K 25
-svn:wc:ra_dav:version-url
-V 112
-/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/index.html
-END
-displayExam.jsp
-K 25
-svn:wc:ra_dav:version-url
-V 117
-/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/displayExam.jsp
-END
-examReportCard.jsp
-K 25
-svn:wc:ra_dav:version-url
-V 120
-/svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/examReportCard.jsp
 END

@@ -12,7 +12,38 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Index - Questions JEE</title>
+		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		
+		<jsp:text>
+			<![CDATA[ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="/js/jquery.cookie.js" type="text/javascript"></script> ]]>
+		
+			<![CDATA[
+				<script type="text/javascript">
+
+   					$(document).ready(function() {
+						var currentSessionCookieVal = $.cookie('quizki.currentSessionCookie'); 
+					
+						if (currentSessionCookieVal == null)
+							$("#welcomeToQuizki-dialog").dialog({modal:true,width:530,title:"Welcome to Quizki!"}).dialog();
+					});
+
+					// Handler for the modal dialog CLOSING
+				    $(document).ready(function(){
+						$('div#welcomeToQuizki-dialog').bind('dialogclose', function(event) {
+						    //var v = $.cookie('quizki.userHasBeenHereBefore');
+						    //$.cookie('quizki.userHasBeenHereBefore', v+1, { expires: 30 });
+
+						    $.cookie('quizki.currentSessionCookie', 0); // create cookie for current session
+						});
+ 				    });
+				    
+				</script>
+			]]>
+		</jsp:text>
+		
 </head>
 <body>
 
@@ -21,6 +52,7 @@
 <br/><br/>
 <br/><br/>
 TAKE<br/> 
+<div class="indentText">
 Get a quick exam on ...<br/>   
 			<c:forEach var="topic" items="${fa_listofmajortopics}">
 				-- <a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a><br/>
@@ -28,13 +60,17 @@ Get a quick exam on ...<br/>
 <br/>
 Generate <a class="greyLink" href="generateExam.jsp">a quick exam</a> on another topic.<br/>
 Create <a class="greyLink" href="secured/createExam.jsp">your own unique exam</a>.<br/><br/>
+</div>
 <br/>
 GIVE<br/>
+<div class="indentText">
 <a class="greyLink" href="secured/createQuestion.jsp">a question of your own</a><br/><br/><br/>
+</div>
 BROWSE<br/>
+<div class="indentText">
 <a class="greyLink" href="listExams.jsp">see a list of exams</a><br/>
 <a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a><br/><br/><br/><br/>
-
+</div>
 
     <c:choose>
      <c:when test="${empty sessionScope.currentUserEntity}">
@@ -44,6 +80,11 @@ BROWSE<br/>
      	You are logged in. <a class="greyLink" href="logout.jsp">logout</a><br/>
      </c:otherwise>
     </c:choose>
+
+
+<div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki is a tool to help you remember!<br/><br/>
+You create questions and answers in Quizki. When you're ready, Quizki will ask you the questions. You can see which you answered correctly, and which ones you missed.<br/><br/>
+Click around! You won't break it! (but if you do.. <a href="mailto:johnathan@quizki.com">email me</a>!)<br/> </div>
 
 </body>
 </html>

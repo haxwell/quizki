@@ -21,6 +21,12 @@ svn:wc:ra_dav:version-url
 V 121
 /svn/haxwell_svn.haxwell_repo/!svn/ver/381/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/listQuestions.js
 END
+jquery.cookie.js
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/haxwell_svn.haxwell_repo/!svn/ver/390/trunk/projects/questions/src/quizki-tomcat/src/main/webapp/js/jquery.cookie.js
+END
 createQuestion.js
 K 25
 svn:wc:ra_dav:version-url

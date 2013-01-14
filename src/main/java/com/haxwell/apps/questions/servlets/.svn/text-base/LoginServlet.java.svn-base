@@ -1,6 +1,8 @@
 package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +36,6 @@ public class LoginServlet extends AbstractHttpServlet {
      */
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -52,45 +53,59 @@ public class LoginServlet extends AbstractHttpServlet {
 		
 		log.log(Level.INFO, request.getParameterNames().toString());
 		
+		String fwdPage = null;
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+		List<String> errors = new ArrayList<String>();
 		
-		Subject currentUser = SecurityUtils.getSubject(); // Each time we need the Shiro subject, we get it this way..
-		
-		HttpSession session = request.getSession();
+		if (StringUtil.isNullOrEmpty(username) || StringUtil.isNullOrEmpty(password)) {
+			fwdPage = "/login.jsp";
+			
+			errors.add("Either username or password was not valid.");
+			
+			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
+		}
+		else {
+			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			
+			Subject currentUser = SecurityUtils.getSubject(); // Each time we need the Shiro subject, we get it this way..
+			
+			HttpSession session = request.getSession();
 
-		log.log(Level.INFO, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
-		
-		try {
-			log.log(Level.INFO, "..about to get user object for [" + username + "]");
-			User user = UserManager.getUser(username);
-			log.log(Level.INFO, "..got user object for [" + username + "]");
+			log.log(Level.INFO, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
 			
-			log.log(Level.INFO, String.valueOf(token.getPassword()) + " / " + token.getUsername());
-			log.log(Level.INFO, user.getPassword() + " / " + user.getUsername());
-			log.log(Level.INFO, "-------=---=---===---------=-");
+			try {
+				log.log(Level.INFO, "..about to get user object for [" + username + "]");
+				User user = UserManager.getUser(username);
+				log.log(Level.INFO, "..got user object for [" + username + "]");
+				
+				log.log(Level.INFO, String.valueOf(token.getPassword()) + " / " + token.getUsername());
+				if (user != null)
+					log.log(Level.INFO, user.getPassword() + " / " + user.getUsername());
+				log.log(Level.INFO, "-------=---=---===---------=-");
+				
+				currentUser.login(token);
+				
+				session.setAttribute(Constants.CURRENT_USER_ENTITY, user);
+				
+				fwdPage = (String)session.getAttribute("originallyRequestedPage");				
+			}
+			catch (AuthenticationException ae)
+			{
+				log.log(Level.INFO, "..OH NO! An AuthenticationException!!");
+				
+				ae.printStackTrace();
+				
+				fwdPage = "/failedLogin.jsp";
+			}
 			
-			currentUser.login(token);
-			
-			session.setAttribute(Constants.CURRENT_USER_ENTITY, user);
-		}
-		catch (AuthenticationException ae)
-		{
-			log.log(Level.INFO, "..OH NO! An Exception!!");
-			
-			ae.printStackTrace();
-			
-			forwardToJSP(request, response, "/failedLogin.jsp");
-		}
-		
-		String fwdPage = (String)session.getAttribute("originallyRequestedPage");
-		
-		if (StringUtil.isNullOrEmpty(fwdPage))
-		{
-			log.log(Level.INFO, "..nothing set for originallyRequestedPage, so fwd to index.jsp");
-			fwdPage = "/index.jsp";
+			if (StringUtil.isNullOrEmpty(fwdPage))
+			{
+				log.log(Level.INFO, "..nothing set for originallyRequestedPage, so fwd to index.jsp");
+				fwdPage = "/index.jsp";
+			}
 		}
 
 		log.log(Level.INFO, "about to redirect to: " + fwdPage);

@@ -12,101 +12,46 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Display Question!!!</title>
-		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		<link href="css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		
 		<jsp:text>
-			<![CDATA[ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
-			<![CDATA[
-			<script type="text/javascript">
-tinyMCE.init({
-        mode : "textareas",
-        readonly : 1,
-		content_css : "css/custom_content.css"
-});
-</script>
-]]>
+			<![CDATA[ <script src="js/displayQuestion.js" type="text/javascript" ></script> ]]>			
 			<![CDATA[
 				<script type="text/javascript">
-						function foo(htmlExampleName) {
-							var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-							var values = ${listOfCurrentQuestionsChoicesValues};
-							var selected = ${listSayingAnElementIsCheckedOrNot};
-							var isCorrectList = ${listSayingWhichChoicesAreCorrect};
-							var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
-
-							$('div.choices').html('');
-							
-							// find the div, and create the html to put in there, for these choices and 
-							//  this question type..
-							
-							for (var counter=0;fieldNames.length>counter;counter++)
-							{
-								var str = $(htmlExampleName).html();
-		
-								var b1 = false;
-								var b2 = false;
-								
-								str = str.replace('??1', values[counter]);
-								str = str.replace('??2', fieldNames[counter]);
-								str = str.replace('??2', fieldNames[counter]);
-								
-								if (selected !== undefined && selected[counter] !== undefined && selected[counter] == 'true')
-								{
-									str = str.replace("selected=\"\"", 'checked');
-									b1 = true;
-								}
-								
-								if (isCorrectList !== undefined && isCorrectList[counter] !== undefined && isCorrectList[counter] == 'true') 
-									b2 = true;
-
-								if (counter%2 == 0) {
-									str = str.replace('??4', 'rowHighlight'); 
-								} else {
-									str = str.replace('??4', '');
-								}
-
-								if (examHistoryIsPresent == true) {									
-									if (b1 == true && b2 == true) {
-										str = str.replace('??3', 'selectedAndCorrect');
-									} else if (b1 == true && !b2 == true) {
-										str = str.replace('??3', 'selectedButNotCorrect');
-									} else if (b1 == false && b2 == true) {
-										str = str.replace('??3', 'correctButNotSelected');
-									} 
-								}
-								else {
-									if (b2 == true) {
-										str = str.replace('??3', 'greenText');
-									}
-								}
-								
-								var previous = $('div.choices').html();
-								
-								previous += str;
-								
-								$('div.choices').html(previous);
-							}
-						}
-						
-			$(document).ready(function() {
-				if (${currentQuestion.questionType.id} == 1)
-				{
-					foo('#radioButtonExample');
-				}
-				else if (${currentQuestion.questionType.id} == 2)
-				{
-					foo('#checkboxExample');
-				}
-			});
+					tinyMCE.init({
+					        mode : "textareas",
+					        readonly : 1,
+							content_css : "css/custom_content.css"
+					});
 				</script>
-			
+			]]>
+			<![CDATA[
+				<script type="text/javascript">
+
+					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
+					var values = ${listOfCurrentQuestionsChoicesValues};
+					var selected = ${listSayingAnElementIsCheckedOrNot};
+					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
+					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
+	
+					$(document).ready(function() {
+						$('div.choices').html('');
+		
+						if (${currentQuestion.questionType.id} == 1) {
+							addChoiceInputsForThisQuestionType('#radioButtonExample');
+						}
+						else if (${currentQuestion.questionType.id} == 2) {
+							addChoiceInputsForThisQuestionType('#checkboxExample');
+						}
+					});
+							
+				</script>
 			]]>
 		</jsp:text>
 
-				
 	</head>
 <body>
 
@@ -119,8 +64,8 @@ tinyMCE.init({
 		Description: ${currentQuestion.description}<br/>
 		<br/>
 		Text: <textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea><br/>  
-		Type: ${currentQuestion.questionType.text}  <br/>
 		Difficulty: ${currentQuestion.difficulty.text} <br/>
+		Type: ${currentQuestion.questionType.text}  <br/>
 		<hr/>
 		<br/>
 		Choices --<br/>

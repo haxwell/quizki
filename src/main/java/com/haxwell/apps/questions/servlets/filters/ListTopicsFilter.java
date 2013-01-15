@@ -39,7 +39,6 @@ public class ListTopicsFilter extends AbstractFilter {
 				
 				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
 				
-				
 				Collection<Topic> coll2 = TopicManager.getAllTopicsWithMoreThanXXQuestions(3);
 				
 				req.getSession().setAttribute(Constants.LIST_OF_MAJOR_TOPICS, coll2);

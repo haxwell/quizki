@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.interfaces.IChoice;
@@ -69,21 +70,12 @@ public class ChoiceManager extends Manager {
 	
 	public static List<String> validate(Question question)
 	{
-		Set<Choice> choicesSet = question.getChoices();
+		final Set<Choice> choicesSet = question.getChoices();
 		
 		List<String> errors = new ArrayList<String>();
 		
 		if (choicesSet.size() < 2)
 			errors.add("There must be at least two choices."); // Unless this is a String type question, then one
-		
-		boolean b = false;
-		
-		for (Choice c : choicesSet)
-			if (c.getIsCorrect() == 1)
-				b = true;
-		
-		if (!b)
-			errors.add("At least one of the choices must be correct.");
 		
 		Set<String> choiceTextsSet = new HashSet<String>();
 		Iterator<Choice> iterator = choicesSet.iterator();
@@ -101,6 +93,26 @@ public class ChoiceManager extends Manager {
 			
 			choiceTextsSet.add(c.getText());
 		}
+		
+		int correctChoiceCount = 0;
+		
+		for (Choice c : choicesSet)
+			if (c.getIsCorrect() == 1)
+				correctChoiceCount++;
+		
+		boolean addedErrorRegardingMultipleCorrectChoicesNeeded = false;
+
+		if (question.getQuestionType().getId() == TypeConstants.SINGLE && correctChoiceCount > 1)
+			errors.add("The question type is set to Single, but there is more than one correct choice.");
+		
+		if (question.getQuestionType().getId() == TypeConstants.MULTI && choicesSet.size() >= 2 && correctChoiceCount < 2)
+		{
+			errors.add("The question type is set to Multiple, but there are not multiple correct choices.");
+			addedErrorRegardingMultipleCorrectChoicesNeeded = true;
+		}
+		
+		if (correctChoiceCount == 0 && addedErrorRegardingMultipleCorrectChoicesNeeded == false)
+			errors.add("At least one of the choices must be correct.");
 		
 		return errors;
 	}

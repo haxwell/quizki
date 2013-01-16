@@ -15,7 +15,7 @@ public class DifficultyConstants {
 	public static final int WELL_VERSED = 3;
 	public static final int GURU = 4;
 	
-	public static final String JUNIOR_STR = "junior";
+	public static final String JUNIOR_STR = "Junior";
 	public static final String INTERMEDIATE_STR = "intermediate";
 	public static final String WELL_VERSED_STR = "wellversed";
 	public static final String GURU_STR = "guru";

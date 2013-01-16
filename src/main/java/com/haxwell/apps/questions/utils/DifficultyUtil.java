@@ -21,8 +21,17 @@ public class DifficultyUtil {
 
 	public static String getDisplayString(String str)
 	{
+		if (str.equals(DifficultyConstants.JUNIOR_STR))
+			return "Junior";
+		
+		if (str.equals(DifficultyConstants.JUNIOR_STR))
+			return "Intermediate";
+		
 		if (str.equals(DifficultyConstants.WELL_VERSED_STR))
 			return "Well-versed";
+		
+		if (str.equals(DifficultyConstants.JUNIOR_STR))
+			return "Guru";
 		
 		return str;
 	}

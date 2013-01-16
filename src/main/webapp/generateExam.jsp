@@ -30,7 +30,7 @@
 		
 		<table style="width:100%">
 			<tr><td>
-			Number Of Questions: <input type="text" name="numberOfQuestions" value="10"/>
+			Number Of Questions: <input type="text" name="numberOfQuestions" value="10" size="4"/>
 			<br/>  
 			Max. Difficulty: <select name="difficulty">
 					<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>

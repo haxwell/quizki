@@ -12,7 +12,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Create Question</title>
-		<link href="css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		
 		<jsp:text>
@@ -107,7 +107,7 @@ tinyMCE.init({
 			<table>
 				<c:forEach var="topic" items="${currentQuestion.topics}">
 					<tr>
-						<td><input type="text" name="topicText_${topic.id}" value="${topic.text}"/></td>
+						<td><input type="text" name="topicText_${topic.id}" value="${topic.text}" disabled="disabled"/></td>
 						<td><input type="submit" value="Delete" name="topicButton_${topic.id}"/></td>
 					</tr>
 				</c:forEach>

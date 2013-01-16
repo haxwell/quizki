@@ -172,11 +172,11 @@ a.whatIsThis:hover {
 }
 
 a.q_aIsCorrect_true:link {
-	color:#00FF00; /* unvisited link */
+	color:green; /* unvisited link */
 }
 
 a.q_aIsCorrect_true:visited {
-	color:#00FF00;
+	color:green;
 }  /* visited link */
 
 a.q_aIsCorrect_true:hover {
@@ -184,11 +184,11 @@ a.q_aIsCorrect_true:hover {
 }  /* mouse over link */
 
 a.q_aIsCorrect_true:active {
-	color:#0000FF;
+	color:#008F00;
 }  /* selected link */	
 
 a.q_aIsCorrect_false:link {
-	color:#FF0000; /* unvisited link */
+	color:#CF0000; /* unvisited link */
 }
 
 	a.q_aIsCorrect_false:visited {color:#FF0000;}  /* visited link */

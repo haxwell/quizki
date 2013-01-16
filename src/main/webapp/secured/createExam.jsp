@@ -12,7 +12,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Create Exam</title>
-		<link href="css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
 		

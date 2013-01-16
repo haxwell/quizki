@@ -198,7 +198,6 @@ public class QuestionServlet extends AbstractHttpServlet {
 		Set<Choice> choices = questionObj.getChoices();
 		Choice choice = ChoiceManager.newChoice(text, isCorrect);
 		
-		choice.setId(choices.size());
 		choices.add(choice);
 		questionObj.setChoices(choices);
 	}

@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
 
-import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.interfaces.IChoice;
@@ -18,12 +16,12 @@ import com.haxwell.apps.questions.interfaces.IQuestion;
 
 public class ChoiceManager extends Manager {
 	
-	private static EntityManagerFactory emf;
+	private static long nextId = 1;
 	
 	static {
-		emf = Persistence.createEntityManagerFactory(Constants.QUIZKI_PERSISTENCE_UNIT);
+		nextId = getNextChoiceID();
 	}
-
+	
 	public static Object newChoice(String text) {
 		Choice choice = new Choice();
 		
@@ -35,6 +33,9 @@ public class ChoiceManager extends Manager {
 	public static Choice newChoice(String text, boolean isCorrect)
 	{
 		Choice choice = new Choice();
+		
+//		choice.setId(ChoiceManager.getNextChoiceID());
+		choice.setId(++nextId);
 		
 		choice.setText(text);
 		choice.setIsCorrect(isCorrect ? 1 : 0);
@@ -50,7 +51,7 @@ public class ChoiceManager extends Manager {
 		
 		return choice;
 	}
-
+	
 	public static void persistChoices(IQuestion question) {
 		EntityManager em = emf.createEntityManager();
 
@@ -125,10 +126,23 @@ public class ChoiceManager extends Manager {
 		c.setIscorrect(b);
 		
 		choices.add(c);
-		
 	}
 
 	public static void delete(Set<Choice> choices, Choice c) {
 		choices.remove(c);
+	}
+	
+	private static long getNextChoiceID()
+	{
+		EntityManager em = emf.createEntityManager();
+		boolean b = em.isOpen();
+
+		Query query = em.createNativeQuery("SELECT count(*) FROM choice c");
+		
+		Long rtn = (Long)query.getSingleResult();
+		
+		em.close();
+		
+		return rtn;
 	}
 }

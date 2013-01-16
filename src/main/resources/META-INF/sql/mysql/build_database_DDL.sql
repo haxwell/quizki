@@ -1,16 +1,16 @@
 
-DROP TABLE users_roles_map;
-DROP TABLE question_topic;
-DROP TABLE question_choice;
-DROP TABLE exam_question;
-DROP TABLE question;
-DROP TABLE user_roles;
-DROP TABLE topic;
-DROP TABLE question_type;
-DROP TABLE difficulty;
-DROP TABLE choice;
-DROP TABLE exam;
-DROP TABLE users;
+DROP TABLE IF EXISTS users_roles_map;
+DROP TABLE IF EXISTS question_topic;
+DROP TABLE IF EXISTS question_choice;
+DROP TABLE IF EXISTS exam_question;
+DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS topic;
+DROP TABLE IF EXISTS question_type;
+DROP TABLE IF EXISTS difficulty;
+DROP TABLE IF EXISTS choice;
+DROP TABLE IF EXISTS exam;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE topic (
 	id BIGINT NOT NULL AUTO_INCREMENT,
@@ -99,43 +99,4 @@ CREATE TABLE question_topic (
 	FOREIGN KEY (question_id) REFERENCES question(id),	
 	FOREIGN KEY (topic_id) REFERENCES topic(id)
 	);
-
---CREATE TABLE user_question (
---	question_id	BIGINT	NOT NULL,
---	user_id	BIGINT	NOT NULL,
---	FOREIGN KEY (question_id) REFERENCES question(id),	
---	FOREIGN KEY (user_id) REFERENCES users(id)
---	);
-
---CREATE TABLE question_version (
---	question_id	BIGINT	FOREIGN KEY REFERENCES question(id),
---	archived_q_id	BIGINT	NOT NULL,
---	q_version	BIGINT	NOT NULL
---	);
-
---CREATE TABLE archived_questions (
---	id	BIGINT	PRIMARY KEY,
---	text	VARCHAR(1000)	NOT NULL,
---	type	BIGINT	NOT NULL
---	);
-
---CREATE TABLE archived_choice (
---	id	BIGINT	PRIMARY KEY,
---	text	VARCHAR(1000)	NOT NULL,
---	isCorrect	BIGINT	NOT NULL
---	);
-
-
---CREATE TABLE user_exam (
---	exam_id	BIGINT	NOT NULL,
---	user_id	BIGINT	NOT NULL,
---	FOREIGN KEY (exam_id) REFERENCES exam(id),	
---	FOREIGN KEY (user_id) REFERENCES users(id)
---	);
-
---CREATE TABLE vote (
---	user_id	BIGINT	FOREIGN KEY REFERENCES users(id),
---	question_id	BIGINT	FOREIGN KEY REFERENCES question(id)
---	question_version	BIGINT 	NOT NULL,
---	vote	BIGINT	NOT NULL
---	);
+	

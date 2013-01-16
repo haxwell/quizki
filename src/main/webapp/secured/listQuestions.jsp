@@ -13,7 +13,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>List Exams</title>
-		<link href="css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 				
 		<jsp:text>

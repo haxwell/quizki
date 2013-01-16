@@ -61,12 +61,12 @@ Get a quick exam on ...<br/>
 			</c:forEach>
 <br/>
 Generate <a class="greyLink" href="generateExam.jsp">a quick exam</a> on another topic.<br/>
-Create <a class="greyLink" href="secured/createExam.jsp">your own unique exam</a>.<br/><br/>
+Create <a class="greyLink" href="secured/exam.jsp">your own unique exam</a>.<br/><br/>
 </div>
 <br/>
 GIVE<br/>
 <div class="indentText">
-<a class="greyLink" href="secured/createQuestion.jsp">a question of your own</a><br/><br/><br/>
+<a class="greyLink" href="secured/question.jsp">a question of your own</a><br/><br/><br/>
 </div>
 BROWSE<br/>
 <div class="indentText">
@@ -86,6 +86,7 @@ BROWSE<br/>
 
 <div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki is a tool to help you remember!<br/><br/>
 You create questions and answers in Quizki. When you're ready, Quizki will ask you the questions. You can see which you answered correctly, and which ones you missed.<br/><br/>
+BONUS! You can quiz yourself using questions that others have created!<br/><br/>
 Click around! You won't break it! (but if you do.. <a href="mailto:johnathan@quizki.com">email me</a>!)<br/> </div>
 
 </body>

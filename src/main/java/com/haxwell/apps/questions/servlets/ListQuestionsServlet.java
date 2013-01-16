@@ -95,7 +95,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		
 		if (action != null) {
 			if (action.equals("Edit Question"))
-				fwdPage = "/secured/createQuestion.jsp?questionId=" + q.getId();
+				fwdPage = "/secured/question.jsp?questionId=" + q.getId();
 		}
 		return fwdPage;
 	}

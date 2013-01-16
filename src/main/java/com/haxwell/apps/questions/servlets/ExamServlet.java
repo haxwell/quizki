@@ -62,8 +62,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		
 		if (button.equals("Add Exam"))
 		{
-			examWasPersisted = handleAddExamButtonPress(request, examObj,
-					errors, successes, examWasPersisted);
+			examWasPersisted = handleAddExamButtonPress(request, examObj, errors, successes, examWasPersisted);
 		}
 		else if (button.equals("Add Questions"))
 		{
@@ -115,10 +114,12 @@ public class ExamServlet extends AbstractHttpServlet {
 			setExamTitleFromFormParameter(request, examObj);
 		}
 
-		if (!examWasPersisted)
+		if (examWasPersisted)
+			request.getSession().setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
+		else
 			request.getSession().setAttribute(Constants.CURRENT_EXAM, examObj);
 		
-		forwardToJSP(request, response, "/secured/createExam.jsp");
+		forwardToJSP(request, response, "/secured/exam.jsp");
 	}
 
 	private void clearMRUFilterSettings(HttpServletRequest request) {
@@ -201,7 +202,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		{
 			long id = ExamManager.persistExam(examObj);
 			
-			successes.add("Exam '" + examObj.getTitle() + "' has been saved successfully. <a href=\"/secured/createExam.jsp?examId=" + id + "\">(see it)</a>, <a href=\"/beginExam.jsp?examId=" + id + "\">(take it)</a>");
+			successes.add("Exam '" + examObj.getTitle() + "' has been saved successfully. <a href=\"/secured/exam.jsp?examId=" + id + "\">(see it)</a>, <a href=\"/beginExam.jsp?examId=" + id + "\">(take it)</a>");
 			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
 			
 			request.setAttribute(Constants.CURRENT_EXAM, null);

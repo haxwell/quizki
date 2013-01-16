@@ -26,7 +26,14 @@
 
 <jsp:include page="../header.jsp"></jsp:include>
 
+	<c:choose>
+	<c:when test="${empty sessionScope.inEditingMode}">
 	<h1>Create Exam</h1>
+	</c:when>
+	<c:otherwise>
+	<h1>Edit Exam</h1>
+	</c:otherwise>
+	</c:choose>
 
       <c:if test="${not empty requestScope.validationErrors}">
       	<c:forEach var="str" items="${validationErrors}">
@@ -129,7 +136,15 @@
 		<input type="submit" value="Delete Questions" name="button"/>
 				<br/><br/><br/>
 				<hr/>
-		<input type="submit" value="Add Exam" name="button" style="float:right;"/>
+	<c:choose>
+	<c:when test="${empty sessionScope.inEditingMode}">
+	<input type="submit" value="Add Exam" name="button" style="float:right;"/>
+	</c:when>
+	<c:otherwise>
+	<input type="submit" value="Update Exam" name="button" style="float:right;"/>
+	</c:otherwise>
+	</c:choose>
+
 	</form>
 		</c:when>
 		<c:otherwise>

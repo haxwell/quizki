@@ -40,6 +40,14 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 
+			boolean currentExamHasBeenPersisted = (session.getAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED) != null);
+			
+			if (currentExamHasBeenPersisted) {
+				session.setAttribute(Constants.CURRENT_EXAM, null);
+				session.setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, null);
+				session.setAttribute(Constants.IN_EDITING_MODE, null);
+			}
+			
 			String examId = req.getParameter("examId");
 			
 			if (examId != null) {
@@ -52,6 +60,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 				}
 				else {
 					session.setAttribute(Constants.CURRENT_EXAM, exam);
+					session.setAttribute(Constants.IN_EDITING_MODE, Boolean.TRUE);					
 					
 					// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again
 					Collection<Question> coll = (Collection<Question>)session.getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);

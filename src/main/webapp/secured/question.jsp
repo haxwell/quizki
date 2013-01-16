@@ -40,7 +40,14 @@ tinyMCE.init({
 
 <jsp:include page="../header.jsp"></jsp:include>
 
+	<c:choose>
+	<c:when test="${empty sessionScope.inEditingMode}">
 	<h1>Create Question</h1>
+	</c:when>
+	<c:otherwise>
+	<h1>Edit Question</h1>
+	</c:otherwise>
+	</c:choose>
 
       <c:if test="${not empty requestScope.successes}">
       	<c:forEach var="str" items="${requestScope.successes}">
@@ -107,7 +114,7 @@ tinyMCE.init({
 			<table>
 				<c:forEach var="topic" items="${currentQuestion.topics}">
 					<tr>
-						<td><input type="text" name="topicText_${topic.id}" value="${topic.text}" disabled="disabled"/></td>
+						<td><input type="text" name="topicText_${topic.id}" value="${topic.text}" readonly="readonly"/></td>
 						<td><input type="submit" value="Delete" name="topicButton_${topic.id}"/></td>
 					</tr>
 				</c:forEach>
@@ -117,7 +124,15 @@ tinyMCE.init({
 			<br/>
 			<br/>
 			<hr/>
-			<input type="submit" value="Add Question" name="button" style="float:right;"/>	
+	<c:choose>
+	<c:when test="${empty sessionScope.inEditingMode}">
+	<input type="submit" value="Add Question" name="button" style="float:right;"/>
+	</c:when>
+	<c:otherwise>
+	<input type="submit" value="Update Question" name="button" style="float:right;"/>
+	</c:otherwise>
+	</c:choose>
+				
 		</form>
 		</div>
 		

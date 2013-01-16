@@ -8,6 +8,8 @@ public class Constants {
 	public static final String CURRENT_QUESTION = "currentQuestion";
 	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
 	
+	public static final String IN_EDITING_MODE = "inEditingMode";
+	
 	public static final String LIST_OF_FIELD_NAMES_OF_CHOICES = "listOfFieldNamesForTheCurrentQuestionsChoices";
 	public static final String LIST_OF_VALUES_OF_CHOICES = "listOfCurrentQuestionsChoicesValues";
 	
@@ -21,7 +23,11 @@ public class Constants {
 	public static final String CURRENT_QUESTIONS_ANSWERS = "currentQuestionsAnswers";
 	public static final String LIST_SAYING_WHICH_CHOICES_ARE_CORRECT = "listSayingWhichChoicesAreCorrect";
 	public static final String VALIDATION_ERRORS = "validationErrors";
+	
+	// TODO: can the following two be merged? Are we ever in a situation where we're editing one, but the other has not been persisted?
 	public static final String CURRENT_QUESTION_HAS_BEEN_PERSISTED = "currentQuestionHasBeenPersisted";
+	public static final String CURRENT_EXAM_HAS_BEEN_PERSISTED = "currentQuestionHasBeenPersisted";
+	
 	public static final String QUESTION_TOPICS = "fa_listofexamtopics";
 	public static final String ALLOW_GENERATED_EXAM_TO_BE_TAKEN = "allowGeneratedExamToBeTaken";
 	public static final String SUCCESS_MESSAGES = "successes";

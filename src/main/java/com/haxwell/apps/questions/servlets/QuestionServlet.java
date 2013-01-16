@@ -52,7 +52,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 		boolean entityWasPersisted = false;
 		
 		String button = request.getParameter("button");
-		String fwdPage = "/secured/createQuestion.jsp";
+		String fwdPage = "/secured/question.jsp";
 		
 		Question questionObj = getQuestionBean(request);
 		
@@ -165,7 +165,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 			long id = QuestionManager.persistQuestion(questionObj);
 			List<String> successes = new ArrayList<String>();
 			
-			successes.add("Question was successfully saved! <a href=\"/displayQuestion.jsp?questionId=" + id + "\">(see it)</a>, <a href=\"/secured/createQuestion.jsp?questionId=" + id + "\">(edit it)</a>");
+			successes.add("Question was successfully saved! <a href=\"/displayQuestion.jsp?questionId=" + id + "\">(see it)</a>, <a href=\"/secured/question.jsp?questionId=" + id + "\">(edit it)</a>");
 
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION, null);
 			request.setAttribute(Constants.CURRENT_QUESTION, null);

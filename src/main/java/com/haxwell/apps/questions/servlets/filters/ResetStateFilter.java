@@ -41,6 +41,7 @@ public class ResetStateFilter extends AbstractFilter {
 			session.setAttribute(Constants.MRU_FILTER_TEXT, null);
 			session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
 			session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
+			session.setAttribute(Constants.IN_EDITING_MODE, null);
 			
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 		}

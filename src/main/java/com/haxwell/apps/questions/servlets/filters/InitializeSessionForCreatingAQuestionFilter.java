@@ -42,6 +42,7 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 			if (currentQuestionHasBeenPersisted) {
 				session.setAttribute(Constants.CURRENT_QUESTION, null);
 				session.setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, null);
+				session.setAttribute(Constants.IN_EDITING_MODE, null);
 			}
 			
 			String questionId = req.getParameter("questionId");
@@ -55,6 +56,7 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 				}
 				else {
 					session.setAttribute(Constants.CURRENT_QUESTION, q);
+					session.setAttribute(Constants.IN_EDITING_MODE, Boolean.TRUE);
 				}
 			}
 		}

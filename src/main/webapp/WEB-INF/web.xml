@@ -35,9 +35,9 @@
   </filter>
   <filter-mapping>
     <filter-name>IsUserAuthenticatedFilter</filter-name>
-    <url-pattern>/secured/createQuestion.jsp</url-pattern>
+    <url-pattern>/secured/question.jsp</url-pattern>
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
-    <url-pattern>/secured/createExam.jsp</url-pattern>
+    <url-pattern>/secured/exam.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>ResetStateFilter</filter-name>
@@ -53,9 +53,9 @@
   </filter>
   <filter-mapping>
     <filter-name>ExamNoLongerRunningFilter</filter-name>
-    <url-pattern>/secured/createQuestion.jsp</url-pattern>
+    <url-pattern>/secured/question.jsp</url-pattern>
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
-    <url-pattern>/secured/createExam.jsp</url-pattern>
+    <url-pattern>/secured/exam.jsp</url-pattern>
     <url-pattern>/index.jsp</url-pattern>
     <url-pattern>/login.jsp</url-pattern>
   </filter-mapping>
@@ -74,7 +74,7 @@
   <filter-mapping>
     <filter-name>ListQuestionsFilter</filter-name>
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
-    <url-pattern>/secured/createExam.jsp</url-pattern>
+    <url-pattern>/secured/exam.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>ListExamsFilter</filter-name>
@@ -99,7 +99,7 @@
   </filter>
   <filter-mapping>
     <filter-name>InitializeSessionForCreatingAnExamFilter</filter-name>
-    <url-pattern>/secured/createExam.jsp</url-pattern>
+    <url-pattern>/secured/exam.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForGeneratingAnExamFilter</filter-name>
@@ -115,7 +115,7 @@
   </filter>
   <filter-mapping>
     <filter-name>InitializeSessionForCreatingAQuestionFilter</filter-name>
-    <url-pattern>/secured/createQuestion.jsp</url-pattern>
+    <url-pattern>/secured/question.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForRunningAnExamFilter</filter-name>

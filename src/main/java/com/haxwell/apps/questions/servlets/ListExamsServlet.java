@@ -78,7 +78,7 @@ public class ListExamsServlet extends AbstractHttpServlet {
 					}
 					else if (action.equals("Edit Exam"))
 					{
-						fwdPage = "/secured/createExam.jsp?examId=" + e.getId();
+						fwdPage = "/secured/exam.jsp?examId=" + e.getId();
 					}
 				}
 			}

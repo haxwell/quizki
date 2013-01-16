@@ -60,7 +60,7 @@
 	<table class="displayExam">
 		<thead>
 			<th>ID</th>
-			<th>Description</th>
+			<th>Question</th>
 			<th>Topics</th>
 			<th>Difficulty</th>
 		</thead>
@@ -76,7 +76,7 @@
 			</c:otherwise></c:choose>
 			
 				<td>${question.id}</td>   
-				<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></td>
+				<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></td>
 				<td>
 					<c:forEach var="topic" items="${question.topics}">
 						${topic.text}<br/>

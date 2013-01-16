@@ -59,7 +59,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 		// in case they press a button for a choice or a topic.. this will be null..
 		if (button == null) button = "";
 		
-		if (button.equals("Add Question")) {
+		if (button.equals("Add Question") || button.equals("Update Question")) {
 			addQuestion(request, questionObj);
 			entityWasPersisted = true;
 		}
@@ -171,6 +171,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 			request.setAttribute(Constants.CURRENT_QUESTION, null);
 			
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, Boolean.TRUE);
+			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); // HACK!! I would rather do this in the initializeQuestions filter, but its not being called by the forwardToJSP() call.
 			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
 		}
 		else

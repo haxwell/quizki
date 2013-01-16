@@ -69,8 +69,6 @@
 		<br/>
 		<div class="examTitle">${currentExam.title}  -- Question ${currentQuestionNumber} of ${totalNumberOfQuestionsInCurrentExam}</div>  
 		<br/>
-		<div class="examTitle">${currentQuestion.description}</div>
-		<br/>		
 		<textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea>
 		<br/>
 		<div style="float:right;">Submitted by: ${currentQuestion.user.username}</div>

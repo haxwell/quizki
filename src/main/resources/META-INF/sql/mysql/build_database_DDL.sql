@@ -52,11 +52,11 @@ CREATE TABLE users_roles_map (
 
 CREATE TABLE question (
 	id BIGINT NOT NULL AUTO_INCREMENT,
-	description	VARCHAR(1000)	NOT NULL,
 	text	VARCHAR(1000)	NOT NULL,	
 	difficulty_id BIGINT NOT NULL,
 	type_id	BIGINT	NOT NULL,
 	user_id BIGINT NOT NULL,
+	description	VARCHAR(1000),
 	PRIMARY KEY (id),
 	FOREIGN KEY (difficulty_id) REFERENCES difficulty(id),
 	FOREIGN KEY (type_id) REFERENCES question_type(id),

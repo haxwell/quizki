@@ -60,7 +60,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		// in case they press a button to delete a question.. this will be null..
 		if (button == null) button = "";
 		
-		if (button.equals("Add Exam"))
+		if (button.equals("Add Exam") || button.equals("Update Exam"))
 		{
 			examWasPersisted = handleAddExamButtonPress(request, examObj, errors, successes, examWasPersisted);
 		}
@@ -75,7 +75,7 @@ public class ExamServlet extends AbstractHttpServlet {
 			coll.removeAll(examObj.getQuestions());
 			request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 			
-			setTheTitleTheUserTyped(request, examObj);
+			setExamTitleFromFormParameter(request, examObj);
 		}
 		else if (button.equals("Delete Questions"))
 		{
@@ -114,8 +114,10 @@ public class ExamServlet extends AbstractHttpServlet {
 			setExamTitleFromFormParameter(request, examObj);
 		}
 
-		if (examWasPersisted)
+		if (examWasPersisted) {
 			request.getSession().setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
+			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); // HACK!! I would rather do this in the initialize..Exam filter, but its not being called by the forwardToJSP() call.
+		}
 		else
 			request.getSession().setAttribute(Constants.CURRENT_EXAM, examObj);
 		
@@ -260,14 +262,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 	}
 
-	private void setExamTitleFromFormParameter(HttpServletRequest request,
-			Exam examObj) {
-		String title = request.getParameter("examTitle");
-		examObj.setTitle(title);
-	}
-
-	private void setTheTitleTheUserTyped(HttpServletRequest request,
-			Exam examObj) {
+	private void setExamTitleFromFormParameter(HttpServletRequest request, Exam examObj) {
 		String title = request.getParameter("examTitle");
 		examObj.setTitle(title);
 	}

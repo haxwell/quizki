@@ -72,7 +72,7 @@
 		<thead>
 			<th>ID</th>
 			<th></th>
-			<th>Description</th>
+			<th>Question</th>
 			<th>Topics</th>
 			<th>Difficulty</th>
 		</thead>
@@ -94,7 +94,9 @@
 					</c:when>
 					</c:choose>
 				</td>   
-				<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a>
+				<td><c:choose><c:when test="${empty question.description}"><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></c:when>
+						<c:otherwise><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></c:otherwise>
+					</c:choose>
 				</td>
 				<td>
 					<c:forEach var="topic" items="${question.topics}">

@@ -61,7 +61,11 @@
 
 		<form action=".">
 		Creator: ${currentQuestion.user.username}<br/>
+	<c:choose>
+	<c:when test="${not empty currentQuestion.description}">
 		Description: ${currentQuestion.description}<br/>
+	</c:when>
+	</c:choose>
 		<br/>
 		Text: <textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea><br/>  
 		Difficulty: ${currentQuestion.difficulty.text} <br/>

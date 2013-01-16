@@ -204,8 +204,8 @@ public class QuestionManager extends Manager {
 		if (StringUtil.isNullOrEmpty(questionObj.getText()))
 			errors.add("Question must have some text!");
 		
-		if (StringUtil.isNullOrEmpty(questionObj.getDescription()))
-			errors.add("Question must have a description!");
+//		if (StringUtil.isNullOrEmpty(questionObj.getDescription()))
+//			errors.add("Question must have a description!");
 		
 		return errors;
 	}

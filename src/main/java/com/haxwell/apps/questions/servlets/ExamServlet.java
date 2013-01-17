@@ -151,27 +151,27 @@ public class ExamServlet extends AbstractHttpServlet {
 		return sb.toString();
 	}
 	
-	private String getQuestionIDsRequestedToBeRemovedFromTheExam(HttpServletRequest request) {
-		Collection<Question> coll = (Collection<Question>)getExamBean(request).getQuestions();
-
-		Iterator<Question> iterator = coll.iterator();
-		StringBuffer sb = new StringBuffer();
-		
-		while (iterator.hasNext())
-		{
-			Question q = iterator.next();
-			String str = request.getParameter("d_chkbox_" + q.getId());
-			
-			if (!StringUtil.isNullOrEmpty(str)) {
-				if (sb.length() > 0)
-					sb.append(",");
-				
-				sb.append(q.getId());
-			}
-		}
-		
-		return sb.toString();
-	}
+//	private String getQuestionIDsRequestedToBeRemovedFromTheExam(HttpServletRequest request) {
+//		Collection<Question> coll = (Collection<Question>)getExamBean(request).getQuestions();
+//
+//		Iterator<Question> iterator = coll.iterator();
+//		StringBuffer sb = new StringBuffer();
+//		
+//		while (iterator.hasNext())
+//		{
+//			Question q = iterator.next();
+//			String str = request.getParameter("d_chkbox_" + q.getId());
+//			
+//			if (!StringUtil.isNullOrEmpty(str)) {
+//				if (sb.length() > 0)
+//					sb.append(",");
+//				
+//				sb.append(q.getId());
+//			}
+//		}
+//		
+//		return sb.toString();
+//	}
 
 	private String getQuestionIDsRequestedToBeAddedToTheExam(HttpServletRequest request) {
 		Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute("fa_listoquestionstobedisplayed");

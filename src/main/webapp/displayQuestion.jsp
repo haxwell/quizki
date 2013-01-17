@@ -98,6 +98,28 @@
 							</c:forEach>
 			</table>
 		</div>
+		<hr/>
+		<br/>
+		References --<br/>
+		<div style="margin-left:25px">
+			<table style="width:100%">
+							<c:set var="rowNum" value="0"/>
+							<c:forEach var="reference" items="${currentQuestion.references}">
+								<c:set var="rowNum" value="${rowNum + 1}" />
+								<c:choose><c:when test="${rowNum % 2 == 0}">
+								<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
+								</c:when>
+								<c:otherwise>
+								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+								</c:otherwise></c:choose>
+					
+									<td>
+										${reference.text}
+									</td>
+									<jsp:text><![CDATA[</tr>]]></jsp:text>				
+							</c:forEach>
+			</table>
+		</div>
 		</form>
 		
 		<!-- TODO: Add ability to store and display references for a question -->

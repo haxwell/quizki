@@ -120,6 +120,22 @@ tinyMCE.init({
 				</c:forEach>
 			</table>
 			</div>
+
+			<br/>
+			<hr/>
+			<div >
+			References --<br/>
+			Reference Text: <input type="text" name="referenceText"/>  <input type="submit" value="Add Reference" name="button"/>
+			<br/>		
+			<table>
+				<c:forEach var="ref" items="${currentQuestion.references}">
+					<tr>
+						<td><input type="text" name="referenceText_${ref.id}" value="${ref.text}" readonly="readonly"/></td>
+						<td><input type="submit" value="Delete" name="topicButton_${ref.id}"/></td>
+					</tr>
+				</c:forEach>
+			</table>
+			</div>
 			
 			<br/>
 			<br/>

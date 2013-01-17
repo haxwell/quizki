@@ -12,6 +12,12 @@ DROP TABLE IF EXISTS choice;
 DROP TABLE IF EXISTS exam;
 DROP TABLE IF EXISTS users;
 
+CREATE TABLE reference (
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	text	VARCHAR(100)	NOT NULL,
+	PRIMARY KEY (id)
+	);
+
 CREATE TABLE topic (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	text	VARCHAR(100)	NOT NULL,
@@ -91,6 +97,13 @@ CREATE TABLE exam_question (
 	question_id	BIGINT	NOT NULL,
 	FOREIGN KEY (exam_id) REFERENCES exam(id),	
 	FOREIGN KEY (question_id) REFERENCES question(id)
+	);
+
+CREATE TABLE question_reference (
+	question_id	BIGINT	NOT NULL,
+	reference_id	BIGINT	NOT NULL,
+	FOREIGN KEY (question_id) REFERENCES question(id),	
+	FOREIGN KEY (reference_id) REFERENCES reference(id)
 	);
 
 CREATE TABLE question_topic (

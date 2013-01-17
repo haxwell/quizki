@@ -73,6 +73,19 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		)
 	private Set<Topic> topics;
 
+	//uni-directional many-to-many association to Reference
+    @ManyToMany(cascade={CascadeType.ALL})
+	@JoinTable(
+		name="question_reference"
+		, joinColumns={
+			@JoinColumn(name="question_id")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="reference_id")
+			}
+		)
+	private Set<Reference> references;
+
     public Question() {
     }
 
@@ -140,6 +153,17 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		this.choices = choices;
 	}
 	
+	public Set<Reference> getReferences() {
+		if (this.references == null)
+			this.references = new HashSet<Reference>();
+		
+		return this.references;
+	}
+
+	public void setReferences(Set<Reference> references) {
+		this.references = references;
+	}
+
 	public Set<Topic> getTopics() {
 		if (this.topics == null)
 			this.topics = new HashSet<Topic>();

@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.servlets;
 
-import java.io.IOException;
+import java.io.IOException;	
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.Reference;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ChoiceManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.managers.ReferenceManager;
 import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -56,7 +58,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 		
 		Question questionObj = getQuestionBean(request);
 		
-		// in case they press a button for a choice or a topic.. this will be null..
+		// in case they press anything other than "Add/Update Question", this will be null..
 		if (button == null) button = "";
 		
 		if (button.equals("Add Question") || button.equals("Update Question")) {
@@ -74,6 +76,10 @@ public class QuestionServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("Add Topic")) {
 			addTopic(request, questionObj);
+			setTheQuestionAttributes(request, questionObj);			
+		}
+		else if (button.equals("Add Reference")) {
+			addReference(request, questionObj);
 			setTheQuestionAttributes(request, questionObj);			
 		}
 		else
@@ -114,6 +120,23 @@ public class QuestionServlet extends AbstractHttpServlet {
 					TopicManager.delete(questionObj.getTopics(), t);
 				}
 			}
+			
+			// they clicked on a Reference button
+			if (action == null)
+			{
+				Iterator<Reference> referenceIterator = questionObj.getReferences().iterator();
+				Reference r = null;
+				
+				while (referenceIterator.hasNext() && action == null)
+				{
+					r = referenceIterator.next();
+					action = request.getParameter("referenceButton_" + r.getId());
+				}
+				
+				if (action != null) {
+					ReferenceManager.delete(questionObj.getReferences(), r);
+				}
+			}
 		}
 
 		if (!entityWasPersisted)
@@ -152,6 +175,24 @@ public class QuestionServlet extends AbstractHttpServlet {
 			}
 
 			questionObj.setTopics(topics);
+		}
+	}
+
+	private void addReference(HttpServletRequest request, Question questionObj) {
+		String text = request.getParameter("referenceText");
+		
+		if (!StringUtil.isNullOrEmpty(text))
+		{
+			Set<Reference> references = questionObj.getReferences();
+			Reference ref = ReferenceManager.getReference(text);
+			
+			if (ref == null)
+				ref = new Reference(text);
+			
+			if (!references.contains(ref))
+				references.add(ref);
+
+			questionObj.setReferences(references);
 		}
 	}
 

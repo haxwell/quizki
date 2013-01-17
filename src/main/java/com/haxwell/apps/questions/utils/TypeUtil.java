@@ -11,9 +11,9 @@ public class TypeUtil {
 			return 1;
 		if (parameter.equals(TypeConstants.MULTI_STR))
 			return 2;
-		if (parameter.equals(TypeConstants.SEQUENCE_STR))
-			return 3;
 		if (parameter.equals(TypeConstants.STRING_STR))
+			return 3;
+		if (parameter.equals(TypeConstants.SEQUENCE_STR))
 			return 4;
 		
 		return 1;

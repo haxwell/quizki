@@ -111,6 +111,12 @@ public class ChoiceManager extends Manager {
 			addedErrorRegardingMultipleCorrectChoicesNeeded = true;
 		}
 		
+		if (question.getQuestionType().getId() == TypeConstants.STRING && choicesSet.size() != correctChoiceCount)
+			errors.add("The question type is set to String, but there is an incorrect choice. All choices must be correct.");
+
+		if (question.getQuestionType().getId() == TypeConstants.SEQUENCE && choicesSet.size() != correctChoiceCount)
+			errors.add("The question type is set to Sequence, but there is an incorrect choice. All choices must be correct.");
+		
 		if (correctChoiceCount == 0 && addedErrorRegardingMultipleCorrectChoicesNeeded == false)
 			errors.add("At least one of the choices must be correct.");
 		

@@ -33,9 +33,9 @@ tinyMCE.init({
 		help_shortcut : ""
 });
 
-		$(function() {
-		   $( document ).tooltip();
-		 });
+		//$(function() {
+		   //$( document ).tooltip();
+		 //});
 		 
     $( "#open-event" ).tooltip({
       show: null,
@@ -49,9 +49,24 @@ tinyMCE.init({
     });
 
     $(document).ready(function() {
-    	var foo = $('textarea.tinymce').attr('title');
-    	$('textarea.tinymce').attr('title', null);
-    	foo = $('textarea.tinymce').attr('title');
+    	var foo = $("textarea.tinymce").attr("title");
+    	$("textarea.tinymce").attr("title", null);
+    	foo = $("textarea.tinymce").attr("title");
+    });
+    
+	$(document).ready(function() {
+	    $("#questionType").change(function() {
+	    	var val = $("#questionType option:selected").text();
+	    	
+	    	if (val == 'String' || val == 'Sequence')
+	    	{
+	    		$(".componentSignifiesChoiceCorrectness").attr("disabled", "disabled"); 
+	    	}
+	    	else
+	    	{
+	    		$(".componentSignifiesChoiceCorrectness").attr("disabled", null); 
+	    	}
+	    });    
     });		 
 </script>
 ]]>
@@ -92,16 +107,16 @@ tinyMCE.init({
 		<form action="/secured/QuestionServlet" method="post">
 			<div >
 			<textarea name="questionText" cols="50" rows="15" value="Enter a question...?" class="tinymce">${currentQuestion.text}</textarea><br/>  
-			Difficulty: <select name="difficulty" title="How hard is this question?">
+			Difficulty: <select name="difficulty" id="questionDifficulty" title="How hard is this question?">
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru" >Guru</option></c:otherwise></c:choose>
-				</select> | Type: <select name="type" title="What form do the answers come in?">
+				</select> | Type: <select name="type" id="questionType" title="What form do the answers come in?">
 				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multi" selected="selected">Multi</option></c:when><c:otherwise><option value="Multi">Multi</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="Single" selected="selected" disabled="disabled">String</option></c:when><c:otherwise><option value="String" disabled="disabled">String</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Single" selected="selected" disabled="disabled">Sequence</option></c:when><c:otherwise><option value="Sequence" disabled="disabled">Sequence</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected" disabled="disabled">Sequence</option></c:when><c:otherwise><option value="Sequence" disabled="disabled">Sequence</option></c:otherwise></c:choose>
 				</select>
 				 | Description: <input type="text" size="45" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
 			</div>
@@ -110,16 +125,35 @@ tinyMCE.init({
 			<br/>
 			<div >
 			Choices --<br/>
-			Choice Text: <input type="text" name="choiceText" title="A potential answer.. What should this choice say?"/>  Is Correct?: <select name="isCorrect" title="Is this a valid answer?"><option value="no">No</option><option value="yes">Yes</option></select> <input type="submit" value="Add Choice" name="button"/> <input type="submit" value="Add True/False" name="button"/>
+			Choice Text: <input type="text" name="choiceText" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
+			<c:choose>
+				<c:when test="${currentQuestion.questionType.id > 2}">
+					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="no">No</option><option value="yes">Yes</option></select> 
+				</c:when>
+				<c:otherwise>
+					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?"><option value="no">No</option><option value="yes">Yes</option></select> 
+				</c:otherwise>
+			</c:choose>
+			
+			<input type="submit" value="Add Choice" name="button"/> 
+			<c:choose>
+				<c:when test="${currentQuestion.questionType.id > 2}">
+					<input type="submit" class="componentSignifiesChoiceCorrectness" value="Add True/False" name="button" disabled="disabled"/>
+				</c:when>
+				<c:otherwise>
+					<input type="submit" class="componentSignifiesChoiceCorrectness" value="Add True/False" name="button"/>
+				</c:otherwise>
+			</c:choose>
 			<br/>
+			
 			<table>
 				<c:forEach var="choice" items="${currentQuestion.choices}">
 					<tr>
 						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" title="Make a change, then press Update."/></td>
-						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><input type="radio" name="group1_${choice.id}" value="Yes" checked="checked" title="Correct Answer"/>Yes </c:if> 
-										<c:if test="${choice.iscorrect == 0}"><input type="radio" name="group1_${choice.id}" value="Yes" title="Not a correct answer."/>Yes </c:if>
-										<c:if test="${choice.iscorrect == 1}"><input type="radio" name="group1_${choice.id}" value="No" title="Correct Answer"/>No </c:if>
-										<c:if test="${choice.iscorrect == 0}"><input type="radio" name="group1_${choice.id}" value="No" title="Not a correct answer." checked="checked" />No </c:if>
+						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="Correct Answer"/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="Correct Answer"/>Yes</c:otherwise></c:choose></c:if> 
+										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="Not a correct answer."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="Not a correct answer."/>Yes </c:otherwise></c:choose></c:if>
+										<c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="Correct Answer"/>No </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="Correct Answer"/>No </c:otherwise></c:choose></c:if>
+										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="Not a correct answer." checked="checked" />No </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="Not a correct answer." checked="checked" />No </c:otherwise></c:choose></c:if>
 						</td>
 						<td><input type="submit" value="Update" name="choiceButton_${choice.id}" title="Save this choice's changes."/></td>
 						<td><input type="submit" value="Delete" name="choiceButton_${choice.id}" title="Obliterate this choice."/></td>

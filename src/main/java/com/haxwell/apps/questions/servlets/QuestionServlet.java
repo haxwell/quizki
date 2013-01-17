@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.servlets;
 
-import java.io.IOException;	
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.QuestionType;
 import com.haxwell.apps.questions.entities.Reference;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
@@ -225,14 +227,20 @@ public class QuestionServlet extends AbstractHttpServlet {
 		String text = request.getParameter("choiceText");
 
 		if (!StringUtil.isNullOrEmpty(text))
-		{
 			addChoice(questionObj, text, getIsCorrectParameter(request));
-		}
 	}
 	
 	private boolean getIsCorrectParameter(HttpServletRequest request)
 	{
-		return request.getParameter("isCorrect").toLowerCase().equals("yes");
+		boolean rtn;		
+		QuestionType qt = TypeUtil.convertToObject(request.getParameter("type"));
+		
+		if (qt.getId() == TypeConstants.SINGLE || qt.getId() == TypeConstants.MULTI)
+			rtn = request.getParameter("isCorrect").toLowerCase().equals("yes");
+		else
+			rtn = true; // The types STRING and SEQUENCE only list correct values...
+		
+		return rtn;
 	}
 	
 	private void addChoice(Question questionObj, String text, boolean isCorrect)

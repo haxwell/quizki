@@ -13,13 +13,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Index - Questions JEE</title>
 		
-		<link href="css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		
 		<jsp:text>
 			
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery-ui-1.8.24.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="/js/jquery.cookie.js" type="text/javascript"></script> ]]>
 		
 			<![CDATA[

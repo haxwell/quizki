@@ -204,7 +204,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		{
 			long id = ExamManager.persistExam(examObj);
 			
-			successes.add("Exam '" + examObj.getTitle() + "' has been saved successfully. <a href=\"/secured/exam.jsp?examId=" + id + "\">(see it)</a>, <a href=\"/beginExam.jsp?examId=" + id + "\">(take it)</a>");
+			successes.add("Exam '" + examObj.getTitle() + "' has been saved successfully. <a href=\"/secured/exam.jsp?examId=" + id + "\">(edit it)</a>, <a href=\"/beginExam.jsp?examId=" + id + "\">(take it)</a>");
 			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
 			
 			request.setAttribute(Constants.CURRENT_EXAM, null);

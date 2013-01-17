@@ -12,13 +12,34 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Create Exam</title>
-		<link href="../css/smoothness/jquery-ui-1.8.24.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
 		
 		<jsp:text>
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/createQuestion.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
+
+			<![CDATA[
+			<script type="text/javascript">
+			
+			
+		$(function() {
+		   $( document ).tooltip();
+		 });
+		 
+    $( "#open-event" ).tooltip({
+      show: null,
+      position: {
+        my: "left top",
+        at: "left bottom"
+      },
+      open: function( event, ui ) {
+        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
+      }
+    });
+    </script> ]]>
+			
 		</jsp:text>
 				
 	</head>
@@ -54,21 +75,21 @@
 	<form action="/secured/ExamServlet" method="post">
 		Title: <input type="text" name="examTitle" value="${currentExam.title}"/>  
 		<br/><br/>
-		List of Questions
+		Available Questions
 		<table style="float:right;">
 			<tr>
 				<td >
-					Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>
+					Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.."/>
 				</td>
 				</tr>
 				<tr>
 				<td >
-					Question contains <input type="text" name="containsFilter" value="${mruFilterText}"/>
+					Question contains <input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..."/>
 				</td>
 				</tr>
 				<tr>
 				<td >
-					Include difficulties up to: <select name="difficulty">
+					Include difficulties up to: <select name="difficulty" title="Do not include any questions more difficult than..">
 				<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>

@@ -1,11 +1,28 @@
-function addChoiceInputsForThisQuestionType(htmlExampleID)
-{
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-//		var values = ${listOfCurrentQuestionsChoicesValues};
+//		var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion};
 //		var selected = ${listSayingAnElementIsCheckedOrNot};
 //		var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 //		var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
 
+
+function displayStringTypeQuestionChoices(htmlExampleID)
+{
+	for (var counter=0;fieldNames.length>counter;counter++)
+	{
+		var str = $(htmlExampleID).html();
+		
+		str = str.replace('??1', values[counter]);
+		
+		var previous = $('div.choices').html();
+		
+		previous += str;
+		
+		$('div.choices').html(previous);
+	}
+}
+
+function addChoiceInputsForThisQuestionType(htmlExampleID)
+{
 	// find the div, and create the html to put in there, for these choices and 
 	//  this question type..
 	

@@ -62,8 +62,6 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				errors.add("You did not select an answer!");
 				
 				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
-				
-//				redirectToJSP(request, response, fwdPage);
 			}
 			else {
 				
@@ -108,9 +106,6 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
 			
 			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
-			
-			// TODO: create a "You've Reached the Beginning!" page,
-			// TODO: create a "This is the beginning" page. 	
 		}
 		else if (button.equals("GRADE IT!"))
 		{

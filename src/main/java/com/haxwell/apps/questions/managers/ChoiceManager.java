@@ -74,8 +74,9 @@ public class ChoiceManager extends Manager {
 		
 		List<String> errors = new ArrayList<String>();
 		
-		if (choicesSet.size() < 2)
-			errors.add("There must be at least two choices."); // Unless this is a String type question, then one
+		long questionTypeId = question.getQuestionType().getId();
+		if (questionTypeId != TypeConstants.STRING && choicesSet.size() < 2)
+			errors.add("There must be at least two choices."); 
 		
 		Set<String> choiceTextsSet = new HashSet<String>();
 		Iterator<Choice> iterator = choicesSet.iterator();
@@ -95,32 +96,52 @@ public class ChoiceManager extends Manager {
 		}
 		
 		int correctChoiceCount = 0;
+		Set<Integer> sequenceNumbers = new HashSet<Integer>();
 		
 		for (Choice c : choicesSet)
-			if (c.getIsCorrect() == 1)
+			if (c.getIsCorrect() == 1) {
 				correctChoiceCount++;
+				sequenceNumbers.add(c.getSequence());
+			}
 		
 		boolean addedErrorRegardingMultipleCorrectChoicesNeeded = false;
 
-		if (question.getQuestionType().getId() == TypeConstants.SINGLE && correctChoiceCount > 1)
+		if (questionTypeId == TypeConstants.SINGLE && correctChoiceCount > 1)
 			errors.add("The question type is set to Single, but there is more than one correct choice.");
 		
-		if (question.getQuestionType().getId() == TypeConstants.MULTI && choicesSet.size() >= 2 && correctChoiceCount < 2)
+		if (questionTypeId == TypeConstants.MULTI && choicesSet.size() >= 2 && correctChoiceCount < 2)
 		{
 			errors.add("The question type is set to Multiple, but there are not multiple correct choices.");
 			addedErrorRegardingMultipleCorrectChoicesNeeded = true;
 		}
 		
-		if (question.getQuestionType().getId() == TypeConstants.STRING && choicesSet.size() != correctChoiceCount)
+		if (questionTypeId == TypeConstants.STRING && choicesSet.size() != correctChoiceCount)
 			errors.add("The question type is set to String, but there is an incorrect choice. All choices must be correct.");
 
-		if (question.getQuestionType().getId() == TypeConstants.SEQUENCE && choicesSet.size() != correctChoiceCount)
+		if (questionTypeId == TypeConstants.SEQUENCE && choicesSet.size() != correctChoiceCount)
 			errors.add("The question type is set to Sequence, but there is an incorrect choice. All choices must be correct.");
 		
 		if (correctChoiceCount == 0 && addedErrorRegardingMultipleCorrectChoicesNeeded == false)
 			errors.add("At least one of the choices must be correct.");
 		
+		if (questionTypeId == TypeConstants.SEQUENCE && !validateSequenceNumbers(sequenceNumbers, choicesSet))
+			errors.add("There is an error in the sequence numbers. Are they all unique? All in sequence?");
+		
 		return errors;
+	}
+	
+	private static boolean validateSequenceNumbers(Set<Integer> seqSet, Set<Choice> choicesSet) {
+		boolean rtn = seqSet.size() == choicesSet.size();
+		
+		if (rtn)
+		{
+			for (int i = 0; i < choicesSet.size(); i++)
+				seqSet.remove(i+1);
+			
+			rtn = (seqSet.size() == 0);
+		}
+		
+		return rtn;
 	}
 
 	public static Choice getChoice(String text, Set<Choice> choices)
@@ -136,12 +157,17 @@ public class ChoiceManager extends Manager {
 		return rtn;
 	}
 	
-	public static void update(String text, boolean b, Set<Choice> choices, Choice c) {
+	public static void update(String text, boolean isCorrect, Set<Choice> choices, Choice c) {
+		update(text, isCorrect, 1, choices, c);
+	}
+
+	public static void update(String text, boolean isCorrect, Integer sequence, Set<Choice> choices, Choice c) {
 
 		choices.remove(c);
 		
 		c.setText(text);
-		c.setIscorrect(b);
+		c.setIscorrect(isCorrect);
+		c.setSequence(sequence);
 		
 		choices.add(c);
 	}

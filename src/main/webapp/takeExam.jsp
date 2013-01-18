@@ -51,6 +51,10 @@
 						{
 							addChoiceInputsForStringQuestionType();
 						}
+						else if (${currentQuestion.questionType.id} == 4)
+						{
+							addChoiceInputsForSequenceQuestionType();
+						}
 					});
 
 				</script>
@@ -77,8 +81,8 @@
 		<div style="float:right;">Submitted by: ${currentQuestion.user.username}</div>
 		<hr/>
 		<br/>
-	
 		<div class="choices">.</div> 
+	
 	
 		<br/><br/>
 		<input type="submit" value="&lt; PREV" name="button"/>
@@ -90,8 +94,8 @@
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
-	<div class="hidden" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="??2" /></div></div>
-	
+	<div class="hidden" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="stringAnswer" /></div></div>
+	<div class="hidden" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" size="2"/> ??1</div></div>
 	
 </body>
 </html>

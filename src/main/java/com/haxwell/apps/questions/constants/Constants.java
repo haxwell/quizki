@@ -12,9 +12,7 @@ public class Constants {
 	
 	public static final String LIST_OF_FIELD_NAMES_OF_CHOICES = "listOfFieldNamesForTheCurrentQuestionsChoices";
 	public static final String LIST_OF_VALUES_OF_CHOICES = "listOfCurrentQuestionsChoicesValues";
-	
-	public static final long QUESTION_TYPE_SINGLE = 1;
-	public static final long QUESTION_TYPE_MULTI = 2;
+	public static final String LIST_OF_VALUES_OF_CHOICES_FOR_DISPLAY_QUESTION = "listOfCurrentQuestionsChoicesValuesForDisplayQuestion";
 	
 	public static final String CURRENT_QUESTION_NUMBER = "currentQuestionNumber";
 	public static final String TOTAL_POTENTIAL_QUESTIONS = "totalNumberOfQuestionsInCurrentExam";

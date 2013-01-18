@@ -32,7 +32,7 @@
 				<script type="text/javascript">
 
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var values = ${listOfCurrentQuestionsChoicesValues};
+					var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion};
 					var selected = ${listSayingAnElementIsCheckedOrNot};
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
@@ -45,6 +45,9 @@
 						}
 						else if (${currentQuestion.questionType.id} == 2) {
 							addChoiceInputsForThisQuestionType('#checkboxExample');
+						}
+						else if (${currentQuestion.questionType.id} == 3) {
+							displayStringTypeQuestionChoices('#textExample');
 						}
 					});
 							
@@ -129,6 +132,7 @@
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected=""/>??1</div></div>
+	<div class="hidden" id="textExample"><div class="??2">??1<br/></div></div>
 
 </body>
 </html>

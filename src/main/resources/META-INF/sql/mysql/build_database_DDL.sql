@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS users_roles_map;
 DROP TABLE IF EXISTS question_topic;
 DROP TABLE IF EXISTS question_choice;
+DROP TABLE IF EXISTS question_reference;
 DROP TABLE IF EXISTS exam_question;
 DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS user_roles;
@@ -11,6 +12,7 @@ DROP TABLE IF EXISTS difficulty;
 DROP TABLE IF EXISTS choice;
 DROP TABLE IF EXISTS exam;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS reference;
 
 CREATE TABLE reference (
 	id BIGINT NOT NULL AUTO_INCREMENT,

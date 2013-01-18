@@ -35,6 +35,7 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 @WebServlet("/secured/QuestionServlet")
 public class QuestionServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
+	private int nextSequenceNumber = 1;
 
     /**
      * Default constructor. 
@@ -98,8 +99,12 @@ public class QuestionServlet extends AbstractHttpServlet {
 			}
 			
 			if (action != null) {
-				if (action.equals("Update"))
-					ChoiceManager.update(request.getParameter("choiceText_" + c.getId()), (request.getParameter("group1_" + c.getId()).equals("Yes")), choices, c);
+				if (action.equals("Update")) {
+					if (questionObj.getQuestionType().getId() == 4)
+						ChoiceManager.update(request.getParameter("choiceText_" + c.getId()), true /* all Sequence choices are true */, Integer.parseInt(request.getParameter("sequenceNum_" + c.getId()).toString()), choices, c);
+					else
+						ChoiceManager.update(request.getParameter("choiceText_" + c.getId()), (request.getParameter("group1_" + c.getId()).equals("Yes")), choices, c);
+				}
 				else if (action.equals("Delete"))
 					ChoiceManager.delete(choices, c);
 				
@@ -247,6 +252,8 @@ public class QuestionServlet extends AbstractHttpServlet {
 	{
 		Set<Choice> choices = questionObj.getChoices();
 		Choice choice = ChoiceManager.newChoice(text, isCorrect);
+		
+		choice.setSequence(nextSequenceNumber ++);
 		
 		choices.add(choice);
 		questionObj.setChoices(choices);

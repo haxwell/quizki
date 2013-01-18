@@ -116,7 +116,7 @@ tinyMCE.init({
 				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multi" selected="selected">Multi</option></c:when><c:otherwise><option value="Multi">Multi</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected" disabled="disabled">Sequence</option></c:when><c:otherwise><option value="Sequence" disabled="disabled">Sequence</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>
 				 | Description: <input type="text" size="45" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
 			</div>
@@ -149,6 +149,7 @@ tinyMCE.init({
 			<table>
 				<c:forEach var="choice" items="${currentQuestion.choices}">
 					<tr>
+						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" title="Position # in the sequence"/> </td></c:if>
 						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" title="Make a change, then press Update."/></td>
 						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="Correct Answer"/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="Correct Answer"/>Yes</c:otherwise></c:choose></c:if> 
 										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="Not a correct answer."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="Not a correct answer."/>Yes </c:otherwise></c:choose></c:if>

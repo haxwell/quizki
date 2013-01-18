@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionUtil;
@@ -57,7 +58,12 @@ public class PopulateFieldNamesForChoicesFilter extends AbstractFilter {
 				StringUtil.closeJavascriptArray(choiceIsCorrect);
 				
 				session.setAttribute(Constants.LIST_OF_FIELD_NAMES_OF_CHOICES, choiceFieldNamesJSArray.toString());
-				session.setAttribute(Constants.LIST_OF_VALUES_OF_CHOICES, choiceFieldValues.toString());
+				
+				if (currentQuestion.getQuestionType().getId() != TypeConstants.STRING)
+					session.setAttribute(Constants.LIST_OF_VALUES_OF_CHOICES, choiceFieldValues.toString());
+				else
+					session.setAttribute(Constants.LIST_OF_VALUES_OF_CHOICES, "null");				
+				
 				session.setAttribute(Constants.LIST_SAYING_WHICH_CHOICES_ARE_CORRECT, choiceIsCorrect);
 			}
 		}

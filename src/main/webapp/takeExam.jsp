@@ -18,7 +18,6 @@
 		<jsp:text>
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="js/choiceFunctions.js" type="text/javascript" ></script> ]]>
 			<![CDATA[
 			<script type="text/javascript">
@@ -47,6 +46,10 @@
 						else if (${currentQuestion.questionType.id} == 2)
 						{
 							addChoiceInputsForThisQuestionType('#checkboxExample');
+						}
+						else if (${currentQuestion.questionType.id} == 3)
+						{
+							addChoiceInputsForStringQuestionType();
 						}
 					});
 
@@ -87,6 +90,9 @@
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
+	<div class="hidden" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="??2" /></div></div>
+	
+	
 </body>
 </html>
 </jsp:root>

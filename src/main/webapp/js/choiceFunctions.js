@@ -1,4 +1,16 @@
-
+	function addChoiceInputsForStringQuestionType()
+	{
+		// find the div, and create the html to put in there
+		var str = $('#textboxExample').html();
+		
+		var previous = $('div.choices').html();
+		
+		previous += str;
+		
+		$('div.choices').html(previous);
+	}
+	
+	
 	function addChoiceInputsForThisQuestionType(var1)
 	{
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
@@ -32,3 +44,4 @@
 			$('div.choices').html(previous);
 		}
 	}
+	

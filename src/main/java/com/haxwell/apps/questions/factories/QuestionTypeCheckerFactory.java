@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.factories;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.MultiQuestionTypeChecker;
+import com.haxwell.apps.questions.checkers.SequenceQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SingleQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.StringQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.TypeConstants;
@@ -22,6 +23,8 @@ public class QuestionTypeCheckerFactory {
 			return new MultiQuestionTypeChecker(q);
 		else if (qtId == TypeConstants.STRING)
 			return new StringQuestionTypeChecker(q);
+		else if (qtId == TypeConstants.SEQUENCE)
+			return new SequenceQuestionTypeChecker(q);
 		
 		return null;
 	}

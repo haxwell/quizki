@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.checkers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
@@ -23,16 +24,16 @@ public class StringQuestionTypeChecker extends AbstractQuestionTypeChecker {
 	}
 	
 	@Override
-	public boolean questionIsCorrect(List<String> answerList)
+	public boolean questionIsCorrect(Map<String, String> mapOfFieldNamesToValues)
 	{
 		List<Choice> choices = QuestionUtil.getChoiceList(this.question);
 		
 		boolean rtn = false;
 		
-		if (answerList.size() > 1)
+		if (mapOfFieldNamesToValues.size() > 1)
 			throw new IllegalArgumentException("For Questions of type String, there should only be one answer supplied when taking the exam.");
 
-		String answer = answerList.get(0).toLowerCase();
+		String answer = mapOfFieldNamesToValues.values().iterator().next().toLowerCase();
 		
 		for (Choice c : choices)
 		{

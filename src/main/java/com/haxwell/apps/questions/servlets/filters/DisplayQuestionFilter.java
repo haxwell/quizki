@@ -15,10 +15,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.utils.ExamHistory;
 import com.haxwell.apps.questions.utils.QuestionUtil;
+import com.haxwell.apps.questions.utils.ExamHistory.AnsweredQuestion;
 
 /**
  * Puts the things that DisplayQuestions.jsp needs in the session
@@ -55,9 +57,18 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			
 			if (examHistory != null) {
 				areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
+				req.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);				
+				
+				// Special handling for String questions
+				if (question.getQuestionType().getId() == TypeConstants.STRING) {
+					AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
+					
+					String userSuppliedAnswer = aq.answers.values().iterator().next();
+					req.getSession().setAttribute("userSuppliedAnswerToStringQuestion", "\"" + userSuppliedAnswer + "\"");					
+				}
 			}
 			
-			req.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);			
+
 		}
 		
 		// pass the request along the filter chain

@@ -40,7 +40,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 		
 		Logger log = Logger.getLogger(InitializeSessionForRunningAnExamFilter.class.getName());
 		
-		log.log(java.util.logging.Level.INFO, "In the PrepareRunningExamFilter::doFilter() method!");
+		log.log(java.util.logging.Level.INFO, "In the InitializeSessionForRunningAnExamFilter::doFilter() method!");
 		
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = ((HttpServletRequest)request);
@@ -110,7 +110,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					log.log(Level.INFO, "Exam is running, so nothing to do...");
 			}
 			else
-				log.log(Level.INFO, "Couldn't find any parameters to create an exam off of, so.. I'm out.");
+				log.log(Level.INFO, "Exam is already running.. no need to initialize the session for running an exam..");
 		}
 		
 		// pass the request along the filter chain

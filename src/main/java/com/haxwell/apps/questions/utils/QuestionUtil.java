@@ -1,9 +1,12 @@
 package com.haxwell.apps.questions.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +53,13 @@ public class QuestionUtil {
 		return list;
 	}
 	
-	public static List<String> getChosenAnswers(HttpServletRequest request)
+	/**
+	 * Returns a map of the fieldnames to the values chosen for each.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Map<String, String> getChosenAnswers(HttpServletRequest request)
 	{
 		Logger log = Logger.getLogger(QuestionUtil.class.getName());
 		ExamHistory eh = (ExamHistory)request.getSession().getAttribute(Constants.CURRENT_EXAM_HISTORY);
@@ -59,7 +68,7 @@ public class QuestionUtil {
 		// take the list of field names from this question, check for that parameter in the request,
 		List<String> fieldNames = checker.getKeysToPossibleUserSelectedAttributesInTheRequest(); 
 		
-		LinkedList<String> list = new LinkedList<String>();
+		Map<String, String> map = new HashMap<String, String>(); // map fieldnames to the values chosen for them
 		
 		// now that we have the list of potentially chosen names, which are in the request? which were actually chosen?
 		for (String fieldName: fieldNames)
@@ -68,16 +77,16 @@ public class QuestionUtil {
 			
 			//  add the value of this chosen Choice to the list..
 			if (str != null)
-				list.add(str);
+				map.put(fieldName, str);
 		}
 		
-		log.log(Level.INFO, "Chosen answers: " + StringUtil.getToStringOfEach(list));
+		log.log(Level.INFO, "Chosen answers: " + StringUtil.getToStringOfEach(map.values()));
 
-		return list;
+		return map;
 	}
 	
 	/**
-	 * Given a list of fieldnames, and a question, returns an array of equal size to the number of choices on the question.
+	 * Given a collection of fieldnames, and a question, returns an array of equal size to the number of choices on the question.
 	 * For each element in the resulting array, the word 'true' appears if the corresponding element in the question's list of choices 
 	 * appears in the list of fieldnames.
 	 * 
@@ -86,7 +95,7 @@ public class QuestionUtil {
 	 * @return
 	 */
 	public static List<String> getUIArray_FieldWasSelected(
-			List<String> fieldnamesChosenAsAnswersToGivenQuestion,
+			Collection<String> fieldnamesChosenAsAnswersToGivenQuestion,
 			Question question) {
 		
 		if (fieldnamesChosenAsAnswersToGivenQuestion == null) // Maybe we want to return null? No se?

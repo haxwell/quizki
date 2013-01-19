@@ -105,6 +105,6 @@ public class Choice implements IChoice, EntityWithAnIntegerIDBehavior, Serializa
 	
 	public String toString()
 	{
-		return "id: " + this.id + " |text: " + this.text + " |isCorrect: " + this.iscorrect + " sequence: " + this.sequence;
+		return "id: " + this.id + " |text: " + this.text + " |isCorrect: " + this.iscorrect + " |sequence: " + this.sequence;
 	}
 }

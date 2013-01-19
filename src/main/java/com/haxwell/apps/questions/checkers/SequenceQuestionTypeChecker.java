@@ -2,6 +2,8 @@ package com.haxwell.apps.questions.checkers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
@@ -17,27 +19,30 @@ public class SequenceQuestionTypeChecker extends AbstractQuestionTypeChecker {
 	public List<String> getKeysToPossibleUserSelectedAttributesInTheRequest() {
 		ArrayList<String> list = new ArrayList<String>();
 		
-		list.add("stringAnswer");
+		Set<Choice> choices = this.question.getChoices();
+		
+		for (Choice c : choices)
+		{
+			list.add(QuestionUtil.getFieldnameForChoice(this.question, c));			
+		}
 		
 		return list;
 	}
 	
 	@Override
-	public boolean questionIsCorrect(List<String> answerList)
+	public boolean questionIsCorrect(Map<String, String> mapOfFieldNamesToValues)
 	{
 		List<Choice> choices = QuestionUtil.getChoiceList(this.question);
 		
-		boolean rtn = false;
-		
-		if (answerList.size() > 1)
-			throw new IllegalArgumentException("For Questions of type String, there should only be one answer supplied when taking the exam.");
+		boolean rtn = true;
 
-		String answer = answerList.get(0).toLowerCase();
-		
 		for (Choice c : choices)
 		{
-			if (!rtn)
-				rtn = c.getText().toLowerCase().equals(answer);
+			String fieldName = QuestionUtil.getFieldnameForChoice(this.question, c);
+			
+			String userSuppliedValue = mapOfFieldNamesToValues.get(fieldName);
+
+			rtn &= userSuppliedValue.equals(c.getSequence()+"");
 		}
 		
 		return rtn;

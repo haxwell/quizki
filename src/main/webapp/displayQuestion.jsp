@@ -32,10 +32,11 @@
 				<script type="text/javascript">
 
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion};
+					var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; // todo: rename to fieldValues
 					var selected = ${listSayingAnElementIsCheckedOrNot};
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
+					var userSuppliedAnswerWhenQuestionIsOfTypeString = ${userSuppliedAnswerToStringQuestion};
 	
 					$(document).ready(function() {
 						$('div.choices').html('');
@@ -48,6 +49,9 @@
 						}
 						else if (${currentQuestion.questionType.id} == 3) {
 							displayStringTypeQuestionChoices('#textExample');
+						}
+						else if (${currentQuestion.questionType.id} == 4) {
+							displaySequenceTypeQuestionChoices('#textExample');
 						}
 					});
 							
@@ -132,7 +136,9 @@
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected=""/>??1</div></div>
-	<div class="hidden" id="textExample"><div class="??2">??1<br/></div></div>
+	<div class="hidden" id="textExample"><div class="??4">??1<br/></div></div>
+	<div class="hidden" id="youTypedExample"><br/><br/>You typed: <div class="??4">??1<br/></div></div>
+	
 
 </body>
 </html>

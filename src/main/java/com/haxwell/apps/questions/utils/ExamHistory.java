@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +30,6 @@ public class ExamHistory implements Iterable {
 	int highestQuestionNumber = 0;
 	
 	boolean currentQuestionAnswerHasBeenRecorded = false;
-	
-	private Iterator iterator;
 	
 	private Logger log;
 	
@@ -96,10 +95,10 @@ public class ExamHistory implements Iterable {
 	 * @param answers
 	 * @return true if the current question is correctly answered
 	 */
-	public boolean recordAnswerToCurrentQuestion(List<String> answers)
+	public boolean recordAnswerToCurrentQuestion(Map<String, String> answers)
 	{
 		log.log(Level.FINE, "Begin RecordAnswerToCurrentQuestion");
-		log.log(Level.FINER, "Answers array passed in: " + StringUtil.getToStringOfEach(answers));
+		log.log(Level.FINER, "Answers passed in: " + StringUtil.getToStringOfEach(answers.values()));
 
 		boolean b = false;
 		
@@ -113,7 +112,7 @@ public class ExamHistory implements Iterable {
 			log.log(Level.INFO, "Putting new AnsweredQuestionObject in mapOfExistingAnswers, key " + currentQuestionNumber);
 			mapOfExistingAnswers.put(currentQuestionNumber, new AnsweredQuestion(currentQuestion, answers, b));
 			mapOfQuestionToDisplayIndex.put(currentQuestion, currentQuestionNumber);
-			
+
 			currentQuestionAnswerHasBeenRecorded = true;
 		}
 		
@@ -122,14 +121,21 @@ public class ExamHistory implements Iterable {
 		
 		return b;
 	}
+	
+	public AnsweredQuestion getUserSuppliedAnswers(Question q)
+	{
+		int index = mapOfQuestionToDisplayIndex.get(q);
+		
+		return mapOfExistingAnswers.get(index);
+	}
 
 	public class AnsweredQuestion
 	{
 		public Question question;
-		public List<String> answers;
+		public Map<String, String> answers;
 		public boolean isCorrect = false;
 		
-		public AnsweredQuestion(Question q, List<String> answers, boolean b)
+		public AnsweredQuestion(Question q, Map<String, String> answers, boolean b)
 		{
 			question = q;
 			this.answers = answers;
@@ -144,11 +150,11 @@ public class ExamHistory implements Iterable {
 			this.question = question;
 		}
 
-		public List<String> getAnswers() {
+		public Map<String, String> getAnswers() {
 			return answers;
 		}
 
-		public void setAnswers(List<String> answers) {
+		public void setAnswers(Map<String, String> answers) {
 			this.answers = answers;
 		}
 
@@ -176,28 +182,28 @@ public class ExamHistory implements Iterable {
 	 * 
 	 * @return
 	 */
-	public List<String> getFieldnamesSelectedAsAnswersToCurrentQuestion() {
-		List<String> rtn = new ArrayList<String>();
+	public Collection<String> getFieldnamesSelectedAsAnswersToCurrentQuestion() {
+		Collection<String> rtn = new ArrayList<String>();
 		AnsweredQuestion aq = mapOfExistingAnswers.get(currentQuestionNumber); 
 		
 		if (aq != null)
-			rtn = aq.answers;
+			rtn = aq.getAnswers().keySet();
 		
 		return rtn;
 	}
 	
-	public List<String> getFieldnamesSelectedAsAnswersForQuestion(Question q)
+	public Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Question q)
 	{
 		Integer key = mapOfQuestionToDisplayIndex.get(q);
 		
-		List<String> rtn = null;
+		Collection<String> rtn = null;
 		
 		if (key != null)
 		{
 			AnsweredQuestion aq = mapOfExistingAnswers.get(key);
 			
 			if (aq != null)
-				rtn = aq.getAnswers();
+				rtn = aq.getAnswers().keySet();
 		}
 		
 		return rtn;

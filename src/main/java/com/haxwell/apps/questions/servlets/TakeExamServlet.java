@@ -3,6 +3,7 @@ package com.haxwell.apps.questions.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,7 +56,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		{
 			log.log(Level.INFO, "****** In NEXT > handler");
 			
-			List<String> answers = QuestionUtil.getChosenAnswers(request);
+			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
 			
 			if (answers.size() == 0){
 				ArrayList<String> errors = new ArrayList<String>();
@@ -88,7 +89,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		{
 			log.log(Level.INFO, "***** IN PREV method ********");
 			
-			List<String> answers = QuestionUtil.getChosenAnswers(request);
+			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
 			
 			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
 			
@@ -128,5 +129,4 @@ public class TakeExamServlet extends AbstractHttpServlet {
 	{
 		return QuestionUtil.getUIArray_FieldWasSelected(eh.getFieldnamesSelectedAsAnswersToCurrentQuestion(), q);
 	}
-
 }

@@ -44,6 +44,8 @@ public class ResetStateFilter extends AbstractFilter {
 			session.setAttribute(Constants.IN_EDITING_MODE, null);
 			
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+			
+			session.setAttribute(Constants.NEXT_SEQUENCE_NUMBER, 0);
 		}
 		
 		// pass the request along the filter chain

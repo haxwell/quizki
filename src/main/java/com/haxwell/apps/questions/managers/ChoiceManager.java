@@ -124,22 +124,26 @@ public class ChoiceManager extends Manager {
 		if (correctChoiceCount == 0 && addedErrorRegardingMultipleCorrectChoicesNeeded == false)
 			errors.add("At least one of the choices must be correct.");
 		
-		if (questionTypeId == TypeConstants.SEQUENCE && !validateSequenceNumbers(sequenceNumbers, choicesSet))
-			errors.add("There is an error in the sequence numbers. Are they all unique? All in sequence?");
+		if (questionTypeId == TypeConstants.SEQUENCE && (sequenceNumbers.size() != choicesSet.size()))
+			errors.add("At least one of the choices is missing a sequence number.");
+		
+		if (questionTypeId == TypeConstants.SEQUENCE && !sequenceNumbers.contains(1))
+			errors.add("There is an error in the sequence numbers. The sequence must begin with the number 1.");
+
+		if (questionTypeId == TypeConstants.SEQUENCE && !validateSequenceNumbersExistFromOneToTheNumberOfChoices(sequenceNumbers, choicesSet))
+			errors.add("There is an error in the sequence numbers. The number '" + sequenceNumbers.iterator().next() + "' is not in sequence!");
 		
 		return errors;
 	}
 	
-	private static boolean validateSequenceNumbers(Set<Integer> seqSet, Set<Choice> choicesSet) {
-		boolean rtn = seqSet.size() == choicesSet.size();
+	private static boolean validateSequenceNumbersExistFromOneToTheNumberOfChoices(Set<Integer> seqSet, Set<Choice> choicesSet) {
+		boolean rtn = true; 
 		
-		if (rtn)
-		{
-			for (int i = 0; i < choicesSet.size(); i++)
-				seqSet.remove(i+1);
-			
-			rtn = (seqSet.size() == 0);
-		}
+		// validate that each of the sequence numbers from one to the number choices exists.
+		for (int i = 0; i < choicesSet.size(); i++)
+			seqSet.remove(i+1);
+		
+		rtn = (seqSet.size() == 0);
 		
 		return rtn;
 	}

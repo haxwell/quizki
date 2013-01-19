@@ -35,7 +35,7 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 @WebServlet("/secured/QuestionServlet")
 public class QuestionServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
-	private int nextSequenceNumber = 1;
+	private int nextSequenceNumber = 0;
 
     /**
      * Default constructor. 
@@ -61,6 +61,8 @@ public class QuestionServlet extends AbstractHttpServlet {
 		
 		Question questionObj = getQuestionBean(request);
 		
+		nextSequenceNumber = Integer.parseInt(request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER).toString());
+		
 		// in case they press anything other than "Add/Update Question", this will be null..
 		if (button == null) button = "";
 		
@@ -73,8 +75,8 @@ public class QuestionServlet extends AbstractHttpServlet {
 			setTheQuestionAttributes(request, questionObj);
 		}
 		else if (button.equals("Add True/False")) {
-			addChoice(questionObj, "True", getIsCorrectParameter(request));
-			addChoice(questionObj, "False", !getIsCorrectParameter(request));
+			addChoice(request, questionObj, "True", getIsCorrectParameter(request));
+			addChoice(request, questionObj, "False", !getIsCorrectParameter(request));
 			setTheQuestionAttributes(request, questionObj);
 		}
 		else if (button.equals("Add Topic")) {
@@ -146,8 +148,10 @@ public class QuestionServlet extends AbstractHttpServlet {
 			}
 		}
 
-		if (!entityWasPersisted)
+		if (!entityWasPersisted) {
 			request.setAttribute(Constants.CURRENT_QUESTION, questionObj);
+			request.getSession().setAttribute(Constants.NEXT_SEQUENCE_NUMBER, nextSequenceNumber);
+		}
 
 		forwardToJSP(request, response, fwdPage);
 	}
@@ -231,8 +235,16 @@ public class QuestionServlet extends AbstractHttpServlet {
 	private void addChoice(HttpServletRequest request, Question questionObj) {
 		String text = request.getParameter("choiceText");
 
-		if (!StringUtil.isNullOrEmpty(text))
-			addChoice(questionObj, text, getIsCorrectParameter(request));
+		if (!StringUtil.isNullOrEmpty(text)) {
+			
+			StringTokenizer tokenizer = new StringTokenizer(text, ",");
+			while (tokenizer.hasMoreTokens())
+			{
+				String str = tokenizer.nextToken();
+				
+				addChoice(request, questionObj, str, getIsCorrectParameter(request));
+			}
+		}
 	}
 	
 	private boolean getIsCorrectParameter(HttpServletRequest request)
@@ -248,12 +260,16 @@ public class QuestionServlet extends AbstractHttpServlet {
 		return rtn;
 	}
 	
-	private void addChoice(Question questionObj, String text, boolean isCorrect)
+	private void addChoice(HttpServletRequest request, Question questionObj, String text, boolean isCorrect)
 	{
 		Set<Choice> choices = questionObj.getChoices();
 		Choice choice = ChoiceManager.newChoice(text, isCorrect);
 		
-		choice.setSequence(nextSequenceNumber ++);
+		QuestionType qt = TypeUtil.convertToObject(request.getParameter("type"));
+		if (qt.getId() == TypeConstants.SEQUENCE)
+			nextSequenceNumber++;
+		
+		choice.setSequence(nextSequenceNumber);
 		
 		choices.add(choice);
 		questionObj.setChoices(choices);

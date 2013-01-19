@@ -3,15 +3,30 @@
 //		var selected = ${listSayingAnElementIsCheckedOrNot};
 //		var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 //		var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
+//		var userSuppliedAnswerWhenQuestionIsOfTypeString = ${userSuppliedAnswerToStringQuestion};
 
 
 function displayStringTypeQuestionChoices(htmlExampleID)
 {
+	var userSuppliedTextIsCorrect = false;
+	
 	for (var counter=0;fieldNames.length>counter;counter++)
 	{
 		var str = $(htmlExampleID).html();
 		
+//		var thisChoiceIsSelected = false;
+//		var thisChoiceIsCorrect = false;
+
 		str = str.replace('??1', values[counter]);
+		
+		if (values[counter] == userSuppliedAnswerWhenQuestionIsOfTypeString)
+			userSuppliedTextIsCorrect = true;
+		
+		if (counter%2 == 0) {
+			str = str.replace('??4', 'rowHighlight'); 
+		} else {
+			str = str.replace('??4', '');
+		}
 		
 		var previous = $('div.choices').html();
 		
@@ -19,6 +34,22 @@ function displayStringTypeQuestionChoices(htmlExampleID)
 		
 		$('div.choices').html(previous);
 	}
+	
+	var previous = $('div.choices').html();
+	var str = $('#youTypedExample').html();
+	
+	if (userSuppliedTextIsCorrect == true) {
+		str = str.replace('??4', 'greenText');
+	}
+	else {
+		str = str.replace('??4', 'redText');
+	}
+
+	str = str.replace('??1', userSuppliedAnswerWhenQuestionIsOfTypeString);
+	
+	previous += str;
+	
+	$('div.choices').html(previous);
 }
 
 function addChoiceInputsForThisQuestionType(htmlExampleID)

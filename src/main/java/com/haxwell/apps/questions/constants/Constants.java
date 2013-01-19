@@ -40,4 +40,6 @@ public class Constants {
 	public static final String LIST_OF_TOPICS_TO_BE_EXCLUDED = "fa_listofexcludedtopics";
 	public static final String EXAM_GENERATION_IS_IN_PROGRESS = "examGenerationIsInProgress";
 	public static final String QUIZKI_PERSISTENCE_UNIT = "quizki-pu";
+
+	public static final String NEXT_SEQUENCE_NUMBER = "nextSequenceNumber";
 }

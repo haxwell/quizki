@@ -3,6 +3,7 @@ package com.haxwell.apps.questions.managers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -129,7 +130,7 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	public static boolean isAnsweredCorrectly(Question question, List<String> answers)
+	public static boolean isAnsweredCorrectly(Question question, Map<String, String> answers)
 	{
 		AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(question);
 		return checker.questionIsCorrect(answers);

@@ -46,16 +46,19 @@ public class PopulateFieldNamesForChoicesFilter extends AbstractFilter {
 				StringBuffer choiceFieldNamesJSArray = new StringBuffer(StringUtil.startJavascriptArray());
 				StringBuffer choiceFieldValues = new StringBuffer(StringUtil.startJavascriptArray());
 				StringBuffer choiceIsCorrect = new StringBuffer(StringUtil.startJavascriptArray());
+				StringBuffer choiceSequenceNumbers = new StringBuffer(StringUtil.startJavascriptArray());
 				
 				for (Choice c : list) {
 					StringUtil.addToJavascriptArray(choiceFieldNamesJSArray, QuestionUtil.getFieldnameForChoice(currentQuestion, c));
 					StringUtil.addToJavascriptArray(choiceFieldValues, c.getText());
 					StringUtil.addToJavascriptArray(choiceIsCorrect, c.getIscorrect() == 1 ? "true" : "");
+					StringUtil.addToJavascriptArray(choiceSequenceNumbers, c.getSequence()+"");
 				}
 				
 				StringUtil.closeJavascriptArray(choiceFieldNamesJSArray);
 				StringUtil.closeJavascriptArray(choiceFieldValues);
 				StringUtil.closeJavascriptArray(choiceIsCorrect);
+				StringUtil.closeJavascriptArray(choiceSequenceNumbers);
 				
 				session.setAttribute(Constants.LIST_OF_FIELD_NAMES_OF_CHOICES, choiceFieldNamesJSArray.toString());
 				
@@ -66,6 +69,7 @@ public class PopulateFieldNamesForChoicesFilter extends AbstractFilter {
 				
 				session.setAttribute(Constants.LIST_OF_VALUES_OF_CHOICES_FOR_DISPLAY_QUESTION, choiceFieldValues.toString());
 				session.setAttribute(Constants.LIST_SAYING_WHICH_CHOICES_ARE_CORRECT, choiceIsCorrect);
+				session.setAttribute(Constants.LIST_OF_SEQUENCE_NUMBERS_FOR_CHOICES, choiceSequenceNumbers);
 			}
 		}
 		

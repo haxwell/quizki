@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,11 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.utils.ExamHistory;
-import com.haxwell.apps.questions.utils.QuestionUtil;
 import com.haxwell.apps.questions.utils.ExamHistory.AnsweredQuestion;
+import com.haxwell.apps.questions.utils.QuestionUtil;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 /**
  * Puts the things that DisplayQuestions.jsp needs in the session
@@ -59,12 +62,30 @@ public class DisplayQuestionFilter extends AbstractFilter {
 				areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
 				req.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);				
 				
+				long qtID = question.getQuestionType().getId();
+				AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
+				
 				// Special handling for String questions
-				if (question.getQuestionType().getId() == TypeConstants.STRING) {
-					AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
-					
+				if (qtID == TypeConstants.STRING) {
 					String userSuppliedAnswer = aq.answers.values().iterator().next();
 					req.getSession().setAttribute("userSuppliedAnswerToStringQuestion", "\"" + userSuppliedAnswer + "\"");					
+				}
+				
+				if (qtID == TypeConstants.SEQUENCE) {
+					StringBuffer chosenSequenceNumbers = new StringBuffer(StringUtil.startJavascriptArray());
+					List<Choice> list = QuestionUtil.getChoiceList(question);
+					
+					for (Choice c : list)
+					{
+						String fieldname = QuestionUtil.getFieldnameForChoice(question, c);
+						String chosenSeqNumForChoice = aq.answers.get(fieldname);
+						
+						StringUtil.addToJavascriptArray(chosenSequenceNumbers, chosenSeqNumForChoice);
+					}
+
+					StringUtil.closeJavascriptArray(chosenSequenceNumbers);
+					
+					req.getSession().setAttribute(Constants.LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE, chosenSequenceNumbers);
 				}
 			}
 			

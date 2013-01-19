@@ -42,4 +42,8 @@ public class Constants {
 	public static final String QUIZKI_PERSISTENCE_UNIT = "quizki-pu";
 
 	public static final String NEXT_SEQUENCE_NUMBER = "nextSequenceNumber";
+
+	public static final String LIST_OF_SEQUENCE_NUMBERS_FOR_CHOICES = "listOfSequenceNumbersForChoices";
+
+	public static final String LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE = "listOfSequenceNumbersTheUserChose";
 }

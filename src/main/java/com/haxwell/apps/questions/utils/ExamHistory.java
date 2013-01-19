@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.managers.ExamManager;
@@ -202,8 +203,17 @@ public class ExamHistory implements Iterable {
 		{
 			AnsweredQuestion aq = mapOfExistingAnswers.get(key);
 			
+			// HACK.. What really should be done here is that this method should get the map
+			//  from aq.answers, and then pass it to an object which will return the appropriate 
+			//  collection (either keys or values). This object should be of a type specifically
+			//  associated with the QuestionType of the given question, ala the Checker classes.
+			//  Fix this one day when there's not much else to do..
+			
 			if (aq != null)
-				rtn = aq.getAnswers().keySet();
+				if (q.getQuestionType().getId() == TypeConstants.SINGLE)
+					rtn = aq.getAnswers().values();
+				else 
+					rtn = aq.getAnswers().keySet();
 		}
 		
 		return rtn;

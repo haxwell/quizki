@@ -28,15 +28,54 @@
 					});
 				</script>
 			]]>
+			
+			<![CDATA[
+				<script type="text/javascript">
+			]]>
+
+			// depending on how this page was called, these variables may or may not be present.. so rather than get 
+			//  exceptions reporting their absence or malformedness, they are defined as undefined if not present.
+			
+			<c:choose><c:when test="${not empty sessionScope.userSuppliedAnswerToStringQuestion}">
+				<![CDATA[ var userSuppliedAnswerWhenQuestionIsOfTypeString = ${userSuppliedAnswerToStringQuestion}; ]]>
+			</c:when>
+			<c:otherwise>
+				<![CDATA[ var userSuppliedAnswerWhenQuestionIsOfTypeString = undefined; ]]>
+			</c:otherwise>
+			</c:choose>
+			<c:choose><c:when test="${not empty sessionScope.listOfSequenceNumbersTheUserChose}">
+				<![CDATA[ var sequenceNumbersTheUserChose = ${listOfSequenceNumbersTheUserChose}; ]]>
+			</c:when>
+			<c:otherwise>
+				<![CDATA[ var sequenceNumbersTheUserChose = undefined; ]]>
+			</c:otherwise>
+			</c:choose>
+			<c:choose><c:when test="${not empty sessionScope.listOfSequenceNumbersForChoices}">
+				<![CDATA[ var fieldSequenceNumbers = ${listOfSequenceNumbersForChoices}; ]]>
+			</c:when>
+			<c:otherwise>
+				<![CDATA[ var fieldSequenceNumbers = undefined; ]]>
+			</c:otherwise>
+			</c:choose>
+			<c:choose><c:when test="${not empty sessionScope.listSayingAnElementIsCheckedOrNot}">
+				<![CDATA[ var selected = ${listSayingAnElementIsCheckedOrNot}; ]]>
+			</c:when>
+			<c:otherwise>
+				<![CDATA[ var selected = undefined; ]]>
+			</c:otherwise>
+			</c:choose>
+
+			<![CDATA[
+				</script>
+			]]>
+			
 			<![CDATA[
 				<script type="text/javascript">
 
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
 					var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; // todo: rename to fieldValues
-					var selected = ${listSayingAnElementIsCheckedOrNot};
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
-					var userSuppliedAnswerWhenQuestionIsOfTypeString = ${userSuppliedAnswerToStringQuestion};
 	
 					$(document).ready(function() {
 						$('div.choices').html('');
@@ -51,7 +90,7 @@
 							displayStringTypeQuestionChoices('#textExample');
 						}
 						else if (${currentQuestion.questionType.id} == 4) {
-							displaySequenceTypeQuestionChoices('#textExample');
+							displaySequenceTypeQuestionChoices('#sequenceExample');
 						}
 					});
 							
@@ -137,8 +176,8 @@
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected=""/>??1</div></div>
 	<div class="hidden" id="textExample"><div class="??4">??1<br/></div></div>
-	<div class="hidden" id="youTypedExample"><br/><br/>You typed: <div class="??4">??1<br/></div></div>
-	
+	<div class="hidden" id="youTypedExample"><br/>You typed: <div class="??4">??1<br/></div></div>
+	<div class="hidden" id="sequenceExample"><div class="??4">??SEQ - ??1<br/></div></div>
 
 </body>
 </html>

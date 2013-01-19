@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Take Exam - **</title>
+		<title>Take Exam - ${currentExam.title}</title>
 		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		
@@ -76,6 +76,11 @@
 		<br/>
 		<div class="examTitle">${currentExam.title}  -- Question ${currentQuestionNumber} of ${totalNumberOfQuestionsInCurrentExam}</div>  
 		<br/>
+		<c:if test="${not empty currentQuestion.description}">
+			<br/>
+			<div class="questionDescription">${currentQuestion.description}</div>  
+			<br/>
+		</c:if>			
 		<textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea>
 		<br/>
 		<div style="float:right;">Submitted by: ${currentQuestion.user.username}</div>

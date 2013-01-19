@@ -35,9 +35,17 @@
 	
 	Questions in <span class="greenText">green</span> are correct, <span class="redText">red</span> is one you missed!<br/><br/>
 	
-
 	<c:forEach var="answeredQuestion" items="${currentExamHistory.iterator}">
-		<div class="qIsCorrect_${answeredQuestion.isCorrect}"><a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.text}</a></div>
+		<div class="qIsCorrect_${answeredQuestion.isCorrect}">
+			<c:choose>
+			<c:when test="${empty answeredQuestion.question.description}">
+				<a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.text}</a>
+			</c:when>
+			<c:otherwise>
+				<a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
+			</c:otherwise>
+			</c:choose>
+		</div>
 	</c:forEach>
 	
 	<br/><br/><br/>

@@ -108,23 +108,28 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		{
 			String numberOfQuestions = request.getParameter("numberOfQuestions");
 			Difficulty difficulty = DifficultyUtil.convertToObject(request.getParameter("difficulty"));
-			String topicsToInclude = getCSVFromCollection((Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED)); //request.getParameter("topicsToInclude");
+			Collection<Topic> includedColl = (Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);
+			
+			String topicsToInclude = getCSVFromCollection(includedColl); //request.getParameter("topicsToInclude");
 			String topicsToExclude = getCSVFromCollection((Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED)); //request.getParameter("topicsToInclude");
 			
-			Exam examObj = 
+			if (includedColl.size() >= 1)
+			{
+				Exam examObj = 
 					ExamGenerationManager.generateExam(Long.parseLong(numberOfQuestions), StringUtil.getListOfLongsFromCSV(topicsToInclude), StringUtil.getListOfLongsFromCSV(topicsToExclude), difficulty.getId(), false);
 			
-			session.setAttribute(Constants.CURRENT_EXAM, examObj);
-			
-			if (examObj.getQuestions().size() > 0)
-				session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, Boolean.TRUE);
-			
-			session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Generate Exam");
-			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, difficulty.getId());
-
-			fwdPage = "/displayExam.jsp";
-			
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+				session.setAttribute(Constants.CURRENT_EXAM, examObj);
+				
+				if (examObj.getQuestions().size() > 0)
+					session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, Boolean.TRUE);
+				
+				session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Generate Exam");
+				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, difficulty.getId());
+	
+				fwdPage = "/displayExam.jsp";
+				
+				session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+			}
 		}
 
 		redirectToJSP(request, response, fwdPage);

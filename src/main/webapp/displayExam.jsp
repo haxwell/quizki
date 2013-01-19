@@ -76,7 +76,14 @@
 			</c:otherwise></c:choose>
 			
 				<td>${question.id}</td>   
-				<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></td>
+				<c:choose>
+				<c:when test="${empty question.description}">
+					<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></td>
+				</c:when>
+				<c:otherwise>
+					<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></td>
+				</c:otherwise>
+				</c:choose>
 				<td>
 					<c:forEach var="topic" items="${question.topics}">
 						${topic.text}<br/>

@@ -48,7 +48,7 @@ public class ExamGenerationManager {
 		List<Integer> list = RandomIntegerUtil.getRandomListOfNumbers(mainColl.size());
 
 		numberOfQuestions = Math.min(numberOfQuestions, mainColl.size());
-		int indexToRandomListOfIndexes = list.size() - 1;
+		int indexToRandomListOfIndexes = Math.max(list.size(), 1);
 		
 		// Until we get enough questions on the exam....
 		while (exam.getQuestions().size() < numberOfQuestions && indexToRandomListOfIndexes > 0)
@@ -56,7 +56,7 @@ public class ExamGenerationManager {
 			boolean questionPassesTheFilters = true;
 			
 			// get a random question from the list
-			Question question = mainColl.get(list.get(indexToRandomListOfIndexes--));
+			Question question = mainColl.get(list.get(--indexToRandomListOfIndexes));
 			
 			// get the Topics from that question
 			Set<Topic> questionTopics = question.getTopics();

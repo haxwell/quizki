@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Begin An Exam!</title>
+<title>Begin Exam - Quizki</title>
 		
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 </head>

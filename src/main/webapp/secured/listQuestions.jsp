@@ -95,6 +95,7 @@
 			<th></th>
 			<th>Question</th>
 			<th>Topics</th>
+			<th>Type</th>
 			<th>Difficulty</th>
 		</thead>
 		<tbody>
@@ -124,6 +125,7 @@
 						${topic.text}<br/>
 					</c:forEach>
 				</td>
+				<td>${question.questionType.text}</td>
 				<td>${question.difficulty.text}</td>
 			<jsp:text><![CDATA[</tr>]]></jsp:text>
 		</c:forEach>

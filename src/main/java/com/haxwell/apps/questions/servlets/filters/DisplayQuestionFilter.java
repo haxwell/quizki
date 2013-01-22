@@ -2,7 +2,6 @@ package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +18,7 @@ import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.utils.ExamHistory;
 import com.haxwell.apps.questions.utils.ExamHistory.AnsweredQuestion;
@@ -46,12 +46,16 @@ public class DisplayQuestionFilter extends AbstractFilter {
 		if (request instanceof HttpServletRequest) {
 			
 			HttpServletRequest req = ((HttpServletRequest)request);
-
-			String str = req.getParameter("questionId");
-			
-			Question question = QuestionManager.getQuestionById(str);
+			Question question = QuestionManager.getQuestionById(req.getParameter("questionId"));
 			
 			req.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
+			
+			User u = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+			
+			if (QuestionManager.userCanEditThisQuestion(question, u))
+			{
+				req.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, Boolean.TRUE);
+			}
 			
 			ExamHistory examHistory = (ExamHistory)req.getSession().getAttribute(Constants.CURRENT_EXAM_HISTORY);
 			

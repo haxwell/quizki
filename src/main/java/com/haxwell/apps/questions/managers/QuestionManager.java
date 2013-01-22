@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -209,5 +210,10 @@ public class QuestionManager extends Manager {
 //			errors.add("Question must have a description!");
 		
 		return errors;
+	}
+	
+	public static boolean userCanEditThisQuestion(Question q, User u)
+	{
+		return (q.getUser().getId() == u.getId()); // its simple now, but in the future we'll flesh this method out..
 	}
 }

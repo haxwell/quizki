@@ -48,4 +48,5 @@ public class Constants {
 	public static final String LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE = "listOfSequenceNumbersTheUserChose";
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
+	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
 }

@@ -47,6 +47,7 @@ public class ResetStateFilter extends AbstractFilter {
 			
 			session.setAttribute(Constants.NEXT_SEQUENCE_NUMBER, 0);
 			session.setAttribute("userSuppliedAnswerToStringQuestion", null);
+			session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, null);
 		}
 		
 		// pass the request along the filter chain

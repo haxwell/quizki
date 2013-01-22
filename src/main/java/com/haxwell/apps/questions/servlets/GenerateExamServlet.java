@@ -125,6 +125,8 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 				
 				session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Generate Exam");
 				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, difficulty.getId());
+				
+				session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);
 	
 				fwdPage = "/displayExam.jsp";
 				

@@ -134,6 +134,7 @@ public class ExamHistory implements Iterable {
 	{
 		public Question question;
 		public Map<String, String> answers;
+		public Map<String, Object> metadata;
 		public boolean isCorrect = false;
 		
 		public AnsweredQuestion(Question q, Map<String, String> answers, boolean b)
@@ -166,6 +167,17 @@ public class ExamHistory implements Iterable {
 		public void setIsCorrect(boolean isCorrect) {
 			this.isCorrect = isCorrect;
 		}
+		
+		public Map<String, Object> getMetadata() {
+			if (metadata == null)
+				metadata = new HashMap<String, Object>();
+			
+			return metadata;
+		}
+
+		public void setMetadata(Map<String, Object> metadata) {
+			this.metadata = metadata;
+		}
 	}
 
 	public int getCurrentQuestionNumber() {
@@ -187,8 +199,17 @@ public class ExamHistory implements Iterable {
 		Collection<String> rtn = new ArrayList<String>();
 		AnsweredQuestion aq = mapOfExistingAnswers.get(currentQuestionNumber); 
 		
+		// HACK.. What really should be done here is that this method should get the map
+		//  from aq.answers, and then pass it to an object which will return the appropriate 
+		//  collection (either keys or values). This object should be of a type specifically
+		//  associated with the QuestionType of the given question, ala the Checker classes.
+		//  Fix this one day when there's not much else to do..
+		
 		if (aq != null)
-			rtn = aq.getAnswers().keySet();
+			if (aq.getQuestion().getQuestionType().getId() == TypeConstants.SINGLE)
+				rtn = aq.getAnswers().values();
+			else 
+				rtn = aq.getAnswers().keySet();
 		
 		return rtn;
 	}

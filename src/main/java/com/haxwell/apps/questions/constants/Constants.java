@@ -44,9 +44,15 @@ public class Constants {
 	public static final String NEXT_SEQUENCE_NUMBER = "nextSequenceNumber";
 
 	public static final String LIST_OF_SEQUENCE_NUMBERS_FOR_CHOICES = "listOfSequenceNumbersForChoices";
-
 	public static final String LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE = "listOfSequenceNumbersTheUserChose";
+	public static final String LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS = "listOfPreviouslySuppliedAnswers";
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
+	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
+
+	
+	public static final String QUESTION_ID = "questionId";
+
+	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
 }

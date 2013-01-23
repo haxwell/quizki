@@ -135,6 +135,14 @@
     <url-pattern>/takeExam.jsp</url-pattern>
     <url-pattern>/displayQuestion.jsp</url-pattern>
   </filter-mapping>
+  <filter>
+  <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.AddRandomIndexToChoiceArrayFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
+    <url-pattern>/takeExam.jsp</url-pattern>
+  </filter-mapping>
   
 
 

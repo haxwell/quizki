@@ -28,9 +28,31 @@
 				});
 			</script>
 			]]>
+
+
 			<![CDATA[
 				<script type="text/javascript">
-	
+			]]>
+
+			<c:choose>
+				<c:when test="${not empty sessionScope.listOfRandomChoiceIndexes}">
+					<![CDATA[ var randomChoiceIndexes = ${listOfRandomChoiceIndexes}; ]]>
+				</c:when>
+				<c:otherwise>
+					<![CDATA[ var randomChoiceIndexes = undefined; ]]>
+				</c:otherwise>
+			</c:choose>
+
+			<c:choose>
+				<c:when test="${not empty sessionScope.listOfPreviouslySuppliedAnswers}">
+					<![CDATA[ var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers}; ]]>
+				</c:when>
+				<c:otherwise>
+					<![CDATA[ var previouslySuppliedAnswers = undefined; ]]>
+				</c:otherwise>
+			</c:choose>
+
+			<![CDATA[
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
 					var values = ${listOfCurrentQuestionsChoicesValues};
 					var selected = ${listSayingAnElementIsCheckedOrNot};
@@ -100,7 +122,7 @@
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
 	<div class="hidden" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="stringAnswer" autocomplete="off"/></div></div>
-	<div class="hidden" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" size="2" autocomplete="off"/> ??1</div></div>
+	<div class="hidden" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" value="??5" size="2" autocomplete="off"/> ??1</div></div>
 	
 </body>
 </html>

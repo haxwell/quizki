@@ -1,15 +1,29 @@
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
 //		var values = ${listOfCurrentQuestionsChoicesValues};
 //		var selected = ${listSayingAnElementIsCheckedOrNot};
-		
+//		var randomChoiceIndexes = ${listOfRandomChoiceIndexes}
+// 		var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers};
+
 	function addChoiceInputsForSequenceQuestionType()
 	{
 		for (var counter=0;fieldNames.length>counter;counter++)
 		{
 			var str = $('#sequenceExample').html();
 			
-			str = str.replace("??1", values[counter]);
-			str = str.replace("??2", fieldNames[counter]);
+			var pos = counter;
+			
+			if (randomChoiceIndexes !== undefined)
+				pos = randomChoiceIndexes[counter];
+			
+			str = str.replace("??1", values[pos]);
+			str = str.replace("??2", fieldNames[pos]);
+			
+			if (previouslySuppliedAnswers !== undefined)
+			{
+				str = str.replace("??5", previouslySuppliedAnswers[pos]);
+			}
+			else
+				str = str.replace("??5", '');
 
 			if (counter%2 == 0) {
 				str = str.replace('??4', 'rowHighlight'); 

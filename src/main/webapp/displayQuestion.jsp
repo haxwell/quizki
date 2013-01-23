@@ -103,7 +103,12 @@
 
 <jsp:include page="header.jsp"></jsp:include>
 
-	<h1>Display Question</h1>
+	<br/>
+	<h1 style="display:inline">Display Question  </h1>
+
+	<c:if test="${(sessionScope.shouldAllowQuestionEditing==true)}">
+		<a href="/secured/question.jsp?questionId=${currentQuestion.id}">  (edit it)</a><br/><br/>
+	</c:if>
 
 		<form action=".">
 		Creator: ${currentQuestion.user.username}<br/>

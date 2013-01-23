@@ -28,6 +28,7 @@
 
 	<jsp:scriptlet>      
 	request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Exam Report Card");
+	request.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, false);
 	</jsp:scriptlet>
 	
 <br/><br/><br/>

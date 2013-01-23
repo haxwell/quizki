@@ -78,10 +78,28 @@
 				<td>${question.id}</td>   
 				<c:choose>
 				<c:when test="${empty question.description}">
-					<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></td>
+					<td>
+					<c:choose>
+						<c:when test="${empty sessionScope.shouldQuestionsBeDisplayed}">
+							<a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a>
+						</c:when>
+						<c:otherwise>
+							${question.textWithoutHTML}
+						</c:otherwise>
+					</c:choose>
+					</td>
 				</c:when>
 				<c:otherwise>
-					<td><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></td>
+					<td>
+					<c:choose>
+						<c:when test="${empty sessionScope.shouldQuestionsBeDisplayed}">
+							<a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a>
+						</c:when>
+						<c:otherwise>
+							${question.description}
+						</c:otherwise>
+					</c:choose>
+					</td>
 				</c:otherwise>
 				</c:choose>
 				<td>

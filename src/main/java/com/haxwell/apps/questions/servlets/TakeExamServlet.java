@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.managers.ExamManager;
+import com.haxwell.apps.questions.utils.AbstractExamHistoryPostProcessor;
 import com.haxwell.apps.questions.utils.ExamHistory;
+import com.haxwell.apps.questions.utils.ExamHistoryPostProcessorFactory;
 import com.haxwell.apps.questions.utils.QuestionUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -71,6 +73,9 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				log.log(Level.INFO, "....and the answers just recorded are: ");
 				log.log(Level.INFO, StringUtil.getToStringOfEach(examHistory.getFieldnamesSelectedAsAnswersToCurrentQuestion()));
 				
+				AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+				if (aehpp != null) aehpp.processOnNext(request, examHistory);
+				
 				Question nextQuestion = examHistory.getNextQuestion();
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, nextQuestion);
 				
@@ -98,6 +103,9 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			if (question != null) // TODO: Test this case, does it (should it) ever return null?
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
 			
+			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.processOnPrevious(request, examHistory);
+
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
 			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
 			
@@ -120,7 +128,6 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			
 			fwdPage = "/examReportCard.jsp";
 		}
-
 		
 		redirectToJSP(request, response, fwdPage);
 	}

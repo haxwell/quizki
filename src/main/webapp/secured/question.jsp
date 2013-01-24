@@ -149,7 +149,7 @@ tinyMCE.init({
 			<table>
 				<c:forEach var="choice" items="${currentQuestion.choices}">
 					<tr>
-						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" title="Position # in the sequence"/> </td></c:if>
+						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" maxlength="2" title="Position # in the sequence"/> </td></c:if>
 						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" title="Make a change, then press Update."/></td>
 						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes</c:otherwise></c:choose></c:if> 
 										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:otherwise></c:choose></c:if>

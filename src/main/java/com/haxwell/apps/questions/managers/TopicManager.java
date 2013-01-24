@@ -12,7 +12,9 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 public class TopicManager extends Manager {
 
@@ -68,6 +70,22 @@ public class TopicManager extends Manager {
 		em.close();
 
 		return (list.size() > 0 ? list.get(0) : null);
+	}
+	
+	public static Collection<Topic> getAllTopicsThatContain(String filterText)
+	{
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "SELECT t FROM Topic t WHERE t.text LIKE ?1";
+		
+		Query query = em.createQuery(queryString, Topic.class);
+		query.setParameter(1, "%" + filterText + "%");
+		
+		Collection<Topic> rtn = (Collection<Topic>)query.getResultList();
+
+		em.close();
+		
+		return rtn;
 	}
 	
 	// TODO: Create a standard getAll() method for Managers in general

@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
+
 public class StringUtil {
 
 	public static boolean isNullOrEmpty(String str)
@@ -59,6 +61,32 @@ public class StringUtil {
 		while (iterator.hasNext())
 		{
 			sb.append(iterator.next());
+			
+			if (iterator.hasNext())
+				sb.append(",");
+		}
+		
+		return sb.toString();
+	}
+	
+	/**
+	 * Returns a CSV of the IDs from a collection of entities with Integer IDs.
+	 * 
+	 * @param coll
+	 * @return
+	 */
+	public static String getCSVFromCollection(Collection<? extends EntityWithAnIntegerIDBehavior> coll)
+	{
+		if (coll == null) return "";
+		
+		Iterator<? extends EntityWithAnIntegerIDBehavior> iterator = coll.iterator();
+		StringBuffer sb = new StringBuffer();
+		
+		while (iterator.hasNext())
+		{
+			EntityWithAnIntegerIDBehavior entity = iterator.next();
+
+			sb.append(entity.getId());
 			
 			if (iterator.hasNext())
 				sb.append(",");

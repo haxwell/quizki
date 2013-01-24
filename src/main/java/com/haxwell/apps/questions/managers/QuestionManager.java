@@ -41,9 +41,6 @@ public class QuestionManager extends Manager {
 	{
 		IQuestion rtn = new Question();
 		
-		//TEMPORARY!  -- Get it from the user object, and pass it in
-//		rtn.setOwnerId(1);
-		
 		return new Question();
 	}
 	

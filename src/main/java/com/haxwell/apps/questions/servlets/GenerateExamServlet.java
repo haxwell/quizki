@@ -110,8 +110,8 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 			Difficulty difficulty = DifficultyUtil.convertToObject(request.getParameter("difficulty"));
 			Collection<Topic> includedColl = (Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);
 			
-			String topicsToInclude = getCSVFromCollection(includedColl); //request.getParameter("topicsToInclude");
-			String topicsToExclude = getCSVFromCollection((Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED)); //request.getParameter("topicsToInclude");
+			String topicsToInclude = getCSVFromCollection(includedColl); 
+			String topicsToExclude = getCSVFromCollection((Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED)); 
 			
 			if (includedColl.size() >= 1)
 			{
@@ -120,8 +120,10 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 			
 				session.setAttribute(Constants.CURRENT_EXAM, examObj);
 				
-				if (examObj.getQuestions().size() > 0)
+				if (examObj.getQuestions().size() > 0) {
 					session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, Boolean.TRUE);
+					session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_EDITED, Boolean.TRUE);					
+				}
 				
 				session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Generate Exam");
 				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, difficulty.getId());

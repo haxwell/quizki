@@ -51,10 +51,13 @@
 	Exam Title: "${currentExam.title}", ${currentExam.numberOfQuestions} questions.
 	
 	<c:if test="${not empty sessionScope.allowGeneratedExamToBeTaken}">
-		-- <a href="beginExam.jsp">Take this exam</a><br/>
+		-- <a href="beginExam.jsp">(take it)</a>
+	</c:if>
+	<c:if test="${not empty sessionScope.allowGeneratedExamToBeEdited}">
+		, <a href="javascript:history.go(-1)">(edit it)</a>
 	</c:if>
 	
-	<br/><br/>
+	<br/><br/><br/>
 
 			<div id="center" class="listOfQuestions" style="overflow:auto; height:150px; width:100%">
 	<table class="displayExam">

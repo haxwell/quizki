@@ -8,15 +8,15 @@ public class TypeUtil {
 	public static int convertToInt(String parameter) {
 
 		if (parameter.equals(TypeConstants.SINGLE_STR))
-			return 1;
+			return TypeConstants.SINGLE;
 		if (parameter.equals(TypeConstants.MULTI_STR))
-			return 2;
+			return TypeConstants.MULTI;
 		if (parameter.equals(TypeConstants.STRING_STR))
-			return 3;
+			return TypeConstants.STRING;
 		if (parameter.equals(TypeConstants.SEQUENCE_STR))
-			return 4;
+			return TypeConstants.SEQUENCE;
 		
-		return 1;
+		return TypeConstants.SINGLE;
 	}
 
 	public static QuestionType convertToObject(String parameter) {

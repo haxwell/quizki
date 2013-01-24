@@ -1,6 +1,6 @@
 
 INSERT INTO question_type(id, text) values(1, 'Single');
-INSERT INTO question_type(id, text) values(2, 'Multi');
+INSERT INTO question_type(id, text) values(2, 'Multiple');
 INSERT INTO question_type(id, text) values(3, 'String');
 INSERT INTO question_type(id, text) values(4, 'Sequence');
 

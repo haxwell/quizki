@@ -114,7 +114,7 @@ tinyMCE.init({
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru" >Guru</option></c:otherwise></c:choose>
 				</select> | Type: <select name="type" id="questionType" title="What form do the answers come in?">
 				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multi" selected="selected">Multi</option></c:when><c:otherwise><option value="Multi">Multi</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="Multiple">Multiple</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>

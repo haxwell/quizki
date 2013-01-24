@@ -18,7 +18,7 @@ public class TypeConstants {
 	public static final int SEQUENCE = 4;
 	
 	public static final String SINGLE_STR = "Single";
-	public static final String MULTI_STR = "Multi";
+	public static final String MULTI_STR = "Multiple";
 	public static final String STRING_STR = "String";
 	public static final String SEQUENCE_STR = "Sequence";
 	

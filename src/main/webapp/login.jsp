@@ -29,6 +29,8 @@
       	<br/>
       </c:if>
 
+	When you log in, Quizki can tell which questions and exams are yours!<br/><br/>
+
 	If you're not yet a user, <a href="register.jsp">click here</a>!<br/><br/>
 
 	<form action="/LoginServlet" method="post">

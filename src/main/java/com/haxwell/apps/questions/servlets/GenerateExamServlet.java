@@ -1,8 +1,10 @@
 package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 import com.haxwell.apps.questions.entities.Exam;
+import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.TopicManager;
@@ -50,13 +54,18 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		String fwdPage = "/generateExam.jsp";
 		String button = request.getParameter("button");
 		HttpSession session = request.getSession();
+
+		List<String> errors = new ArrayList<String>();
 		
 		if (button.equals("Filter"))
 		{
+			handleFilterButtonPress(request);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Clear Filter"))
 		{
+			clearMRUFilterSettings(request);
+			refreshListOfQuestionsToBeDisplayed(request);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Select Topics"))
@@ -75,6 +84,9 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 				
 				if (str.equals("include"))
 				{
+					if (currIncluded == null)
+						currIncluded = new ArrayList<Topic>();
+					
 					currIncluded.addAll(coll);
 					
 					Collection<Topic> availableTopics = (Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED);
@@ -84,6 +96,9 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 				}
 				else
 				{
+					if (currExcluded == null)
+						currExcluded = new ArrayList<Topic>();
+					
 					currExcluded.addAll(coll);
 					
 					Collection<Topic> availableTopics = (Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED);
@@ -94,6 +109,12 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 
 				session.setAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED, currIncluded);				
 				session.setAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED, currExcluded);				
+			}
+			else
+			{
+				errors.add("You did not pick any topics!");
+
+				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 			}
 			
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
@@ -110,18 +131,20 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 			Difficulty difficulty = DifficultyUtil.convertToObject(request.getParameter("difficulty"));
 			Collection<Topic> includedColl = (Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);
 			
-			String topicsToInclude = getCSVFromCollection(includedColl); //request.getParameter("topicsToInclude");
-			String topicsToExclude = getCSVFromCollection((Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED)); //request.getParameter("topicsToInclude");
-			
-			if (includedColl.size() >= 1)
+			if (includedColl != null && includedColl.size() >= 1)
 			{
+				String topicsToInclude = StringUtil.getCSVFromCollection(includedColl); 
+				String topicsToExclude = StringUtil.getCSVFromCollection((Collection<Topic>)session.getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED)); 
+
 				Exam examObj = 
 					ExamGenerationManager.generateExam(Long.parseLong(numberOfQuestions), StringUtil.getListOfLongsFromCSV(topicsToInclude), StringUtil.getListOfLongsFromCSV(topicsToExclude), difficulty.getId(), false);
 			
 				session.setAttribute(Constants.CURRENT_EXAM, examObj);
 				
-				if (examObj.getQuestions().size() > 0)
+				if (examObj.getQuestions().size() > 0) {
 					session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, Boolean.TRUE);
+					session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_EDITED, Boolean.TRUE);					
+				}
 				
 				session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Generate Exam");
 				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, difficulty.getId());
@@ -132,9 +155,15 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 				
 				session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 			}
+			else 
+			{
+				errors.add("No topics have been picked to include in the exam!");
+				
+				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
+			}
 		}
 
-		redirectToJSP(request, response, fwdPage);
+		forwardToJSP(request, response, fwdPage);
 	}
 
 	// TODO: Similar code in ExamServlet.. Abstract out to a common class.
@@ -158,24 +187,51 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		
 		return sb.toString();
 	}
-
-	// TODO: Move this to a common class.
-	private String getCSVFromCollection(Collection<? extends EntityWithAnIntegerIDBehavior> coll)
-	{
-		Iterator<? extends EntityWithAnIntegerIDBehavior> iterator = coll.iterator();
-		StringBuffer sb = new StringBuffer();
+	
+	private void handleFilterButtonPress(HttpServletRequest request) {
+		String topicFilterText = request.getParameter("topicContainsFilter");
+		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficulty"));
 		
-		while (iterator.hasNext())
-		{
-			EntityWithAnIntegerIDBehavior entity = iterator.next();
-
-			sb.append(entity.getId());
-			
-			if (iterator.hasNext())
-				sb.append(",");
-		}
+		Collection<Topic> coll = TopicManager.getAllTopicsThatContain(topicFilterText);
 		
-		return sb.toString();
+		// Remove the topics already on the exam 
+		Collection<Topic> currIncluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);				
+		Collection<Topic> currExcluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED);				
+		
+		coll.removeAll(currIncluded);
+		coll.removeAll(currExcluded);
+
+		request.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
+
+		// store the filter we just used
+		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+	}
+
+	private void clearMRUFilterSettings(HttpServletRequest request) {
+		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, null);
+		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
 	}
 	
+	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request) {
+		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
+		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+		int maxDifficulty = DifficultyConstants.GURU;
+		
+		if (o != null)
+			maxDifficulty = Integer.parseInt(o.toString());
+		
+		Collection<Topic> coll = TopicManager.getAllTopics();
+
+		// Remove the topics already on the exam 
+		Collection<Topic> currIncluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);				
+		Collection<Topic> currExcluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED);				
+		
+		coll.removeAll(currIncluded);
+		coll.removeAll(currExcluded);
+
+		request.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
+		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+	}
 }

@@ -28,6 +28,7 @@ public class Constants {
 	
 	public static final String QUESTION_TOPICS = "fa_listofexamtopics";
 	public static final String ALLOW_GENERATED_EXAM_TO_BE_TAKEN = "allowGeneratedExamToBeTaken";
+	public static final String ALLOW_GENERATED_EXAM_TO_BE_EDITED = "allowGeneratedExamToBeEdited";
 	public static final String SUCCESS_MESSAGES = "successes";
 	public static final String TEXT_TO_DISPLAY_FOR_PREV_PAGE = "textToDisplayForPrevPage";
 	public static final String MRU_FILTER_TEXT = "mruFilterText";
@@ -55,4 +56,6 @@ public class Constants {
 	public static final String QUESTION_ID = "questionId";
 
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
+
+	
 }

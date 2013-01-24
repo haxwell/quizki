@@ -175,7 +175,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 			
 			while (tokenizer.hasMoreTokens())
 			{
-				String token = tokenizer.nextToken();
+				String token = tokenizer.nextToken().trim();
 				Topic topic = TopicManager.getTopic(token);
 				
 				if (topic == null)
@@ -240,7 +240,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 			StringTokenizer tokenizer = new StringTokenizer(text, ",");
 			while (tokenizer.hasMoreTokens())
 			{
-				String str = tokenizer.nextToken();
+				String str = tokenizer.nextToken().trim();
 				
 				addChoice(request, questionObj, str, getIsCorrectParameter(request));
 			}

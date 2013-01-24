@@ -26,6 +26,13 @@
 	<h1>Generate Exam</h1>
 	<br/><br/>
 
+      <c:if test="${not empty requestScope.validationErrors}">
+      	<c:forEach var="str" items="${requestScope.validationErrors}">
+      		<span class="redText">${str}</span><br/>
+      	</c:forEach>
+      	<br/>      	
+      </c:if>
+
 	<form action="/GenerateExamServlet" method="post">
 		
 		<table style="width:100%">

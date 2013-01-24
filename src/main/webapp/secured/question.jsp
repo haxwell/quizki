@@ -114,7 +114,7 @@ tinyMCE.init({
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru" >Guru</option></c:otherwise></c:choose>
 				</select> | Type: <select name="type" id="questionType" title="What form do the answers come in?">
 				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multi" selected="selected">Multi</option></c:when><c:otherwise><option value="Multi">Multi</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="Multiple">Multiple</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>
@@ -149,7 +149,7 @@ tinyMCE.init({
 			<table>
 				<c:forEach var="choice" items="${currentQuestion.choices}">
 					<tr>
-						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" title="Position # in the sequence"/> </td></c:if>
+						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" maxlength="2" title="Position # in the sequence"/> </td></c:if>
 						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" title="Make a change, then press Update."/></td>
 						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes</c:otherwise></c:choose></c:if> 
 										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:otherwise></c:choose></c:if>

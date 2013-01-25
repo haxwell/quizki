@@ -125,9 +125,12 @@ public class ExamHistory implements Iterable {
 	
 	public AnsweredQuestion getUserSuppliedAnswers(Question q)
 	{
-		int index = mapOfQuestionToDisplayIndex.get(q);
+		AnsweredQuestion rtn = null;
 		
-		return mapOfExistingAnswers.get(index);
+		if (mapOfQuestionToDisplayIndex.containsKey(q))
+			rtn = mapOfExistingAnswers.get(mapOfQuestionToDisplayIndex.get(q));
+		
+		return rtn;
 	}
 
 	public class AnsweredQuestion

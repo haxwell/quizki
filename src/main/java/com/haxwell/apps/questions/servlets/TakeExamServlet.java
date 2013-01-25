@@ -63,7 +63,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
 			AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(examHistory.getMostRecentlyUsedQuestion());
 			
-			if (!checker.questionHasBeenAnswered(answers)){
+			if (!checker.questionHasBeenAnswered(answers)) {
 				ArrayList<String> errors = new ArrayList<String>();
 				errors.add("You did not answer the question!");
 				
@@ -77,16 +77,17 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				log.log(Level.INFO, StringUtil.getToStringOfEach(examHistory.getFieldnamesSelectedAsAnswersToCurrentQuestion()));
 				
 				AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-				if (aehpp != null) aehpp.processOnNext(request, examHistory);
+				if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
 				
 				Question nextQuestion = examHistory.getNextQuestion();
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, nextQuestion);
 				
+				if (nextQuestion != null)
+					aehpp = ExamHistoryPostProcessorFactory.get(nextQuestion);
+				else
+					aehpp = null;
 				
-				// TODO.. I think the post processor method names need to be changed to 'beforeQuestionDisplayed' 'afterQuestionDisplayed'
-				//  something like that.. and the beforeQuestionDisplayed needs to be called here.. the issue is that when String question
-				//  type is after Sequence, the previously entered value for the String question is not being displayed.
-				
+				if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
 				
 				if (nextQuestion == null)
 					fwdPage = "/examWillBeGraded.jsp";
@@ -107,13 +108,16 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			
 			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
 			
+			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
+
 			Question question = examHistory.getPrevQuestion();
 			
 			if (question != null) 
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
 			
-			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.processOnPrevious(request, examHistory);
+			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
 
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
 			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());

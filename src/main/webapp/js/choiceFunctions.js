@@ -44,6 +44,13 @@
 		// find the div, and create the html to put in there
 		var str = $('#textboxExample').html();
 		
+		if (previouslySuppliedAnswers !== undefined)
+		{
+			str = str.replace("??5", previouslySuppliedAnswers[0]);
+		}
+		else
+			str = str.replace("??5", '');
+
 		var previous = $('div.choices').html();
 		
 		previous += str;

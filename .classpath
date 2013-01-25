@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1.1-redhat-1/activation-1.1.1-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/enterprise/cdi-api/1.0-SP4-redhat-1/cdi-api-1.0-SP4-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1-redhat-1/javax.inject-1-redhat-1.jar"/>
@@ -32,6 +33,7 @@
 	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/rpc/jboss-jaxrpc-api_1.1_spec/1.0.1.Final-redhat-1/jboss-jaxrpc-api_1.1_spec-1.0.1.Final-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/soap/jboss-saaj-api_1.3_spec/1.0.2.Final-redhat-1/jboss-saaj-api_1.3_spec-1.0.2.Final-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/xml/ws/jboss-jaxws-api_2.2_spec/2.0.1.Final-redhat-1/jboss-jaxws-api_2.2_spec-2.0.1.Final-redhat-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/sourceforge/jwebunit/jwebunit-core/3.1/jwebunit-core-3.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/shiro/shiro-core/1.2.1/shiro-core-1.2.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar"/>

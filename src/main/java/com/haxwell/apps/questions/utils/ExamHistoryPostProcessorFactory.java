@@ -7,6 +7,8 @@ public class ExamHistoryPostProcessorFactory {
 
 	public static AbstractExamHistoryPostProcessor get(Question q)
 	{
+		if (q.getQuestionType().getId() == TypeConstants.STRING)
+			return new StringExamHistoryPostProcessor();
 		if (q.getQuestionType().getId() == TypeConstants.SEQUENCE)
 			return new SequenceExamHistoryPostProcessor();
 		

@@ -4,7 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractExamHistoryPostProcessor {
 
-	public abstract void processOnNext(HttpServletRequest request, ExamHistory eh);
-	public abstract void processOnPrevious(HttpServletRequest request, ExamHistory eh);
-	
+	public void processOnNext(HttpServletRequest request, ExamHistory eh)
+	{
+
+	}
+
+	public void processOnPrevious(HttpServletRequest request, ExamHistory eh)
+	{
+		
+	}
 }

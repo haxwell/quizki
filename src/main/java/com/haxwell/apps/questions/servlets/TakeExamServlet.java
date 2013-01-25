@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.utils.AbstractExamHistoryPostProcessor;
 import com.haxwell.apps.questions.utils.ExamHistory;
@@ -59,10 +61,11 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			log.log(Level.INFO, "****** In NEXT > handler");
 			
 			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
+			AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(examHistory.getMostRecentlyUsedQuestion());
 			
-			if (answers.size() == 0){
+			if (!checker.questionHasBeenAnswered(answers)){
 				ArrayList<String> errors = new ArrayList<String>();
-				errors.add("You did not select an answer!");
+				errors.add("You did not answer the question!");
 				
 				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 			}
@@ -78,6 +81,12 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				
 				Question nextQuestion = examHistory.getNextQuestion();
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, nextQuestion);
+				
+				
+				// TODO.. I think the post processor method names need to be changed to 'beforeQuestionDisplayed' 'afterQuestionDisplayed'
+				//  something like that.. and the beforeQuestionDisplayed needs to be called here.. the issue is that when String question
+				//  type is after Sequence, the previously entered value for the String question is not being displayed.
+				
 				
 				if (nextQuestion == null)
 					fwdPage = "/examWillBeGraded.jsp";
@@ -100,7 +109,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			
 			Question question = examHistory.getPrevQuestion();
 			
-			if (question != null) // TODO: Test this case, does it (should it) ever return null?
+			if (question != null) 
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
 			
 			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());

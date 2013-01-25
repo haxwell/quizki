@@ -52,6 +52,8 @@ public class ResetStateFilter extends AbstractFilter {
 			
 			session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, null);
 			session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_EDITED, null);
+			
+			session.setAttribute(Constants.LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS, null);
 		}
 		
 		// pass the request along the filter chain

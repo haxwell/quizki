@@ -24,10 +24,12 @@ public class SequenceExamHistoryPostProcessor extends
 	{
 		ExamHistory.AnsweredQuestion aq = eh.getUserSuppliedAnswers(eh.getMostRecentlyUsedQuestion());
 		
-		request.getSession().setAttribute(Constants.LIST_OF_RANDOM_CHOICE_INDEXES, aq.getMetadata().get(Constants.LIST_OF_RANDOM_CHOICE_INDEXES));
-		request.getSession().setAttribute(Constants.SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES, Boolean.FALSE);
+		Object o = aq.getMetadata().get(Constants.LIST_OF_RANDOM_CHOICE_INDEXES);
 		
-		aq.getAnswers();
+		if (o != null)
+			request.getSession().setAttribute(Constants.LIST_OF_RANDOM_CHOICE_INDEXES, o);
+		
+		request.getSession().setAttribute(Constants.SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES, Boolean.FALSE);
 		
 		List<String> fieldnames = QuestionUtil.getFieldnamesForChoices(eh.getMostRecentlyUsedQuestion());
 		

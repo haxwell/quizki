@@ -76,10 +76,10 @@ BROWSE<br/>
 
     <c:choose>
      <c:when test="${empty sessionScope.currentUserEntity}">
-	You can <a class="greyLink" href="login.jsp">register, and/or login</a> here.<br/>
+	You can <a class="greyLink" href="login.jsp" id="login">register, and/or login</a> here.<br/>
      </c:when>
      <c:otherwise>
-     	You are logged in. <a class="greyLink" href="logout.jsp">logout</a><br/>
+     	You are logged in. <a class="greyLink" href="logout.jsp" id="logout">logout</a><br/>
      </c:otherwise>
     </c:choose>
 

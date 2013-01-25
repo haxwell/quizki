@@ -61,7 +61,9 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			log.log(Level.INFO, "****** In NEXT > handler");
 			
 			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
-			AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(examHistory.getMostRecentlyUsedQuestion());
+			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
+			
+			AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(examHistory.getMostRecentlyUsedQuestion());			
 			
 			if (!checker.questionHasBeenAnswered(answers)) {
 				ArrayList<String> errors = new ArrayList<String>();
@@ -70,11 +72,14 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 				
 				AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-				if (aehpp != null) aehpp.afterQuestionDisplayedWithoutBeingAnswered(request, examHistory);
+				if (aehpp != null)
+				{
+					aehpp.afterQuestionDisplayedWithoutBeingAnswered(request, examHistory);
+					// and then, since we're going to be displaying the same unanswered question...
+					aehpp.beforeQuestionDisplayed(request, examHistory);
+				}
 			}
 			else {
-				
-				boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
 				
 				log.log(Level.INFO, "....and the answers just recorded are: ");
 				log.log(Level.INFO, StringUtil.getToStringOfEach(examHistory.getFieldnamesSelectedAsAnswersToCurrentQuestion()));
@@ -108,7 +113,6 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			log.log(Level.INFO, "***** IN PREV method ********");
 			
 			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
-			
 			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
 			
 			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());

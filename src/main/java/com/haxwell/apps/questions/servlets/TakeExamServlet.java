@@ -68,6 +68,9 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				errors.add("You did not answer the question!");
 				
 				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
+				
+				AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+				if (aehpp != null) aehpp.afterQuestionDisplayedWithoutBeingAnswered(request, examHistory);
 			}
 			else {
 				

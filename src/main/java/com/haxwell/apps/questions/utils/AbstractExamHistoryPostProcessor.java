@@ -13,4 +13,9 @@ public abstract class AbstractExamHistoryPostProcessor {
 	{
 		
 	}
+
+	public void afterQuestionDisplayedWithoutBeingAnswered(HttpServletRequest request, ExamHistory examHistory) 
+	{
+
+	}
 }

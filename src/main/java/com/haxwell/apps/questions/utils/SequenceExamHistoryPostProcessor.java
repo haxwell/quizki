@@ -44,4 +44,8 @@ public class SequenceExamHistoryPostProcessor extends
 			request.getSession().setAttribute(Constants.LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS, null); // TODO: should this be done here? Perhaps better in a filter?			
 		}
 	}
+	
+	public void afterQuestionDisplayedWithoutBeingAnswered(HttpServletRequest request, ExamHistory examHistory) {
+		request.getSession().setAttribute(Constants.SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES, Boolean.FALSE);
+	}
 }

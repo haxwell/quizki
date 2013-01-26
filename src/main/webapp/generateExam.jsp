@@ -102,7 +102,7 @@
 						</c:otherwise></c:choose>
 			
 							<td>
-								<input type="checkbox" name="a_chkbox_${topic.id}">  ${topic.text}</input>
+								${topic.text}
 							</td>
 							<jsp:text><![CDATA[</tr>]]></jsp:text>				
 						</c:forEach>
@@ -123,7 +123,7 @@
 						</c:otherwise></c:choose>
 			
 							<td>
-								<input type="checkbox" name="a_chkbox_${topic.id}">  ${topic.text}</input>
+								${topic.text}
 							</td>
 							<jsp:text><![CDATA[</tr>]]></jsp:text>				
 						</c:forEach>

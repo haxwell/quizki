@@ -154,10 +154,10 @@
 		
 					<c:choose>
 						<c:when test="${empty question.description}">
-							<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.textWithoutHTML}</input></td>
+							<td><input type="checkbox" name="d_chkbox_${question.id}">	${question.textWithoutHTML}</input></td>
 						</c:when>
 						<c:otherwise>
-							<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.description}</input></td>
+							<td><input type="checkbox" name="d_chkbox_${question.id}">	${question.description}</input></td>
 						</c:otherwise>
 					</c:choose>
 

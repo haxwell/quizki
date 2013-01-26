@@ -87,7 +87,7 @@ public class ExamManager extends Manager {
 		while (iterator.hasNext()){
 			Question q = iterator.next();
 			
-			if (questionIds.contains(q.getId()))
+			if (questionIds.contains((int)q.getId()))
 			{
 				list.add(q);
 			}

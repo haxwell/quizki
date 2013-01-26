@@ -124,16 +124,22 @@ function addChoiceInputsForThisQuestionType(htmlExampleID)
 		if (examHistoryIsPresent == true) {									
 			if (thisChoiceIsSelected == true && thisChoiceIsCorrect == true) {
 				str = str.replace('??3', 'selectedAndCorrect');
+				str = str.replace('??tooltip', 'You selected this choice, correctly.');
 			} else if (thisChoiceIsSelected == true && thisChoiceIsCorrect == false) {
 				str = str.replace('??3', 'selectedButNotCorrect');
+				str = str.replace('??tooltip', 'You selected this choice, but incorrectly.');				
 			} else if (thisChoiceIsSelected == false && thisChoiceIsCorrect == true) {
 				str = str.replace('??3', 'correctButNotSelected');
-			} 
+				str = str.replace('??tooltip', 'This choice is correct, but you did not select it.');				
+			} else
+				str = str.replace('??tooltip', '');
 		}
 		else {
 			if (thisChoiceIsCorrect == true) {
 				str = str.replace('??3', 'greenText');
 			}
+
+			str = str.replace('??tooltip', '');			
 		}
 		
 		var previous = $('div.choices').html();

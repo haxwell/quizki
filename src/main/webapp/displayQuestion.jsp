@@ -17,6 +17,7 @@
 		
 		<jsp:text>
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="js/displayQuestion.js" type="text/javascript" ></script> ]]>			
 			<![CDATA[
@@ -28,6 +29,25 @@
 					});
 				</script>
 			]]>
+			
+			<![CDATA[
+			<script type="text/javascript">
+			
+//		$(function() {
+	//	   $( document ).tooltip();
+		// });
+		 
+    $( "#open-event" ).tooltip({
+      show: null,
+      position: {
+        my: "left top",
+        at: "left bottom"
+      },
+      open: function( event, ui ) {
+        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
+      }
+    });
+    </script> ]]>
 			
 			<![CDATA[
 				<script type="text/javascript">
@@ -178,8 +198,8 @@
 		<br/><br/>
 	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a>
 	
-	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected=""/>??1</div></div>	
-	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected=""/>??1</div></div>
+	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>	
+	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>
 	<div class="hidden" id="textExample"><div class="??4">??1<br/></div></div>
 	<div class="hidden" id="youTypedExample"><br/>You typed: <div class="??4">??1<br/></div></div>
 	<div class="hidden" id="sequenceExample"><div class="??4">??SEQ - ??1<br/></div></div>

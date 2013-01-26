@@ -87,6 +87,8 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	private Set<Reference> references;
 
     public Question() {
+    	id = -1;
+    	text = "";
     }
 
     public long getId() {

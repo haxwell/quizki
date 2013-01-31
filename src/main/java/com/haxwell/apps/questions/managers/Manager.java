@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.entities.EntityWithASequenceNumberBehavior;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
 public class Manager {
@@ -34,14 +35,26 @@ public class Manager {
 		public int compare(EntityWithAnIntegerIDBehavior o1, EntityWithAnIntegerIDBehavior o2) { 
 				
 			if (((EntityWithAnIntegerIDBehavior)o1).getId() > ((EntityWithAnIntegerIDBehavior)o2).getId())
-					return -1;
+				return -1;
 			else if (((EntityWithAnIntegerIDBehavior)o1).getId() < ((EntityWithAnIntegerIDBehavior)o2).getId())
-					return 1;
-			
+				return 1;
 			
 			return 0;
 		}
-		
+	};
+	
+	public static final Comparator<EntityWithASequenceNumberBehavior> SEQUENCE_NUMBER_COMPARATOR = new Comparator<EntityWithASequenceNumberBehavior>() {
+
+		@Override
+		public int compare(EntityWithASequenceNumberBehavior o1, EntityWithASequenceNumberBehavior o2) { 
+
+			if (((EntityWithASequenceNumberBehavior)o1).getSequence() > ((EntityWithASequenceNumberBehavior)o2).getSequence())
+				return 1;
+			else if (((EntityWithASequenceNumberBehavior)o1).getSequence() < ((EntityWithASequenceNumberBehavior)o2).getSequence())
+				return -1;
+			
+			return 0;
+		}
 	};
 	
 }

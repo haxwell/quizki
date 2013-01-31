@@ -84,6 +84,13 @@
 				<![CDATA[ var selected = undefined; ]]>
 			</c:otherwise>
 			</c:choose>
+			<c:choose><c:when test="${not empty sessionScope.listOfIndexesToChoiceListBySequenceNumber}">
+				<![CDATA[ var indexesBySequenceNumber = ${listOfIndexesToChoiceListBySequenceNumber}; ]]>
+			</c:when>
+			<c:otherwise>
+				<![CDATA[ var indexesBySequenceNumber = undefined; ]]>
+			</c:otherwise>
+			</c:choose>
 
 			<![CDATA[
 				</script>

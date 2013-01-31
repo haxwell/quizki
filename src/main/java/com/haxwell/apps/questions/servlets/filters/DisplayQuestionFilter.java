@@ -89,11 +89,24 @@ public class DisplayQuestionFilter extends AbstractFilter {
 
 					StringUtil.closeJavascriptArray(chosenSequenceNumbers);
 					
-					req.getSession().setAttribute(Constants.LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE, chosenSequenceNumbers);
+					req.getSession().setAttribute(Constants.LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE, chosenSequenceNumbers.toString());
+					
+					////////////////////
+					StringBuffer sb = new StringBuffer(StringUtil.startJavascriptArray());
+					List<Choice> listBySequenceNumber = QuestionUtil.getChoiceListBySequenceNumber(question);
+					
+					for (Choice c: listBySequenceNumber)
+					{
+						int index = list.indexOf(c);
+						
+						StringUtil.addToJavascriptArray(sb, index+"");
+					}
+					
+					StringUtil.closeJavascriptArray(sb);
+					
+					req.getSession().setAttribute(Constants.LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER, sb.toString());
 				}
 			}
-			
-
 		}
 		
 		// pass the request along the filter chain

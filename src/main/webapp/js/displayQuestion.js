@@ -10,22 +10,27 @@ function displaySequenceTypeQuestionChoices(htmlExampleID)
 	for (var counter=0;fieldNames.length>counter;counter++)
 	{
 		var str = $(htmlExampleID).html();
-
-		str = str.replace('??SEQ', fieldSequenceNumbers[counter]);
 		
-		if (fieldSequenceNumbers !== undefined && fieldSequenceNumbers[counter] !== undefined && sequenceNumbersTheUserChose !== undefined && sequenceNumbersTheUserChose[counter] !== undefined)
+		var pos = counter;
+		
+		if (indexesBySequenceNumber !== undefined)
+			pos = indexesBySequenceNumber[counter];
+
+		str = str.replace('??SEQ', fieldSequenceNumbers[pos]);
+		
+		if (fieldSequenceNumbers !== undefined && fieldSequenceNumbers[pos] !== undefined && sequenceNumbersTheUserChose !== undefined && sequenceNumbersTheUserChose[pos] !== undefined)
 		{
-			if (fieldSequenceNumbers[counter] == sequenceNumbersTheUserChose[counter]) {
+			if (fieldSequenceNumbers[pos] == sequenceNumbersTheUserChose[pos]) {
 				str = str.replace('??4', 'greenText');
-				str = str.replace('??1', values[counter]);				
+				str = str.replace('??1', values[pos]);				
 			}
 			else {
 				str = str.replace('??4', 'redText');
-				str = str.replace('??1', values[counter] + ' (you typed: ' + sequenceNumbersTheUserChose[counter] + ')');
+				str = str.replace('??1', values[pos] + ' (you typed: ' + sequenceNumbersTheUserChose[pos] + ')');
 			}
 		}
 		else
-			str = str.replace('??1', values[counter]);
+			str = str.replace('??1', values[pos]);
 
 		if (counter%2 == 0) {
 			str = str.replace('??4', 'rowHighlight'); 

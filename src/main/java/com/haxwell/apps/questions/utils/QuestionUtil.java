@@ -40,15 +40,31 @@ public class QuestionUtil {
 		return list;
 	}
 	
-	// lists of choices are always ordered by ID. A question could have 20 choices, and 
-	//  in any list of items related to those 20 choices, the first item in the list relates
-	//  to the choice with the highest ID. The second item, the second highest ID, etc.
+	/**
+	 * Lists of choices are always ordered by ID. A question could have 20 choices, and
+	 * in any list of items related to those 20 choices, the first item in the list relates
+	 * to the choice with the highest ID. The second item, the second highest ID, etc.
+	 *   
+	 * @param currentQuestion
+	 * @return
+	 */
 	public static List<Choice> getChoiceList(Question currentQuestion) {
 		Set<Choice> choices = currentQuestion.getChoices();
 		
 		ArrayList<Choice> list = new ArrayList<Choice>(choices);
 		
 		Collections.sort(list, Manager.ID_COMPARATOR);
+		
+		return list;
+	}
+	
+	// ..except for when they're not.. :)
+	public static List<Choice> getChoiceListBySequenceNumber(Question currentQuestion) {
+		Set<Choice> choices = currentQuestion.getChoices();
+		
+		ArrayList<Choice> list = new ArrayList<Choice>(choices);
+		
+		Collections.sort(list, Manager.SEQUENCE_NUMBER_COMPARATOR);
 		
 		return list;
 	}

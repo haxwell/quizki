@@ -55,5 +55,7 @@ public class Constants {
 	public static final String QUESTION_ID = "questionId";
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
 	public static final String STRING_QUESTION_TYPE_FIELDNAME = "stringAnswer";
+
+	public static final String LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER = "listOfIndexesToChoiceListBySequenceNumber";
 	
 }

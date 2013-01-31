@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.entities.EntityWithASequenceNumberBehavior;
 import com.haxwell.apps.questions.interfaces.IChoice;
 
 
@@ -18,7 +19,7 @@ import com.haxwell.apps.questions.interfaces.IChoice;
  */
 @Entity
 @Table(name="choice")
-public class Choice implements IChoice, EntityWithAnIntegerIDBehavior, Serializable {
+public class Choice implements IChoice, EntityWithAnIntegerIDBehavior, EntityWithASequenceNumberBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -15,15 +15,14 @@
 			if (randomChoiceIndexes !== undefined)
 				pos = randomChoiceIndexes[counter];
 			
-			str = str.replace("??1", values[pos]);
-			str = str.replace("??2", fieldNames[pos]);
+			str = str.replace('??1', values[pos]);
+			str = str.replace('??2', fieldNames[pos]);
 			
-			if (previouslySuppliedAnswers !== undefined)
-			{
-				str = str.replace("??5", previouslySuppliedAnswers[pos]);
+			if (previouslySuppliedAnswers !== undefined) {
+				str = str.replace('??5', previouslySuppliedAnswers[pos]);
+			} else {
+				str = str.replace('??5', '');
 			}
-			else
-				str = str.replace("??5", '');
 
 			if (counter%2 == 0) {
 				str = str.replace('??4', 'rowHighlight'); 

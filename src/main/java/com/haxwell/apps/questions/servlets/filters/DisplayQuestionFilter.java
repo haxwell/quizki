@@ -61,6 +61,8 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			
 			List<String> areThereExistingAnswersToCurrentQuestionList = new ArrayList<String>();
 			req.getSession().setAttribute("booleanExamHistoryIsPresent", examHistory != null);
+
+			List<Choice> questionChoiceList = QuestionUtil.getChoiceList(question);			
 			
 			if (examHistory != null) {
 				areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
@@ -77,9 +79,8 @@ public class DisplayQuestionFilter extends AbstractFilter {
 				
 				if (qtID == TypeConstants.SEQUENCE) {
 					StringBuffer chosenSequenceNumbers = new StringBuffer(StringUtil.startJavascriptArray());
-					List<Choice> list = QuestionUtil.getChoiceList(question);
 					
-					for (Choice c : list)
+					for (Choice c : questionChoiceList)
 					{
 						String fieldname = QuestionUtil.getFieldnameForChoice(question, c);
 						String chosenSeqNumForChoice = aq.answers.get(fieldname);
@@ -90,27 +91,35 @@ public class DisplayQuestionFilter extends AbstractFilter {
 					StringUtil.closeJavascriptArray(chosenSequenceNumbers);
 					
 					req.getSession().setAttribute(Constants.LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE, chosenSequenceNumbers.toString());
-					
-					////////////////////
-					StringBuffer sb = new StringBuffer(StringUtil.startJavascriptArray());
-					List<Choice> listBySequenceNumber = QuestionUtil.getChoiceListBySequenceNumber(question);
-					
-					for (Choice c: listBySequenceNumber)
-					{
-						int index = list.indexOf(c);
-						
-						StringUtil.addToJavascriptArray(sb, index+"");
-					}
-					
-					StringUtil.closeJavascriptArray(sb);
-					
-					req.getSession().setAttribute(Constants.LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER, sb.toString());
 				}
 			}
+
+			handleSequenceTypeQuestions(req, questionChoiceList, question);
 		}
-		
+
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
+	}
+
+	private void handleSequenceTypeQuestions(HttpServletRequest req, List<Choice> questionChoiceList, Question question)
+	{
+		if (question != null && question.getQuestionType().getId() == TypeConstants.SEQUENCE) {
+			
+			////////////////////
+			StringBuffer sb = new StringBuffer(StringUtil.startJavascriptArray());
+			List<Choice> listBySequenceNumber = QuestionUtil.getChoiceListBySequenceNumber(question);
+			
+			for (Choice c: listBySequenceNumber)
+			{
+				int index = questionChoiceList.indexOf(c);
+				
+				StringUtil.addToJavascriptArray(sb, index+"");
+			}
+			
+			StringUtil.closeJavascriptArray(sb);
+			
+			req.getSession().setAttribute(Constants.LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER, sb.toString());
+		}
 	}
 	
 	private List<String> getListSayingAnElementIsCheckedOrNot(ExamHistory eh, Question q)

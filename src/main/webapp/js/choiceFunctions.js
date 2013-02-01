@@ -65,11 +65,16 @@
 		{
 			var str = $('' + var1).html();
 			
-			str = str.replace("??1", values[counter]);
-			str = str.replace("??2", fieldNames[counter]);
-			str = str.replace("??2", fieldNames[counter]);						
+			var pos = counter;
 			
-			if (selected !== undefined && selected[counter] !== undefined && selected[counter] == 'true')
+			if (randomChoiceIndexes !== undefined)
+				pos = randomChoiceIndexes[counter];
+			
+			str = str.replace("??1", values[pos]);
+			str = str.replace("??2", fieldNames[pos]);
+			str = str.replace("??2", fieldNames[pos]);						
+			
+			if (selected !== undefined && selected[pos] !== undefined && selected[pos] == 'true')
 				str = str.replace("selected=\"\"", 'checked');
 			
 			if (counter%2 == 0) {

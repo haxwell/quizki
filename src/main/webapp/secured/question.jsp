@@ -124,8 +124,8 @@ tinyMCE.init({
 			<hr/>
 			<br/>
 			<div >
-			Choices --<br/>
-			Choice Text: <input type="text" name="choiceText" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
+			Answers --<br/>
+			Text: <input type="text" name="choiceText" size="35" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
 			<c:choose>
 				<c:when test="${currentQuestion.questionType.id > 2}">
 					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="no">No</option><option value="yes">Yes</option></select> 
@@ -145,7 +145,7 @@ tinyMCE.init({
 				</c:otherwise>
 			</c:choose>
 			<br/>
-			
+
 			<table>
 				<c:forEach var="choice" items="${currentQuestion.choices}">
 					<tr>
@@ -166,7 +166,7 @@ tinyMCE.init({
 			<hr/>
 			<div >
 			Topics --<br/>
-			Topic Text: <input type="text" name="topicText" title="Whats this question about? (try commas!)"/>  <input type="submit" value="Add Topic" name="button"/>
+			Text: <input type="text" name="topicText" size="35" title="Whats this question about? (try commas!)"/>  <input type="submit" value="Add Topic" name="button"/>
 			<br/>		
 			<table>
 				<c:forEach var="topic" items="${currentQuestion.topics}">
@@ -182,7 +182,7 @@ tinyMCE.init({
 			<hr/>
 			<div >
 			References --<br/>
-			Reference Text: <input type="text" name="referenceText" title="Back it up with facts and stuff.." size="35" />  <input type="submit" value="Add Reference" name="button"/>
+			Text: <input type="text" name="referenceText" title="Back it up with facts and stuff.." size="35" />  <input type="submit" value="Add Reference" name="button"/>
 			<br/>		
 			<table>
 				<c:forEach var="ref" items="${currentQuestion.references}">

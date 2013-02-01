@@ -150,7 +150,7 @@
 		Type: ${currentQuestion.questionType.text}  <br/>
 		<hr/>
 		<br/>
-		Choices --<br/>
+		Answers --<br/>
 
 		<div class="choices" style="margin-left:25px">.</div>
 

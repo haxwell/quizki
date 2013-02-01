@@ -122,7 +122,7 @@ function addChoiceInputsForThisQuestionType(htmlExampleID)
 			str = str.replace('??4', '');
 		}
 
-		if (thisChoiceIsCorrect) {
+		if (thisChoiceIsCorrect && thisChoiceIsSelected) {
 			str = str.replace("selected=\"\"", 'checked');								
 		}
 		

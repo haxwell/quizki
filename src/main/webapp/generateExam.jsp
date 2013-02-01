@@ -54,6 +54,9 @@
 						</select>
 							
 					</td>
+					<td>
+						Show <input type="radio" name="group1" value="everyone" selected=""/>All Topics or <input type="radio" name="group1" value="mine" selected=""/>Those with questions I created.
+					</td>
 					<td >
 						Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>
 						<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>

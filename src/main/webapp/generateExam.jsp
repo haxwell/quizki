@@ -51,14 +51,26 @@
 						Selected topics will be <select name="includeExclude">
 							<c:choose><c:when test="${mruIncludeExclude == 1}"><option value="include" selected="selected">Included</option></c:when><c:otherwise><option value="include" >Included</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruIncludeExclude == 2}"><option value="exclude" selected="selected">Excluded</option></c:when><c:otherwise><option value="exclude" >Excluded</option></c:otherwise></c:choose>
-						</select>
+						</select> in the exam
+						
 							
 					</td>
 					<td>
-						Show <input type="radio" name="group1" value="everyone" selected=""/>All Topics or <input type="radio" name="group1" value="mine" selected=""/>Those with questions I created.
+						<c:choose>
+     					<c:when test="${empty sessionScope.currentUserEntity}">
+						Show <input type="radio" name="group1" value="everyone" selected="" disabled="disabled" title="To use this attribute, you need to log in."/>All Topics or <input type="radio" name="group1" value="mine" selected="" disabled="disabled" title="To use this attribute, you need to log in."/>Those with questions I created.
+						</c:when>
+						<c:otherwise>
+						Show <input type="radio" name="group1" value="everyone" selected=""/>All Topics or <input type="radio" name="group1" value="mine" selected=""/>Those with questions I created.						
+						</c:otherwise>
+						</c:choose>
 					</td>
 					<td >
 						Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>
+					</td>
+					<td>
+					</td>
+					<td>
 						<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
 					</td>			
 			</td>

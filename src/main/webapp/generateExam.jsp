@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -48,14 +48,6 @@
 			</td>
 			<td style="float:right;">
 					<td>
-						Selected topics will be <select name="includeExclude">
-							<c:choose><c:when test="${mruIncludeExclude == 1}"><option value="include" selected="selected">Included</option></c:when><c:otherwise><option value="include" >Included</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruIncludeExclude == 2}"><option value="exclude" selected="selected">Excluded</option></c:when><c:otherwise><option value="exclude" >Excluded</option></c:otherwise></c:choose>
-						</select> in the exam
-						
-							
-					</td>
-					<td>
 						<c:choose>
      					<c:when test="${empty sessionScope.currentUserEntity}">
 						Show <input type="radio" name="group1" value="everyone" selected="" disabled="disabled" title="To use this attribute, you need to log in."/>All Topics or <input type="radio" name="group1" value="mine" selected="" disabled="disabled" title="To use this attribute, you need to log in."/>Those with questions I created.
@@ -78,7 +70,7 @@
 		</table>				
 
 		<br/>
-		List of topics:<br/>
+		${fn:length(fa_listofalltopics)} topics available to select:<br/>
 		<div class="listOfQuestions" style="overflow:auto; width:100%">
 			<table  style="width:100%">
 			<c:set var="rowNum" value="0"/>
@@ -99,13 +91,22 @@
 			</table>
 		</div>
 		<br/>
+						Selected topics will be <select name="includeExclude">
+							<c:choose><c:when test="${mruIncludeExclude == 1}"><option value="include" selected="selected">Included</option></c:when><c:otherwise><option value="include" >Included</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruIncludeExclude == 2}"><option value="exclude" selected="selected">Excluded</option></c:when><c:otherwise><option value="exclude" >Excluded</option></c:otherwise></c:choose>
+						</select> in the exam
+		<br/><br/>						
 		<input type="submit" value="Select Topics" name="button" />
 		<hr/>
 			<table style="width:100%">
 			<tr>
 				<td style="vertical-align:top">
 					<table  style="width:50%">
-					<tr>			Included</tr>
+					<tr> Included</tr>
+					<c:if test="${empty fa_listofincludedtopics}">
+						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%"><td> -- No Topics Included Yet! -- </td></tr>]]></jsp:text>
+					</c:if>
+					
 					<c:set var="rowNum" value="0"/>
 					<c:forEach var="topic" items="${fa_listofincludedtopics}">
 						<c:set var="rowNum" value="${rowNum + 1}" />
@@ -127,6 +128,9 @@
 				<td style="vertical-align:top">
 					<table  style="width:50%">
 					<tr> Excluded </tr>
+					<c:if test="${empty fa_listofexcludedtopics}">
+						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%"><td> -- No Topics Excluded Yet! -- </td></tr>]]></jsp:text>
+					</c:if>
 					<c:set var="rowNum" value="0"/>
 					<c:forEach var="topic" items="${fa_listofexcludedtopics}">
 						<c:set var="rowNum" value="${rowNum + 1}" />

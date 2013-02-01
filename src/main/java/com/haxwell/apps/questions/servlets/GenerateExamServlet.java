@@ -20,6 +20,7 @@ import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
@@ -191,8 +192,18 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 	private void handleFilterButtonPress(HttpServletRequest request) {
 		String topicFilterText = request.getParameter("topicContainsFilter");
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficulty"));
+
+		Collection<Topic> coll = null;
 		
-		Collection<Topic> coll = TopicManager.getAllTopicsThatContain(topicFilterText);
+		////
+		String group1Param = request.getParameter("group1");
+		
+		if (group1Param != null && group1Param.equals("mine")) {
+			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+			coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText);
+		} 
+		else
+			coll = TopicManager.getAllTopicsThatContain(topicFilterText);
 		
 		// Remove the topics already on the exam 
 		Collection<Topic> currIncluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);				

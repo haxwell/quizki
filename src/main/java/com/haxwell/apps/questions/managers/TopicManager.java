@@ -7,14 +7,9 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
-import com.haxwell.apps.questions.utils.StringUtil;
 
 public class TopicManager extends Manager {
 
@@ -70,6 +65,40 @@ public class TopicManager extends Manager {
 		em.close();
 
 		return (list.size() > 0 ? list.get(0) : null);
+	}
+	
+	public static Collection<Topic> getAllTopicsForQuestionsCreatedByAGivenUser(long userId)
+	{
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "SELECT * FROM topic WHERE id IN (SELECT topic_id FROM question_topic WHERE question_id IN (SELECT id FROM question WHERE user_id= ?1))";
+		
+		Query query = em.createNativeQuery(queryString, Topic.class);
+		
+		query.setParameter(1, userId);
+		
+		List<Topic> list = (List<Topic>)query.getResultList();
+		
+		em.close();
+		
+		return list;
+	}
+
+	public static Collection<Topic> getAllTopicsForQuestionsCreatedByAGivenUserThatContain(long id, String filterText) 
+	{
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "SELECT * FROM Topic t WHERE t.id IN (SELECT topic_id FROM question_topic WHERE question_id IN (SELECT id FROM question WHERE user_id= ?1)) AND t.text LIKE ?2";
+		
+		Query query = em.createNativeQuery(queryString, Topic.class);
+		query.setParameter(1, id);
+		query.setParameter(2, "%" + filterText + "%");
+		
+		Collection<Topic> rtn = (Collection<Topic>)query.getResultList();
+
+		em.close();
+		
+		return rtn;
 	}
 	
 	public static Collection<Topic> getAllTopicsThatContain(String filterText)
@@ -145,4 +174,5 @@ public class TopicManager extends Manager {
 	{
 		topics.remove(t);
 	}
+
 }

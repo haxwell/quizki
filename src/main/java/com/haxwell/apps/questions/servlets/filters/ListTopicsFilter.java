@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 
@@ -35,7 +36,15 @@ public class ListTopicsFilter extends AbstractFilter {
 			HttpServletRequest req = (HttpServletRequest)request;
 			
 			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
-				Collection<Topic> coll = TopicManager.getAllTopics();
+
+				Collection<Topic> coll; 
+				
+				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+
+				if (user != null)
+					coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUser(user.getId());
+				else
+					coll = TopicManager.getAllTopics();
 				
 				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
 				

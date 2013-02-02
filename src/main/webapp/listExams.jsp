@@ -21,7 +21,16 @@
 <jsp:include page="header.jsp"></jsp:include>
 
 		<br/>
+		
+		<c:choose>
+		<c:when test="${empty fa_listofexamstobedisplayed}">
+		<br/><br/>You haven't created any exams yet! (<a href="/secured/exam.jsp">Create Exam</a>)
+		</c:when>
+		<c:otherwise>
 		These are the available exams:
+		</c:otherwise>
+		</c:choose>
+		
 		<br/><br/>
 
 		<form action="/ListExamsServlet" method="post">

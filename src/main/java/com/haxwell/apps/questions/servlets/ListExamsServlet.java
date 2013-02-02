@@ -92,7 +92,7 @@ public class ListExamsServlet extends AbstractHttpServlet {
 			if (user == null) 
 			{
 				if (group1Param != null && group1Param.equals("mine"))
-					forwardToJSP(request, response, "/login.jsp");
+					fwdPage = "/login.jsp";
 				else
 				{
 					coll = ExamManager.getAllExams();

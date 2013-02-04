@@ -127,21 +127,25 @@ public class QuestionManager extends Manager {
 		
 		return rtn;
 	}
-
+	
 	public static boolean isAnsweredCorrectly(Question question, Map<String, String> answers)
 	{
 		AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(question);
 		return checker.questionIsCorrect(answers);
 	}
 
-	public static Collection<Question> getAllQuestionsForUser(int id) {
+	public static Collection<Question> getAllQuestionsForUser(long id) {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1", Question.class);
 		
 		query.setParameter(1, id);
 		
-		return (Collection<Question>)query.getResultList();
+		Collection<Question> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
 	}
 
 	public static Collection<Question> getQuestionsThatContain(String topicFilterText, String filterText, int maxDifficulty) {
@@ -215,4 +219,5 @@ public class QuestionManager extends Manager {
 		
 		return rtn;
 	}
+
 }

@@ -73,6 +73,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			}
 			
 			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
+			session.setAttribute(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS, Constants.MY_ITEMS);
 		}
 		
 		// pass the request along the filter chain

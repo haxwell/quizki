@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
 
 /**
@@ -41,7 +42,15 @@ public class ListQuestionsFilter extends AbstractFilter {
 			
 			if (req.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED) == null) {
 
+				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Question> coll = QuestionManager.getAllQuestions();
+				
+				if (user == null) {
+					coll = QuestionManager.getAllQuestions();
+				}
+				else {
+					coll = QuestionManager.getAllQuestionsForUser(user.getId());
+				}
 				
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 				req.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);

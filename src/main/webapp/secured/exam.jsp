@@ -89,6 +89,15 @@
 				</tr>
 				<tr>
 				<td >
+					Show <select name="mineOrAll">
+				<c:choose><c:when test="${mineOrAll == 1}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${mineOrAll == 2}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
+				</select> questions
+
+				</td>
+				</tr>
+				<tr>
+				<td >
 					Include difficulties up to: <select name="difficulty" title="Do not include any questions more difficult than..">
 				<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
@@ -110,26 +119,35 @@
 			<table  style="width:100%">
 
 				<c:set var="rowNum" value="0"/>
-				<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
-					<c:set var="rowNum" value="${rowNum + 1}" />
-					<c:choose><c:when test="${rowNum % 2 == 0}">
-					<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-					</c:when>
-					<c:otherwise>
+				<c:choose >
+				<c:when test="${empty fa_listoquestionstobedisplayed}">
 					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					</c:otherwise></c:choose>
-		
-					<c:choose>
-						<c:when test="${empty question.description}">
-							<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.textWithoutHTML}</input></td>
+					<jsp:text><![CDATA[<td>You have not entered any questions of your own! You can change the filter above to include questions from everyone.]]></jsp:text>
+					<jsp:text><![CDATA[</tr>]]></jsp:text>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
+						<c:set var="rowNum" value="${rowNum + 1}" />
+						<c:choose><c:when test="${rowNum % 2 == 0}">
+						<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
 						</c:when>
 						<c:otherwise>
-							<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.description}</input></td>
-						</c:otherwise>
-					</c:choose>
-
-					<jsp:text><![CDATA[</tr>]]></jsp:text>				
-				</c:forEach>
+						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+						</c:otherwise></c:choose>
+			
+						<c:choose>
+							<c:when test="${empty question.description}">
+								<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.textWithoutHTML}</input></td>
+							</c:when>
+							<c:otherwise>
+								<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.description}</input></td>
+							</c:otherwise>
+						</c:choose>
+	
+						<jsp:text><![CDATA[</tr>]]></jsp:text>				
+					</c:forEach>
+				</c:otherwise>
+				</c:choose>
 			</table>
 		</div>
 		

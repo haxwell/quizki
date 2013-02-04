@@ -57,5 +57,10 @@ public class Constants {
 	public static final String STRING_QUESTION_TYPE_FIELDNAME = "stringAnswer";
 
 	public static final String LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER = "listOfIndexesToChoiceListBySequenceNumber";
+
+	public static final Integer MY_ITEMS = 1;
+	public static final Integer ALL_ITEMS = 2;
+
+	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS = "mineOrAll";
 	
 }

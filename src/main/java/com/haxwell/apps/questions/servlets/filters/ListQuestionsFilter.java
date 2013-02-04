@@ -43,26 +43,29 @@ public class ListQuestionsFilter extends AbstractFilter {
 			if (req.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED) == null) {
 
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-				Collection<Question> coll = QuestionManager.getAllQuestions();
-				
-				if (user == null) {
+				Collection<Question> coll = null;
+
+				if (user == null && req.getSession().getAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED) != null) {
 					coll = QuestionManager.getAllQuestions();
+					req.getSession().setAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED, null);					
 				}
-				else {
+				else if (user != null) {
 					coll = QuestionManager.getAllQuestionsForUser(user.getId());
 				}
-				
+
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 				req.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
-				
-				log.log(Level.INFO, "Just added " + coll.size() + " questions to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
+
+				if (coll != null)
+					log.log(Level.INFO, "Just added " + coll.size() + " questions to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
+				else
+					log.log(Level.INFO, "No questions were added to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
 			}
 			else
 				log.log(Level.INFO, Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " was not null so ListQuestionsFilter did not reset the list of questions to be displayed.");
 		}
-		
+
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
-
 }

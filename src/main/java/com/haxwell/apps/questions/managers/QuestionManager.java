@@ -180,7 +180,55 @@ public class QuestionManager extends Manager {
 				Set<Topic> set = q.getTopics();
 				
 				for (Topic t : set) {
-					// remember maven.
+					if (t.getText().contains(topicFilterText))
+						keepThisQuestion = true;
+				}
+				
+				if (!keepThisQuestion)
+					toBeFilteredList.add(q);
+			}
+			
+			for (Question q: toBeFilteredList)
+				rtn.remove(q);
+		}
+		
+		return rtn;
+	}
+	
+	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, int maxDifficulty) {
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
+		
+		if (!StringUtil.isNullOrEmpty(filterText))
+			queryString += "q.text LIKE ?2 AND ";
+		
+		queryString += "q.difficulty.id <= ?3";
+		
+		Query query = em.createQuery(queryString, Question.class);
+		
+		query.setParameter(1, userId);
+		
+		if (!StringUtil.isNullOrEmpty(filterText))
+			query.setParameter(2, "%" + filterText + "%");
+		
+		query.setParameter(3, maxDifficulty);
+		
+		Collection<Question> rtn = (Collection<Question>)query.getResultList();
+
+		if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+			// TODO: Abstract this out into its own utility function..
+			//  take a list, then remove any from that list that do
+			//  not have an attribute that matches a given string..
+			List<Question> toBeFilteredList = new ArrayList<Question>();
+			boolean keepThisQuestion;
+			
+			for (Question q : rtn)
+			{
+				keepThisQuestion = false;
+				Set<Topic> set = q.getTopics();
+				
+				for (Topic t : set) {
 					if (t.getText().contains(topicFilterText))
 						keepThisQuestion = true;
 				}

@@ -31,14 +31,18 @@ public class Constants {
 	public static final String ALLOW_GENERATED_EXAM_TO_BE_EDITED = "allowGeneratedExamToBeEdited";
 	public static final String SUCCESS_MESSAGES = "successes";
 	public static final String TEXT_TO_DISPLAY_FOR_PREV_PAGE = "textToDisplayForPrevPage";
+	
 	public static final String MRU_FILTER_TEXT = "mruFilterText";
 	public static final String MRU_FILTER_DIFFICULTY = "mruFilterDifficulty";
-	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listoquestionstobedisplayed";
+	public static final String MRU_FILTER_MINE_OR_ALL = "mruMineOrAll";	
 	public static final String MRU_FILTER_TOPIC_TEXT = "mruFilterTopicText";
+	
+	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listoquestionstobedisplayed";	
 	public static final String LIST_OF_TOPICS_TO_BE_DISPLAYED = "fa_listofalltopics";
 	public static final String LIST_OF_MAJOR_TOPICS = "fa_listofmajortopics";
 	public static final String LIST_OF_TOPICS_TO_BE_INCLUDED = "fa_listofincludedtopics";
 	public static final String LIST_OF_TOPICS_TO_BE_EXCLUDED = "fa_listofexcludedtopics";
+
 	public static final String EXAM_GENERATION_IS_IN_PROGRESS = "examGenerationIsInProgress";
 	public static final String QUIZKI_PERSISTENCE_UNIT = "quizki-pu";
 
@@ -49,6 +53,7 @@ public class Constants {
 	public static final String LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS = "listOfPreviouslySuppliedAnswers";
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
+	public static final String SHOULD_ALL_QUESTIONS_BE_DISPLAYED = "shouldAllQuestionsBeDisplayed";	
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
 	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
 	
@@ -58,9 +63,12 @@ public class Constants {
 
 	public static final String LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER = "listOfIndexesToChoiceListBySequenceNumber";
 
+	///
 	public static final Integer MY_ITEMS = 1;
 	public static final Integer ALL_ITEMS = 2;
+	public static final String MY_ITEMS_STR = "mine";
+	public static final String ALL_ITEMS_STR = "all";
+	////
 
 	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS = "mineOrAll";
-	
 }

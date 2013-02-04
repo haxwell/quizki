@@ -90,8 +90,8 @@
 				<tr>
 				<td >
 					Show <select name="mineOrAll">
-				<c:choose><c:when test="${mineOrAll == 1}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mineOrAll == 2}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
+				<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
 				</select> questions
 
 				</td>

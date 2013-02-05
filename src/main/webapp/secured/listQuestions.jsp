@@ -65,6 +65,15 @@
 						</tr>
 						<tr>
 						<td >
+							Show <select name="mineOrAll">
+						<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
+						</select> questions
+		
+						</td>
+						</tr>
+						<tr>
+						<td >
 							Include difficulties up to: <select name="difficulty" title="Do not include any questions more difficult than..">
 						<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 						<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
@@ -83,7 +92,6 @@
 
 		<h1>List All Questions</h1>
 
-
 		<form action="/ListQuestionsServlet" method="post">
 		<br/><br/>
 			<div id="center" class="listOfQuestions"  style="overflow:auto; height:225px; width:100%">
@@ -100,6 +108,14 @@
 		</thead>
 		<tbody>
 		<c:set var="rowNum" value="0"/>
+				<c:choose >
+				<c:when test="${empty fa_listoquestionstobedisplayed}">
+					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					<jsp:text><![CDATA[<td colspan="6">You have not entered any questions of your own! You can change the filter above to include questions from everyone.]]></jsp:text>
+					<jsp:text><![CDATA[</tr>]]></jsp:text>
+				</c:when>
+				<c:otherwise>
 		<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
 			<c:set var="rowNum" value="${rowNum + 1}" />
 			<c:choose><c:when test="${rowNum % 2 == 0}">
@@ -116,7 +132,7 @@
 						<input type="submit" value="Edit Question" name="questionButton_${question.id}"/>
 					</c:when>
 					</c:choose>
-				</td>   
+				</td>
 				<td><c:choose><c:when test="${empty question.description}"><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></c:when>
 						<c:otherwise><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></c:otherwise>
 					</c:choose>
@@ -130,6 +146,8 @@
 				<td>${question.difficulty.text}</td>
 			<jsp:text><![CDATA[</tr>]]></jsp:text>
 		</c:forEach>
+		</c:otherwise>
+		</c:choose>
 		</tbody>
 	</table>
 	</div>

@@ -37,6 +37,8 @@ public class Constants {
 	public static final String MRU_FILTER_MINE_OR_ALL = "mruMineOrAll";	
 	public static final String MRU_FILTER_TOPIC_TEXT = "mruFilterTopicText";
 	
+	
+	public static final String LIST_OF_EXAMS_TO_BE_DISPLAYED = "fa_listofexamstobedisplayed";
 	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listoquestionstobedisplayed";	
 	public static final String LIST_OF_TOPICS_TO_BE_DISPLAYED = "fa_listofalltopics";
 	public static final String LIST_OF_MAJOR_TOPICS = "fa_listofmajortopics";
@@ -54,6 +56,7 @@ public class Constants {
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
 	public static final String SHOULD_ALL_QUESTIONS_BE_DISPLAYED = "shouldAllQuestionsBeDisplayed";	
+	public static final String SHOULD_ALL_EXAMS_BE_DISPLAYED = "shouldAllExamsBeDisplayed";
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
 	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
 	
@@ -71,4 +74,7 @@ public class Constants {
 	////
 
 	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS = "mineOrAll";
+
+	
+
 }

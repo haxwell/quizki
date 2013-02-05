@@ -102,20 +102,32 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 	
 	// TODO: These following two methods can be combined.. 
 	private void handleFilterButtonPress(HttpServletRequest request) {
+		String mineOrAll = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS);
 		String filterText = request.getParameter("containsFilter");
 		String topicFilterText = request.getParameter("topicContainsFilter");
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficulty"));
 		
-		Collection<Question> coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
-
-		// REFACTOR NOTE: removed lines about removing from exam..
+		Collection<Question> coll = null; //QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
 		
+		if (mineOrAll.equals(Constants.MY_ITEMS_STR)) 
+		{
+			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+			
+			if (user != null)
+				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty);
+		}
+		else if (mineOrAll.equals(Constants.ALL_ITEMS_STR))
+		{
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+		}
+
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 
 		// store the filter we just used
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
 	}
 
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request) {
@@ -127,9 +139,20 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		if (o != null)
 			maxDifficulty = Integer.parseInt(o.toString());
 		
-		Collection<Question> coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+		Collection<Question> coll = null;
+		
+		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+		
+		if (user != null) {
+			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty);
+			request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);			
+		}
+		else {
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+			request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.ALL_ITEMS_STR);
+		}
+			
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
@@ -139,6 +162,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, null);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, null);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);
 	}
 	
 }

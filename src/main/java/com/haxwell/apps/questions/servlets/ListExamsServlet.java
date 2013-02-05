@@ -85,34 +85,71 @@ public class ListExamsServlet extends AbstractHttpServlet {
 		}
 		else // it was the main page Button
 		{
-			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-			
-			String group1Param = request.getParameter("group1");
-			
-			if (user == null) 
-			{
-				if (group1Param != null && group1Param.equals("mine"))
-					fwdPage = "/login.jsp";
-				else
-				{
-					coll = ExamManager.getAllExams();
-				}
+			if (button.equals("Filter")) {
+				handleFilterButtonPress(request, coll);
 			}
-			else if (user != null) 
-			{
-				if (group1Param != null && group1Param.equals("mine"))
-				{
-					coll = ExamManager.getAllExamsForUser(user.getId());
-				}
-				else
-				{
-					coll = ExamManager.getAllExams();
-				}
-	
-				request.getSession().setAttribute("fa_listofexamstobedisplayed", coll);
+			else if (button.equals("Clear Filter")) {
+				handleClearFilterButtonPress(request, coll);
 			}
+//			else {
+//				User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+//				
+//				String group1Param = request.getParameter("group1");
+//				
+//				if (user == null) 
+//				{
+//					if (group1Param != null && group1Param.equals("mine"))
+//						fwdPage = "/login.jsp";
+//					else
+//					{
+//						coll = ExamManager.getAllExams();
+//					}
+//				}
+//				else if (user != null) 
+//				{
+//					if (group1Param != null && group1Param.equals("mine"))
+//					{
+//						coll = ExamManager.getAllExamsForUser(user.getId());
+//					}
+//					else
+//					{
+//						coll = ExamManager.getAllExams();
+//					}
+//		
+//					request.getSession().setAttribute("fa_listofexamstobedisplayed", coll);
+//				}
+//			}
 		}
 			
 		redirectToJSP(request, response, fwdPage);
+	}
+
+	private void handleClearFilterButtonPress(HttpServletRequest request, Collection<Exam> coll) {
+		request.getSession().setAttribute("fa_listofexamstobedisplayed", coll);
+
+		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, null);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);
+	}
+
+	private void handleFilterButtonPress(HttpServletRequest request, Collection<Exam> coll) {
+		String mineOrAll = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS);
+		String filterText = request.getParameter("containsFilter");
+
+		if (mineOrAll.equals(Constants.MY_ITEMS_STR))
+		{
+			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+
+			if (user != null)
+				coll = ExamManager.getAllExamsCreatedByAGivenUserWithTitlesThatContain(user.getId(), filterText);
+		}
+		else 
+		{
+			coll = ExamManager.getAllExamsWithTitlesThatContain(filterText);
+		}
+
+		request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, coll);
+
+		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
 	}
 }

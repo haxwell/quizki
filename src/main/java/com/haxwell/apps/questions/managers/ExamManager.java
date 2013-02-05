@@ -18,6 +18,7 @@ import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.utils.ExamHistory;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 public class ExamManager extends Manager {
 
@@ -188,7 +189,11 @@ public class ExamManager extends Manager {
 		
 		Query query = em.createQuery("SELECT e FROM Exam e");
 		
-		return (Collection<Exam>)query.getResultList();
+		Collection<Exam> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
 	}
 
 	public static Collection<Exam> getAllExamsForUser(long id) {
@@ -198,7 +203,48 @@ public class ExamManager extends Manager {
 		
 		query.setParameter(1, id);
 		
-		return (Collection<Exam>)query.getResultList();
+		Collection<Exam> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
+	}
+
+	public static Collection<Exam> getAllExamsWithTitlesThatContain(String filterText) {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createQuery("SELECT e FROM Exam e WHERE e.title LIKE ?1", Exam.class);		
+		
+		query.setParameter(1, "%" + filterText + "%");;
+		
+		Collection<Exam> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
+	}
+
+	public static Collection<Exam> getAllExamsCreatedByAGivenUserWithTitlesThatContain(long id, String filterText) {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query;
+		String queryString = "SELECT e FROM Exam e, User u WHERE e.user.id = u.id AND u.id = ?1";
+		
+		if (!StringUtil.isNullOrEmpty(filterText))
+			queryString += " AND e.title LIKE ?2";
+		
+		query = em.createQuery(queryString, Exam.class);
+		
+		query.setParameter(1, id);
+
+		if (!StringUtil.isNullOrEmpty(filterText))
+			query.setParameter(2, "%" + filterText + "%");
+
+		Collection<Exam> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
 	}
 
 	public static void delete(Exam e, Question q) {

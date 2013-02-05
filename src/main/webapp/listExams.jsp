@@ -52,6 +52,42 @@
 <jsp:include page="header.jsp"></jsp:include>
 
 		<br/>
+
+		<form action="/ListExamsServlet" method="post">
+				<table style="float:right;">
+						<tr>
+						<td >
+							Exam Title contains <input type="text" name="containsFilter" value="${mruFilterText}" title="Only show exam with titles containing this text..."/>
+						</td>
+						</tr>
+						<tr>
+						<td >
+												<c:choose>
+     					<c:when test="${not empty sessionScope.currentUserEntity}">
+							Show <select name="mineOrAll">
+						<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
+						</select> exams
+
+						</c:when>
+						<c:otherwise>
+							Show <select name="mineOrAll" readonly="readonly">
+						<option value="mine" >my</option>
+						<option value="all" selected="selected">all</option>
+						</select> exams
+						
+						</c:otherwise>
+						</c:choose>
+							
+						</td>
+						</tr>
+						<tr>
+						<td>
+						<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
+						</td>				</tr>
+				</table>
+		</form>
+
 		
 		<c:choose>
 		<c:when test="${empty fa_listofexamstobedisplayed}">
@@ -105,12 +141,6 @@
 			</div>
 		</form>
 		<br/>		<br/>
-
-		<form action="/ListExamsServlet" method="post">		
-		Show Exams for <input type="radio" name="group1" value="everyone" selected=""/>Everyone or <input type="radio" name="group1" value="mine" selected=""/>The ones I created.
-		<br/>
-		<input type="submit" value="Refresh The List" name="button"/>
-		</form>
 		
 <br/><br/><br/><br/>
 <a href="/index.jsp">home</a><br/>

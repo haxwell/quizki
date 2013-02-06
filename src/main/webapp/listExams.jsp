@@ -140,9 +140,7 @@
 			</table>
 			</div>
 		</form>
-		<br/>		<br/>
-		
-<br/><br/><br/><br/>
+<br/><br/>
 <a href="/index.jsp">home</a><br/>
 
 

@@ -88,7 +88,7 @@ public class TopicManager extends Manager {
 	{
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "SELECT * FROM Topic t WHERE t.id IN (SELECT topic_id FROM question_topic WHERE question_id IN (SELECT id FROM question WHERE user_id= ?1)) AND t.text LIKE ?2";
+		String queryString = "SELECT * FROM topic t WHERE t.id IN (SELECT topic_id FROM question_topic WHERE question_id IN (SELECT id FROM question WHERE user_id= ?1)) AND t.text LIKE ?2";
 		
 		Query query = em.createNativeQuery(queryString, Topic.class);
 		query.setParameter(1, id);

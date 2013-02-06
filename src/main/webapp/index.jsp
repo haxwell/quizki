@@ -84,10 +84,10 @@ BROWSE<br/>
     </c:choose>
 
 
-<div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki is a tool to help you remember!<br/><br/>
-You create questions and answers in Quizki. When you're ready, Quizki will ask you the questions. You can see which you answered correctly, and which ones you missed.<br/><br/>
-BONUS! You can quiz yourself using questions that others have created!<br/><br/>
-Click around! You won't break it! (but if you do.. <a href="mailto:johnathan@quizki.com">email me</a>!)<br/> </div>
+<div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki allows you to test yourself!<br/><br/>
+You create questions and answers in Quizki. Later, Quizki can ask you the questions, and you can see which you answered correctly, and which ones you missed.<br/><br/>
+BONUS! You can test yourself using questions that others have created!<br/><br/>
+Don't be shy! Click around! You won't break it! (but if you do.. <a href="mailto:johnathan@quizki.com">email me</a>!)<br/> </div>
 
 </body>
 </html>

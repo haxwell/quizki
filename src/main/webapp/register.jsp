@@ -42,6 +42,14 @@
       	<br/>      	
       </c:if>
 
+	Quizki is currently only available in a limited testing mode.
+	<br/><br/>
+	If you would like to use Quizki, please email me at QUIZKI at HAXWELL dot ORG.
+	<br/><br/>
+	I will get you set up right away. Thank you for your interest!
+	<br/><br/>
+	-- Johnathan, Quizkero #1.
+<!-- 	
 	<form action="/RegisterUserServlet" method="post">
 		Requested Username: <input type="text" name="username"/>
 		<br/><br/>
@@ -50,6 +58,7 @@
 		
 		<input type="submit" value="Create Log In" name="button" />
 	</form>
+ -->
 
 	<br/><br/>
 	<a href="/index.jsp">home</a>

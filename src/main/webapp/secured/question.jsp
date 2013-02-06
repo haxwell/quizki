@@ -216,7 +216,7 @@ tinyMCE.init({
 		</c:otherwise>
 	</c:choose>
 	
-	<br/><br/>
+	<br/>
 	<a href="/index.jsp">home</a>  ---  <a href="listQuestions.jsp">List All Questions</a>
 	
 

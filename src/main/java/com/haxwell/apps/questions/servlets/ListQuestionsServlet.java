@@ -107,7 +107,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		String topicFilterText = request.getParameter("topicContainsFilter");
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficulty"));
 		
-		Collection<Question> coll = null; //QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+		Collection<Question> coll = null; 
 		
 		if (mineOrAll.equals(Constants.MY_ITEMS_STR)) 
 		{

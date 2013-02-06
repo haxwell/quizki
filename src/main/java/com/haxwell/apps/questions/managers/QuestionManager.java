@@ -154,7 +154,7 @@ public class QuestionManager extends Manager {
 		String queryString = "SELECT q FROM Question q WHERE ";
 		
 		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "q.text LIKE ?2 AND ";
+			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
 		
 		queryString += "q.difficulty.id <= ?1";
 		
@@ -201,7 +201,7 @@ public class QuestionManager extends Manager {
 		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
 		
 		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "q.text LIKE ?2 AND ";
+			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
 		
 		queryString += "q.difficulty.id <= ?3";
 		

@@ -131,7 +131,7 @@ tinyMCE.init({
 					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="no">No</option><option value="yes">Yes</option></select> 
 				</c:when>
 				<c:otherwise>
-					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?"><option value="no">No</option><option value="yes">Yes</option></select> 
+					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?"><option value="yes">Yes</option><option value="no">No</option></select> 
 				</c:otherwise>
 			</c:choose>
 			

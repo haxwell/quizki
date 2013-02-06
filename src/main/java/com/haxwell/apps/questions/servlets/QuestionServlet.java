@@ -67,12 +67,19 @@ public class QuestionServlet extends AbstractHttpServlet {
 		if (button == null) button = "";
 		
 		if (button.equals("Add Question") || button.equals("Update Question")) {
+			addChoice(request, questionObj);
+			addTopic(request, questionObj);
+			addReference(request, questionObj);
+			
 			addQuestion(request, questionObj);
 			entityWasPersisted = true;
 		}
 		else if (button.equals("Add Choice")) {
 			addChoice(request, questionObj);
 			setTheQuestionAttributes(request, questionObj);
+			
+			addTopic(request, questionObj);
+			addReference(request, questionObj);
 		}
 		else if (button.equals("Add True/False")) {
 			addChoice(request, questionObj, "True", getIsCorrectParameter(request));
@@ -81,11 +88,17 @@ public class QuestionServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("Add Topic")) {
 			addTopic(request, questionObj);
-			setTheQuestionAttributes(request, questionObj);			
+			setTheQuestionAttributes(request, questionObj);
+			
+			addChoice(request, questionObj);
+			addReference(request, questionObj);
 		}
 		else if (button.equals("Add Reference")) {
 			addReference(request, questionObj);
-			setTheQuestionAttributes(request, questionObj);			
+			setTheQuestionAttributes(request, questionObj);
+			
+			addChoice(request, questionObj);
+			addTopic(request, questionObj);
 		}
 		else
 		{
@@ -237,12 +250,18 @@ public class QuestionServlet extends AbstractHttpServlet {
 
 		if (!StringUtil.isNullOrEmpty(text)) {
 			
+			boolean isCorrect = getIsCorrectParameter(request);
+			boolean firstTimeThrough = true;
+			
 			StringTokenizer tokenizer = new StringTokenizer(text, ",");
 			while (tokenizer.hasMoreTokens())
 			{
 				String str = tokenizer.nextToken().trim();
 				
-				addChoice(request, questionObj, str, getIsCorrectParameter(request));
+				addChoice(request, questionObj, str, firstTimeThrough ? isCorrect : !isCorrect);
+				
+				if (firstTimeThrough)
+					firstTimeThrough = false;
 			}
 		}
 	}

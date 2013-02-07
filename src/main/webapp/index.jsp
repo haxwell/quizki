@@ -74,14 +74,19 @@ BROWSE<br/>
 <a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a><br/><br/><br/><br/>
 </div>
 
+<br/>
+Information <a href="about.jsp">about Quizki</a>. --
+
     <c:choose>
      <c:when test="${empty sessionScope.currentUserEntity}">
-	You can <a class="greyLink" href="login.jsp" id="login">register, and/or login</a> here.<br/>
+	You can <a class="greyLink" href="login.jsp" id="login">register, and/or login</a> here.
      </c:when>
      <c:otherwise>
-     	You are logged in. <a class="greyLink" href="logout.jsp" id="logout">logout</a><br/>
+     	You are logged in. <a class="greyLink" href="logout.jsp" id="logout">logout</a>
      </c:otherwise>
     </c:choose>
+    
+
 
 
 <div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki allows you to test yourself!<br/><br/>

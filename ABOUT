@@ -10,7 +10,7 @@ Quizki is based around the concepts of questions, answers, and exams. You can en
 
 How Quizki is organized--
 
-The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of every page. You can cancel anything you are doing in Quizki, by going to the home page.
+The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of any page. You can cancel anything you are doing in Quizki, by going to the home page.
 
 
 The home page is centered around three general groups of actions that you can do in Quizki. 
@@ -31,7 +31,7 @@ You will be brought to the Create Question page. From this page, you can enter t
 
 Questions are made up of
 	Text - 
-		This is what is presented to the user. You have a rich text editor available, so you can format your text with bold, underline, bullet points, and even pictures.
+		This is the question presented to the user. You have a rich text editor available, so you can format your text with bold, underline, bullet points, and even pictures.
 		
 	Description - 
 		An optional description of the question. This is especially useful if your question has only pictures, and no text. In this case, the description will allow a user to search for (and find) this question.
@@ -56,3 +56,74 @@ Questions are made up of
 	References - 
 		These are citations, etc. which a person could use to find confirmation that the answers to this question are correct.
 
+Now lets talk about Exams.. Once you have entered a few questions, you may want to arrange them in an exam.
+
+From the home page, click on the link to 'Create your own unique exam.'
+
+You will be brought to the Create Exam page. From this page, you select from the questions that have been entered in Quizki, building up a list of questions to group together in a specific exam.
+
+Exams are made up of
+	A Title
+		Some text to differentiate this exam from the others.	
+
+	List of questions -
+		a listing of each of the questions that will be presented as part of this exam.
+
+By default, Quizki lists all of the questions that you have entered. If you would like, Quizki can show you all of the questions that it knows about; ones you have entered and ones that others have entered. To switch what is included, select 'my' or 'all' in the Show .. Questions option on the right. 
+
+Regardless whether you are showing 'my' questions, or 'all' questions, you can filter the list in three ways:
+
+	Topic contains ... -
+		Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.
+
+	Question contains ... - 
+		Quizki will only show questions who's text or description contains the given string. So, if you enter 'bears' here, only questions with the word 'bears' in the text or the description will appear in the list.
+
+	Include difficulties up to ... -
+		Quizki will only include questions that are LESS difficult than the value you select here. For instance, if you choose 'Intermediate' no questions which have a difficulty of 'Well Versed' or 'Guru' will appear.
+
+This is the most detailed way of creating an exam. Once you select the questions you want, and hit Add Exam, the exam will be saved, and you can have Quizki present it to you at any time.
+
+If you don't want to go through the detail of choosing each question that will appear on your exam, you can, instead, select from a list of topics. Quizki will randomly choose questions that belong to the topics you chose. You can then take an exam right away, based on those questions.
+
+Finally, the fastest, but least customized way, of taking an exam, is to choose from the list of popular topics on the home page. Quizki will generate an exam right away based on that topic, and you can test yourself on it immediately.
+
+<<<< back home
+
+Taking an exam
+
+When taking an exam, you will be presented with a screen like this:
+
+........
+
+It tells you 
+	- that you are about to begin taking an exam, 
+	- which topics the questions will cover
+	- and how many questions there are in the exam
+
+You press BEGIN to start taking the exam.
+
+Once you are in the actual exam, you are presented with a question to answer. This question can be text, or pictures, or both. How you answer the question will depend on the type of question it is.
+
+	- If you have radio buttons to select from, this is a SINGLE question. You must choose the single correct answer.
+	- If you have check boxes, this is a MULTIPLE question. There is more than one correct answer, and you must choose them all to answer the question correctly.
+	- If you have a single text box, this is a STRING question. You must enter a short string of characters (perhaps a word or three) which correctly answers the question.
+	- If each answer has a small text box to the left of it, this is a SEQUENCE question. You must put a number in the text box indicating its position in the sequence of answers. For instance, you would put a 1 by the answer which should come first, a 2 by the second answer, etc.
+
+Once you have answered a question, hit NEXT to go to the next question. If you would like to go back to a previous question, you can hit the PREV button to move backwards. You can change your answers, and your changes will be remembered.
+
+Once you have answered all of the questions, you will be presented with a final chance to go back and review your answers. If you are satisfied that everything has been answered correctly, you can click GRADE IT to find out how you did.
+
+Quizki will tell you how many questions you answered correctly, and how many you answered incorrectly. Questions in GREEN are ones you answered correctly. If the question is listed in RED, you missed this question. You can click on the question to view everything about it. The answers section is colored to describe how you answered the question.
+
+	- If the text is red, this is an answer that you selected INCORRECTLY.
+	- If the text is red and bold, this is an answer that you did NOT select, but that you should have.
+	- If the text is green, you selected this answer correctly.
+
+<<<<<< back home
+
+Finally, back at the home page, the last area to explore in Quizki is the list of questions and exams. This will allow you to peruse all of the questions and exams that have been entered in Quizki. In both cases, you can choose to list only the things you have created, or to list everything. 
+
+You can filter the list of exams by title. 
+
+The list of questions, you can filter by topic, question, and difficulty. 

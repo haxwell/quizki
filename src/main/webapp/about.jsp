@@ -18,14 +18,149 @@
 
 <jsp:include page="header.jsp"></jsp:include>
 
-<br/><br/>
 <br/><br/><br/>
 
-<div class="aboutBox">
-Quizki is an exam question and answer database. <br/><br/>You use it to enter questions that will be useful to you while studying some topic. Quizki can create an exam based on those questions, allowing you to choose the correct answers. It will tell you which you got correct, and which you missed. In this way, later, you can be sure you know what you thought you knew.<br/><br/>Oh yeah, and all the questions, are available for anyone else to learn from.<br/><br/>Quizki shares the wealth.<br/><br/>-- johnathan@quizki.com
-</div>
+<b>Simply described--</b>
+<br/><br/>
+Quizki is an application that allows you to test yourself. 
+<br/><br/>
+Consider the following scenario: You have just become interested in a topic you've never studied before. You read articles online, you read every book you can find, and you even look into what you'd need to know to get a certification. In other words, you're serious about learning this. Now, of course, as you're reading, you understand the new information presented to you. But, how can you be sure a week later, when you go to take the test, that you still comprehend what you read?
+<br/><br/>
+Enter Quizki.
+<br/><br/>
+Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>exams</b>. You can enter questions and answers that describe the idea you are trying to remember. The point being, that if you can answer this question correctly, you can be sure you understand the concept at hand. These questions can be grouped together and presented to you in the form of an exam. Once you have answered the questions in an exam, Quizki can grade it, and tell you which you answered correctly, and which you missed. This way, you'll know which parts of those books you need to focus on.
+<br/><br/><br/><br/>
+<div style="text-align:center"><a href="index.jsp">home</a></div>
+
+
+<b>How Quizki is organized--</b>
+<br/><br/>
+The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of any page. You can cancel anything you are doing in Quizki, by going to the home page.
+<br/><br/>
+
+The home page is centered around three general groups of actions that you can do in Quizki. 
+<br/>
+<ul><li>You can take from Quizki. These actions relate to exams.</li>
+<li>You can give to Quizki. These actions relate to questions.</li>
+<li>You can browse Quizki, looking through the full lists of either the questions or exams stored in Quizki.</li>
+</ul>
+<br/><br/><br/>
+
+<div style="text-align:center"><a href="index.jsp">home</a></div>
+<b>Lets talk about Questions first.</b>
+<br/><br/>	
+From the home page, click on the 'a question of your own' link.
+<br/><br/>	
+You will be brought to the Create Question page. From this page, you can enter the information necessary to give Quizki a very useful question.
+<br/><br/>	
+Questions are made up of<br/>
+<ul>
+	<li><b>Text</b> - This is the question presented to the user. You have a rich text editor available, so you can format your text with bold, underline, bullet points, and even pictures.
+	</li>
+	<li><b>Description</b> - An optional description of the question. This is especially useful if your question has only pictures, and no text. In this case, the description will allow a user to search for (and find) this question.	
+	</li>	
+	<li><b>Difficulty</b> -	You can set an indication of how hard this question is. When generating exams later on, you will be able to filter out easy questions, or include particularly hard questions, based on this setting.
+	</li>			
+	<li><b>Type</b> - This refers to the format that the answers will come in. Your choices are:
+		<ul>			
+			<li><i>Single</i> - Given a list of possible answers, a SINGLE answer is correct.</li>
+			<li><i>Multiple</i> - Given a list of posisble answers, MULTIPLE answers must be selected in order to answer the question correctly.</li>
+			<li><i>String</i> - The question must be answered by typing a short STRING of characters, for instance 'Denver' or 'The War of the Roses'.</li>
+			<li><i>Sequence</i> - Given a list of possible answers, the user must indicate the correct SEQUENCE they should be in, in order to answer the question correctly.</li>
+		</ul>
+	</li>
+	<li><b>Answers</b> - These are the potential answers to the question.
+	</li>
+	<li><b>Topics</b> - These are short, generally one word, descriptions of what this question is about.
+	</li>	
+	<li><b>References</b> - These are citations, etc. which a person could use to find confirmation that the answers to this question are correct.
+	</li>
+</ul>	
+<br/><br/><br/>
+
+<div style="text-align:center"><a href="index.jsp">home</a></div>
+<b>Now lets talk about Exams..</b>
+<br/><br/>
+Once you have entered a few questions, you may want to arrange them in an exam.<br/><br/>
+
+From the home page, click on the link to 'Create your own unique exam.'<br/>
+<br/>
+You will be brought to the Create Exam page. From this page, you select from the questions that have been entered in Quizki, building up a list of questions to group together in a specific exam.<br/><br/>	
+
+
+Exams are made up of<br/>
+<ul>
+	<li><b>A Title</b> - some text to differentiate this exam from the others.</li>		
+	<li><b>List of questions</b> - a listing of each of the questions that will be presented as part of this exam.</li>
+</ul>	
+
+By default, Quizki lists all of the questions that you have entered. If you would like, Quizki can show you all of the questions that it knows about; ones you have entered and ones that others have entered. To switch what is included, select 'my' or 'all' in the Show .. Questions option on the right. <br/><br/>	
+
+Regardless whether you are showing 'my' questions, or 'all' questions, you can filter the list in three ways:<br/><br/>	
+
+	<ul>
+	<li><b>Topic contains ...</b> - Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.</li>	
+	<li><b>Question contains ...</b> - Quizki will only show questions who's text or description contains the given string. So, if you enter 'bears' here, only questions with the word 'bears' in the text or the description will appear in the list.</li>	
+	<li><b>Include difficulties up to ...</b> - Quizki will only include questions that are LESS difficult than the value you select here. For instance, if you choose 'Intermediate' no questions which have a difficulty of 'Well Versed' or 'Guru' will appear.</li>
+	</ul>
+
+This is the most detailed way of creating an exam. Once you select the questions you want, and hit Add Exam, the exam will be saved, and you can have Quizki present it to you at any time.<br/><br/>	
+
+If you don't want to go through the detail of choosing each question that will appear on your exam, you can, instead, select from a list of topics. Quizki will randomly choose questions that belong to the topics you chose. You can then take an exam right away, based on those questions.<br/><br/>	
+
+Finally, the fastest, but least customized way, of taking an exam, is to choose from the list of popular topics on the home page. Quizki will generate an exam right away based on that topic, and you can test yourself on it immediately.<br/><br/>	
+
+<br/><br/><br/><br/>
+<div style="text-align:center"><a href="index.jsp">home</a></div>	
+
+<b>Taking an exam</b><br/><br/>	
+
+When taking an exam, you will be presented with a screen like this:<br/><br/>	
+
+........<br/><br/><br/>
+
+It tells you <br/>
+	<ul>
+	<li>- that you are about to begin taking an exam,</li> 
+	<li>- which topics the questions will cover</li>
+	<li>- and how many questions there are in the exam</li>
+	</ul>	
+<br/><br/>
+You press BEGIN to start taking the exam.<br/><br/>	
+
+Once you are in the actual exam, you are presented with a question to answer. This question can be text, or pictures, or both. How you answer the question will depend on the type of question it is.<br/><br/>	
+
+	<ul>
+	<li>- If you have radio buttons to select from, this is a SINGLE question. You must choose the single correct answer.</li>
+	<li>- If you have check boxes, this is a MULTIPLE question. There is more than one correct answer, and you must choose them all to answer the question correctly.</li>
+	<li>- If you have a single text box, this is a STRING question. You must enter a short string of characters (perhaps a word or three) which correctly answers the question.</li>
+	<li>- If each answer has a small text box to the left of it, this is a SEQUENCE question. You must put a number in the text box indicating its position in the sequence of answers. For instance, you would put a 1 by the answer which should come first, a 2 by the second answer, etc.</li>
+	</ul>
+<br/><br/>
+Once you have answered a question, hit NEXT to go to the next question. If you would like to go back to a previous question, you can hit the PREV button to move backwards. You can change your answers, and your changes will be remembered.<br/><br/>	
+
+Once you have answered all of the questions, you will be presented with a final chance to go back and review your answers. If you are satisfied that everything has been answered correctly, you can click GRADE IT to find out how you did.<br/><br/>	
+
+Quizki will tell you how many questions you answered correctly, and how many you answered incorrectly. Questions in GREEN are ones you answered correctly. If the question is listed in RED, you missed this question. You can click on the question to view everything about it. The answers section is colored to describe how you answered the question.<br/><br/>	
+
+	<ul>
+	<li>- If the text is <div class="selectedButNotCorrect" style="display:inline">red</div>, this is an answer that you selected INCORRECTLY.</li>
+	<li>- If the text is <div class="correctButNotSelected" style="display:inline">red and bold</div>, this is an answer that you did NOT select, but that you should have.</li>
+	<li>- If the text is <div class="selectedAndCorrect" style="display:inline">green</div>, you selected this answer correctly.</li>
+	</ul>
+
+<br/><br/><br/>
+<div style="text-align:center"><a href="index.jsp">home</a></div>
+
+Finally, back at the home page, the last area to explore in Quizki is the list of questions and exams. This will allow you to peruse all of the questions and exams that have been entered in Quizki. In both cases, you can choose to list only the things you have created, or to list everything.<br/><br/>	 
+
+You can filter the list of exams by title. <br/><br/>	
+
+The list of questions, you can filter by topic, question, and difficulty.<br/><br/>	 
+
 <br/><br/><br/><br/>
 <div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
+<br/><br/>
 
 </body>
 </html>

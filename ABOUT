@@ -1,0 +1,58 @@
+
+Simply described, Quizki is an application that allows you to test yourself. Consider the following scenario: You have just become interested in a topic you've never studied before. You read articles online, you read every book you can find, and you even look into what you'd need to know to get a certification. In other words, you're serious about learning this. Now, of course, as you're reading, you understand the new information presented to you. But, how can you be sure a week later, when you go to take the test, that you still comprehend what you read?
+
+Enter Quizki.
+
+Quizki is based around the concepts of questions, answers, and exams. You can enter questions and answers that describe the idea you are trying to remember. The point being, that if you can answer this question correctly, you can be sure you understand the concept at hand. These questions can be grouped together and presented to you in the form of an exam. Once you have answered the questions in an exam, Quizki can grade it, and tell you which you answered correctly, and which you missed. This way, you'll know which parts of those books you need to focus on.
+
+<<< back to home
+
+
+How Quizki is organized--
+
+The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of every page. You can cancel anything you are doing in Quizki, by going to the home page.
+
+
+The home page is centered around three general groups of actions that you can do in Quizki. 
+
+	You can take from Quizki, actions here relate to exams.
+	
+	you can give to Quizki, actions here relate to questions.
+	
+	or you can browse Quizki, looking through the full lists of either the questions or exams stored in Quizki.
+
+
+
+Lets talk about Questions first.
+
+From the home page, click on the 'a question of your own' link.
+
+You will be brought to the Create Question page. From this page, you can enter the information necessary to give Quizki a very useful question.
+
+Questions are made up of
+	Text - 
+		This is what is presented to the user. You have a rich text editor available, so you can format your text with bold, underline, bullet points, and even pictures.
+		
+	Description - 
+		An optional description of the question. This is especially useful if your question has only pictures, and no text. In this case, the description will allow a user to search for (and find) this question.
+
+	Difficulty - 
+		You can set an indication of how hard this question is. When generating exams later on, you will be able to filter out easy questions, or include particularly hard questions, based on this setting.
+		
+	Type - 
+		This refers to the format that the answers will come in. Your choices are:
+		
+			Single - Given a list of possible answers, a SINGLE answer is correct.
+			Multiple - Given a list of posisble answers, MULTIPLE answers must be selected in order to answer the question correctly.
+			String - The question must be answered by typing a short STRING of characters, for instance 'Denver' or 'The War of the Roses'.
+			Sequence - Given a list of possible answers, the user must indicate the correct SEQUENCE they should be in, in order to answer the question correctly.
+		
+	Answers -
+		These are the potential answers to the question.
+	
+	Topics -
+		These are short, generally one word, descriptions of what this question is about.
+		
+	References - 
+		These are citations, etc. which a person could use to find confirmation that the answers to this question are correct.
+

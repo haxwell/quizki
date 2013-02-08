@@ -34,7 +34,21 @@ public class Choice implements IChoice, EntityWithAnIntegerIDBehavior, EntityWit
 
     public Choice() {
     }
-
+    
+    public Choice(long id, String text, boolean isCorrect) {
+    	this.id = id;
+    	this.text = text;
+    	this.iscorrect = isCorrect ? 1 : 0;
+    	this.sequence = 0;
+    }
+    
+    public Choice(long id, String text, boolean isCorrect, int sequence) {
+    	this.id = id;
+    	this.text = text;
+    	this.iscorrect = isCorrect ? 1 : 0;
+    	this.sequence = sequence;
+    }
+    
     @Transient
     public long getId() {
 		return this.id;

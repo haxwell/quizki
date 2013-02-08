@@ -21,6 +21,10 @@ public class QuestionType implements EntityWithAnIntegerIDBehavior, Serializable
     public QuestionType() {
     }
     
+    public QuestionType(long id) {
+    	this.id = id;
+    }
+    
     public QuestionType(String str) {
     	this.text = str;
     }

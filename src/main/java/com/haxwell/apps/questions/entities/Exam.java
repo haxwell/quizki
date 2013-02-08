@@ -77,6 +77,9 @@ public class Exam implements IExam, EntityWithAnIntegerIDBehavior, Serializable 
 	}
 	
 	public void addQuestion(Question q) {
+		if (this.questions == null)
+			this.questions = new HashSet<Question>();
+		
 		this.questions.add(q);
 	}
 	

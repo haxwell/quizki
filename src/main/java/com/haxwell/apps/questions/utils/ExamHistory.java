@@ -1,6 +1,5 @@
 package com.haxwell.apps.questions.utils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,7 +14,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 
-public class ExamHistory implements Iterable {
+public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 	
 	private Question currentQuestion;
 	private Question mostRecentlyUsedQuestion;
@@ -199,33 +198,19 @@ public class ExamHistory implements Iterable {
 	 * @return
 	 */
 	public Collection<String> getFieldnamesSelectedAsAnswersToCurrentQuestion() {
-		Collection<String> rtn = new ArrayList<String>();
-		AnsweredQuestion aq = mapOfExistingAnswers.get(currentQuestionNumber); 
-		
-		// HACK.. What really should be done here is that this method should get the map
-		//  from aq.answers, and then pass it to an object which will return the appropriate 
-		//  collection (either keys or values). This object should be of a type specifically
-		//  associated with the QuestionType of the given question, ala the Checker classes.
-		//  Fix this one day when there's not much else to do..
-		
-		if (aq != null)
-			if (aq.getQuestion().getQuestionType().getId() == TypeConstants.SINGLE)
-				rtn = aq.getAnswers().values();
-			else 
-				rtn = aq.getAnswers().keySet();
-		
-		return rtn;
+		return getFieldnamesSelectedAsAnswersForQuestion(currentQuestionNumber);
 	}
 	
-	public Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Question q)
-	{
-		Integer key = mapOfQuestionToDisplayIndex.get(q);
-		
+	public Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Question q)	{
+		return getFieldnamesSelectedAsAnswersForQuestion(mapOfQuestionToDisplayIndex.get(q));
+	}
+	
+	private Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Integer examHistoryQuestionNumber) {
 		Collection<String> rtn = null;
 		
-		if (key != null)
+		if (examHistoryQuestionNumber != null)
 		{
-			AnsweredQuestion aq = mapOfExistingAnswers.get(key);
+			AnsweredQuestion aq = mapOfExistingAnswers.get(examHistoryQuestionNumber);
 			
 			// HACK.. What really should be done here is that this method should get the map
 			//  from aq.answers, and then pass it to an object which will return the appropriate 
@@ -234,7 +219,7 @@ public class ExamHistory implements Iterable {
 			//  Fix this one day when there's not much else to do..
 			
 			if (aq != null)
-				if (q.getQuestionType().getId() == TypeConstants.SINGLE)
+				if (aq.getQuestion().getQuestionType().getId() == TypeConstants.SINGLE)
 					rtn = aq.getAnswers().values();
 				else 
 					rtn = aq.getAnswers().keySet();
@@ -286,12 +271,11 @@ public class ExamHistory implements Iterable {
 	}
 
 	@Override
-	public Iterator iterator() {
+	public Iterator<ExamHistory.AnsweredQuestion> iterator() {
 		return new EHIterator();
 	}
 	
-	public Iterator getIterator()
-	{
+	public Iterator<ExamHistory.AnsweredQuestion> getIterator()	{
 		return iterator();
 	}
 }

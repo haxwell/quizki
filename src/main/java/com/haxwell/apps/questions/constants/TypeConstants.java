@@ -13,7 +13,7 @@ public class TypeConstants {
 	// TODO: Should this be an enumeration?
 	
 	public static final int SINGLE = 1;
-	public static final int MULTI = 2;
+	public static final int MULTI = 2; // TODO: Change this to MULTIPLE
 	public static final int STRING = 3;
 	public static final int SEQUENCE = 4;
 	

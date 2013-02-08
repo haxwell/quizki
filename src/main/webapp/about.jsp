@@ -24,11 +24,11 @@
 <br/><br/>
 Quizki is an application that allows you to test yourself. 
 <br/><br/>
-Consider the following scenario: You have just become interested in a topic you've never studied before. You read articles online, you read every book you can find, and you even look into what you'd need to know to get a certification. In other words, you're serious about learning this. Now, of course, as you're reading, you understand the new information presented to you. But, how can you be sure a week later, when you go to take the test, that you still comprehend what you read?
+Consider the following scenario: You have just become interested in a topic you've never studied before. You read articles online, you read every book you can find, and you even look into what you'd need to know to get a certification. In other words, you're serious about learning this. Now, of course, as you're reading, you understand the new information presented to you. But, how can you be sure a week later, when you go to take the test, that you still comprehend (and recall!) what you've read?
 <br/><br/>
 Enter Quizki.
 <br/><br/>
-Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>exams</b>. You can enter questions and answers that describe the idea you are trying to remember. The point being, that if you can answer this question correctly, you can be sure you understand the concept at hand. These questions can be grouped together and presented to you in the form of an exam. Once you have answered the questions in an exam, Quizki can grade it, and tell you which you answered correctly, and which you missed. This way, you'll know which parts of those books you need to focus on.
+Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>exams</b>. You can enter questions and answers that describe the idea you are trying to remember. The point being, that, later, if you can answer the question correctly (or even better, a bunch of similar questions), you can be sure that you understand the concept at hand. The questions you enter can be grouped together and presented to you in the form of an exam. You can complete that exam whenever you are ready. Then, Quizki will grade it, and tell you which questions you have <div class="selectedAndCorrect" style="display:inline">answered correctly</div>, and which <div class="correctButNotSelected" style="display:inline">you missed</div>. This way, you'll know which parts of those books you need to focus on.
 <br/><br/><br/><br/>
 <div style="text-align:center"><a href="index.jsp">home</a></div>
 
@@ -55,7 +55,7 @@ You will be brought to the Create Question page. From this page, you can enter t
 <br/><br/>	
 Questions are made up of<br/>
 <ul>
-	<li><b>Text</b> - This is the question presented to the user. You have a rich text editor available, so you can format your text with bold, underline, bullet points, and even pictures.
+	<li><b>Text</b> - This is what Quizki will present to you to jog your memory during an exam. It can be text, complete with formatting like <b>bold</b>, <i>italics</i>, or <u>underlines</u>. You could even include a picture! 
 	</li>
 	<li><b>Description</b> - An optional description of the question. This is especially useful if your question has only pictures, and no text. In this case, the description will allow a user to search for (and find) this question.	
 	</li>	
@@ -71,7 +71,7 @@ Questions are made up of<br/>
 	</li>
 	<li><b>Answers</b> - These are the potential answers to the question.
 	</li>
-	<li><b>Topics</b> - These are short, generally one word, descriptions of what this question is about.
+	<li><b>Topics</b> - These are short, generally one word, descriptions of what this question is about. Think of Topics as a way of grouping questions together.
 	</li>	
 	<li><b>References</b> - These are citations, etc. which a person could use to find confirmation that the answers to this question are correct.
 	</li>
@@ -88,15 +88,15 @@ From the home page, click on the link to 'Create your own unique exam.'<br/>
 You will be brought to the Create Exam page. From this page, you select from the questions that have been entered in Quizki, building up a list of questions to group together in a specific exam.<br/><br/>	
 
 
-Exams are made up of<br/>
+Each exam has a...<br/>
 <ul>
-	<li><b>A Title</b> - some text to differentiate this exam from the others.</li>		
+	<li><b>Title</b> - some text to differentiate this exam from the others.</li>		
 	<li><b>List of questions</b> - a listing of each of the questions that will be presented as part of this exam.</li>
 </ul>	
 
-By default, Quizki lists all of the questions that you have entered. If you would like, Quizki can show you all of the questions that it knows about; ones you have entered and ones that others have entered. To switch what is included, select 'my' or 'all' in the Show .. Questions option on the right. <br/><br/>	
+By default, you can choose from all of the questions that you have entered. If you would like, you can choose from all of the questions that everybody else has entered, too! To change which questions you are able to choose from, select 'my' or 'all' in the Show .. Questions option on the right. <br/><br/>	
 
-Regardless whether you are showing 'my' questions, or 'all' questions, you can filter the list in three ways:<br/><br/>	
+Regardless whether you are showing only your questions, or 'all' questions, you can filter the list further in three ways:<br/><br/>	
 
 	<ul>
 	<li><b>Topic contains ...</b> - Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.</li>	

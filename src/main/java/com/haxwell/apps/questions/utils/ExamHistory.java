@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.managers.ExamManager;
@@ -132,6 +131,72 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		return rtn;
 	}
 
+	public int getCurrentQuestionNumber() {
+		return currentQuestionNumber;
+	}
+
+	public Object getTotalPotentialQuestions() {
+		return originalQuestionList.size();
+	}
+
+	/**
+	 * Returns a list of the field names that were selected as answers to the current question.
+	 * So if a question had field names A, B, and C, and the user had selected C, only field name C would
+	 * occur in this list.
+	 * 
+	 * @return
+	 */
+	public Collection<String> getFieldnamesSelectedAsAnswersToCurrentQuestion() {
+		return getFieldnamesSelectedAsAnswersForQuestion(currentQuestionNumber);
+	}
+	
+	/**
+	 * Returns a list of the field names that were selected as answers to the current question.
+	 * So if a question had field names A, B, and C, and the user had selected C, only field name C would
+	 * occur in this list.
+	 * 
+	 * @return
+	 */
+	public Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Question q)	{
+		return getFieldnamesSelectedAsAnswersForQuestion(mapOfQuestionToDisplayIndex.get(q));
+	}
+	
+	/**
+	 * Returns a list of the field names that were selected as answers to the current question.
+	 * So if a question had field names A, B, and C, and the user had selected C, only field name C would
+	 * occur in this list.
+	 * 
+	 * @return
+	 */
+	private Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Integer examHistoryQuestionNumber) {
+		Collection<String> rtn = null;
+		
+		if (examHistoryQuestionNumber != null) {
+			AnsweredQuestion aq = mapOfExistingAnswers.get(examHistoryQuestionNumber);
+			rtn = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(aq);
+		}
+		
+		return rtn;
+	}
+
+	public int getTotalNumberOfQuestions()
+	{
+		return highestQuestionNumber;
+	}
+
+	public Question getMostRecentlyUsedQuestion()
+	{
+		return mostRecentlyUsedQuestion;
+	}
+	
+	public void setCurrentQuestion(Question q)
+	{
+		currentQuestion = q;
+		
+		if (q != null)
+			mostRecentlyUsedQuestion = q;
+	}
+	
 	public class AnsweredQuestion
 	{
 		public Question question;
@@ -182,70 +247,6 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		}
 	}
 
-	public int getCurrentQuestionNumber() {
-		return currentQuestionNumber;
-	}
-
-	public Object getTotalPotentialQuestions() {
-		return originalQuestionList.size();
-	}
-
-	/**
-	 * Returns a list of the field names that were selected as answers to the current question.
-	 * So if a question had field names A, B, and C, and the user had selected C, only field name C would
-	 * occur in this list.
-	 * 
-	 * @return
-	 */
-	public Collection<String> getFieldnamesSelectedAsAnswersToCurrentQuestion() {
-		return getFieldnamesSelectedAsAnswersForQuestion(currentQuestionNumber);
-	}
-	
-	public Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Question q)	{
-		return getFieldnamesSelectedAsAnswersForQuestion(mapOfQuestionToDisplayIndex.get(q));
-	}
-	
-	private Collection<String> getFieldnamesSelectedAsAnswersForQuestion(Integer examHistoryQuestionNumber) {
-		Collection<String> rtn = null;
-		
-		if (examHistoryQuestionNumber != null)
-		{
-			AnsweredQuestion aq = mapOfExistingAnswers.get(examHistoryQuestionNumber);
-			
-			// HACK.. What really should be done here is that this method should get the map
-			//  from aq.answers, and then pass it to an object which will return the appropriate 
-			//  collection (either keys or values). This object should be of a type specifically
-			//  associated with the QuestionType of the given question, ala the Checker classes.
-			//  Fix this one day when there's not much else to do..
-			
-			if (aq != null)
-				if (aq.getQuestion().getQuestionType().getId() == TypeConstants.SINGLE)
-					rtn = aq.getAnswers().values();
-				else 
-					rtn = aq.getAnswers().keySet();
-		}
-		
-		return rtn;
-	}
-
-	public int getTotalNumberOfQuestions()
-	{
-		return highestQuestionNumber;
-	}
-
-	public Question getMostRecentlyUsedQuestion()
-	{
-		return mostRecentlyUsedQuestion;
-	}
-	
-	public void setCurrentQuestion(Question q)
-	{
-		currentQuestion = q;
-		
-		if (q != null)
-			mostRecentlyUsedQuestion = q;
-	}
-	
 	public class EHIterator implements Iterator<AnsweredQuestion>
 	{
 		private int index = 0;

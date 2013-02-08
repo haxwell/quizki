@@ -45,7 +45,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = answersMap.values().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.SINGLE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -75,7 +75,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = answersMap.keySet().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.MULTI).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -105,14 +105,14 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == 1);
 		
-		Iterator<String> iterator = answersMap.keySet().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.STRING).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
 	}
 
 	@Test
-	public void testGetFieldnamesSelectedAsAnswersToCurrentQuestion_WithQuestionsOfTypeSequence() {
+	public void testGetFieldnamesSelectedAsAnswersToCurrentQuestion_WithQuestionsOfTypeSequence() {	
 
 		// Create an ExamHistory 
 		ExamHistory eh = new ExamHistory(getExam_withTwoQuestionsOfTypeSequence());
@@ -135,14 +135,14 @@ public class ExamHistoryTest {
 
 		assertTrue(coll.size() == answersMap.size());
 
-		Iterator<String> iterator = answersMap.keySet().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.SEQUENCE).iterator();
 
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
 	}
 
 	@Test
-	public void testGetFieldnamesSelectedAsAnswersForQuestionQuestion_Single() {
+	public void testGetFieldnamesSelectedAsAnswersForQuestionQuestion_Single() {	
 
 		// Create an ExamHistory 
 		ExamHistory eh = new ExamHistory(getExam_withTwoQuestionsOfTypeSingle());
@@ -162,7 +162,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = answersMap.values().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.SINGLE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -189,7 +189,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = answersMap.keySet().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.MULTI).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -216,7 +216,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == 1);
 		
-		Iterator<String> iterator = answersMap.keySet().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.STRING).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -243,12 +243,12 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = answersMap.keySet().iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.SEQUENCE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
 	}
-	
+
 	private Set<Topic> getSetOfTopics()
 	{
 		Set<Topic> setOfTopics = new HashSet<Topic>();
@@ -258,7 +258,7 @@ public class ExamHistoryTest {
 
 		return setOfTopics;
 	}
-	
+
 	private Set<Choice> getSetOfChoices_SingleQuestionFirstChoiceIsCorrect()
 	{
 		Set<Choice> setOfChoices = new HashSet<Choice>();
@@ -270,7 +270,7 @@ public class ExamHistoryTest {
 		
 		return setOfChoices;
 	}
-	
+
 	private Set<Choice> getSetOfChoices_MultipleQuestionFirstAndThirdChoiceIsCorrect()
 	{
 		Set<Choice> setOfChoices = new HashSet<Choice>();

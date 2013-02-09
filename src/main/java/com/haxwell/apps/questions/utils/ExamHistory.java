@@ -111,7 +111,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 	{
 		Question rtn = null;
 		
-		if (allQuestionsHaveBeenAnswered && index > 0 && index < originalQuestionList.size()) {
+		if (allQuestionsHaveBeenAnswered && index > 0 && index <= originalQuestionList.size()) {
 			currentQuestionNumber = index;
 			setCurrentQuestion(originalQuestionList.get(questionIndexList.get(currentQuestionNumber - 1)));
 			
@@ -167,7 +167,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		return currentQuestionNumber;
 	}
 
-	public Object getTotalPotentialQuestions() {
+	public int getTotalPotentialQuestions() {
 		return originalQuestionList.size();
 	}
 

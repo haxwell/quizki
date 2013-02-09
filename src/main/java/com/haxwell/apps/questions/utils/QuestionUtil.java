@@ -114,7 +114,7 @@ public class QuestionUtil {
 			Collection<String> fieldnamesChosenAsAnswersToGivenQuestion,
 			Question question) {
 		
-		if (fieldnamesChosenAsAnswersToGivenQuestion == null) // Maybe we want to return null? No se?
+		if (question == null || fieldnamesChosenAsAnswersToGivenQuestion == null) 
 			return new ArrayList<String>();
 		
 		List<String> rtn = QuestionUtil.getFieldnamesForChoices(question);

@@ -92,7 +92,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					if (qn == 0) qn = 1;
 					
 					session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, qn);
-					session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+					session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 					
 					List<String> list = new ArrayList<String>();
 					

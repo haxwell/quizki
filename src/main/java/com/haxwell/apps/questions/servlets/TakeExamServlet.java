@@ -105,7 +105,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				}
 				
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-				request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+				request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			}
 		}
 		else if (button.equals("< PREV"))
@@ -127,7 +127,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
 
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			
 			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
 
@@ -165,7 +165,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
 
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			
 			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
 
@@ -193,7 +193,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
 
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			
 			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
 
@@ -211,11 +211,23 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
 			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
 
-			// TODO: check for valid integer, rather than chars, etc
-			String jumpToNumber = request.getParameter("jumpToNumber");
+			int jumpToNumber = -1;
+			boolean parseError = false;
 			
-			Question question = examHistory.getQuestionByIndex(Integer.parseInt(jumpToNumber));
-			
+			try {
+				jumpToNumber = Integer.parseInt(request.getParameter("jumpToNumber"));
+				parseError = ((jumpToNumber < 0) || (jumpToNumber > examHistory.getTotalPotentialQuestions())); 
+			}
+			catch (NumberFormatException nfe) {
+				parseError = true;
+			}
+			finally {
+				if (parseError)
+					jumpToNumber = examHistory.getCurrentQuestionNumber();
+			}
+
+			Question question = examHistory.getQuestionByIndex(jumpToNumber);
+
 			if (question != null) 
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
 			
@@ -223,7 +235,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
 
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			
 			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
 

@@ -30,6 +30,11 @@ public class AnsweredQuestionFieldnameCollectionReturner {
 	
 	public static Collection<String> getFieldnameCollection(AnsweredQuestion aq)
 	{
-		return getFieldnameCollection(aq.getAnswers(), (int)aq.getQuestion().getQuestionType().getId());
+		Collection<String> rtn = null;
+		
+		if (aq != null)
+			rtn = getFieldnameCollection(aq.getAnswers(), (int)aq.getQuestion().getQuestionType().getId());
+		
+		return rtn;
 	}
 }

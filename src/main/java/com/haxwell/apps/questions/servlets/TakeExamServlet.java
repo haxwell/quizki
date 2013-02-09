@@ -148,6 +148,90 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			
 			fwdPage = "/examReportCard.jsp";
 		}
+		else if (button.equals("<< FIRST"))
+		{
+			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
+			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
+			
+			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
+
+			Question question = examHistory.getFirstQuestion();
+			
+			if (question != null) 
+				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
+			
+			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
+
+			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			
+			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
+
+			log.log(Level.INFO, "The Existing answers to the current question");
+			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
+			
+			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+		}
+		else if (button.equals("LAST >>"))
+		{
+			log.log(Level.INFO, "***** IN LAST >> method ********");
+			
+			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
+			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
+			
+			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
+
+			Question question = examHistory.getLastQuestion();
+			
+			if (question != null) 
+				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
+			
+			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
+
+			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			
+			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
+
+			log.log(Level.INFO, "The Existing answers to the current question");
+			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
+			
+			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+		}
+		else if (button.equals("Go To #")) {
+			log.log(Level.INFO, "***** IN GO TO #... method ********");
+			
+			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
+			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
+			
+			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
+
+			// TODO: check for valid integer, rather than chars, etc
+			String jumpToNumber = request.getParameter("jumpToNumber");
+			
+			Question question = examHistory.getQuestionByIndex(Integer.parseInt(jumpToNumber));
+			
+			if (question != null) 
+				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
+			
+			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
+
+			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
+			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, examHistory.getTotalPotentialQuestions());
+			
+			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
+
+			log.log(Level.INFO, "The Existing answers to the current question");
+			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
+			
+			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+		}
 		
 		redirectToJSP(request, response, fwdPage);
 	}

@@ -31,6 +31,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 	boolean currentQuestionAnswerHasBeenRecorded = false;
 	
 	private Logger log;
+	private boolean allQuestionsHaveBeenAnswered;
 	
 	public ExamHistory(Exam exam)
 	{
@@ -64,6 +65,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 			else
 			{
 				setCurrentQuestion(null);
+				setAllQuestionsHaveBeenAnswered(true);
 			}
 		}
 		
@@ -87,6 +89,36 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		log.log(Level.INFO, "returning currentQuestion = " + currentQuestion);
 		
 		return currentQuestion;
+	}
+	
+	public Question getFirstQuestion()
+	{
+		if (allQuestionsHaveBeenAnswered)
+			return getQuestionByIndex(1);
+		else
+			return null;
+	}
+	
+	public Question getLastQuestion()
+	{
+		if (allQuestionsHaveBeenAnswered)
+			return getQuestionByIndex(originalQuestionList.size());
+		else
+			return null;
+	}
+	
+	public Question getQuestionByIndex(int index)
+	{
+		Question rtn = null;
+		
+		if (allQuestionsHaveBeenAnswered && index > 0 && index < originalQuestionList.size()) {
+			currentQuestionNumber = index;
+			setCurrentQuestion(originalQuestionList.get(questionIndexList.get(currentQuestionNumber - 1)));
+			
+			rtn = currentQuestion;
+		}
+		
+		return rtn;
 	}
 
 	/**
@@ -195,6 +227,16 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		
 		if (q != null)
 			mostRecentlyUsedQuestion = q;
+	}
+	
+	public boolean getAllQuestionsHaveBeenAnswered()
+	{
+		return allQuestionsHaveBeenAnswered;
+	}
+	
+	protected void setAllQuestionsHaveBeenAnswered(boolean b)
+	{
+		allQuestionsHaveBeenAnswered = b;
 	}
 	
 	public class AnsweredQuestion

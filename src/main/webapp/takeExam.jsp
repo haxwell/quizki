@@ -114,6 +114,12 @@
 		<br/><br/>
 		<input type="submit" value="&lt; PREV" name="button"/>
 		<input type="submit" value="NEXT &gt;" name="button"/>
+		<br/><br/>
+		
+		<c:if test="${currentExamHistory.allQuestionsHaveBeenAnswered==true}">
+		<input type="submit" value="&lt;&lt; FIRST" name="button"/><input type="text" name="jumpToNumber" size="3" maxlength="3" autocomplete="off"/><input type="submit" value="Go To #" name="button"/><input type="submit" value="LAST &gt;&gt;" name="button"/>
+		</c:if>
+		
 	</form>
 	
 	<br/><br/>

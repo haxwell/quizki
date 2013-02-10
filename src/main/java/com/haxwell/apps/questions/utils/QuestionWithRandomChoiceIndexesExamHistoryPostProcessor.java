@@ -6,7 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
 
-public class SequenceExamHistoryPostProcessor extends
+/**
+ * Preserves the indexes that have been randomly assigned to choices on a question,
+ * so that the indexes are generated once, and each next time, the same indexes are 
+ * used. Otherwise, the indexes would be different each time the question was displayed
+ * and the choices would then be in a different position each time. 
+ * 
+ * @author johnathanj
+ */
+public class QuestionWithRandomChoiceIndexesExamHistoryPostProcessor extends
 		AbstractExamHistoryPostProcessor {
 
 	public void beforeQuestionDisplayed(HttpServletRequest request, ExamHistory eh) {

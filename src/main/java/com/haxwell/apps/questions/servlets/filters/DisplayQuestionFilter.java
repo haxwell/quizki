@@ -65,8 +65,8 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			List<Choice> questionChoiceList = QuestionUtil.getChoiceList(question);			
 			
 			if (examHistory != null) {
-				areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
-				req.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);				
+				areThereExistingAnswersToCurrentQuestionList = getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(examHistory, question);
+				req.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", areThereExistingAnswersToCurrentQuestionList);				
 				
 				long qtID = question.getQuestionType().getId();
 				AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
@@ -122,7 +122,7 @@ public class DisplayQuestionFilter extends AbstractFilter {
 		}
 	}
 	
-	private List<String> getListSayingAnElementIsCheckedOrNot(ExamHistory eh, Question q)
+	private List<String> getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(ExamHistory eh, Question q)
 	{
 		return QuestionUtil.getUIArray_FieldWasSelected(eh.getFieldnamesSelectedAsAnswersForQuestion(q), q);
 	}

@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.servlets;
 
-import java.io.IOException;
+import java.io.IOException;	
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +29,9 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @WebServlet("/TakeExamServlet")
 public class TakeExamServlet extends AbstractHttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+	private static final long serialVersionUID = 135739L;
+	private Logger log = Logger.getLogger(TakeExamServlet.class.getName());
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -49,8 +50,6 @@ public class TakeExamServlet extends AbstractHttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		Logger log = Logger.getLogger(TakeExamServlet.class.getName());
 		
 		String fwdPage = "/takeExam.jsp";
 		String button = request.getParameter("button");
@@ -100,8 +99,8 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				if (nextQuestion == null)
 					fwdPage = "/examWillBeGraded.jsp";
 				else {
-					List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, nextQuestion);
-					request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+					List<String> areThereExistingAnswersToCurrentQuestionList = getListOfFieldnamesInWhichUserInteractedWithAsAnAnswerToCurrentQuestion(examHistory, nextQuestion);
+					request.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", areThereExistingAnswersToCurrentQuestionList);
 				}
 				
 				request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
@@ -112,29 +111,8 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		{
 			log.log(Level.INFO, "***** IN PREV method ********");
 			
-			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
-			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
-			
-			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
-
-			Question question = examHistory.getPrevQuestion();
-			
-			if (question != null) 
-				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
-			
-			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
-
-			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
-			
-			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
-
-			log.log(Level.INFO, "The Existing answers to the current question");
-			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
-			
-			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+			handleAfterQuestionDisplayedTasks(request, examHistory);
+			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getPrevQuestion());
 		}
 		else if (button.equals("GRADE IT!"))
 		{
@@ -150,66 +128,22 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("<< FIRST"))
 		{
-			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
-			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
+			log.log(Level.INFO, "***** IN << FIRST method ********");
 			
-			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
-
-			Question question = examHistory.getFirstQuestion();
-			
-			if (question != null) 
-				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
-			
-			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
-
-			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
-			
-			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
-
-			log.log(Level.INFO, "The Existing answers to the current question");
-			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
-			
-			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+			handleAfterQuestionDisplayedTasks(request, examHistory);
+			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getFirstQuestion());
 		}
 		else if (button.equals("LAST >>"))
 		{
 			log.log(Level.INFO, "***** IN LAST >> method ********");
 			
-			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
-			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
-			
-			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
-
-			Question question = examHistory.getLastQuestion();
-			
-			if (question != null) 
-				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
-			
-			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
-
-			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
-			
-			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
-
-			log.log(Level.INFO, "The Existing answers to the current question");
-			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
-			
-			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+			handleAfterQuestionDisplayedTasks(request, examHistory);
+			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getLastQuestion());
 		}
 		else if (button.equals("Go To #")) {
 			log.log(Level.INFO, "***** IN GO TO #... method ********");
 			
-			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
-			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
-			
-			AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
+			handleAfterQuestionDisplayedTasks(request, examHistory);
 
 			int jumpToNumber = -1;
 			boolean parseError = false;
@@ -226,29 +160,42 @@ public class TakeExamServlet extends AbstractHttpServlet {
 					jumpToNumber = examHistory.getCurrentQuestionNumber();
 			}
 
-			Question question = examHistory.getQuestionByIndex(jumpToNumber);
-
-			if (question != null) 
-				request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
-			
-			aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
-			if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
-
-			request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
-			request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
-			
-			List<String> areThereExistingAnswersToCurrentQuestionList = getListSayingAnElementIsCheckedOrNot(examHistory, question);
-
-			log.log(Level.INFO, "The Existing answers to the current question");
-			log.log(Level.INFO, StringUtil.getToStringOfEach(areThereExistingAnswersToCurrentQuestionList));
-			
-			request.getSession().setAttribute("listSayingAnElementIsCheckedOrNot", areThereExistingAnswersToCurrentQuestionList);
+			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getQuestionByIndex(jumpToNumber));
 		}
-		
+
 		redirectToJSP(request, response, fwdPage);
 	}
+
+	private void handleBeforeQuestionDisplayedTasks(HttpServletRequest request,
+			ExamHistory examHistory, Question question) {
+		AbstractExamHistoryPostProcessor aehpp;
+		if (question != null) 
+			request.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
+		
+		aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+		if (aehpp != null) aehpp.beforeQuestionDisplayed(request, examHistory);
+
+		request.getSession().setAttribute(Constants.CURRENT_QUESTION_NUMBER, examHistory.getCurrentQuestionNumber());
+		request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
+		
+		List<String> list = getListOfFieldnamesInWhichUserInteractedWithAsAnAnswerToCurrentQuestion(examHistory, question);
+
+		log.log(Level.INFO, "The Existing answers to the current question");
+		log.log(Level.INFO, StringUtil.getToStringOfEach(list));
+		
+		request.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
+	}
+
+	private void handleAfterQuestionDisplayedTasks(HttpServletRequest request,
+			ExamHistory examHistory) {
+		Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
+		boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
+		
+		AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
+		if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
+	}
 	
-	private List<String> getListSayingAnElementIsCheckedOrNot(ExamHistory eh, Question q)
+	private List<String> getListOfFieldnamesInWhichUserInteractedWithAsAnAnswerToCurrentQuestion(ExamHistory eh, Question q)
 	{
 		return QuestionUtil.getUIArray_FieldWasSelected(eh.getFieldnamesSelectedAsAnswersToCurrentQuestion(), q);
 	}

@@ -43,7 +43,7 @@ public class ExamNoLongerRunningFilter extends AbstractFilter {
 			session.setAttribute(Constants.CURRENT_QUESTION, null);
 			session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, null);
 			session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, null);
-			session.setAttribute("listSayingAnElementIsCheckedOrNot", null);
+			session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", null);
 			
 			log.log(java.util.logging.Level.INFO, "Exam set to 'not in progress'.... exam state completely reset!");
 		}

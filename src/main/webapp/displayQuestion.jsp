@@ -77,8 +77,8 @@
 				<![CDATA[ var fieldSequenceNumbers = undefined; ]]>
 			</c:otherwise>
 			</c:choose>
-			<c:choose><c:when test="${not empty sessionScope.listSayingAnElementIsCheckedOrNot}">
-				<![CDATA[ var selected = ${listSayingAnElementIsCheckedOrNot}; ]]>
+			<c:choose><c:when test="${not empty sessionScope.listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion}">
+				<![CDATA[ var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion}; ]]>
 			</c:when>
 			<c:otherwise>
 				<![CDATA[ var selected = undefined; ]]>

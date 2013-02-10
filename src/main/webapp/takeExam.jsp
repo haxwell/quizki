@@ -55,7 +55,7 @@
 			<![CDATA[
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
 					var values = ${listOfCurrentQuestionsChoicesValues};
-					var selected = ${listSayingAnElementIsCheckedOrNot};
+					var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
 
 					$(document).ready(function() {
 						

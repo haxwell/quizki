@@ -98,7 +98,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					
 					list.add("");list.add("");list.add("");
 					
-					session.setAttribute("listSayingAnElementIsCheckedOrNot", list);
+					session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
 					
 					session.setAttribute(Constants.EXAM_IN_PROGRESS, true);
 					

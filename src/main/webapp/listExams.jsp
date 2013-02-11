@@ -68,7 +68,7 @@
 
 						</c:when>
 						<c:otherwise>
-							Show <select name="mineOrAll" readonly="readonly">
+							Show <select name="mineOrAll">
 						<option value="mine" >my</option>
 						<option value="all" selected="selected">all</option>
 						</select> exams
@@ -102,11 +102,13 @@
 			
 			<table class="displayExam">
 				<thead>
+				<tr>
 					<th>ID</th>
 					<th></th>
 					<th>Exam Name</th>
 					<th></th>
 					<th></th>
+				</tr>
 				</thead>
 				<tbody>
 				<c:set var="rowNum" value="0"/>

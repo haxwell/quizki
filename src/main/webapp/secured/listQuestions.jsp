@@ -95,12 +95,14 @@
 		<br/>
 	<table class="displayExam">
 		<thead>
+		<tr>
 			<th>ID</th>
 			<th></th>
 			<th>Question</th>
 			<th>Topics</th>
 			<th>Type</th>
 			<th>Difficulty</th>
+		</tr>
 		</thead>
 		<tbody>
 		<c:set var="rowNum" value="0"/>

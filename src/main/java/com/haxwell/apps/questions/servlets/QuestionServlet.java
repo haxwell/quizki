@@ -179,7 +179,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 	}
 
 	private void addTopic(HttpServletRequest request, Question questionObj) {
-		String text = request.getParameter("topic`");
+		String text = request.getParameter("topicText");
 		
 		if (!StringUtil.isNullOrEmpty(text))
 		{

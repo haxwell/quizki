@@ -96,7 +96,7 @@ Each exam has a...<br/>
 
 By default, you can choose from all of the questions that you have entered. If you would like, you can choose from all of the questions that everybody else has entered, too! To change which questions you are able to choose from, select 'my' or 'all' in the Show .. Questions option on the right. <br/><br/>	
 
-Regardless whether you are showing only your questions, or 'all' questions, you can filter the list further in three ways:<br/><br/>	
+Regardless whether you are showing only your questions, or 'all' questions, you can filter the list further in three ways:<br/>	
 
 	<ul>
 	<li><b>Topic contains ...</b> - Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.</li>	
@@ -110,48 +110,44 @@ If you don't want to go through the detail of choosing each question that will a
 
 Finally, the fastest, but least customized way, of taking an exam, is to choose from the list of popular topics on the home page. Quizki will generate an exam right away based on that topic, and you can test yourself on it immediately.<br/><br/>	
 
-<br/><br/><br/><br/>
+<br/><br/>
 <div style="text-align:center"><a href="index.jsp">home</a></div>	
 
 <b>Taking an exam</b><br/><br/>	
 
-When taking an exam, you will be presented with a screen like this:<br/><br/>	
-
-........<br/><br/><br/>
-
-It tells you <br/>
+Before an exam starts, you will be presented with a screen which tells you <br/>
 	<ul>
-	<li>- that you are about to begin taking an exam,</li> 
-	<li>- which topics the questions will cover</li>
-	<li>- and how many questions there are in the exam</li>
+	<li>that you are about to begin taking an exam,</li> 
+	<li>which topics the questions will cover</li>
+	<li>and how many questions there are in the exam</li>
 	</ul>	
 <br/><br/>
 You press BEGIN to start taking the exam.<br/><br/>	
 
-Once you are in the actual exam, you are presented with a question to answer. This question can be text, or pictures, or both. How you answer the question will depend on the type of question it is.<br/><br/>	
+Once you are in the actual exam, you are presented with a question to answer. This question can be text, or pictures, or both. How you answer the question will depend on the type of question it is.<br/>	
 
 	<ul>
-	<li>- If you have radio buttons to select from, this is a SINGLE question. You must choose the single correct answer.</li>
-	<li>- If you have check boxes, this is a MULTIPLE question. There is more than one correct answer, and you must choose them all to answer the question correctly.</li>
-	<li>- If you have a single text box, this is a STRING question. You must enter a short string of characters (perhaps a word or three) which correctly answers the question.</li>
-	<li>- If each answer has a small text box to the left of it, this is a SEQUENCE question. You must put a number in the text box indicating its position in the sequence of answers. For instance, you would put a 1 by the answer which should come first, a 2 by the second answer, etc.</li>
+	<li>If you have radio buttons to select from, this is a SINGLE question. You must choose the single correct answer.</li>
+	<li>If you have check boxes, this is a MULTIPLE question. There is more than one correct answer, and you must choose them all to answer the question correctly.</li>
+	<li>If you have a single text box, this is a STRING question. You must enter a short string of characters (perhaps a word or three) which correctly answers the question.</li>
+	<li>If each answer has a small text box to the left of it, this is a SEQUENCE question. You must put a number in the text box indicating its position in the sequence of answers. For instance, you would put a 1 by the answer which should come first, a 2 by the second answer, etc.</li>
 	</ul>
-<br/><br/>
+<br/>
 Once you have answered a question, hit NEXT to go to the next question. If you would like to go back to a previous question, you can hit the PREV button to move backwards. You can change your answers, and your changes will be remembered.<br/><br/>	
 
 Once you have answered all of the questions, you will be presented with a final chance to go back and review your answers. If you are satisfied that everything has been answered correctly, you can click GRADE IT to find out how you did.<br/><br/>	
 
-Quizki will tell you how many questions you answered correctly, and how many you answered incorrectly. Questions in GREEN are ones you answered correctly. If the question is listed in RED, you missed this question. You can click on the question to view everything about it. The answers section is colored to describe how you answered the question.<br/><br/>	
+Quizki will tell you how many questions you answered correctly, and how many you answered incorrectly. Questions in GREEN are ones you answered correctly. If the question is listed in RED, you missed this question. You can click on the question to view everything about it. The answers section is colored to describe how you answered the question.<br/>
 
 	<ul>
-	<li>- If the text is <div class="selectedButNotCorrect" style="display:inline">red</div>, this is an answer that you selected INCORRECTLY.</li>
-	<li>- If the text is <div class="correctButNotSelected" style="display:inline">red and bold</div>, this is an answer that you did NOT select, but that you should have.</li>
-	<li>- If the text is <div class="selectedAndCorrect" style="display:inline">green</div>, you selected this answer correctly.</li>
+	<li>If the text is <div class="selectedButNotCorrect" style="display:inline">red</div>, this is an answer that you selected INCORRECTLY.</li>
+	<li>If the text is <div class="correctButNotSelected" style="display:inline">red and bold</div>, this is an answer that you did NOT select, but that you should have.</li>
+	<li>If the text is <div class="selectedAndCorrect" style="display:inline">green</div>, you selected this answer correctly.</li>
 	</ul>
 
 <br/><br/><br/>
 <div style="text-align:center"><a href="index.jsp">home</a></div>
-
+<br/>
 Finally, back at the home page, the last area to explore in Quizki is the list of questions and exams. This will allow you to peruse all of the questions and exams that have been entered in Quizki. In both cases, you can choose to list only the things you have created, or to list everything.<br/><br/>	 
 
 You can filter the list of exams by title. <br/><br/>	

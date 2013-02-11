@@ -62,7 +62,8 @@
 						</tr>
 						<tr>
 						<td >
-												<c:choose>
+						
+						<c:choose>
      					<c:when test="${not empty sessionScope.currentUserEntity}">
 							Show <select name="mineOrAll">
 						<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>

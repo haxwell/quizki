@@ -49,13 +49,22 @@
 			<td style="float:right;">
 					<td>
 						<c:choose>
-     					<c:when test="${empty sessionScope.currentUserEntity}">
-						Show <input type="radio" name="group1" value="everyone" selected="" disabled="disabled" title="To use this attribute, you need to log in."/>All Topics or <input type="radio" name="group1" value="mine" selected="" disabled="disabled" title="To use this attribute, you need to log in."/>Those with questions I created.
+     					<c:when test="${not empty sessionScope.currentUserEntity}">
+							Show topics related to <select name="mineOrAll">
+						<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
+						</select> questions
+
 						</c:when>
 						<c:otherwise>
-						Show <input type="radio" name="group1" value="everyone" selected=""/>All Topics or <input type="radio" name="group1" value="mine" selected=""/>Those with questions I created.						
+							Show topics related to <select name="mineOrAll" readonly="readonly">
+						<option value="mine" >my</option>
+						<option value="all" selected="selected">all</option>
+						</select> questions
+						
 						</c:otherwise>
 						</c:choose>
+
 					</td>
 					<td >
 						Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>

@@ -22,6 +22,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
+import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -196,15 +197,21 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		Collection<Topic> coll = null;
 		
 		////
-		String group1Param = request.getParameter("group1");
-		
-		if (group1Param != null && group1Param.equals("mine")) {
+		String mineOrAll = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS);
+		if (mineOrAll.equals(Constants.MY_ITEMS_STR))
+		{
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-			coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText);
-		} 
-		else
+
+			if (user != null)
+				coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText);
+			else
+				coll = TopicManager.getAllTopicsThatContain(topicFilterText);
+		}
+		else 
+		{
 			coll = TopicManager.getAllTopicsThatContain(topicFilterText);
-		
+		}
+
 		// Remove the topics already on the exam 
 		Collection<Topic> currIncluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED);				
 		Collection<Topic> currExcluded = (Collection<Topic>)request.getSession().getAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED);				
@@ -217,16 +224,20 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		// store the filter we just used
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);		
 	}
 
 	private void clearMRUFilterSettings(HttpServletRequest request) {
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, null);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);		
 	}
 	
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request) {
 		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
 		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+//		String mineOrAll = (String)request.getSession().getAttribute(Constants.MRU_FILTER_MINE_OR_ALL);
+		
 		int maxDifficulty = DifficultyConstants.GURU;
 		
 		if (o != null)
@@ -244,5 +255,6 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+//		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);		
 	}
 }

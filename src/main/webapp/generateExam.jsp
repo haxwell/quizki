@@ -33,44 +33,42 @@
 		
 		<table style="width:100%">
 			<tr><td>
-			Number Of Questions: <input type="text" name="numberOfQuestions" value="10" size="4"/>
-			<br/>  
-			Max. Difficulty: <select name="difficulty">
-					<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterDifficulty == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru">Guru</option></c:otherwise></c:choose>
-					</select>
-			</td>
-			<td style="float:right;">
-					<td>
-						<c:choose>
-     					<c:when test="${not empty sessionScope.currentUserEntity}">
-							Show topics related to <select name="mineOrAll">
-						<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
-						</select> questions
-
-						</c:when>
-						<c:otherwise>
-							Show topics related to <select name="mineOrAll" readonly="readonly">
-						<option value="mine" >my</option>
-						<option value="all" selected="selected">all</option>
-						</select> questions
-						
-						</c:otherwise>
-						</c:choose>
-
-					</td>
-					<td >
-						Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>
-					</td>
-					<td>
-					</td>
-					<td>
-						<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
-					</td>			
-			</td>
+				Number Of Questions: <input type="text" name="numberOfQuestions" value="10" size="4"/>
+				<br/>  
+				Max. Difficulty: <select name="difficulty">
+						<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterDifficulty == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru">Guru</option></c:otherwise></c:choose>
+						</select>
+				</td>
+				<td>
+					<c:choose>
+	   					<c:when test="${not empty sessionScope.currentUserEntity}">
+						Show topics related to <select name="mineOrAll">
+					<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
+					<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
+					</select> questions
+	
+					</c:when>
+					<c:otherwise>
+						Show topics related to <select name="mineOrAll">
+					<option value="mine" >my</option>
+					<option value="all" selected="selected">all</option>
+					</select> questions
+					
+					</c:otherwise>
+					</c:choose>
+	
+				</td>
+				<td >
+					Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>
+				</td>
+				<td>
+				</td>
+				<td>
+					<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
+				</td>			
 			</tr>
 		</table>				
 
@@ -89,7 +87,7 @@
 				</c:otherwise></c:choose>
 	
 					<td>
-						<input type="checkbox" name="a_chkbox_${topic.id}">  ${topic.text}</input>
+						<input type="checkbox" name="a_chkbox_${topic.id}"/>  ${topic.text}
 					</td>
 					<jsp:text><![CDATA[</tr>]]></jsp:text>				
 				</c:forEach>
@@ -107,7 +105,7 @@
 			<tr>
 				<td style="vertical-align:top">
 					<table  style="width:50%">
-					<tr> Included</tr>
+					<tr><td> Included</td></tr>
 					<c:if test="${empty fa_listofincludedtopics}">
 						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%"><td> -- No Topics Included Yet! -- </td></tr>]]></jsp:text>
 					</c:if>
@@ -132,7 +130,7 @@
 				</td>
 				<td style="vertical-align:top">
 					<table  style="width:50%">
-					<tr> Excluded </tr>
+					<tr><td> Excluded </td></tr>
 					<c:if test="${empty fa_listofexcludedtopics}">
 						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%"><td> -- No Topics Excluded Yet! -- </td></tr>]]></jsp:text>
 					</c:if>

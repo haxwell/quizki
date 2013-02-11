@@ -191,8 +191,6 @@ a.q_aIsCorrect_false:link {
 	color:#CF0000; /* unvisited link */
 }
 
-	a.q_aIsCorrect_false:visited {color:#FF0000;}  /* visited link */
-	a.q_aIsCorrect_false:hover {color:#CF0000;}  /* mouse over link */
-	a.q_aIsCorrect_false:active {color:#0000FF;}  /* selected link */	
-}
-
+a.q_aIsCorrect_false:visited {color:#FF0000;}  /* visited link */
+a.q_aIsCorrect_false:hover {color:#CF0000;}  /* mouse over link */
+a.q_aIsCorrect_false:active {color:#0000FF;}  /* selected link */	

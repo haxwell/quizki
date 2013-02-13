@@ -1,4 +1,4 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -133,10 +133,10 @@
 			
 						<c:choose>
 							<c:when test="${empty question.description}">
-								<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.textWithoutHTML}</input></td>
+								<td><input type="checkbox" name="a_chkbox_${question.id}">	${fn:substring(question.textWithoutHTML, 0, 175)}</input></td>
 							</c:when>
 							<c:otherwise>
-								<td><input type="checkbox" name="a_chkbox_${question.id}">	${question.description}</input></td>
+								<td><input type="checkbox" name="a_chkbox_${question.id}">	${fn:substring(question.description, 0, 175)}</input></td>
 							</c:otherwise>
 						</c:choose>
 	
@@ -168,10 +168,10 @@
 		
 					<c:choose>
 						<c:when test="${empty question.description}">
-							<td><input type="checkbox" name="d_chkbox_${question.id}">	${question.textWithoutHTML}</input></td>
+							<td><input type="checkbox" name="d_chkbox_${question.id}">	${fn:substring(question.textWithoutHTML, 0, 175)}</input></td>
 						</c:when>
 						<c:otherwise>
-							<td><input type="checkbox" name="d_chkbox_${question.id}">	${question.description}</input></td>
+							<td><input type="checkbox" name="d_chkbox_${question.id}">	${fn:substring(question.description, 0, 175)}</input></td>
 						</c:otherwise>
 					</c:choose>
 

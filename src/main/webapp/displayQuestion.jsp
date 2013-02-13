@@ -22,7 +22,9 @@
 			<![CDATA[
 				<script type="text/javascript">
 					tinyMCE.init({
+					        theme : "advanced",
 					        mode : "textareas",
+					        plugins : "autoresize",
 					        readonly : 1,
 							content_css : "css/custom_content.css"
 					});

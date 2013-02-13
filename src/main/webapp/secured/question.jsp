@@ -18,7 +18,9 @@
 			<![CDATA[
 			<script type="text/javascript">
 tinyMCE.init({
+        theme : "advanced",
         mode : "textareas",
+        plugins : "autoresize",
 		content_css : "../css/custom_content.css",
 		theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
 		font_size_style_values : "10px,12px,13px,14px,16px,18px,20px",

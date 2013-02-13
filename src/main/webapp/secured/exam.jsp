@@ -20,9 +20,9 @@
 			<script type="text/javascript">
 			
 			
-		$(function() {
-		   $( document ).tooltip();
-		 });
+		//$(function() {
+		//   $( document ).tooltip();
+		// });
 		 
     $( "#open-event" ).tooltip({
       show: null,

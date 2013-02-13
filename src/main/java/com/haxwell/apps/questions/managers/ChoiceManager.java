@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
@@ -93,6 +94,18 @@ public class ChoiceManager extends Manager {
 			}
 			
 			choiceTextsSet.add(c.getText());
+		}
+		
+		iterator = choicesSet.iterator();
+		boolean longChoiceTextFound = false;
+		while (iterator.hasNext() && !longChoiceTextFound)
+		{
+			Choice c = iterator.next();
+			
+			if (c.getText().length() > Constants.MAX_CHOICE_TEXT_LENGTH) {
+				errors.add("One or more choices has a length longer than " + Constants.MAX_CHOICE_TEXT_LENGTH + ".");
+				longChoiceTextFound = true;
+			}
 		}
 		
 		int correctChoiceCount = 0;

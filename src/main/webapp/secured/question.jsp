@@ -116,14 +116,14 @@ tinyMCE.init({
 				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>
-				 | Description: <input type="text" size="45" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
+				 | Description: <input type="text" size="45" maxlength="998" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
 			</div>
 			
 			<hr/>
 			<br/>
 			<div >
 			Answers --<br/>
-			Text: <input type="text" name="choiceText" size="35" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
+			Text: <input type="text" name="choiceText" size="35" maxlength="998" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
 			<c:choose>
 				<c:when test="${currentQuestion.questionType.id > 2}">
 					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="no">No</option><option value="yes">Yes</option></select> 
@@ -148,7 +148,7 @@ tinyMCE.init({
 				<c:forEach var="choice" items="${currentQuestion.choices}">
 					<tr>
 						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" maxlength="2" title="Position # in the sequence"/> </td></c:if>
-						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" title="Make a change, then press Update."/></td>
+						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" maxlength="998" size="35" title="Make a change, then press Update."/></td>
 						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes</c:otherwise></c:choose></c:if> 
 										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:otherwise></c:choose></c:if>
 										<c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="This choice is a correct answer."/>No </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="This choice is a correct answer."/>No </c:otherwise></c:choose></c:if>
@@ -164,7 +164,7 @@ tinyMCE.init({
 			<hr/>
 			<div >
 			Topics --<br/>
-			Text: <input type="text" name="topicText" size="35" title="Whats this question about? (try commas!)"/>  <input type="submit" value="Add Topic" name="button"/>
+			Text: <input type="text" name="topicText" size="35" maxlength="98" title="Whats this question about? (try commas!)"/>  <input type="submit" value="Add Topic" name="button"/>
 			<br/>		
 			<table>
 				<c:forEach var="topic" items="${currentQuestion.topics}">
@@ -180,7 +180,7 @@ tinyMCE.init({
 			<hr/>
 			<div >
 			References --<br/>
-			Text: <input type="text" name="referenceText" title="Back it up with facts and stuff.." size="35" />  <input type="submit" value="Add Reference" name="button"/>
+			Text: <input type="text" name="referenceText" title="Back it up with facts and stuff.." maxlength="98" size="35" />  <input type="submit" value="Add Reference" name="button"/>
 			<br/>		
 			<table>
 				<c:forEach var="ref" items="${currentQuestion.references}">

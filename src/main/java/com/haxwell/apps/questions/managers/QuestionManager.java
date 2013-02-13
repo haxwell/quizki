@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
+import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
@@ -249,11 +250,19 @@ public class QuestionManager extends Manager {
 
 		errors.addAll(ChoiceManager.validate(questionObj));
 		
+		String questionText = questionObj.getText();
+		
 		if (questionObj.getTopics().size() < 1)
 			errors.add("Question must have at least one topic.");
 		
-		if (StringUtil.isNullOrEmpty(questionObj.getText()))
+		if (StringUtil.isNullOrEmpty(questionText))
 			errors.add("Question must have some text!");
+		
+		if (questionText != null && questionText.length() > Constants.MAX_QUESTION_TEXT_LENGTH)
+			errors.add("Question text cannot be longer than " + Constants.MAX_QUESTION_TEXT_LENGTH + " characters. Perhaps a seperate question is in order!");
+		
+		if (questionObj.getDescription() != null && questionObj.getDescription().length() > Constants.MAX_QUESTION_DESCRIPTION_LENGTH)
+			errors.add("Question description cannot be longer than " + Constants.MAX_QUESTION_DESCRIPTION_LENGTH + " characters.");
 		
 		return errors;
 	}

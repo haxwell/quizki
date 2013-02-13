@@ -75,6 +75,10 @@ public class Constants {
 
 	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS = "mineOrAll";
 
+	public static final int MAX_QUESTION_TEXT_LENGTH = 9999;
+	public static final int MAX_CHOICE_TEXT_LENGTH = 999;
+	public static final int MAX_QUESTION_DESCRIPTION_LENGTH = 999;
+
 	
 
 }

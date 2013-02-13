@@ -69,7 +69,7 @@
 	<c:choose><c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
 	<form action="/secured/ExamServlet" method="post">
-		Title: <input type="text" name="examTitle" value="${currentExam.title}"/>  
+		Title: <input type="text" name="examTitle" size="35" maxlength="126" value="${currentExam.title}"/>  
 		<br/><br/>
 		Available Questions
 		<table style="float:right;">

@@ -126,7 +126,7 @@ tinyMCE.init({
 			Text: <input type="text" name="choiceText" size="35" maxlength="998" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
 			<c:choose>
 				<c:when test="${currentQuestion.questionType.id > 2}">
-					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="no">No</option><option value="yes">Yes</option></select> 
+					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="yes">Yes</option><option value="no">No</option></select> 
 				</c:when>
 				<c:otherwise>
 					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?"><option value="yes">Yes</option><option value="no">No</option></select> 

@@ -28,8 +28,20 @@ Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>
 <br/><br/><br/><br/>
 <div style="text-align:center"><a href="index.jsp">home</a></div>
 
+<b>A Quick List of Contents</b><br/><br/>
 
-<b>How Quizki is organized--</b>
+<ol>
+<li> <a href="#organization">How Quizki is organized</a></li>
+<li> <a href="#questions">Questions</a></li>
+<li> <a href="#exams">Exams</a></li>
+<ol><li><a href="#takingAnExam">Taking an Exam</a></li></ol>
+<li> <a href="#browsing">Browsing / Listing Questions &amp; Exams</a></li>
+<li> <a href="#contactInfo">Contact info</a></li>
+</ol>
+<br/><br/>
+<div style="text-align:center"><a href="index.jsp">home</a></div>
+
+<b id="organization">How Quizki is organized--</b>
 <br/><br/>
 The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of any page. You can cancel anything you are doing in Quizki, by going to the home page.
 <br/><br/>
@@ -42,8 +54,8 @@ The home page is centered around three general groups of actions that you can do
 </ul>
 <br/><br/><br/>
 
-<div style="text-align:center"><a href="index.jsp">home</a></div>
-<b>Lets talk about Questions first.</b>
+<div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
+<b id="questions">Lets talk about Questions first.</b>
 <br/><br/>	
 From the home page, click on the 'a question of your own' link.
 <br/><br/>	
@@ -74,8 +86,8 @@ Questions are made up of<br/>
 </ul>	
 <br/><br/><br/>
 
-<div style="text-align:center"><a href="index.jsp">home</a></div>
-<b>Now lets talk about Exams..</b>
+<div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
+<b id="exams">Now lets talk about Exams..</b>
 <br/><br/>
 Once you have entered a few questions, you may want to arrange them in an exam.<br/><br/>
 
@@ -107,9 +119,9 @@ If you don't want to go through the detail of choosing each question that will a
 Finally, the fastest, but least customized way, of taking an exam, is to choose from the list of popular topics on the home page. Quizki will generate an exam right away based on that topic, and you can test yourself on it immediately.<br/><br/>	
 
 <br/><br/>
-<div style="text-align:center"><a href="index.jsp">home</a></div>	
+<div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
 
-<b>Taking an exam</b><br/><br/>	
+<b id="takingAnExam">Taking an exam</b><br/><br/>	
 
 Before an exam starts, you will be presented with a screen which tells you <br/>
 	<ul>
@@ -142,13 +154,20 @@ Quizki will tell you how many questions you answered correctly, and how many you
 	</ul>
 
 <br/><br/><br/>
-<div style="text-align:center"><a href="index.jsp">home</a></div>
+<div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
 <br/>
+<b id="browsing">Listing the questions and exams</b><br/><br/>	
 Finally, back at the home page, the last area to explore in Quizki is the list of questions and exams. This will allow you to peruse all of the questions and exams that have been entered in Quizki. In both cases, you can choose to list only the things you have created, or to list everything.<br/><br/>	 
 
 You can filter the list of exams by title. <br/><br/>	
 
 The list of questions, you can filter by topic, question, and difficulty.<br/><br/>	 
+
+<br/><br/><br/>
+<div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
+<br/>
+<b id="contactInfo">Contact us!</b><br/><br/>	
+Quizki is being actively developed, and changes are being made almost ever day. In addition, plans are in the works to make the actual Quizki code available freely to the world, soon.<br/><br/> If you would like to get in touch, please email me at HAXWELL33 at GMAIL33 dot COM (leave off the 33's).
 
 <br/><br/><br/><br/>
 <div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>

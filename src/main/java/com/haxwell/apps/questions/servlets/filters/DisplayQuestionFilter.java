@@ -59,14 +59,19 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			
 			ExamHistory examHistory = (ExamHistory)req.getSession().getAttribute(Constants.CURRENT_EXAM_HISTORY);
 			
-			List<String> areThereExistingAnswersToCurrentQuestionList = new ArrayList<String>();
+			List<String> list = new ArrayList<String>();
 			req.getSession().setAttribute("booleanExamHistoryIsPresent", examHistory != null);
 
 			List<Choice> questionChoiceList = QuestionUtil.getChoiceList(question);			
 			
-			if (examHistory != null) {
-				areThereExistingAnswersToCurrentQuestionList = getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(examHistory, question);
-				req.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", areThereExistingAnswersToCurrentQuestionList);				
+			if (examHistory == null)
+			{
+				list = getListOfFieldnamesThatAreCorrectForCurrentQuestion(question);
+				req.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
+			}
+			else { // examHistory != null
+				list = getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(examHistory, question);
+				req.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);				
 				
 				long qtID = question.getQuestionType().getId();
 				AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
@@ -125,6 +130,11 @@ public class DisplayQuestionFilter extends AbstractFilter {
 	private List<String> getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(ExamHistory eh, Question q)
 	{
 		return QuestionUtil.getUIArray_FieldWasSelected(eh.getFieldnamesSelectedAsAnswersForQuestion(q), q);
+	}
+	
+	private List<String> getListOfFieldnamesThatAreCorrectForCurrentQuestion(Question q)
+	{
+		return QuestionUtil.getUIArray_FieldWasSelected(QuestionUtil.getFieldnamesForCorrectChoices(q), q);
 	}
 
 }

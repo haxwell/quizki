@@ -40,6 +40,19 @@ public class QuestionUtil {
 		return list;
 	}
 	
+	public static Collection<String> getFieldnamesForCorrectChoices(Question q) {
+		List<Choice> choices = getChoiceList(q);
+		
+		LinkedList<String> list = new LinkedList<String>();
+		
+		for (Choice c: choices)	{
+			if (c.getIsCorrect() > 0)
+				list.add(getFieldnameForChoice(q, c));
+		}
+		
+		return list;
+	}
+	
 	/**
 	 * Lists of choices are always ordered by ID. A question could have 20 choices, and
 	 * in any list of items related to those 20 choices, the first item in the list relates
@@ -131,5 +144,5 @@ public class QuestionUtil {
 
 		return rtn;
 	}
-	
+
 }

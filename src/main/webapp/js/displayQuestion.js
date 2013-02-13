@@ -1,6 +1,9 @@
+// REMEMBER, these are just comments, used for reference.. the actual definition could have changed, and is in the 
+//  JSP referencing this JS file. #voiceOfExperience
+
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
 //		var fieldValues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion};
-//		var selected = ${listSayingAnElementIsCheckedOrNot};
+//		var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
 //		var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 //		var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
 //		var userSuppliedAnswerWhenQuestionIsOfTypeString = ${userSuppliedAnswerToStringQuestion};
@@ -122,7 +125,7 @@ function addChoiceInputsForThisQuestionType(htmlExampleID)
 			str = str.replace('??4', '');
 		}
 
-		if (thisChoiceIsCorrect && thisChoiceIsSelected) {
+		if (thisChoiceIsSelected && thisChoiceIsCorrect) {
 			str = str.replace("selected=\"\"", 'checked');								
 		}
 		

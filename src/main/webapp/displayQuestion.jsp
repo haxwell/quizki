@@ -101,7 +101,7 @@
 				<script type="text/javascript">
 
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var fieldvalues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; 
+					var fieldValues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; 
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
 	

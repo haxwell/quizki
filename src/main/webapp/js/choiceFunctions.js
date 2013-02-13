@@ -1,6 +1,9 @@
+// REMEMBER, these are just comments, used for reference.. the actual definition could have changed, and is in the 
+//  JSP referencing this JS file. #voiceOfExperience
+
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
 //		var fieldValues = ${listOfCurrentQuestionsChoicesValues};
-//		var selected = ${listSayingAnElementIsCheckedOrNot};
+//		var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
 //		var randomChoiceIndexes = ${listOfRandomChoiceIndexes}
 // 		var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers};
 

@@ -1,5 +1,5 @@
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-//		var values = ${listOfCurrentQuestionsChoicesValues};
+//		var fieldValues = ${listOfCurrentQuestionsChoicesValues};
 //		var selected = ${listSayingAnElementIsCheckedOrNot};
 //		var randomChoiceIndexes = ${listOfRandomChoiceIndexes}
 // 		var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers};
@@ -15,7 +15,7 @@
 			if (randomChoiceIndexes !== undefined)
 				pos = randomChoiceIndexes[counter];
 			
-			str = str.replace('??1', values[pos]);
+			str = str.replace('??1', fieldValues[pos]);
 			str = str.replace('??2', fieldNames[pos]);
 			
 			if (previouslySuppliedAnswers !== undefined) {
@@ -70,7 +70,7 @@
 			if (randomChoiceIndexes !== undefined)
 				pos = randomChoiceIndexes[counter];
 			
-			str = str.replace("??1", values[pos]);
+			str = str.replace("??1", fieldValues[pos]);
 			str = str.replace("??2", fieldNames[pos]);
 			str = str.replace("??2", fieldNames[pos]);						
 			

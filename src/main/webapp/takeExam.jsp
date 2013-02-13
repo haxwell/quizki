@@ -52,7 +52,7 @@
 
 			<![CDATA[
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var values = ${listOfCurrentQuestionsChoicesValues};
+					var fieldValues = ${listOfCurrentQuestionsChoicesValues};
 					var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
 
 					$(document).ready(function() {

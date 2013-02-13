@@ -1,5 +1,5 @@
 //		var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-//		var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion};
+//		var fieldValues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion};
 //		var selected = ${listSayingAnElementIsCheckedOrNot};
 //		var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 //		var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
@@ -22,15 +22,15 @@ function displaySequenceTypeQuestionChoices(htmlExampleID)
 		{
 			if (fieldSequenceNumbers[pos] == sequenceNumbersTheUserChose[pos]) {
 				str = str.replace('??4', 'greenText');
-				str = str.replace('??1', values[pos]);				
+				str = str.replace('??1', fieldValues[pos]);				
 			}
 			else {
 				str = str.replace('??4', 'redText');
-				str = str.replace('??1', values[pos] + ' (you typed: ' + sequenceNumbersTheUserChose[pos] + ')');
+				str = str.replace('??1', fieldValues[pos] + ' (you typed: ' + sequenceNumbersTheUserChose[pos] + ')');
 			}
 		}
 		else
-			str = str.replace('??1', values[pos]);
+			str = str.replace('??1', fieldValues[pos]);
 
 		if (counter%2 == 0) {
 			str = str.replace('??4', 'rowHighlight'); 
@@ -54,9 +54,9 @@ function displayStringTypeQuestionChoices(htmlExampleID)
 	{
 		var str = $(htmlExampleID).html();
 
-		str = str.replace('??1', values[counter]);
+		str = str.replace('??1', fieldValues[counter]);
 		
-		if (values[counter] == userSuppliedAnswerWhenQuestionIsOfTypeString)
+		if (fieldValues[counter] == userSuppliedAnswerWhenQuestionIsOfTypeString)
 			userSuppliedTextIsCorrect = true;
 		
 		if (counter%2 == 0) {
@@ -103,7 +103,7 @@ function addChoiceInputsForThisQuestionType(htmlExampleID)
 		var thisChoiceIsSelected = false;
 		var thisChoiceIsCorrect = false;
 		
-		str = str.replace('??1', values[counter]);
+		str = str.replace('??1', fieldValues[counter]);
 		str = str.replace('??2', fieldNames[counter]);
 		str = str.replace('??2', fieldNames[counter]);
 		

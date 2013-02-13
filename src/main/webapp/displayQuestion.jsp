@@ -101,7 +101,7 @@
 				<script type="text/javascript">
 
 					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var values = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; // todo: rename to fieldValues
+					var fieldvalues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; 
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
 	

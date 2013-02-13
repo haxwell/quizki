@@ -128,7 +128,7 @@ DROP TABLE IF EXISTS `question`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `question` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `text` varchar(1000) NOT NULL,
+  `text` varchar(10000) NOT NULL,
   `difficulty_id` bigint(20) NOT NULL,
   `type_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,

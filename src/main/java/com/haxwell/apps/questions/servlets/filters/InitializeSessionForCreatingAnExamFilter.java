@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.Filter;
@@ -69,6 +70,12 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 						coll.removeAll(exam.getQuestions());
 						session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 					}
+					
+					if (coll != null)
+						log.log(Level.INFO, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");
+					else
+						log.log(Level.INFO, "coll was null. No changes made to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
+
 				}
 			}
 			

@@ -17,7 +17,6 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
-import com.haxwell.apps.questions.interfaces.IQuestion;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 public class QuestionManager extends Manager {
@@ -45,13 +44,15 @@ public class QuestionManager extends Manager {
 		
 		long questionId = question.getId();		
 		
+		em.getTransaction().begin();
+		
 		// Delete related REFERENCEs
 		Query query = em.createNativeQuery("SELECT qr.reference_id FROM question_reference qr WHERE qr.question_id = ?1");
 		query.setParameter(1, questionId);
 		
 		List<Long> referenceIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM question_reference qr WHERE qr.question_id = ?1");
+		query = em.createNativeQuery("DELETE FROM question_reference WHERE question_id = ?1");
 		query.setParameter(1, questionId);
 		
 		query.executeUpdate();
@@ -59,7 +60,7 @@ public class QuestionManager extends Manager {
 		for (Long l : referenceIds)
 		{
 			// TODO: make this one query, using a loop and adding OR criteria to the query.
-			query = em.createNativeQuery("DELETE FROM reference r WHERE r.id = ?1");
+			query = em.createNativeQuery("DELETE FROM reference WHERE id = ?1");
 			query.setParameter(1, l);
 			query.executeUpdate();
 		}
@@ -70,7 +71,7 @@ public class QuestionManager extends Manager {
 		
 		List<Long> topicIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM question_topic qt WHERE qt.question_id = ?1");
+		query = em.createNativeQuery("DELETE FROM question_topic WHERE question_id = ?1");
 		query.setParameter(1, questionId);
 		query.executeUpdate();
 		
@@ -84,7 +85,7 @@ public class QuestionManager extends Manager {
 			
 			// If not, delete this topic, too..
 			if (list.size() == 0) {
-				query = em.createNativeQuery("DELETE FROM topic t WHERE t.id = ?1");
+				query = em.createNativeQuery("DELETE FROM topic WHERE id = ?1");
 				query.setParameter(1, l);
 				query.executeUpdate();
 			}
@@ -96,14 +97,14 @@ public class QuestionManager extends Manager {
 		
 		List<Long> choiceIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM question_choice qc WHERE qc.question_id = ?1");
+		query = em.createNativeQuery("DELETE FROM question_choice WHERE question_id = ?1");
 		query.setParameter(1, questionId);
 		query.executeUpdate();
 		
 		for (Long l : choiceIds)
 		{
 			// TODO: make this one query, using a loop and adding OR criteria to the query.
-			query = em.createNativeQuery("DELETE FROM choice c WHERE c.id = ?1");
+			query = em.createNativeQuery("DELETE FROM choice WHERE id = ?1");
 			query.setParameter(1, l);
 			query.executeUpdate();
 		}
@@ -114,7 +115,7 @@ public class QuestionManager extends Manager {
 
 		List<Long> examIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM exam_question eq WHERE eq.question_id = ?1");
+		query = em.createNativeQuery("DELETE FROM exam_question WHERE question_id = ?1");
 		query.setParameter(1, questionId);
 		query.executeUpdate();
 		
@@ -128,16 +129,18 @@ public class QuestionManager extends Manager {
 			
 			// If not, delete this exam, too..
 			if (list.size() == 0) {
-				query = em.createNativeQuery("DELETE FROM exam e WHERE e.id = ?1");
+				query = em.createNativeQuery("DELETE FROM exam WHERE id = ?1");
 				query.setParameter(1, l);
 				query.executeUpdate();
 			}
 		}
 		
 		// Delete the question itself..
-		query = em.createNativeQuery("DELETE FROM question q WHERE q.id = ?1");
+		query = em.createNativeQuery("DELETE FROM question WHERE id = ?1");
 		query.setParameter(1, questionId);
 		query.executeUpdate();
+		
+		em.getTransaction().commit();
 		
 		em.close();
 	}

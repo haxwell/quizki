@@ -57,9 +57,9 @@ public class ListQuestionsFilter extends AbstractFilter {
 				req.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 
 				if (coll != null)
-					log.log(Level.INFO, "Just added " + coll.size() + " questions to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
+					log.log(Level.INFO, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");
 				else
-					log.log(Level.INFO, "No questions were added to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
+					log.log(Level.INFO, "coll was null. No changes made to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
 			}
 			else
 				log.log(Level.INFO, Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " was not null so ListQuestionsFilter did not reset the list of questions to be displayed.");

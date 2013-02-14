@@ -63,7 +63,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		
 		if (button.equals("Add Exam") || button.equals("Update Exam"))
 		{
-			examWasPersisted = handleAddExamButtonPress(request, examObj, errors, successes, examWasPersisted);
+			examWasPersisted = handleAddExamButtonPress(request, examObj, errors, successes);
 		}
 		else if (button.equals("Add Questions"))
 		{
@@ -152,53 +152,11 @@ public class ExamServlet extends AbstractHttpServlet {
 		return sb.toString();
 	}
 	
-//	private String getQuestionIDsRequestedToBeRemovedFromTheExam(HttpServletRequest request) {
-//		Collection<Question> coll = (Collection<Question>)getExamBean(request).getQuestions();
-//
-//		Iterator<Question> iterator = coll.iterator();
-//		StringBuffer sb = new StringBuffer();
-//		
-//		while (iterator.hasNext())
-//		{
-//			Question q = iterator.next();
-//			String str = request.getParameter("d_chkbox_" + q.getId());
-//			
-//			if (!StringUtil.isNullOrEmpty(str)) {
-//				if (sb.length() > 0)
-//					sb.append(",");
-//				
-//				sb.append(q.getId());
-//			}
-//		}
-//		
-//		return sb.toString();
-//	}
-
-	private String getQuestionIDsRequestedToBeAddedToTheExam(HttpServletRequest request) {
-		Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute("fa_listoquestionstobedisplayed");
-		
-		Iterator<Question> iterator = coll.iterator();
-		StringBuffer sb = new StringBuffer();
-		
-		while (iterator.hasNext())
-		{
-			Question q = iterator.next();
-			String str = request.getParameter("a_chkbox_" + q.getId());
-			
-			if (!StringUtil.isNullOrEmpty(str)) {
-				if (sb.length() > 0)
-					sb.append(",");
-				
-				sb.append(q.getId());
-			}
-		}
-		
-		return sb.toString();
-	}
-
 	private boolean handleAddExamButtonPress(HttpServletRequest request,
-			Exam examObj, List<String> errors, List<String> successes,
-			boolean examWasPersisted) {
+			Exam examObj, List<String> errors, List<String> successes) {
+		
+		boolean rtn = false;
+		
 		setExamTitleFromFormParameter(request, examObj);
 		
 		if (validation(request, errors))
@@ -216,14 +174,14 @@ public class ExamServlet extends AbstractHttpServlet {
 			
 			request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 			
-			examWasPersisted = true;
+			rtn = true;
 		}
 		else
 		{
 			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 		}
 		
-		return examWasPersisted;
+		return rtn;
 	}
 
 	

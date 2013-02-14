@@ -37,6 +37,8 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 		
 		Logger log = Logger.getLogger(InitializeSessionForCreatingAnExamFilter.class.getName());
 		
+		log.log(Level.INFO, "beginning InitializeSessionForCreatingAnExamFilter...");
+
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
@@ -82,6 +84,8 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 			session.setAttribute(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS, Constants.MY_ITEMS);
 		}
+		
+		log.log(Level.INFO, "ending InitializeSessionForCreatingAnExamFilter...");
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

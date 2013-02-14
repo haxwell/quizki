@@ -24,7 +24,6 @@ public class QuestionManager extends Manager {
 	
 	public static Logger log = Logger.getLogger(QuestionManager.class.getName());
 	
-//	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public static long persistQuestion(Question question) 
 	{
 		EntityManager em = emf.createEntityManager();
@@ -35,13 +34,116 @@ public class QuestionManager extends Manager {
 		
 		em.getTransaction().commit();
 		
+		em.close();
+		
 		return rtn.getId();
+	}
+	
+	public static void deleteQuestion(Question question)
+	{
+		EntityManager em = emf.createEntityManager();
+		
+		long questionId = question.getId();		
+		
+		// Delete related REFERENCEs
+		Query query = em.createNativeQuery("SELECT qr.reference_id FROM question_reference qr WHERE qr.question_id = ?1");
+		query.setParameter(1, questionId);
+		
+		List<Long> referenceIds = (List<Long>)query.getResultList();
+		
+		query = em.createNativeQuery("DELETE FROM question_reference qr WHERE qr.question_id = ?1");
+		query.setParameter(1, questionId);
+		
+		query.executeUpdate();
+		
+		for (Long l : referenceIds)
+		{
+			// TODO: make this one query, using a loop and adding OR criteria to the query.
+			query = em.createNativeQuery("DELETE FROM reference r WHERE r.id = ?1");
+			query.setParameter(1, l);
+			query.executeUpdate();
+		}
+		
+		// Delete related TOPICs
+		query = em.createNativeQuery("SELECT qt.topic_id FROM question_topic qt WHERE qt.question_id = ?1");
+		query.setParameter(1, questionId);
+		
+		List<Long> topicIds = (List<Long>)query.getResultList();
+		
+		query = em.createNativeQuery("DELETE FROM question_topic qt WHERE qt.question_id = ?1");
+		query.setParameter(1, questionId);
+		query.executeUpdate();
+		
+		for (Long l : topicIds)
+		{
+			// Are there any more questions using this topic?
+			query = em.createNativeQuery("SELECT qt.question_id FROM question_topic qt WHERE qt.topic_id = ?1");
+			query.setParameter(1, l);
+			
+			List<Long> list = (List<Long>)query.getResultList();
+			
+			// If not, delete this topic, too..
+			if (list.size() == 0) {
+				query = em.createNativeQuery("DELETE FROM topic t WHERE t.id = ?1");
+				query.setParameter(1, l);
+				query.executeUpdate();
+			}
+		}
+		
+		// Delete related CHOICEs
+		query = em.createNativeQuery("SELECT qc.choice_id FROM question_choice qc WHERE qc.question_id = ?1");
+		query.setParameter(1, questionId);
+		
+		List<Long> choiceIds = (List<Long>)query.getResultList();
+		
+		query = em.createNativeQuery("DELETE FROM question_choice qc WHERE qc.question_id = ?1");
+		query.setParameter(1, questionId);
+		query.executeUpdate();
+		
+		for (Long l : choiceIds)
+		{
+			// TODO: make this one query, using a loop and adding OR criteria to the query.
+			query = em.createNativeQuery("DELETE FROM choice c WHERE c.id = ?1");
+			query.setParameter(1, l);
+			query.executeUpdate();
+		}
+		
+		// Delete related EXAMs (if necessary)
+		query = em.createNativeQuery("SELECT eq.exam_id FROM exam_question eq WHERE eq.question_id = ?1");
+		query.setParameter(1, questionId);
+
+		List<Long> examIds = (List<Long>)query.getResultList();
+		
+		query = em.createNativeQuery("DELETE FROM exam_question eq WHERE eq.question_id = ?1");
+		query.setParameter(1, questionId);
+		query.executeUpdate();
+		
+		for (Long l : examIds)
+		{
+			// Are there any more exams using this question?
+			query = em.createNativeQuery("SELECT eq.question_id FROM exam_question eq WHERE eq.exam_id = ?1");
+			query.setParameter(1, l);
+			
+			List<Long> list = (List<Long>)query.getResultList();
+			
+			// If not, delete this exam, too..
+			if (list.size() == 0) {
+				query = em.createNativeQuery("DELETE FROM exam e WHERE e.id = ?1");
+				query.setParameter(1, l);
+				query.executeUpdate();
+			}
+		}
+		
+		// Delete the question itself..
+		query = em.createNativeQuery("DELETE FROM question q WHERE q.id = ?1");
+		query.setParameter(1, questionId);
+		query.executeUpdate();
+		
+		em.close();
 	}
 	
 	public static Question newQuestion()
 	{
-		IQuestion rtn = new Question();
-		
 		return new Question();
 	}
 	

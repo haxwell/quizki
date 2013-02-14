@@ -96,6 +96,10 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		if (action != null) {
 			if (action.equals("Edit Question"))
 				fwdPage = "/secured/question.jsp?questionId=" + q.getId();
+			else if (action.equals("Delete Question")) {
+				QuestionManager.deleteQuestion(q);
+				request.getSession().setAttribute("fa_listoquestionstobedisplayed", null);
+			}
 		}
 		return fwdPage;
 	}

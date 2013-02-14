@@ -57,13 +57,18 @@ public class QuestionManager extends Manager {
 		
 		query.executeUpdate();
 		
-		for (Long l : referenceIds)
+		String str = "DELETE FROM reference WHERE ";
+		
+		for (int i = 0; i < referenceIds.size(); i++)
 		{
-			// TODO: make this one query, using a loop and adding OR criteria to the query.
-			query = em.createNativeQuery("DELETE FROM reference WHERE id = ?1");
-			query.setParameter(1, l);
-			query.executeUpdate();
+			str += "id= " + referenceIds.get(i);
+			
+			if (i+1 < referenceIds.size())
+				str += " OR ";
 		}
+			
+		query = em.createNativeQuery(str);
+		query.executeUpdate();
 		
 		// Delete related TOPICs
 		query = em.createNativeQuery("SELECT qt.topic_id FROM question_topic qt WHERE qt.question_id = ?1");
@@ -101,14 +106,19 @@ public class QuestionManager extends Manager {
 		query.setParameter(1, questionId);
 		query.executeUpdate();
 		
-		for (Long l : choiceIds)
-		{
-			// TODO: make this one query, using a loop and adding OR criteria to the query.
-			query = em.createNativeQuery("DELETE FROM choice WHERE id = ?1");
-			query.setParameter(1, l);
-			query.executeUpdate();
-		}
+		str = "DELETE FROM choice WHERE ";
 		
+		for (int i = 0; i < choiceIds.size(); i++)
+		{
+			str += "id= " + choiceIds.get(i);
+			
+			if (i+1 < choiceIds.size())
+				str += " OR ";
+		}
+			
+		query = em.createNativeQuery(str);
+		query.executeUpdate();
+
 		// Delete related EXAMs (if necessary)
 		query = em.createNativeQuery("SELECT eq.exam_id FROM exam_question eq WHERE eq.question_id = ?1");
 		query.setParameter(1, questionId);

@@ -135,9 +135,14 @@
 	<h1 style="display:inline">Display Question  </h1>
 
 	<c:if test="${(sessionScope.shouldAllowQuestionEditing==true)}">
-		<a href="/secured/question.jsp?questionId=${currentQuestion.id}">  (edit it)</a><br/><br/>
+		<a href="/secured/question.jsp?questionId=${currentQuestion.id}">  (edit it)</a>
+	</c:if>
+	
+	<c:if test="${(booleanExamHistoryIsPresent==true)}">
+		<div style="display:inline">  <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a></div>
 	</c:if>
 
+		<br/><br/>
 		<form action=".">
 		Creator: ${currentQuestion.user.username}<br/>
 	<c:choose>

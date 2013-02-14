@@ -24,11 +24,9 @@
 
 	<form action="/TakeExamServlet" method="post">
 	<br/><br/><br/><br/>
-	You've completed this exam!<br/><br/>
-	You can go back and review/change your answers, or click <input type="submit" value="GRADE IT!" name="button"/> to see how you did!<br/><br/>
+	<h3>You've completed this exam!</h3><br/><br/>
+	You can <input type="submit" value="Go Back!" name="button"/> to review/change your answers, or click <input type="submit" value="GRADE IT!" name="button"/> to see how you did!<br/><br/>
 	
-		<input type="submit" value="&lt; PREV" name="button"/>
-
 	</form>
 	
 	<br/><br/>

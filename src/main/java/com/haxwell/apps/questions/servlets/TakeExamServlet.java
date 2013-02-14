@@ -107,7 +107,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			}
 		}
-		else if (button.equals("< PREV"))
+		else if (button.equals("< PREV") || button.equals("Go Back!"))
 		{
 			log.log(Level.INFO, "***** IN PREV method ********");
 			

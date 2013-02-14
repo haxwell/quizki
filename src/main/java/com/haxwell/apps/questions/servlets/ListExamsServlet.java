@@ -80,6 +80,11 @@ public class ListExamsServlet extends AbstractHttpServlet {
 					{
 						fwdPage = "/secured/exam.jsp?examId=" + e.getId();
 					}
+					else if (action.equals("Delete Exam"))
+					{
+						ExamManager.deleteExam(e);
+						request.getSession().setAttribute("fa_listofexamstobedisplayed", null);
+					}
 				}
 			}
 		}
@@ -91,34 +96,6 @@ public class ListExamsServlet extends AbstractHttpServlet {
 			else if (button.equals("Clear Filter")) {
 				handleClearFilterButtonPress(request, coll);
 			}
-//			else {
-//				User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-//				
-//				String group1Param = request.getParameter("group1");
-//				
-//				if (user == null) 
-//				{
-//					if (group1Param != null && group1Param.equals("mine"))
-//						fwdPage = "/login.jsp";
-//					else
-//					{
-//						coll = ExamManager.getAllExams();
-//					}
-//				}
-//				else if (user != null) 
-//				{
-//					if (group1Param != null && group1Param.equals("mine"))
-//					{
-//						coll = ExamManager.getAllExamsForUser(user.getId());
-//					}
-//					else
-//					{
-//						coll = ExamManager.getAllExams();
-//					}
-//		
-//					request.getSession().setAttribute("fa_listofexamstobedisplayed", coll);
-//				}
-//			}
 		}
 			
 		redirectToJSP(request, response, fwdPage);

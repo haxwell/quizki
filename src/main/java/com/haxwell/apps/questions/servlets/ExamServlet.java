@@ -109,7 +109,7 @@ public class ExamServlet extends AbstractHttpServlet {
 			
 			if (action != null) {
 				if (action.equals("Delete"))
-					ExamManager.delete(examObj, q);
+					ExamManager.deleteQuestionFromExam(examObj, q);
 			}
 			
 			setExamTitleFromFormParameter(request, examObj);

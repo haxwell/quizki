@@ -43,6 +43,27 @@ public class ExamManager extends Manager {
 		return rtn.getId();
 	}
 	
+	public static void deleteExam(Exam exam)
+	{
+		EntityManager em = emf.createEntityManager();
+		
+		long examId = exam.getId();
+		
+		em.getTransaction().begin();
+		
+		Query query = em.createNativeQuery("DELETE FROM exam_question WHERE exam_id = ?1");
+		query.setParameter(1, examId);
+		query.executeUpdate();
+		
+		query = em.createNativeQuery("DELETE FROM exam WHERE id = ?1");
+		query.setParameter(1, examId);
+		query.executeUpdate();
+		
+		em.getTransaction().commit();
+		
+		em.close();
+	}
+	
 	public static Set<String> getAllQuestionTopics(Exam exam)
 	{
 		Set<String> rtn = new HashSet<String>();
@@ -276,7 +297,7 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
-	public static void delete(Exam e, Question q) {
+	public static void deleteQuestionFromExam(Exam e, Question q) {
 		e.getQuestions().remove(q);
 	}
 }

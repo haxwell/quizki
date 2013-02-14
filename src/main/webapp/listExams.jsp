@@ -127,6 +127,7 @@
 							<td><input type="submit" value="Take Exam" name="examButton_${exam.id}"/></td>
 							<c:choose><c:when test="${exam.user.id == currentUserEntity.id}">
 								<td><input type="submit" value="Edit Exam" name="examButton_${exam.id}"/></td>
+								<td><input type="submit" value="Delete Exam" name="examButton_${exam.id}"/></td>
 							</c:when>
 							<c:otherwise>
 								<td><input type="submit" value="Detail Exam" name="examButton_${exam.id}"/></td>

@@ -128,11 +128,40 @@ public class ExamManager extends Manager {
 	
 	public static Exam getExam(long examId)
 	{
+		Exam rtn = null;
+		
 		EntityManager em = emf.createEntityManager();
 		
-		Exam rtn = em.find(Exam.class, examId);
-		
-		em.detach(rtn);
+		{
+			String queryStr = "SELECT e FROM Exam e WHERE e.id=?1";
+
+			Query query = em.createQuery(queryStr);
+			
+			query.setParameter(1, examId);
+			query.setHint("javax.persistence.cache.retrieveMode", "BYPASS"); // skip the EntityManager cache, and go directly to the DB
+			
+			/**
+			 * Sooo.. let me explain why that hint was necessary. When creating the functionality to delete a question,
+			 * I discovered that if an exam was created, before a question it contained was deleted, the question would
+			 * still show up in the exam, and when the exam was run, Quizki would try to display it, but it would be in
+			 * an invalid state. Specifically, Question text would be there, but the rest would be gone.
+			 * 
+			 * I discovered JPA has a cache, and that this exam was being stored in the cache, and not updated once the
+			 * question it contained was removed. I found info on setting query-level cache directives at 
+			 * http://docs.oracle.com/javaee/6/tutorial/doc/gkjjj.html . 
+			 * 
+			 * Ideally, once an object was removed from the system, all objects referring to it would be invalid, but I
+			 * didn't see how to make that happen easily. (or at all). Since hitting the DB directly like this won't be
+			 * an impact for a long time, till many, many more users are concurrently in Quizki, I decided to take the hit.
+			 * 
+			 * Anyway. Carry on.
+			 *
+			 */
+			
+			rtn = (Exam)query.getSingleResult();
+			
+			em.close();
+		}
 		
 		return rtn;
 	}

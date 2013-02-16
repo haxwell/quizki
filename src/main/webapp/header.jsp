@@ -10,16 +10,17 @@
 <a class="whatIsThis" href="/about.jsp">What is this?</a>
 </td>
 <td style="text-align:right; width:33%;">
-    <c:choose>
-     <c:when test="${empty sessionScope.currentUserEntity}">
-	<a class="homeLink" href="/login.jsp">register / login</a>
-     </c:when>
-     <c:otherwise>
-     	Hello, ${sessionScope.currentUserEntity.username} <a class="darkerHomeLink" href="/logout.jsp">logout</a><br/>
-     </c:otherwise>
-    </c:choose>
+	    <c:choose>
+	     <c:when test="${empty sessionScope.currentUserEntity}">
+			<c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"> 
+				<a class="homeLink" href="/login.jsp">register / login</a>
+			</c:if>
+	     </c:when>
+	     <c:otherwise>
+	     	Hello, ${sessionScope.currentUserEntity.username} <c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"><a class="darkerHomeLink" href="/logout.jsp">logout</a></c:if>
+	     </c:otherwise>
+	    </c:choose>
 </td>
 </tr>
 </table>
 </div>
-

@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.servlets.filters;
 
-import java.io.IOException;
+import java.io.IOException;	
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -108,6 +108,8 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 				}
 				else
 					log.log(Level.INFO, "Exam is running, so nothing to do...");
+				
+				session.setAttribute(Constants.SHOULD_LOGIN_LINK_BE_DISPLAYED, Boolean.FALSE);
 			}
 			else
 				log.log(Level.INFO, "Exam is already running.. no need to initialize the session for running an exam..");

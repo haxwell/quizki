@@ -56,6 +56,7 @@ public class ResetStateFilter extends AbstractFilter {
 			
 			session.setAttribute(Constants.LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS, null);
 			session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, null);
+			session.setAttribute(Constants.SHOULD_LOGIN_LINK_BE_DISPLAYED, null);
 		}
 		
 		// pass the request along the filter chain

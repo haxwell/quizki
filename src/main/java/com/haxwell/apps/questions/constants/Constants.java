@@ -59,6 +59,7 @@ public class Constants {
 	public static final String SHOULD_ALL_EXAMS_BE_DISPLAYED = "shouldAllExamsBeDisplayed";
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
 	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
+	public static final String SHOULD_LOGIN_LINK_BE_DISPLAYED = "shouldLoginLinkBeDisplayed";
 	
 	public static final String QUESTION_ID = "questionId";
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
@@ -78,7 +79,5 @@ public class Constants {
 	public static final int MAX_QUESTION_TEXT_LENGTH = 9999;
 	public static final int MAX_CHOICE_TEXT_LENGTH = 999;
 	public static final int MAX_QUESTION_DESCRIPTION_LENGTH = 999;
-
-	
 
 }

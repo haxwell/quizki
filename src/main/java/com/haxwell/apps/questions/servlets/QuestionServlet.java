@@ -272,7 +272,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 		boolean rtn;		
 		QuestionType qt = TypeUtil.convertToObject(request.getParameter("type"));
 		
-		if (qt.getId() == TypeConstants.SINGLE || qt.getId() == TypeConstants.MULTI)
+		if (qt.getId() == TypeConstants.SINGLE || qt.getId() == TypeConstants.MULTIPLE)
 			rtn = request.getParameter("isCorrect").toLowerCase().equals("yes");
 		else
 			rtn = true; // The types STRING and SEQUENCE only list correct values...

@@ -19,7 +19,7 @@ public class QuestionTypeCheckerFactory {
 		
 		if (qtId == TypeConstants.SINGLE)
 			return new SingleQuestionTypeChecker(q);
-		else if (qtId == TypeConstants.MULTI)
+		else if (qtId == TypeConstants.MULTIPLE)
 			return new MultiQuestionTypeChecker(q);
 		else if (qtId == TypeConstants.STRING)
 			return new StringQuestionTypeChecker(q);

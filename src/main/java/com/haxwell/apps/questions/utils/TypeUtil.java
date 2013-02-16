@@ -9,8 +9,8 @@ public class TypeUtil {
 
 		if (parameter.equals(TypeConstants.SINGLE_STR))
 			return TypeConstants.SINGLE;
-		if (parameter.equals(TypeConstants.MULTI_STR))
-			return TypeConstants.MULTI;
+		if (parameter.equals(TypeConstants.MULTIPLE_STR))
+			return TypeConstants.MULTIPLE;
 		if (parameter.equals(TypeConstants.STRING_STR))
 			return TypeConstants.STRING;
 		if (parameter.equals(TypeConstants.SEQUENCE_STR))

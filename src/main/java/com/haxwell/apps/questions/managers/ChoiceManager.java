@@ -122,7 +122,7 @@ public class ChoiceManager extends Manager {
 		if (questionTypeId == TypeConstants.SINGLE && correctChoiceCount > 1)
 			errors.add("The question type is set to Single, but there is more than one correct choice.");
 		
-		if (questionTypeId == TypeConstants.MULTI && choicesSet.size() >= 2 && correctChoiceCount < 2)
+		if (questionTypeId == TypeConstants.MULTIPLE && choicesSet.size() >= 2 && correctChoiceCount < 2)
 		{
 			errors.add("The question type is set to Multiple, but there are not multiple correct choices.");
 			addedErrorRegardingMultipleCorrectChoicesNeeded = true;

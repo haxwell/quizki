@@ -75,7 +75,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.MULTI).iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.MULTIPLE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -189,7 +189,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == answersMap.size());
 		
-		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.MULTI).iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.MULTIPLE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -325,7 +325,7 @@ public class ExamHistoryTest {
 		question.setChoices(getSetOfChoices_MultipleQuestionFirstAndThirdChoiceIsCorrect());
 		question.setTopics(getSetOfTopics());
 		question.setText("this is a MULTIPLE test question " + index);
-		question.setQuestionType(new QuestionType(TypeConstants.MULTI));
+		question.setQuestionType(new QuestionType(TypeConstants.MULTIPLE));
 		
 		return question;
 	}

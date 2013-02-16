@@ -13,12 +13,12 @@ public class TypeConstants {
 	// TODO: Should this be an enumeration?
 	
 	public static final int SINGLE = 1;
-	public static final int MULTI = 2; // TODO: Change this to MULTIPLE
+	public static final int MULTIPLE = 2; 
 	public static final int STRING = 3;
 	public static final int SEQUENCE = 4;
 	
 	public static final String SINGLE_STR = "Single";
-	public static final String MULTI_STR = "Multiple";
+	public static final String MULTIPLE_STR = "Multiple";
 	public static final String STRING_STR = "String";
 	public static final String SEQUENCE_STR = "Sequence";
 	
@@ -30,14 +30,14 @@ public class TypeConstants {
 		map1 = new HashMap<Integer, String>();
 		
 		map1.put(SINGLE, SINGLE_STR);
-		map1.put(MULTI, MULTI_STR);
+		map1.put(MULTIPLE, MULTIPLE_STR);
 		map1.put(STRING, STRING_STR);
 		map1.put(SEQUENCE, SEQUENCE_STR);
 		
 		map2 = new HashMap<String, Integer>();
 		
 		map2.put(SINGLE_STR, SINGLE);
-		map2.put(MULTI_STR, MULTI);
+		map2.put(MULTIPLE_STR, MULTIPLE);
 		map2.put(STRING_STR, STRING);
 		map2.put(SEQUENCE_STR, SEQUENCE);
 	}

@@ -139,7 +139,7 @@
 	</c:if>
 	
 	<c:if test="${(booleanExamHistoryIsPresent==true)}">
-		<div style="display:inline">  <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a></div>
+		<div style="display:inline">  <a href="javascript:history.go(-1)">  (Go Back to ${textToDisplayForPrevPage})</a></div>
 	</c:if>
 
 		<br/><br/>

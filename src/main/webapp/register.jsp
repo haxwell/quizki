@@ -1,4 +1,9 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:directive.page import="net.tanesha.recaptcha.ReCaptcha" />
+    <jsp:directive.page import="net.tanesha.recaptcha.ReCaptchaFactory" />
+    <jsp:directive.page import="java.util.logging.Logger" />
+    <jsp:directive.page import="java.util.logging.Level" />
+    
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -38,23 +43,20 @@
       	<br/>      	
       </c:if>
 
-	Quizki is currently only available in a limited testing mode.
-	<br/><br/>
-	If you would like to use Quizki, please email me at QUIZKI at HAXWELL dot ORG.
-	<br/><br/>
-	I will get you set up right away. Thank you for your interest!
-	<br/><br/>
-	-- Johnathan, Quizkero #1.
-<!-- 	
 	<form action="/RegisterUserServlet" method="post">
 		Requested Username: <input type="text" name="username"/>
 		<br/><br/>
 		Requested Password: <input type="text" name="password"/>
 		<br/><br/>
 		
-		<input type="submit" value="Create Log In" name="button" />
+		<jsp:scriptlet>
+			ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LdhFt0SAAAAAL2P83cVVXFInUNdpRbJobjstezT", "6LdhFt0SAAAAAHYNTH8dOf7Yb3edDb7K51y5yQ9T", false);
+			out.print(c.createRecaptchaHtml(null, null));
+		</jsp:scriptlet>
+        <br/>
+
+        <input type="submit" value="Create Log In" name="button" />
 	</form>
- -->
 
 	<br/><br/>
 	<a href="/index.jsp">home</a>

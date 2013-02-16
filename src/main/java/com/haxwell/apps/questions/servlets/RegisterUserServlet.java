@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
+
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.managers.UserManager;
 
@@ -46,9 +49,23 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 		ArrayList<String> errors = new ArrayList<String>();
 		ArrayList<String> successes = new ArrayList<String>();		
 		
-		if (UserManager.getUser(username) != null)
-			errors.add("The username '" + username + "' already exists....");
-		
+        String remoteAddr = request.getRemoteAddr();
+        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+        reCaptcha.setPrivateKey("6LdhFt0SAAAAAHYNTH8dOf7Yb3edDb7K51y5yQ9T");
+
+        String challenge = request.getParameter("recaptcha_challenge_field");
+        String uresponse = request.getParameter("recaptcha_response_field");
+        ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
+
+        if (reCaptchaResponse.isValid()) {
+            if (UserManager.getUser(username) != null)
+    			errors.add("The username '" + username + "' already exists....");
+    	}
+        else
+        {
+        	errors.add("The text you entered for the CAPTCHA was wrong....");
+        }
+        	
 		if (errors.size() == 0)	{
 			UserManager.createUser(username, password);
 			successes.add("User " + username + " created.");
@@ -57,7 +74,7 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 		}
 		else
 			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
-		
+        
 		forwardToJSP(request, response, fwdPage);
 	}
 }

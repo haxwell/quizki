@@ -85,6 +85,13 @@
 
 <jsp:include page="header.jsp"></jsp:include>
 
+      <c:choose>
+      <c:when test="${empty currentExam}">
+      	<br/><br/>
+		Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning.</a>
+      </c:when>
+      <c:otherwise>
+
       <c:if test="${not empty requestScope.validationErrors}">
       	<br/>
       	<c:forEach var="str" items="${validationErrors}">
@@ -131,6 +138,9 @@
 	
 	<br/><br/>
 	<a href="/index.jsp">Quit this exam.</a>
+	
+	</c:otherwise>
+	</c:choose>
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>

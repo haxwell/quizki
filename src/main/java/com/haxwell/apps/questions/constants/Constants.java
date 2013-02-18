@@ -42,6 +42,7 @@ public class Constants {
 	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listoquestionstobedisplayed";	
 	public static final String LIST_OF_TOPICS_TO_BE_DISPLAYED = "fa_listofalltopics";
 	public static final String LIST_OF_MAJOR_TOPICS = "fa_listofmajortopics";
+	public static final String LIST_OF_EXAM_TOPICS = "fa_listofexamtopics";
 	public static final String LIST_OF_TOPICS_TO_BE_INCLUDED = "fa_listofincludedtopics";
 	public static final String LIST_OF_TOPICS_TO_BE_EXCLUDED = "fa_listofexcludedtopics";
 

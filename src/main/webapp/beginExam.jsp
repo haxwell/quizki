@@ -15,6 +15,13 @@
 
 <jsp:include page="header.jsp"></jsp:include>
 
+      <c:choose>
+      <c:when test="${empty sessionScope.fa_listofexamtopics}">
+      	<br/><br/>
+		Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning</a>.
+      </c:when>
+      <c:otherwise>
+
 		<br/><br/><br/>
 		You are about to begin an exam with questions covering<br/><br/>
 		
@@ -31,6 +38,8 @@
 			Press <input type="submit" value="BEGIN!" name="button"/> to get to it!<br/>
 				
 		</form>
+	</c:otherwise>		
+	</c:choose>		
 		
 <br/><br/><br/><br/>
 <a href="/index.jsp">home</a> <br/>

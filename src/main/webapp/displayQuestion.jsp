@@ -93,6 +93,13 @@
 				<![CDATA[ var indexesBySequenceNumber = undefined; ]]>
 			</c:otherwise>
 			</c:choose>
+			<c:choose><c:when test="${not empty sessionScope.urlToGoToWhenUserPressesBackButton}">
+				<![CDATA[ var backButtonURL = ${urlToGoToWhenUserPressesBackButton}; ]]>
+			</c:when>
+			<c:otherwise>
+				<![CDATA[ var backButtonURL = undefined; ]]>
+			</c:otherwise>
+			</c:choose>
 
 			<![CDATA[
 				</script>
@@ -108,7 +115,8 @@
 	
 					bajb_backdetect.OnBack = function()
 					{
-						window.location = "/index.jsp"; //alert('You clicked it!');
+						if (backButtonURL !== undefined)
+							window.location = backButtonURL; //alert('You clicked it!');
 					}
 					
 //					function handleGoBack(e) {

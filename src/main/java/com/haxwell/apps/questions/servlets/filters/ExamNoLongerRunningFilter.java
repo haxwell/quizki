@@ -36,11 +36,11 @@ public class ExamNoLongerRunningFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 			
+			setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);			
+
 			session.setAttribute(Constants.EXAM_IN_PROGRESS, null);
-					
 			session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);
 			session.setAttribute(Constants.CURRENT_EXAM, null);
-			session.setAttribute(Constants.CURRENT_QUESTION, null);
 			session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, null);
 			session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, null);
 			session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", null);

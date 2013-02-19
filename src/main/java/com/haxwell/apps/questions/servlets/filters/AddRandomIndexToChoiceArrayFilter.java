@@ -37,7 +37,7 @@ public class AddRandomIndexToChoiceArrayFilter extends AbstractFilter {
 				doGeneration = req.getSession().getAttribute(Constants.SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES).equals(Boolean.TRUE);
 			
 			if (doGeneration) {
-				Question q = (Question)req.getSession().getAttribute(Constants.CURRENT_QUESTION);
+				Question q = getCurrentQuestion(req); 
 				
 				if (q == null) // try other means
 				{

@@ -6,6 +6,8 @@ public class Constants {
 	
 	public static final String CURRENT_EXAM = "currentExam";
 	public static final String CURRENT_QUESTION = "currentQuestion";
+	public static final String CURRENT_QUESTION_KEY = "currentQuestionKey";
+	public static final String DISPLAY_QUESTION = "displayQuestion";
 	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
 	
 	public static final String IN_EDITING_MODE = "inEditingMode";
@@ -82,5 +84,4 @@ public class Constants {
 	public static final int MAX_QUESTION_DESCRIPTION_LENGTH = 999;
 
 	public static final String URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED = "urlToGoToWhenUserPressesBackButton";
-
 }

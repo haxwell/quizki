@@ -19,7 +19,6 @@
 			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="js/displayQuestion.js" type="text/javascript" ></script> ]]>			
-			<![CDATA[ <script src="js/backfix.min.js" type="text/javascript" ></script> ]]>			
 			<![CDATA[
 				<script type="text/javascript">
 					tinyMCE.init({
@@ -93,13 +92,6 @@
 				<![CDATA[ var indexesBySequenceNumber = undefined; ]]>
 			</c:otherwise>
 			</c:choose>
-			<c:choose><c:when test="${not empty sessionScope.urlToGoToWhenUserPressesBackButton}">
-				<![CDATA[ var backButtonURL = ${urlToGoToWhenUserPressesBackButton}; ]]>
-			</c:when>
-			<c:otherwise>
-				<![CDATA[ var backButtonURL = undefined; ]]>
-			</c:otherwise>
-			</c:choose>
 
 			<![CDATA[
 				</script>
@@ -113,32 +105,20 @@
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
 	
-					bajb_backdetect.OnBack = function()
-					{
-						if (backButtonURL !== undefined)
-							window.location = backButtonURL; //alert('You clicked it!');
-					}
-					
-//					function handleGoBack(e) {
-	//					window.location = "/index.jsp";
-		//			}
 
 					$(document).ready(function() {
-						//window.onbeforeunload = handleGoBack();
-						//window.addEventListener("onbeforeunload", handleGoBack, false);						
-						
 						$('div.choices').html('');
 		
-						if (${currentQuestion.questionType.id} == 1) {
+						if (${displayQuestion.questionType.id} == 1) {
 							addChoiceInputsForThisQuestionType('#radioButtonExample');
 						}
-						else if (${currentQuestion.questionType.id} == 2) {
+						else if (${displayQuestion.questionType.id} == 2) {
 							addChoiceInputsForThisQuestionType('#checkboxExample');
 						}
-						else if (${currentQuestion.questionType.id} == 3) {
+						else if (${displayQuestion.questionType.id} == 3) {
 							displayStringTypeQuestionChoices('#textExample');
 						}
-						else if (${currentQuestion.questionType.id} == 4) {
+						else if (${displayQuestion.questionType.id} == 4) {
 							displaySequenceTypeQuestionChoices('#sequenceExample');
 						}
 					});
@@ -156,7 +136,7 @@
 	<h1 style="display:inline">Display Question  </h1>
 
 	<c:if test="${(sessionScope.shouldAllowQuestionEditing==true)}">
-		<a href="/secured/question.jsp?questionId=${currentQuestion.id}">  (edit it)</a>
+		<a href="/secured/question.jsp?questionId=${displayQuestion.id}">  (edit it)</a>
 	</c:if>
 	
 	<c:if test="${(booleanExamHistoryIsPresent==true)}">
@@ -165,16 +145,16 @@
 
 		<br/><br/>
 		<form action=".">
-		Creator: ${currentQuestion.user.username}<br/>
+		Creator: ${displayQuestion.user.username}<br/>
 	<c:choose>
-	<c:when test="${not empty currentQuestion.description}">
-		Description: ${currentQuestion.description}<br/>
+	<c:when test="${not empty displayQuestion.description}">
+		Description: ${displayQuestion.description}<br/>
 	</c:when>
 	</c:choose>
 		<br/>
-		Text: <textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea><br/>  
-		Difficulty: ${currentQuestion.difficulty.text} <br/>
-		Type: ${currentQuestion.questionType.text}  <br/>
+		Text: <textarea name="questionText" cols="50" rows="15">${displayQuestion.text}</textarea><br/>  
+		Difficulty: ${displayQuestion.difficulty.text} <br/>
+		Type: ${displayQuestion.questionType.text}  <br/>
 		<hr/>
 		<br/>
 		Answers --<br/>
@@ -187,7 +167,7 @@
 		<div style="margin-left:25px">
 			<table style="width:100%">
 							<c:set var="rowNum" value="0"/>
-							<c:forEach var="topic" items="${currentQuestion.topics}">
+							<c:forEach var="topic" items="${displayQuestion.topics}">
 								<c:set var="rowNum" value="${rowNum + 1}" />
 								<c:choose><c:when test="${rowNum % 2 == 0}">
 								<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
@@ -209,7 +189,7 @@
 		<div style="margin-left:25px">
 			<table style="width:100%">
 							<c:set var="rowNum" value="0"/>
-							<c:forEach var="reference" items="${currentQuestion.references}">
+							<c:forEach var="reference" items="${displayQuestion.references}">
 								<c:set var="rowNum" value="${rowNum + 1}" />
 								<c:choose><c:when test="${rowNum % 2 == 0}">
 								<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>

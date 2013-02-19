@@ -85,8 +85,8 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					session.setAttribute(Constants.CURRENT_EXAM, null);
 					session.setAttribute(Constants.CURRENT_EXAM, exam);
 		
-					session.setAttribute(Constants.CURRENT_QUESTION, null);
-					session.setAttribute(Constants.CURRENT_QUESTION, examHistory.getNextQuestion());
+					setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
+					setCurrentQuestion(req, Constants.CURRENT_QUESTION, examHistory.getNextQuestion());
 					
 					int qn = examHistory.getCurrentQuestionNumber();
 					if (qn == 0) qn = 1;

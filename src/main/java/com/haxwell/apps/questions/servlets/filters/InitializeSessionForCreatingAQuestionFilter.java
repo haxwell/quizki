@@ -42,7 +42,8 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
 			
 			if (currentQuestionHasBeenPersisted) {
-				session.setAttribute(Constants.CURRENT_QUESTION, null);
+				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
+				
 				session.setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, null);
 				session.setAttribute(Constants.IN_EDITING_MODE, null);
 			}

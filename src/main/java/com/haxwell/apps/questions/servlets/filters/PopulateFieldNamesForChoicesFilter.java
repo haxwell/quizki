@@ -37,7 +37,7 @@ public class PopulateFieldNamesForChoicesFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 			
-			Question currentQuestion = (Question)session.getAttribute(Constants.CURRENT_QUESTION); // TO THINK ABOUT: is the REQUEST good enough?
+			Question currentQuestion = getCurrentQuestion(req);
 			
 			if (currentQuestion != null)
 			{

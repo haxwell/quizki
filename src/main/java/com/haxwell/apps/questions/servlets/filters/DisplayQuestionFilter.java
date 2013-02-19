@@ -48,7 +48,7 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			Question question = QuestionManager.getQuestionById(req.getParameter("questionId"));
 			
-			req.getSession().setAttribute(Constants.CURRENT_QUESTION, question);
+			setCurrentQuestion(req, Constants.DISPLAY_QUESTION, question);
 			
 			User u = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			

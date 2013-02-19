@@ -19,6 +19,7 @@
 			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="js/displayQuestion.js" type="text/javascript" ></script> ]]>			
+			<![CDATA[ <script src="js/backfix.min.js" type="text/javascript" ></script> ]]>			
 			<![CDATA[
 				<script type="text/javascript">
 					tinyMCE.init({
@@ -105,7 +106,19 @@
 					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
 					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
 	
+					bajb_backdetect.OnBack = function()
+					{
+						window.location = "/index.jsp"; //alert('You clicked it!');
+					}
+					
+//					function handleGoBack(e) {
+	//					window.location = "/index.jsp";
+		//			}
+
 					$(document).ready(function() {
+						//window.onbeforeunload = handleGoBack();
+						//window.addEventListener("onbeforeunload", handleGoBack, false);						
+						
 						$('div.choices').html('');
 		
 						if (${currentQuestion.questionType.id} == 1) {
@@ -121,7 +134,7 @@
 							displaySequenceTypeQuestionChoices('#sequenceExample');
 						}
 					});
-							
+					
 				</script>
 			]]>
 		</jsp:text>

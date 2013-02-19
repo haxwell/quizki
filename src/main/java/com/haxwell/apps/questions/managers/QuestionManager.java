@@ -52,47 +52,51 @@ public class QuestionManager extends Manager {
 		
 		List<Long> referenceIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM question_reference WHERE question_id = ?1");
-		query.setParameter(1, questionId);
-		
-		query.executeUpdate();
-		
-		String str = "DELETE FROM reference WHERE ";
-		
-		for (int i = 0; i < referenceIds.size(); i++)
-		{
-			str += "id= " + referenceIds.get(i);
+		if (!referenceIds.isEmpty()) {
+			query = em.createNativeQuery("DELETE FROM question_reference WHERE question_id = ?1");
+			query.setParameter(1, questionId);
 			
-			if (i+1 < referenceIds.size())
-				str += " OR ";
+			query.executeUpdate();
+			
+			String str = "DELETE FROM reference WHERE ";
+			
+			for (int i = 0; i < referenceIds.size(); i++)
+			{
+				str += "id= " + referenceIds.get(i);
+				
+				if (i+1 < referenceIds.size())
+					str += " OR ";
+			}
+				
+			query = em.createNativeQuery(str);
+			query.executeUpdate();
 		}
-			
-		query = em.createNativeQuery(str);
-		query.executeUpdate();
 		
 		// Delete related TOPICs
 		query = em.createNativeQuery("SELECT qt.topic_id FROM question_topic qt WHERE qt.question_id = ?1");
 		query.setParameter(1, questionId);
 		
 		List<Long> topicIds = (List<Long>)query.getResultList();
-		
-		query = em.createNativeQuery("DELETE FROM question_topic WHERE question_id = ?1");
-		query.setParameter(1, questionId);
-		query.executeUpdate();
-		
-		for (Long l : topicIds)
-		{
-			// Are there any more questions using this topic?
-			query = em.createNativeQuery("SELECT qt.question_id FROM question_topic qt WHERE qt.topic_id = ?1");
-			query.setParameter(1, l);
+
+		if (!topicIds.isEmpty()) {
+			query = em.createNativeQuery("DELETE FROM question_topic WHERE question_id = ?1");
+			query.setParameter(1, questionId);
+			query.executeUpdate();
 			
-			List<Long> list = (List<Long>)query.getResultList();
-			
-			// If not, delete this topic, too..
-			if (list.size() == 0) {
-				query = em.createNativeQuery("DELETE FROM topic WHERE id = ?1");
+			for (Long l : topicIds)
+			{
+				// Are there any more questions using this topic?
+				query = em.createNativeQuery("SELECT qt.question_id FROM question_topic qt WHERE qt.topic_id = ?1");
 				query.setParameter(1, l);
-				query.executeUpdate();
+				
+				List<Long> list = (List<Long>)query.getResultList();
+				
+				// If not, delete this topic, too..
+				if (list.size() == 0) {
+					query = em.createNativeQuery("DELETE FROM topic WHERE id = ?1");
+					query.setParameter(1, l);
+					query.executeUpdate();
+				}
 			}
 		}
 		
@@ -102,22 +106,24 @@ public class QuestionManager extends Manager {
 		
 		List<Long> choiceIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM question_choice WHERE question_id = ?1");
-		query.setParameter(1, questionId);
-		query.executeUpdate();
-		
-		str = "DELETE FROM choice WHERE ";
-		
-		for (int i = 0; i < choiceIds.size(); i++)
-		{
-			str += "id= " + choiceIds.get(i);
+		if (!choiceIds.isEmpty()) {
+			query = em.createNativeQuery("DELETE FROM question_choice WHERE question_id = ?1");
+			query.setParameter(1, questionId);
+			query.executeUpdate();
 			
-			if (i+1 < choiceIds.size())
-				str += " OR ";
+			String str = "DELETE FROM choice WHERE ";
+			
+			for (int i = 0; i < choiceIds.size(); i++)
+			{
+				str += "id= " + choiceIds.get(i);
+				
+				if (i+1 < choiceIds.size())
+					str += " OR ";
+			}
+				
+			query = em.createNativeQuery(str);
+			query.executeUpdate();
 		}
-			
-		query = em.createNativeQuery(str);
-		query.executeUpdate();
 
 		// Delete related EXAMs (if necessary)
 		query = em.createNativeQuery("SELECT eq.exam_id FROM exam_question eq WHERE eq.question_id = ?1");
@@ -125,23 +131,25 @@ public class QuestionManager extends Manager {
 
 		List<Long> examIds = (List<Long>)query.getResultList();
 		
-		query = em.createNativeQuery("DELETE FROM exam_question WHERE question_id = ?1");
-		query.setParameter(1, questionId);
-		query.executeUpdate();
-		
-		for (Long l : examIds)
-		{
-			// Are there any more exams using this question?
-			query = em.createNativeQuery("SELECT eq.question_id FROM exam_question eq WHERE eq.exam_id = ?1");
-			query.setParameter(1, l);
+		if (!examIds.isEmpty()) {
+			query = em.createNativeQuery("DELETE FROM exam_question WHERE question_id = ?1");
+			query.setParameter(1, questionId);
+			query.executeUpdate();
 			
-			List<Long> list = (List<Long>)query.getResultList();
-			
-			// If not, delete this exam, too..
-			if (list.size() == 0) {
-				query = em.createNativeQuery("DELETE FROM exam WHERE id = ?1");
+			for (Long l : examIds)
+			{
+				// Are there any more exams using this question?
+				query = em.createNativeQuery("SELECT eq.question_id FROM exam_question eq WHERE eq.exam_id = ?1");
 				query.setParameter(1, l);
-				query.executeUpdate();
+				
+				List<Long> list = (List<Long>)query.getResultList();
+				
+				// If not, delete this exam, too..
+				if (list.size() == 0) {
+					query = em.createNativeQuery("DELETE FROM exam WHERE id = ?1");
+					query.setParameter(1, l);
+					query.executeUpdate();
+				}
 			}
 		}
 		

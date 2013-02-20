@@ -38,7 +38,7 @@ public class Constants {
 	public static final String MRU_FILTER_DIFFICULTY = "mruFilterDifficulty";
 	public static final String MRU_FILTER_MINE_OR_ALL = "mruMineOrAll";	
 	public static final String MRU_FILTER_TOPIC_TEXT = "mruFilterTopicText";
-	
+	public static final String MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "mruMaxNumberOfQuestionsOnGeneratedExam";	
 	
 	public static final String LIST_OF_EXAMS_TO_BE_DISPLAYED = "fa_listofexamstobedisplayed";
 	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listoquestionstobedisplayed";	
@@ -84,4 +84,6 @@ public class Constants {
 	public static final int MAX_QUESTION_DESCRIPTION_LENGTH = 999;
 
 	public static final String URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED = "urlToGoToWhenUserPressesBackButton";
+
+	public static final String DEFAULT_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "10";
 }

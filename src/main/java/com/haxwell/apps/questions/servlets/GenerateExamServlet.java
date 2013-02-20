@@ -164,6 +164,8 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 				request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 			}
 		}
+		
+		saveTheValueInTheNumberOfQuestionsField(request);
 
 		forwardToJSP(request, response, fwdPage);
 	}
@@ -224,13 +226,14 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		// store the filter we just used
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);		
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
 	}
 
 	private void clearMRUFilterSettings(HttpServletRequest request) {
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, null);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
-		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);		
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);
+		request.getSession().setAttribute(Constants.MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM, Constants.DEFAULT_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM);
 	}
 	
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request) {
@@ -256,5 +259,10 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 //		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);		
+	}
+	
+	private void saveTheValueInTheNumberOfQuestionsField(HttpServletRequest request) {
+		String numberOfQuestions = request.getParameter("numberOfQuestions");
+		request.getSession().setAttribute(Constants.MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM, numberOfQuestions);		
 	}
 }

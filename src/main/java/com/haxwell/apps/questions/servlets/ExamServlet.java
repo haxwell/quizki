@@ -117,7 +117,7 @@ public class ExamServlet extends AbstractHttpServlet {
 
 		if (examWasPersisted) {
 			request.getSession().setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
-			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); // HACK!! I would rather do this in the initialize..Exam filter, but its not being called by the forwardToJSP() call.
+			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); 
 		}
 		else
 			request.getSession().setAttribute(Constants.CURRENT_EXAM, examObj);

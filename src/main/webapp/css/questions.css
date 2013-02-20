@@ -14,12 +14,12 @@ textarea {
 .center{
 	margin-left:auto;
 	margin-right:auto;
+	text-align:center;
 }
 
 
 table.displayExam {
 	width:100%;
-	
 }
 
 .header {

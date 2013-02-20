@@ -49,6 +49,9 @@
 
 <br/><br/>
 <br/><br/>
+
+<h1 class="center">Quizki</h1>
+
 TAKE<br/> 
 <div class="indentText">
 Get a quick exam on ...<br/>   

@@ -117,7 +117,10 @@ public class ExamServlet extends AbstractHttpServlet {
 
 		if (examWasPersisted) {
 			request.getSession().setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
-			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); 
+			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null);
+			
+			clearMRUFilterSettings(request);
+			refreshListOfQuestionsToBeDisplayed(request);
 		}
 		else
 			request.getSession().setAttribute(Constants.CURRENT_EXAM, examObj);

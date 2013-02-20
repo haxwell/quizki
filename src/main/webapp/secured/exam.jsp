@@ -117,11 +117,9 @@
 				<c:set var="rowNum" value="0"/>
 				<c:choose >
 				<c:when test="${empty fa_listoquestionstobedisplayed}">
-					<c:if test="${empty currentExamHasBeenPersisted}">
-						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-						<jsp:text><![CDATA[<td>You have not entered any questions of your own! You can change the filter above to include questions from everyone.]]></jsp:text>
-						<jsp:text><![CDATA[</tr>]]></jsp:text>
-					</c:if>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					<jsp:text><![CDATA[<td>You have not entered any questions of your own! You can change the filter above to include questions from everyone.]]></jsp:text>
+					<jsp:text><![CDATA[</tr>]]></jsp:text>
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">

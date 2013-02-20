@@ -7,6 +7,15 @@ body {
 	margin-left:50px;
 }
 
+.mainContentArea_unused {
+	margin-right:30%;
+	margin-left:30%;
+}
+
+.quizkiTitle {
+	font-size:55px;
+}
+
 textarea {
 	width:100%;
 }

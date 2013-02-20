@@ -1,4 +1,4 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -21,22 +21,22 @@
 			<![CDATA[
 				<script type="text/javascript">
 
-   					$(document).ready(function() {
-						var currentSessionCookieVal = $.cookie('quizki.currentSessionCookie'); 
-					
-						if (currentSessionCookieVal == null)
-							$("#welcomeToQuizki-dialog").dialog({modal:true,width:530,title:"Welcome to Quizki!"}).dialog();
-					});
+   					//$(document).ready(function() {
+					//	var currentSessionCookieVal = $.cookie('quizki.currentSessionCookie'); 
+					//
+					//	if (currentSessionCookieVal == null)
+					//		$("#welcomeToQuizki-dialog").dialog({modal:true,width:530,title:"Welcome to Quizki!"}).dialog();
+					//});
 
 					// Handler for the modal dialog CLOSING
-				    $(document).ready(function(){
-						$('div#welcomeToQuizki-dialog').bind('dialogclose', function(event) {
-						    //var v = $.cookie('quizki.userHasBeenHereBefore');
-						    //$.cookie('quizki.userHasBeenHereBefore', v+1, { expires: 30 });
+				    //$(document).ready(function(){
+					//	$('div#welcomeToQuizki-dialog').bind('dialogclose', function(event) {
+					//	    //var v = $.cookie('quizki.userHasBeenHereBefore');
+					//	    //$.cookie('quizki.userHasBeenHereBefore', v+1, { expires: 30 });
 
-						    $.cookie('quizki.currentSessionCookie', 0); // create cookie for current session
-						});
- 				    });
+					//	    $.cookie('quizki.currentSessionCookie', 0); // create cookie for current session
+					//	});
+ 				    //});
 				    
 				</script>
 			]]>
@@ -48,33 +48,86 @@
 <jsp:include page="header.jsp"></jsp:include>
 
 <br/><br/>
-<br/><br/>
-
-<h1 class="center">Quizki</h1>
-
-TAKE<br/> 
-<div class="indentText">
-Get a quick exam on ...<br/>   
-			<c:forEach var="topic" items="${fa_listofmajortopics}">
-				-- <a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a><br/>
-			</c:forEach>
+<div class="mainContentArea">
+<h1 class="center quizkiTitle">Quizki</h1>
 <br/>
-Generate <a class="greyLink" href="generateExam.jsp">a quick exam</a> on another topic.<br/>
-Create <a class="greyLink" href="secured/exam.jsp">your own unique exam</a>.<br/><br/>
-</div>
-<br/>
-GIVE<br/>
-<div class="indentText">
-<a class="greyLink" href="secured/question.jsp">a question of your own</a><br/><br/><br/>
-</div>
-BROWSE<br/>
-<div class="indentText">
-<a class="greyLink" href="listExams.jsp">see a list of exams</a><br/>
-<a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a><br/><br/><br/><br/>
-</div>
+<div class="center"><b>Quizki collects questions and answers, allowing you to test yourself with practice exams.</b></div><br/>
+<hr style="margin-right:40%; margin-left:40%;"/>
+
+<div class="center">TAKE a practice exam on...</div><br/>
+<div class="center"> 
+
+	<c:set var="topicCount" value="${fn:length(fa_listofmajortopics)}" scope="page"/>
+	<c:set var="counter" value="0" scope="page"/>
+	<c:set var="columnCounter" value="0" scope="page"/>
+	<c:set var="maxColumns" value="3" scope="page"/>
+	<c:set var="newRowNeeded" value="true" scope="page"/>
+	<c:set var="closingNewRowNeeded" value="false" scope="page"/>
+	
+	<table class="center">
+		<c:forEach var="topic" items="${fa_listofmajortopics}">
+			<c:if test="${newRowNeeded}">
+				<jsp:text><![CDATA[<tr>]]></jsp:text>
+				<c:set var="newRowNeeded" value="false" scope="page"/>
+				<c:set var="closingNewRowNeeded" value="true" scope="page"/>
+			</c:if>
+			
+			<c:if test="${counter + 1 >= topicCount}">
+				<jsp:text><![CDATA[<td></td>]]></jsp:text>
+				<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>				
+			</c:if>
+			
+			<td><a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
+			<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
+			<c:set var="counter" value="${counter + 1}" scope="page"/>
+			
+			<c:if test="${columnCounter >= maxColumns}">
+				<jsp:text><![CDATA[</tr>]]></jsp:text>
+				<c:set var="newRowNeeded" value="true" scope="page"/>
+				<c:set var="closingNewRowNeeded" value="false" scope="page"/>
+				<c:set var="columnCounter" value="0" scope="page"/>
+			</c:if>
+		</c:forEach>
+		
+		<c:if test="${closingNewRowNeeded}">
+			<jsp:text><![CDATA[</tr>]]></jsp:text>
+			<c:set var="closingNewRowNeeded" value="false" scope="page"/>
+		</c:if>
+	</table>
+
+	<br/>
+	Or one of XX other topics..<br/><br/>
+</div>			
+
+<hr style="margin-right:40%; margin-left:40%;"/>
 
 <br/>
-Information <a href="about.jsp">about Quizki</a>. --
+<div class="center">CREATE your own unique..</div><br/>
+
+	<table class="center">
+		<tr>
+			<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/question.jsp">Question</a></td>
+			<td style="width:33%;"></td>
+			<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/exam.jsp">Exam</a></td>
+		</tr>
+	</table>
+
+<br/>
+<hr style="margin-right:40%; margin-left:40%;"/>
+
+<br/>
+<div class="center">BROWSE</div><br/>
+
+	<table class="center">
+		<tr>
+			<td style="text-align:left; width:33%;"><a class="greyLink" href="listExams.jsp">see a list of exams</a></td>
+			<td style="width:33%;"></td>
+			<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a></td>
+		</tr>
+	</table>
+
+<br/><br/><br/>
+<div class="center">Information <a href="about.jsp">about Quizki</a>. 
 
     <c:choose>
      <c:when test="${empty sessionScope.currentUserEntity}">
@@ -85,8 +138,9 @@ Information <a href="about.jsp">about Quizki</a>. --
      </c:otherwise>
     </c:choose>
     
+</div>    
 
-
+</div> <!-- mainContentArea -->
 
 <div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki allows you to test yourself!<br/><br/>
 You create questions and answers in Quizki. Later, Quizki can ask you the questions, and you can see which you answered correctly, and which ones you missed.<br/><br/>

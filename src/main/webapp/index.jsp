@@ -1,4 +1,4 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:qfn="http://quiki.com/tld/qfn" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -73,11 +73,11 @@
 			</c:if>
 			
 			<c:if test="${counter + 1 >= topicCount}">
-				<jsp:text><![CDATA[<td></td>]]></jsp:text>
+				<jsp:text><![CDATA[<td style="padding:3px"></td>]]></jsp:text>
 				<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>				
 			</c:if>
 			
-			<td><a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
+			<td style="padding:3px"><a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
 			<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
 			<c:set var="counter" value="${counter + 1}" scope="page"/>
 			
@@ -119,16 +119,20 @@
 <br/>
 <hr style="margin-right:40%; margin-left:40%;"/>
 
-<br/>
-<div class="center">BROWSE</div><br/>
-
-	<table class="center">
-		<tr>
-			<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/listExams.jsp">see a list of exams</a></td>
-			<td style="width:33%;"></td>
-			<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a></td>
-		</tr>
-	</table>
+	    <c:choose>
+	    	<c:when test="${qfn:canAccessTestingFunctionality(sessionScope.currentUserEntity)}">
+				<br/>
+				<div class="center">BROWSE</div>
+				<br/>
+				<table class="center">
+					<tr>
+						<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/listExams.jsp">see a list of exams</a></td>
+						<td style="width:33%;"></td>
+						<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a></td>
+					</tr>
+				</table>
+			</c:when>
+		</c:choose>
 
 <br/><br/><br/>
 <div class="center">Information <a href="about.jsp">about Quizki</a>. 

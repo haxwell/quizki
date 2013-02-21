@@ -13,6 +13,25 @@
 				
 		<jsp:text>
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ 			<script type="text/javascript">
+
+				 $(document).ready(function(){
+					// set the height of the content area according to the browser height
+					var bottomBufferHeight = 550;
+					var windowHeight = $(window).height();
+					
+					$('#center').height(windowHeight - bottomBufferHeight);
+				});
+				 
+				 $(document).ready(function(){
+				     $(window).resize(function() {
+				             var bottomBufferHeight = 550;
+				             var windowHeight = $(window).height();
+				
+				             $('#center').height(windowHeight - bottomBufferHeight);
+				     })});
+				     </script>
+				]]>			
 		</jsp:text>
 	</head>
 <body>
@@ -20,7 +39,7 @@
 <jsp:include page="header.jsp"></jsp:include>
 
 	<h1>Generate Exam</h1>
-	<br/><br/>
+	<br/>
 
       <c:if test="${not empty requestScope.validationErrors}">
       	<c:forEach var="str" items="${requestScope.validationErrors}">
@@ -74,7 +93,7 @@
 
 		<br/>
 		${fn:length(fa_listofalltopics)} topics available to select:<br/>
-		<div class="listOfQuestions" style="overflow:auto; width:100%">
+		<div id="center" class="listOfQuestions" style="overflow:auto; width:100%">
 			<table  style="width:100%">
 			<c:set var="rowNum" value="0"/>
 			<c:forEach var="topic" items="${fa_listofalltopics}">

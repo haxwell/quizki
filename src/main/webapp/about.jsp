@@ -35,7 +35,7 @@ Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>
 <li> <a href="#questions">Questions</a></li>
 <li> <a href="#exams">Exams</a></li>
 <ol><li><a href="#takingAnExam">Taking an Exam</a></li></ol>
-<li> <a href="#browsing">Browsing / Listing Questions &amp; Exams</a></li>
+<!--  <li> <a href="#browsing">Browsing / Listing Questions &amp; Exams</a></li>  -->
 <li> <a href="#contactInfo">Contact info</a></li>
 </ol>
 <br/><br/>
@@ -156,18 +156,8 @@ Quizki will tell you how many questions you answered correctly, and how many you
 <br/><br/><br/>
 <div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
 <br/>
-<b id="browsing">Listing the questions and exams</b><br/><br/>	
-Finally, back at the home page, the last area to explore in Quizki is the list of questions and exams. This will allow you to peruse all of the questions and exams that have been entered in Quizki. In both cases, you can choose to list only the things you have created, or to list everything.<br/><br/>	 
-
-You can filter the list of exams by title. <br/><br/>	
-
-The list of questions, you can filter by topic, question, and difficulty.<br/><br/>	 
-
-<br/><br/><br/>
-<div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
-<br/>
 <b id="contactInfo">Contact us!</b><br/><br/>	
-Quizki is being actively developed, and changes are being made almost ever day. In addition, plans are in the works to make the actual Quizki code available freely to the world, soon.<br/><br/> If you would like to get in touch, please email me at HAXWELL33 at GMAIL33 dot COM (leave off the 33's).
+Quizki is being actively developed, and changes are being made almost ever day. In addition, plans are in the works to make the actual Quizki code available freely to the world, soon.<br/><br/> If you would like to get in touch with questions, comments, suggestions or flames, please email me at HAXWE33LL at GMA33IL dot COM (take out the 33's).
 
 <br/><br/><br/><br/>
 <div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>

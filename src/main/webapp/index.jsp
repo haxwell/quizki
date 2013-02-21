@@ -73,8 +73,10 @@
 			</c:if>
 			
 			<c:if test="${counter + 1 >= topicCount}">
-				<jsp:text><![CDATA[<td style="padding:3px"></td>]]></jsp:text>
-				<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>				
+				<c:if test="${columnCounter == 0}">
+					<jsp:text><![CDATA[<td style="padding:3px"></td>]]></jsp:text>
+					<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
+				</c:if>				
 			</c:if>
 			
 			<td style="padding:3px"><a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>

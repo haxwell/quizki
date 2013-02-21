@@ -47,7 +47,7 @@
 
 <jsp:include page="header.jsp"></jsp:include>
 
-<br/><br/>
+<br/>
 <div class="mainContentArea">
 <h1 class="center quizkiTitle">Quizki</h1>
 <br/>
@@ -124,7 +124,7 @@
 
 	<table class="center">
 		<tr>
-			<td style="text-align:left; width:33%;"><a class="greyLink" href="listExams.jsp">see a list of exams</a></td>
+			<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/listExams.jsp">see a list of exams</a></td>
 			<td style="width:33%;"></td>
 			<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a></td>
 		</tr>

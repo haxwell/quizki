@@ -37,6 +37,7 @@
     <filter-name>IsUserAuthenticatedFilter</filter-name>
     <url-pattern>/secured/question.jsp</url-pattern>
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
+    <url-pattern>/secured/listExams.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
   </filter-mapping>
   <filter>

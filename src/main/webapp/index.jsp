@@ -96,7 +96,11 @@
 	</table>
 
 	<br/>
-	Or one of XX other topics..<br/><br/>
+	<c:if test="${not empty totalNumberOfTopics}">
+		Or one of ${totalNumberOfTopics - topicCount} <a class="greyLink" href="generateExam.jsp">other topics</a>..
+	</c:if>
+	
+	<br/><br/>
 </div>			
 
 <hr style="margin-right:40%; margin-left:40%;"/>

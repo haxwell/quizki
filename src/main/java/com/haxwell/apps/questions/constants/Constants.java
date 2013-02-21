@@ -86,4 +86,6 @@ public class Constants {
 	public static final String URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED = "urlToGoToWhenUserPressesBackButton";
 
 	public static final String DEFAULT_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "10";
+
+	public static final String TOTAL_NUMBER_OF_TOPICS = "totalNumberOfTopics";
 }

@@ -130,6 +130,18 @@ public class TopicManager extends Manager {
 		return rtn;
 	}
 
+	public static Long getTotalNumberOfTopics()	{
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT count(*) FROM topic");
+		
+		Long rtn = (Long)query.getSingleResult();
+		
+		em.close();
+		
+		return rtn;
+	}
+	
 	public static Integer getNumberOfQuestionsForTopic(Topic topic) {
 		EntityManager em = emf.createEntityManager();
 		

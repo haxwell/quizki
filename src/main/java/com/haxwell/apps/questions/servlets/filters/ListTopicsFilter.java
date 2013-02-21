@@ -66,6 +66,8 @@ public class ListTopicsFilter extends AbstractFilter {
 				
 				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED, new ArrayList<Topic>());			
 				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED, new ArrayList<Topic>());
+				
+				req.getSession().setAttribute(Constants.TOTAL_NUMBER_OF_TOPICS, TopicManager.getTotalNumberOfTopics());
 			}
 		}
 		

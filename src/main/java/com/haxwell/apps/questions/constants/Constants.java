@@ -88,4 +88,10 @@ public class Constants {
 	public static final String DEFAULT_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "10";
 
 	public static final String TOTAL_NUMBER_OF_TOPICS = "totalNumberOfTopics";
+	
+	public static final String NUMBER_OF_QUESTIONS_USER_CONTRIBUTED = "numberOfQuestionsUserContributed";
+	public static final String NUMBER_OF_EXAMS_USER_CONTRIBUTED = "numberOfExamsUserContributed";
+
+	public static final String NUMBER_OF_USER_CONTRIBUTED_QUESTIONS = "numberOfQuestionsUserContributed";
+	public static final String NUMBER_OF_USER_CONTRIBUTED_EXAMS = "numberOfExamsUserContributed";
 }

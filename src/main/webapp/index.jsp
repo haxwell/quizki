@@ -122,6 +122,19 @@
 <hr style="margin-right:40%; margin-left:40%;"/>
 
 	    <c:choose>
+	    	<c:when test="${not empty sessionScope.currentUserEntity}">
+				<br/>
+				<div class="center">VIEW</div>
+				<br/>
+				<div class="center"><a class="greyLink" href="secured/profile.jsp">your profile</a></div>
+				<br/>
+
+				<hr style="margin-right:40%; margin-left:40%;"/>
+
+			</c:when>
+		</c:choose>
+
+	    <c:choose>
 	    	<c:when test="${qfn:canAccessTestingFunctionality(sessionScope.currentUserEntity)}">
 				<br/>
 				<div class="center">BROWSE</div>

@@ -246,6 +246,20 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
+	public static long getNumberOfExamsCreatedByUser(long id) {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT count(*) FROM exam WHERE user_id = ?1");
+		
+		query.setParameter(1, id);
+		
+		Long rtn = (Long)query.getSingleResult();
+		
+		em.close();
+		
+		return rtn;
+	}
+
 	public static Collection<Exam> getAllExamsForUser(long id) {
 		EntityManager em = emf.createEntityManager();
 		

@@ -61,6 +61,14 @@
     <url-pattern>/login.jsp</url-pattern>
   </filter-mapping>
   <filter>
+    <filter-name>InitializeSessionForProfilePagesFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.InitializeSessionForProfilePagesFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>InitializeSessionForProfilePagesFilter</filter-name>
+    <url-pattern>/secured/profile.jsp</url-pattern>
+  </filter-mapping>
+  <filter>
     <filter-name>DisplayQuestionFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.DisplayQuestionFilter</filter-class>
   </filter>
@@ -76,6 +84,7 @@
     <filter-name>ListQuestionsFilter</filter-name>
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
+    <url-pattern>/secured/profile.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>ListExamsFilter</filter-name>
@@ -84,6 +93,7 @@
   <filter-mapping>
     <filter-name>ListExamsFilter</filter-name>
     <url-pattern>/listExams.jsp</url-pattern>
+    <url-pattern>/secured/profile.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>ListTopicsFilter</filter-name>
@@ -228,6 +238,15 @@
   <servlet-mapping>
   	<servlet-name>QuestionServlet</servlet-name>
   	<url-pattern>/secured/QuestionServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>ProfileQuestionsServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileQuestionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ProfileQuestionsServlet</servlet-name>
+  	<url-pattern>/secured/ProfileQuestionsServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>

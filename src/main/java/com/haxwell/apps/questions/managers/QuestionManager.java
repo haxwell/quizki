@@ -258,6 +258,20 @@ public class QuestionManager extends Manager {
 		return checker.questionIsCorrect(answers);
 	}
 
+	public static long getNumberOfQuestionsCreatedByUser(long id) {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT count(*) FROM question WHERE user_id = ?1");
+		
+		query.setParameter(1, id);
+		
+		Long rtn = (Long)query.getSingleResult();
+		
+		em.close();
+		
+		return rtn;
+	}
+
 	public static Collection<Question> getAllQuestionsForUser(long id) {
 		EntityManager em = emf.createEntityManager();
 		
@@ -399,5 +413,4 @@ public class QuestionManager extends Manager {
 		
 		return rtn;
 	}
-
 }

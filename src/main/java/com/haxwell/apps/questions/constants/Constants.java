@@ -101,5 +101,7 @@ public class Constants {
 	public static final int PROFILE_EXAM_TAB_INDEX = 2;
 	public static final int PROFILE_ACCOUNT_TAB_INDEX = 3;
 
+	public static final String TAB_INDEX = "tabIndex";
+
 	
 }

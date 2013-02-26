@@ -25,11 +25,11 @@
 				<c:otherwise>
 				<tr>
 					<td></td>
-					<td></td>
+					<td style="text-align:right"><input type="submit" name="runFilter" value="Run Filter -->"/> </td>
 					<td><input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:100%;"/></td>
 					<td><input type="text" name="topicFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.."/></td>
 					<td >
-						<select name="questionTypeFilter" title="Only include any questions of type..">
+						<select name="questionTypeFilter" title="Only include questions of type..">
 							<c:choose><c:when test="${mruFilterQuestionType == 0}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all" >All</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterQuestionType == 1}"><option value="single" selected="selected">Single</option></c:when><c:otherwise><option value="single" >Single</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterQuestionType == 2}"><option value="multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="multiple" >Multiple</option></c:otherwise></c:choose>

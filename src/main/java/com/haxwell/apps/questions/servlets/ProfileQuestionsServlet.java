@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
 
@@ -45,7 +47,42 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 
 		String fwdPage = "/secured/profile.jsp";
 		
-		handleFilterButtonPress(request);
+		String button = request.getParameter("runFilter");
+		
+		if (button == null) button = "";
+		
+		if (button.equals("Run Filter -->"))
+			handleFilterButtonPress(request);
+		else
+		{
+			Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
+			
+			if (coll != null)
+			{
+				boolean buttonFound = false;
+				Iterator<Question> iterator = coll.iterator();
+				
+				while (!buttonFound && iterator.hasNext())
+				{
+					Question q = iterator.next();
+					button = request.getParameter("questionButton_"+q.getId());
+					
+					if (button != null)
+					{
+						if (button.equals("Edit Question"))
+							fwdPage = "/secured/question.jsp?questionId=" + q.getId();
+						else if (button.equals("Delete Question")) {
+							QuestionManager.deleteQuestion(q);
+							request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
+							
+							new InitializeListOfQuestionsInSessionAction().doAction(request, response);
+						}
+						
+						buttonFound = true;
+					}
+				}
+			}
+		}
 		
 		request.getSession().setAttribute("tabIndex", Constants.PROFILE_QUESTION_TAB_INDEX);
 		

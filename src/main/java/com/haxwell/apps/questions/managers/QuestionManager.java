@@ -347,7 +347,7 @@ public class QuestionManager extends Manager {
 		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
 		
 		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
+			queryString += "((q.text LIKE ?2 AND q.description =\"\") OR q.description LIKE ?2) AND ";
 		
 		queryString += "q.difficulty.id <= ?3";
 		
@@ -370,16 +370,20 @@ public class QuestionManager extends Manager {
 				public boolean shouldRemove(Question q) {
 					Set<Topic> set = q.getTopics();
 
-					boolean rtn = false;
+					boolean rtn = true;
 
 					if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+						boolean matchFound = false;
+						
 						for (Topic t : set) {
-							if (t.getText().contains(topicFilterText))
-								rtn = true;
+							if (!matchFound && t.getText().contains(topicFilterText))
+								matchFound = true;
 						}
+						
+						rtn = matchFound;
 					}
 
-					return rtn;
+					return !rtn;
 				}
 			});
 

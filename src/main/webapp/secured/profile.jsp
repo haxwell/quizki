@@ -16,11 +16,28 @@
 			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 
+			<![CDATA[<script type="text/javascript">]]>
+			<c:choose>
+				<!-- In case you ever want to change this, and use javascript to get the tabIndex, -->
+				<!-- http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery -->
+				
+				<c:when test="${not empty sessionScope.tabIndex}">
+					<![CDATA[ var tabIndex = ${tabIndex}; ]]>
+				</c:when>
+				<c:otherwise>
+					<![CDATA[ var tabIndex = undefined; ]]>
+				</c:otherwise>
+			</c:choose>
+			<![CDATA[</script>]]>
+
 			<![CDATA[
 			<script type="text/javascript">
 			
 			  $(function() {
 			    $( "#tabs" ).tabs();
+			    
+			    if (tabIndex !== undefined)
+			    	$( "#tabs" ).tabs("option","active", tabIndex);
 			  });			
 			
 		//$(function() {
@@ -61,6 +78,7 @@
 				})});
 		     </script>
 				]]>			
+
 		</jsp:text>
 				
 	</head>

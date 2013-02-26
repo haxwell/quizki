@@ -38,6 +38,7 @@ public class Constants {
 	public static final String MRU_FILTER_DIFFICULTY = "mruFilterDifficulty";
 	public static final String MRU_FILTER_MINE_OR_ALL = "mruMineOrAll";	
 	public static final String MRU_FILTER_TOPIC_TEXT = "mruFilterTopicText";
+	public static final String MRU_FILTER_QUESTION_TYPE = "mruFilterQuestionType";	
 	public static final String MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "mruMaxNumberOfQuestionsOnGeneratedExam";	
 	
 	public static final String LIST_OF_EXAMS_TO_BE_DISPLAYED = "fa_listofexamstobedisplayed";
@@ -94,4 +95,11 @@ public class Constants {
 
 	public static final String NUMBER_OF_USER_CONTRIBUTED_QUESTIONS = "numberOfQuestionsUserContributed";
 	public static final String NUMBER_OF_USER_CONTRIBUTED_EXAMS = "numberOfExamsUserContributed";
+
+	public static final int PROFILE_SUMAMRY_TAB_INDEX = 0;
+	public static final int PROFILE_QUESTION_TAB_INDEX = 1;
+	public static final int PROFILE_EXAM_TAB_INDEX = 2;
+	public static final int PROFILE_ACCOUNT_TAB_INDEX = 3;
+
+	
 }

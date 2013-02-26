@@ -108,89 +108,93 @@ public class StringUtil {
 		return list;
 	}
 	
-	/**
-	 * Expects two CSVs of numbers. 
-	 * 
-	 * @param strCSVOne
-	 * @param strCSVTwo
-	 * @return
-	 */
-	public static boolean allNumericStringsInOneMatchCSVElementsInTwo(String strCSVOne, String strCSVTwo)
-	{
-		List<Long> verifyList = null;
-		List<Long> controlList = null;
-		
-		try {
-			verifyList = StringUtil.getListOfLongsFromCSV(strCSVOne);
-		}
-		catch (NumberFormatException nfe) {
-			
-		}
-		
-		try {
-			controlList = StringUtil.getListOfLongsFromCSV(strCSVTwo);
-		}
-		catch (NumberFormatException nfe) {
-			
-		}
-		
-		boolean rtn = (verifyList != null && controlList != null);
-		
-		if (rtn)
-		{
-			Iterator<Long> iterator = verifyList.iterator();
-
-			while (iterator.hasNext() && rtn)
-			{
-				Long l = iterator.next();
-				rtn = controlList.contains(l);
-			}
-		}
-
-		return rtn;
-	}
-
-	/**
-	 * Expects two CSVs of numbers. 
-	 * 
-	 * @param strCSVOne
-	 * @param strCSVTwo
-	 * @return
-	 */
-	public static boolean anyNumericStringsInOneFoundInCSVElementsInTwo(String strCSVOne, String strCSVTwo)
-	{
-		List<Long> verifyList = null;
-		List<Long> controlList = null;
-		
-		try {
-			verifyList = StringUtil.getListOfLongsFromCSV(strCSVOne);
-		}
-		catch (NumberFormatException nfe) {
-			
-		}
-		
-		try {
-			controlList = StringUtil.getListOfLongsFromCSV(strCSVTwo);
-		}
-		catch (NumberFormatException nfe) {
-			
-		}
-		
-		boolean integerListsCreatedOkay = (verifyList != null && controlList != null);
-		boolean rtn = false;
-		
-		if (!rtn && integerListsCreatedOkay)
-		{
-			Iterator<Long> iterator = verifyList.iterator();
-
-			while (iterator.hasNext() && !rtn)
-			{
-				Long i = iterator.next();
-				rtn = controlList.contains(i);
-			}
-		}
-
-		return rtn;
-	}
+//	/**
+//	 * Expects two CSVs of numbers. 
+//	 * 
+//	 * @param strCSVOne
+//	 * @param strCSVTwo
+//	 * @return
+//	 */
+//	public static boolean allNumericStringsInOneMatchCSVElementsInTwo(String strCSVOne, String strCSVTwo)
+//	{
+//		List<Long> verifyList = null;
+//		List<Long> controlList = null;
+//		
+//		try {
+//			verifyList = StringUtil.getListOfLongsFromCSV(strCSVOne);
+//		}
+//		catch (NumberFormatException nfe) {
+//			
+//		}
+//		
+//		try {
+//			controlList = StringUtil.getListOfLongsFromCSV(strCSVTwo);
+//		}
+//		catch (NumberFormatException nfe) {
+//			
+//		}
+//		
+//		boolean rtn = (verifyList != null && controlList != null);
+//		
+//		if (rtn)
+//		{
+//			Iterator<Long> iterator = verifyList.iterator();
+//
+//			while (iterator.hasNext() && rtn)
+//			{
+//				Long l = iterator.next();
+//				rtn = controlList.contains(l);
+//			}
+//		}
+//
+//		return rtn;
+//	}
+//
+//	/**
+//	 * Expects two CSVs of numbers. 
+//	 * 
+//	 * @param strCSVOne
+//	 * @param strCSVTwo
+//	 * @return
+//	 */
+//	public static boolean anyNumericStringsInOneFoundInCSVElementsInTwo(String strCSVOne, String strCSVTwo)
+//	{
+//		List<Long> verifyList = null;
+//		List<Long> controlList = null;
+//		
+//		try {
+//			verifyList = StringUtil.getListOfLongsFromCSV(strCSVOne);
+//		}
+//		catch (NumberFormatException nfe) {
+//			
+//		}
+//		
+//		try {
+//			controlList = StringUtil.getListOfLongsFromCSV(strCSVTwo);
+//		}
+//		catch (NumberFormatException nfe) {
+//			
+//		}
+//		
+//		boolean integerListsCreatedOkay = (verifyList != null && controlList != null);
+//		boolean rtn = false;
+//		
+//		if (!rtn && integerListsCreatedOkay)
+//		{
+//			Iterator<Long> iterator = verifyList.iterator();
+//
+//			while (iterator.hasNext() && !rtn)
+//			{
+//				Long i = iterator.next();
+//				rtn = controlList.contains(i);
+//			}
+//		}
+//
+//		return rtn;
+//	}
 	
+	public static String removeQuotes(String str)
+	{
+		return str.replaceAll("\"", "");
+	}
 }

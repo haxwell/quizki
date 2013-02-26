@@ -5,18 +5,22 @@ import com.haxwell.apps.questions.entities.QuestionType;
 
 public class TypeUtil {
 
+	public static int convertToInt(QuestionType qt) {
+		return convertToInt(qt.getText());
+	}
+	
 	public static int convertToInt(String parameter) {
 
-		if (parameter.equals(TypeConstants.SINGLE_STR))
+		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SINGLE_STR)))
 			return TypeConstants.SINGLE;
-		if (parameter.equals(TypeConstants.MULTIPLE_STR))
+		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.MULTIPLE_STR)))
 			return TypeConstants.MULTIPLE;
-		if (parameter.equals(TypeConstants.STRING_STR))
+		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.STRING_STR)))
 			return TypeConstants.STRING;
-		if (parameter.equals(TypeConstants.SEQUENCE_STR))
+		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SEQUENCE_STR)))
 			return TypeConstants.SEQUENCE;
 		
-		return TypeConstants.SINGLE;
+		return TypeConstants.ALL_TYPES;
 	}
 
 	public static QuestionType convertToObject(String parameter) {

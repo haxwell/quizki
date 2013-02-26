@@ -13,11 +13,15 @@ import javax.persistence.Query;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
+import com.haxwell.apps.questions.utils.ListFilterer;
+import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
+import com.haxwell.apps.questions.utils.TypeUtil;
 
 public class QuestionManager extends Manager {
 	
@@ -333,7 +337,11 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
-	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, int maxDifficulty) {
+	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, Integer maxDifficulty) {
+		return getQuestionsCreatedByAGivenUserThatContain(userId, topicFilterText, filterText, maxDifficulty, null);
+	}
+	
+	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType) {
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
@@ -354,30 +362,65 @@ public class QuestionManager extends Manager {
 		
 		Collection<Question> rtn = (Collection<Question>)query.getResultList();
 
-		if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+//		if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+
+			ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
+			
+			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
+				public boolean shouldRemove(Question q) {
+					Set<Topic> set = q.getTopics();
+
+					boolean rtn = false;
+
+					if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+						for (Topic t : set) {
+							if (t.getText().contains(topicFilterText))
+								rtn = true;
+						}
+					}
+
+					return rtn;
+				}
+			});
+
+			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
+				public boolean shouldRemove(Question q) {
+					boolean rtn = false;
+
+					if (questionType != null && questionType != TypeConstants.ALL_TYPES && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
+						rtn = true;
+
+					return rtn;
+				}
+			});
+			
+			rtn = new ListFilterer<Question>().process(rtn, arr);
+			
 			// TODO: Abstract this out into its own utility function..
 			//  take a list, then remove any from that list that do
 			//  not have an attribute that matches a given string..
-			List<Question> toBeFilteredList = new ArrayList<Question>();
-			boolean keepThisQuestion;
-			
-			for (Question q : rtn)
-			{
-				keepThisQuestion = false;
-				Set<Topic> set = q.getTopics();
-				
-				for (Topic t : set) {
-					if (t.getText().contains(topicFilterText))
-						keepThisQuestion = true;
-				}
-				
-				if (!keepThisQuestion)
-					toBeFilteredList.add(q);
-			}
-			
-			for (Question q: toBeFilteredList)
-				rtn.remove(q);
-		}
+//			List<Question> toBeFilteredList = new ArrayList<Question>();
+//			boolean keepThisQuestion = false;
+//			
+//			for (Question q : rtn)
+//			{
+//				Set<Topic> set = q.getTopics();
+//				
+//				for (Topic t : set) {
+//					if (t.getText().contains(topicFilterText))
+//						keepThisQuestion = true;
+//					
+//					if (questionType != null && questionType != TypeConstants.ALL_TYPES && questionType == TypeUtil.convertToInt(q.getQuestionType()))
+//						keepThisQuestion = true;
+//				}
+//				
+//				if (!keepThisQuestion)
+//					toBeFilteredList.add(q);
+//			}
+//			
+//			for (Question q: toBeFilteredList)
+//				rtn.remove(q);
+//		}
 		
 		return rtn;
 	}

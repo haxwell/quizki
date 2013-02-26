@@ -12,15 +12,17 @@ public class TypeConstants {
 
 	// TODO: Should this be an enumeration?
 	
+	public static final int ALL_TYPES = 0;
 	public static final int SINGLE = 1;
 	public static final int MULTIPLE = 2; 
 	public static final int STRING = 3;
 	public static final int SEQUENCE = 4;
 	
-	public static final String SINGLE_STR = "Single";
-	public static final String MULTIPLE_STR = "Multiple";
-	public static final String STRING_STR = "String";
-	public static final String SEQUENCE_STR = "Sequence";
+	public static final String ALL_TYPES_STR = "all";
+	public static final String SINGLE_STR = "single";
+	public static final String MULTIPLE_STR = "multiple";
+	public static final String STRING_STR = "string";
+	public static final String SEQUENCE_STR = "sequence";
 	
 	protected static Map<Integer, String> map1;
 	protected static Map<String, Integer> map2;

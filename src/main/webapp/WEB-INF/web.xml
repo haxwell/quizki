@@ -28,6 +28,10 @@
   <filter-mapping>
     <filter-name>MostRecentlyRequestedPageFilter</filter-name>
     <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>IsUserAuthenticatedFilter</filter-name>
@@ -39,6 +43,8 @@
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
     <url-pattern>/secured/listExams.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>ResetStateFilter</filter-name>
@@ -47,6 +53,10 @@
   <filter-mapping>
     <filter-name>ResetStateFilter</filter-name>
     <url-pattern>/index.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>ExamNoLongerRunningFilter</filter-name>
@@ -59,6 +69,8 @@
     <url-pattern>/secured/exam.jsp</url-pattern>
     <url-pattern>/index.jsp</url-pattern>
     <url-pattern>/login.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForProfilePagesFilter</filter-name>
@@ -67,6 +79,8 @@
   <filter-mapping>
     <filter-name>InitializeSessionForProfilePagesFilter</filter-name>
     <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>DisplayQuestionFilter</filter-name>
@@ -75,6 +89,8 @@
   <filter-mapping>
     <filter-name>DisplayQuestionFilter</filter-name>
     <url-pattern>/displayQuestion.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>ListQuestionsFilter</filter-name>
@@ -85,6 +101,8 @@
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
     <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>ListExamsFilter</filter-name>
@@ -94,6 +112,8 @@
     <filter-name>ListExamsFilter</filter-name>
     <url-pattern>/listExams.jsp</url-pattern>
     <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>ListTopicsFilter</filter-name>
@@ -103,6 +123,8 @@
     <filter-name>ListTopicsFilter</filter-name>
     <url-pattern>/index.jsp</url-pattern>
     <url-pattern>/generateExam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForCreatingAnExamFilter</filter-name>
@@ -111,6 +133,8 @@
   <filter-mapping>
     <filter-name>InitializeSessionForCreatingAnExamFilter</filter-name>
     <url-pattern>/secured/exam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForGeneratingAnExamFilter</filter-name>
@@ -119,6 +143,8 @@
   <filter-mapping>
     <filter-name>InitializeSessionForGeneratingAnExamFilter</filter-name>
     <url-pattern>/generateExam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForCreatingAQuestionFilter</filter-name>
@@ -127,6 +153,8 @@
   <filter-mapping>
     <filter-name>InitializeSessionForCreatingAQuestionFilter</filter-name>
     <url-pattern>/secured/question.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>InitializeSessionForRunningAnExamFilter</filter-name>
@@ -136,6 +164,8 @@
     <filter-name>InitializeSessionForRunningAnExamFilter</filter-name>
     <url-pattern>/beginExam.jsp</url-pattern>
     <url-pattern>/takeExam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>PopulateFieldNamesForChoicesFilter</filter-name>
@@ -145,6 +175,8 @@
     <filter-name>PopulateFieldNamesForChoicesFilter</filter-name>
     <url-pattern>/takeExam.jsp</url-pattern>
     <url-pattern>/displayQuestion.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
   <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
@@ -153,6 +185,8 @@
   <filter-mapping>
     <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
     <url-pattern>/takeExam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   
 

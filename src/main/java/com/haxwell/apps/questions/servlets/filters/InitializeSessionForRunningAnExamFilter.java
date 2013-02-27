@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.servlets.filters;
 
-import java.io.IOException;		
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,10 +18,8 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
-import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.ExamManager;
-import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.ExamHistory;
 
 /**

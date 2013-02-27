@@ -9,11 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Begin Exam - Quizki</title>
 		
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="/css/questions.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="/header.jsp"></jsp:include>
 
       <c:choose>
       <c:when test="${empty sessionScope.fa_listofexamtopics}">

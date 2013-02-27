@@ -5,5 +5,5 @@ import javax.servlet.ServletResponse;
 
 public interface AbstractServletAction {
 
-	void doAction(ServletRequest request, ServletResponse response);
+	int doAction(ServletRequest request, ServletResponse response);
 }

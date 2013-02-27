@@ -74,4 +74,25 @@ public class UserManager extends Manager {
 		
 		log.log(Level.INFO, "Returning from createUser().. no errors() ");
 	}
+	
+	public static User changeUserPassword(User user, String newPassword)
+	{
+		log.log(Level.INFO, "..beginning UserManager::changeUserPassword()");
+		
+		user.setPassword(newPassword);
+		
+		EntityManager em = emf.createEntityManager();
+
+		em.getTransaction().begin();
+
+		User rtn = em.merge(user);
+		
+		em.getTransaction().commit();
+		
+		em.close();
+		
+		log.log(Level.INFO, "Returning from getUser().. no errors() ");
+
+		return rtn;
+	}
 }

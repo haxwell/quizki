@@ -58,7 +58,7 @@
 				 $(document).ready(function(){
 					// set the height of the content area according to the browser height
 					var bottomBufferHeight = 110;
-					var questionsBufferHeight = 55;
+					var questionsBufferHeight = 77;
 					var windowHeight = $(window).height();
 					
 					$('#tabs').height(windowHeight - bottomBufferHeight);
@@ -69,7 +69,7 @@
 				 $(document).ready(function(){
 				     $(window).resize(function() {
 				             var bottomBufferHeight = 110;
-				             var questionsBufferHeight = 55;
+				             var questionsBufferHeight = 77;
 				             var windowHeight = $(window).height();
 				
 					$('#tabs').height(windowHeight - bottomBufferHeight);
@@ -107,12 +107,16 @@
 	  </div>
 	  <div id="tabs-2">
 	    	<div id="questions" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-questions.jsp"></jsp:include></div>
+	    	<br/>
+			${fn:length(fa_listoquestionstobedisplayed)} questions.	
 	  </div>
 	  <div id="tabs-3">
 	    	<div id="exams" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-exams.jsp"></jsp:include></div>
+	    	<br/>
+			${fn:length(fa_listofexamstobedisplayed)} exams.	
 	  </div>
 	  <div id="tabs-4">
-	    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+	    	<div id="account" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-account.jsp"></jsp:include></div>
 	  </div>
 	</div>
 	

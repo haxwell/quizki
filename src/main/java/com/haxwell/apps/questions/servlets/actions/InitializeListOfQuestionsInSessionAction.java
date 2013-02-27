@@ -24,7 +24,7 @@ public class InitializeListOfQuestionsInSessionAction implements AbstractServlet
 	Logger log = Logger.getLogger(InitializeListOfQuestionsInSessionAction.class.getName());
 	
 	@Override
-	public void doAction(ServletRequest request, ServletResponse response) {
+	public int doAction(ServletRequest request, ServletResponse response) {
 		if (request instanceof HttpServletRequest) {
 			
 			HttpServletRequest req = ((HttpServletRequest)request);
@@ -43,7 +43,6 @@ public class InitializeListOfQuestionsInSessionAction implements AbstractServlet
 				}
 
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-				req.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 
 				if (coll != null)
 					log.log(Level.INFO, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");
@@ -53,6 +52,8 @@ public class InitializeListOfQuestionsInSessionAction implements AbstractServlet
 			else
 				log.log(Level.INFO, Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " was not null so ListQuestionsFilter did not reset the list of questions to be displayed.");
 		}
+		
+		return 0;
 	}
 }
 

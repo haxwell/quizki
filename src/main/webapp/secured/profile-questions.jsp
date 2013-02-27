@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 	<form action="/secured/ProfileQuestionsServlet">
 	<table class="displayExam">
@@ -14,15 +15,6 @@
 		</tr>
 		</thead>
 		<tbody>
-		<c:set var="rowNum" value="0"/>
-				<c:choose >
-				<c:when test="${empty fa_listoquestionstobedisplayed}">
-					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					<jsp:text><![CDATA[<td colspan="6">You have not entered any questions of your own! You can change the filter above to include questions from everyone.]]></jsp:text>
-					<jsp:text><![CDATA[</tr>]]></jsp:text>
-				</c:when>
-				<c:otherwise>
 				<tr>
 					<td></td>
 					<td style="text-align:right"><input type="submit" name="runFilter" value="Run Filter -->"/> </td>
@@ -47,6 +39,21 @@
 					</td>
 					<td></td>
 				</tr>
+		<c:set var="rowNum" value="0"/>
+				<c:choose >
+				<c:when test="${empty fa_listoquestionstobedisplayed}">
+					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+					<jsp:text><![CDATA[<td></td><td colspan="6">There are no questions to display! Either adjust the filter above, or add some questions of your own!]]></jsp:text>
+					<jsp:text><![CDATA[</tr>]]></jsp:text>
+				</c:when>
+				<c:otherwise>
 		<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
 			<c:set var="rowNum" value="${rowNum + 1}" />
 			<c:choose><c:when test="${rowNum % 2 == 0}">

@@ -65,6 +65,11 @@ public class RegisterUserServlet extends AbstractHttpServlet {
         {
         	errors.add("The text you entered for the CAPTCHA was wrong....");
         }
+        
+        if (password.length() < 6)
+        {
+        	errors.add("The password must be at least 6 characters.");
+        }
         	
 		if (errors.size() == 0)	{
 			UserManager.createUser(username, password);

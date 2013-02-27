@@ -10,7 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
+import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
 
 /**
@@ -31,7 +34,9 @@ public class ListQuestionsFilter extends AbstractFilter {
 		log.log(Level.INFO, "...in ListQuestionsFilter()");
 
 		new InitializeListOfQuestionsInSessionAction().doAction(request, response);
-
+		
+		((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
+		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}

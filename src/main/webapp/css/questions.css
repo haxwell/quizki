@@ -73,6 +73,10 @@ div.listOfQuestions {
 	border:1px solid #C2D6D6;   position:relative;
 }
 
+div.divWithBorder1 {
+	border:1px solid #C2D6D6;   position:relative;
+}
+
 div.createQuestionForm {
 	background-color:#f0bcae;
 }

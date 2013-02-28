@@ -150,9 +150,12 @@ public class QuestionManager extends Manager {
 				
 				// If not, delete this exam, too..
 				if (list.size() == 0) {
+					NotificationManager.issueNotification_emptyExamWasDeleted(l);
+					
 					query = em.createNativeQuery("DELETE FROM exam WHERE id = ?1");
 					query.setParameter(1, l);
 					query.executeUpdate();
+					
 				}
 			}
 		}

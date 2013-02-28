@@ -48,6 +48,7 @@ public class Constants {
 	public static final String LIST_OF_EXAM_TOPICS = "fa_listofexamtopics";
 	public static final String LIST_OF_TOPICS_TO_BE_INCLUDED = "fa_listofincludedtopics";
 	public static final String LIST_OF_TOPICS_TO_BE_EXCLUDED = "fa_listofexcludedtopics";
+	public static final String LIST_OF_NOTIFICATIONS_TO_BE_DISPLAYED = "listOfNotificationsToBeDisplayed";
 
 	public static final String EXAM_GENERATION_IS_IN_PROGRESS = "examGenerationIsInProgress";
 	public static final String QUIZKI_PERSISTENCE_UNIT = "quizki-pu";
@@ -93,12 +94,12 @@ public class Constants {
 	public static final String NUMBER_OF_USER_CONTRIBUTED_QUESTIONS = "numberOfQuestionsUserContributed";
 	public static final String NUMBER_OF_USER_CONTRIBUTED_EXAMS = "numberOfExamsUserContributed";
 
-	public static final int PROFILE_SUMAMRY_TAB_INDEX = 0;
+	public static final int PROFILE_SUMMARY_TAB_INDEX = 0;
 	public static final int PROFILE_QUESTION_TAB_INDEX = 1;
 	public static final int PROFILE_EXAM_TAB_INDEX = 2;
 	public static final int PROFILE_ACCOUNT_TAB_INDEX = 3;
 
 	public static final String TAB_INDEX = "tabIndex";
 
-	
+	public static final long NOTIFICATION_ID_EXAM_DELETED = 1;
 }

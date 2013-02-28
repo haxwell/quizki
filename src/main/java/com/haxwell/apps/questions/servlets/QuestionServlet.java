@@ -235,7 +235,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION, null);
 			request.setAttribute(Constants.CURRENT_QUESTION, null);
 			
-			request.getSession().setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, "/secured/question.jsp");
+//			request.getSession().setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, "/secured/question.jsp");
 			request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Edit Question");
 			request.getSession().setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, Boolean.TRUE);
 			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); // HACK!! I would rather do this in the initializeQuestions filter, but its not being called by the forwardToJSP() call.

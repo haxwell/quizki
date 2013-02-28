@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
+import com.haxwell.apps.questions.servlets.actions.SetListOfUserNotificationsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 
 /**
@@ -32,6 +33,7 @@ public class InitializeSessionForProfilePagesFilter extends AbstractFilter {
 		log.log(Level.INFO, "beginning InitializeSessionForCreatingAnExamFilter...");
 
 		new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
+		new SetListOfUserNotificationsInSessionAction().doAction(request, response);
 		
 		log.log(Level.INFO, "ending InitializeSessionForCreatingAnExamFilter...");
 		

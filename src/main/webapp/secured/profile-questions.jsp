@@ -67,7 +67,7 @@
 				<td>
 					<c:choose>
 					<c:when test="${question.user.id == currentUserEntity.id}">
-						<input type="submit" value="Edit Question" name="questionButton_${question.id}"/>
+						<input type="submit" value="Edit Question" id="edit_button" name="questionButton_${question.id}"/>
 						<input type="submit" value="Delete Question" id="delete_button" name="questionButton_${question.id}"/>
 					</c:when>
 					</c:choose>

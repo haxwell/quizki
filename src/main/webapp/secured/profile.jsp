@@ -100,9 +100,18 @@
 					    });
 					    return false;
 				    });
-//                                                      $('#dialogText').dialog('open'); 
-  //                                                return false; 
-    //                                            });
+				   });
+
+				$(document).ready(function() { 
+	              $('#edit_button').click(function() { 
+					var buttonValue = $( this ).attr("value");
+					var buttonName = $( this ).attr("name");
+					// set that buttonId on hidden field on form
+					$('#nameOfLastPressedButton').attr("value", buttonName);
+					$('#valueOfLastPressedButton').attr("value", buttonValue);
+					
+					document.getElementById("profileQuestionForm").submit();
+				});				    
 				}); 
 		     </script>
 				]]>			

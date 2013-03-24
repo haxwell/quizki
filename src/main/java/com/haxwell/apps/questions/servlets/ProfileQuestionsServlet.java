@@ -17,6 +17,7 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
+import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
 
 /**
@@ -48,32 +49,31 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 
 		String fwdPage = "/secured/profile.jsp";
 		
-		String button = request.getParameter("runFilter");
+		String value = request.getParameter("runFilter");
 		
-		if (button == null) button = "";
+		if (value == null) value = "";
 		
-		if (button.equals("Run Filter -->"))
+		if (value.equals("Run Filter -->"))
 			handleFilterButtonPress(request);
 		else
 		{
-			Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
+//			Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
 			
-			if (coll != null)
-			{
-				boolean buttonFound = false;
-				Iterator<Question> iterator = coll.iterator();
+//			if (coll != null)
+//			{
+			String name = request.getParameter("nameOfLastPressedButton");
+			String btnValue = request.getParameter("valueOfLastPressedButton");
 				
-				while (!buttonFound && iterator.hasNext())
+				if (!StringUtil.isNullOrEmpty(name))
 				{
-					Question q = iterator.next();
-					button = request.getParameter("questionButton_"+q.getId());
-					
-					if (button != null)
+					String id= name.substring(name.indexOf('_')+1);
+				
+					if (btnValue != null)
 					{
-						if (button.equals("Edit Question"))
-							fwdPage = "/secured/question.jsp?questionId=" + q.getId();
-						else if (button.equals("Delete Question")) {
-							QuestionManager.deleteQuestion(q);
+						if (btnValue.equals("Edit Question"))
+							fwdPage = "/secured/question.jsp?questionId=" + id;
+						else if (btnValue.equals("Delete Question")) {
+							QuestionManager.deleteQuestion(id);
 							request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 							
 							new InitializeListOfQuestionsInSessionAction().doAction(request, response);
@@ -81,11 +81,9 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 							
 							//request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);							
 						}
-						
-						buttonFound = true;
 					}
 				}
-			}
+//			}
 		}
 		
 		request.getSession().setAttribute("tabIndex", Constants.PROFILE_QUESTION_TAB_INDEX);

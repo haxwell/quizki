@@ -42,6 +42,11 @@ public class QuestionManager extends Manager {
 		return rtn.getId();
 	}
 	
+	public static void deleteQuestion(String id)
+	{
+		deleteQuestion(getQuestionById(id));
+	}
+	
 	public static void deleteQuestion(Question question)
 	{
 		EntityManager em = emf.createEntityManager();

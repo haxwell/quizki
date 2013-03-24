@@ -76,6 +76,34 @@
 					$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
 					$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
 				})});
+
+				$(document).ready(function() { 
+	              $('#delete_button').click(function() { 
+					var buttonValue = $( this ).attr("value");
+					var buttonName = $( this ).attr("name");
+					// set that buttonId on hidden field on form
+					$('#nameOfLastPressedButton').attr("value", buttonName);
+					$('#valueOfLastPressedButton').attr("value", buttonValue);
+					
+					$( "#dialogText" ).dialog({
+						  autoOpen: true,
+					      resizable: false,
+					      modal: true,
+					      buttons: {
+					        "Delete this item": function() {
+					          document.getElementById("profileQuestionForm").submit();
+					        },
+					        Cancel: function() {
+					          $( this ).dialog( "close" );
+					        }
+					      }
+					    });
+					    return false;
+				    });
+//                                                      $('#dialogText').dialog('open'); 
+  //                                                return false; 
+    //                                            });
+				}); 
 		     </script>
 				]]>			
 
@@ -124,7 +152,9 @@
 	</c:choose>
 	
 	<br/>
-	<a href="/index.jsp">home</a>  
+	<a href="/index.jsp">home</a>
+	
+	<div class="hidden" id="dialogText">Are you SURE you want to delete?</div>  
 
 </body>
 </html>

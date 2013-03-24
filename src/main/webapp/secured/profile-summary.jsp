@@ -39,11 +39,12 @@
 			Your exams have received ${sessionScope.examVoteCounts.positiveCount} positive votes, and ${sessionScope.examVoteCounts.negativeCount} negative votes. 
 		</c:when>
 		<c:otherwise>
-			<c:if test="${sessionScope.numberOfQuestionsUserContributed > 0}">
+			<c:if test="${sessionScope.numberOfExamsUserContributed > 0}">
 				Your exams have not received any votes.
 			</c:if>
 		</c:otherwise>
 	</c:choose>
+	<br/><br/>
 	<c:choose>
 		<c:when test="${not empty sessionScope.listOfNotificationsToBeDisplayed}">
 					You have ${fn:length(listOfNotificationsToBeDisplayed)} notifications.<br/><br/>

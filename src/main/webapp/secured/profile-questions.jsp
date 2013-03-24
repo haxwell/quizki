@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-	<form action="/secured/ProfileQuestionsServlet">
+	<form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet">
 	<table class="displayExam">
 		<thead>
 		<tr>
@@ -19,9 +19,9 @@
 					<td></td>
 					<td style="text-align:right"><input type="submit" name="runFilter" value="Run Filter -->"/> </td>
 					<td><input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:100%;"/></td>
-					<td><input type="text" name="topicFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.."/></td>
+					<td><input type="text" name="topicFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.." style="width:100%;"/></td>
 					<td >
-						<select name="questionTypeFilter" title="Only include questions of type..">
+						<select name="questionTypeFilter" title="Only include questions of type.." style="width:100%;">
 							<c:choose><c:when test="${mruFilterQuestionType == 0}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all" >All</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterQuestionType == 1}"><option value="single" selected="selected">Single</option></c:when><c:otherwise><option value="single" >Single</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterQuestionType == 2}"><option value="multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="multiple" >Multiple</option></c:otherwise></c:choose>
@@ -30,7 +30,7 @@
 						</select>
 					</td>
 					<td >
-						<select name="difficultyFilter" title="Do not include any questions more difficult than..">
+						<select name="difficultyFilter" title="Do not include any questions more difficult than.." style="width:100%;">
 							<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
@@ -68,7 +68,7 @@
 					<c:choose>
 					<c:when test="${question.user.id == currentUserEntity.id}">
 						<input type="submit" value="Edit Question" name="questionButton_${question.id}"/>
-						<input type="submit" value="Delete Question" name="questionButton_${question.id}"/>
+						<input type="submit" value="Delete Question" id="delete_button" name="questionButton_${question.id}"/>
 					</c:when>
 					</c:choose>
 				</td>
@@ -90,4 +90,7 @@
 		</c:choose>
 		</tbody>
 	</table>
+	
+	<input type="hidden" id="valueOfLastPressedButton" name="valueOfLastPressedButton">
+	<input type="hidden" id="nameOfLastPressedButton" name="nameOfLastPressedButton">
 	</form>

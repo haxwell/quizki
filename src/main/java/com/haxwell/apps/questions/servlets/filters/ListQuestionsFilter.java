@@ -35,7 +35,8 @@ public class ListQuestionsFilter extends AbstractFilter {
 
 		new InitializeListOfQuestionsInSessionAction().doAction(request, response);
 		
-		((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
+		if (((HttpServletRequest)request).getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY) == null)
+			((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

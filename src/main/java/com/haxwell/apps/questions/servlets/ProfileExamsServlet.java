@@ -101,7 +101,7 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 		if (user != null)
 			coll = ExamManager.getAllExamsCreatedByAGivenUserWithTitlesThatContain(user.getId(), filterText);
 
-		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+		request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, coll);
 
 		// store the filter we just used
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);

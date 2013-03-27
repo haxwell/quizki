@@ -215,7 +215,7 @@ public class ExamServlet extends AbstractHttpServlet {
 			coll.removeAll(getExamBean(request).getQuestions());
 		}
 		
-		request.getSession().setAttribute("fa_listoquestionstobedisplayed", coll);		
+		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);		
 		
 		// store the filter we just used
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);

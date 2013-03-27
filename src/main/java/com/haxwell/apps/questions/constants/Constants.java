@@ -42,7 +42,7 @@ public class Constants {
 	public static final String MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "mruMaxNumberOfQuestionsOnGeneratedExam";	
 	
 	public static final String LIST_OF_EXAMS_TO_BE_DISPLAYED = "fa_listofexamstobedisplayed";
-	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listoquestionstobedisplayed";	
+	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listofquestionstobedisplayed";	
 	public static final String LIST_OF_TOPICS_TO_BE_DISPLAYED = "fa_listofalltopics";
 	public static final String LIST_OF_MAJOR_TOPICS = "fa_listofmajortopics";
 	public static final String LIST_OF_EXAM_TOPICS = "fa_listofexamtopics";

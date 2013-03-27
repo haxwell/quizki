@@ -83,7 +83,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 
 	private String handleEditQuestion(HttpServletRequest request, String fwdPage) {
 		Collection<Question> coll;
-		coll = (Collection<Question>)request.getSession().getAttribute("fa_listoquestionstobedisplayed");
+		coll = (Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
 		Iterator<Question> iterator = coll.iterator();
 		Question q = null;
 		String action = null;
@@ -98,7 +98,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 				fwdPage = "/secured/question.jsp?questionId=" + q.getId();
 			else if (action.equals("Delete Question")) {
 				QuestionManager.deleteQuestion(q);
-				request.getSession().setAttribute("fa_listoquestionstobedisplayed", null);
+				request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 			}
 		}
 		return fwdPage;

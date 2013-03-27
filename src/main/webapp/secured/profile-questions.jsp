@@ -41,7 +41,7 @@
 				</tr>
 		<c:set var="rowNum" value="0"/>
 				<c:choose >
-				<c:when test="${empty fa_listoquestionstobedisplayed}">
+				<c:when test="${empty fa_listofquestionstobedisplayed}">
 					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
 					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
 					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
@@ -54,7 +54,7 @@
 					<jsp:text><![CDATA[</tr>]]></jsp:text>
 				</c:when>
 				<c:otherwise>
-		<c:forEach var="question" items="${fa_listoquestionstobedisplayed}">
+		<c:forEach var="question" items="${fa_listofquestionstobedisplayed}">
 			<c:set var="rowNum" value="${rowNum + 1}" />
 			<c:choose><c:when test="${rowNum % 2 == 0}">
 			<jsp:text><![CDATA[<tr>]]></jsp:text>

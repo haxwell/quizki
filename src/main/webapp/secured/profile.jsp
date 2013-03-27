@@ -145,7 +145,7 @@
 	  <div id="tabs-2">
 	    	<div id="questions" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-questions.jsp"></jsp:include></div>
 	    	<br/>
-			${fn:length(fa_listoquestionstobedisplayed)} questions.	
+			${fn:length(fa_listofquestionstobedisplayed)} questions.	
 	  </div>
 	  <div id="tabs-3">
 	    	<div id="exams" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-exams.jsp"></jsp:include></div>

@@ -79,7 +79,7 @@
 				</c:if>				
 			</c:if>
 			
-			<td style="padding:3px"><a class="greyLink" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
+			<td style="padding:3px"><a class="greyLink" id="autoExamLink_${counter}" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
 			<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
 			<c:set var="counter" value="${counter + 1}" scope="page"/>
 			

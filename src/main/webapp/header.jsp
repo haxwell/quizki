@@ -13,11 +13,11 @@
 	    <c:choose>
 	     <c:when test="${empty sessionScope.currentUserEntity}">
 			<c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"> 
-				<a class="homeLink" href="/login.jsp">register / login</a>
+				<a class="homeLink" id="headerLoginLink" href="/login.jsp">register / login</a>
 			</c:if>
 	     </c:when>
 	     <c:otherwise>
-	     	Hello, ${sessionScope.currentUserEntity.username} <c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"><a class="darkerHomeLink" href="/logout.jsp">logout</a></c:if>
+	     	Hello, ${sessionScope.currentUserEntity.username} <c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"><a class="darkerHomeLink" id="logoutLink" href="/logout.jsp">logout</a></c:if>
 	     </c:otherwise>
 	    </c:choose>
 </td>

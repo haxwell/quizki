@@ -35,14 +35,14 @@
 		
 			<div class="hidden" id="radioButtonExample"><input type="text" name="examId" value="${requestScope.examId}"/><input type="text" name="topicId" value="${requestScope.topicId}"/></div> 
 			<hr/>			
-			Press <input type="submit" value="BEGIN!" name="button"/> to get to it!<br/>
+			Press <input type="submit" id="beginButton" value="BEGIN!" name="button"/> to get to it!<br/>
 				
 		</form>
 	</c:otherwise>		
 	</c:choose>		
 		
 <br/><br/><br/><br/>
-<a href="/index.jsp">home</a> <br/>
+<a id="homeLink" href="/index.jsp">home</a> <br/>
 
 
 </body>

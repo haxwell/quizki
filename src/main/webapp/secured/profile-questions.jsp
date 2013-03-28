@@ -40,6 +40,7 @@
 					<td></td>
 				</tr>
 		<c:set var="rowNum" value="0"/>
+		<c:set var="counter" value="0" />
 				<c:choose >
 				<c:when test="${empty fa_listofquestionstobedisplayed}">
 					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
@@ -65,10 +66,13 @@
 			
 				<td>${question.id}</td>
 				<td>
+					<c:set var="counter" value="${counter + 1}" />
 					<c:choose>
 					<c:when test="${question.user.id == currentUserEntity.id}">
-						<input type="submit" value="Edit Question" id="edit_button" name="questionButton_${question.id}"/>
-						<input type="submit" value="Delete Question" id="delete_button" name="questionButton_${question.id}"/>
+						<div class="deleteButtonDiv">
+							<input type="submit" value="Edit Question" id="edit_button_${counter}" name="questionButton_${question.id}"/>
+							<input type="submit" value="Delete Question" id="delete_button_${counter}" name="questionButton_${question.id}"/>
+						</div>
 					</c:when>
 					</c:choose>
 				</td>

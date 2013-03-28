@@ -78,29 +78,47 @@
 				})});
 
 				$(document).ready(function() { 
-	              $('#delete_button').click(function() { 
-					var buttonValue = $( this ).attr("value");
-					var buttonName = $( this ).attr("name");
-					// set that buttonId on hidden field on form
-					$('#nameOfLastPressedButton').attr("value", buttonName);
-					$('#valueOfLastPressedButton').attr("value", buttonValue);
-					
-					$( "#dialogText" ).dialog({
-						  autoOpen: true,
-					      resizable: false,
-					      modal: true,
-					      buttons: {
-					        "Delete this item": function() {
-					          document.getElementById("profileQuestionForm").submit();
-					        },
-					        Cancel: function() {
-					          $( this ).dialog( "close" );
-					        }
-					      }
-					    });
-					    return false;
-				    });
-				   });
+					var options = { 
+							autoOpen: false,
+					      	resizable: false,
+					      	modal: true,
+						      buttons: {
+						        "Delete this item": function() {
+						          document.getElementById("profileQuestionForm").submit();
+						        },
+						        Cancel: function() {
+						          $( this ).dialog( "close" );
+						        }
+						      }
+					};
+					var num = 1;
+
+		            $('.deleteButtonDiv').each(function() {
+		              		var dlg = $('#dialogText').dialog(options);
+		              		$('#delete_button_' + num).click(function() {
+								var buttonValue = $( this ).attr("value");
+								var buttonName = $( this ).attr("name");
+								// set that buttonId on hidden field on form
+								$('#nameOfLastPressedButton').attr("value", buttonName);
+								$('#valueOfLastPressedButton').attr("value", buttonValue);
+	
+		              			dlg.dialog("open");
+		              			return false;
+		              		});
+		              		
+							$('#edit_button_' + num).click(function() { 
+								var buttonValue = $( this ).attr("value");
+								var buttonName = $( this ).attr("name");
+								// set that buttonId on hidden field on form
+								$('#nameOfLastPressedButton').attr("value", buttonName);
+								$('#valueOfLastPressedButton').attr("value", buttonValue);
+								
+								document.getElementById("profileQuestionForm").submit();
+							});				    
+		              		
+		              		num = num + 1;
+		              });
+	              });
 
 				$(document).ready(function() { 
 	              $('#edit_button').click(function() { 
@@ -109,6 +127,7 @@
 					// set that buttonId on hidden field on form
 					$('#nameOfLastPressedButton').attr("value", buttonName);
 					$('#valueOfLastPressedButton').attr("value", buttonValue);
+					
 					
 					document.getElementById("profileQuestionForm").submit();
 				});				    

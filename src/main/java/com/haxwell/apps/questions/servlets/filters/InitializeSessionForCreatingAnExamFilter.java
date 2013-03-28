@@ -81,8 +81,10 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 				}
 			}
 			
-			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
-			session.setAttribute(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS, Constants.MY_ITEMS);
+			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
+				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
+				session.setAttribute(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS, Constants.MY_ITEMS);
+			}
 		}
 		
 		log.log(Level.INFO, "ending InitializeSessionForCreatingAnExamFilter...");

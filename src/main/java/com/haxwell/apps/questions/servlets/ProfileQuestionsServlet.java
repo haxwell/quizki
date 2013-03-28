@@ -88,7 +88,7 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		
 		request.getSession().setAttribute("tabIndex", Constants.PROFILE_QUESTION_TAB_INDEX);
 		
-		forwardToJSP(request, response, fwdPage);
+		redirectToJSP(request, response, fwdPage);
 	}
 
 	private void handleFilterButtonPress(HttpServletRequest request) {

@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
@@ -49,6 +50,7 @@ public class ExamServlet extends AbstractHttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
 		String button = request.getParameter("button");
 		
 		Exam examObj = getExamBean(request);		
@@ -77,6 +79,8 @@ public class ExamServlet extends AbstractHttpServlet {
 			request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 			
 			setExamTitleFromFormParameter(request, examObj);
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Delete Questions"))
 		{
@@ -84,16 +88,20 @@ public class ExamServlet extends AbstractHttpServlet {
 			
 			ExamManager.removeQuestions(examObj, questionIDs);
 			
-			refreshListOfQuestionsToBeDisplayed(request);			
+			refreshListOfQuestionsToBeDisplayed(request);
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("Filter")) 
 		{
 			handleFilterButtonPress(request);
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Clear Filter")) 
 		{
 			clearMRUFilterSettings(request);
 			refreshListOfQuestionsToBeDisplayed(request);
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else
 		{
@@ -113,17 +121,20 @@ public class ExamServlet extends AbstractHttpServlet {
 			}
 			
 			setExamTitleFromFormParameter(request, examObj);
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 
 		if (examWasPersisted) {
-			request.getSession().setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
-			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null);
+			session.setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
+			
+			session.setAttribute(Constants.IN_EDITING_MODE, null);
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 			
 			clearMRUFilterSettings(request);
 			refreshListOfQuestionsToBeDisplayed(request);
 		}
 		else
-			request.getSession().setAttribute(Constants.CURRENT_EXAM, examObj);
+			session.setAttribute(Constants.CURRENT_EXAM, examObj);
 		
 		forwardToJSP(request, response, "/secured/exam.jsp");
 	}

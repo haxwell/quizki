@@ -21,8 +21,8 @@ public class QuizkiTest {
     {
     	// assume we're already at home page
     	
-    	assertLinkPresent("autoExamLink_1");
-    	clickLink("autoExamLink_1");
+    	assertLinkPresent("autoExamLink_0");
+    	clickLink("autoExamLink_0");
     	
     	assertFormElementPresent("button"); // if the button is there, that means the page loaded normally
     }

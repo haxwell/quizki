@@ -104,7 +104,7 @@ tinyMCE.init({
 		<div >
 		<form action="/secured/QuestionServlet" method="post">
 			<div >
-			<textarea name="questionText" cols="50" rows="15" value="Enter a question...?" class="tinymce">${currentQuestion.text}</textarea><br/>  
+			<textarea id="id_questionText" name="questionText" cols="50" rows="15" value="Enter a question...?" class="tinymce">${currentQuestion.text}</textarea><br/>  
 			Difficulty: <select name="difficulty" id="questionDifficulty" title="How hard is this question?">
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.difficulty.id == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
@@ -116,7 +116,7 @@ tinyMCE.init({
 				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>
-				 | Description: <input type="text" size="45" maxlength="998" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
+				 | Description: <input type="text" size="45" maxlength="998" id="id_questionDescription" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
 			</div>
 			
 			<hr/>

@@ -103,6 +103,28 @@ public class QuizkiTest {
     	assertTextInElement("id_examTitle", "");
     }
     
+    /**
+     * From the home page,
+     * 1. Click on an Auto Practice Exam link,
+     * 2. Click Home
+     * 3. Click on link to create question
+     * 4. Assert nothing is set in the title (title would be set if a question was set in CurrentQuestion)
+     * 
+     * Reason: Anytime you go to Create Question from the home page, no previous question should be in the session
+     */
+    @Test
+    public void testNoStaleQuestionWhenCreateQuestionIsCalled() {
+    	loginFromHomePage();
+    	
+    	testBeginExamStartsNormallyFromAutoExam0LinkClick();
+
+    	assertAndClickOnLink("homeLink");
+    	assertAndClickOnLink("createQuestionLink");
+    	
+    	assertTextInElement("id_questionText", "");
+    	assertTextInElement("id_questionDescription", "");
+    }
+     
 	private void assertAndClickOnLink(String linkId) {
 		assertLinkPresent(linkId);
     	clickLink(linkId);

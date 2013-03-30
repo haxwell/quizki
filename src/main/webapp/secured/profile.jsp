@@ -33,145 +33,130 @@
 			<![CDATA[
 			<script type="text/javascript">
 			
-			  $(function() {
-			    $( "#tabs" ).tabs();
-			    
-			    if (tabIndex !== undefined)
-			    	$( "#tabs" ).tabs("option","active", tabIndex);
-			  });			
+					 $(function() {
+					 	$( "#tabs" ).tabs();
+					    
+					    if (tabIndex !== undefined)
+					    	$( "#tabs" ).tabs("option","active", tabIndex);
+					});			
 			
-		//$(function() {
-		//   $( document ).tooltip();
-		// });
-		 
-    $( "#open-event" ).tooltip({
-      show: null,
-      position: {
-        my: "left top",
-        at: "left bottom"
-      },
-      open: function( event, ui ) {
-        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
-      }
-    });
-
-				 $(document).ready(function(){
-					// set the height of the content area according to the browser height
-					var bottomBufferHeight = 110;
-					var questionsBufferHeight = 77;
-					var windowHeight = $(window).height();
-					
-					$('#tabs').height(windowHeight - bottomBufferHeight);
-					$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-					$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-				});
-				 
-				 $(document).ready(function(){
-				     $(window).resize(function() {
-				             var bottomBufferHeight = 110;
-				             var questionsBufferHeight = 77;
-				             var windowHeight = $(window).height();
+					//$(function() {
+					//   $( document ).tooltip();
+					// });
+					 
+				    $( "#open-event" ).tooltip({
+				      show: null,
+				      position: {
+				        my: "left top",
+				        at: "left bottom"
+				      },
+				      open: function( event, ui ) {
+				        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
+				      }
+				    });
 				
-					$('#tabs').height(windowHeight - bottomBufferHeight);
-					$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-					$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-				})});
+					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
+						// set the height of the content area according to the browser height
+						var bottomBufferHeight = 110;
+						var questionsBufferHeight = 77;
+						var windowHeight = $(window).height();
+						
+						$('#tabs').height(windowHeight - bottomBufferHeight);
+						$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
+						$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
+					}
 
-				$(document).ready(function() { 
-					var questionDialogOptions = { 
-							autoOpen: false,
-					      	resizable: false,
-					      	modal: true,
-						      buttons: {
-						        "Delete this item": function() {
-						          document.getElementById("profileQuestionForm").submit();
-						        },
-						        Cancel: function() {
-						          $( this ).dialog( "close" );
-						        }
-						      }
-					};
-					
-					var examDialogOptions = { 
-							autoOpen: false,
-					      	resizable: false,
-					      	modal: true,
-						      buttons: {
-						        "Delete this item": function() {
-						          document.getElementById("profileExamForm").submit();
-						        },
-						        Cancel: function() {
-						          $( this ).dialog( "close" );
-						        }
-						      }
-					};
-					
-					var num = 1;
+					$(document).ready(function(){
+				 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+					});
+				 
+					$(document).ready(function(){
+					     $(window).resize(function() {
+					 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+						});
+					});
 
-		            $('.questionButtonDiv').each(function() {
-		              		var dlg = $('#dialogText').dialog(questionDialogOptions);
-		              		$('#delete_button_' + num).click(function() {
-								var buttonValue = $( this ).attr("value");
-								var buttonName = $( this ).attr("name");
-								// set that buttonId on hidden field on form
-								$('#nameOfLastPressedButton').attr("value", buttonName);
-								$('#valueOfLastPressedButton').attr("value", buttonValue);
+					function getDeleteConfirmationDialogOptions(profileFormName) {
+						var options = { 
+								autoOpen: false, resizable: false, modal: true,
+							      buttons: {
+							        "Delete this item": function() {
+							          document.getElementById(profileFormName).submit();
+							        },
+							        Cancel: function() {
+							          $( this ).dialog( "close" );
+							        }
+							      }
+						};
+						
+						return options;
+					}
+
+					function setLastPressedButtonName(obj, fieldId) {
+						var buttonName = obj.attr("name");
+						$('#' + fieldId).attr("value", buttonName);
+					}
+
+					function setLastPressedButtonValue(obj, fieldId) {
+						var buttonValue = obj.attr("value");
+						$('#' + fieldId).attr("value", buttonValue);
+					}
+
+					$(document).ready(function() { 
+						var num = 1;
 	
-		              			dlg.dialog("open");
-		              			return false;
-		              		});
-		              		
-							$('#edit_button_' + num).click(function() { 
-								var buttonValue = $( this ).attr("value");
-								var buttonName = $( this ).attr("name");
-								// set that buttonId on hidden field on form
-								$('#nameOfLastPressedButton').attr("value", buttonName);
-								$('#valueOfLastPressedButton').attr("value", buttonValue);
+			            $('.questionButtonDiv').each(function() {
+	
+			              		$('#delete_button_' + num).click(function() {
+									var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileQuestionForm"));
+
+									setLastPressedButtonName($(this), "nameOfLastPressedButton");
+									setLastPressedButtonValue($(this), "valueOfLastPressedButton");
+		
+			              			dlg.dialog("open");
+			              			return false;
+			              		});
+			              		
+								$('#edit_button_' + num).click(function() { 
+									setLastPressedButtonName($(this), "nameOfLastPressedButton");
+									setLastPressedButtonValue($(this), "valueOfLastPressedButton");
+									
+									document.getElementById("profileQuestionForm").submit();
+								});				    
+			              		
+			              		num = num + 1;
+			              });
+	
+						num = 1;
+			              
+			          	$('.examButtonDiv').each(function() {
+			              		$('#exam_delete_button_' + num).click(function() {
+									var dlg2 = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileExamForm"));
+
+									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
+									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+	
+			              			dlg2.dialog("open");
+			              			return false;
+			              		});
+			              		
+								$('#exam_edit_button_' + num).click(function() { 
+									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
+									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+									
+									document.getElementById("profileExamForm").submit();
+								});
 								
-								document.getElementById("profileQuestionForm").submit();
-							});				    
-		              		
-		              		num = num + 1;
+								$('#exam_take_button_' + num).click(function () {
+									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
+									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+									
+									document.getElementById("profileExamForm").submit();
+								});
+			              		
+			              		num = num + 1;
+			          	});
 		              });
-
-					num = 1;
-		              
-		          	$('.examButtonDiv').each(function() {
-		              		var dlg2 = $('#dialogText').dialog(examDialogOptions);
-		              		$('#exam_delete_button_' + num).click(function() {
-								var buttonValue = $( this ).attr("value");
-								var buttonName = $( this ).attr("name");
-								// set that buttonId on hidden field on form
-								$('#exam_nameOfLastPressedButton').attr("value", buttonName);
-								$('#exam_valueOfLastPressedButton').attr("value", buttonValue);
-	
-		              			dlg2.dialog("open");
-		              			return false;
-		              		});
-		              		
-							$('#exam_edit_button_' + num).click(function() { 
-								var buttonValue = $( this ).attr("value");
-								var buttonName = $( this ).attr("name");
-								// set that buttonId on hidden field on form
-								$('#exam_nameOfLastPressedButton').attr("value", buttonName);
-								$('#exam_valueOfLastPressedButton').attr("value", buttonValue);
-								
-								document.getElementById("profileExamForm").submit();
-							});
-							
-							$('#exam_take_button_' + num).click(function () {
-								var buttonValue = $( this ).attr("value");
-								var buttonName = $( this ).attr("name");
-								// set that buttonId on hidden field on form
-								$('#exam_nameOfLastPressedButton').attr("value", buttonName);
-								$('#exam_valueOfLastPressedButton').attr("value", buttonValue);
-								
-								document.getElementById("profileExamForm").submit();
-							});
-		              		
-		              		num = num + 1;
-		          	});
-	              });
 
 		     </script>
 				]]>			

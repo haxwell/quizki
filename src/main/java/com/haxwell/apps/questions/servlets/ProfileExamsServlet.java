@@ -2,7 +2,6 @@ package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,7 @@ import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAnd
 import com.haxwell.apps.questions.utils.StringUtil;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class ProfileExamsServlet
  */
 @WebServlet("/secured/ProfileExamsServlet")
 public class ProfileExamsServlet extends AbstractHttpServlet {
@@ -55,10 +54,6 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 			handleFilterButtonPress(request);
 		else
 		{
-//			Collection<Exam> coll = (Collection<Exam>)request.getSession().getAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED);
-//			
-//			if (coll != null)
-//			{
 			String name = request.getParameter("exam_nameOfLastPressedButton");
 			String btnValue = request.getParameter("exam_valueOfLastPressedButton");
 			
@@ -68,31 +63,17 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 			
 				if (btnValue != null)
 				{
-
-//				boolean buttonFound = false;
-//				Iterator<Exam> iterator = coll.iterator();
-//				
-//				while (!buttonFound && iterator.hasNext())
-//				{
-//					Exam e = iterator.next();
-//					button = request.getParameter("examButton_"+e.getId());
-//					
-//					if (button != null)
-//					{
-						if (btnValue.equals("Take Exam"))
-							fwdPage = "/beginExam.jsp?examId=" + id;
-						else if (btnValue.equals("Edit Exam"))
-							fwdPage = "/secured/exam.jsp?examId=" + id;
-						else if (btnValue.equals("Delete Exam")) {
-							ExamManager.deleteExam(id);
-							request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);
-							
-							new InitializeListOfExamsInSessionAction().doAction(request, response);
-							new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
-						}
+					if (btnValue.equals("Take Exam"))
+						fwdPage = "/beginExam.jsp?examId=" + id;
+					else if (btnValue.equals("Edit Exam"))
+						fwdPage = "/secured/exam.jsp?examId=" + id;
+					else if (btnValue.equals("Delete Exam")) {
+						ExamManager.deleteExam(id);
+						request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);
 						
-//						buttonFound = true;
-//					}
+						new InitializeListOfExamsInSessionAction().doAction(request, response);
+						new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
+					}
 				}
 			}
 		}
@@ -117,5 +98,4 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 		// store the filter we just used
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 	}
-
 }

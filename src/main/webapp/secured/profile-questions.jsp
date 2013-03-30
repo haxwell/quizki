@@ -69,7 +69,7 @@
 					<c:set var="counter" value="${counter + 1}" />
 					<c:choose>
 					<c:when test="${question.user.id == currentUserEntity.id}">
-						<div class="deleteButtonDiv">
+						<div class="questionButtonDiv">
 							<input type="submit" value="Edit Question" id="edit_button_${counter}" name="questionButton_${question.id}"/>
 							<input type="submit" value="Delete Question" id="delete_button_${counter}" name="questionButton_${question.id}"/>
 						</div>

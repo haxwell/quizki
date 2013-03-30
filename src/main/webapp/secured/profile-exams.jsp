@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-	<form action="/secured/ProfileExamsServlet">
+	<form id="profileExamForm" action="/secured/ProfileExamsServlet">
 	<table class="displayExam">
 		<thead>
 		<tr>
@@ -18,6 +18,7 @@
 				<td><input type="text" name="containsFilter" value="${mruFilterText}" title="Only show exams with titles that contain this text..." style="width:100%;"/></td>
 			</tr>
 		<c:set var="rowNum" value="0"/>
+		<c:set var="counter" value="0"/>
 		<c:choose>
 			<c:when test="${empty fa_listofexamstobedisplayed}">
 				<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
@@ -41,18 +42,22 @@
 			<jsp:text><![CDATA[<tr class="rowHighlight">]]></jsp:text>
 			</c:otherwise></c:choose>
 			
+				<c:set var="counter" value="${counter + 1}" />
 				<td>${exam.id}</td>
-				<td></td>
-				<td>${exam.title}</td>
-					<td><input type="submit" value="Take Exam" name="examButton_${exam.id}"/></td>
 					<c:choose><c:when test="${exam.user.id == currentUserEntity.id}">
-						<td><input type="submit" value="Edit Exam" name="examButton_${exam.id}"/></td>
-						<td><input type="submit" value="Delete Exam" name="examButton_${exam.id}"/></td>
+						<td>
+						<div class="examButtonDiv">
+							<input type="submit" value="Edit Exam" id="exam_edit_button_${counter}" name="examButton_${exam.id}"/>
+							<input type="submit" value="Delete Exam" id="exam_delete_button_${counter}" name="examButton_${exam.id}"/>
+						</div>
+						</td>
 					</c:when>
 					<c:otherwise>
 						<td><input type="submit" value="Detail Exam" name="examButton_${exam.id}"/></td>
 					</c:otherwise>
 					</c:choose>
+				<td style="width:100%;">${exam.title}</td>
+					<td><input type="submit" value="Take Exam" name="examButton_${exam.id}"/></td>
 
 			<jsp:text><![CDATA[</tr>]]></jsp:text>
 		</c:forEach>
@@ -60,4 +65,7 @@
 		</c:choose>
 		</tbody>
 	</table>
+
+	<input type="hidden" id="exam_valueOfLastPressedButton" name="exam_valueOfLastPressedButton">
+	<input type="hidden" id="exam_nameOfLastPressedButton" name="exam_nameOfLastPressedButton">
 	</form>

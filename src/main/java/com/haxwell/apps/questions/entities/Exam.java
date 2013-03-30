@@ -98,4 +98,15 @@ public class Exam implements IExam, EntityWithAnIntegerIDBehavior, Serializable 
 	{
 		return questions.size();
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("ID: " + getId());
+		sb.append("  |Title: " + getTitle());
+		
+		return sb.toString();
+	}
 }

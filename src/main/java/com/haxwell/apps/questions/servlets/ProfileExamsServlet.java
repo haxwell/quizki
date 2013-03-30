@@ -16,6 +16,7 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfExamsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 /**
  * Servlet implementation class LoginServlet
@@ -46,42 +47,52 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 
 		String fwdPage = "/secured/profile.jsp";
 		
-		String button = request.getParameter("runFilter");
+		String value = request.getParameter("runFilter");
 		
-		if (button == null) button = "";
+		if (value == null) value = "";
 		
-		if (button.equals("Run Filter -->"))
+		if (value.equals("Run Filter -->"))
 			handleFilterButtonPress(request);
 		else
 		{
-			Collection<Exam> coll = (Collection<Exam>)request.getSession().getAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED);
+//			Collection<Exam> coll = (Collection<Exam>)request.getSession().getAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED);
+//			
+//			if (coll != null)
+//			{
+			String name = request.getParameter("exam_nameOfLastPressedButton");
+			String btnValue = request.getParameter("exam_valueOfLastPressedButton");
 			
-			if (coll != null)
+			if (!StringUtil.isNullOrEmpty(name))
 			{
-				boolean buttonFound = false;
-				Iterator<Exam> iterator = coll.iterator();
-				
-				while (!buttonFound && iterator.hasNext())
+				String id= name.substring(name.indexOf('_')+1);
+			
+				if (btnValue != null)
 				{
-					Exam e = iterator.next();
-					button = request.getParameter("examButton_"+e.getId());
-					
-					if (button != null)
-					{
-						if (button.equals("Take Exam"))
-							fwdPage = "/beginExam.jsp?examId=" + e.getId();
-						else if (button.equals("Edit Exam"))
-							fwdPage = "/secured/exam.jsp?examId=" + e.getId();
-						else if (button.equals("Delete Exam")) {
-							ExamManager.deleteExam(e);
+
+//				boolean buttonFound = false;
+//				Iterator<Exam> iterator = coll.iterator();
+//				
+//				while (!buttonFound && iterator.hasNext())
+//				{
+//					Exam e = iterator.next();
+//					button = request.getParameter("examButton_"+e.getId());
+//					
+//					if (button != null)
+//					{
+						if (btnValue.equals("Take Exam"))
+							fwdPage = "/beginExam.jsp?examId=" + id;
+						else if (btnValue.equals("Edit Exam"))
+							fwdPage = "/secured/exam.jsp?examId=" + id;
+						else if (btnValue.equals("Delete Exam")) {
+							ExamManager.deleteExam(id);
 							request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);
 							
 							new InitializeListOfExamsInSessionAction().doAction(request, response);
 							new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 						}
 						
-						buttonFound = true;
-					}
+//						buttonFound = true;
+//					}
 				}
 			}
 		}

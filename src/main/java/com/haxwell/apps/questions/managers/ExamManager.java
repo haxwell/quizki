@@ -43,6 +43,11 @@ public class ExamManager extends Manager {
 		return rtn.getId();
 	}
 	
+	public static void deleteExam(String str)
+	{
+		deleteExam(getExam(Long.parseLong(str)));
+	}
+	
 	public static void deleteExam(Exam exam)
 	{
 		EntityManager em = emf.createEntityManager();

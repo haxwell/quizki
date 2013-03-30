@@ -157,7 +157,17 @@
 								$('#exam_valueOfLastPressedButton').attr("value", buttonValue);
 								
 								document.getElementById("profileExamForm").submit();
-							});				    
+							});
+							
+							$('#exam_take_button_' + num).click(function () {
+								var buttonValue = $( this ).attr("value");
+								var buttonName = $( this ).attr("name");
+								// set that buttonId on hidden field on form
+								$('#exam_nameOfLastPressedButton').attr("value", buttonName);
+								$('#exam_valueOfLastPressedButton').attr("value", buttonValue);
+								
+								document.getElementById("profileExamForm").submit();
+							});
 		              		
 		              		num = num + 1;
 		          	});

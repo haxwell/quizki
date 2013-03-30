@@ -57,7 +57,7 @@
 					</c:otherwise>
 					</c:choose>
 				<td style="width:100%;">${exam.title}</td>
-					<td><input type="submit" value="Take Exam" name="examButton_${exam.id}"/></td>
+					<td><input type="submit" value="Take Exam" id="exam_take_button_${counter}" name="examButton_${exam.id}"/></td>
 
 			<jsp:text><![CDATA[</tr>]]></jsp:text>
 		</c:forEach>

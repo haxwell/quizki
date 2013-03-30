@@ -17,7 +17,7 @@
 			</c:if>
 	     </c:when>
 	     <c:otherwise>
-	     	Hello, ${sessionScope.currentUserEntity.username} <c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"><a class="darkerHomeLink" id="logoutLink" href="/logout.jsp">logout</a></c:if>
+	     	Hello, ${sessionScope.currentUserEntity.username} <c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}"><a class="darkerHomeLink" id="headerProfileLink" href="/secured/profile.jsp">view profile</a>  <a class="darkerHomeLink" id="logoutLink" href="/logout.jsp">logout</a></c:if>
 	     </c:otherwise>
 	    </c:choose>
 </td>

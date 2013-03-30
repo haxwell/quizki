@@ -17,12 +17,11 @@ public class QuizkiTest {
         assertTitleEquals("Home Page - Quizki");
     }
     
-    public void testAutoExamClickLoadsBeginExamNormally()
+    public void testBeginExamStartsNormallyFromAutoExam0LinkClick()
     {
     	// assume we're already at home page
     	
-    	assertLinkPresent("autoExamLink_0");
-    	clickLink("autoExamLink_0");
+    	assertAndClickOnLink("autoExamLink_0");
     	
     	assertFormElementPresent("button"); // if the button is there, that means the page loaded normally
     }
@@ -31,8 +30,7 @@ public class QuizkiTest {
     public void testMainLoginLink() {
     	beginAtHomePageTest();
 
-    	assertLinkPresent("login");
-    	clickLink("login");
+    	assertAndClickOnLink("login");
     	
     	assertFormElementPresent("username");
     	assertFormElementPresent("password");
@@ -51,8 +49,7 @@ public class QuizkiTest {
     public void testHeaderLoginLink() {
     	beginAtHomePageTest();
 
-    	assertLinkPresent("login");
-    	clickLink("login");
+    	assertAndClickOnLink("headerLoginLink");
     	
     	assertFormElementPresent("username");
     	assertFormElementPresent("password");
@@ -78,11 +75,42 @@ public class QuizkiTest {
     public void testAutoExamFromHomePage_A() {
     	beginAtHomePageTest();
     	
-    	testAutoExamClickLoadsBeginExamNormally();
+    	testBeginExamStartsNormallyFromAutoExam0LinkClick();
     	
-    	assertLinkPresent("homeLink");
-    	clickLink("homeLink");
+    	assertAndClickOnLink("homeLink");
     	
-    	testAutoExamClickLoadsBeginExamNormally();
+    	testBeginExamStartsNormallyFromAutoExam0LinkClick();
     }
+
+    /**
+     * From the home page,
+     * 1. Click on an Auto Practice Exam link,
+     * 2. Click Home
+     * 3. Click on link to create exam
+     * 4. Assert nothing is set in the title (title would be set if an exam was set in CurrentExam)
+     * 
+     * Reason: Anytime you go to Create Exam from the home page, no previous exam should be in the session
+     */
+    @Test
+    public void testNoStaleExamWhenCreateExamIsCalled() {
+    	loginFromHomePage();
+    	
+    	testBeginExamStartsNormallyFromAutoExam0LinkClick();
+
+    	assertAndClickOnLink("homeLink");
+    	assertAndClickOnLink("createExamLink");
+    	
+    	assertTextInElement("id_examTitle", "");
+    }
+    
+	private void assertAndClickOnLink(String linkId) {
+		assertLinkPresent(linkId);
+    	clickLink(linkId);
+	}
+	
+	private void loginFromHomePage() {
+		beginAtHomePageTest();
+		testMainLoginLink();
+	}
+    
 }

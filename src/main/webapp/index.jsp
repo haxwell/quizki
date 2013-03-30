@@ -112,9 +112,9 @@
 
 	<table class="center">
 		<tr>
-			<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/question.jsp">Question</a></td>
+			<td style="text-align:left; width:33%;"><a class="greyLink" id="createQuestionLink" href="secured/question.jsp">Question</a></td>
 			<td style="width:33%;"></td>
-			<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/exam.jsp">Exam</a></td>
+			<td style="text-align:right; width:33%;"><a class="greyLink" id="createExamLink" href="secured/exam.jsp">Exam</a></td>
 		</tr>
 	</table>
 

@@ -21,7 +21,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class ProfileQuestionsServlet
  */
 @WebServlet("/secured/ProfileQuestionsServlet")
 public class ProfileQuestionsServlet extends AbstractHttpServlet {
@@ -57,35 +57,30 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 			handleFilterButtonPress(request);
 		else
 		{
-//			Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
-			
-//			if (coll != null)
-//			{
 			String name = request.getParameter("nameOfLastPressedButton");
 			String btnValue = request.getParameter("valueOfLastPressedButton");
 				
-				if (!StringUtil.isNullOrEmpty(name))
+			if (!StringUtil.isNullOrEmpty(name))
+			{
+				String id= name.substring(name.indexOf('_')+1);
+			
+				if (btnValue != null)
 				{
-					String id= name.substring(name.indexOf('_')+1);
-				
-					if (btnValue != null)
-					{
-						if (btnValue.equals("Edit Question"))
-							fwdPage = "/secured/question.jsp?questionId=" + id;
-						else if (btnValue.equals("Delete Question")) {
-							User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-							
-							QuestionManager.deleteQuestion(user.getId(), id);
-							request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
-							
-							new InitializeListOfQuestionsInSessionAction().doAction(request, response);
-							new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
-							
-							//request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);							
-						}
+					if (btnValue.equals("Edit Question"))
+						fwdPage = "/secured/question.jsp?questionId=" + id;
+					else if (btnValue.equals("Delete Question")) {
+						User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+						
+						QuestionManager.deleteQuestion(user.getId(), id);
+						request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
+						
+						new InitializeListOfQuestionsInSessionAction().doAction(request, response);
+						new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
+						
+						//request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);							
 					}
 				}
-//			}
+			}
 		}
 		
 		request.getSession().setAttribute("tabIndex", Constants.PROFILE_QUESTION_TAB_INDEX);

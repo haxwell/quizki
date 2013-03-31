@@ -153,7 +153,7 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 				
 				session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);
 	
-				fwdPage = "/displayExam.jsp";
+				fwdPage = "/beginExam.jsp";
 				
 				session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 			}

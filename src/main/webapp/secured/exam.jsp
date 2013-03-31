@@ -132,6 +132,7 @@
 						</c:otherwise></c:choose>
 			
 						<c:choose>
+							<!-- TODO: Make use of QuestionUtil.getDisplayString() if possible -->
 							<c:when test="${empty question.description}">
 								<td><input type="checkbox" name="a_chkbox_${question.id}">	${fn:substring(question.textWithoutHTML, 0, 175)}</input></td>
 							</c:when>
@@ -167,6 +168,7 @@
 					</c:otherwise></c:choose>
 		
 					<c:choose>
+						<!-- TODO: Make use of QuestionUtil.getDisplayString() if possible -->
 						<c:when test="${empty question.description}">
 							<td><input type="checkbox" name="d_chkbox_${question.id}">	${fn:substring(question.textWithoutHTML, 0, 175)}</input></td>
 						</c:when>

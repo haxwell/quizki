@@ -1,7 +1,6 @@
 package com.haxwell.apps.questions.managers;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -9,6 +8,8 @@ import javax.persistence.Query;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Notification;
+import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.utils.QuestionUtil;
 
 
 public class NotificationManager extends Manager {
@@ -17,6 +18,21 @@ public class NotificationManager extends Manager {
 	{
 		Notification notification = new Notification();
 		return notification;
+	}
+
+	public static void issueNotification_questionDeletedAndRemovedFromExam(
+			long examOwnerId, long questionId, long examId) {
+		Exam exam = ExamManager.getExam(examId);
+		Question q = QuestionManager.getQuestionById(questionId);
+		
+		Notification notification = newNotification();
+		
+		notification.setUser(exam.getUser());
+		notification.setNotificationId(Constants.NOTIFICATION_ID_QUESTION_DELETED);
+		notification.setText("Question '" + QuestionUtil.getDisplayString(q, 65) + "' was deleted by its owner. Quizki automatically removed it from Exam '" + exam.getTitle() + "'.");
+		notification.setTime_stamp(new java.util.Date());
+		
+		persistNotification(notification);
 	}
 
 	public static void issueNotification_emptyExamWasDeleted(long examId)

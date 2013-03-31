@@ -73,7 +73,9 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 						if (btnValue.equals("Edit Question"))
 							fwdPage = "/secured/question.jsp?questionId=" + id;
 						else if (btnValue.equals("Delete Question")) {
-							QuestionManager.deleteQuestion(id);
+							User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+							
+							QuestionManager.deleteQuestion(user.getId(), id);
 							request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 							
 							new InitializeListOfQuestionsInSessionAction().doAction(request, response);

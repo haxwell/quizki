@@ -97,7 +97,9 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 			if (action.equals("Edit Question"))
 				fwdPage = "/secured/question.jsp?questionId=" + q.getId();
 			else if (action.equals("Delete Question")) {
-				QuestionManager.deleteQuestion(q);
+				User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+				
+				QuestionManager.deleteQuestion(user.getId(), q);
 				request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 			}
 		}

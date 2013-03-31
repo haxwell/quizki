@@ -144,5 +144,20 @@ public class QuestionUtil {
 
 		return rtn;
 	}
-
+	
+	public static String getDisplayString(Question q) {
+		return getDisplayString(q, -1);
+	}
+	
+	public static String getDisplayString(Question q, int maxLength) {
+		String str = q.getTextWithoutHTML();
+		
+		if (StringUtil.isNullOrEmpty(str))
+			str = q.getDescription();
+		
+		if (maxLength >= 0)
+			maxLength = str.length();
+		
+		return str.substring(0, maxLength);
+	}
 }

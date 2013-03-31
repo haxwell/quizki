@@ -42,12 +42,12 @@ public class QuestionManager extends Manager {
 		return rtn.getId();
 	}
 	
-	public static void deleteQuestion(String id)
+	public static void deleteQuestion(long userId, String questionId)
 	{
-		deleteQuestion(getQuestionById(id));
+		deleteQuestion(userId, getQuestionById(questionId));
 	}
 	
-	public static void deleteQuestion(Question question)
+	public static void deleteQuestion(long userId, Question question)
 	{
 		EntityManager em = emf.createEntityManager();
 		
@@ -145,20 +145,32 @@ public class QuestionManager extends Manager {
 			query.setParameter(1, questionId);
 			query.executeUpdate();
 			
-			for (Long l : examIds)
+			for (Long examId : examIds)
 			{
-				// Are there any more exams using this question?
+				// Who is the owner of this exam?
+				query = em.createNativeQuery("SELECT e.user_id FROM exam e where e.id = ?1");
+				query.setParameter(1, examId);
+				
+				Long IDofTheOwnerOfThisExam = (Long)query.getSingleResult();
+				
+				// if its not the given user id
+				if (IDofTheOwnerOfThisExam != userId) {
+					// 	notify them that the question was removed from their exam
+					NotificationManager.issueNotification_questionDeletedAndRemovedFromExam(IDofTheOwnerOfThisExam, questionId, examId);
+				}
+				
+				// For the given exam ID, does it have any more questions?
 				query = em.createNativeQuery("SELECT eq.question_id FROM exam_question eq WHERE eq.exam_id = ?1");
-				query.setParameter(1, l);
+				query.setParameter(1, examId);
 				
 				List<Long> list = (List<Long>)query.getResultList();
 				
-				// If not, delete this exam, too..
+				// If not, this exam is empty.. delete this exam ID..
 				if (list.size() == 0) {
-					NotificationManager.issueNotification_emptyExamWasDeleted(l);
+					NotificationManager.issueNotification_emptyExamWasDeleted(examId);
 					
 					query = em.createNativeQuery("DELETE FROM exam WHERE id = ?1");
-					query.setParameter(1, l);
+					query.setParameter(1, examId);
 					query.executeUpdate();
 					
 				}
@@ -247,6 +259,11 @@ public class QuestionManager extends Manager {
 	
 	public static Question getQuestionById(String aSingleId)
 	{
+		return getQuestionById(Long.parseLong(aSingleId));
+	}
+	
+	public static Question getQuestionById(long aSingleId)
+	{
 		Question rtn;
 		
 		EntityManager em = emf.createEntityManager();
@@ -256,7 +273,7 @@ public class QuestionManager extends Manager {
 
 			Query query = em.createQuery(queryStr);
 			
-			query.setParameter(1, Long.parseLong(aSingleId));
+			query.setParameter(1, aSingleId);
 			
 			rtn = (Question)query.getSingleResult();
 		}

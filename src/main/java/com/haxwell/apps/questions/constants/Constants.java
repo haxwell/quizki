@@ -102,4 +102,5 @@ public class Constants {
 	public static final String TAB_INDEX = "tabIndex";
 
 	public static final long NOTIFICATION_ID_EXAM_DELETED = 1;
+	public static final long NOTIFICATION_ID_QUESTION_DELETED = 2;
 }

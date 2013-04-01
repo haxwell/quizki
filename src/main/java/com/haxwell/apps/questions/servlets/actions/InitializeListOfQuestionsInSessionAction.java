@@ -9,10 +9,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
  * Ensures that the list of questions in the session is the most up to date it can be.
@@ -30,16 +30,18 @@ public class InitializeListOfQuestionsInSessionAction implements AbstractServlet
 			HttpServletRequest req = ((HttpServletRequest)request);
 			
 			if (req.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED) == null) {
+				
+				PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
 
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Question> coll = null;
 
 				if (user == null && req.getSession().getAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED) != null) {
-					coll = QuestionManager.getAllQuestions();
+					coll = QuestionManager.getAllQuestions(qpd);
 					req.getSession().setAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED, null);					
 				}
 				else if (user != null) {
-					coll = QuestionManager.getAllQuestionsForUser(user.getId());
+					coll = QuestionManager.getAllQuestionsForUser(user.getId(), qpd);
 				}
 
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);

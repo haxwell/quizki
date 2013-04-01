@@ -93,6 +93,18 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
+    <filter-name>EnsurePaginationDataObjectsExistInSessionFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.EnsurePaginationDataObjectsExistInSessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>EnsurePaginationDataObjectsExistInSessionFilter</filter-name>
+    <url-pattern>/secured/listQuestions.jsp</url-pattern>
+    <url-pattern>/secured/exam.jsp</url-pattern>
+    <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
     <filter-name>ListQuestionsFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.ListQuestionsFilter</filter-class>
   </filter>

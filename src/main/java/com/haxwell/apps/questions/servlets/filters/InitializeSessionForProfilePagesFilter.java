@@ -30,12 +30,12 @@ public class InitializeSessionForProfilePagesFilter extends AbstractFilter {
 		
 		Logger log = Logger.getLogger(InitializeSessionForProfilePagesFilter.class.getName());
 		
-		log.log(Level.INFO, "beginning InitializeSessionForCreatingAnExamFilter...");
+		log.log(Level.INFO, "beginning InitializeSessionForProfilePagesFilter...");
 
 		new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 		new SetListOfUserNotificationsInSessionAction().doAction(request, response);
 		
-		log.log(Level.INFO, "ending InitializeSessionForCreatingAnExamFilter...");
+		log.log(Level.INFO, "ending InitializeSessionForProfilePagesFilter...");
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

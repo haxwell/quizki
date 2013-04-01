@@ -19,6 +19,7 @@ import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.utils.ListFilterer;
+import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
@@ -215,6 +216,30 @@ public class QuestionManager extends Manager {
 		
 		return (Collection<Question>)query.getResultList();
 	}
+	
+	public static Collection<Question> getAllQuestions(PaginationData pd)
+	{
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createQuery("SELECT q FROM Question q");
+		
+		int pageSize = pd.getPageSize();
+		int pageNumber = pd.getPageNumber();
+		
+		query.setMaxResults(pageSize);
+		query.setFirstResult(pageNumber * pageSize);
+		
+		Collection<Question> rtn = query.getResultList();
+		
+		pd.setBeginIndex(pageNumber * pageSize + 1);
+		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
+		
+		em.close();
+		
+		pd.setTotalItemCount(getNumberOfQuestionsInTotal());		
+		
+		return (Collection<Question>)query.getResultList();
+	}
 
 	/**
 	 * Takes comma delimited list of IDs, and returns a collection of the Question 
@@ -287,6 +312,18 @@ public class QuestionManager extends Manager {
 		return checker.questionIsCorrect(answers);
 	}
 
+	public static long getNumberOfQuestionsInTotal() {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT count(*) FROM question");
+		
+		Long rtn = (Long)query.getSingleResult();
+		
+		em.close();
+		
+		return rtn;
+	}
+	
 	public static long getNumberOfQuestionsCreatedByUser(long id) {
 		EntityManager em = emf.createEntityManager();
 		
@@ -301,16 +338,27 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	public static Collection<Question> getAllQuestionsForUser(long id) {
+	public static Collection<Question> getAllQuestionsForUser(long id, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1", Question.class);
 		
 		query.setParameter(1, id);
 		
+		int pageSize = pd.getPageSize();
+		int pageNumber = pd.getPageNumber();
+		
+		query.setMaxResults(pageSize);
+		query.setFirstResult(pageNumber * pageSize);
+		
 		Collection<Question> rtn = query.getResultList();
 		
+		pd.setBeginIndex(pageNumber * pageSize + 1);
+		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
+		
 		em.close();
+		
+		pd.setTotalItemCount(getNumberOfQuestionsCreatedByUser(id));
 		
 		return rtn;
 	}

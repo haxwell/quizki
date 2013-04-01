@@ -16,25 +16,66 @@
 			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 
+			<![CDATA[<script type="text/javascript">]]>
+			<c:choose>
+				<!-- In case you ever want to change this, and use javascript to get the tabIndex, -->
+				<!-- http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery -->
+				
+				<c:when test="${not empty sessionScope.tabIndex}">
+					<![CDATA[ var tabIndex = ${tabIndex}; ]]>
+				</c:when>
+				<c:otherwise>
+					<![CDATA[ var tabIndex = undefined; ]]>
+				</c:otherwise>
+			</c:choose>
+			<![CDATA[</script>]]>
+
 			<![CDATA[
 			<script type="text/javascript">
-			
-			
-		//$(function() {
-		//   $( document ).tooltip();
-		// });
+				//$(function() {
+				//   $( document ).tooltip();
+				// });
 		 
-    $( "#open-event" ).tooltip({
-      show: null,
-      position: {
-        my: "left top",
-        at: "left bottom"
-      },
-      open: function( event, ui ) {
-        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
-      }
-    });
-    </script> ]]>
+			    $( "#open-event" ).tooltip({
+			      show: null,
+			      position: {
+			        my: "left top",
+			        at: "left bottom"
+			      },
+			      open: function( event, ui ) {
+			        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
+			      }
+			    });
+			    
+					$(function() {
+						$( "#tabs" ).tabs();
+					   
+						if (tabIndex !== undefined)
+					   		$( "#tabs" ).tabs("option","active", tabIndex);
+					});			
+			    
+					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
+						// set the height of the content area according to the browser height
+						var bottomBufferHeight = 150;
+						var questionsBufferHeight = 97;
+						var windowHeight = $(window).height();
+						
+						$('#tabs').height(windowHeight - bottomBufferHeight);
+						$('#availableQuestionsDiv').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
+						$('#selectedQuestionsDiv').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
+					}
+
+					$(document).ready(function(){
+				 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+					});
+				 
+					$(document).ready(function(){
+					     $(window).resize(function() {
+					 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+						});
+					});
+		    
+		    </script> ]]>
 			
 		</jsp:text>
 				
@@ -68,133 +109,38 @@
 
 	<c:choose><c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
-	<form action="/secured/ExamServlet" method="post">
-		Title: <input type="text" id="id_examTitle" name="examTitle" size="35" maxlength="126" value="${currentExam.title}"/>  
-		<br/><br/>
-		Available Questions
-		<table style="float:right;">
-			<tr>
-				<td >
-					Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.."/>
-				</td>
-				</tr>
-				<tr>
-				<td >
-					Question contains <input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..."/>
-				</td>
-				</tr>
-				<tr>
-				<td >
-					Show <select name="mineOrAll">
-				<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
-				</select> questions
-
-				</td>
-				</tr>
-				<tr>
-				<td >
-					Include difficulties up to: <select name="difficulty" title="Do not include any questions more difficult than..">
-				<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterDifficulty == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru">Guru</option></c:otherwise></c:choose>
-				</select>
-
-				</td>
-				</tr>
-				<tr>
-				<td>
-				<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
-				</td>				</tr>
-				
-		</table>
-				<br/>
-
-		<div class="listOfQuestions" style="overflow:auto; height:150px; width:100%">
-			<table  style="width:100%">
-
-				<c:set var="rowNum" value="0"/>
-				<c:choose >
-				<c:when test="${empty fa_listofquestionstobedisplayed}">
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					<jsp:text><![CDATA[<td>You have not entered any questions of your own! You can change the filter above to include questions from everyone.]]></jsp:text>
-					<jsp:text><![CDATA[</tr>]]></jsp:text>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="question" items="${fa_listofquestionstobedisplayed}">
-						<c:set var="rowNum" value="${rowNum + 1}" />
-						<c:choose><c:when test="${rowNum % 2 == 0}">
-						<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-						</c:when>
-						<c:otherwise>
-						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-						</c:otherwise></c:choose>
-			
-						<c:choose>
-							<!-- TODO: Make use of QuestionUtil.getDisplayString() if possible -->
-							<c:when test="${empty question.description}">
-								<td><input type="checkbox" name="a_chkbox_${question.id}">	${fn:substring(question.textWithoutHTML, 0, 175)}</input></td>
-							</c:when>
-							<c:otherwise>
-								<td><input type="checkbox" name="a_chkbox_${question.id}">	${fn:substring(question.description, 0, 175)}</input></td>
-							</c:otherwise>
-						</c:choose>
+	<div id="tabs" class="mainContentArea">
+	  <ul>
+	    <li><a href="#tabs-1">Available Questions</a></li>
+	    <li><a href="#tabs-2">Selected Questions</a></li>
+	  </ul>
+	  <div id="tabs-1">
+	    	<div id="availableQuestionsDiv" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="exam-AvailableQuestions.jsp"></jsp:include></div>
+	    	<br/>
+	    	<form action="/secured/ExamServlet" method="post" id="paginationForm">
+		    	<div id="paginationDiv" class="center">
+		    	Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount} 
+		    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
+		    	<input type="submit" value="&lt; PREV" name="button"/>
+		    	<input type="submit" value="NEXT &gt;" name="button"/>
+		    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
+		    	- Max. List Size 
+		    	<select name="quantity">
+		    		<option value="quantity_25">25</option>
+		    		<option value="quantity_25">50</option>
+		    		<option value="quantity_25">75</option>
+		    		<option value="quantity_25">100</option>
+		    	</select>
+		    	<input type="submit" value="REFRESH" name="button"/>
+		    	</div>
+	    	</form>
+	  </div>
+	  <div id="tabs-2">
+	    	<div id="selectedQuestionsDiv" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="exam-SelectedQuestions.jsp"></jsp:include></div>
+	    	<br/>
+	  </div>
+	</div>
 	
-						<jsp:text><![CDATA[</tr>]]></jsp:text>				
-					</c:forEach>
-				</c:otherwise>
-				</c:choose>
-			</table>
-		</div>
-		
-		<br/>
-		<input type="submit" value="Add Questions" name="button"/>
-		<br/>
-		<br/><br/>		
-		List of questions on this exam:<br/>
-		
-		<div class="listOfQuestions" style="overflow:auto; height:150px; width:100%">
-			<table  style="width:100%">
-
-				<c:set var="rowNum" value="0"/>
-				<c:forEach var="question" items="${currentExam.questions}">
-					<c:set var="rowNum" value="${rowNum + 1}" />
-					<c:choose><c:when test="${rowNum % 2 == 0}">
-					<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-					</c:when>
-					<c:otherwise>
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					</c:otherwise></c:choose>
-		
-					<c:choose>
-						<!-- TODO: Make use of QuestionUtil.getDisplayString() if possible -->
-						<c:when test="${empty question.description}">
-							<td><input type="checkbox" name="d_chkbox_${question.id}">	${fn:substring(question.textWithoutHTML, 0, 175)}</input></td>
-						</c:when>
-						<c:otherwise>
-							<td><input type="checkbox" name="d_chkbox_${question.id}">	${fn:substring(question.description, 0, 175)}</input></td>
-						</c:otherwise>
-					</c:choose>
-
-					<jsp:text><![CDATA[</tr>]]></jsp:text>				
-				</c:forEach>
-			</table>
-		</div>			
-		<br/>
-		<input type="submit" value="Delete Questions" name="button"/>
-				<br/><br/><br/>
-				<hr/>
-	<c:choose>
-	<c:when test="${empty sessionScope.inEditingMode}">
-	<input type="submit" value="Add Exam" name="button" style="float:right;"/>
-	</c:when>
-	<c:otherwise>
-	<input type="submit" value="Update Exam" name="button" style="float:right;"/>
-	</c:otherwise>
-	</c:choose>
-
-	</form>
 		</c:when>
 		<c:otherwise>
 		<br/>
@@ -202,8 +148,7 @@
 		</c:otherwise>
 		</c:choose>
 	
-	<br/><br/>
-	<a href="/index.jsp">home</a> -- <a href="/listExams.jsp">View All Exams</a> 
+	<br/> 
 
 </body>
 </html>

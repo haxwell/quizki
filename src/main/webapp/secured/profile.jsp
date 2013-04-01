@@ -33,11 +33,11 @@
 			<![CDATA[
 			<script type="text/javascript">
 			
-					 $(function() {
-					 	$( "#tabs" ).tabs();
-					    
-					    if (tabIndex !== undefined)
-					    	$( "#tabs" ).tabs("option","active", tabIndex);
+					$(function() {
+						$( "#tabs" ).tabs();
+					   
+						if (tabIndex !== undefined)
+					   		$( "#tabs" ).tabs("option","active", tabIndex);
 					});			
 			
 					//$(function() {

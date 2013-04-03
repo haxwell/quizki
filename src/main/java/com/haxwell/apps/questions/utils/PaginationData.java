@@ -12,7 +12,7 @@ import com.haxwell.apps.questions.constants.Constants;
  */
 public class PaginationData {
 
-	public final int FIRST_PAGE = 0;
+	public static final int FIRST_PAGE = 0;
 
 	int beginIndex = -1;
 	int endIndex = -1;
@@ -21,31 +21,42 @@ public class PaginationData {
 	long totalItemCount = -1;
 	
 	public void initialize() {
-		beginIndex = -1;
-		endIndex = -1;
 		pageNumber = this.FIRST_PAGE;
-		totalItemCount = -1;
+		
+		beginIndex = getBeginIndex();
+		endIndex = getEndIndex();
+		
+//		totalItemCount = -1;
 		
 		// purposely do not set pageSize because we want to keep that value as it was.
 	}
 
 	public int getBeginIndex() {
-		return beginIndex;
+		return Math.max(pageNumber * pageSize, 1);
 	}
-	public void setBeginIndex(int beginIndex) {
-		this.beginIndex = beginIndex;
-	}
+//	public void setBeginIndex(int beginIndex) {
+//		this.beginIndex = beginIndex;
+//	}
 	public int getEndIndex() {
-		return endIndex;
+		return Math.min((pageNumber * pageSize) + pageSize, (int)totalItemCount);
 	}
-	public void setEndIndex(int endIndex) {
-		this.endIndex = endIndex;
-	}
+//	public void setEndIndex(int endIndex) {
+//		this.endIndex = endIndex;
+//	}
 	public int getPageSize() {
 		return pageSize;
 	}
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+		this.pageNumber = this.FIRST_PAGE;
+	}
+	public void incrementPageNumber() {
+		if (canIncrementPageNumber())
+			this.pageNumber += 1;
+	}
+	public void decrementPageNumber() {
+		if (this.pageNumber > 0)
+			this.pageNumber -= 1;
 	}
 	public int getPageNumber() {
 		return pageNumber;
@@ -58,5 +69,27 @@ public class PaginationData {
 	}
 	public void setTotalItemCount(long totalItemCount) {
 		this.totalItemCount = totalItemCount;
+	}
+	
+	public boolean canIncrementPageNumber()
+	{
+		int i = getMaxPageNumber();
+		
+		return pageNumber + 1 <= i;
+	}
+	
+	public boolean canDecrementPageNumber()
+	{
+		return this.pageNumber > 0;
+	}
+	
+	public int getMaxPageNumber()
+	{
+		int i = (int)(totalItemCount / pageSize);
+		
+//		if (totalItemCount % pageSize > 0)
+//			i++;
+		
+		return i;
 	}
 }

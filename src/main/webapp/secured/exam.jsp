@@ -126,6 +126,7 @@
 		    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
 		    	- Max. List Size 
 		    	<select name="quantity">
+		    		<option value="quantity_10">10</option>
 		    		<option value="quantity_25">25</option>
 		    		<option value="quantity_25">50</option>
 		    		<option value="quantity_25">75</option>

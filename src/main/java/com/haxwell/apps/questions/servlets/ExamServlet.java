@@ -20,8 +20,8 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
-import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
+import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 /**
@@ -88,7 +88,7 @@ public class ExamServlet extends AbstractHttpServlet {
 			
 			ExamManager.removeQuestions(examObj, questionIDs);
 			
-			refreshListOfQuestionsToBeDisplayed(request);
+			refreshListOfQuestionsToBeDisplayed(request, getQuestionPaginationData(request));
 			
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
@@ -100,8 +100,101 @@ public class ExamServlet extends AbstractHttpServlet {
 		else if (button.equals("Clear Filter")) 
 		{
 			clearMRUFilterSettings(request);
-			refreshListOfQuestionsToBeDisplayed(request);
+			refreshListOfQuestionsToBeDisplayed(request, getQuestionPaginationData(request));
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
+		}
+		else if (button.equals("<< FIRST"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			else {
+				if (pd.getPageNumber() != pd.FIRST_PAGE) {			
+					pd.initialize();
+					pdValuesChanged = true;
+				}
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("< PREV"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			
+			if (pd.canDecrementPageNumber()) {
+				pd.decrementPageNumber();
+				pdValuesChanged = true;
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("NEXT >"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			
+			if (pd.canIncrementPageNumber())
+			{
+				pd.incrementPageNumber();
+				pdValuesChanged = true;
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("LAST >>"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			else {
+				int maxPageNumber = pd.getMaxPageNumber();
+				
+				if (pd.getPageNumber() != maxPageNumber) {
+					pd.setPageNumber(maxPageNumber);
+					pdValuesChanged = true;
+				}
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
 		}
 		else
 		{
@@ -131,12 +224,20 @@ public class ExamServlet extends AbstractHttpServlet {
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 			
 			clearMRUFilterSettings(request);
-			refreshListOfQuestionsToBeDisplayed(request);
+			refreshListOfQuestionsToBeDisplayed(request, getQuestionPaginationData(request));
 		}
 		else
 			session.setAttribute(Constants.CURRENT_EXAM, examObj);
 		
 		forwardToJSP(request, response, "/secured/exam.jsp");
+	}
+
+	private PaginationData getQuestionPaginationData(HttpServletRequest request) {
+		return (PaginationData)request.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
+	}
+
+	private void setQuestionPaginationData(HttpServletRequest request, PaginationData pd) {
+		request.getSession().setAttribute(Constants.QUESTION_PAGINATION_DATA, pd);
 	}
 
 	private void clearMRUFilterSettings(HttpServletRequest request) {
@@ -214,7 +315,7 @@ public class ExamServlet extends AbstractHttpServlet {
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			
 			if (user != null)
-				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty);
+				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null /*QuestionType*/, getQuestionPaginationData(request));
 		}
 		else if (mineOrAll.equals(Constants.ALL_ITEMS_STR))
 		{
@@ -235,7 +336,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
 	}
 
-	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request) {
+	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
 		String filterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TEXT);
 		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
 		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
@@ -249,7 +350,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 		
 		if (user != null)
-			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty);
+			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null /* QuestionType*/, pd);
 
 		if (coll != null) {
 			// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again

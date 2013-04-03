@@ -67,14 +67,7 @@
 				<td>${question.id}</td>
 				<td>
 					<c:set var="counter" value="${counter + 1}" />
-					<c:choose>
-					<c:when test="${question.user.id == currentUserEntity.id}">
-						<div class="questionButtonDiv">
-							<input type="submit" value="Edit Question" id="edit_button_${counter}" name="questionButton_${question.id}"/>
-							<input type="submit" value="Delete Question" id="delete_button_${counter}" name="questionButton_${question.id}"/>
-						</div>
-					</c:when>
-					</c:choose>
+					<input type="checkbox" id="chkbox_${counter}" name="selectQuestionChkbox_${question.id}" value="" selected=""/>
 				</td>
 				<td><c:choose><c:when test="${empty question.description}"><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></c:when>
 						<c:otherwise><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></c:otherwise>

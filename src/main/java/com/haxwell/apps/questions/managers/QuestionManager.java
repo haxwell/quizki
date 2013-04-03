@@ -231,8 +231,8 @@ public class QuestionManager extends Manager {
 		
 		Collection<Question> rtn = query.getResultList();
 		
-		pd.setBeginIndex(pageNumber * pageSize + 1);
-		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
+//		pd.setBeginIndex(pageNumber * pageSize + 1);
+//		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
 		
 		em.close();
 		
@@ -353,8 +353,8 @@ public class QuestionManager extends Manager {
 		
 		Collection<Question> rtn = query.getResultList();
 		
-		pd.setBeginIndex(pageNumber * pageSize + 1);
-		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
+//		pd.setBeginIndex(pageNumber * pageSize + 1);
+//		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
 		
 		em.close();
 		
@@ -410,11 +410,11 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
-	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, Integer maxDifficulty) {
-		return getQuestionsCreatedByAGivenUserThatContain(userId, topicFilterText, filterText, maxDifficulty, null);
-	}
+//	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, Integer maxDifficulty) {
+//		return getQuestionsCreatedByAGivenUserThatContain(userId, topicFilterText, filterText, maxDifficulty, null);
+//	}
 	
-	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType) {
+	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
@@ -433,73 +433,63 @@ public class QuestionManager extends Manager {
 		
 		query.setParameter(3, maxDifficulty);
 		
+		// Handle PaginationData stuff
+		int pageSize = pd.getPageSize();
+		int pageNumber = pd.getPageNumber();
+		
+		query.setMaxResults(pageSize);
+		query.setFirstResult(pageNumber * pageSize);
+
+//		pd.setBeginIndex(Math.max(pageNumber * pageSize, 1));
+//		pd.setEndIndex((pageNumber * pageSize) + pageSize);
+
+		//
+		// Get query results
 		Collection<Question> rtn = (Collection<Question>)query.getResultList();
-
-//		if (!StringUtil.isNullOrEmpty(topicFilterText)) {
-
-			ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
-			
-			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
-				public boolean shouldRemove(Question q) {
-					Set<Topic> set = q.getTopics();
-
-					boolean rtn = true;
-
-					if (!StringUtil.isNullOrEmpty(topicFilterText)) {
-						boolean matchFound = false;
-						
-						for (Topic t : set) {
-							if (!matchFound && t.getText().contains(topicFilterText))
-								matchFound = true;
-						}
-						
-						rtn = matchFound;
-					}
-
-					return !rtn;
-				}
-			});
-
-			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
-				public boolean shouldRemove(Question q) {
-					boolean rtn = false;
-
-					if (questionType != null && questionType != TypeConstants.ALL_TYPES && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
-						rtn = true;
-
-					return rtn;
-				}
-			});
-			
-			rtn = new ListFilterer<Question>().process(rtn, arr);
-			
-			// TODO: Abstract this out into its own utility function..
-			//  take a list, then remove any from that list that do
-			//  not have an attribute that matches a given string..
-//			List<Question> toBeFilteredList = new ArrayList<Question>();
-//			boolean keepThisQuestion = false;
-//			
-//			for (Question q : rtn)
-//			{
-//				Set<Topic> set = q.getTopics();
-//				
-//				for (Topic t : set) {
-//					if (t.getText().contains(topicFilterText))
-//						keepThisQuestion = true;
-//					
-//					if (questionType != null && questionType != TypeConstants.ALL_TYPES && questionType == TypeUtil.convertToInt(q.getQuestionType()))
-//						keepThisQuestion = true;
-//				}
-//				
-//				if (!keepThisQuestion)
-//					toBeFilteredList.add(q);
-//			}
-//			
-//			for (Question q: toBeFilteredList)
-//				rtn.remove(q);
-//		}
+		
+		rtn = filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
 		
 		return rtn;
+	}
+
+	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
+			final String topicFilterText, final Integer questionType,
+			Collection<Question> rtn) {
+		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
+		
+		arr.add(new ShouldRemoveAnObjectCommand<Question>() {
+			public boolean shouldRemove(Question q) {
+				Set<Topic> set = q.getTopics();
+
+				boolean rtn = true;
+
+				if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+					boolean matchFound = false;
+					
+					for (Topic t : set) {
+						if (!matchFound && t.getText().contains(topicFilterText))
+							matchFound = true;
+					}
+					
+					rtn = matchFound;
+				}
+
+				return !rtn;
+			}
+		});
+
+		arr.add(new ShouldRemoveAnObjectCommand<Question>() {
+			public boolean shouldRemove(Question q) {
+				boolean rtn = false;
+
+				if (questionType != null && questionType != TypeConstants.ALL_TYPES && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
+					rtn = true;
+
+				return rtn;
+			}
+		});
+
+		return new ListFilterer<Question>().process(rtn, arr);
 	}
 	
 	public static List<String> validate(Question questionObj) {

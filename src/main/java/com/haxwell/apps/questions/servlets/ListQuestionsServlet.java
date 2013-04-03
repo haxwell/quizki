@@ -120,7 +120,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			
 			if (user != null)
-				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty);
+				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null, null);
 		}
 		else if (mineOrAll.equals(Constants.ALL_ITEMS_STR))
 		{
@@ -150,7 +150,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 		
 		if (user != null) {
-			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty);
+			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null, null);
 			request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);			
 		}
 		else {

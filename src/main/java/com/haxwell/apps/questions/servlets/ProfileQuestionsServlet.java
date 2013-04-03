@@ -57,13 +57,11 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 			handleFilterButtonPress(request);
 		else
 		{
-			String name = request.getParameter("nameOfLastPressedButton");
+			String id = getIdAppendedToRequestParameter(request, "nameOfLastPressedButton");
 			String btnValue = request.getParameter("valueOfLastPressedButton");
 				
-			if (!StringUtil.isNullOrEmpty(name))
+			if (!StringUtil.isNullOrEmpty(id))
 			{
-				String id= name.substring(name.indexOf('_')+1);
-			
 				if (btnValue != null)
 				{
 					if (btnValue.equals("Edit Question"))
@@ -98,8 +96,8 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		
 		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 		
-		if (user != null)
-			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionTypeFilter);
+//		if (user != null)
+//			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionTypeFilter, null);
 
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 

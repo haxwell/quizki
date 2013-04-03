@@ -54,13 +54,11 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 			handleFilterButtonPress(request);
 		else
 		{
-			String name = request.getParameter("exam_nameOfLastPressedButton");
+			String id = getIdAppendedToRequestParameter(request, "exam_nameOfLastPressedButton");
 			String btnValue = request.getParameter("exam_valueOfLastPressedButton");
 			
-			if (!StringUtil.isNullOrEmpty(name))
+			if (!StringUtil.isNullOrEmpty(id))
 			{
-				String id= name.substring(name.indexOf('_')+1);
-			
 				if (btnValue != null)
 				{
 					if (btnValue.equals("Take Exam"))

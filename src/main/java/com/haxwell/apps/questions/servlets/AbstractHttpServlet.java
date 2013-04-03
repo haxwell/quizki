@@ -39,4 +39,9 @@ public abstract class AbstractHttpServlet extends HttpServlet {
     	
     	response.sendRedirect(path);
 	}
+
+	protected String getIdAppendedToRequestParameter(HttpServletRequest request, String paramName) {
+		String str = request.getParameter(paramName);
+		return str.substring(str.indexOf('_')+1);		
+	}
 }

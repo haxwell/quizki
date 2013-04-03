@@ -39,7 +39,8 @@ public class Constants {
 	public static final String MRU_FILTER_MINE_OR_ALL = "mruMineOrAll";	
 	public static final String MRU_FILTER_TOPIC_TEXT = "mruFilterTopicText";
 	public static final String MRU_FILTER_QUESTION_TYPE = "mruFilterQuestionType";	
-	public static final String MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "mruMaxNumberOfQuestionsOnGeneratedExam";	
+	public static final String MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "mruMaxNumberOfQuestionsOnGeneratedExam";
+	public static final String MRU_FILTER_PAGINATION_QUANTITY = "mruFilterPaginationQuantity";
 	
 	public static final String LIST_OF_EXAMS_TO_BE_DISPLAYED = "fa_listofexamstobedisplayed";
 	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listofquestionstobedisplayed";	

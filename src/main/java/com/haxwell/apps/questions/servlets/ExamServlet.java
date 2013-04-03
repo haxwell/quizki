@@ -125,6 +125,8 @@ public class ExamServlet extends AbstractHttpServlet {
 				refreshListOfQuestionsToBeDisplayed(request, pd);
 				setQuestionPaginationData(request, pd);
 			}
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("< PREV"))
 		{
@@ -147,6 +149,8 @@ public class ExamServlet extends AbstractHttpServlet {
 				refreshListOfQuestionsToBeDisplayed(request, pd);
 				setQuestionPaginationData(request, pd);
 			}
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("NEXT >"))
 		{
@@ -170,6 +174,8 @@ public class ExamServlet extends AbstractHttpServlet {
 				refreshListOfQuestionsToBeDisplayed(request, pd);
 				setQuestionPaginationData(request, pd);
 			}
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("LAST >>"))
 		{
@@ -195,6 +201,23 @@ public class ExamServlet extends AbstractHttpServlet {
 				refreshListOfQuestionsToBeDisplayed(request, pd);
 				setQuestionPaginationData(request, pd);
 			}
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
+		}
+		else if (button.equals("REFRESH")) 
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+			}
+
+			refreshListOfQuestionsToBeDisplayed(request, pd);
+			setQuestionPaginationData(request, pd);
+			
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else
 		{
@@ -357,11 +380,14 @@ public class ExamServlet extends AbstractHttpServlet {
 			coll.removeAll(getExamBean(request).getQuestions());
 		}
 		
-		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
-		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
-		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);
+		HttpSession session = request.getSession();
+		
+		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);
+		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
 	}
 
 	private void setExamTitleFromFormParameter(HttpServletRequest request, Exam examObj) {

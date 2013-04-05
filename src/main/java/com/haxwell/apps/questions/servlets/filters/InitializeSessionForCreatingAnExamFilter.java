@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
+import com.haxwell.apps.questions.utils.CollectionUtil;
 
 /**
  * Makes sure the necessary objects are in the session for the code downstream.
@@ -68,16 +70,21 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 					// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again
 					Collection<Question> coll = (Collection<Question>)session.getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
 					
-					if (coll != null) {
-						coll.removeAll(exam.getQuestions());
-						session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-					}
+					Set<Question> questionSet = exam.getQuestions();
+					
+//					if (coll != null) {
+//						coll.removeAll(questionSet);
+//						session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+//					}
+					
+					Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(questionSet);
+					
+					session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 					
 					if (coll != null)
 						log.log(Level.INFO, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");
 					else
 						log.log(Level.INFO, "coll was null. No changes made to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
-
 				}
 			}
 			
@@ -88,7 +95,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			}
 		}
 		
-		log.log(Level.INFO, "ending InitializeSessionForCreatingAnExamFilter...");
+		log.log(Level.INFO, "ending InitializeSessionForCreatingAExamFilter...");
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

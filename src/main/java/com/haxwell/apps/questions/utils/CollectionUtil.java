@@ -1,5 +1,6 @@
 package com.haxwell.apps.questions.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -24,6 +25,20 @@ public class CollectionUtil {
 		return sb.toString();
 	}
 	
+	public static Collection<Long> getCollectionOfIds(Collection<? extends EntityWithAnIntegerIDBehavior> list)
+	{
+		Collection<Long> rtn = new ArrayList<Long>();
+		Iterator<? extends EntityWithAnIntegerIDBehavior> iterator = list.iterator();
 
+		while (iterator.hasNext())
+			rtn.add(iterator.next().getId());
+		
+		return rtn;
+	}
+	
+	public static boolean contains(Collection coll, Object o)
+	{
+		return coll != null && coll.contains(o);
+	}
 	
 }

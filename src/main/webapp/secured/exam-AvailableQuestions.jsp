@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://quiki.com/tld/qfn" prefix="qfn" %>
 
 	<form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet">
 	<table class="displayExam">
@@ -67,7 +68,14 @@
 				<td>${question.id}</td>
 				<td>
 					<c:set var="counter" value="${counter + 1}" />
-					<input type="checkbox" id="chkbox_${counter}" name="selectQuestionChkbox_${question.id}" value="" selected=""/>
+					<c:choose>
+					<c:when test="${qfn:contains(sessionScope.exam_selectedQuestionIds, question.id)}">
+						<input type="checkbox" class="selectQuestionChkbox" id="chkbox_${counter}" name="selectQuestionChkbox_${question.id}" value="" checked/>
+					</c:when>
+					<c:otherwise>
+						<input type="checkbox" class="selectQuestionChkbox" id="chkbox_${counter}" name="selectQuestionChkbox_${question.id}" value="">
+					</c:otherwise>
+					</c:choose>
 				</td>
 				<td><c:choose><c:when test="${empty question.description}"><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></c:when>
 						<c:otherwise><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></c:otherwise>

@@ -74,6 +74,18 @@
 					 		setDisplayDimensionsAccordingToCurrentWindowHeight();
 						});
 					});
+					
+					$(document).ready(function(){
+						$(".selectQuestionChkbox").click(function(){
+							$.post("/secured/exam-questionChkboxClicked.jsp",
+							{
+								chkboxname: $(this).attr("name")
+							},
+							function(data,status){
+								alert("Data: " + data + "\nStatus: " + status);
+							});
+						});
+					});					
 		    
 		    </script> ]]>
 			

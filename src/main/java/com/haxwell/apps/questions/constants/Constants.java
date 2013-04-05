@@ -9,6 +9,7 @@ public class Constants {
 	public static final String CURRENT_QUESTION_KEY = "currentQuestionKey";
 	public static final String DISPLAY_QUESTION = "displayQuestion";
 	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
+	public static final String CURRENT_EXAM_SELECTED_QUESTION_IDS = "exam_selectedQuestionIds";
 	
 	public static final String IN_EDITING_MODE = "inEditingMode";
 	

@@ -20,6 +20,8 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
+import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -69,14 +71,13 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("Add Questions"))
 		{
-			String questionIDs = getQuestionIDsToBeActedOn(request, ((Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED)), "a_chkbox_");
+			Collection<Question> coll = (Collection<Question>)session.getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
+			String questionIDs = getQuestionIDsToBeActedOn(request, coll, "a_chkbox_");
 			Collection<Question> questionsToAdd = QuestionManager.getQuestionsById(questionIDs);
 			ExamManager.addQuestions(examObj, questionsToAdd);
 			
-			// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again
-			Collection<Question> coll = (Collection<Question>)request.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
-			coll.removeAll(examObj.getQuestions());
-			request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
+			session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 			
 			setExamTitleFromFormParameter(request, examObj);
 			
@@ -346,8 +347,8 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 
 		if (coll != null) {
-			// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again
-			coll.removeAll(getExamBean(request).getQuestions());
+			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
+			request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 		}
 		
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);		
@@ -364,6 +365,8 @@ public class ExamServlet extends AbstractHttpServlet {
 		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
 		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
 		int maxDifficulty = DifficultyConstants.GURU;
+
+		HttpSession session = request.getSession();
 		
 		if (o != null)
 			maxDifficulty = Integer.parseInt(o.toString());
@@ -376,11 +379,9 @@ public class ExamServlet extends AbstractHttpServlet {
 			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null /* QuestionType*/, pd);
 
 		if (coll != null) {
-			// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again
-			coll.removeAll(getExamBean(request).getQuestions());
+			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
+			session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 		}
-		
-		HttpSession session = request.getSession();
 		
 		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
@@ -399,17 +400,8 @@ public class ExamServlet extends AbstractHttpServlet {
 		Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
 		
 		if (exam == null) {
-			
-			exam = ExamManager.newExam();
-			
-			// TODO: need some way of throwing an object up in the air saying "Hey! Just created this!"
-			//  so that anyone who cares can set attributes on it. JMS message, or some other event listening/handler
-			
-			//  ..because I'm pretty sure I don't like doing this here..
-			User user = (User)request.getSession().getAttribute("currentUserEntity");
-			exam.setUser(user);
-			
-			request.getSession().setAttribute(Constants.CURRENT_EXAM, exam);
+			new InitializeNewExamInSessionAction().doAction(request, null);
+			exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);			
 		}
 
 		return exam;

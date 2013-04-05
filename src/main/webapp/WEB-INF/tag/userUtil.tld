@@ -10,4 +10,9 @@
       <function-class>com.haxwell.apps.questions.utils.UserUtil</function-class>
       <function-signature>boolean canAccessTestingFunctionality(com.haxwell.apps.questions.entities.User)</function-signature>
   </function>
+    <function>
+      <name>contains</name>
+      <function-class>com.haxwell.apps.questions.utils.CollectionUtil</function-class>
+      <function-signature>boolean contains(java.util.Collection, java.lang.Object)</function-signature>
+  </function>
 </taglib>

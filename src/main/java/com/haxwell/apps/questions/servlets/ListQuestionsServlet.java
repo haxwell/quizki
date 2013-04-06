@@ -124,7 +124,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 		}
 		else if (mineOrAll.equals(Constants.ALL_ITEMS_STR))
 		{
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, null, null);
 		}
 
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
@@ -154,7 +154,7 @@ public class ListQuestionsServlet extends AbstractHttpServlet {
 			request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);			
 		}
 		else {
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, null, null);
 			request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.ALL_ITEMS_STR);
 		}
 			

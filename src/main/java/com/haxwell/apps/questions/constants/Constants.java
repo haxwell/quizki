@@ -38,6 +38,7 @@ public class Constants {
 	public static final String MRU_FILTER_TEXT = "mruFilterText";
 	public static final String MRU_FILTER_DIFFICULTY = "mruFilterDifficulty";
 	public static final String MRU_FILTER_MINE_OR_ALL = "mruMineOrAll";	
+	public static final String MRU_FILTER_MINE_OR_ALL_OR_SELECTED = "mruFilterMyAllOrSelectedFilter";
 	public static final String MRU_FILTER_TOPIC_TEXT = "mruFilterTopicText";
 	public static final String MRU_FILTER_QUESTION_TYPE = "mruFilterQuestionType";	
 	public static final String MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "mruMaxNumberOfQuestionsOnGeneratedExam";
@@ -77,11 +78,14 @@ public class Constants {
 	///
 	public static final Integer MY_ITEMS = 1;
 	public static final Integer ALL_ITEMS = 2;
+	public static final Integer SELECTED_ITEMS = 3;
 	public static final String MY_ITEMS_STR = "mine";
 	public static final String ALL_ITEMS_STR = "all";
+	public static final Object SELECTED_ITEMS_STR = "selected";
 	////
 
 	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS = "mineOrAll";
+	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS_OR_SELECTED_ITEMS = "mineOrAllOrSelected";
 
 	public static final int MAX_QUESTION_TEXT_LENGTH = 9999;
 	public static final int MAX_CHOICE_TEXT_LENGTH = 999;
@@ -110,4 +114,5 @@ public class Constants {
 	public static final String QUESTION_PAGINATION_DATA = "questionPaginationData";
 
 	public static final int DEFAULT_PAGINATION_PAGE_SIZE = 10;
+
 }

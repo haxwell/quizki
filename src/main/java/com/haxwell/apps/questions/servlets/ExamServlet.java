@@ -23,8 +23,12 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
 import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
+import com.haxwell.apps.questions.utils.FilterUtil;
+import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
+import com.haxwell.apps.questions.utils.TypeUtil;
 
 /**
  * Servlet implementation class ExamServlet
@@ -95,7 +99,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("Filter")) 
 		{
-			handleFilterButtonPress(request);
+			handleFilterButtonPress(request, getQuestionPaginationData(request));
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Clear Filter")) 
@@ -222,20 +226,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 		else
 		{
-			Iterator<Question> iterator = examObj.getQuestions().iterator();
-			Question q = null;
-			String action = null;
-			
-			while (iterator.hasNext() && action == null)
-			{
-				q = iterator.next();
-				action = request.getParameter("questionButton_" + q.getId());
-			}
-			
-			if (action != null) {
-				if (action.equals("Delete"))
-					ExamManager.deleteQuestionFromExam(examObj, q);
-			}
+			handleFilterButtonPress(request, getQuestionPaginationData(request));
 			
 			setExamTitleFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
@@ -322,28 +313,40 @@ public class ExamServlet extends AbstractHttpServlet {
 		
 		return rtn;
 	}
-
 	
 	// TODO: These following two methods can be combined..
-	private void handleFilterButtonPress(HttpServletRequest request) {
+	private void handleFilterButtonPress(HttpServletRequest request, PaginationData pd) {
 		String filterText = request.getParameter("containsFilter");
 		String topicFilterText = request.getParameter("topicContainsFilter");
-		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficulty"));
+		int questionType = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
+		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficultyFilter"));
 		
-		String mineOrAll = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS);
+		String mineOrAllOrSelected = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS_OR_SELECTED_ITEMS);
 
 		Collection<Question> coll = null;
 		
-		if (mineOrAll.equals(Constants.MY_ITEMS_STR)) 
+		if (mineOrAllOrSelected.equals(Constants.MY_ITEMS_STR)) 
 		{
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			
 			if (user != null)
-				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null /*QuestionType*/, getQuestionPaginationData(request));
+				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
 		}
-		else if (mineOrAll.equals(Constants.ALL_ITEMS_STR))
+		else if (mineOrAllOrSelected.equals(Constants.ALL_ITEMS_STR))
 		{
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty);
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+		}
+		else if (mineOrAllOrSelected.equals(Constants.SELECTED_ITEMS_STR))
+		{
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+			final Exam exam = getExamBean(request);
+			
+			new ListFilterer<Question>().process(coll, new ShouldRemoveAnObjectCommand<Question>() {
+				@Override
+				public boolean shouldRemove(Question q) {
+					return !(exam.getQuestions().contains(q));
+				}
+			});
 		}
 
 		if (coll != null) {
@@ -357,7 +360,8 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
+		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, FilterUtil.convertToInt(mineOrAllOrSelected));
+		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 	}
 
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {

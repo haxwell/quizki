@@ -29,4 +29,13 @@ public class ListFilterer<T> {
 		return source;
 	}
 	
+	public Collection<T> process(Collection<T> source, ShouldRemoveAnObjectCommand<T> filter)
+	{
+		ArrayList<ShouldRemoveAnObjectCommand<T>> filters = new ArrayList<ShouldRemoveAnObjectCommand<T>>();
+		
+		filters.add(filter);
+		
+		return process(source, filters);
+	}
+	
 }

@@ -289,20 +289,27 @@ public class QuestionManager extends Manager {
 	
 	public static Question getQuestionById(long aSingleId)
 	{
-		Question rtn;
+		Question rtn = null;
 		
 		EntityManager em = emf.createEntityManager();
 		
-		{
-			String queryStr = "SELECT q FROM Question q WHERE q.id=?1";
+		String queryStr = "SELECT q FROM Question q WHERE q.id=?1";
 
-			Query query = em.createQuery(queryStr);
-			
-			query.setParameter(1, aSingleId);
-			
+		Query query = em.createQuery(queryStr);
+		
+		query.setParameter(1, aSingleId);
+		
+		try {
 			rtn = (Question)query.getSingleResult();
 		}
-		
+		catch (Exception e) 
+		{
+			String strr = e.getMessage();
+		}
+		finally {
+			em.close();
+		}
+
 		return rtn;
 	}
 	

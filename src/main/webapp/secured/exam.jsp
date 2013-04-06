@@ -124,7 +124,6 @@
 	<div id="tabs" class="mainContentArea">
 	  <ul>
 	    <li><a href="#tabs-1">Available Questions</a></li>
-	    <li><a href="#tabs-2">Selected Questions</a></li>
 	  </ul>
 	  <div id="tabs-1">
 	    	<div id="availableQuestionsDiv" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="exam-AvailableQuestions.jsp"></jsp:include></div>
@@ -147,10 +146,6 @@
 		    	<input type="submit" value="REFRESH" name="button"/>
 		    	</div>
 	    	</form>
-	  </div>
-	  <div id="tabs-2">
-	    	<div id="selectedQuestionsDiv" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="exam-SelectedQuestions.jsp"></jsp:include></div>
-	    	<br/>
 	  </div>
 	</div>
 	

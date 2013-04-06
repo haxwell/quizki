@@ -370,7 +370,7 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	public static Collection<Question> getQuestionsThatContain(String topicFilterText, String filterText, int maxDifficulty) {
+	public static Collection<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
@@ -387,34 +387,58 @@ public class QuestionManager extends Manager {
 		
 		query.setParameter(1, maxDifficulty);
 		
-		Collection<Question> rtn = (Collection<Question>)query.getResultList();
+		List<Question> rtn = (List<Question>)query.getResultList();
 
 		if (!StringUtil.isNullOrEmpty(topicFilterText)) {
-			// TODO: Abstract this out into its own utility function..
-			//  take a list, then remove any from that list that do
-			//  not have an attribute that matches a given string..
-			List<Question> toBeFilteredList = new ArrayList<Question>();
-			boolean keepThisQuestion;
-			
-			for (Question q : rtn)
-			{
-				keepThisQuestion = false;
-				Set<Topic> set = q.getTopics();
-				
-				for (Topic t : set) {
-					if (t.getText().contains(topicFilterText))
-						keepThisQuestion = true;
+			new ListFilterer<Question>().process(rtn, new ShouldRemoveAnObjectCommand<Question>() {
+				@Override
+				public boolean shouldRemove(Question q) {
+					boolean rtn = false;
+					
+					Set<Topic> set = q.getTopics();
+					
+					for (Topic t : set) {
+						if (!rtn && t.getText().contains(topicFilterText))
+							rtn = true;
+					}
+
+					return rtn;
 				}
-				
-				if (!keepThisQuestion)
-					toBeFilteredList.add(q);
-			}
-			
-			for (Question q: toBeFilteredList)
-				rtn.remove(q);
+			});
 		}
 		
-		return rtn;
+
+		if (questionType != null) {
+			new ListFilterer<Question>().process(rtn, new ShouldRemoveAnObjectCommand<Question>() {
+				@Override
+				public boolean shouldRemove(Question q) {
+					boolean rtn = false;
+
+					if (questionType != null && questionType != TypeConstants.ALL_TYPES && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
+						rtn = true;
+
+					return rtn;
+				}
+			});
+		}
+
+		pd.setTotalItemCount(rtn.size());
+		
+		List<Question> paginatedList = new ArrayList<Question>();
+		
+		if (rtn.size() > pd.getPageSize())
+		{
+			int pageSize = pd.getPageSize();
+			int pageNumber = pd.getPageNumber();
+			
+			for (int i = pageSize * pageNumber; i < (pageSize * pageNumber) + pageSize; i++) {
+				paginatedList.add(rtn.get(i));
+			}
+		}
+		else
+			paginatedList = rtn;
+
+		return paginatedList;
 	}
 	
 //	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, Integer maxDifficulty) {

@@ -231,9 +231,6 @@ public class QuestionManager extends Manager {
 		
 		Collection<Question> rtn = query.getResultList();
 		
-//		pd.setBeginIndex(pageNumber * pageSize + 1);
-//		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
-		
 		em.close();
 		
 		pd.setTotalItemCount(getNumberOfQuestionsInTotal());		
@@ -360,9 +357,6 @@ public class QuestionManager extends Manager {
 		
 		Collection<Question> rtn = query.getResultList();
 		
-//		pd.setBeginIndex(pageNumber * pageSize + 1);
-//		pd.setEndIndex((pageNumber * pageSize) + pageSize -1);
-		
 		em.close();
 		
 		pd.setTotalItemCount(getNumberOfQuestionsCreatedByUser(id));
@@ -443,10 +437,6 @@ public class QuestionManager extends Manager {
 		return paginatedList;
 	}
 	
-//	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, String topicFilterText, String filterText, Integer maxDifficulty) {
-//		return getQuestionsCreatedByAGivenUserThatContain(userId, topicFilterText, filterText, maxDifficulty, null);
-//	}
-	
 	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
@@ -466,16 +456,6 @@ public class QuestionManager extends Manager {
 		
 		query.setParameter(3, maxDifficulty);
 		
-		// Handle PaginationData stuff
-//		int pageSize = pd.getPageSize();
-//		int pageNumber = pd.getPageNumber();
-//		
-//		query.setMaxResults(pageSize);
-//		query.setFirstResult(pageNumber * pageSize);
-
-//		pd.setBeginIndex(Math.max(pageNumber * pageSize, 1));
-//		pd.setEndIndex((pageNumber * pageSize) + pageSize);
-
 		//
 		// Get query results
 		List<Question> rtn = (List<Question>)query.getResultList();

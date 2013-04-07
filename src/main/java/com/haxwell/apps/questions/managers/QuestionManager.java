@@ -408,13 +408,13 @@ public class QuestionManager extends Manager {
 		}
 		
 
-		if (questionType != null) {
+		if (questionType != null && questionType != TypeConstants.ALL_TYPES ) {
 			new ListFilterer<Question>().process(rtn, new ShouldRemoveAnObjectCommand<Question>() {
 				@Override
 				public boolean shouldRemove(Question q) {
 					boolean rtn = false;
 
-					if (questionType != null && questionType != TypeConstants.ALL_TYPES && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
+					if (questionType != null && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
 						rtn = true;
 
 					return rtn;
@@ -426,12 +426,14 @@ public class QuestionManager extends Manager {
 		
 		List<Question> paginatedList = new ArrayList<Question>();
 		
-		if (rtn.size() > pd.getPageSize())
+		int rtnSize = rtn.size();
+		
+		if (rtnSize > pd.getPageSize())
 		{
 			int pageSize = pd.getPageSize();
 			int pageNumber = pd.getPageNumber();
 			
-			for (int i = pageSize * pageNumber; i < (pageSize * pageNumber) + pageSize; i++) {
+			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
 				paginatedList.add(rtn.get(i));
 			}
 		}
@@ -465,22 +467,40 @@ public class QuestionManager extends Manager {
 		query.setParameter(3, maxDifficulty);
 		
 		// Handle PaginationData stuff
-		int pageSize = pd.getPageSize();
-		int pageNumber = pd.getPageNumber();
-		
-		query.setMaxResults(pageSize);
-		query.setFirstResult(pageNumber * pageSize);
+//		int pageSize = pd.getPageSize();
+//		int pageNumber = pd.getPageNumber();
+//		
+//		query.setMaxResults(pageSize);
+//		query.setFirstResult(pageNumber * pageSize);
 
 //		pd.setBeginIndex(Math.max(pageNumber * pageSize, 1));
 //		pd.setEndIndex((pageNumber * pageSize) + pageSize);
 
 		//
 		// Get query results
-		Collection<Question> rtn = (Collection<Question>)query.getResultList();
+		List<Question> rtn = (List<Question>)query.getResultList();
 		
-		rtn = filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+		pd.setTotalItemCount(rtn.size());
+
+		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
 		
-		return rtn;
+		List<Question> paginatedList = new ArrayList<Question>();
+		
+		int rtnSize = rtn.size();
+		
+		if (rtnSize > pd.getPageSize())
+		{
+			int pageSize = pd.getPageSize();
+			int pageNumber = pd.getPageNumber();
+			
+			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
+				paginatedList.add(rtn.get(i));
+			}
+		}
+		else
+			paginatedList = rtn;
+
+		return paginatedList;
 	}
 
 	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
@@ -488,37 +508,39 @@ public class QuestionManager extends Manager {
 			Collection<Question> rtn) {
 		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
 		
-		arr.add(new ShouldRemoveAnObjectCommand<Question>() {
-			public boolean shouldRemove(Question q) {
-				Set<Topic> set = q.getTopics();
-
-				boolean rtn = true;
-
-				if (!StringUtil.isNullOrEmpty(topicFilterText)) {
-					boolean matchFound = false;
-					
-					for (Topic t : set) {
-						if (!matchFound && t.getText().contains(topicFilterText))
-							matchFound = true;
+		if (StringUtil.isNullOrEmpty(topicFilterText))
+			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
+				public boolean shouldRemove(Question q) {
+					Set<Topic> set = q.getTopics();
+	
+					boolean rtn = true;
+	
+					if (!StringUtil.isNullOrEmpty(topicFilterText)) {
+						boolean matchFound = false;
+						
+						for (Topic t : set) {
+							if (!matchFound && t.getText().contains(topicFilterText))
+								matchFound = true;
+						}
+						
+						rtn = matchFound;
 					}
-					
-					rtn = matchFound;
+	
+					return !rtn;
 				}
+			});
 
-				return !rtn;
-			}
-		});
-
-		arr.add(new ShouldRemoveAnObjectCommand<Question>() {
-			public boolean shouldRemove(Question q) {
-				boolean rtn = false;
-
-				if (questionType != null && questionType != TypeConstants.ALL_TYPES && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
-					rtn = true;
-
-				return rtn;
-			}
-		});
+		if (questionType != null && questionType != TypeConstants.ALL_TYPES )
+			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
+				public boolean shouldRemove(Question q) {
+					boolean rtn = false;
+	
+					if (TypeUtil.convertToInt(q.getQuestionType()) != questionType)
+						rtn = true;
+	
+					return rtn;
+				}
+			});
 
 		return new ListFilterer<Question>().process(rtn, arr);
 	}

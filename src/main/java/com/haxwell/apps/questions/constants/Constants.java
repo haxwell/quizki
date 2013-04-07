@@ -81,7 +81,7 @@ public class Constants {
 	public static final Integer SELECTED_ITEMS = 3;
 	public static final String MY_ITEMS_STR = "mine";
 	public static final String ALL_ITEMS_STR = "all";
-	public static final Object SELECTED_ITEMS_STR = "selected";
+	public static final String SELECTED_ITEMS_STR = "selected";
 	////
 
 	public static final String SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS = "mineOrAll";

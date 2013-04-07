@@ -354,44 +354,65 @@ public class ExamServlet extends AbstractHttpServlet {
 			request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 		}
 		
-		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);		
-		
 		// store the filter we just used
+		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, FilterUtil.convertToInt(mineOrAllOrSelected));
 		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
+		request.getSession().setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());		
 	}
 
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
 		String filterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TEXT);
 		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
+		int mineOrAllOrSelected = ((Integer)request.getSession().getAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED)).intValue();
 		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+		int questionType = (Integer)request.getSession().getAttribute(Constants.MRU_FILTER_QUESTION_TYPE);
 		int maxDifficulty = DifficultyConstants.GURU;
 
 		HttpSession session = request.getSession();
 		
 		if (o != null)
 			maxDifficulty = Integer.parseInt(o.toString());
-		
+
 		Collection<Question> coll = null;
 		
-		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-		
-		if (user != null)
-			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, null /* QuestionType*/, pd);
+		if (mineOrAllOrSelected == Constants.MY_ITEMS) 
+		{
+			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+			
+			if (user != null)
+				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
+		}
+		else if (mineOrAllOrSelected == Constants.ALL_ITEMS)
+		{
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+		}
+		else if (mineOrAllOrSelected == Constants.SELECTED_ITEMS)
+		{
+			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+			final Exam exam = getExamBean(request);
+			
+			new ListFilterer<Question>().process(coll, new ShouldRemoveAnObjectCommand<Question>() {
+				@Override
+				public boolean shouldRemove(Question q) {
+					return !(exam.getQuestions().contains(q));
+				}
+			});
+		}
 
 		if (coll != null) {
 			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
-			session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
+			request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 		}
 		
 		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS_STR);
+		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, mineOrAllOrSelected);
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
 	}
 

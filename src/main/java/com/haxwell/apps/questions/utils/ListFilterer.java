@@ -9,22 +9,24 @@ public class ListFilterer<T> {
 
 	public Collection<T> process(Collection<T> source, List<ShouldRemoveAnObjectCommand<T>> filters)
 	{
-		ArrayList<T> toBeRemoved = new ArrayList<T>(); 
-		
-		for (T t : source) {
-			Iterator<ShouldRemoveAnObjectCommand<T>> iterator = filters.iterator();
+		if (filters != null) {
+			ArrayList<T> toBeRemoved = new ArrayList<T>(); 
 			
-			boolean removed = false;
-			while (iterator.hasNext() && removed == false) {
-				if (iterator.next().shouldRemove(t)) {
-					toBeRemoved.add(t);
-					removed = true;
+			for (T t : source) {
+				Iterator<ShouldRemoveAnObjectCommand<T>> iterator = filters.iterator();
+				
+				boolean removed = false;
+				while (iterator.hasNext() && removed == false) {
+					if (iterator.next().shouldRemove(t)) {
+						toBeRemoved.add(t);
+						removed = true;
+					}
 				}
 			}
+			
+			for (T t : toBeRemoved)
+				source.remove(t);
 		}
-		
-		for (T t : toBeRemoved)
-			source.remove(t);
 		
 		return source;
 	}

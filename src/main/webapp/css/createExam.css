@@ -3,3 +3,7 @@ input.listOfQuestions  {height:30px;}
 .mainContentArea {
 	font-size:12px;
 }
+
+.selectedChkbox {
+	background:#66FF33;
+}

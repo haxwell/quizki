@@ -65,16 +65,16 @@
 				<c:otherwise>
 		<c:forEach var="question" items="${fa_listofquestionstobedisplayed}">
 			<c:set var="rowNum" value="${rowNum + 1}" />
+			<c:set var="counter" value="${counter + 1}" />
 			<c:choose><c:when test="${rowNum % 2 == 0}">
-			<jsp:text><![CDATA[<tr>]]></jsp:text>
+			<tr id="tableRow_${counter}">
 			</c:when>
 			<c:otherwise>
-			<jsp:text><![CDATA[<tr class="rowHighlight">]]></jsp:text>
+			<tr class="rowHighlight" id="tableRow_${counter}">
 			</c:otherwise></c:choose>
 			
 				<td>${question.id}</td>
 				<td>
-					<c:set var="counter" value="${counter + 1}" />
 					<c:choose>
 					<c:when test="${qfn:contains(sessionScope.exam_selectedQuestionIds, question.id)}">
 						<input type="checkbox" class="selectQuestionChkbox" id="chkbox_${counter}" name="selectQuestionChkbox_${question.id}" value="" checked/>
@@ -96,7 +96,7 @@
 				<td>${question.questionType.text}</td>
 				<td>${question.difficulty.text}</td>
 				<td> + / - </td>
-			<jsp:text><![CDATA[</tr>]]></jsp:text>
+			</tr>
 		</c:forEach>
 		</c:otherwise>
 		</c:choose>

@@ -309,6 +309,8 @@ public class ExamServlet extends AbstractHttpServlet {
 		else
 		{
 			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
+			
+			saveExamSelectedQuestionIdsInSession(request);
 		}
 		
 		return rtn;
@@ -347,11 +349,12 @@ public class ExamServlet extends AbstractHttpServlet {
 					return !(exam.getQuestions().contains(q));
 				}
 			});
+			
+			pd.setTotalItemCount(coll.size());
 		}
 
 		if (coll != null) {
-			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
-			request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
+			saveExamSelectedQuestionIdsInSession(request);
 		}
 		
 		// store the filter we just used
@@ -362,6 +365,11 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, FilterUtil.convertToInt(mineOrAllOrSelected));
 		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		request.getSession().setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());		
+	}
+
+	private void saveExamSelectedQuestionIdsInSession(HttpServletRequest request) {
+		Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
+		request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 	}
 
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
@@ -401,11 +409,12 @@ public class ExamServlet extends AbstractHttpServlet {
 					return !(exam.getQuestions().contains(q));
 				}
 			});
+			
+			pd.setTotalItemCount(coll.size());
 		}
 
 		if (coll != null) {
-			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
-			request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
+			saveExamSelectedQuestionIdsInSession(request);
 		}
 		
 		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);

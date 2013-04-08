@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
  * Once the user goes to index.jsp (the Home page), certain state in the application is no longer
@@ -67,6 +68,9 @@ public class ResetStateFilter extends AbstractFilter {
 			session.setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, null);
 			
 			session.setAttribute(Constants.TAB_INDEX, null);
+			
+			session.setAttribute(Constants.EXAM_PAGINATION_DATA, new PaginationData());
+			session.setAttribute(Constants.QUESTION_PAGINATION_DATA, new PaginationData());
 		}
 		
 		// pass the request along the filter chain

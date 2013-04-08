@@ -47,16 +47,16 @@
 			      }
 			    });
 			    
-					$(function() {
-						$( "#tabs" ).tabs();
-					   
-						if (tabIndex !== undefined)
-					   		$( "#tabs" ).tabs("option","active", tabIndex);
-					});			
-			    
+//					$(function() {
+//						$( "#tabs" ).tabs();
+//					   
+//						if (tabIndex !== undefined)
+//					   		$( "#tabs" ).tabs("option","active", tabIndex);
+//					});			
+
 					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
 						// set the height of the content area according to the browser height
-						var bottomBufferHeight = 150;
+						var bottomBufferHeight = 125;
 						var questionsBufferHeight = 97;
 						var windowHeight = $(window).height();
 						
@@ -79,10 +79,27 @@
 						$(".selectQuestionChkbox").click(function(){
 							$.post("/secured/exam-questionChkboxClicked.jsp",
 							{
-								chkboxname: $(this).attr("name")
+								chkboxname: $(this).attr("name"),
+								rowid: $(this).attr("id")
 							},
 							function(data,status){
-								alert("Data: " + data + "\nStatus: " + status);
+								//alert("Data: " + data + "\nStatus: " + status);
+								
+								var arr = data.split('!');
+								
+								var rowid = arr[0];
+								var state = arr[1];
+								
+								if (state == 'selected')
+									$('#tableRow_' + rowid).css('background-color', '#E6FFCC');
+								else {
+									var klass = $('#tableRow_' + rowid).attr('class');
+									
+									if (klass == 'rowHighlight')
+										$('#tableRow_' + rowid).css('background-color', '#F0F0EE');
+									else 
+										$('#tableRow_' + rowid).css('background-color', '#FFFFFF');
+								}
 							});
 						});
 					});					
@@ -118,43 +135,60 @@
       	</c:forEach>
       	<br/>
       </c:if>
+      
+		<form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm">
+		<table style="float:right; width:100%">
+	      	<tr>
+	      		<td>
+	      			Title: <input type="text" size="45" maxlength="128" id="id_examTitle" name="examTitle" value="${currentExam.title}" title="A name for this exam."/>
+	      		</td>
+				<c:choose>
+					<c:when test="${empty sessionScope.inEditingMode}">
+						<td style="float:right;"><input type="submit" value="Add Exam" name="button" style="float:right;"/></td>
+					</c:when>
+					<c:otherwise>
+						<td style="float:right;"><input type="submit" value="Update Exam" name="button" style="float:right;"/></td>
+					</c:otherwise>
+				</c:choose>
+	      	</tr>
+		</table>
+		</form>
 
 	<c:choose><c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
-	<div id="tabs" class="mainContentArea">
-	  <ul>
-	    <li><a href="#tabs-1">Available Questions</a></li>
-	  </ul>
-	  <div id="tabs-1">
-	    	<div id="availableQuestionsDiv" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="exam-AvailableQuestions.jsp"></jsp:include></div>
-	    	<br/>
-	    	<form action="/secured/ExamServlet" method="post" id="paginationForm">
-		    	<div id="paginationDiv" class="center">
-		    	Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount} 
-		    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-		    	<input type="submit" value="&lt; PREV" name="button"/>
-		    	<input type="submit" value="NEXT &gt;" name="button"/>
-		    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
-		    	- Max. List Size 
-		    	<select name="quantity">
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-		    		<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-		    	</select>
-		    	<input type="submit" value="REFRESH" name="button"/>
+		<div id="tabs" class="mainContentArea">
+		  <br/>
+		  <div id="tabs-1">
+		    	<div id="availableQuestionsDiv" class="listOfQuestions" style="overflow:auto; height:95%;">
+		    		<jsp:include page="exam-AvailableQuestions.jsp"></jsp:include>
 		    	</div>
-	    	</form>
-	  </div>
-	</div>
-	
-		</c:when>
+		    	<br/>
+		    	<form action="/secured/ExamServlet" method="post" id="paginationForm">
+			    	<div id="paginationDiv" class="center">
+			    	Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount} 
+			    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
+			    	<input type="submit" value="&lt; PREV" name="button"/>
+			    	<input type="submit" value="NEXT &gt;" name="button"/>
+			    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
+			    	- Max. List Size 
+			    	<select name="quantity">
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
+			    		<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
+			    	</select>
+			    	<input type="submit" value="REFRESH" name="button"/>
+			    	</div>
+		    	</form>
+		  </div>
+		</div>
+	</c:when>
 		<c:otherwise>
-		<br/>
-		There was an error loading this page. This entity cannot be edited!<br/>
+			<br/>
+			There was an error loading this page. This entity cannot be edited!<br/>
 		</c:otherwise>
-		</c:choose>
+	</c:choose>
 	
 	<br/> 
 

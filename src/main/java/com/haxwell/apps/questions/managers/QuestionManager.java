@@ -488,7 +488,7 @@ public class QuestionManager extends Manager {
 			Collection<Question> rtn) {
 		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
 		
-		if (StringUtil.isNullOrEmpty(topicFilterText))
+		if (!StringUtil.isNullOrEmpty(topicFilterText))
 			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
 				public boolean shouldRemove(Question q) {
 					Set<Topic> set = q.getTopics();

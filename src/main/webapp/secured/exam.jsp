@@ -67,6 +67,17 @@
 
 					$(document).ready(function(){
 				 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+				 		
+				 		$('.selectQuestionChkbox').each(function() {
+				 			var v = $(this).attr('checked');
+				 			
+				 			if (v !== undefined) {
+				 				var id = $(this).attr('id');
+				 				var arr = id.split('_');
+				 				
+				 				$('#tableRow_' + arr[1]).css('background-color', '#E6FFCC');
+				 			}
+				 		});
 					});
 				 
 					$(document).ready(function(){

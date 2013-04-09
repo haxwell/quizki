@@ -468,6 +468,9 @@ public class QuestionManager extends Manager {
 		
 		int rtnSize = rtn.size();
 		
+		if (pd.getPageNumber() > pd.getMaxPageNumber())
+			pd.setPageNumber(pd.getMaxPageNumber());
+		
 		if (rtnSize > pd.getPageSize())
 		{
 			int pageSize = pd.getPageSize();

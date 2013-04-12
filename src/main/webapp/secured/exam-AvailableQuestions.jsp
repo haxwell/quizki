@@ -18,7 +18,7 @@
 		<tbody>
 				<tr>
 					<td></td>
-					<td style="text-align:right"><input type="submit" name="runFilter" value="Run Filter -->"/> </td>
+					<td style="text-align:right"><input type="submit" name="button" value="Apply Filter -->"/> </td>
 					<td>
 						Show <select name="mineOrAllOrSelected" title="..">
 							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 1}"><option value="mine" selected="selected">My</option></c:when><c:otherwise><option value="mine">My</option></c:otherwise></c:choose>

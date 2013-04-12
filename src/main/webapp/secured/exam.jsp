@@ -163,7 +163,7 @@
 				</c:choose>
 	      	</tr>
 		</table>
-		</form>
+
 
 	<c:choose><c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
@@ -174,7 +174,6 @@
 		    		<jsp:include page="exam-AvailableQuestions.jsp"></jsp:include>
 		    	</div>
 		    	<br/>
-		    	<form action="/secured/ExamServlet" method="post" id="paginationForm">
 			    	<div id="paginationDiv" class="center">
 			    	Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount} 
 			    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
@@ -191,7 +190,6 @@
 			    	</select>
 			    	<input type="submit" value="REFRESH" name="button"/>
 			    	</div>
-		    	</form>
 		  </div>
 		</div>
 	</c:when>
@@ -200,6 +198,8 @@
 			There was an error loading this page. This entity cannot be edited!<br/>
 		</c:otherwise>
 	</c:choose>
+	
+	  </form>
 	
 	<br/> 
 

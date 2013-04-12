@@ -1,7 +1,7 @@
 package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +47,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			HttpSession session = req.getSession();
 
 			boolean currentExamHasBeenPersisted = (session.getAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED) != null);
+			boolean mruMineAllOrSelectedHasBeenSet = false;
 			
 			if (currentExamHasBeenPersisted) {
 				session.setAttribute(Constants.CURRENT_EXAM, null);
@@ -68,31 +69,26 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 					session.setAttribute(Constants.CURRENT_EXAM, exam);
 					session.setAttribute(Constants.IN_EDITING_MODE, Boolean.TRUE);					
 					
-					// Remove the questions already on the exam from the list of questions to be displayed.. no need allowing them to be selected again
-					Collection<Question> coll = (Collection<Question>)session.getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
-					
 					Set<Question> questionSet = exam.getQuestions();
 					
-//					if (coll != null) {
-//						coll.removeAll(questionSet);
-//						session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-//					}
-					
-					Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(questionSet);
+					List<Long> selectedQuestionIds = CollectionUtil.getListOfIds(questionSet);
 					
 					session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
+					session.setAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN, Boolean.TRUE);
 					
-					if (coll != null)
-						log.log(Level.INFO, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");
-					else
-						log.log(Level.INFO, "coll was null. No changes made to the " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + " list");
+					if (selectedQuestionIds.size() > 0) {
+						session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.SELECTED_ITEMS);
+						mruMineAllOrSelectedHasBeenSet = true;
+					}
 				}
 			}
 			
 			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
+				if (!mruMineAllOrSelectedHasBeenSet)
+					session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.MY_ITEMS);
+
 				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 				session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, Constants.DEFAULT_PAGINATION_PAGE_SIZE);
-				session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.MY_ITEMS);
 				session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, TypeConstants.ALL_TYPES);
 				session.setAttribute(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS, Constants.MY_ITEMS);
 			}

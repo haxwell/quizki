@@ -68,6 +68,7 @@ public class Constants {
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
 	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
 	public static final String SHOULD_LOGIN_LINK_BE_DISPLAYED = "shouldLoginLinkBeDisplayed";
+	public static final String ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN = "onlySelectedQuestionsShouldBeShown";
 	
 	public static final String QUESTION_ID = "questionId";
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
@@ -114,5 +115,4 @@ public class Constants {
 	public static final String QUESTION_PAGINATION_DATA = "questionPaginationData";
 
 	public static final int DEFAULT_PAGINATION_PAGE_SIZE = 10;
-
 }

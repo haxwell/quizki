@@ -42,6 +42,7 @@ public class ResetStateFilter extends AbstractFilter {
 			session.setAttribute(Constants.MRU_FILTER_TEXT, null);
 			session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
 			session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);
+			session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, null);
 			
 			session.setAttribute(Constants.CURRENT_EXAM, null);
 			session.setAttribute(Constants.CURRENT_QUESTION, null);
@@ -61,6 +62,7 @@ public class ResetStateFilter extends AbstractFilter {
 			session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, null);
 			session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_EDITED, null);
 			
+			session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, null);
 			session.setAttribute(Constants.LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS, null);
 			session.setAttribute(Constants.LIST_OF_EXAM_TOPICS, null);
 			session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, null);

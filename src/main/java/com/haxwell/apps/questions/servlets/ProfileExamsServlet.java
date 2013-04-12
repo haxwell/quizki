@@ -63,8 +63,14 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 				{
 					if (btnValue.equals("Take Exam"))
 						fwdPage = "/beginExam.jsp?examId=" + id;
-					else if (btnValue.equals("Edit Exam"))
+					else if (btnValue.equals("Edit Exam")) {
 						fwdPage = "/secured/exam.jsp?examId=" + id;
+						
+						// This is the perfect example for session attributes that clear themselves based on events..
+						//  when a Before Edit Exam type thing happens, this list should be cleared automatically.
+						//  same with the list of exams in Delete Exam below..
+						request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
+					}
 					else if (btnValue.equals("Delete Exam")) {
 						ExamManager.deleteExam(id);
 						request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);

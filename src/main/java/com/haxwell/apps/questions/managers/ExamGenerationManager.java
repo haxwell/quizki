@@ -11,6 +11,7 @@ import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -38,7 +39,7 @@ public class ExamGenerationManager {
 		else
 		{
 			for (Long i : topicIDsToInclude) {
-				coll = QuestionManager.getQuestionsByTopic(i);
+				coll = QuestionManager.getQuestionsByTopic(i, new PaginationData());
 
 				for (Question q : coll)
 					mainColl.add(q);

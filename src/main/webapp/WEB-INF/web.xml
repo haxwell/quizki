@@ -105,40 +105,6 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
-    <filter-name>ListQuestionsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListQuestionsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListQuestionsFilter</filter-name>
-    <url-pattern>/secured/listQuestions.jsp</url-pattern>
-    <url-pattern>/secured/exam.jsp</url-pattern>
-    <url-pattern>/secured/profile.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
-    <filter-name>ListExamsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListExamsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListExamsFilter</filter-name>
-    <url-pattern>/listExams.jsp</url-pattern>
-    <url-pattern>/secured/profile.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
-    <filter-name>ListTopicsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListTopicsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListTopicsFilter</filter-name>
-    <url-pattern>/index.jsp</url-pattern>
-    <url-pattern>/generateExam.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
     <filter-name>InitializeSessionForCreatingAnExamFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.InitializeSessionForCreatingAnExamFilter</filter-class>
   </filter>
@@ -176,6 +142,40 @@
     <filter-name>InitializeSessionForRunningAnExamFilter</filter-name>
     <url-pattern>/beginExam.jsp</url-pattern>
     <url-pattern>/takeExam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>ListQuestionsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListQuestionsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ListQuestionsFilter</filter-name>
+    <url-pattern>/secured/listQuestions.jsp</url-pattern>
+    <url-pattern>/secured/exam.jsp</url-pattern>
+    <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>ListExamsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListExamsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ListExamsFilter</filter-name>
+    <url-pattern>/listExams.jsp</url-pattern>
+    <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>ListTopicsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListTopicsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ListTopicsFilter</filter-name>
+    <url-pattern>/index.jsp</url-pattern>
+    <url-pattern>/generateExam.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

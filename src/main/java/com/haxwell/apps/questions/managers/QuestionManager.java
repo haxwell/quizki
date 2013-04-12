@@ -193,7 +193,7 @@ public class QuestionManager extends Manager {
 		return new Question();
 	}
 	
-	public static Collection<Question> getQuestionsByTopic(long topicId)
+	public static Collection<Question> getQuestionsByTopic(long topicId, PaginationData pd)
 	{
 		EntityManager em = emf.createEntityManager();
 		boolean b = em.isOpen();
@@ -204,7 +204,7 @@ public class QuestionManager extends Manager {
 				
 		List<Long> list = (List<Long>)query.getResultList();
 		
-		Collection<Question> coll = getQuestionsById(StringUtil.getCSVString(list));
+		Collection<Question> coll = getQuestionsById(StringUtil.getCSVString(list), pd);
 		
 		return coll;
 	}
@@ -245,7 +245,7 @@ public class QuestionManager extends Manager {
 	 * @param questionIDs
 	 * @return
 	 */
-	public static Collection<Question> getQuestionsById(String questionIDs) {
+	public static Collection<Question> getQuestionsById(String questionIDs, PaginationData pd) {
 		Collection<Question> rtn = new ArrayList<Question>();
 		
 		EntityManager em = emf.createEntityManager();
@@ -254,6 +254,8 @@ public class QuestionManager extends Manager {
 		
 		if (tokenizer.hasMoreTokens())
 		{
+			int tokenCount = tokenizer.countTokens();
+			
 			String queryStr = "SELECT q FROM Question q";
 			String whereClause = " WHERE ";
 			
@@ -270,10 +272,18 @@ public class QuestionManager extends Manager {
 			}
 			
 			queryStr += whereClause;
-			
+
 			Query query = em.createQuery(queryStr);
 			
+			int pageSize = pd.getPageSize();
+			int pageNumber = pd.getPageNumber();
+			
+			query.setMaxResults(pageSize);
+			query.setFirstResult(pageNumber * pageSize);
+			
 			rtn = (Collection<Question>)query.getResultList();
+			
+			pd.setTotalItemCount(tokenCount);
 		}
 		
 		return rtn;
@@ -383,39 +393,8 @@ public class QuestionManager extends Manager {
 		
 		List<Question> rtn = (List<Question>)query.getResultList();
 
-		if (!StringUtil.isNullOrEmpty(topicFilterText)) {
-			new ListFilterer<Question>().process(rtn, new ShouldRemoveAnObjectCommand<Question>() {
-				@Override
-				public boolean shouldRemove(Question q) {
-					boolean rtn = false;
-					
-					Set<Topic> set = q.getTopics();
-					
-					for (Topic t : set) {
-						if (!rtn && t.getText().contains(topicFilterText))
-							rtn = true;
-					}
-
-					return rtn;
-				}
-			});
-		}
+		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
 		
-
-		if (questionType != null && questionType != TypeConstants.ALL_TYPES ) {
-			new ListFilterer<Question>().process(rtn, new ShouldRemoveAnObjectCommand<Question>() {
-				@Override
-				public boolean shouldRemove(Question q) {
-					boolean rtn = false;
-
-					if (questionType != null && TypeUtil.convertToInt(q.getQuestionType()) != questionType)
-						rtn = true;
-
-					return rtn;
-				}
-			});
-		}
-
 		pd.setTotalItemCount(rtn.size());
 		
 		List<Question> paginatedList = new ArrayList<Question>();
@@ -482,6 +461,8 @@ public class QuestionManager extends Manager {
 		}
 		else
 			paginatedList = rtn;
+		
+//		pd.setTotalItemCount(paginatedList.size());		
 
 		return paginatedList;
 	}
@@ -492,38 +473,10 @@ public class QuestionManager extends Manager {
 		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
 		
 		if (!StringUtil.isNullOrEmpty(topicFilterText))
-			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
-				public boolean shouldRemove(Question q) {
-					Set<Topic> set = q.getTopics();
-	
-					boolean rtn = true;
-	
-					if (!StringUtil.isNullOrEmpty(topicFilterText)) {
-						boolean matchFound = false;
-						
-						for (Topic t : set) {
-							if (!matchFound && t.getText().contains(topicFilterText))
-								matchFound = true;
-						}
-						
-						rtn = matchFound;
-					}
-	
-					return !rtn;
-				}
-			});
+			arr.add(new TopicFilter(topicFilterText));
 
 		if (questionType != null && questionType != TypeConstants.ALL_TYPES )
-			arr.add(new ShouldRemoveAnObjectCommand<Question>() {
-				public boolean shouldRemove(Question q) {
-					boolean rtn = false;
-	
-					if (TypeUtil.convertToInt(q.getQuestionType()) != questionType)
-						rtn = true;
-	
-					return rtn;
-				}
-			});
+			arr.add(new QuestionTypeFilter(questionType));
 
 		return new ListFilterer<Question>().process(rtn, arr);
 	}
@@ -558,5 +511,46 @@ public class QuestionManager extends Manager {
 			rtn = (q.getUser().getId() == u.getId()); // its simple now, but in the future we'll flesh this method out..
 		
 		return rtn;
+	}
+	
+	public static class TopicFilter implements ShouldRemoveAnObjectCommand<Question> {
+		private String topicFilterText;
+		
+		public TopicFilter(String filter) {
+			this.topicFilterText = filter;
+		}
+		
+		public boolean shouldRemove(Question q) {
+			Set<Topic> set = q.getTopics();
+
+			boolean rtn = true;
+			boolean matchFound = false;
+			
+			for (Topic t : set) {
+				if (!matchFound && t.getText().contains(topicFilterText))
+					matchFound = true;
+			}
+			
+			rtn = matchFound;
+
+			return !rtn;
+		}
+	}
+	
+	public static class QuestionTypeFilter implements ShouldRemoveAnObjectCommand<Question> {
+		private int filterQuestionType;
+		
+		public QuestionTypeFilter(int filter) {
+			this.filterQuestionType = filter;
+		}
+		
+		public boolean shouldRemove(Question q) {
+			boolean rtn = false;
+
+			if (TypeUtil.convertToInt(q.getQuestionType()) != filterQuestionType)
+				rtn = true;
+
+			return rtn;
+		}
 	}
 }

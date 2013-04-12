@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.servlets.actions;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 /**
  * Ensures that the list of questions in the session is the most up to date it can be.
@@ -41,7 +43,15 @@ public class InitializeListOfQuestionsInSessionAction implements AbstractServlet
 					req.getSession().setAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED, null);					
 				}
 				else if (user != null) {
-					coll = QuestionManager.getAllQuestionsForUser(user.getId(), qpd);
+					if (req.getSession().getAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN) != null) {
+						req.getSession().setAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN, null);
+						
+						List<Long> selectedQuestionIds = (List<Long>)req.getSession().getAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS);
+						
+						coll = QuestionManager.getQuestionsById(StringUtil.getCSVString(selectedQuestionIds), qpd);
+					}
+					else 
+						coll = QuestionManager.getAllQuestionsForUser(user.getId(), qpd);
 				}
 
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);

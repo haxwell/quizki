@@ -3,8 +3,8 @@ package com.haxwell.apps.questions.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,33 +73,11 @@ public class ExamServlet extends AbstractHttpServlet {
 		{
 			examWasPersisted = handleAddExamButtonPress(request, examObj, errors, successes);
 		}
-		else if (button.equals("Add Questions"))
-		{
-			Collection<Question> coll = (Collection<Question>)session.getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED);
-			String questionIDs = getQuestionIDsToBeActedOn(request, coll, "a_chkbox_");
-			Collection<Question> questionsToAdd = QuestionManager.getQuestionsById(questionIDs);
-			ExamManager.addQuestions(examObj, questionsToAdd);
-			
-			Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
-			session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
-			
-			setExamTitleFromFormParameter(request, examObj);
-			
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
-		}
-		else if (button.equals("Delete Questions"))
-		{
-			String questionIDs = getQuestionIDsToBeActedOn(request, examObj.getQuestions(), "d_chkbox_");
-			
-			ExamManager.removeQuestions(examObj, questionIDs);
-			
-			refreshListOfQuestionsToBeDisplayed(request, getQuestionPaginationData(request));
-			
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
-		}
-		else if (button.equals("Filter")) 
+		else if (button.equals("Apply Filter -->")) 
 		{
 			handleFilterButtonPress(request, getQuestionPaginationData(request));
+			
+			setExamTitleFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Clear Filter")) 
@@ -131,6 +109,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
+			setExamTitleFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("< PREV"))
@@ -155,6 +134,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
+			setExamTitleFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("NEXT >"))
@@ -180,6 +160,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
+			setExamTitleFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("LAST >>"))
@@ -207,6 +188,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
+			setExamTitleFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("REFRESH")) 
@@ -222,14 +204,8 @@ public class ExamServlet extends AbstractHttpServlet {
 			refreshListOfQuestionsToBeDisplayed(request, pd);
 			setQuestionPaginationData(request, pd);
 			
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
-		}
-		else
-		{
-			handleFilterButtonPress(request, getQuestionPaginationData(request));
-			
 			setExamTitleFromFormParameter(request, examObj);
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
+			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 
 		if (examWasPersisted) {
@@ -260,27 +236,6 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, null);
 		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
 	}
-
-	private String getQuestionIDsToBeActedOn(HttpServletRequest request, Collection<Question> coll, String fieldName)
-	{
-		Iterator<Question> iterator = coll.iterator();
-		StringBuffer sb = new StringBuffer();
-		
-		while (iterator.hasNext())
-		{
-			Question q = iterator.next();
-			String str = request.getParameter(fieldName + q.getId());
-			
-			if (!StringUtil.isNullOrEmpty(str)) {
-				if (sb.length() > 0)
-					sb.append(",");
-				
-				sb.append(q.getId());
-			}
-		}
-		
-		return sb.toString();
-	}
 	
 	private boolean handleAddExamButtonPress(HttpServletRequest request,
 			Exam examObj, List<String> errors, List<String> successes) {
@@ -298,7 +253,6 @@ public class ExamServlet extends AbstractHttpServlet {
 			
 			request.setAttribute(Constants.CURRENT_EXAM, null);
 			request.getSession().setAttribute(Constants.CURRENT_EXAM, null);
-			request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 			
 			clearMRUFilterSettings(request);
 			
@@ -340,17 +294,15 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 		else if (mineOrAllOrSelected.equals(Constants.SELECTED_ITEMS_STR))
 		{
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
 			final Exam exam = getExamBean(request);
+			Set<Question> selectedQuestions = exam.getQuestions();
+			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
 			
-			new ListFilterer<Question>().process(coll, new ShouldRemoveAnObjectCommand<Question>() {
-				@Override
-				public boolean shouldRemove(Question q) {
-					return !(exam.getQuestions().contains(q));
-				}
-			});
+			pd.setPageNumber(PaginationData.FIRST_PAGE);
 			
-			pd.setTotalItemCount(coll.size());
+			coll = QuestionManager.getQuestionsById(csvList, pd);
+			
+			pd.setTotalItemCount(selectedQuestions.size());
 		}
 
 		if (coll != null) {
@@ -368,7 +320,7 @@ public class ExamServlet extends AbstractHttpServlet {
 	}
 
 	private void saveExamSelectedQuestionIdsInSession(HttpServletRequest request) {
-		Collection<Long> selectedQuestionIds = CollectionUtil.getCollectionOfIds(getExamBean(request).getQuestions());
+		Collection<Long> selectedQuestionIds = CollectionUtil.getListOfIds(getExamBean(request).getQuestions());
 		request.getSession().setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
 	}
 
@@ -400,17 +352,15 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 		else if (mineOrAllOrSelected == Constants.SELECTED_ITEMS)
 		{
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
 			final Exam exam = getExamBean(request);
+			Set<Question> selectedQuestions = exam.getQuestions();
+			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
 			
-			new ListFilterer<Question>().process(coll, new ShouldRemoveAnObjectCommand<Question>() {
-				@Override
-				public boolean shouldRemove(Question q) {
-					return !(exam.getQuestions().contains(q));
-				}
-			});
+			//pd.setPageNumber(PaginationData.FIRST_PAGE);
 			
-			pd.setTotalItemCount(coll.size());
+			coll = QuestionManager.getQuestionsById(csvList, pd);
+			
+			pd.setTotalItemCount(selectedQuestions.size());
 		}
 
 		if (coll != null) {

@@ -23,7 +23,7 @@ import com.haxwell.apps.questions.interfaces.IExam;
  */
 @Entity
 @Table(name="exam")
-public class Exam implements IExam, EntityWithAnIntegerIDBehavior, Serializable {
+public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -14,7 +14,7 @@
 		<tbody>
 			<tr>
 				<td></td>
-				<td style="text-align:right"><input type="submit" name="runFilter" value="Run Filter -->"/> </td>
+				<td style="text-align:right"><input type="submit" name="button" value="Apply Filter -->"/> </td>
 				<td><input type="text" name="containsFilter" value="${mruFilterText}" title="Only show exams with titles that contain this text..." style="width:100%;"/></td>
 			</tr>
 		<c:set var="rowNum" value="0"/>

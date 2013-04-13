@@ -18,6 +18,8 @@ import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.utils.ExamHistory;
+import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.PaginationDataUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 public class ExamManager extends Manager {
@@ -239,14 +241,30 @@ public class ExamManager extends Manager {
 
 	
 	// TODO: Create a standard getAll() method for Managers in general
-	public static Collection<Exam> getAllExams() {
+	public static Collection<Exam> getAllQuestions() {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createQuery("SELECT q FROM Exam e");
+		
+		return (Collection<Exam>)query.getResultList();
+	}
+
+	public static Collection<Exam> getAllExams(PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT e FROM Exam e");
 		
+		int pageSize = pd.getPageSize();
+		int pageNumber = pd.getPageNumber();
+		
+		query.setMaxResults(pageSize);
+		query.setFirstResult(pageNumber * pageSize);
+		
 		Collection<Exam> rtn = query.getResultList();
 		
 		em.close();
+		
+		pd.setTotalItemCount(getNumberOfExamsInTotal());
 		
 		return rtn;
 	}
@@ -265,16 +283,24 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
-	public static Collection<Exam> getAllExamsForUser(long id) {
+	public static Collection<Exam> getAllExamsForUser(long id, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT e FROM Exam e, User u WHERE e.user.id = u.id AND u.id = ?1", Exam.class);		
 		
 		query.setParameter(1, id);
 		
+		int pageSize = pd.getPageSize();
+		int pageNumber = pd.getPageNumber();
+		
+		query.setMaxResults(pageSize);
+		query.setFirstResult(pageNumber * pageSize);
+		
 		Collection<Exam> rtn = query.getResultList();
 		
 		em.close();
+		
+		pd.setTotalItemCount(getNumberOfExamsCreatedByUser(id));		
 		
 		return rtn;
 	}
@@ -293,7 +319,7 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
-	public static Collection<Exam> getAllExamsCreatedByAGivenUserWithTitlesThatContain(long id, String filterText) {
+	public static List<Exam> getAllExamsCreatedByAGivenUserWithTitlesThatContain(long id, String filterText, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query;
@@ -309,13 +335,36 @@ public class ExamManager extends Manager {
 		if (!StringUtil.isNullOrEmpty(filterText))
 			query.setParameter(2, "%" + filterText + "%");
 
-		Collection<Exam> rtn = query.getResultList();
+		List<Exam> rtn = query.getResultList();
+		
+		pd.setTotalItemCount(rtn.size());
+		
+		em.close();
+		
+		int rtnSize = rtn.size();
+		
+		if (pd.getPageNumber() > pd.getMaxPageNumber())
+			pd.setPageNumber(pd.getMaxPageNumber());
+		
+		if (rtnSize > pd.getPageSize()) {
+			rtn = (List<Exam>)PaginationDataUtil.reduceListSize(pd, rtn);
+		}
+
+		return rtn;
+	}
+	
+	public static long getNumberOfExamsInTotal() {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT count(*) FROM exam");
+		
+		Long rtn = (Long)query.getSingleResult();
 		
 		em.close();
 		
 		return rtn;
 	}
-
+	
 	public static void deleteQuestionFromExam(Exam e, Question q) {
 		e.getQuestions().remove(q);
 	}

@@ -12,6 +12,7 @@ import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
+import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
  * Ensures that the list of exams in the session is the most up to date it can be.
@@ -30,13 +31,15 @@ public class InitializeListOfExamsInSessionAction implements AbstractServletActi
 			
 			if (req.getSession().getAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED) == null) {
 				
+				PaginationData epd = (PaginationData)req.getSession().getAttribute(Constants.EXAM_PAGINATION_DATA);
+				
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Exam> coll = null;
 	
 				if (user == null ) 
-					coll = ExamManager.getAllExams();
+					coll = ExamManager.getAllExams(epd);
 				else 
-					coll = ExamManager.getAllExamsForUser(user.getId());
+					coll = ExamManager.getAllExamsForUser(user.getId(), epd);
 				
 				req.getSession().setAttribute("fa_listofexamstobedisplayed", coll);
 				

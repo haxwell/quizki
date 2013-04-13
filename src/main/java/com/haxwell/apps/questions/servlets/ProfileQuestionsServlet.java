@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
@@ -198,7 +199,7 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 	private void handleFilterButtonPress(HttpServletRequest request, PaginationData pd) {
 		String filterText = request.getParameter("containsFilter");
 		String topicFilterText = request.getParameter("topicFilter");
-		int questionTypeFilter = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
+		int questionType = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficultyFilter"));
 		
 		HttpSession session = request.getSession();
@@ -208,7 +209,10 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 		
 		if (user != null)
-			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionTypeFilter, pd);
+			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
+		
+		if (parametersIndicateThatFilterWasApplied(filterText, topicFilterText, maxDifficulty, questionType))
+				pd.setTotalItemCount(coll.size());
 
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 
@@ -216,7 +220,7 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
 		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionTypeFilter);
+		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);		
 	}
 	
@@ -239,6 +243,9 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		if (user != null)
 			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
 
+		if (parametersIndicateThatFilterWasApplied(filterText, topicFilterText, maxDifficulty, questionType))
+				pd.setTotalItemCount(coll.size());
+		
 		// store the filter we just used
 		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
@@ -248,6 +255,16 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);
+	}
+	
+	private boolean parametersIndicateThatFilterWasApplied(String filterText, String topicFilterText, int maxDifficulty, int questionType) {
+		
+		if (!StringUtil.isNullOrEmpty(filterText)) return true;
+		if (!StringUtil.isNullOrEmpty(topicFilterText)) return true;
+		if (maxDifficulty < DifficultyUtil.convertToInt(DifficultyConstants.GURU_STR)) return true;
+		if (questionType != TypeConstants.ALL_TYPES) return true;
+		
+		return false;
 	}
 	
 	private PaginationData getQuestionPaginationData(HttpServletRequest request) {

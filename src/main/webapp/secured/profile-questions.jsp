@@ -27,7 +27,7 @@
 						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:60%;"/>
 					</td>  -->
 					<td>
-						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:60%;"/>
+						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:100%;"/>
 					</td>
 					<td><input type="text" name="topicContainsFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.." style="width:100%;"/></td>
 					<td >

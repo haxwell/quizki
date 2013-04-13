@@ -5,6 +5,10 @@ import com.haxwell.apps.questions.entities.Difficulty;
 
 public class DifficultyUtil {
 
+	public static int convertToInt(Difficulty d) {
+		return convertToInt(d.getText());
+	}
+	
 	public static int convertToInt(String parameter) {
 		
 		if (parameter.equals(DifficultyConstants.JUNIOR_STR))

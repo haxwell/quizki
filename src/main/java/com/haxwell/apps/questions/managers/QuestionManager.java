@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -15,14 +14,15 @@ import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
-import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
+import com.haxwell.apps.questions.filters.QuestionTypeFilter;
+import com.haxwell.apps.questions.filters.TopicFilter;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.PaginationDataUtil;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
-import com.haxwell.apps.questions.utils.TypeUtil;
 
 public class QuestionManager extends Manager {
 	
@@ -245,8 +245,8 @@ public class QuestionManager extends Manager {
 	 * @param questionIDs
 	 * @return
 	 */
-	public static Collection<Question> getQuestionsById(String questionIDs, PaginationData pd) {
-		Collection<Question> rtn = new ArrayList<Question>();
+	public static List<Question> getQuestionsById(String questionIDs, PaginationData pd) {
+		List<Question> rtn = new ArrayList<Question>();
 		
 		EntityManager em = emf.createEntityManager();
 		
@@ -275,15 +275,17 @@ public class QuestionManager extends Manager {
 
 			Query query = em.createQuery(queryStr);
 			
-			int pageSize = pd.getPageSize();
-			int pageNumber = pd.getPageNumber();
+			if (pd != null) {
+				int pageSize = pd.getPageSize();
+				int pageNumber = pd.getPageNumber();
+				
+				query.setMaxResults(pageSize);
+				query.setFirstResult(pageNumber * pageSize);
+				
+				pd.setTotalItemCount(tokenCount);				
+			}
 			
-			query.setMaxResults(pageSize);
-			query.setFirstResult(pageNumber * pageSize);
-			
-			rtn = (Collection<Question>)query.getResultList();
-			
-			pd.setTotalItemCount(tokenCount);
+			rtn = (List<Question>)query.getResultList();
 		}
 		
 		return rtn;
@@ -374,7 +376,7 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	public static Collection<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
+	public static List<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
@@ -416,7 +418,7 @@ public class QuestionManager extends Manager {
 		return paginatedList;
 	}
 	
-	public static Collection<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {
+	public static List<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
@@ -443,33 +445,21 @@ public class QuestionManager extends Manager {
 
 		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
 		
-		List<Question> paginatedList = new ArrayList<Question>();
-		
 		int rtnSize = rtn.size();
 		
 		if (pd.getPageNumber() > pd.getMaxPageNumber())
 			pd.setPageNumber(pd.getMaxPageNumber());
 		
-		if (rtnSize > pd.getPageSize())
-		{
-			int pageSize = pd.getPageSize();
-			int pageNumber = pd.getPageNumber();
-			
-			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
-				paginatedList.add(rtn.get(i));
-			}
+		if (rtnSize > pd.getPageSize()) {
+			rtn = (List<Question>)PaginationDataUtil.reduceListSize(pd, rtn, rtnSize);
 		}
-		else
-			paginatedList = rtn;
-		
-//		pd.setTotalItemCount(paginatedList.size());		
 
-		return paginatedList;
+		return rtn;
 	}
 
 	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
 			final String topicFilterText, final Integer questionType,
-			Collection<Question> rtn) {
+			List<Question> rtn) {
 		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
 		
 		if (!StringUtil.isNullOrEmpty(topicFilterText))
@@ -513,44 +503,4 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
-	public static class TopicFilter implements ShouldRemoveAnObjectCommand<Question> {
-		private String topicFilterText;
-		
-		public TopicFilter(String filter) {
-			this.topicFilterText = filter;
-		}
-		
-		public boolean shouldRemove(Question q) {
-			Set<Topic> set = q.getTopics();
-
-			boolean rtn = true;
-			boolean matchFound = false;
-			
-			for (Topic t : set) {
-				if (!matchFound && t.getText().contains(topicFilterText))
-					matchFound = true;
-			}
-			
-			rtn = matchFound;
-
-			return !rtn;
-		}
-	}
-	
-	public static class QuestionTypeFilter implements ShouldRemoveAnObjectCommand<Question> {
-		private int filterQuestionType;
-		
-		public QuestionTypeFilter(int filter) {
-			this.filterQuestionType = filter;
-		}
-		
-		public boolean shouldRemove(Question q) {
-			boolean rtn = false;
-
-			if (TypeUtil.convertToInt(q.getQuestionType()) != filterQuestionType)
-				rtn = true;
-
-			return rtn;
-		}
-	}
 }

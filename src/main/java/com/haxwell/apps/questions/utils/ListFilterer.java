@@ -1,13 +1,12 @@
 package com.haxwell.apps.questions.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 public class ListFilterer<T> {
 
-	public Collection<T> process(Collection<T> source, List<ShouldRemoveAnObjectCommand<T>> filters)
+	public List<T> process(List<T> source, List<ShouldRemoveAnObjectCommand<T>> filters)
 	{
 		if (filters != null) {
 			ArrayList<T> toBeRemoved = new ArrayList<T>(); 
@@ -31,7 +30,7 @@ public class ListFilterer<T> {
 		return source;
 	}
 	
-	public Collection<T> process(Collection<T> source, ShouldRemoveAnObjectCommand<T> filter)
+	public List<T> process(List<T> source, ShouldRemoveAnObjectCommand<T> filter)
 	{
 		ArrayList<ShouldRemoveAnObjectCommand<T>> filters = new ArrayList<ShouldRemoveAnObjectCommand<T>>();
 		

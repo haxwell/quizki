@@ -15,9 +15,14 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.filters.DifficultyFilter;
+import com.haxwell.apps.questions.filters.QuestionFilter;
+import com.haxwell.apps.questions.filters.QuestionTypeFilter;
+import com.haxwell.apps.questions.filters.TopicFilter;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
@@ -26,6 +31,7 @@ import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.FilterUtil;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.PaginationDataUtil;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
@@ -279,7 +285,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		
 		String mineOrAllOrSelected = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS_OR_SELECTED_ITEMS);
 
-		Collection<Question> coll = null;
+		List<Question> coll = null;
 		
 		if (mineOrAllOrSelected.equals(Constants.MY_ITEMS_STR)) 
 		{
@@ -299,10 +305,16 @@ public class ExamServlet extends AbstractHttpServlet {
 			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
 			
 			pd.setPageNumber(PaginationData.FIRST_PAGE);
+			pd.setPageSize(Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity")));
 			
-			coll = QuestionManager.getQuestionsById(csvList, pd);
+			coll = QuestionManager.getQuestionsById(csvList, null);
 			
-			pd.setTotalItemCount(selectedQuestions.size());
+			coll = filterCollectionWithAllCategories(filterText,
+					topicFilterText, questionType, maxDifficulty, coll);
+
+			pd.setTotalItemCount(coll.size());
+			
+			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll, pd.getPageSize());
 		}
 
 		if (coll != null) {
@@ -337,7 +349,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		if (o != null)
 			maxDifficulty = Integer.parseInt(o.toString());
 
-		Collection<Question> coll = null;
+		List<Question> coll = null;
 		
 		if (mineOrAllOrSelected == Constants.MY_ITEMS) 
 		{
@@ -358,9 +370,14 @@ public class ExamServlet extends AbstractHttpServlet {
 			
 			//pd.setPageNumber(PaginationData.FIRST_PAGE);
 			
-			coll = QuestionManager.getQuestionsById(csvList, pd);
+			coll = QuestionManager.getQuestionsById(csvList, null);
 			
-			pd.setTotalItemCount(selectedQuestions.size());
+			coll = filterCollectionWithAllCategories(filterText,
+					topicFilterText, questionType, maxDifficulty, coll);
+
+			pd.setTotalItemCount(coll.size());			
+			
+			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll, pd.getPageSize());
 		}
 
 		if (coll != null) {
@@ -373,6 +390,26 @@ public class ExamServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, mineOrAllOrSelected);
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
+	}
+
+	private List<Question> filterCollectionWithAllCategories(
+			String filterText, String topicFilterText, int questionType,
+			int maxDifficulty, List<Question> coll) {
+		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();			
+
+		if (!StringUtil.isNullOrEmpty(filterText))
+			arr.add(new QuestionFilter(filterText));
+		
+		if (!StringUtil.isNullOrEmpty(topicFilterText))
+			arr.add(new TopicFilter(topicFilterText));
+
+		if (questionType != TypeConstants.ALL_TYPES )
+			arr.add(new QuestionTypeFilter(questionType));
+		
+		arr.add(new DifficultyFilter(maxDifficulty));
+
+		coll = new ListFilterer<Question>().process(coll, arr);
+		return coll;
 	}
 
 	private void setExamTitleFromFormParameter(HttpServletRequest request, Exam examObj) {

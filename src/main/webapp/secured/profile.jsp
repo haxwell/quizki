@@ -57,8 +57,8 @@
 				
 					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
 						// set the height of the content area according to the browser height
-						var bottomBufferHeight = 110;
-						var questionsBufferHeight = 77;
+						var bottomBufferHeight = 90;
+						var questionsBufferHeight = 97;
 						var windowHeight = $(window).height();
 						
 						$('#tabs').height(windowHeight - bottomBufferHeight);
@@ -224,7 +224,6 @@
 	</c:choose>
 	
 	<br/>
-	<a href="/index.jsp">home</a>
 	
 	<div class="hidden" id="dialogText">Are you SURE you want to delete?</div>  
 

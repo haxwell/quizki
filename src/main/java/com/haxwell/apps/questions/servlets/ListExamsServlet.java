@@ -117,7 +117,7 @@ public class ListExamsServlet extends AbstractHttpServlet {
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 
 			if (user != null)
-				coll = ExamManager.getAllExamsCreatedByAGivenUserWithTitlesThatContain(user.getId(), filterText);
+				coll = ExamManager.getAllExamsCreatedByAGivenUserWithTitlesThatContain(user.getId(), filterText, null);
 		}
 		else 
 		{

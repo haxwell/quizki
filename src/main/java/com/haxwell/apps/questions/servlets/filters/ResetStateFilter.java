@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
@@ -38,6 +39,8 @@ public class ResetStateFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 			
+//			session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, null);
+			session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, null);
 			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, null);
 			session.setAttribute(Constants.MRU_FILTER_TEXT, null);
 			session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
@@ -73,6 +76,8 @@ public class ResetStateFilter extends AbstractFilter {
 			
 			session.setAttribute(Constants.EXAM_PAGINATION_DATA, new PaginationData());
 			session.setAttribute(Constants.QUESTION_PAGINATION_DATA, new PaginationData());
+			
+			session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, null);
 		}
 		
 		// pass the request along the filter chain

@@ -32,7 +32,7 @@ public class PaginationData {
 	}
 
 	public int getBeginIndex() {
-		return Math.max(pageNumber * pageSize, 1);
+		return Math.max((pageNumber * pageSize)+1, 1);
 	}
 //	public void setBeginIndex(int beginIndex) {
 //		this.beginIndex = beginIndex;

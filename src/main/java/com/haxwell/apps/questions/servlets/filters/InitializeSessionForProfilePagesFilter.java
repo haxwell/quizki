@@ -10,7 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.servlets.actions.SetListOfUserNotificationsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 
@@ -32,6 +37,16 @@ public class InitializeSessionForProfilePagesFilter extends AbstractFilter {
 		
 		log.log(Level.INFO, "beginning InitializeSessionForProfilePagesFilter...");
 
+		HttpServletRequest req = ((HttpServletRequest)request);
+		HttpSession session = req.getSession();
+		
+		if (session.getAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS) == null) {
+			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
+			session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, Constants.DEFAULT_PAGINATION_PAGE_SIZE);
+			session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, TypeConstants.ALL_TYPES);
+			session.setAttribute(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS, Constants.MY_ITEMS);
+		}
+		
 		new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 		new SetListOfUserNotificationsInSessionAction().doAction(request, response);
 		

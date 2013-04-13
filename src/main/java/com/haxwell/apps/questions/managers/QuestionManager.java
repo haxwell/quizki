@@ -451,7 +451,7 @@ public class QuestionManager extends Manager {
 			pd.setPageNumber(pd.getMaxPageNumber());
 		
 		if (rtnSize > pd.getPageSize()) {
-			rtn = (List<Question>)PaginationDataUtil.reduceListSize(pd, rtn, rtnSize);
+			rtn = (List<Question>)PaginationDataUtil.reduceListSize(pd, rtn);
 		}
 
 		return rtn;

@@ -314,7 +314,7 @@ public class ExamServlet extends AbstractHttpServlet {
 
 			pd.setTotalItemCount(coll.size());
 			
-			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll, pd.getPageSize());
+			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll);
 		}
 
 		if (coll != null) {
@@ -377,7 +377,7 @@ public class ExamServlet extends AbstractHttpServlet {
 
 			pd.setTotalItemCount(coll.size());			
 			
-			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll, pd.getPageSize());
+			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll);
 		}
 
 		if (coll != null) {

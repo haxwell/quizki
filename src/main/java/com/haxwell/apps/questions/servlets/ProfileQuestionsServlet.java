@@ -2,21 +2,24 @@ package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
+import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
 
@@ -49,12 +52,118 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 
 		String fwdPage = "/secured/profile.jsp";
 		
-		String value = request.getParameter("runFilter");
+		String button = request.getParameter("button");
 		
-		if (value == null) value = "";
+		if (button == null) button = "";
 		
-		if (value.equals("Run Filter -->"))
-			handleFilterButtonPress(request);
+		if (button.equals("Apply Filter -->"))
+			handleFilterButtonPress(request, getQuestionPaginationData(request));
+		else if (button.equals("<< FIRST"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			else {
+				if (pd.getPageNumber() != pd.FIRST_PAGE) {			
+					pd.initialize();
+					pdValuesChanged = true;
+				}
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("< PREV"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			
+			if (pd.canDecrementPageNumber()) {
+				pd.decrementPageNumber();
+				pdValuesChanged = true;
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("NEXT >"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			
+			if (pd.canIncrementPageNumber())
+			{
+				pd.incrementPageNumber();
+				pdValuesChanged = true;
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("LAST >>"))
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			boolean pdValuesChanged = false;
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+				pdValuesChanged = true;
+			}
+			else {
+				int maxPageNumber = pd.getMaxPageNumber();
+				
+				if (pd.getPageNumber() != maxPageNumber) {
+					pd.setPageNumber(maxPageNumber);
+					pdValuesChanged = true;
+				}
+			}
+			
+			if (pdValuesChanged) {
+				refreshListOfQuestionsToBeDisplayed(request, pd);
+				setQuestionPaginationData(request, pd);
+			}
+		}
+		else if (button.equals("REFRESH")) 
+		{
+			PaginationData pd = getQuestionPaginationData(request);
+			
+			int quantity = Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity"));
+			
+			if (quantity != pd.getPageSize()) {
+				pd.setPageSize(quantity);
+			}
+
+			refreshListOfQuestionsToBeDisplayed(request, pd);
+			setQuestionPaginationData(request, pd);
+		}
 		else
 		{
 			String id = getIdAppendedToRequestParameter(request, "nameOfLastPressedButton");
@@ -86,26 +195,67 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		redirectToJSP(request, response, fwdPage);
 	}
 
-	private void handleFilterButtonPress(HttpServletRequest request) {
+	private void handleFilterButtonPress(HttpServletRequest request, PaginationData pd) {
 		String filterText = request.getParameter("containsFilter");
 		String topicFilterText = request.getParameter("topicFilter");
 		int questionTypeFilter = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficultyFilter"));
 		
+		HttpSession session = request.getSession();
+		
 		Collection<Question> coll = null; 
 		
 		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 		
-//		if (user != null)
-//			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionTypeFilter, null);
+		if (user != null)
+			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionTypeFilter, pd);
 
 		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 
 		// store the filter we just used
-		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
-		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
-		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionTypeFilter);
+		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionTypeFilter);
+		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);		
 	}
+	
+	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
+		String filterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TEXT);
+		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
+		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+		int questionType = (Integer)request.getSession().getAttribute(Constants.MRU_FILTER_QUESTION_TYPE);
+		int maxDifficulty = DifficultyConstants.GURU;
 
+		HttpSession session = request.getSession();
+		
+		if (o != null)
+			maxDifficulty = Integer.parseInt(o.toString());
+
+		List<Question> coll = null; 
+		
+		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+		
+		if (user != null)
+			coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
+
+		// store the filter we just used
+		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
+		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
+		
+		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);
+	}
+	
+	private PaginationData getQuestionPaginationData(HttpServletRequest request) {
+		return (PaginationData)request.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
+	}
+	
+	private void setQuestionPaginationData(HttpServletRequest request, PaginationData pd) {
+		request.getSession().setAttribute(Constants.QUESTION_PAGINATION_DATA, pd);
+	}
+	
 }

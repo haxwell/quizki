@@ -17,9 +17,19 @@
 		<tbody>
 				<tr>
 					<td></td>
-					<td style="text-align:right"><input type="submit" name="runFilter" value="Run Filter -->"/> </td>
-					<td><input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:100%;"/></td>
-					<td><input type="text" name="topicFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.." style="width:100%;"/></td>
+					<td style="text-align:right"><input type="submit" name="button" value="Apply Filter -->"/> </td>
+					<!--  <td>
+						Show <select name="mineOrAllOrSelected" title="..">
+							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 1}"><option value="mine" selected="selected">My</option></c:when><c:otherwise><option value="mine">My</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 2}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all">All</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 3}"><option value="selected" selected="selected">Selected</option></c:when><c:otherwise><option value="selected">Selected</option></c:otherwise></c:choose>
+						</select> Questions
+						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:60%;"/>
+					</td>  -->
+					<td>
+						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:60%;"/>
+					</td>
+					<td><input type="text" name="topicContainsFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.." style="width:100%;"/></td>
 					<td >
 						<select name="questionTypeFilter" title="Only include questions of type.." style="width:100%;">
 							<c:choose><c:when test="${mruFilterQuestionType == 0}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all" >All</option></c:otherwise></c:choose>

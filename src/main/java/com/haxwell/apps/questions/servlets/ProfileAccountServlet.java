@@ -17,7 +17,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.managers.UserManager;
-import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
+import com.haxwell.apps.questions.servlets.actions.InitializeListOfProfileQuestionsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.StringUtil;

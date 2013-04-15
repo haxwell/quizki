@@ -214,7 +214,11 @@ public class QuestionManager extends Manager {
 		
 		Query query = em.createQuery("SELECT q FROM Question q");
 		
-		return (Collection<Question>)query.getResultList();
+		Collection<Question> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
 	}
 	
 	public static Collection<Question> getAllQuestions(PaginationData pd)
@@ -235,7 +239,7 @@ public class QuestionManager extends Manager {
 		
 		pd.setTotalItemCount(getNumberOfQuestionsInTotal());		
 		
-		return (Collection<Question>)query.getResultList();
+		return rtn;
 	}
 
 	/**
@@ -248,12 +252,12 @@ public class QuestionManager extends Manager {
 	public static List<Question> getQuestionsById(String questionIDs, PaginationData pd) {
 		List<Question> rtn = new ArrayList<Question>();
 		
-		EntityManager em = emf.createEntityManager();
-		
 		StringTokenizer tokenizer = new StringTokenizer(questionIDs, ",");
 		
 		if (tokenizer.hasMoreTokens())
 		{
+			EntityManager em = emf.createEntityManager();
+
 			int tokenCount = tokenizer.countTokens();
 			
 			String queryStr = "SELECT q FROM Question q";
@@ -286,6 +290,8 @@ public class QuestionManager extends Manager {
 			}
 			
 			rtn = (List<Question>)query.getResultList();
+			
+			em.close();
 		}
 		
 		return rtn;

@@ -9,13 +9,14 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>List Exams - Quizki</title>
-		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
 				
 		<jsp:text>
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>			
-			<![CDATA[ <script src="/js/listQuestions.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>			
+			<![CDATA[ <script src="../js/listQuestions.js" type="text/javascript" ></script> ]]>
 			<![CDATA[
 			<script type="text/javascript">
 			
@@ -33,6 +34,37 @@
 			        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
 			      }
 			    });
+			    
+					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
+						// set the height of the content area according to the browser height
+						var bottomBufferHeight = 175;
+						var windowHeight = $(window).height();
+						
+						$('#tabs').height(windowHeight - bottomBufferHeight);
+						$('#availableExamsDiv').height(windowHeight - bottomBufferHeight);
+					}
+
+					$(document).ready(function(){
+				 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+				 		
+				 		$('.selectQuestionChkbox').each(function() {
+				 			var v = $(this).attr('checked');
+				 			
+				 			if (v !== undefined) {
+				 				var id = $(this).attr('id');
+				 				var arr = id.split('_');
+				 				
+				 				$('#tableRow_' + arr[1]).css('background-color', '#E6FFCC');
+				 			}
+				 		});
+					});
+				 
+					$(document).ready(function(){
+					     $(window).resize(function() {
+					 		setDisplayDimensionsAccordingToCurrentWindowHeight();
+						});
+					});
+			    
 
 		    </script> ]]>
 			
@@ -47,101 +79,109 @@
 
 <jsp:include page="header.jsp"></jsp:include>
 
-		<br/>
+		<h1>Search For An Exam</h1>
 
-		<form action="/ListExamsServlet" method="post">
-				<table style="float:right;">
+		<div id="tabs" class="mainContentArea">
+		  <div id="tabs-1">
+		  	<form id="listExamsForm" action="/ListExamsServlet">
+		    	<div id="availableExamsDiv" class="listOfQuestions" style="overflow:auto; height:95%;">
+
+					<table class="displayExam">
+						<thead>
 						<tr>
-						<td >
-							Exam Title contains <input type="text" name="containsFilter" value="${mruFilterText}" title="Only show exam with titles containing this text..."/>
-						</td>
+							<th>ID</th>
+							<th></th>
+							<th>Exam Name</th>
+							<th>Topic</th>
+							<th></th>
+							<th></th>
 						</tr>
-						<tr>
-						<td >
-						
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td style="text-align:right"><input type="submit" name="button" value="Apply Filter -->"/> </td>
+								<td>
+									<c:if test="${not empty sessionScope.currentUserEntity}">
+									Show <select name="mineOrAll" title="..">
+										<c:choose><c:when test="${mruMineOrAll == 1}"><option value="mine" selected="selected">My</option></c:when><c:otherwise><option value="mine">My</option></c:otherwise></c:choose>
+										<c:choose><c:when test="${mruMineOrAll == 2}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all">All</option></c:otherwise></c:choose>
+									</select> Exams
+									</c:if>
+									<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show exams with titles that contain this text..." style="width:75%%;"/>
+								</td>
+								<td><input type="text" name="topicContainsFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.." style="width:100%;"/></td>
+							</tr>
+						<c:set var="rowNum" value="0"/>
+						<c:set var="counter" value="0"/>
 						<c:choose>
-     					<c:when test="${not empty sessionScope.currentUserEntity}">
-							Show <select name="mineOrAll">
-						<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
-						</select> exams
-
-						</c:when>
-						<c:otherwise>
-							Show <select name="mineOrAll">
-						<option value="mine" >my</option>
-						<option value="all" selected="selected">all</option>
-						</select> exams
-						
-						</c:otherwise>
-						</c:choose>
-							
-						</td>
-						</tr>
-						<tr>
-						<td>
-						<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
-						</td>				</tr>
-				</table>
-		</form>
-
-		
-		<c:choose>
-		<c:when test="${empty fa_listofexamstobedisplayed}">
-		<br/><br/>You haven't created any exams yet! (<a href="/secured/exam.jsp">Create Exam</a>)
-		</c:when>
-		<c:otherwise>
-		These are the available exams:
-		</c:otherwise>
-		</c:choose>
-		
-		<br/><br/>
-
-		<form action="/ListExamsServlet" method="post">
-			<div id="center" class="listOfQuestions"  style="overflow:auto; height:225px; width:100%">
-			
-			<table class="displayExam">
-				<thead>
-				<tr>
-					<th>ID</th>
-					<th></th>
-					<th>Exam Name</th>
-					<th></th>
-					<th></th>
-				</tr>
-				</thead>
-				<tbody>
-				<c:set var="rowNum" value="0"/>
-				<c:forEach var="exam" items="${fa_listofexamstobedisplayed}">
-					<c:set var="rowNum" value="${rowNum + 1}" />
-					<c:choose><c:when test="${rowNum % 2 == 0}">
-					<jsp:text><![CDATA[<tr>]]></jsp:text>
-					</c:when>
-					<c:otherwise>
-					<jsp:text><![CDATA[<tr class="rowHighlight">]]></jsp:text>
-					</c:otherwise></c:choose>
-					
-						<td>${exam.id}</td>
-						<td></td>
-						<td>${exam.title}</td>
-							<td><input type="submit" value="Take Exam" name="examButton_${exam.id}"/></td>
-							<c:choose><c:when test="${exam.user.id == currentUserEntity.id}">
-								<td><input type="submit" value="Edit Exam" name="examButton_${exam.id}"/></td>
-								<td><input type="submit" value="Delete Exam" name="examButton_${exam.id}"/></td>
+							<c:when test="${empty fa_listofexamstobedisplayed}">
+								<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
+								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
+								<jsp:text><![CDATA[<td></td><td colspan="6">There are no exams to display! Either adjust the filter above, or add some exams of your own!]]></jsp:text>
+								<jsp:text><![CDATA[</tr>]]></jsp:text>
 							</c:when>
 							<c:otherwise>
+						<c:forEach var="exam" items="${fa_listofexamstobedisplayed}">
+							<c:set var="rowNum" value="${rowNum + 1}" />
+							<c:choose><c:when test="${rowNum % 2 == 0}">
+							<jsp:text><![CDATA[<tr>]]></jsp:text>
+							</c:when>
+							<c:otherwise>
+							<jsp:text><![CDATA[<tr class="rowHighlight">]]></jsp:text>
+							</c:otherwise></c:choose>
+							
+								<c:set var="counter" value="${counter + 1}" />
+								<td>${exam.id}</td>
 								<td><input type="submit" value="Detail Exam" name="examButton_${exam.id}"/></td>
-							</c:otherwise>
-							</c:choose>
-		
-					<jsp:text><![CDATA[</tr>]]></jsp:text>
-				</c:forEach>
-				</tbody>
-			</table>
-			</div>
-		</form>
+								<td style="width:80%;">${exam.title}</td>
+								<td>
+									<c:forEach var="topic" items="${exam.topics}">
+										${topic.text}<br/>
+									</c:forEach>
+								</td>
+								<td><input type="submit" value="Take Exam" id="exam_take_button_${counter}" name="examButton_${exam.id}"/></td>
+				
+							<jsp:text><![CDATA[</tr>]]></jsp:text>
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
+						</tbody>
+					</table>
+				
+					<input type="hidden" id="exam_valueOfLastPressedButton" name="exam_valueOfLastPressedButton"></input>
+					<input type="hidden" id="exam_nameOfLastPressedButton" name="exam_nameOfLastPressedButton"></input>
+					
+					
+		    	</div>
+		    	<br/>
+			    	<div id="paginationDiv" class="center">
+			    	Showing questions ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount} 
+			    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
+			    	<input type="submit" value="&lt; PREV" name="button"/>
+			    	<input type="submit" value="NEXT &gt;" name="button"/>
+			    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
+			    	- Max. List Size 
+			    	<select name="quantity">
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
+						<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
+			    		<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
+			    	</select>
+			    	<input type="submit" value="REFRESH" name="button"/>
+			    	</div>
+			</form>			    	
+		  </div>
+		</div>
+
 <br/><br/>
-<a href="/index.jsp">home</a><br/>
 
 
 </body>

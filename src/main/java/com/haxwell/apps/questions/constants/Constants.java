@@ -63,10 +63,9 @@ public class Constants {
 	public static final String LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS = "listOfPreviouslySuppliedAnswers";
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
-	public static final String SHOULD_ALL_QUESTIONS_BE_DISPLAYED = "shouldAllQuestionsBeDisplayed";	
-	public static final String SHOULD_ALL_EXAMS_BE_DISPLAYED = "shouldAllExamsBeDisplayed";
+//	public static final String SHOULD_ALL_QUESTIONS_BE_DISPLAYED = "shouldAllQuestionsBeDisplayed";	
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
-	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
+	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOIshouldCE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
 	public static final String SHOULD_LOGIN_LINK_BE_DISPLAYED = "shouldLoginLinkBeDisplayed";
 	public static final String ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN = "onlySelectedQuestionsShouldBeShown";
 	public static final String DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS = "doNotInitializeProfileMRUSettings";	

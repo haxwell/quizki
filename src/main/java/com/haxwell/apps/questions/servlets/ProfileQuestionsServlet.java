@@ -17,7 +17,7 @@ import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
-import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
+import com.haxwell.apps.questions.servlets.actions.InitializeListOfProfileQuestionsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.PaginationData;
@@ -182,7 +182,7 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 						QuestionManager.deleteQuestion(user.getId(), id);
 						request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 						
-						new InitializeListOfQuestionsInSessionAction().doAction(request, response);
+						new InitializeListOfProfileQuestionsInSessionAction().doAction(request, response);
 						new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 						
 						//request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);							

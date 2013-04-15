@@ -12,6 +12,7 @@ import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
+import com.haxwell.apps.questions.utils.FilterUtil;
 import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
@@ -36,12 +37,17 @@ public class InitializeListOfExamsInSessionAction implements AbstractServletActi
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Exam> coll = null;
 	
-				if (user == null ) 
+				if (user == null /*|| ExamManager.getNumberOfExamsCreatedByUser(user.getId()) == 0*/) { 
 					coll = ExamManager.getAllExams(epd);
-				else 
+					req.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.ALL_ITEMS);
+				} else { 
 					coll = ExamManager.getAllExamsForUser(user.getId(), epd);
+					req.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.MY_ITEMS);
+				}
 				
 				req.getSession().setAttribute("fa_listofexamstobedisplayed", coll);
+				
+				ExamManager.setTopicsAttribute(coll);
 				
 				log.log(Level.INFO, "Just added " + coll.size() + " exams to the fa_listofexamstobedisplayed list");
 		}}

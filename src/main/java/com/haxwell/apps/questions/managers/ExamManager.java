@@ -71,7 +71,23 @@ public class ExamManager extends Manager {
 		em.close();
 	}
 	
-	public static Set<String> getAllQuestionTopics(Exam exam)
+	public static Set<Topic> getAllQuestionTopics(Exam exam)
+	{
+		Set<Topic> rtn = new HashSet<Topic>();
+		
+		for (Question q : exam.getQuestions())
+		{
+			for (Topic t: q.getTopics())
+			{
+				rtn.add(t);
+			}
+		}
+		
+		return rtn;
+	}
+	
+	// TODO: Can this method be removed? Can whatever is using it, use Topic objects instead?
+	public static Set<String> getAllQuestionTopicsAsStrings(Exam exam)
 	{
 		Set<String> rtn = new HashSet<String>();
 		
@@ -305,17 +321,28 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
-	public static Collection<Exam> getAllExamsWithTitlesThatContain(String filterText) {
+	public static List<Exam> getAllExamsWithTitlesThatContain(String filterText, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		
 		Query query = em.createQuery("SELECT e FROM Exam e WHERE e.title LIKE ?1", Exam.class);		
 		
 		query.setParameter(1, "%" + filterText + "%");;
 		
-		Collection<Exam> rtn = query.getResultList();
+		List<Exam> rtn = query.getResultList();
 		
 		em.close();
 		
+		int rtnSize = rtn.size();
+
+		pd.setTotalItemCount(rtnSize);
+	
+		if (pd.getPageNumber() > pd.getMaxPageNumber())
+			pd.setPageNumber(pd.getMaxPageNumber());
+		
+		if (rtnSize > pd.getPageSize()) {
+			rtn = (List<Exam>)PaginationDataUtil.reduceListSize(pd, rtn);
+		}
+
 		return rtn;
 	}
 
@@ -337,11 +364,11 @@ public class ExamManager extends Manager {
 
 		List<Exam> rtn = query.getResultList();
 		
-		pd.setTotalItemCount(rtn.size());
+		int rtnSize = rtn.size();
+
+		pd.setTotalItemCount(rtnSize);
 		
 		em.close();
-		
-		int rtnSize = rtn.size();
 		
 		if (pd.getPageNumber() > pd.getMaxPageNumber())
 			pd.setPageNumber(pd.getMaxPageNumber());
@@ -367,5 +394,11 @@ public class ExamManager extends Manager {
 	
 	public static void deleteQuestionFromExam(Exam e, Question q) {
 		e.getQuestions().remove(q);
+	}
+
+	public static void setTopicsAttribute(Collection<Exam> coll) {
+		for (Exam e : coll) {
+			e.setTopics(getAllQuestionTopics(e));
+		}
 	}
 }

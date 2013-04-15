@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
-import com.haxwell.apps.questions.servlets.actions.InitializeListOfQuestionsInSessionAction;
+import com.haxwell.apps.questions.servlets.actions.InitializeListOfProfileQuestionsInSessionAction;
 
 /**
  * Puts a list of all questions in the request as an attribute.
@@ -33,7 +33,7 @@ public class ListQuestionsFilter extends AbstractFilter {
 		
 		log.log(Level.INFO, "...in ListQuestionsFilter()");
 
-		new InitializeListOfQuestionsInSessionAction().doAction(request, response);
+		new InitializeListOfProfileQuestionsInSessionAction().doAction(request, response);
 		
 		if (((HttpServletRequest)request).getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY) == null)
 			((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);

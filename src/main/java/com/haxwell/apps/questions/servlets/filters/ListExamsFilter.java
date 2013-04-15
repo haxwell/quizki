@@ -21,6 +21,7 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfExamsInSessionAction;
+import com.haxwell.apps.questions.utils.FilterUtil;
 
 /**
  * Puts a list of all exams in the request as an attribute.
@@ -39,11 +40,11 @@ public class ListExamsFilter extends AbstractFilter {
 		
 		new InitializeListOfExamsInSessionAction().doAction(request, response);
 		
-		User user = (User)((HttpServletRequest)request).getAttribute(Constants.CURRENT_USER_ENTITY);
+//		User user = (User)((HttpServletRequest)request).getAttribute(Constants.CURRENT_USER_ENTITY);
 		
-		String mru = (user == null) ? Constants.ALL_ITEMS_STR : Constants.MY_ITEMS_STR;
-		
-		((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mru);
+//		String mru = (user == null) ? Constants.ALL_ITEMS_STR : Constants.MY_ITEMS_STR;
+//		
+//		((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, FilterUtil.convertToInt(mru));
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

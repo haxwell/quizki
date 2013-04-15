@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 
 /**
- * Servlet Filter implementation class UserIsAuthenticatedFilter
+ * Ensure the user is logged in.. if not, forward to the login page
  */
 @WebFilter("/UserIsAuthenticatedFilter")
 public class UserIsAuthenticatedFilter extends AbstractFilter {

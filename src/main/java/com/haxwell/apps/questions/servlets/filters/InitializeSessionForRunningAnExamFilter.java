@@ -100,7 +100,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					
 					session.setAttribute(Constants.EXAM_IN_PROGRESS, true);
 					
-					session.setAttribute(Constants.QUESTION_TOPICS, ExamManager.getAllQuestionTopics(exam));
+					session.setAttribute(Constants.QUESTION_TOPICS, ExamManager.getAllQuestionTopicsAsStrings(exam));
 					
 					log.log(java.util.logging.Level.INFO, "Exam is NOW in progress, session exam variables initialized.");				
 				}

@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.haxwell.apps.questions.interfaces.IExam;
 
@@ -48,6 +49,9 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 			}
 		)
 	private Set<Question> questions;
+
+	@Transient
+    private Set<Topic> examTopics;
 
     public Exam() {
     }
@@ -97,6 +101,18 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	public int getNumberOfQuestions()
 	{
 		return questions.size();
+	}
+	
+	@Transient
+	public Set<Topic> getTopics()
+	{
+		return examTopics;
+	}
+	
+	@Transient
+	public void setTopics(Set<Topic> topics)
+	{
+		this.examTopics = topics;
 	}
 	
 	@Override

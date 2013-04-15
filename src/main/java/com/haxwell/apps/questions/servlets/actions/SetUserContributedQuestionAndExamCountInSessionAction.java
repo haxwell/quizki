@@ -34,7 +34,7 @@ public class SetUserContributedQuestionAndExamCountInSessionAction implements
 				session.setAttribute(Constants.NUMBER_OF_USER_CONTRIBUTED_EXAMS, examCount);
 			}
 			
-			session.setAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);			
+//			session.setAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);			
 		}
 
 		return 0;

@@ -40,8 +40,6 @@
   <filter-mapping>
     <filter-name>IsUserAuthenticatedFilter</filter-name>
     <url-pattern>/secured/question.jsp</url-pattern>
-    <url-pattern>/secured/listQuestions.jsp</url-pattern>
-    <url-pattern>/secured/listExams.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
@@ -98,6 +96,7 @@
   </filter>
   <filter-mapping>
     <filter-name>EnsurePaginationDataObjectsExistInSessionFilter</filter-name>
+    <url-pattern>/listExams.jsp</url-pattern>
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
     <url-pattern>/secured/profile.jsp</url-pattern>
@@ -146,14 +145,22 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
-    <filter-name>ListQuestionsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListQuestionsFilter</filter-class>
+    <filter-name>ListProfileQuestionsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListProfileQuestionsFilter</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>ListQuestionsFilter</filter-name>
-    <url-pattern>/secured/listQuestions.jsp</url-pattern>
-    <url-pattern>/secured/exam.jsp</url-pattern>
+    <filter-name>ListProfileQuestionsFilter</filter-name>
     <url-pattern>/secured/profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>ListExamQuestionsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListExamQuestionsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ListExamQuestionsFilter</filter-name>
+    <url-pattern>/secured/exam.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

@@ -99,8 +99,9 @@
 
 	<br/>
 	<c:if test="${not empty totalNumberOfTopics}">
-		Or one of ${totalNumberOfTopics - topicCount} <a class="greyLink" href="generateExam.jsp">other topics</a>..
+		Or one of ${totalNumberOfTopics - topicCount} <a class="greyLink" href="generateExam.jsp">other topics</a>.. 
 	</c:if>
+		<br/><br/>Or you can take <a class="greyLink" href="listExams.jsp">an exam created by another user</a>..
 	
 	<br/><br/>
 </div>			
@@ -142,14 +143,12 @@
 				<table class="center">
 					<tr>
 						<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/listExams.jsp">see a list of exams</a></td>
-						<td style="width:33%;"></td>
-						<td style="text-align:right; width:33%;"><a class="greyLink" href="secured/listQuestions.jsp">see a list of questions</a></td>
 					</tr>
 				</table>
 			</c:when>
 		</c:choose>
 
-<br/><br/><br/>
+<br/><br/>
 <div class="center">Information <a href="about.jsp">about Quizki</a>. 
 
     <c:choose>

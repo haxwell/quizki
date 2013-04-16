@@ -162,20 +162,27 @@
 		    	</div>
 		    	<br/>
 			    	<div id="paginationDiv" class="center">
-			    	Showing questions ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount} 
-			    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-			    	<input type="submit" value="&lt; PREV" name="button"/>
-			    	<input type="submit" value="NEXT &gt;" name="button"/>
-			    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
-			    	- Max. List Size 
-			    	<select name="quantity">
-						<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-			    		<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-			    	</select>
-			    	<input type="submit" value="REFRESH" name="button"/>
+			    	<c:choose>
+			    	<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
+				    	Showing questions ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
+					</c:when>
+					<c:otherwise>
+						No questions to show! 					
+					</c:otherwise>
+					</c:choose>	 
+				    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
+				    	<input type="submit" value="&lt; PREV" name="button"/>
+				    	<input type="submit" value="NEXT &gt;" name="button"/>
+				    	<input type="submit" value="LAST &gt;&gt;" name="button"/>
+				    	- Max. List Size 
+				    	<select name="quantity">
+							<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
+				    		<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
+				    	</select>
+				    	<input type="submit" value="REFRESH" name="button"/>
 			    	</div>
 			</form>			    	
 		  </div>

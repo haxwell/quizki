@@ -135,19 +135,6 @@
 			</c:when>
 		</c:choose>
 
-	    <c:choose>
-	    	<c:when test="${qfn:canAccessTestingFunctionality(sessionScope.currentUserEntity)}">
-				<br/>
-				<div class="center">BROWSE</div>
-				<br/>
-				<table class="center">
-					<tr>
-						<td style="text-align:left; width:33%;"><a class="greyLink" href="secured/listExams.jsp">see a list of exams</a></td>
-					</tr>
-				</table>
-			</c:when>
-		</c:choose>
-
 <br/><br/>
 <div class="center">Information <a href="about.jsp">about Quizki</a>. 
 

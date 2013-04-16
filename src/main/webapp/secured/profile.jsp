@@ -192,7 +192,14 @@
 	    	<br/>
 		<form id="profileQuestionNavigationForm" action="/secured/ProfileQuestionsServlet">
 		<div id="paginationDiv" class="center">
-			Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount} 
+			<c:choose>
+			<c:when test="${sessionScope.questionPaginationData.totalItemCount > 0}">
+			Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount}
+			</c:when>
+			<c:otherwise>
+			No questions to show!
+			</c:otherwise>
+			</c:choose> 
 			<input type="submit" value="&lt;&lt; FIRST" name="button"/>
 			<input type="submit" value="&lt; PREV" name="button"/>
 			<input type="submit" value="NEXT &gt;" name="button"/>
@@ -215,7 +222,14 @@
 	    	<br/>
 			<form id="profileExamNavigationForm" action="/secured/ProfileExamsServlet">
 			<div id="paginationDiv" class="center">
-				Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount} 
+				<c:choose>
+				<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
+				Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
+				</c:when>
+				<c:otherwise>
+				No exams to show!
+				</c:otherwise>
+				</c:choose> 
 				<input type="submit" value="&lt;&lt; FIRST" name="button"/>
 				<input type="submit" value="&lt; PREV" name="button"/>
 				<input type="submit" value="NEXT &gt;" name="button"/>

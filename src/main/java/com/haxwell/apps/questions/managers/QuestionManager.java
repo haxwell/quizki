@@ -17,7 +17,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.filters.QuestionTypeFilter;
-import com.haxwell.apps.questions.filters.TopicFilter;
+import com.haxwell.apps.questions.filters.QuestionTopicFilter;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
@@ -469,7 +469,7 @@ public class QuestionManager extends Manager {
 		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
 		
 		if (!StringUtil.isNullOrEmpty(topicFilterText))
-			arr.add(new TopicFilter(topicFilterText));
+			arr.add(new QuestionTopicFilter(topicFilterText));
 
 		if (questionType != null && questionType != TypeConstants.ALL_TYPES )
 			arr.add(new QuestionTypeFilter(questionType));

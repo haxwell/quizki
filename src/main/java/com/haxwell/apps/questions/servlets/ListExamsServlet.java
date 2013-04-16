@@ -16,9 +16,11 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.filters.ExamTopicFilter;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
 import com.haxwell.apps.questions.utils.FilterUtil;
+import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
@@ -215,7 +217,14 @@ public class ListExamsServlet extends AbstractHttpServlet {
 
 	private void handleFilterButtonPress(HttpServletRequest request, PaginationData pd) {
 		String filterText = request.getParameter("containsFilter");
+		String topicFilterText = request.getParameter("topicContainsFilter");
 		String mineOrAll = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS);
+		
+		if (filterText == null)
+			filterText = "";
+		
+		if (mineOrAll == null)
+			mineOrAll = "";
 		
 		HttpSession session = request.getSession();
 		
@@ -237,18 +246,25 @@ public class ListExamsServlet extends AbstractHttpServlet {
 		
 		if (list != null)
 			ExamManager.setTopicsAttribute(list);
+		
+		list = new ListFilterer<Exam>().process(list, new ExamTopicFilter(topicFilterText));
 
 		session.setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, list);
 
 		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, FilterUtil.convertToInt(mineOrAll));
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());		
 	}
 	
 	private void refreshListOfExamsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
 		String filterText = request.getParameter("containsFilter");
+		String topicFilterText = request.getParameter("topicContainsFilter");
 		int mineOrAll = ((Integer)request.getSession().getAttribute(Constants.MRU_FILTER_MINE_OR_ALL)).intValue();
 
+		if (filterText == null)
+			filterText = "";
+		
 		HttpSession session = request.getSession();
 		List<Exam> list = null;
 		
@@ -264,11 +280,14 @@ public class ListExamsServlet extends AbstractHttpServlet {
 			list = ExamManager.getAllExamsWithTitlesThatContain(filterText, pd);
 		}
 		
-		ExamManager.setTopicsAttribute(list);		
-
+		ExamManager.setTopicsAttribute(list);
+		
+		list = new ListFilterer<Exam>().process(list, new ExamTopicFilter(topicFilterText));
+		
 		session.setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, list);
 
 		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());		
 	}

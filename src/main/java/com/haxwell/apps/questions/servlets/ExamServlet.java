@@ -22,7 +22,7 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.filters.DifficultyFilter;
 import com.haxwell.apps.questions.filters.QuestionFilter;
 import com.haxwell.apps.questions.filters.QuestionTypeFilter;
-import com.haxwell.apps.questions.filters.TopicFilter;
+import com.haxwell.apps.questions.filters.QuestionTopicFilter;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
@@ -401,7 +401,7 @@ public class ExamServlet extends AbstractHttpServlet {
 			arr.add(new QuestionFilter(filterText));
 		
 		if (!StringUtil.isNullOrEmpty(topicFilterText))
-			arr.add(new TopicFilter(topicFilterText));
+			arr.add(new QuestionTopicFilter(topicFilterText));
 
 		if (questionType != TypeConstants.ALL_TYPES )
 			arr.add(new QuestionTypeFilter(questionType));

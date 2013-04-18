@@ -87,8 +87,8 @@ public class PaginationData {
 	{
 		int i = (int)(totalItemCount / pageSize);
 		
-//		if (totalItemCount % pageSize > 0)
-//			i++;
+		if (totalItemCount % pageSize == 0 && i > 0)
+			i--;
 		
 		return i;
 	}

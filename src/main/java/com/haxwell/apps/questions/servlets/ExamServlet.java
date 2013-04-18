@@ -305,7 +305,12 @@ public class ExamServlet extends AbstractHttpServlet {
 			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
 			
 			pd.setPageNumber(PaginationData.FIRST_PAGE);
-			pd.setPageSize(Integer.parseInt(getIdAppendedToRequestParameter(request, "quantity")));
+			
+			String quantity = getIdAppendedToRequestParameter(request, "quantity");
+			
+			if (quantity != null) {
+				pd.setPageSize(Integer.parseInt(quantity));
+			}
 			
 			coll = QuestionManager.getQuestionsById(csvList, null);
 			

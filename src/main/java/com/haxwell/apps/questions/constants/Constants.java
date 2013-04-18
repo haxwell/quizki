@@ -68,7 +68,9 @@ public class Constants {
 	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
 	public static final String SHOULD_LOGIN_LINK_BE_DISPLAYED = "shouldLoginLinkBeDisplayed";
 	public static final String ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN = "onlySelectedQuestionsShouldBeShown";
-	public static final String DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS = "doNotInitializeProfileMRUSettings";	
+	
+	public static final String DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS = "doNotInitializeProfileMRUSettings";
+	public static final String DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED = "doNotInitializeQuestionsToBeDisplayed";
 	
 	public static final String QUESTION_ID = "questionId";
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";

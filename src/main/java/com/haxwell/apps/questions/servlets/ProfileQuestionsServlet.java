@@ -222,6 +222,7 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);		
+		session.setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, Boolean.TRUE);		
 	}
 	
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {

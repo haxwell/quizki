@@ -42,6 +42,7 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 
 	protected String getIdAppendedToRequestParameter(HttpServletRequest request, String paramName) {
 		String str = request.getParameter(paramName);
-		return str.substring(str.indexOf('_')+1);		
+		
+		return str == null ? null : str.substring(str.indexOf('_')+1);		
 	}
 }

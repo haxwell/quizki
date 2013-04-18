@@ -175,6 +175,7 @@
 	    	</div>
 	    	<br/>
 	    	<div id="paginationDiv" class="center">
+		    	<form action="/secured/ExamServlet" method="post" id="paginationForm">
 		    	<c:choose>
 			    	<c:when test="${sessionScope.questionPaginationData.totalItemCount > 0}">
 				    	Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount}
@@ -182,7 +183,8 @@
 					<c:otherwise>
 						No questions to show! 					
 					</c:otherwise>
-				</c:choose>	 
+				</c:choose>
+					 
 		    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>
 		    	<input type="submit" value="&lt; PREV" name="button"/>
 		    	<input type="submit" value="NEXT &gt;" name="button"/>
@@ -196,6 +198,7 @@
 		    		<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
 		    	</select>
 		    	<input type="submit" value="REFRESH" name="button"/>
+		    	</form>
 	    	</div>
 		</div>
 	</c:when>

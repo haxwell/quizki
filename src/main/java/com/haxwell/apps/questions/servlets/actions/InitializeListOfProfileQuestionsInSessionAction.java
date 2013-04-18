@@ -33,14 +33,17 @@ public class InitializeListOfProfileQuestionsInSessionAction implements Abstract
 			User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			Collection<Question> coll = null;
 	
-			if (user != null) {
-				PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
-				
-				coll = QuestionManager.getAllQuestionsForUser(user.getId(), qpd);
-				session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.MY_ITEMS);
+			if (req.getSession().getAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED) == null) {
+				if (user != null) {
+					PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
+					
+					coll = QuestionManager.getAllQuestionsForUser(user.getId(), qpd);
+					session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.MY_ITEMS);
+				}
+		
+				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+				req.getSession().setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, null);
 			}
-	
-			req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 	
 			if (coll != null)
 				log.log(Level.INFO, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");

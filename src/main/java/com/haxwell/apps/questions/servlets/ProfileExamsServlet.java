@@ -178,10 +178,12 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 						//  when a Before Edit Exam type thing happens, this list should be cleared automatically.
 						//  same with the list of exams in Delete Exam below..
 						request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
+						request.getSession().setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 					}
 					else if (btnValue.equals("Delete Exam")) {
 						ExamManager.deleteExam(id);
 						request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);
+						request.getSession().setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 						
 						new InitializeListOfExamsInSessionAction().doAction(request, response);
 						new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);

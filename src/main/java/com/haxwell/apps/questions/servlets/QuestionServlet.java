@@ -255,12 +255,14 @@ public class QuestionServlet extends AbstractHttpServlet {
 			boolean isCorrect = getIsCorrectParameter(request);
 			boolean firstTimeThrough = true;
 			
+			QuestionType qt = TypeUtil.convertToObject(request.getParameter("type"));
+			
 			StringTokenizer tokenizer = new StringTokenizer(text, ",");
 			while (tokenizer.hasMoreTokens())
 			{
 				String str = tokenizer.nextToken().trim();
 				
-				addChoice(request, questionObj, str, firstTimeThrough ? isCorrect : !isCorrect);
+				addChoice(request, questionObj, str, firstTimeThrough && qt.getId() != TypeConstants.STRING ? isCorrect : !isCorrect);
 				
 				if (firstTimeThrough)
 					firstTimeThrough = false;

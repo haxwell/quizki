@@ -11,13 +11,13 @@ public class DifficultyUtil {
 	
 	public static int convertToInt(String parameter) {
 		
-		if (parameter.equals(DifficultyConstants.JUNIOR_STR))
+		if (parameter.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
 			return 1;
-		if (parameter.equals(DifficultyConstants.INTERMEDIATE_STR))
+		if (parameter.toLowerCase().equals(DifficultyConstants.INTERMEDIATE_STR.toLowerCase()))
 			return 2;
-		if (parameter.equals(DifficultyConstants.WELL_VERSED_STR))
+		if (parameter.toLowerCase().equals(DifficultyConstants.WELL_VERSED_STR.toLowerCase()))
 			return 3;
-		if (parameter.equals(DifficultyConstants.GURU_STR))
+		if (parameter.toLowerCase().equals(DifficultyConstants.GURU_STR.toLowerCase()))
 			return 4;
 		
 		return 1;
@@ -25,16 +25,16 @@ public class DifficultyUtil {
 
 	public static String getDisplayString(String str)
 	{
-		if (str.equals(DifficultyConstants.JUNIOR_STR))
+		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
 			return "Junior";
 		
-		if (str.equals(DifficultyConstants.JUNIOR_STR))
+		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
 			return "Intermediate";
 		
-		if (str.equals(DifficultyConstants.WELL_VERSED_STR))
+		if (str.toLowerCase().equals(DifficultyConstants.WELL_VERSED_STR.toLowerCase()))
 			return "Well-versed";
 		
-		if (str.equals(DifficultyConstants.JUNIOR_STR))
+		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
 			return "Guru";
 		
 		return str;

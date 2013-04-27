@@ -33,7 +33,7 @@ public class InitializeListOfExamQuestionsInSessionAction implements AbstractSer
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 			
-			if (req.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED) == null) {
+			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
 				
 				PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
 

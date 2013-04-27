@@ -419,7 +419,9 @@ public class ExamServlet extends AbstractHttpServlet {
 
 	private void setExamTitleFromFormParameter(HttpServletRequest request, Exam examObj) {
 		String title = request.getParameter("examTitle");
-		examObj.setTitle(title);
+		
+		if (title != null) 
+			examObj.setTitle(title);
 	}
 
 	private Exam getExamBean(HttpServletRequest request) {

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.EventConstants;
+import com.haxwell.apps.questions.events.EventDispatcher;
 
 /**
  * Makes sure the necessary objects are in the session for the code downstream.
@@ -39,14 +41,8 @@ public class ExamNoLongerRunningFilter extends AbstractFilter {
 			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
 			
 			if (currentQuestionHasBeenPersisted) {
+				// TODO: this needs to be handled by an event handler..
 				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);			
-	
-				session.setAttribute(Constants.EXAM_IN_PROGRESS, null);
-				session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);
-				session.setAttribute(Constants.CURRENT_EXAM, null);
-				session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, null);
-				session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, null);
-				session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", null);
 			}
 			
 			log.log(java.util.logging.Level.INFO, "Exam set to 'not in progress'.... exam state completely reset!");

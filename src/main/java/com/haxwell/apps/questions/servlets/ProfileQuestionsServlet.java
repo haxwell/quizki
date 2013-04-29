@@ -13,9 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfProfileQuestionsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
@@ -222,7 +224,9 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);		
-		session.setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, Boolean.TRUE);		
+		session.setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, Boolean.TRUE);
+		
+//		EventDispatcher.getInstance().setAttributeInSessionAndDefineItsClearingEvent(request, Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE, EventConstants.INDEX_PAGE);
 	}
 	
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {

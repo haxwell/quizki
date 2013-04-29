@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.utils.PaginationData;
 
@@ -42,7 +44,8 @@ public class InitializeListOfProfileQuestionsInSessionAction implements Abstract
 				}
 		
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-				req.getSession().setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, null);
+				
+				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_PROFILE_QUESTIONS_SET_IN_SESSION);				
 			}
 	
 			if (coll != null)

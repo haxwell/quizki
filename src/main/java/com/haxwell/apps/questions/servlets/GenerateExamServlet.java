@@ -15,14 +15,14 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 import com.haxwell.apps.questions.entities.Exam;
-import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
-import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -155,7 +155,9 @@ public class GenerateExamServlet extends AbstractHttpServlet {
 	
 				fwdPage = "/beginExam.jsp";
 				
-				session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+				//session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+				
+				EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_GENERATED);
 			}
 			else 
 			{

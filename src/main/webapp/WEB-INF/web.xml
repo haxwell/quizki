@@ -208,8 +208,23 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   
+<!-- SPRING APPLICATION CONTEXT CREATING LISTENER -->
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+<!-- QUIZKI LISTENERS -->
 
+	<listener>
+		<listener-class>com.haxwell.apps.questions.events.listeners.AttributeListener</listener-class>
+	</listener>
+	
 <!-- SERVLET DEFINITIONS -->
 
   <servlet>

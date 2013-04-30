@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.haxwell.apps.questions.events.handlers.IEventHandler;
+import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
 
 public class AttributeEventHandlerList {
 
 	HashMap<String, List<AttributeEventHandlerBean>> /*attr to list of handlers*/ attrToRegisteredAEHLBeanMap = new HashMap<String, List<AttributeEventHandlerBean>>();
-	HashMap<String, List<IEventHandler>> /*event to list of handlers*/ eventNameToActiveIEventHandlerMap = new HashMap<String, List<IEventHandler>>();
+	HashMap<String, List<IAttributeEventHandler>> /*event to list of handlers*/ eventNameToActiveIEventHandlerMap = new HashMap<String, List<IAttributeEventHandler>>();
 
 	Logger log = Logger.getLogger(AttributeEventHandlerList.class.getName());
 	
@@ -36,11 +36,11 @@ public class AttributeEventHandlerList {
 			log.log(Level.INFO, "Activating '" + attribute + "'....");
 			
 			for (AttributeEventHandlerBean bean : aehlBeanlist) {
-				List<IEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.event);
+				List<IAttributeEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.event);
 				boolean listChanged = false;
 				
 				if (list == null) {
-					list = new ArrayList<IEventHandler>();
+					list = new ArrayList<IAttributeEventHandler>();
 					listChanged = true;
 					log.log(Level.INFO, "The event '"+ bean.event+"' has no active handlers.");
 				}
@@ -62,8 +62,8 @@ public class AttributeEventHandlerList {
 		}
 	}
 	
-	public List<IEventHandler> getEventHandlerList(String event) {
-		List<IEventHandler> rtn = eventNameToActiveIEventHandlerMap.get(event);
+	public List<IAttributeEventHandler> getEventHandlerList(String event) {
+		List<IAttributeEventHandler> rtn = eventNameToActiveIEventHandlerMap.get(event);
 		
 		// We null the list so that we only return handlers which have been registered since the last use,
 		//  and we don't build up a list in between events.. When an event happens, all the active listeners are called,

@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class SetSessionAttributeToNullHandler implements IEventHandler {
+public class SetSessionAttributeToNullHandler implements IAttributeEventHandler {
 	
 	Logger log = Logger.getLogger(SetSessionAttributeToNullHandler.class.getName());
 	

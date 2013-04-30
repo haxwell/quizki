@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
 import com.haxwell.apps.questions.events.handlers.IEventHandler;
+import com.haxwell.apps.questions.events.handlers.IObjectEventHandler;
 import com.haxwell.apps.questions.events.utils.AttributeEventHandlerList;
+import com.haxwell.apps.questions.events.utils.ObjectEventHandlerList;
 
 /**
  * HOW EVENTS WORK IN QUIZKI:
@@ -64,16 +67,36 @@ public class EventDispatcher {
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
 		AttributeEventHandlerList aehl = (AttributeEventHandlerList)ctx.getBean("attributeEventHandlerList");
 		
-		List<IEventHandler> list = aehl.getEventHandlerList(eventName);
+		List<IAttributeEventHandler> list = aehl.getEventHandlerList(eventName);
 		
 		log.log(Level.INFO, "EventDisptacher: called to fire the event (" + eventName + ")");
 		
 		if (list != null) {
-			for (IEventHandler handler : list) {
+			for (IAttributeEventHandler handler : list) {
 				
 				log.log(Level.INFO, "EventDispatcher: calling the handler (" + handler.toString() + ")");
 				
 				handler.execute(req);
+			}
+		}
+		else
+			log.log(Level.INFO, "No event handlers found associated with '" + eventName + "'");
+	}
+	
+	public void fireEvent(HttpServletRequest req, String eventName, Object o) {
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
+		ObjectEventHandlerList aehl = (ObjectEventHandlerList)ctx.getBean("objectEventHandlerList");
+		
+		List<IObjectEventHandler> list = aehl.getEventHandlerList(eventName);
+		
+		log.log(Level.INFO, "EventDisptacher: called to fire the event (" + eventName + ")");
+		
+		if (list != null) {
+			for (IObjectEventHandler handler : list) {
+				
+				log.log(Level.INFO, "EventDispatcher: calling the handler (" + handler.toString() + ")");
+				
+				handler.execute(req, o);
 			}
 		}
 		else

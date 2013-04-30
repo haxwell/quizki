@@ -1,19 +1,13 @@
 package com.haxwell.apps.questions.events.utils;
 
-import com.haxwell.apps.questions.events.handlers.IEventHandler;
+import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
 
 public class AttributeEventHandlerBean {
 	String attr;
 	String event;
-	IEventHandler handler;
+	IAttributeEventHandler handler;
 	
 	public AttributeEventHandlerBean() { }
-	
-//		public AttributeEventHandlerBean(String attr, String event, IEventHandler handler) {
-//		this.attr = attr;
-//		this.event = event;
-//		this.handler = handler;
-//	}
 	
 	public String getAttr() {
 		return attr;
@@ -31,11 +25,11 @@ public class AttributeEventHandlerBean {
 		this.event = event;
 	}
 
-	public IEventHandler getHandler() {
+	public IAttributeEventHandler getHandler() {
 		return handler;
 	}
 
-	public void setHandler(IEventHandler handler) {
+	public void setHandler(IAttributeEventHandler handler) {
 		this.handler = handler;
 		
 		this.handler.setAttribute(attr);

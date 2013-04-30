@@ -352,5 +352,26 @@
 			</list>
 		</property>
 	</bean>
+
+	
+	
+	<!-- -=-=-=-=-=-=-=-=-=-=-= -->
+	<!-- OBJECT HANDLING EVENTS / HANDLERS -->
+	<!-- -=-=-=-=-=-=-=-=-=-=-= -->
+	
+	<bean id="SetUserIdOnAnExamObjectHandler" class="com.haxwell.apps.questions.events.handlers.SetUserIdOnAnExamObjectHandler"/>
+	
+	<bean id="SetUserIdOnNewExamObject" class="com.haxwell.apps.questions.events.utils.ObjectEventHandlerBean">
+		<property name="event" value="newExamCreated"/>
+		<property name="handler" ref="SetUserIdOnAnExamObjectHandler"/>
+	</bean>
+	
+	<bean id="objectEventHandlerList" class="com.haxwell.apps.questions.events.utils.ObjectEventHandlerList">
+		<property name="objectEventHandlerList">
+			<list>
+				<ref bean="SetUserIdOnNewExamObject"/>
+			</list>
+		</property>
+	</bean>
   
 </beans>

@@ -12,5 +12,7 @@ public class EventConstants {
 	public static final String LIST_OF_PROFILE_QUESTIONS_SET_IN_SESSION = "listOfProfileQuestionsSetInSession";
 	public static final String RANDOM_INDEXES_ADDED_TO_CHOICE_ARRAY = "randomIndexesAddedToChoiceArray";
 	public static final String RUNNING_AN_EXAM_BEFORE = "runningAnExamBefore";
-	public static String INDEX_PAGE = "indexPage";
+	public static final String INDEX_PAGE = "indexPage";
+	
+	public static final String NEW_EXAM_CREATED = "newExamCreated";
 }

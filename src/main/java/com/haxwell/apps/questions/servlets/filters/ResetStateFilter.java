@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.EventConstants;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.utils.PaginationData;
 
 /**
@@ -39,45 +40,14 @@ public class ResetStateFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 			
-//			session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, null);
-			session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, null);
-			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, null);
-			session.setAttribute(Constants.MRU_FILTER_TEXT, null);
-			session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, null);
-			session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, null);
-			session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, null);
-			
-			session.setAttribute(Constants.CURRENT_EXAM, null);
-			session.setAttribute(Constants.CURRENT_QUESTION, null);
-			
-			session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
-			session.setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);
-			session.setAttribute(Constants.IN_EDITING_MODE, null);
-			
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
-			session.setAttribute(Constants.EXAM_IN_PROGRESS, null);
-			
+			// TODO: This needs a handler..
 			session.setAttribute(Constants.NEXT_SEQUENCE_NUMBER, 0);
-			session.setAttribute("userSuppliedAnswerToStringQuestion", null);
-			session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, null);
-			session.setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, null);
 			
-			session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN, null);
-			session.setAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_EDITED, null);
-			
-			session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, null);
-			session.setAttribute(Constants.LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS, null);
-			session.setAttribute(Constants.LIST_OF_EXAM_TOPICS, null);
-			session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, null);
-			session.setAttribute(Constants.SHOULD_LOGIN_LINK_BE_DISPLAYED, null);
-			session.setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, null);
-			
-			session.setAttribute(Constants.TAB_INDEX, null);
-			
+			// TODO: Make event handlers for these two..
 			session.setAttribute(Constants.EXAM_PAGINATION_DATA, new PaginationData());
 			session.setAttribute(Constants.QUESTION_PAGINATION_DATA, new PaginationData());
 			
-			session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, null);
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.INDEX_PAGE);
 		}
 		
 		// pass the request along the filter chain

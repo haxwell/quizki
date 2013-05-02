@@ -12,10 +12,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.entities.Choice;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
-import com.haxwell.apps.questions.utils.QuestionUtil;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -64,8 +64,8 @@ public class AddRandomIndexToChoiceArrayFilter extends AbstractFilter {
 					req.getSession().setAttribute(Constants.LIST_OF_RANDOM_CHOICE_INDEXES, randomChoiceIndexes.toString());
 				}
 			}
-			else
-				req.getSession().setAttribute(Constants.SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES, null);
+			
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.RANDOM_INDEXES_ADDED_TO_CHOICE_ARRAY);
 		}
 		
 		// pass the request along the filter chain

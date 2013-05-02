@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -40,17 +42,9 @@ public class InitializeListOfExamQuestionsInSessionAction implements AbstractSer
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Question> coll = null;
 
-//				if (user == null && req.getSession().getAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED) != null) {
-//					coll = QuestionManager.getAllQuestions(qpd);
-//					req.getSession().setAttribute(Constants.SHOULD_ALL_QUESTIONS_BE_DISPLAYED, null);					
-//				}
-//				else 
 				if (user != null) {
 					if (req.getSession().getAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN) != null) {
-						req.getSession().setAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN, null);
-						
 						List<Long> selectedQuestionIds = (List<Long>)req.getSession().getAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS);
-						
 						coll = QuestionManager.getQuestionsById(StringUtil.getCSVString(selectedQuestionIds), qpd);
 					}
 					else {
@@ -66,6 +60,8 @@ public class InitializeListOfExamQuestionsInSessionAction implements AbstractSer
 							session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.ALL_ITEMS);
 						}
 					}
+					
+					EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_EXAM_QUESTIONS_SET_IN_SESSION);
 				}
 
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);

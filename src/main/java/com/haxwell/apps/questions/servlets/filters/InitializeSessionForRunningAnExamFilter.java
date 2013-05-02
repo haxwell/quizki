@@ -17,7 +17,9 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Exam;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.utils.ExamHistory;
@@ -49,6 +51,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 			if (!examInProgress)
 			{
 				log.log(java.util.logging.Level.INFO, "Exam is not in progress, so proceeding to initialize session exam variables.");
+				
 				Exam exam = null;
 				Object examIdRequestParameter = req.getParameter("examId");
 				

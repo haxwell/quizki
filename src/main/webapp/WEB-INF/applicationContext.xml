@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--  **==**==****====***==*-===****=== -->
+	<!--  EVENT HANDLERS -->
+	<!--  **==**==****====***==*-===****=== -->
+	<bean id="setSessionAttributeToNullHandler" class="com.haxwell.apps.questions.events.handlers.SetSessionAttributeToNullHandler" scope="prototype"/>
+	
+	
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: indexPage -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetDoNotAttrOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="doNotInitializeProfileMRUSettings"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetMRUFilterQuestionTypeOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="mruFilterQuestionType"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetMRUFilterDifficultyOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="mruFilterDifficulty"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetMRUFilterTextOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="mruFilterText"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetMRUFilterTopicTextOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="mruFilterTopicText"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetMRUFilterMineOrAllOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="mruMineOrAll"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetMRUFilterMineOrAllOrSelectedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="mruFilterMyAllOrSelectedFilter"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentExamOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentExam"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentQuestionOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentQuestion"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetListOfQuestionsToBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="fa_listofquestionstobedisplayed"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetListOfExamsToBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="fa_listofquestionstobedisplayed"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetExamGenerationIsInProgressOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examGenerationIsInProgress"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetExamInProgressOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examInProgress"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetUserSuppliedAnswerToStringQuestionOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="userSuppliedAnswerToStringQuestion"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetShouldQuestionsBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="shouldQuestionsBeDisplayed"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetShouldAllowQuestionEditingOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="shouldAllowQuestionEditing"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetAllowGeneratedExamToBeTakenOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="allowGeneratedExamToBeTaken"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetAllowGeneratedExamToBeEditedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="allowGeneratedExamToBeEdited"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetExamSelectedQuestionIdsOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="exam_selectedQuestionIds"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetListOfPreviouslySuppliedAnswersOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="listOfPreviouslySuppliedAnswers"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetTextToDisplayForPrevPageOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="textToDisplayForPrevPage"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetShouldLoginLinkBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="shouldLoginLinkBeDisplayed"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<!--  bean id="ResetURLToGoToWhenUserPressesBackButtonOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="urlToGoToWhenUserPressesBackButton"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean  -->
+	
+	<bean id="ResetTabIndexOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="tabIndex"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+
+	<bean id="ResetInEditingModeOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="inEditingMode"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: questionWasPersisted -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetExamInProgressOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examInProgress"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentExamHistoryOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentExamHistory"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentExamOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentExam"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentQuestionOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentQuestion"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetInEditingModeOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="inEditingMode"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentQuestionNumberOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentQuestionNumber"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetTotalPotentialQuestionsOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="totalNumberOfQuestionsInCurrentExam"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetListOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestionOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion"/>
+		<property name="event" value="questionWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: examWasPersisted -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetInEditingModeOnExamWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="inEditingMode"/>
+		<property name="event" value="examWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetCurrentExamOnExamWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="currentExam"/>
+		<property name="event" value="examWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetExamGenerationIsInProgressOnExamWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examGenerationIsInProgress"/>
+		<property name="event" value="examWasPersisted"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: examWasGenerated -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetExamGenerationIsInProgressOnExamWasGenerated" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examGenerationIsInProgress"/>
+		<property name="event" value="examWasGenerated"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: editExamBefore -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetListOfQuestionsToBeDisplayedOnEditExamBefore" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="fa_listofquestionstobedisplayed"/>
+		<property name="event" value="editExamBefore"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetListOfExamsToBeDisplayedOnEditExamBefore" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="fa_listofexamstobedisplayed"/>
+		<property name="event" value="editExamBefore"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetExamGenerationIsInProgressOnEditExamBefore" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examGenerationIsInProgress"/>
+		<property name="event" value="editExamBefore"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+
+	
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: listOfExamQuestionsSetInSession -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetOnlySelectedQuestionsShouldBeShownOnListOfExamQuestionsSetInSession" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="onlySelectedQuestionsShouldBeShown"/>
+		<property name="event" value="listOfExamQuestionsSetInSession"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: listOfProfileQuestionsSetInSession -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetDoNotInitializeQuestionsToBeDisplayedOnListOfExamQuestionsSetInSession" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="doNotInitializeQuestionsToBeDisplayed"/>
+		<property name="event" value="listOfProfileQuestionsSetInSession"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: randomIndexesAddedToChoiceArray -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetShouldGenerateNewRandomChoiceIndexesOnRandomIndexesAddedToChoiceArray" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="shouldGenerateNewRandomChoiceIndexes"/>
+		<property name="event" value="randomIndexesAddedToChoiceArray"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+
+	<bean id="attributeEventHandlerList" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerList">
+		<property name="attributeEventHandlerList">
+			<list>
+				<ref bean="ResetDoNotAttrOnIndexPageDisplay"/>
+				<ref bean="ResetMRUFilterQuestionTypeOnIndexPageDisplay"/>
+				<ref bean="ResetMRUFilterTextOnIndexPageDisplay"/>
+				<ref bean="ResetMRUFilterTopicTextOnIndexPageDisplay"/>
+				<ref bean="ResetMRUFilterMineOrAllOnIndexPageDisplay"/>
+				<ref bean="ResetMRUFilterMineOrAllOrSelectedOnIndexPageDisplay"/>
+				<ref bean="ResetCurrentExamOnIndexPageDisplay"/>
+				<ref bean="ResetCurrentQuestionOnIndexPageDisplay"/>
+				<ref bean="ResetListOfQuestionsToBeDisplayedOnIndexPageDisplay"/>
+				<ref bean="ResetListOfExamsToBeDisplayedOnIndexPageDisplay"/>
+				<ref bean="ResetExamGenerationIsInProgressOnIndexPageDisplay"/>
+				<ref bean="ResetExamInProgressOnIndexPageDisplay"/>
+				<ref bean="ResetUserSuppliedAnswerToStringQuestionOnIndexPageDisplay"/>
+				<ref bean="ResetShouldQuestionsBeDisplayedOnIndexPageDisplay"/>
+				<ref bean="ResetShouldAllowQuestionEditingOnIndexPageDisplay"/>
+				<ref bean="ResetAllowGeneratedExamToBeTakenOnIndexPageDisplay"/>
+				<ref bean="ResetAllowGeneratedExamToBeEditedOnIndexPageDisplay"/>
+				<ref bean="ResetExamSelectedQuestionIdsOnIndexPageDisplay"/>
+				<ref bean="ResetListOfPreviouslySuppliedAnswersOnIndexPageDisplay"/>
+				<ref bean="ResetTextToDisplayForPrevPageOnIndexPageDisplay"/>
+				<ref bean="ResetShouldLoginLinkBeDisplayedOnIndexPageDisplay"/>
+				<ref bean="ResetTabIndexOnIndexPageDisplay"/>
+				<ref bean="ResetInEditingModeOnIndexPageDisplay"/>
+		
+				<ref bean="ResetExamInProgressOnQuestionWasPersisted"/>
+				<ref bean="ResetCurrentExamOnQuestionWasPersisted"/>
+				<ref bean="ResetCurrentQuestionOnQuestionWasPersisted"/>
+				<ref bean="ResetInEditingModeOnQuestionWasPersisted"/>
+				<ref bean="ResetCurrentExamHistoryOnQuestionWasPersisted"/>
+				<ref bean="ResetCurrentQuestionNumberOnQuestionWasPersisted"/>
+				<ref bean="ResetTotalPotentialQuestionsOnQuestionWasPersisted"/>
+				<ref bean="ResetListOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestionOnQuestionWasPersisted"/>		
+		
+				<ref bean="ResetInEditingModeOnExamWasPersisted"/>
+				<ref bean="ResetExamGenerationIsInProgressOnExamWasPersisted"/>
+				<ref bean="ResetCurrentExamOnExamWasPersisted"/>
+				
+				<ref bean="ResetExamGenerationIsInProgressOnExamWasGenerated"/>
+				
+				<ref bean="ResetListOfQuestionsToBeDisplayedOnEditExamBefore"/>
+				<ref bean="ResetListOfExamsToBeDisplayedOnEditExamBefore"/>
+				<ref bean="ResetExamGenerationIsInProgressOnEditExamBefore"/>
+
+				<ref bean="ResetOnlySelectedQuestionsShouldBeShownOnListOfExamQuestionsSetInSession"/>
+				
+				<ref bean="ResetDoNotInitializeQuestionsToBeDisplayedOnListOfExamQuestionsSetInSession"/>
+				
+				<ref bean="ResetShouldGenerateNewRandomChoiceIndexesOnRandomIndexesAddedToChoiceArray"/>
+			</list>
+		</property>
+	</bean>
+
+	
+	
+	<!-- -=-=-=-=-=-=-=-=-=-=-= -->
+	<!-- OBJECT HANDLING EVENTS / HANDLERS -->
+	<!-- -=-=-=-=-=-=-=-=-=-=-= -->
+	
+	<bean id="SetUserIdOnAnExamObjectHandler" class="com.haxwell.apps.questions.events.handlers.SetUserIdOnAnExamObjectHandler"/>
+	
+	<bean id="SetUserIdOnNewExamObject" class="com.haxwell.apps.questions.events.utils.ObjectEventHandlerBean">
+		<property name="event" value="newExamCreated"/>
+		<property name="handler" ref="SetUserIdOnAnExamObjectHandler"/>
+	</bean>
+	
+	<bean id="objectEventHandlerList" class="com.haxwell.apps.questions.events.utils.ObjectEventHandlerList">
+		<property name="objectEventHandlerList">
+			<list>
+				<ref bean="SetUserIdOnNewExamObject"/>
+			</list>
+		</property>
+	</bean>
+  
+</beans>

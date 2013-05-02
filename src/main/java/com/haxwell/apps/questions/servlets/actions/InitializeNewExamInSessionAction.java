@@ -7,8 +7,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Exam;
-import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.ExamManager;
 
 /**
@@ -32,8 +33,10 @@ public class InitializeNewExamInSessionAction implements AbstractServletAction {
 			//  so that anyone who cares can set attributes on it. JMS message, or some other event listening/handler
 			
 			//  ..because I'm pretty sure I don't like doing this here..
-			User user = (User)req.getSession().getAttribute("currentUserEntity");
-			exam.setUser(user);
+//			User user = (User)req.getSession().getAttribute("currentUserEntity");
+//			exam.setUser(user);
+			
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.NEW_EXAM_CREATED, exam);
 			
 			req.getSession().setAttribute(Constants.CURRENT_EXAM, exam);
 		}

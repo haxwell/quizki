@@ -15,14 +15,16 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.filters.DifficultyFilter;
 import com.haxwell.apps.questions.filters.QuestionFilter;
-import com.haxwell.apps.questions.filters.QuestionTypeFilter;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
+import com.haxwell.apps.questions.filters.QuestionTypeFilter;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
@@ -215,10 +217,10 @@ public class ExamServlet extends AbstractHttpServlet {
 		}
 
 		if (examWasPersisted) {
-			session.setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
+//			session.setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
 			
-			session.setAttribute(Constants.IN_EDITING_MODE, null);
-			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+//			session.setAttribute(Constants.IN_EDITING_MODE, null);
+//			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 			
 			clearMRUFilterSettings(request);
 			refreshListOfQuestionsToBeDisplayed(request, getQuestionPaginationData(request));
@@ -263,6 +265,8 @@ public class ExamServlet extends AbstractHttpServlet {
 			clearMRUFilterSettings(request);
 			
 			request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
+			
+			EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_PERSISTED);
 			
 			rtn = true;
 		}

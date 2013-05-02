@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfExamsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
@@ -174,16 +176,12 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 					else if (btnValue.equals("Edit Exam")) {
 						fwdPage = "/secured/exam.jsp?examId=" + id;
 						
-						// This is the perfect example for session attributes that clear themselves based on events..
-						//  when a Before Edit Exam type thing happens, this list should be cleared automatically.
-						//  same with the list of exams in Delete Exam below..
-						request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
-						request.getSession().setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
+						EventDispatcher.getInstance().fireEvent(request, EventConstants.EDIT_EXAM_BEFORE);
 					}
 					else if (btnValue.equals("Delete Exam")) {
+						EventDispatcher.getInstance().fireEvent(request, EventConstants.DELETE_EXAM_BEFORE);
+						
 						ExamManager.deleteExam(id);
-						request.getSession().setAttribute(Constants.LIST_OF_EXAMS_TO_BE_DISPLAYED, null);
-						request.getSession().setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 						
 						new InitializeListOfExamsInSessionAction().doAction(request, response);
 						new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);

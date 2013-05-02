@@ -37,15 +37,15 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 
-			session.setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, null);
+//			session.setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, null);
 			
 			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
 			
+			// TODO: Handle this in an event handler
 			if (currentQuestionHasBeenPersisted) {
 				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
 				
 				session.setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, null);
-				session.setAttribute(Constants.IN_EDITING_MODE, null);
 			}
 			
 			String questionId = req.getParameter("questionId");

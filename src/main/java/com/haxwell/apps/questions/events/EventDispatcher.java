@@ -80,14 +80,14 @@ public class EventDispatcher {
 			}
 		}
 		else
-			log.log(Level.INFO, "No event handlers found associated with '" + eventName + "'");
+			log.log(Level.INFO, "No active event handlers found associated with '" + eventName + "'");
 	}
 	
 	public void fireEvent(HttpServletRequest req, String eventName, Object o) {
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
-		ObjectEventHandlerList aehl = (ObjectEventHandlerList)ctx.getBean("objectEventHandlerList");
+		ObjectEventHandlerList oehl = (ObjectEventHandlerList)ctx.getBean("objectEventHandlerList");
 		
-		List<IObjectEventHandler> list = aehl.getEventHandlerList(eventName);
+		List<IObjectEventHandler> list = oehl.getEventHandlerList(eventName);
 		
 		log.log(Level.INFO, "EventDisptacher: called to fire the event (" + eventName + ")");
 		

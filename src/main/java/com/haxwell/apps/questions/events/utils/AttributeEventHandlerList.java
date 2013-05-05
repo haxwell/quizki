@@ -48,7 +48,7 @@ public class AttributeEventHandlerList {
 				if (!list.contains(bean.handler)) {
 					list.add(bean.handler);
 					listChanged = true;
-					log.log(Level.INFO, "Added handler for the event (" + bean.event + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
+					log.log(Level.INFO, "Activated handler for the event (" + bean.event + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
 				}
 				else
 					log.log(Level.INFO, "The list of handlers for the event " + bean.event + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");

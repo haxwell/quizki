@@ -34,7 +34,9 @@ public class MostRecentlyRequestedPageFilter extends AbstractFilter {
 				String queryString = req.getQueryString();
 				
 				String str = url.replace(temp, "");				
+				String prevRequestedPage = (String)req.getSession().getAttribute("originallyRequestedPage");
 				req.getSession().setAttribute("originallyRequestedPage", (queryString == null ? str : str + "?" + queryString));
+				req.getSession().setAttribute("previouslyRequestedPage", prevRequestedPage);
 			}
 		}
 		

@@ -22,6 +22,18 @@
     <dispatcher>ERROR</dispatcher>
   </filter-mapping>
   <filter>
+    <filter-name>SetDoNotCacheAttributes</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.SetDoNotCacheAttributesFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SetDoNotCacheAttributes</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+  <filter>
     <filter-name>MostRecentlyRequestedPageFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.MostRecentlyRequestedPageFilter</filter-class>
   </filter>

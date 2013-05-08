@@ -34,19 +34,19 @@ public class ExamNoLongerRunningFilter extends AbstractFilter {
 		
 		log.log(java.util.logging.Level.INFO, "In the ExamNoLongerRunningFilter::doFilter() method!");
 		
-		if (request instanceof HttpServletRequest) {
-			HttpServletRequest req = ((HttpServletRequest)request);
-			HttpSession session = req.getSession();
+//		if (request instanceof HttpServletRequest) {
+//			HttpServletRequest req = ((HttpServletRequest)request);
+//			HttpSession session = req.getSession();
 			
-			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
+//			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
+//			
+//			if (currentQuestionHasBeenPersisted) {
+//				// TODO: this needs to be handled by an event handler..
+//				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);			
+//			}
 			
-			if (currentQuestionHasBeenPersisted) {
-				// TODO: this needs to be handled by an event handler..
-				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);			
-			}
-			
-			log.log(java.util.logging.Level.INFO, "Exam set to 'not in progress'.... exam state completely reset!");
-		}
+//			log.log(java.util.logging.Level.INFO, "Exam set to 'not in progress'.... exam state completely reset!");
+//		}
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

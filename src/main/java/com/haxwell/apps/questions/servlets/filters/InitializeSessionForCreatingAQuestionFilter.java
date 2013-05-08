@@ -39,15 +39,15 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 
 //			session.setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, null);
 			
-			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
+//			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
 			
 			// TODO: Handle this in an event handler
-			if (currentQuestionHasBeenPersisted) {
-				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
-				
-				session.setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, null);
-			}
-			
+//			if (currentQuestionHasBeenPersisted) {
+//				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
+//				
+//				session.setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, null);
+//			}
+//			
 			String questionId = req.getParameter("questionId");
 			
 			if (questionId != null) {

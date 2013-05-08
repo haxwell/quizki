@@ -259,7 +259,7 @@ public class QuestionServlet extends AbstractHttpServlet {
 
 		if (!StringUtil.isNullOrEmpty(text)) {
 			
-			boolean isCorrect = getIsCorrectParameter(request);
+			boolean isCorrect = true;
 			boolean firstTimeThrough = true;
 			
 			QuestionType qt = TypeUtil.convertToObject(request.getParameter("type"));
@@ -269,7 +269,12 @@ public class QuestionServlet extends AbstractHttpServlet {
 			{
 				String str = tokenizer.nextToken().trim();
 				
-				addChoice(request, questionObj, str, firstTimeThrough && qt.getId() != TypeConstants.STRING ? isCorrect : !isCorrect);
+				if (qt.getId() == TypeConstants.SEQUENCE || qt.getId() == TypeConstants.STRING)
+					isCorrect = true;
+				else
+					isCorrect = firstTimeThrough && getIsCorrectParameter(request);
+				
+				addChoice(request, questionObj, str, isCorrect);
 				
 				if (firstTimeThrough)
 					firstTimeThrough = false;

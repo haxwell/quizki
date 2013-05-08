@@ -63,7 +63,10 @@ public class QuestionServlet extends AbstractHttpServlet {
 		
 		Question questionObj = getQuestionBean(request);
 		
-		nextSequenceNumber = Integer.parseInt(request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER).toString());
+		Object obj = request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER);
+		
+		if (obj != null)
+			nextSequenceNumber = Integer.parseInt(obj.toString());
 		
 		// in case they press anything other than "Add/Update Question", this will be null..
 		if (button == null) button = "";

@@ -123,6 +123,7 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
+	<!--  TODO: This attribute is cleared on two events.. Allow a list of events to be passed in -->
 	<bean id="ResetShouldAllowQuestionEditingOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
 		<property name="attr" value="shouldAllowQuestionEditing"/>
 		<property name="event" value="indexPage"/>
@@ -309,6 +310,17 @@
 	</bean>
 	
 	<!--  **==**==****====***==*-===****=== -->
+	<!-- EVENT: fa_listOfQuestionsToBeDisplayedSetInSession -->
+	<!--  **==**==****====***==*-===****=== -->	
+	<!-- TODO: This attribute is cleared on two events.. allow a list of events to be passed in -->
+	<bean id="ResetShouldAllowQuestionEditingOnListOfQuestionsSetInSession" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="shouldAllowQuestionEditing"/>
+		<property name="event" value="fa_listOfQuestionsToBeDisplayedSetInSession"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+
+
+	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: randomIndexesAddedToChoiceArray -->
 	<!--  **==**==****====***==*-===****=== -->	
 	<bean id="ResetShouldGenerateNewRandomChoiceIndexesOnRandomIndexesAddedToChoiceArray" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
@@ -370,6 +382,8 @@
 				<ref bean="ResetOnlySelectedQuestionsShouldBeShownOnListOfExamQuestionsSetInSession"/>
 				
 				<ref bean="ResetDoNotInitializeQuestionsToBeDisplayedOnListOfExamQuestionsSetInSession"/>
+				
+				<ref bean="ResetShouldAllowQuestionEditingOnListOfQuestionsSetInSession"/>
 				
 				<ref bean="ResetShouldGenerateNewRandomChoiceIndexesOnRandomIndexesAddedToChoiceArray"/>
 			</list>

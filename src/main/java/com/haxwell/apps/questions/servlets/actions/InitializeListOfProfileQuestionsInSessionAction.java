@@ -45,7 +45,8 @@ public class InitializeListOfProfileQuestionsInSessionAction implements Abstract
 		
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
 				
-				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_PROFILE_QUESTIONS_SET_IN_SESSION);				
+				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_PROFILE_QUESTIONS_SET_IN_SESSION);
+				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 			}
 	
 			if (coll != null)

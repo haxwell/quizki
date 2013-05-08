@@ -225,8 +225,8 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);		
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, Boolean.TRUE);
-		
-//		EventDispatcher.getInstance().setAttributeInSessionAndDefineItsClearingEvent(request, Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE, EventConstants.INDEX_PAGE);
+
+		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 	
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
@@ -260,6 +260,8 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);
+		
+		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 	
 	private boolean parametersIndicateThatFilterWasApplied(String filterText, String topicFilterText, int maxDifficulty, int questionType) {

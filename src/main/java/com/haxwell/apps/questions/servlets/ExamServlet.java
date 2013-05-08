@@ -337,7 +337,9 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, FilterUtil.convertToInt(mineOrAllOrSelected));
 		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
-		request.getSession().setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());		
+		request.getSession().setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
+		
+		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 
 	private void saveExamSelectedQuestionIdsInSession(HttpServletRequest request) {
@@ -399,6 +401,8 @@ public class ExamServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
 		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, mineOrAllOrSelected);
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
+		
+		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 
 	private List<Question> filterCollectionWithAllCategories(

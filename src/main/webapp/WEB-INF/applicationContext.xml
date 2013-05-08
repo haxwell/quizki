@@ -8,11 +8,31 @@
 	<!--  EVENT HANDLERS -->
 	<!--  **==**==****====***==*-===****=== -->
 	<bean id="setSessionAttributeToNullHandler" class="com.haxwell.apps.questions.events.handlers.SetSessionAttributeToNullHandler" scope="prototype"/>
+	<bean id="setSessionAttributeToZeroHandler" class="com.haxwell.apps.questions.events.handlers.SetSessionAttributeToZeroHandler" scope="prototype"/>
+	<bean id="setNewPaginationDataObjectInSession" class="com.haxwell.apps.questions.events.handlers.SetNewPaginationDataObjectInSessionHandler" scope="prototype"/>	
 	
-	
+
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: indexPage -->
 	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetExamPaginationDataOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="examPaginationData"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setNewPaginationDataObjectInSession"/>
+	</bean>
+	
+	<bean id="ResetQuestionPaginationDataOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="questionPaginationData"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setNewPaginationDataObjectInSession"/>
+	</bean>
+	
+	<bean id="ResetNextSequenceNumberToZeroOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="nextSequenceNumber"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToZeroHandler"/>
+	</bean>
+	
 	<bean id="ResetDoNotAttrOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
 		<property name="attr" value="doNotInitializeProfileMRUSettings"/>
 		<property name="event" value="indexPage"/>
@@ -301,6 +321,9 @@
 	<bean id="attributeEventHandlerList" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerList">
 		<property name="attributeEventHandlerList">
 			<list>
+				<ref bean="ResetQuestionPaginationDataOnIndexPageDisplay"/>
+				<ref bean="ResetExamPaginationDataOnIndexPageDisplay"/>
+				<ref bean="ResetNextSequenceNumberToZeroOnIndexPageDisplay"/>
 				<ref bean="ResetDoNotAttrOnIndexPageDisplay"/>
 				<ref bean="ResetMRUFilterQuestionTypeOnIndexPageDisplay"/>
 				<ref bean="ResetMRUFilterTextOnIndexPageDisplay"/>
@@ -365,6 +388,7 @@
 		<property name="event" value="newExamCreated"/>
 		<property name="handler" ref="SetUserIdOnAnExamObjectHandler"/>
 	</bean>
+	
 	
 	<bean id="objectEventHandlerList" class="com.haxwell.apps.questions.events.utils.ObjectEventHandlerList">
 		<property name="objectEventHandlerList">

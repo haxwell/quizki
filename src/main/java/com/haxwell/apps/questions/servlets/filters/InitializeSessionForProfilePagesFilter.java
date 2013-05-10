@@ -35,7 +35,7 @@ public class InitializeSessionForProfilePagesFilter extends AbstractFilter {
 		
 		Logger log = Logger.getLogger(InitializeSessionForProfilePagesFilter.class.getName());
 		
-		log.log(Level.INFO, "beginning InitializeSessionForProfilePagesFilter...");
+		log.log(Level.FINE, "beginning InitializeSessionForProfilePagesFilter...");
 
 		HttpServletRequest req = ((HttpServletRequest)request);
 		HttpSession session = req.getSession();
@@ -50,7 +50,7 @@ public class InitializeSessionForProfilePagesFilter extends AbstractFilter {
 		new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 		new SetListOfUserNotificationsInSessionAction().doAction(request, response);
 		
-		log.log(Level.INFO, "ending InitializeSessionForProfilePagesFilter...");
+		log.log(Level.FINE, "ending InitializeSessionForProfilePagesFilter...");
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

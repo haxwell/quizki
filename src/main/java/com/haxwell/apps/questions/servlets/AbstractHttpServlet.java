@@ -18,13 +18,6 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 
 	private static final Logger log = Logger.getLogger(AbstractHttpServlet.class.getName());
 
-//	/**
-//	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-//	 */
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		
-//	}
-	
     protected void forwardToJSP(HttpServletRequest request, HttpServletResponse response, String jsp) throws IOException, ServletException
 	{
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(jsp);
@@ -35,7 +28,7 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 	{
     	String path = /*Constants.APP_URL_ROOT + */ jsp;
     	
-    	log.log(Level.INFO, "Attempting redirect to : " + path);
+    	log.log(Level.FINER, "Attempting redirect to : " + path);
     	
     	response.sendRedirect(path);
 	}

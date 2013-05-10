@@ -57,7 +57,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		
 		if (button.equals("NEXT >"))
 		{
-			log.log(Level.INFO, "****** In NEXT > handler");
+			log.log(Level.FINER, "****** In NEXT > handler");
 			
 			Map<String, String> answers = QuestionUtil.getChosenAnswers(request);
 			boolean b = examHistory.recordAnswerToCurrentQuestion(answers);
@@ -80,8 +80,8 @@ public class TakeExamServlet extends AbstractHttpServlet {
 			}
 			else {
 				
-				log.log(Level.INFO, "....and the answers just recorded are: ");
-				log.log(Level.INFO, StringUtil.getToStringOfEach(examHistory.getFieldnamesSelectedAsAnswersToCurrentQuestion()));
+				log.log(Level.FINER, "....and the answers just recorded are: ");
+				log.log(Level.FINER, StringUtil.getToStringOfEach(examHistory.getFieldnamesSelectedAsAnswersToCurrentQuestion()));
 				
 				AbstractExamHistoryPostProcessor aehpp = ExamHistoryPostProcessorFactory.get(examHistory.getMostRecentlyUsedQuestion());
 				if (aehpp != null) aehpp.afterQuestionDisplayed(request, examHistory);
@@ -109,7 +109,7 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("< PREV") || button.equals("Go Back!"))
 		{
-			log.log(Level.INFO, "***** IN PREV method ********");
+			log.log(Level.FINER, "***** IN PREV method ********");
 			
 			handleAfterQuestionDisplayedTasks(request, examHistory);
 			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getPrevQuestion());
@@ -128,20 +128,20 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		}
 		else if (button.equals("<< FIRST"))
 		{
-			log.log(Level.INFO, "***** IN << FIRST method ********");
+			log.log(Level.FINER, "***** IN << FIRST method ********");
 			
 			handleAfterQuestionDisplayedTasks(request, examHistory);
 			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getFirstQuestion());
 		}
 		else if (button.equals("LAST >>"))
 		{
-			log.log(Level.INFO, "***** IN LAST >> method ********");
+			log.log(Level.FINER, "***** IN LAST >> method ********");
 			
 			handleAfterQuestionDisplayedTasks(request, examHistory);
 			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getLastQuestion());
 		}
 		else if (button.equals("Go To #")) {
-			log.log(Level.INFO, "***** IN GO TO #... method ********");
+			log.log(Level.FINER, "***** IN GO TO #... method ********");
 			
 			handleAfterQuestionDisplayedTasks(request, examHistory);
 
@@ -180,8 +180,8 @@ public class TakeExamServlet extends AbstractHttpServlet {
 		
 		List<String> list = getListOfFieldnamesInWhichUserInteractedWithAsAnAnswerToCurrentQuestion(examHistory, question);
 
-		log.log(Level.INFO, "The Existing answers to the current question");
-		log.log(Level.INFO, StringUtil.getToStringOfEach(list));
+		log.log(Level.FINER, "The Existing answers to the current question");
+		log.log(Level.FINER, StringUtil.getToStringOfEach(list));
 		
 		request.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
 	}

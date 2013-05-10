@@ -49,7 +49,7 @@ public class InitializeListOfExamsInSessionAction implements AbstractServletActi
 				
 				ExamManager.setTopicsAttribute(coll);
 				
-				log.log(Level.INFO, "Just added " + coll.size() + " exams to the fa_listofexamstobedisplayed list");
+				log.log(Level.FINER, "Just added " + coll.size() + " exams to the fa_listofexamstobedisplayed list");
 		}}
 		
 		return 0;

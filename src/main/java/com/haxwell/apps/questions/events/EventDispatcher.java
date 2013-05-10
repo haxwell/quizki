@@ -69,18 +69,18 @@ public class EventDispatcher {
 		
 		List<IAttributeEventHandler> list = aehl.getEventHandlerList(eventName);
 		
-		log.log(Level.INFO, "EventDisptacher: called to fire the event (" + eventName + ")");
+		log.log(Level.FINER, "EventDisptacher: called to fire the event (" + eventName + ")");
 		
 		if (list != null) {
 			for (IAttributeEventHandler handler : list) {
 				
-				log.log(Level.INFO, "EventDispatcher: calling the handler (" + handler.toString() + ")");
+				log.log(Level.FINER, "EventDispatcher: calling the handler (" + handler.toString() + ")");
 				
 				handler.execute(req);
 			}
 		}
 		else
-			log.log(Level.INFO, "No active event handlers found associated with '" + eventName + "'");
+			log.log(Level.FINER, "No active event handlers found associated with '" + eventName + "'");
 	}
 	
 	public void fireEvent(HttpServletRequest req, String eventName, Object o) {
@@ -89,18 +89,18 @@ public class EventDispatcher {
 		
 		List<IObjectEventHandler> list = oehl.getEventHandlerList(eventName);
 		
-		log.log(Level.INFO, "EventDisptacher: called to fire the event (" + eventName + ")");
+		log.log(Level.FINER, "EventDisptacher: called to fire the event (" + eventName + ")");
 		
 		if (list != null) {
 			for (IObjectEventHandler handler : list) {
 				
-				log.log(Level.INFO, "EventDispatcher: calling the handler (" + handler.toString() + ")");
+				log.log(Level.FINER, "EventDispatcher: calling the handler (" + handler.toString() + ")");
 				
 				handler.execute(req, o);
 			}
 		}
 		else
-			log.log(Level.INFO, "No event handlers found associated with '" + eventName + "'");
+			log.log(Level.FINER, "No event handlers found associated with '" + eventName + "'");
 	}
 	
 }

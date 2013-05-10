@@ -20,25 +20,17 @@ public class AttributeListener implements HttpSessionAttributeListener {
 	public void attributeAdded(HttpSessionBindingEvent arg0) {
         HttpSession session = arg0.getSession();
         
-        //TODO: instead of accessing the context, may want to let EventDispatcher or another class have primary use of AEHL
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(session.getServletContext());
         AttributeEventHandlerList aehl = (AttributeEventHandlerList)ctx.getBean("attributeEventHandlerList");
         
-        log.log(Level.INFO, "AttributeListener: '" + arg0.getName() + "' was set with the value '" + arg0.getValue() + "'");
+        log.log(Level.FINER, "AttributeListener: '" + arg0.getName() + "' was set with the value '" + arg0.getValue() + "'");
 
         aehl.activateHandlers(arg0.getName());
 	}
 
 	@Override
-	public void attributeRemoved(HttpSessionBindingEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
+	public void attributeRemoved(HttpSessionBindingEvent arg0) {	}
 
 	@Override
-	public void attributeReplaced(HttpSessionBindingEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void attributeReplaced(HttpSessionBindingEvent arg0) {	}
 }

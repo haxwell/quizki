@@ -16,9 +16,9 @@ public class SetSessionAttributeToNullHandler implements IAttributeEventHandler 
 		req.getSession().setAttribute(attr, null);
 		
 		if (req.getSession().getAttribute(attr) == null)
-			log.log(Level.INFO, ":: attr (" + attr + ") was set to null in the session.");
+			log.log(Level.FINER, ":: attr (" + attr + ") was set to null in the session.");
 		else
-			log.log(Level.INFO, ":: attr (" + attr + ") was NOT(!!) set to null in the session.");
+			log.log(Level.FINER, ":: attr (" + attr + ") was NOT(!!) set to null in the session.");
 	}
 
 	@Override

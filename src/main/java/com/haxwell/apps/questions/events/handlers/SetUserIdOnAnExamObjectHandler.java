@@ -24,7 +24,7 @@ public class SetUserIdOnAnExamObjectHandler implements IObjectEventHandler {
 		User user = (User)req.getSession().getAttribute("currentUserEntity");
 		exam.setUser(user);
 		
-		log.log(Level.INFO, ":: just set the current user entity on an exam object");
+		log.log(Level.FINER, ":: just set the current user entity on an exam object");
 	}
 
 	public String toString() {

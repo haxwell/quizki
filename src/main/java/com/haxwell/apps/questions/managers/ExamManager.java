@@ -234,19 +234,17 @@ public class ExamManager extends Manager {
 	
 	public static int getNumberOfQuestionsAnsweredCorrectly(ExamHistory eh)
 	{
-//		List<ExamHistory.AnsweredQuestion> list = eh.getListOfAnswersAlreadyProvided();
 		Iterator iterator = eh.iterator();
 		int rtn = 0;
 		
 		int counter = 0;
 		
-		log.log(Level.INFO, "in getNumberOfQuestionsAnsweredCorrectly");
+		log.log(Level.FINER, "in getNumberOfQuestionsAnsweredCorrectly");
 		
-		//for (ExamHistory.AnsweredQuestion aq : list)
 		while (iterator.hasNext())
 		{
 			ExamHistory.AnsweredQuestion aq = (ExamHistory.AnsweredQuestion)iterator.next();
-			log.log(Level.INFO, counter++ + " aq is " + ((aq == null) ? "NULL" : " NOT NULL"));			
+			log.log(Level.FINER, counter++ + " aq is " + ((aq == null) ? "NULL" : " NOT NULL"));			
 			
 			if (aq.isCorrect == true)
 				rtn++;

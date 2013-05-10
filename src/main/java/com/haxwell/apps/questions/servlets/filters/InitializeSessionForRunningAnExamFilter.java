@@ -40,7 +40,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 		
 		Logger log = Logger.getLogger(InitializeSessionForRunningAnExamFilter.class.getName());
 		
-		log.log(java.util.logging.Level.INFO, "In the InitializeSessionForRunningAnExamFilter::doFilter() method!");
+		log.log(java.util.logging.Level.FINE, "In the InitializeSessionForRunningAnExamFilter::doFilter() method!");
 		
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = ((HttpServletRequest)request);
@@ -50,7 +50,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 						
 			if (!examInProgress)
 			{
-				log.log(java.util.logging.Level.INFO, "Exam is not in progress, so proceeding to initialize session exam variables.");
+				log.log(java.util.logging.Level.FINER, "Exam is not in progress, so proceeding to initialize session exam variables.");
 				
 				Exam exam = null;
 				Object examIdRequestParameter = req.getParameter("examId");
@@ -105,18 +105,20 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					
 					session.setAttribute(Constants.QUESTION_TOPICS, ExamManager.getAllQuestionTopicsAsStrings(exam));
 					
-					log.log(java.util.logging.Level.INFO, "Exam is NOW in progress, session exam variables initialized.");				
+					log.log(java.util.logging.Level.FINER, "Exam is NOW in progress, session exam variables initialized.");				
 				}
 				else
-					log.log(Level.INFO, "Exam is running, so nothing to do...");
+					log.log(Level.FINER, "Exam is running, so nothing to do...");
 				
 				session.setAttribute(Constants.SHOULD_LOGIN_LINK_BE_DISPLAYED, Boolean.FALSE);
 			}
 			else
-				log.log(Level.INFO, "Exam is already running.. no need to initialize the session for running an exam..");
+				log.log(Level.FINER, "Exam is already running.. no need to initialize the session for running an exam..");
 		}
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
+		
+		log.log(Level.FINE, "Leaving InitializeSessionForRunningAnExamFilter");
 	}
 }

@@ -34,8 +34,8 @@ public class RandomIntegerUtil {
 			rtn.add(rand);
 		}
 		
-		log.log(Level.INFO, "Just created random list of " + listSize + " numbers.. ");
-		log.log(Level.INFO, StringUtil.getToStringOfEach(rtn));
+		log.log(Level.FINEST, "Just created random list of " + listSize + " numbers.. ");
+		log.log(Level.FINEST, StringUtil.getToStringOfEach(rtn));
 		
 		return rtn;
 	}

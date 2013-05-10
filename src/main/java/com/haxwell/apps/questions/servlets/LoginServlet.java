@@ -49,9 +49,9 @@ public class LoginServlet extends AbstractHttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		log.log(Level.INFO, "Entered LoginServlet::doPost()...");
+		log.log(Level.FINE, "Entered LoginServlet::doPost()...");
 		
-		log.log(Level.INFO, request.getParameterNames().toString());
+		log.log(Level.FINER, request.getParameterNames().toString());
 		
 		String fwdPage = null;
 		
@@ -74,17 +74,17 @@ public class LoginServlet extends AbstractHttpServlet {
 			
 			HttpSession session = request.getSession();
 
-			log.log(Level.INFO, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
+			log.log(Level.FINER, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
 			
 			try {
-				log.log(Level.INFO, "..about to get user object for [" + username + "]");
+				log.log(Level.FINER, "..about to get user object for [" + username + "]");
 				User user = UserManager.getUser(username);
-				log.log(Level.INFO, "..got user object for [" + username + "]");
+				log.log(Level.FINER, "..got user object for [" + username + "]");
 				
-				log.log(Level.INFO, String.valueOf(token.getPassword()) + " / " + token.getUsername());
+				log.log(Level.FINER, String.valueOf(token.getPassword()) + " / " + token.getUsername());
 				if (user != null)
-					log.log(Level.INFO, user.getPassword() + " / " + user.getUsername());
-				log.log(Level.INFO, "-------=---=---===---------=-");
+					log.log(Level.FINER, user.getPassword() + " / " + user.getUsername());
+				log.log(Level.FINER, "-------=---=---===---------=-");
 				
 				currentUser.login(token);
 				
@@ -94,7 +94,7 @@ public class LoginServlet extends AbstractHttpServlet {
 			}
 			catch (AuthenticationException ae)
 			{
-				log.log(Level.INFO, "..OH NO! An AuthenticationException!!");
+				log.log(Level.FINER, "..OH NO! An AuthenticationException!!");
 				
 				ae.printStackTrace();
 				
@@ -103,12 +103,13 @@ public class LoginServlet extends AbstractHttpServlet {
 			
 			if (StringUtil.isNullOrEmpty(fwdPage))
 			{
-				log.log(Level.INFO, "..nothing set for originallyRequestedPage, so fwd to index.jsp");
+				log.log(Level.FINER, "..nothing set for originallyRequestedPage, so fwd to index.jsp");
 				fwdPage = "/index.jsp";
 			}
 		}
 
-		log.log(Level.INFO, "about to redirect to: " + fwdPage);
+		log.log(Level.FINER, "about to redirect to: " + fwdPage);
+		log.log(Level.FINE, "about to leave LoginServlet::doPost()");
 		redirectToJSP(request, response, fwdPage);
 	}
 }

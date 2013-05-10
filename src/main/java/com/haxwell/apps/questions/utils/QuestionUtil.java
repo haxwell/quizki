@@ -109,7 +109,7 @@ public class QuestionUtil {
 				map.put(fieldName, str);
 		}
 		
-		log.log(Level.INFO, "Chosen answers: " + StringUtil.getToStringOfEach(map.values()));
+		log.log(Level.FINER, "Chosen answers: " + StringUtil.getToStringOfEach(map.values()));
 
 		return map;
 	}

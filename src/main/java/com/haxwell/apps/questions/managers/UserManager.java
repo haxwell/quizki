@@ -29,7 +29,7 @@ public class UserManager extends Manager {
 	
 	public static User getUser(String username)
 	{
-		log.log(Level.INFO, "..beginning UserManager::getUser(" + username + ")");
+		log.log(Level.FINE, "..beginning UserManager::getUser(" + username + ")");
 		
 		boolean b = em.isOpen();
 		Query query = em.createNativeQuery("SELECT * FROM users WHERE username = ?1", User.class);
@@ -40,14 +40,14 @@ public class UserManager extends Manager {
 		
 		User rtn = (list.size() > 0 ? list.get(0) : null);
 		
-		log.log(Level.INFO, "Returning from getUser().. no errors() ");
+		log.log(Level.FINE, "Returning from getUser().. no errors() ");
 
 		return rtn;
 	}
 	
 	public static void createUser(String username, String password)
 	{
-		log.log(Level.INFO, "..beginning Usermanager::createUser("+username+","+password+")");
+		log.log(Level.FINE, "..beginning Usermanager::createUser("+username+","+password+")");
 		
 		User user = new User();
 		
@@ -72,12 +72,12 @@ public class UserManager extends Manager {
 		
 		em.getTransaction().commit();
 		
-		log.log(Level.INFO, "Returning from createUser().. no errors() ");
+		log.log(Level.FINE, "Returning from createUser().. no errors() ");
 	}
 	
 	public static User changeUserPassword(User user, String newPassword)
 	{
-		log.log(Level.INFO, "..beginning UserManager::changeUserPassword()");
+		log.log(Level.FINE, "..beginning UserManager::changeUserPassword()");
 		
 		user.setPassword(newPassword);
 		
@@ -91,7 +91,7 @@ public class UserManager extends Manager {
 		
 		em.close();
 		
-		log.log(Level.INFO, "Returning from getUser().. no errors() ");
+		log.log(Level.FINE, "Returning from getUser().. no errors() ");
 
 		return rtn;
 	}

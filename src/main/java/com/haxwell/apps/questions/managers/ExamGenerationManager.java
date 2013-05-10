@@ -21,8 +21,8 @@ public class ExamGenerationManager {
 	
 	public static Exam generateExam(long numberOfQuestions, List<Long> topicIDsToInclude, List<Long> topicIDsToExclude, long filterDifficultyId, boolean requireMatchingDifficultyId)
 	{
-		log.log(Level.INFO, "GenerateExam() called");
-		log.log(Level.INFO, numberOfQuestions + " questions, topics = [" + StringUtil.getToStringOfEach(topicIDsToInclude) + "],[" + StringUtil.getToStringOfEach(topicIDsToExclude) + "], " + (requireMatchingDifficultyId ? "The Only " : "Matching ") + "Difficulty ID = " + filterDifficultyId);
+		log.log(Level.FINER, "GenerateExam() called");
+		log.log(Level.FINER, numberOfQuestions + " questions, topics = [" + StringUtil.getToStringOfEach(topicIDsToInclude) + "],[" + StringUtil.getToStringOfEach(topicIDsToExclude) + "], " + (requireMatchingDifficultyId ? "The Only " : "Matching ") + "Difficulty ID = " + filterDifficultyId);
 		
 		Exam exam = new Exam();
 		ArrayList<Question> mainColl = new ArrayList<Question>();
@@ -69,7 +69,7 @@ public class ExamGenerationManager {
 					if (topicIDsToExclude.contains(topic.getId()))
 					{
 						questionPassesTheFilters = false;
-						log.log(Level.INFO, "Excluded a question " + question.getId() + " because of TOPIC: " + topic.getId() + " " + topic.getText());
+						log.log(Level.FINER, "Excluded a question " + question.getId() + " because of TOPIC: " + topic.getId() + " " + topic.getText());
 					}
 				}
 			
@@ -81,20 +81,20 @@ public class ExamGenerationManager {
 				if (difficulty.getId() > filterDifficultyId)
 				{
 					questionPassesTheFilters = false;
-					log.log(Level.INFO, "Excluded a question " + question.getId() + " because of DIFFICULTY: " + difficulty.getId() + " " + difficulty.getText());
+					log.log(Level.FINER, "Excluded a question " + question.getId() + " because of DIFFICULTY: " + difficulty.getId() + " " + difficulty.getText());
 				}
 				
 				// if the difficulty is not the exact level requested..
 				if (requireMatchingDifficultyId && difficulty.getId() != filterDifficultyId) {
 					questionPassesTheFilters = false;
-					log.log(Level.INFO, "Excluded a question " + question.getId() + " because of DIFFICULTY (not a match): " + difficulty.getId() + " " + difficulty.getText());
+					log.log(Level.FINER, "Excluded a question " + question.getId() + " because of DIFFICULTY (not a match): " + difficulty.getId() + " " + difficulty.getText());
 				}
 					
 			}
 			
 			if (questionPassesTheFilters)
 			{
-				log.log(Level.INFO, "GenerateExam: Adding question " + indexToRandomListOfIndexes + " " + question);
+				log.log(Level.FINER, "GenerateExam: Adding question " + indexToRandomListOfIndexes + " " + question);
 				exam.addQuestion(question);
 			}
 				

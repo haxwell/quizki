@@ -20,7 +20,7 @@ public class AttributeEventHandlerList {
 	public void setAttributeEventHandlerItem(AttributeEventHandlerBean item) {
 		addItemToMap(attrToRegisteredAEHLBeanMap, item.attr, item);
 		
-		log.log(Level.INFO, "Added: " + item.toString());
+		log.log(Level.FINER, "Added: " + item.toString());
 	}
 	
 	public void setAttributeEventHandlerList(List<AttributeEventHandlerBean> list)
@@ -33,7 +33,7 @@ public class AttributeEventHandlerList {
 		List<AttributeEventHandlerBean> aehlBeanlist = attrToRegisteredAEHLBeanMap.get(attribute);
 
 		if (aehlBeanlist != null) {
-			log.log(Level.INFO, "Activating '" + attribute + "'....");
+			log.log(Level.FINER, "Activating '" + attribute + "'....");
 			
 			for (AttributeEventHandlerBean bean : aehlBeanlist) {
 				List<IAttributeEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.event);
@@ -42,23 +42,23 @@ public class AttributeEventHandlerList {
 				if (list == null) {
 					list = new ArrayList<IAttributeEventHandler>();
 					listChanged = true;
-					log.log(Level.INFO, "The event '"+ bean.event+"' has no active handlers.");
+					log.log(Level.FINER, "The event '"+ bean.event+"' has no active handlers.");
 				}
 				
 				if (!list.contains(bean.handler)) {
 					list.add(bean.handler);
 					listChanged = true;
-					log.log(Level.INFO, "Activated handler for the event (" + bean.event + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
+					log.log(Level.FINER, "Activated handler for the event (" + bean.event + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
 				}
 				else
-					log.log(Level.INFO, "The list of handlers for the event " + bean.event + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");
+					log.log(Level.FINER, "The list of handlers for the event " + bean.event + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");
 					
 				if (listChanged)
 					eventNameToActiveIEventHandlerMap.put(bean.event, list);
 			}
 		}
 		else {
-			log.log(Level.INFO, "No beans registered for '" + attribute + "'. Nothing to activate!");
+			log.log(Level.FINER, "No beans registered for '" + attribute + "'. Nothing to activate!");
 		}
 	}
 	

@@ -45,7 +45,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 	
 	public Question getNextQuestion() 
 	{
-		log.log(Level.INFO, "In getNextQuestion()");
+		log.log(Level.FINER, "In getNextQuestion()");
 		
 		if (currentQuestion == null || currentQuestionAnswerHasBeenRecorded) 
 		{
@@ -60,7 +60,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 				
 				currentQuestionAnswerHasBeenRecorded = false;
 				
-				log.log(Level.INFO, "ExamHistory currentQuestionNUmber = " + currentQuestionNumber);
+				log.log(Level.FINER, "ExamHistory currentQuestionNUmber = " + currentQuestionNumber);
 			}
 			else
 			{
@@ -74,7 +74,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 	
 	public Question getPrevQuestion()
 	{
-		log.log(Level.INFO, "Beginning getPrevQuestion()");
+		log.log(Level.FINER, "Beginning getPrevQuestion()");
 		
 		if (currentQuestionNumber > 1)
 		{
@@ -82,11 +82,11 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 			
 			setCurrentQuestion(originalQuestionList.get(questionIndexList.get(currentQuestionNumber - 1)));
 			
-			log.log(Level.INFO, "currentQuestionNumber = " + currentQuestionNumber + " // currentIndex = " + currentIndex + " currentQuestion = " + currentQuestion);
+			log.log(Level.FINER, "currentQuestionNumber = " + currentQuestionNumber + " // currentIndex = " + currentIndex + " currentQuestion = " + currentQuestion);
 		}
 		
-		log.log(Level.INFO, "Ending getPrevQuestion()");
-		log.log(Level.INFO, "returning currentQuestion = " + currentQuestion);
+		log.log(Level.FINER, "Ending getPrevQuestion()");
+		log.log(Level.FINER, "returning currentQuestion = " + currentQuestion);
 		
 		return currentQuestion;
 	}
@@ -137,10 +137,10 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		{
 			b = QuestionManager.isAnsweredCorrectly(currentQuestion, answers);
 			
-			log.log(Level.INFO, "currentQuestionNumber = " + currentQuestionNumber);
-			log.log(Level.INFO, "This answer is " + (b ? "" : "NOT") + " correct.");
+			log.log(Level.FINER, "currentQuestionNumber = " + currentQuestionNumber);
+			log.log(Level.FINER, "This answer is " + (b ? "" : "NOT") + " correct.");
 			
-			log.log(Level.INFO, "Putting new AnsweredQuestionObject in mapOfExistingAnswers, key " + currentQuestionNumber);
+			log.log(Level.FINER, "Putting new AnsweredQuestionObject in mapOfExistingAnswers, key " + currentQuestionNumber);
 			mapOfExistingAnswers.put(currentQuestionNumber, new AnsweredQuestion(currentQuestion, answers, b));
 			mapOfQuestionToDisplayIndex.put(currentQuestion, currentQuestionNumber);
 

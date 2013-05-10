@@ -39,7 +39,7 @@ public class InitializeSessionForGeneratingAnExamFilter extends AbstractFilter {
 			session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 			session.setAttribute(Constants.MRU_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM, Constants.DEFAULT_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM);
 			
-			log.log(Level.INFO, "InitializeSessionForGeneratingAnExamFilter just finished...");
+			log.log(Level.FINE, "InitializeSessionForGeneratingAnExamFilter just finished...");
 		}
 		
 		// pass the request along the filter chain

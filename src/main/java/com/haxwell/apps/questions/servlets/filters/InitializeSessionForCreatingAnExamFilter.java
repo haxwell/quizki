@@ -40,20 +40,13 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 		
 		Logger log = Logger.getLogger(InitializeSessionForCreatingAnExamFilter.class.getName());
 		
-		log.log(Level.INFO, "beginning InitializeSessionForCreatingAnExamFilter...");
+		log.log(Level.FINE, "beginning InitializeSessionForCreatingAnExamFilter...");
 
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 
-//			boolean currentExamHasBeenPersisted = (session.getAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED) != null);
 			boolean mruMineAllOrSelectedHasBeenSet = false;
-			
-//			if (currentExamHasBeenPersisted) {
-//				session.setAttribute(Constants.CURRENT_EXAM, null);
-//				session.setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, null);
-//				session.setAttribute(Constants.IN_EDITING_MODE, null);
-//			}
 			
 			String examId = req.getParameter("examId");
 			
@@ -94,7 +87,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			}
 		}
 		
-		log.log(Level.INFO, "ending InitializeSessionForCreatingAExamFilter...");
+		log.log(Level.FINE, "ending InitializeSessionForCreatingAExamFilter...");
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

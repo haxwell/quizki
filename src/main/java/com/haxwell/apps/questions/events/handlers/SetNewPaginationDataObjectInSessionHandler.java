@@ -18,9 +18,9 @@ public class SetNewPaginationDataObjectInSessionHandler implements IAttributeEve
 		req.getSession().setAttribute(attr, new PaginationData());
 		
 		if (req.getSession().getAttribute(attr) != null)
-			log.log(Level.INFO, ":: attr (" + attr + ") was set with a new PaginationData object in the session.");
+			log.log(Level.FINER, ":: attr (" + attr + ") was set with a new PaginationData object in the session.");
 		else
-			log.log(Level.INFO, ":: attr (" + attr + ") was NOT(!!) set with a new PaginationData object in the session.");
+			log.log(Level.FINER, ":: attr (" + attr + ") was NOT(!!) set with a new PaginationData object in the session.");
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class DisplayQuestionFilter extends AbstractFilter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		log.log(Level.INFO, "...in DisplayQuestionsFilter()");
+		log.log(Level.FINE, "...in DisplayQuestionsFilter()");
 		
 		if (request instanceof HttpServletRequest) {
 			
@@ -104,6 +104,8 @@ public class DisplayQuestionFilter extends AbstractFilter {
 
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
+		
+		log.log(Level.FINE, "Leaving DisplayQuestionFilter");
 	}
 
 	private void handleSequenceTypeQuestions(HttpServletRequest req, List<Choice> questionChoiceList, Question question)

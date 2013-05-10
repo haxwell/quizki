@@ -46,8 +46,6 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 
-			boolean mruMineAllOrSelectedHasBeenSet = false;
-			
 			String examId = req.getParameter("examId");
 			
 			if (examId != null) {
@@ -71,14 +69,11 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 					
 					if (selectedQuestionIds.size() > 0) {
 						session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.SELECTED_ITEMS);
-						mruMineAllOrSelectedHasBeenSet = true;
 					}
 				}
 			}
 			
 			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
-//				if (!mruMineAllOrSelectedHasBeenSet)
-//					session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.ALL_ITEMS);
 
 				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 				session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, Constants.DEFAULT_PAGINATION_PAGE_SIZE);

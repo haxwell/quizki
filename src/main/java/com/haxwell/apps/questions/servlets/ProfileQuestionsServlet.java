@@ -226,6 +226,11 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);		
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED, Boolean.TRUE);
 
+		/*
+		 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.
+		 * We can't depend on the AttributeListener, because it only activates handlers to be called when some other event
+		 * happens. The event is now, and we need the handlers to do their thing, now.
+		 */
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 	
@@ -261,6 +266,11 @@ public class ProfileQuestionsServlet extends AbstractHttpServlet {
 		
 		session.setAttribute(Constants.DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS, Boolean.TRUE);
 		
+		/*
+		 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.
+		 * We can't depend on the AttributeListener, because it only activates handlers to be called when some other event
+		 * happens. The event is now, and we need the handlers to do their thing, now.
+		 */
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 	

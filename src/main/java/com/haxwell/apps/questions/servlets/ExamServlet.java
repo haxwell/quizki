@@ -339,6 +339,11 @@ public class ExamServlet extends AbstractHttpServlet {
 		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
 		request.getSession().setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
 		
+		/*
+		 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.
+		 * We can't depend on the AttributeListener, because it only activates handlers to be called when some other event
+		 * happens. The event is now, and we need the handlers to do their thing, now.
+		 */
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 
@@ -402,6 +407,11 @@ public class ExamServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, mineOrAllOrSelected);
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
 		
+		/*
+		 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.
+		 * We can't depend on the AttributeListener, because it only activates handlers to be called when some other event
+		 * happens. The event is now, and we need the handlers to do their thing, now.
+		 */
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 

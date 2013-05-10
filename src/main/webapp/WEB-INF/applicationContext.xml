@@ -94,7 +94,7 @@
 	</bean>
 	
 	<bean id="ResetListOfExamsToBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="fa_listofquestionstobedisplayed"/>
+		<property name="attr" value="fa_listofexamstobedisplayed"/>
 		<property name="event" value="indexPage"/>
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>

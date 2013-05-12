@@ -24,8 +24,9 @@ public class InitializeListOfExamsInSessionAction implements AbstractServletActi
 
 	Logger log = Logger.getLogger(InitializeListOfExamsInSessionAction.class.getName());
 	
-	@Override
-	public int doAction(ServletRequest request, ServletResponse response) {
+	public final static boolean GET_ALL_EXAMS = true;
+	
+	public int doAction(ServletRequest request, ServletResponse response, boolean forceGetAllExams) {
 		if (request instanceof HttpServletRequest) {
 			
 			HttpServletRequest req = ((HttpServletRequest)request);
@@ -37,7 +38,7 @@ public class InitializeListOfExamsInSessionAction implements AbstractServletActi
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Exam> coll = null;
 	
-				if (user == null /*|| ExamManager.getNumberOfExamsCreatedByUser(user.getId()) == 0*/) { 
+				if (user == null || forceGetAllExams) { 
 					coll = ExamManager.getAllExams(epd);
 					req.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, Constants.ALL_ITEMS);
 				} else { 
@@ -53,6 +54,11 @@ public class InitializeListOfExamsInSessionAction implements AbstractServletActi
 		}}
 		
 		return 0;
+	}
+	
+	@Override
+	public int doAction(ServletRequest request, ServletResponse response) {
+		return doAction(request, response, false);
 	}
 }
 

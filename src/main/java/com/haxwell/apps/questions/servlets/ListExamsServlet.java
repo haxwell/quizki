@@ -18,7 +18,6 @@ import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.filters.ExamTopicFilter;
 import com.haxwell.apps.questions.managers.ExamManager;
-import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
 import com.haxwell.apps.questions.utils.FilterUtil;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
@@ -52,12 +51,8 @@ public class ListExamsServlet extends AbstractHttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession();
-		Object o = session.getAttribute(Constants.MRU_FILTER_MINE_OR_ALL);		
 		String button = request.getParameter("button");
 		
-		Exam examObj = getExamBean(request);		
-
 		String fwdPage = "/listExams.jsp";
 		Collection<Exam> coll = null;
 		
@@ -81,7 +76,7 @@ public class ListExamsServlet extends AbstractHttpServlet {
 				pdValuesChanged = true;
 			}
 			else {
-				if (pd.getPageNumber() != pd.FIRST_PAGE) {			
+				if (pd.getPageNumber() != PaginationData.FIRST_PAGE) {			
 					pd.initialize();
 					pdValuesChanged = true;
 				}
@@ -198,8 +193,7 @@ public class ListExamsServlet extends AbstractHttpServlet {
 					else if (action.equals("Detail Exam")) {
 						fwdPage = "/displayExam.jsp?examId=" + e.getId();
 						
-						request.getSession().setAttribute(Constants.CURRENT_EXAM, e);
-						request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "List Exams");
+						request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Search For An Exam");
 					}
 				}
 			}
@@ -227,8 +221,6 @@ public class ListExamsServlet extends AbstractHttpServlet {
 			mineOrAll = "";
 		
 		HttpSession session = request.getSession();
-		
-		Object o = session.getAttribute(Constants.MRU_FILTER_MINE_OR_ALL);
 		
 		List<Exam> list = null;
 		
@@ -290,17 +282,6 @@ public class ListExamsServlet extends AbstractHttpServlet {
 		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
 		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, mineOrAll);
 		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());		
-	}
-	
-	private Exam getExamBean(HttpServletRequest request) {
-		Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
-		
-		if (exam == null) {
-			new InitializeNewExamInSessionAction().doAction(request, null);
-			exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);			
-		}
-
-		return exam;
 	}
 	
 	private PaginationData getExamPaginationData(HttpServletRequest request) {

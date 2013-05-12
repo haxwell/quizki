@@ -79,12 +79,32 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
+    <filter-name>InitializeSessionForAdminProfilePagesFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.InitializeSessionForAdminProfilePagesFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>InitializeSessionForAdminProfilePagesFilter</filter-name>
+    <url-pattern>/secured/admin-profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
     <filter-name>DisplayQuestionFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.DisplayQuestionFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>DisplayQuestionFilter</filter-name>
     <url-pattern>/displayQuestion.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>DisplayExamFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.DisplayExamFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>DisplayExamFilter</filter-name>
+    <url-pattern>/displayExam.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
@@ -98,6 +118,7 @@
     <url-pattern>/secured/listQuestions.jsp</url-pattern>
     <url-pattern>/secured/exam.jsp</url-pattern>
     <url-pattern>/secured/profile.jsp</url-pattern>
+    <url-pattern>/secured/admin-profile.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
@@ -143,6 +164,16 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
+    <filter-name>ListAdminQuestionsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListAdminQuestionsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ListAdminQuestionsFilter</filter-name>
+    <url-pattern>/secured/admin-profile.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
     <filter-name>ListProfileQuestionsFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.ListProfileQuestionsFilter</filter-class>
   </filter>
@@ -159,6 +190,16 @@
   <filter-mapping>
     <filter-name>ListExamQuestionsFilter</filter-name>
     <url-pattern>/secured/exam.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>ListAdminExamsFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.ListAdminExamsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ListAdminExamsFilter</filter-name>
+    <url-pattern>/secured/admin-profile.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

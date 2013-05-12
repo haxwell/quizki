@@ -16,6 +16,7 @@ import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.utils.UserUtil;
 
 /**
  * Makes sure the necessary objects are in the session for the code downstream.
@@ -37,24 +38,13 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 			HttpServletRequest req = ((HttpServletRequest)request);
 			HttpSession session = req.getSession();
 
-//			session.setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, null);
-			
-//			boolean currentQuestionHasBeenPersisted = (session.getAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED) != null);
-			
-			// TODO: Handle this in an event handler
-//			if (currentQuestionHasBeenPersisted) {
-//				setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
-//				
-//				session.setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, null);
-//			}
-//			
 			String questionId = req.getParameter("questionId");
 			
 			if (questionId != null) {
 				Question q = QuestionManager.getQuestionById(questionId);
 				User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 				
-				if (user == null || q.getUser().getId() != user.getId()) {
+				if (user == null || ((q.getUser().getId() != user.getId()) && !UserUtil.isAdministrator(user))) {
 					request.setAttribute("doNotAllowEntityEditing", Boolean.TRUE);
 				}
 				else {

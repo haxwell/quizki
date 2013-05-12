@@ -22,4 +22,20 @@ public class UserUtil {
 		
 		return rtn;
 	}
+
+	public static boolean isAdministrator(User u) {
+		boolean rtn = false;
+
+		if (u != null) {
+			Iterator<UserRole> iterator = u.getUserRoles().iterator();
+			
+			while (rtn == false && iterator.hasNext())
+			{
+				UserRole ur = iterator.next();
+				rtn = ur.getText().equals("Administrator");
+			}
+		}
+
+		return rtn;
+	}
 }

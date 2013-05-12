@@ -186,6 +186,9 @@ public class ProfileExamsServlet extends AbstractHttpServlet {
 						new InitializeListOfExamsInSessionAction().doAction(request, response);
 						new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 					}
+					else if (btnValue.equals("Detail Exam")) {
+						fwdPage = "/displayExam.jsp?examId=" + id;
+					}
 				}
 			}
 		}

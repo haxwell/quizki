@@ -23,6 +23,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.utils.CollectionUtil;
+import com.haxwell.apps.questions.utils.UserUtil;
 
 /**
  * Makes sure the necessary objects are in the session for the code downstream.
@@ -53,7 +54,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 				
 				User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 				
-				if (user == null || exam.getUser().getId() != user.getId()) {
+				if (user == null || ((exam.getUser().getId() != user.getId()) && !UserUtil.isAdministrator(user))) {
 					request.setAttribute("doNotAllowEntityEditing", Boolean.TRUE);
 				}
 				else {

@@ -154,6 +154,13 @@
 									document.getElementById("profileExamForm").submit();
 								});
 			              		
+								$('#exam_detail_button_' + num).click(function () {
+									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
+									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+									
+									document.getElementById("profileExamForm").submit();
+								});
+			              		
 			              		num = num + 1;
 			          	});
 		              });

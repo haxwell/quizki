@@ -63,7 +63,6 @@ public class Constants {
 	public static final String LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS = "listOfPreviouslySuppliedAnswers";
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
-//	public static final String SHOULD_ALL_QUESTIONS_BE_DISPLAYED = "shouldAllQuestionsBeDisplayed";	
 	public static final String SHOULD_ALLOW_QUESTION_EDITING = "shouldAllowQuestionEditing";
 	public static final String SHOULD_GENERATE_NEW_RANDOM_CHOICE_INDEXES = "shouldGenerateNewRandomChoiceIndexes";
 	public static final String SHOULD_LOGIN_LINK_BE_DISPLAYED = "shouldLoginLinkBeDisplayed";
@@ -99,6 +98,8 @@ public class Constants {
 	public static final String DEFAULT_MAX_NUMBER_OF_QUESTIONS_ON_GENERATED_EXAM = "10";
 
 	public static final String TOTAL_NUMBER_OF_TOPICS = "totalNumberOfTopics";
+	public static final String TOTAL_NUMBER_OF_QUESTIONS = "totalNumberOfQuestions";
+	public static final String TOTAL_NUMBER_OF_EXAMS = "totalNumberOfExams";
 	
 	public static final String NUMBER_OF_USER_CONTRIBUTED_QUESTIONS = "numberOfQuestionsUserContributed";
 	public static final String NUMBER_OF_USER_CONTRIBUTED_EXAMS = "numberOfExamsUserContributed";

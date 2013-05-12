@@ -53,7 +53,7 @@
 						</td>
 					</c:when>
 					<c:otherwise>
-						<td><input type="submit" value="Detail Exam" name="examButton_${exam.id}"/></td>
+						<td><input type="submit" value="Detail Exam" id="exam_detail_button_${counter}" name="examButton_${exam.id}"/></td>
 					</c:otherwise>
 					</c:choose>
 				<td style="width:100%;">${exam.title}</td>

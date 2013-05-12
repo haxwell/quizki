@@ -16,4 +16,5 @@ public class EventConstants {
 	public static final String INDEX_PAGE = "indexPage";
 	
 	public static final String NEW_EXAM_CREATED = "newExamCreated";
+	public static final String LIST_OF_QUESTIONS_SET_IN_SESSION_FOR_ADMIN = "listOfQuestionsSetInSessionForAdmin";
 }

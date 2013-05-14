@@ -164,10 +164,10 @@
 			    	<div id="paginationDiv" class="center">
 			    	<c:choose>
 			    	<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
-				    	Showing questions ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
+				    	Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
 					</c:when>
 					<c:otherwise>
-						No questions to show! 					
+						No exams to show! 					
 					</c:otherwise>
 					</c:choose>	 
 				    	<input type="submit" value="&lt;&lt; FIRST" name="button"/>

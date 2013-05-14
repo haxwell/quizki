@@ -38,13 +38,10 @@ public class ListExamsFilter extends AbstractFilter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		new InitializeListOfExamsInSessionAction().doAction(request, response);
+		User user = (User)((HttpServletRequest)request).getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+		boolean getAllExams = (user != null && ExamManager.getNumberOfExamsCreatedByUser(user.getId()) < 1);
 		
-//		User user = (User)((HttpServletRequest)request).getAttribute(Constants.CURRENT_USER_ENTITY);
-		
-//		String mru = (user == null) ? Constants.ALL_ITEMS_STR : Constants.MY_ITEMS_STR;
-//		
-//		((HttpServletRequest)request).getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL, FilterUtil.convertToInt(mru));
+		new InitializeListOfExamsInSessionAction().doAction(request, response, getAllExams);
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

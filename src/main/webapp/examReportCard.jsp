@@ -44,6 +44,15 @@
 			</c:choose>
 		</div>
 	</c:forEach>
+	<br/><br/>
+	<form action="/ExamReportCardServlet" method="post">
+	Give some feedback to the owner of this exam!
+	<br/><br/>
+	<textarea id="id_examFeedbackTextarea" name="examFeedbackTextarea" cols="50" rows="15" value="Enter some feedback"/>
+	<br/>
+	<input type="submit" value="Send Feedback" name="button"/>
+	</form>
+	
 	
 	<br/><br/><br/>
 	<a href="/index.jsp">home</a>

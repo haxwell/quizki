@@ -356,5 +356,14 @@
   	<url-pattern>/secured/ProfileQuestionsServlet</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+  	<servlet-name>ExamReportCardServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ExamReportCardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ExamReportCardServlet</servlet-name>
+  	<url-pattern>/secured/ExamReportCardServlet</url-pattern>
+  </servlet-mapping>
+
 </web-app>
 

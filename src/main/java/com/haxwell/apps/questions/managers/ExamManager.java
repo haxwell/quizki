@@ -15,8 +15,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.entities.Exam;
+import com.haxwell.apps.questions.entities.ExamFeedback;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.utils.ExamHistory;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
@@ -384,6 +386,36 @@ public class ExamManager extends Manager {
 		Query query = em.createNativeQuery("SELECT count(*) FROM exam");
 		
 		Long rtn = (Long)query.getSingleResult();
+		
+		em.close();
+		
+		return rtn;
+	}
+	
+	public static void addExamFeedback(Exam e, User commentingUser, String feedback) {
+		EntityManager em = emf.createEntityManager();
+		
+		ExamFeedback ef = new ExamFeedback(e, commentingUser, feedback);
+
+		em.getTransaction().begin();
+		
+		ExamFeedback ef2 = em.merge(ef);
+		
+		em.getTransaction().commit();
+		
+		em.close();
+	}
+	
+	public static List<ExamFeedback> getFeedback(long examId) {
+		EntityManager em = emf.createEntityManager();
+
+		Query query;
+		String queryString = "SELECT ef FROM ExamFeedback ef WHERE ef.exam.id = ?1";
+		
+		query = em.createQuery(queryString,  ExamFeedback.class);
+		query.setParameter(1, examId);
+		
+		List<ExamFeedback> rtn = query.getResultList();
 		
 		em.close();
 		

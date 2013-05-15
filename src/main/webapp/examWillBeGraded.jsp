@@ -13,7 +13,6 @@
 		
 		<jsp:text>
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
 		</jsp:text>
 				
 	</head>

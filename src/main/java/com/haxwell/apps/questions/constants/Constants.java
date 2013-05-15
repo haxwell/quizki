@@ -118,4 +118,6 @@ public class Constants {
 	public static final String QUESTION_PAGINATION_DATA = "questionPaginationData";
 
 	public static final int DEFAULT_PAGINATION_PAGE_SIZE = 10;
+
+	public static final String FEEDBACK_FOR_CURRENT_USER_AND_EXAM = "feedbackForCurrentUserAndExam"; 
 }

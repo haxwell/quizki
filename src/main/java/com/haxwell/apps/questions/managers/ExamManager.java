@@ -422,6 +422,23 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 	
+	public static List<ExamFeedback> getFeedback(long userId, long examId) {
+		EntityManager em = emf.createEntityManager();
+
+		Query query;
+		String queryString = "SELECT ef FROM ExamFeedback ef WHERE ef.commentingUser.id = ?1 AND ef.exam.id = ?2";
+		
+		query = em.createQuery(queryString,  ExamFeedback.class);
+		query.setParameter(1, userId);
+		query.setParameter(2, examId);
+		
+		List<ExamFeedback> rtn = query.getResultList();
+		
+		em.close();
+		
+		return rtn;
+	}
+	
 	public static void deleteQuestionFromExam(Exam e, Question q) {
 		e.getQuestions().remove(q);
 	}

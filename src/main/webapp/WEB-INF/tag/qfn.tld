@@ -27,4 +27,11 @@
       <function-class>com.haxwell.apps.questions.utils.StringUtil</function-class>
       <function-signature>boolean isNullOrEmpty(java.lang.String)</function-signature>
   </function>
+  
+    <function>
+      <name>getExamDifficultyAsString</name>
+      <function-class>com.haxwell.apps.questions.utils.ExamUtil</function-class>
+      <function-signature>String getExamDifficultyAsString(com.haxwell.apps.questions.entities.Exam)</function-signature>
+  </function>
+  
 </taglib>

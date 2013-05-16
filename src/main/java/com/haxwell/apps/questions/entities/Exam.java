@@ -54,6 +54,9 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 
 	@Transient
     private Set<Topic> examTopics;
+	
+	@Transient
+	private String difficulty;
 
     public Exam() {
     }
@@ -125,6 +128,16 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.examTopics = topics;
 	}
 	
+	@Transient
+	public String getDifficulty() {
+		return difficulty;
+	}
+
+	@Transient
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
+
 	@Override
 	public String toString()
 	{

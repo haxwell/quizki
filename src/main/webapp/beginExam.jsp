@@ -35,7 +35,7 @@
 		
 		You are about to take the exam "${sessionScope.currentExam.title}", created by ${createdByName}<br/><br/> 
 		
-		This exam has questions covering<br/><br/>
+		This exam's difficulty is ${sessionScope.currentExam.difficulty}. It has questions covering<br/><br/>
 		
 			<c:forEach var="topicText" items="${fa_listofexamtopics}">
 				-- ${topicText}<br/>

@@ -22,6 +22,7 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.utils.ExamHistory;
+import com.haxwell.apps.questions.utils.ExamUtil;
 
 /**
  * Makes sure the necessary objects are in the session for the code downstream.
@@ -78,6 +79,9 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 				
 				if (exam != null) {
 					ExamHistory examHistory = ExamManager.initializeExamHistory(exam);
+					
+					String examDifficulty = new ExamUtil().getExamDifficultyAsString(exam);
+					exam.setDifficulty(examDifficulty);
 					
 					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);
 					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, examHistory);

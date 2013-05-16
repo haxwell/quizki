@@ -22,6 +22,15 @@ public class DifficultyUtil {
 		
 		return 1;
 	}
+	
+	public static String convertToString(int i) {
+		if (i == DifficultyConstants.JUNIOR) return DifficultyConstants.JUNIOR_STR;
+		if (i == DifficultyConstants.INTERMEDIATE) return DifficultyConstants.INTERMEDIATE_STR;
+		if (i == DifficultyConstants.WELL_VERSED) return DifficultyConstants.WELL_VERSED_STR;
+		if (i == DifficultyConstants.GURU) return DifficultyConstants.GURU_STR;
+		
+		return null;
+	}
 
 	public static String getDisplayString(String str)
 	{
@@ -44,6 +53,18 @@ public class DifficultyUtil {
 		Difficulty d = new Difficulty(getDisplayString(parameter));
 		
 		d.setId(convertToInt(parameter));
+		
+		return d;
+	}
+
+	public static Difficulty getDifficulty(int i) {
+		if (i > DifficultyConstants.GURU || i < DifficultyConstants.JUNIOR)
+			throw new IllegalArgumentException("Cannot create a Difficulty object with the ID [" + i + "]");
+		
+		Difficulty d = new Difficulty();
+		
+		d.setId(i);
+		d.setText(convertToString(i));
 		
 		return d;
 	}

@@ -49,6 +49,20 @@ public class NotificationManager extends Manager {
 		persistNotification(notification);
 	}
 	
+	public static void issueNotification_feedbackLeftForExam(long examId, String commentingUsername)
+	{
+		Exam exam = ExamManager.getExam(examId);
+		
+		Notification notification = newNotification();
+		
+		notification.setUser(exam.getUser());
+		notification.setNotificationId(Constants.NOTIFICATION_ID_FEEDBACK_LEFT_FOR_EXAM);
+		notification.setText(commentingUsername + " left feedback on your exam '" + exam.getTitle() + "'.");
+		notification.setTime_stamp(new java.util.Date());
+		
+		persistNotification(notification);
+	}
+	
 	public static long persistNotification(Notification notification)
 	{
 		EntityManager em = emf.createEntityManager();

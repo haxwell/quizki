@@ -20,13 +20,13 @@
 			<script type="text/javascript">
 					$(document).ready(function(){
 						$("#btnSendFeedback").click(function(){
-							alert("btn pushed!");
+							//alert("btn pushed!");
 							$.post("/examReportCard-sendFeedback.jsp",
 							{
 								examFeedbackTextarea: $('#id_examFeedbackTextarea').attr('value')
 							},
 							function(data,status){
-								alert("Data: " + data + "\nStatus: " + status);
+								//alert("Data: " + data + "\nStatus: " + status);
 								
 								if (status == 'success') {
 									$('#divFeedbackMsgToUser').html('Your feedback has been saved!');

@@ -404,6 +404,8 @@ public class ExamManager extends Manager {
 		em.getTransaction().commit();
 		
 		em.close();
+		
+		NotificationManager.issueNotification_feedbackLeftForExam(e.getId(), commentingUser.getUsername());
 	}
 	
 	public static List<ExamFeedback> getFeedback(long examId) {

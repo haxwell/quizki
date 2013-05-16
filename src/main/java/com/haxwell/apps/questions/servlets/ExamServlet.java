@@ -85,7 +85,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		{
 			handleFilterButtonPress(request, getQuestionPaginationData(request));
 			
-			setExamTitleFromFormParameter(request, examObj);
+			setExamTitleAndMessageFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);
 		}
 		else if (button.equals("Clear Filter")) 
@@ -117,7 +117,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
-			setExamTitleFromFormParameter(request, examObj);
+			setExamTitleAndMessageFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("< PREV"))
@@ -142,7 +142,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
-			setExamTitleFromFormParameter(request, examObj);
+			setExamTitleAndMessageFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("NEXT >"))
@@ -168,7 +168,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
-			setExamTitleFromFormParameter(request, examObj);
+			setExamTitleAndMessageFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("LAST >>"))
@@ -196,7 +196,7 @@ public class ExamServlet extends AbstractHttpServlet {
 				setQuestionPaginationData(request, pd);
 			}
 			
-			setExamTitleFromFormParameter(request, examObj);
+			setExamTitleAndMessageFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 		else if (button.equals("REFRESH")) 
@@ -212,16 +212,11 @@ public class ExamServlet extends AbstractHttpServlet {
 			refreshListOfQuestionsToBeDisplayed(request, pd);
 			setQuestionPaginationData(request, pd);
 			
-			setExamTitleFromFormParameter(request, examObj);
+			setExamTitleAndMessageFromFormParameter(request, examObj);
 			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, Boolean.TRUE);			
 		}
 
 		if (examWasPersisted) {
-//			session.setAttribute(Constants.CURRENT_EXAM_HAS_BEEN_PERSISTED, Boolean.TRUE);
-			
-//			session.setAttribute(Constants.IN_EDITING_MODE, null);
-//			session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
-			
 			clearMRUFilterSettings(request);
 			refreshListOfQuestionsToBeDisplayed(request, getQuestionPaginationData(request));
 		}
@@ -250,7 +245,7 @@ public class ExamServlet extends AbstractHttpServlet {
 		
 		boolean rtn = false;
 		
-		setExamTitleFromFormParameter(request, examObj);
+		setExamTitleAndMessageFromFormParameter(request, examObj);
 		
 		if (validation(request, errors))
 		{
@@ -435,11 +430,15 @@ public class ExamServlet extends AbstractHttpServlet {
 		return coll;
 	}
 
-	private void setExamTitleFromFormParameter(HttpServletRequest request, Exam examObj) {
+	private void setExamTitleAndMessageFromFormParameter(HttpServletRequest request, Exam examObj) {
 		String title = request.getParameter("examTitle");
+		String message = request.getParameter("examMessage");
 		
 		if (title != null) 
 			examObj.setTitle(title);
+		
+		if (message != null)
+			examObj.setMessage(message);
 	}
 
 	private Exam getExamBean(HttpServletRequest request) {

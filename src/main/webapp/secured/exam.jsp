@@ -153,6 +153,9 @@
 	      		<td>
 	      			Title: <input type="text" size="45" maxlength="128" id="id_examTitle" name="examTitle" value="${currentExam.title}" title="A name for this exam."/>
 	      		</td>
+	      		<td>
+	      			Message: <input type="text" size="45" maxlength="255" id="id_examMessage" name="examMessage" value="${currentExam.message}" title="A message for folks who take this exam."/>
+	      		</td>
 				<c:choose>
 					<c:when test="${empty sessionScope.inEditingMode}">
 						<td style="float:right;"><input type="submit" value="Add Exam" name="button" style="float:right;"/></td>

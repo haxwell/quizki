@@ -1,4 +1,4 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:qfn="http://quizki.com/tld/qfn" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -16,20 +16,37 @@
 <jsp:include page="/header.jsp"></jsp:include>
 
       <c:choose>
-      <c:when test="${empty sessionScope.fa_listofexamtopics}">
-      	<br/><br/>
-		Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning</a>.
-      </c:when>
+	      <c:when test="${empty sessionScope.fa_listofexamtopics}">
+	      	<br/><br/>
+			Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning</a>.
+	      </c:when>
       <c:otherwise>
-
 		<br/><br/><br/>
-		You are about to begin an exam with questions covering<br/><br/>
+		
+		<c:set var="createdByName" value=""/>
+		<c:choose>
+		<c:when test="${empty sessionScope.currentExam.user}">
+			<c:set var="createdByName" value="quizki.com"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="createdByName" value="${sessionScope.currentExam.user.username}"/>
+		</c:otherwise>
+		</c:choose>
+		
+		You are about to take the exam "${sessionScope.currentExam.title}", created by ${createdByName}<br/><br/> 
+		
+		This exam has questions covering<br/><br/>
 		
 			<c:forEach var="topicText" items="${fa_listofexamtopics}">
 				-- ${topicText}<br/>
 			</c:forEach>
-<br/><br/>
-		There are ${totalNumberOfQuestionsInCurrentExam} questions in this exam!<br/><br/>
+		<br/><br/>
+		There are ${totalNumberOfQuestionsInCurrentExam} questions in this exam!<br/><br/><br/>
+
+		<c:if test="${not qfn:isNullOrEmpty(sessionScope.currentExam.message)}">
+			${sessionScope.currentExam.user.username} 's message to you: <br/>  ${sessionScope.currentExam.message}<br/>
+		</c:if>
+		
 		
 		<form action="/BeginExamServlet" method="post">
 		

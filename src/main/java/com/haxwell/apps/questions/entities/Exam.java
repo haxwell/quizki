@@ -32,6 +32,8 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	private long id;
 
 	private String title;
+	
+	private String message;
 
 	//bi-directional many-to-one association to User
     @ManyToOne
@@ -72,6 +74,14 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.title = title;
 	}
 
+	public String getMessage() {
+		return this.message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 	public User getUser() {
 		return this.user;
 	}
@@ -125,4 +135,5 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		
 		return sb.toString();
 	}
+
 }

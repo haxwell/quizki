@@ -34,20 +34,28 @@ public class InitializeListOfQuestionsInSessionForAdminAction implements Abstrac
 			
 			User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			Collection<Question> coll = null;
-	
-			if (req.getSession().getAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED) == null) {
-				if (user != null) {
-					PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
-					
+
+			PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
+			
+			if (user != null) {
+				if (req.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_HAS_BEEN_FILTERED) == null) {
 					coll = QuestionManager.getAllQuestions(qpd);
 					session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.ALL_ITEMS);
 				}
-		
-				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-				
-				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_SET_IN_SESSION_FOR_ADMIN);
-				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
+				else {
+					String filterText = (String)session.getAttribute(Constants.MRU_FILTER_TEXT);
+					String topicFilterText = (String)session.getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
+					int questionType = (Integer)session.getAttribute(Constants.MRU_FILTER_QUESTION_TYPE);
+					int maxDifficulty = (Integer)session.getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+
+					coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, qpd);
+				}
 			}
+
+			req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+			
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_SET_IN_SESSION_FOR_ADMIN);
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	
 			if (coll != null)
 				log.log(Level.FINER, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");

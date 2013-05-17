@@ -184,6 +184,18 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
+	<bean id="ResetDoNotInitializeQuestionsToBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="doNotInitializeQuestionsToBeDisplayed"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
+	<bean id="ResetListOfQuestionsToBeDisplayedHasBeenFilteredOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="listOfQuestionsToBeDisplayedHasBeenFiltered"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
 
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: questionWasPersisted -->
@@ -359,6 +371,8 @@
 				<ref bean="ResetShouldLoginLinkBeDisplayedOnIndexPageDisplay"/>
 				<ref bean="ResetTabIndexOnIndexPageDisplay"/>
 				<ref bean="ResetInEditingModeOnIndexPageDisplay"/>
+				<ref bean="ResetDoNotInitializeQuestionsToBeDisplayedOnIndexPageDisplay"/>				
+				<ref bean="ResetListOfQuestionsToBeDisplayedHasBeenFilteredOnIndexPageDisplay"/>
 		
 				<ref bean="ResetExamInProgressOnQuestionWasPersisted"/>
 				<ref bean="ResetCurrentExamOnQuestionWasPersisted"/>

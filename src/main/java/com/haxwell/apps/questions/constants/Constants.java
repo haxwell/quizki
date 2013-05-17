@@ -45,7 +45,8 @@ public class Constants {
 	public static final String MRU_FILTER_PAGINATION_QUANTITY = "mruFilterPaginationQuantity";
 	
 	public static final String LIST_OF_EXAMS_TO_BE_DISPLAYED = "fa_listofexamstobedisplayed";
-	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listofquestionstobedisplayed";	
+	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "fa_listofquestionstobedisplayed";
+	public static final String LIST_OF_QUESTIONS_TO_BE_DISPLAYED_HAS_BEEN_FILTERED = "listOfQuestionsToBeDisplayedHasBeenFiltered";	
 	public static final String LIST_OF_TOPICS_TO_BE_DISPLAYED = "fa_listofalltopics";
 	public static final String LIST_OF_MAJOR_TOPICS = "fa_listofmajortopics";
 	public static final String LIST_OF_EXAM_TOPICS = "fa_listofexamtopics";
@@ -69,7 +70,6 @@ public class Constants {
 	public static final String ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN = "onlySelectedQuestionsShouldBeShown";
 	
 	public static final String DO_NOT_INITIALIZE_PROFILE_MRU_SETTINGS = "doNotInitializeProfileMRUSettings";
-	public static final String DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED = "doNotInitializeQuestionsToBeDisplayed";
 	
 	public static final String QUESTION_ID = "questionId";
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
@@ -122,5 +122,4 @@ public class Constants {
 
 	public static final String FEEDBACK_FOR_CURRENT_USER_AND_EXAM = "feedbackForCurrentUserAndExam";
 
-	 
 }

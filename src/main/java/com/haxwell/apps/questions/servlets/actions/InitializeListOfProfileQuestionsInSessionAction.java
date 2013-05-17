@@ -15,7 +15,9 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.TypeUtil;
 
 /**
  * Ensures that the list of profile page questions in the session is the most up to date it can be.
@@ -34,20 +36,29 @@ public class InitializeListOfProfileQuestionsInSessionAction implements Abstract
 			
 			User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			Collection<Question> coll = null;
-	
-			if (req.getSession().getAttribute(Constants.DO_NOT_INITIALIZE_QUESTIONS_TO_BE_DISPLAYED) == null) {
-				if (user != null) {
-					PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
+
+			PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
+			
+			if (user != null) {
+				if (req.getSession().getAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_HAS_BEEN_FILTERED) == null) {
 					
 					coll = QuestionManager.getAllQuestionsForUser(user.getId(), qpd);
 					session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, Constants.MY_ITEMS);
+				} 
+				else {
+					String filterText = (String)session.getAttribute(Constants.MRU_FILTER_TEXT);
+					String topicFilterText = (String)session.getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
+					int questionType = (Integer)session.getAttribute(Constants.MRU_FILTER_QUESTION_TYPE);
+					int maxDifficulty = (Integer)session.getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+
+					coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, qpd);
 				}
-		
-				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-				
-				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_PROFILE_QUESTIONS_SET_IN_SESSION);
-				EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 			}
+			
+			req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+			
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_PROFILE_QUESTIONS_SET_IN_SESSION);
+			EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	
 			if (coll != null)
 				log.log(Level.FINER, "Just set " + Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED + "to have " + coll.size() + " items.");

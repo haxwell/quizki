@@ -21,6 +21,11 @@ public class EntityType implements EntityWithAnIntegerIDBehavior, Serializable {
     public EntityType() {
     }
     
+    public EntityType(long id, String str) {
+    	this.id = id;
+    	this.text = str;
+    }
+    
     public EntityType(long id) {
     	this.id = id;
     }

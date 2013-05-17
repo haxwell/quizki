@@ -437,7 +437,7 @@ CREATE TABLE `entity_type` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_roles_map`
+-- Dumping data for table `entity_type`
 --
 
 LOCK TABLES `entity_type` WRITE;

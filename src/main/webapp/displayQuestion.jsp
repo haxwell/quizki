@@ -1,4 +1,4 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:qfn="http://quizki.com/tld/qfn" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -31,6 +31,48 @@
 				</script>
 			]]>
 			
+			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>			
+			
+			<![CDATA[
+			<script type="text/javascript">
+					$(document).ready(function(){
+						$("#btnThumbsUp").click(function(){
+							//alert("btn pushed!");
+							$.post("/registerVote.jsp",
+							{
+								voteDirection: "up",
+								entityKey: "displayQuestion"
+							},
+							function(data,status){
+								alert("Data: " + data + "\nStatus: " + status);
+								
+								if (status == 'success') {
+									$('#divVotingButtons').html('Your vote has been saved!');
+								}
+							});
+						});
+					});					
+
+					$(document).ready(function(){
+						$("#btnThumbsDown").click(function(){
+							//alert("btn pushed!");
+							$.post("/registerVote.jsp",
+							{
+								voteDirection: "down",
+								entityKey: "displayQuestion"
+							},
+							function(data,status){
+								alert("Data: " + data + "\nStatus: " + status);
+								
+								if (status == 'success') {
+									$('#divVotingButtons').html('Your vote has been saved!');
+								}
+							});
+						});
+					});					
+		    </script> ]]>			
+
 			<![CDATA[
 			<script type="text/javascript">
 			
@@ -144,7 +186,6 @@
 	</c:if>
 
 		<br/><br/>
-		<form action=".">
 		Creator: ${displayQuestion.user.username}<br/>
 	<c:choose>
 	<c:when test="${not empty displayQuestion.description}">
@@ -205,9 +246,28 @@
 							</c:forEach>
 			</table>
 		</div>
-		</form>
+		<br/>
 		
-		<!-- TODO: Add ability to store and display references for a question -->
+		<hr/>
+		<br/>
+		<c:if test="${not empty sessionScope.currentUserEntity}">
+			Vote --<br/>
+			<div id="divVotingButtons" style="margin-left:25px">
+
+				<c:choose>
+					<c:when test="${qfn:userHasVotedForThisEntity(sessionScope.currentUserEntity, sessionScope.displayQuestion)}">
+						You have already voted on this question. You can change your vote.					
+					</c:when>
+					<c:otherwise>
+						Vote for this question
+					</c:otherwise>
+				</c:choose>
+				
+				<input type="submit" id="btnThumbsUp" value="Thumbs Up" name="button"/> or <input type="submit" id="btnThumbsDown" value="Thumbs Down" name="button"/> 
+			</div>
+		</c:if>			
+
+		
 		
 		<br/><br/>
 	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a>

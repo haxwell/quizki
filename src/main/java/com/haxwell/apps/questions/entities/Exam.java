@@ -61,6 +61,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     public Exam() {
     }
 
+    @Override
     public long getId() {
 		return this.id;
 	}

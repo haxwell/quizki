@@ -7,4 +7,7 @@ public class AbstractEntity implements Comparable {
 		return 0;
 	}
 
+	public long getId() {
+		return Long.MIN_VALUE;
+	}
 }

@@ -41,7 +41,9 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
     private int thumbsDown; // acts a boolean
     
 	public Vote() {
-    }
+		setThumbsDown(Boolean.FALSE);
+		setThumbsUp(Boolean.FALSE);
+	}
 
     public long getId() {
 		return this.id;

@@ -91,6 +91,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
     	text = "";
     }
 
+    @Override
     public long getId() {
 		return this.id;
 	}

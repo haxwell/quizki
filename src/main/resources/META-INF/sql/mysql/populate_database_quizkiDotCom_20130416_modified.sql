@@ -460,10 +460,8 @@ CREATE TABLE `votes` (
   `entityId` bigint(20) NOT NULL,
   `thumbsUp` int(11) NOT NULL,
   `thumbsDown` int(11) NOT NULL,
-  PRIMARY KEY `id` (`id`),
-  KEY `userId` (`userId`),
-  KEY `entityTypeId` (`entityTypeId`),
-  KEY `entityId` (`entityId`)
+  PRIMARY KEY (`userId`,`entityId`,`entityTypeId`),
+  KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

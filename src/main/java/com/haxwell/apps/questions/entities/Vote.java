@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the VOTES database table.
@@ -89,6 +90,11 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
 	public void setThumbsUp(int val) {
 		this.thumbsUp = val;
 	}
+	
+	@Transient
+	public boolean isThumbsUp() {
+		return this.thumbsUp == 1;
+	}
 
 	public int getThumbsDown() {
 		return this.thumbsDown;
@@ -102,4 +108,10 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
 	public void setThumbsDown(int val) {
 		this.thumbsDown = val;
 	}
+
+	@Transient
+	public boolean isThumbsDown() {
+		return this.thumbsUp == 1;
+	}
+
 }

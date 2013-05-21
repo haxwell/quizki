@@ -45,7 +45,7 @@
 								entityKey: "displayQuestion"
 							},
 							function(data,status){
-								alert("Data: " + data + "\nStatus: " + status);
+								//alert("Data: " + data + "\nStatus: " + status);
 								
 								if (status == 'success') {
 									$('#divVotingButtons').html('Your vote has been saved!');
@@ -63,7 +63,7 @@
 								entityKey: "displayQuestion"
 							},
 							function(data,status){
-								alert("Data: " + data + "\nStatus: " + status);
+								//alert("Data: " + data + "\nStatus: " + status);
 								
 								if (status == 'success') {
 									$('#divVotingButtons').html('Your vote has been saved!');

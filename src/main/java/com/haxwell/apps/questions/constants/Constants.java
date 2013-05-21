@@ -122,4 +122,6 @@ public class Constants {
 
 	public static final String FEEDBACK_FOR_CURRENT_USER_AND_EXAM = "feedbackForCurrentUserAndExam";
 
+	public static final String VOTE_DATA_FOR_LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "voteDataForListOfQuestionsToBeDisplayed";
+
 }

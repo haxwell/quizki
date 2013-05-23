@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.servlets.actions;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,9 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.managers.VoteManager;
 import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.utils.VoteData;
 
 /**
  * Ensures that the list of profile page questions in the session is the most up to date it can be.
@@ -34,7 +37,8 @@ public class InitializeListOfQuestionsInSessionForAdminAction implements Abstrac
 			
 			User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			Collection<Question> coll = null;
-
+			Map<String, VoteData> collVoteData = null;
+			
 			PaginationData qpd = (PaginationData)req.getSession().getAttribute(Constants.QUESTION_PAGINATION_DATA);
 			
 			if (user != null) {
@@ -52,7 +56,10 @@ public class InitializeListOfQuestionsInSessionForAdminAction implements Abstrac
 				}
 			}
 
+			collVoteData = VoteManager.getSummarizedVotes(coll);
+			
 			req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+			req.getSession().setAttribute(Constants.VOTE_DATA_FOR_LIST_OF_QUESTIONS_TO_BE_DISPLAYED, collVoteData);
 			
 			EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_SET_IN_SESSION_FOR_ADMIN);
 			EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);

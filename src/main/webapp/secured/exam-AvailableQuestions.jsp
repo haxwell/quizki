@@ -95,7 +95,7 @@
 				</td>
 				<td>${question.questionType.text}</td>
 				<td>${question.difficulty.text}</td>
-				<td> + / - </td>
+				<td>${qfn:getUpVotesForEntity(question, sessionScope.voteDataForListOfQuestionsToBeDisplayed)} / ${qfn:getDownVotesForEntity(question, sessionScope.voteDataForListOfQuestionsToBeDisplayed)}</td>
 			</tr>
 		</c:forEach>
 		</c:otherwise>

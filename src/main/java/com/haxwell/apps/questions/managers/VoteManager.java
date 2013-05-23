@@ -103,17 +103,22 @@ public class VoteManager extends Manager {
 	
 	public static Map<String, VoteData> getSummarizedVotes(Collection<? extends AbstractEntity> entities)
 	{
-		Map<String, VoteData> rtn = new HashMap<String, VoteData>();
-		Map<String, List<Vote>> detailedVoteMap = getVotes(entities);
+		Map<String, VoteData> rtn = null;
 		
-		for (AbstractEntity e : entities) {
-			String key = VoteUtil.getVoteKey(e);
+		if (entities != null) {
+			Map<String, List<Vote>> detailedVoteMap = getVotes(entities);
 			
-			List<Vote> voteList = detailedVoteMap.get(key);
+			rtn = new HashMap<String, VoteData>();			
 			
-			VoteData voteData = VoteUtil.getMetricsOnListOfVotes(e, voteList);
-			
-			rtn.put(key, voteData);
+			for (AbstractEntity e : entities) {
+				String key = VoteUtil.getVoteKey(e);
+				
+				List<Vote> voteList = detailedVoteMap.get(key);
+				
+				VoteData voteData = VoteUtil.getMetricsOnListOfVotes(e, voteList);
+				
+				rtn.put(key, voteData);
+			}
 		}
 		
 		return rtn;

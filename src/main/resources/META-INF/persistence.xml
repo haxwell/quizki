@@ -11,6 +11,9 @@
 		<class>com.haxwell.apps.questions.entities.User</class>
 		<class>com.haxwell.apps.questions.entities.UserRole</class>
 		<class>com.haxwell.apps.questions.entities.Notification</class>	
+		<class>com.haxwell.apps.questions.entities.Vote</class>	
+		<class>com.haxwell.apps.questions.entities.EntityType</class>	
+		<class>com.haxwell.apps.questions.entities.ExamFeedback</class>	
 		
 	
 		<properties>

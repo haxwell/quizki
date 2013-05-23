@@ -10,4 +10,16 @@ public class AbstractEntity implements Comparable {
 	public long getId() {
 		return Long.MIN_VALUE;
 	}
+	
+	public User getUser() {
+		return null;
+	}
+	
+	public String getEntityDescription()  {
+		return null;
+	}
+	
+	public String getText() {
+		return null;
+	}
 }

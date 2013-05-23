@@ -155,8 +155,13 @@ CREATE TABLE `notification` (
   `notification_id` bigint(20) NOT NULL,
   `time_stamp` datetime NOT NULL,
   `text` varchar(1000) NOT NULL,
+  `entity_type_id` bigint(20) DEFAULT NULL,
+  `entity_id` bigint(20) DEFAULT NULL,
+  `numOfInstances` int(11) DEFAULT '0' NOT NULL, 
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `entity_type_id` (`entity_type_id`),
+  KEY `entity_id` (`entity_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -392,7 +397,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'johnathan','password'),(2,'billy','password'),(3,'ale','bomboclat'),(4,'erbo','FunBunny');
+INSERT INTO `users` VALUES (1,'johnathan','password'),(2,'billy','password'),(3,'alice','password'),(4,'erbo','FunBunny');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

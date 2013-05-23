@@ -13,6 +13,7 @@ import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.entities.Vote;
 import com.haxwell.apps.questions.factories.EntityTypeFactory;
+import com.haxwell.apps.questions.utils.EntityTypeUtil;
 import com.haxwell.apps.questions.utils.VoteData;
 import com.haxwell.apps.questions.utils.VoteUtil;
 
@@ -21,8 +22,10 @@ public class VoteManager extends Manager {
 	public static void voteUp(User u, AbstractEntity e) {
 		Vote vote = getVote(u, e);
 		
-		if (vote == null)
-			mergeVote(u, e, Boolean.TRUE);
+		if (vote == null) {
+			persistVote(u, e, Boolean.TRUE);
+			NotificationManager.issueNotification_entityWasVotedOn(e.getId(), EntityTypeUtil.getEnityTypeConstant(e));			
+		}
 		else
 			updateVote(u, e, Boolean.TRUE);
 	}
@@ -30,8 +33,10 @@ public class VoteManager extends Manager {
 	public static void voteDown(User u, AbstractEntity e)  {
 		Vote vote = getVote(u, e);
 		
-		if (vote == null)
-			mergeVote(u, e, Boolean.FALSE);
+		if (vote == null) {
+			persistVote(u, e, Boolean.FALSE);
+			NotificationManager.issueNotification_entityWasVotedOn(e.getId(), EntityTypeUtil.getEnityTypeConstant(e));
+		}
 		else
 			updateVote(u, e, Boolean.FALSE);
 	}
@@ -140,6 +145,7 @@ public class VoteManager extends Manager {
 		return rtn;
 	}
 	
+	// TODO: maybe we should just pass in the vote, and use its ID in the where clause..  for simplicity and accuracy's sake..
 	private static void updateVote(User u, AbstractEntity e, Boolean isPositiveVote) {
 		EntityManager em = emf.createEntityManager();
 		
@@ -162,7 +168,7 @@ public class VoteManager extends Manager {
 		em.close();
 	}
 	
-	private static void mergeVote(User u, AbstractEntity e, Boolean isPositiveVote) {
+	private static void persistVote(User u, AbstractEntity e, Boolean isPositiveVote) {
 		EntityManager em = emf.createEntityManager();
 		
 		Vote vote = getNewVote(u, e);

@@ -357,6 +357,69 @@
   </servlet-mapping>
 
   <servlet>
+  	<servlet-name>ProfileExamsServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileExamsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ProfileExamsServlet</servlet-name>
+  	<url-pattern>/secured/ProfileExamsServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>ProfileAccountServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ProfileAccountServlet</servlet-name>
+  	<url-pattern>/secured/ProfileAccountServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>ProfileSummaryServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileSummaryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ProfileSummaryServlet</servlet-name>
+  	<url-pattern>/secured/ProfileSummaryServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>AdminProfileQuestionsServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileQuestionsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AdminProfileQuestionsServlet</servlet-name>
+  	<url-pattern>/secured/AdminProfileQuestionsServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>AdminProfileExamsServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileExamsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AdminProfileExamsServlet</servlet-name>
+  	<url-pattern>/secured/AdminProfileExamsServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>AdminProfileAccountServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileAccountServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AdminProfileAccountServlet</servlet-name>
+  	<url-pattern>/secured/AdminProfileAccountServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  	<servlet-name>AdminProfileSummaryServlet</servlet-name>
+  	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileSummaryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AdminProfileSummaryServlet</servlet-name>
+  	<url-pattern>/secured/AdminProfileSummaryServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
   	<servlet-name>ExamReportCardServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.ExamReportCardServlet</servlet-class>
   </servlet>

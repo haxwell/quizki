@@ -1,5 +1,16 @@
 package com.haxwell.apps.questions.servlets;
 
+import javax.servlet.ServletException
+import javax.servlet.annotation.WebServlet
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+import net.tanesha.recaptcha.ReCaptchaImpl
+import net.tanesha.recaptcha.ReCaptchaResponse
+
+import com.haxwell.apps.questions.constants.Constants
+import com.haxwell.apps.questions.managers.UserManager
+
 /**
  * Servlet implementation class LoginServlet
  */

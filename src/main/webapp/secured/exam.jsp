@@ -64,18 +64,22 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script>
-	<script type="text/javascript" src="../js/jquery.ui.touch-punch.min.js"></script>
-	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../js/bootstrap-select.js"></script>
-	<script type="text/javascript" src="../js/bootstrap-switch.js"></script>
-	<script type="text/javascript" src="../js/flatui-checkbox.js"></script>
-	<script type="text/javascript" src="../js/flatui-radio.js"></script>
-	<script type="text/javascript" src="../js/jquery.tagsinput.js"></script>
-	<script type="text/javascript" src="../js/jquery.placeholder.js"></script>
-	<script type="text/javascript" src="../js/jquery.stacktable.js"></script>
-	<script type="text/javascript" src="../js/quizki.js"></script>
+	
+		<jsp:text>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery.ui.touch-punch.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/bootstrap.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/bootstrap-select.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/bootstrap-switch.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/flatui-checkbox.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/flatui-radio.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery.tagsinput.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery.placeholder.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/jquery.stacktable.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../js/quizki.js"></script> ]]>
+		</jsp:text>
 </body>
 	</html>
 </jsp:root>

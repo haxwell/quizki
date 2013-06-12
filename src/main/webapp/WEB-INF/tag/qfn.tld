@@ -40,4 +40,16 @@
       <function-signature>String userHasVotedForThisEntity(com.haxwell.apps.questions.entities.User, com.haxwell.apps.questions.entities.AbstractEntity)</function-signature>
   </function>
 
+    <function>
+      <name>getDownVotesForEntity</name>
+      <function-class>com.haxwell.apps.questions.utils.VoteUtil</function-class>
+      <function-signature>Integer getDownVotesForEntity(com.haxwell.apps.questions.entities.AbstractEntity, java.util.Map)</function-signature>
+  </function>
+  
+    <function>
+      <name>getUpVotesForEntity</name>
+      <function-class>com.haxwell.apps.questions.utils.VoteUtil</function-class>
+      <function-signature>Integer getUpVotesForEntity(com.haxwell.apps.questions.entities.AbstractEntity, java.util.Map)</function-signature>
+  </function>
+
 </taglib>

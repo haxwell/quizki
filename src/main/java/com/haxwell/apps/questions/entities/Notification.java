@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,7 +41,17 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
     @Column(name = "TIME_STAMP") 
     private java.util.Date time_stamp;    
     
-	public Notification() {
+	//uni-directional many-to-one association to QuestionType
+    @ManyToOne
+	@JoinColumn(name="entity_type_id")
+	private EntityType entityType;
+    
+    @Column(name="entity_id")
+    private long entityId;
+
+    private int numOfInstances;
+    
+    public Notification() {
     }
 
     public long getId() {
@@ -56,7 +67,7 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
 	}
 
 	public void setNotificationId(long id) {
-		this.id = notificationId;
+		this.notificationId = id;
 	}
 
 	public String getText() {
@@ -83,6 +94,30 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
 		this.time_stamp = time_stamp;
 	}
 	
+	public EntityType getEntityType() {
+		return this.entityType;
+	}
+
+	public void setEntityType(EntityType entityType) {
+		this.entityType = entityType;
+	}
+	
+    public long getEntityId() {
+		return this.entityId;
+	}
+
+	public void setEntityId(long entityId) {
+		this.entityId = entityId;
+	}
+
+	public int getNumOfInstances() {
+		return numOfInstances;
+	}
+
+	public void setNumOfInstances(int numOfInstances) {
+		this.numOfInstances = numOfInstances;
+	}
+
 	public String getPrettyTime_stamp() {
 		return (new SimpleDateFormat("MMM d, yyyy hh:mm").format(getTime_stamp()));
 	}

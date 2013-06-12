@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.servlets.actions;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +17,10 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.managers.VoteManager;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.StringUtil;
+import com.haxwell.apps.questions.utils.VoteData;
 
 /**
  * Ensures that the list of questions in the session is the most up to date it can be.
@@ -41,6 +44,7 @@ public class InitializeListOfExamQuestionsInSessionAction implements AbstractSer
 
 				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 				Collection<Question> coll = null;
+				Map<String, VoteData> collVoteData = null;
 
 				if (user != null) {
 					if (req.getSession().getAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN) != null) {
@@ -64,7 +68,10 @@ public class InitializeListOfExamQuestionsInSessionAction implements AbstractSer
 					EventDispatcher.getInstance().fireEvent(req, EventConstants.LIST_OF_EXAM_QUESTIONS_SET_IN_SESSION);
 				}
 
+				collVoteData = VoteManager.getSummarizedVotes(coll);
+				
 				req.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+				req.getSession().setAttribute(Constants.VOTE_DATA_FOR_LIST_OF_QUESTIONS_TO_BE_DISPLAYED, collVoteData);
 				
 				/*
 				 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.

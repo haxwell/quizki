@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn" %>
 
 	<form id="adminProfileQuestionForm" action="/secured/AdminProfileQuestionsServlet">
 	<table class="displayExam">
@@ -96,7 +97,7 @@
 				<td>${question.questionType.text}</td>
 				<td>${question.difficulty.text}</td>
 				<td>${question.user.username}</td>
-				<td> + / - </td>
+				<td>${qfn:getUpVotesForEntity(question, sessionScope.voteDataForListOfQuestionsToBeDisplayed)} / ${qfn:getDownVotesForEntity(question, sessionScope.voteDataForListOfQuestionsToBeDisplayed)}</td>
 			<jsp:text><![CDATA[</tr>]]></jsp:text>
 		</c:forEach>
 		</c:otherwise>

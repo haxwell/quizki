@@ -140,6 +140,16 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	}
 
 	@Override
+	public String getText() {
+		return getTitle();
+	}
+	
+	@Override
+	public String getEntityDescription() {
+		return "exam";
+	}
+	
+	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();

@@ -113,6 +113,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		return this.text.replaceAll("\\<.*?>","");
 	}
 	
+	@Override
 	public String getText() {
 		return this.text;
 	}
@@ -137,6 +138,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		this.questionType = questionType;
 	}
 	
+	@Override
 	public User getUser() {
 		return this.user;
 	}
@@ -178,6 +180,11 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		this.topics = topics;
 	}
 
+	@Override
+	public String getEntityDescription() {
+		return "question";
+	}
+	
 	@Override
 	public int hashCode() {
 		return this.text.hashCode() + (int)this.id; // TODO: Find a better way

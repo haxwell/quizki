@@ -42,7 +42,8 @@
 							$.post("/registerVote.jsp",
 							{
 								voteDirection: "up",
-								entityKey: "displayQuestion"
+								entityType: "question",
+								entityId: ${displayQuestion.id}
 							},
 							function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);
@@ -60,7 +61,8 @@
 							$.post("/registerVote.jsp",
 							{
 								voteDirection: "down",
-								entityKey: "displayQuestion"
+								entityType: "question",
+								entityId: ${displayQuestion.id}
 							},
 							function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);

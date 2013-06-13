@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.ExamFeedback;
 import com.haxwell.apps.questions.entities.Question;
@@ -27,6 +28,20 @@ import com.haxwell.apps.questions.utils.StringUtil;
 public class ExamManager extends Manager {
 
 	public static Logger log = Logger.getLogger(ExamManager.class.getName());
+	
+	protected static ExamManager instance = null;
+	
+	public static Manager getInstance() {
+		if (instance == null)
+			instance = new ExamManager();
+		
+		return instance;
+	}
+	
+	@Override
+	public AbstractEntity getEntity(String entityId) {
+		return getExam(Long.parseLong(entityId));
+	}
 	
 	public static Exam newExam()
 	{

@@ -13,11 +13,12 @@ import javax.persistence.Query;
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
-import com.haxwell.apps.questions.filters.QuestionTypeFilter;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
+import com.haxwell.apps.questions.filters.QuestionTypeFilter;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
@@ -28,6 +29,20 @@ public class QuestionManager extends Manager {
 	
 	public static Logger log = Logger.getLogger(QuestionManager.class.getName());
 	
+	protected static QuestionManager instance = null;
+	
+	public static Manager getInstance() {
+		if (instance == null)
+			instance = new QuestionManager();
+		
+		return instance;
+	}
+	
+	@Override
+	public AbstractEntity getEntity(String entityId) {
+		return getQuestionById(entityId);
+	}
+
 	public static long persistQuestion(Question question) 
 	{
 		EntityManager em = emf.createEntityManager();

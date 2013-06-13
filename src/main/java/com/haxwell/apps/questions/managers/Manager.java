@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.EntityWithASequenceNumberBehavior;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
@@ -17,6 +18,14 @@ public class Manager {
 	//TODO: what are the consequences of having this be static? Would it be better to just create an instance when necessary?
 	static {
 		emf = Persistence.createEntityManagerFactory(Constants.QUIZKI_PERSISTENCE_UNIT);
+	}
+	
+	public static Manager getInstance() {
+		return null;
+	}
+	
+	public AbstractEntity getEntity(String entityId) {
+		return null;
 	}
 	
 	protected static void flush(EntityManager em)

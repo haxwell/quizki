@@ -19,7 +19,7 @@ import com.haxwell.apps.questions.interfaces.IChoice;
  */
 @Entity
 @Table(name="choice")
-public class Choice implements IChoice, EntityWithAnIntegerIDBehavior, EntityWithASequenceNumberBehavior, Serializable {
+public class Choice extends AbstractEntity implements IChoice, EntityWithAnIntegerIDBehavior, EntityWithASequenceNumberBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -122,4 +122,18 @@ public class Choice implements IChoice, EntityWithAnIntegerIDBehavior, EntityWit
 	{
 		return "id: " + this.id + " |text: " + this.text + " |isCorrect: " + this.iscorrect + " |sequence: " + this.sequence;
 	}
+	
+    public String toJSON() {
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(getJSONOpening());
+    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
+    	sb.append(getJSON("text", getText(), APPEND_COMMA));
+    	sb.append(getJSON("iscorrect", getIscorrect() == 0 ? "false" : "true", APPEND_COMMA));
+    	sb.append(getJSON("sequence", sequence + ""));
+    	
+    	sb.append(getJSONClosing());
+    	
+    	return sb.toString();
+    }
 }

@@ -17,7 +17,7 @@ import com.haxwell.apps.questions.interfaces.ITopic;
  */
 @Entity
 @Table(name="reference")
-public class Reference implements EntityWithAnIntegerIDBehavior, Serializable {
+public class Reference extends AbstractEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 4623732L;
 
 	@Id
@@ -75,4 +75,16 @@ public class Reference implements EntityWithAnIntegerIDBehavior, Serializable {
 	{
 		return "id: " + this.id + " |text: " + this.text;
 	}
+	
+    public String toJSON() {
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(getJSONOpening());
+    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
+    	sb.append(getJSON("text", getText()));
+    	
+    	sb.append(getJSONClosing());
+    	
+    	return sb.toString();
+    }
 }

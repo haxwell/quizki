@@ -12,6 +12,7 @@ import javax.persistence.Query;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Question;
@@ -19,6 +20,7 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
 import com.haxwell.apps.questions.filters.QuestionTypeFilter;
+import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
@@ -397,6 +399,42 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
+	public static List<Question> getQuestions(FilterCollection fc) {
+		EntityManager em = emf.createEntityManager();
+		
+		String filterText = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER);
+		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER);
+		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER));
+		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
+		int maxQuestionCount = Integer.parseInt(fc.get(FilterConstants.MAX_QUESTION_COUNT_FILTER));
+		
+		String queryString = "SELECT q FROM Question q WHERE ";
+		
+		if (!StringUtil.isNullOrEmpty(filterText))
+			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
+		
+		queryString += "q.difficulty.id <= ?1";
+		
+		Query query = em.createQuery(queryString, Question.class);
+		
+		if (!StringUtil.isNullOrEmpty(filterText))
+			query.setParameter(2, "%" + filterText + "%");
+		
+		query.setParameter(1, maxDifficulty);
+		
+		List<Question> rtn = (List<Question>)query.getResultList();
+
+		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+		
+		List<Question> paginatedList = new ArrayList<Question>();
+		
+		for (int i = 0; i < rtn.size() && i < maxQuestionCount; i++)
+			paginatedList.add(rtn.get(i));
+
+		return paginatedList;
+	}
+	
+	@Deprecated //with the advent of smooth scrolling, the pagination data object is no longer used
 	public static List<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
 		EntityManager em = emf.createEntityManager();
 		

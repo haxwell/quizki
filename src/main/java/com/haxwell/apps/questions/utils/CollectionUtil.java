@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
 public class CollectionUtil {
@@ -41,5 +42,33 @@ public class CollectionUtil {
 	{
 		return coll != null && coll.contains(o);
 	}
-	
+
+	public static String toJSON(Collection<? extends AbstractEntity> coll) {
+		StringBuffer sb = new StringBuffer();
+		
+		Iterator<? extends AbstractEntity> iterator = coll.iterator();
+
+		sb.append("{ ");
+		
+		if (iterator.hasNext()) {
+			AbstractEntity ae = coll.iterator().next();
+
+			if (ae != null) {
+				sb.append("\"" + ae.getEntityDescription() + "\": [");
+				
+				while (iterator.hasNext()) {
+					sb.append(iterator.next().toJSON());
+				
+					if (iterator.hasNext())
+						sb.append(", ");
+				}
+				
+				sb.append("]");
+			}
+		}
+		
+		sb.append("}");
+		
+		return sb.toString();
+	}
 }

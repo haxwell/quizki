@@ -186,6 +186,27 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	}
 	
 	@Override
+	public String toJSON() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(getJSONOpening());
+		sb.append(getJSON("description", getDescription(), APPEND_COMMA));
+		sb.append(getJSON("text", getText(), APPEND_COMMA));
+		sb.append(getJSON("difficulty_id", getDifficulty().getId()+"", APPEND_COMMA));
+		sb.append(getJSON("difficulty_text", getDifficulty().getText(), APPEND_COMMA));
+		sb.append(getJSON("type_id", getQuestionType().getId()+"", APPEND_COMMA));
+		sb.append(getJSON("type_text", getQuestionType().getText(), APPEND_COMMA));
+
+		sb.append(getJSON("choices", choices.iterator(), APPEND_COMMA));
+		sb.append(getJSON("topics", topics.iterator(), APPEND_COMMA));
+		sb.append(getJSON("references", references.iterator()));
+		
+		sb.append(getJSONClosing());
+		
+		return sb.toString();
+	}
+	
+	@Override
 	public int hashCode() {
 		return this.text.hashCode() + (int)this.id; // TODO: Find a better way
 	}
@@ -231,4 +252,6 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		
 		return sb.toString();
 	}
+	
+	
 }

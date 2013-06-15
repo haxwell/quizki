@@ -108,6 +108,11 @@ public class StringUtil {
 		return list;
 	}
 	
+	public static String getShortURL(String fullUrl) {
+		int index = fullUrl.indexOf("/", "http://".length());
+		return fullUrl.substring(index + 1);
+	}
+	
 //	/**
 //	 * Expects two CSVs of numbers. 
 //	 * 

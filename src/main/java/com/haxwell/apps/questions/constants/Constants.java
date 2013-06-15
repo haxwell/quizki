@@ -126,4 +126,8 @@ public class Constants {
 
 	public static final String VOTE_DATA_FOR_LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "voteDataForListOfQuestionsToBeDisplayed";
 
+	public static final String PAGE_TITLE = "pageTitle";
+
+	public static final String APPLICATION_PAGE_TITLES_CONTEXT = "applicationPageTitlesContext";
+
 }

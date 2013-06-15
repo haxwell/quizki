@@ -30,10 +30,10 @@ public class MostRecentlyRequestedPageFilter extends AbstractFilter {
 			String url = req.getRequestURL().toString();
 	
 			if (thisRequestShouldBeSaved(url)) {
-				String temp = "http://localhost:8080/quizki";
+//				String temp = "http://localhost:8080/quizki";
 				String queryString = req.getQueryString();
 				
-				String str = url.replace(temp, "");				
+				String str = url; //url.replace(temp, "");				
 				String prevRequestedPage = (String)req.getSession().getAttribute("originallyRequestedPage");
 				req.getSession().setAttribute("originallyRequestedPage", (queryString == null ? str : str + "?" + queryString));
 				req.getSession().setAttribute("previouslyRequestedPage", prevRequestedPage);

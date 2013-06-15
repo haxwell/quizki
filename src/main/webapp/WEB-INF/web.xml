@@ -57,6 +57,18 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
+    <filter-name>SetPageTitlesInContextFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.SetPageTitlesInContextFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SetPageTitlesInContextFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+  <filter>
     <filter-name>FireIndexPageReachedEventFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.FireIndexPageReachedEventFilter</filter-class>
   </filter>

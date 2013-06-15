@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- A collection of beans which provide a string to display as the page title in header.jsp -->
+
+	<bean id="index.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/index.jsp"/>
+		<property name="title" value="Home"/>
+	</bean>
+
+	<bean id="login.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/login.jsp"/>
+		<property name="title" value="Login"/>
+	</bean>
+
+	<!-- TODO: need some way of returning a page title depending on state.. when creating exam, it should say Create Exam.. when editing, it should say Edit Exam -->
+	<bean id="secured/exam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/secured/exam.jsp"/>
+		<property name="title" value="Create / Edit Exam"/>
+	</bean>
+
+</beans>

@@ -3,16 +3,15 @@
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn"%>
 
 <div id="header" class="row header">
-	<div class="span3 logo"></div>
+	<div class="span3"><a href="/index.jsp"><img class="logo" src="/images/logo-light.png"></a></div>
 	<div class="span6 form-heading">
-		<h1>Create/Edit Exam</h1>
+		<h1>${sessionScope.pageTitle}</h1>
 	</div>
 	<div class="user span3">
 		<c:choose>
 			<c:when test="${empty sessionScope.currentUserEntity}">
 				<c:if test="${empty sessionScope.shouldLoginLinkBeDisplayed}">
-					<a class="homeLink" id="headerLoginLink" href="/login.jsp">register
-						/ login</a>
+					<a class="homeLink" id="headerLoginLink" href="/login.jsp">register / login</a>
 				</c:if>
 			</c:when>
 			<c:otherwise>

@@ -6,14 +6,23 @@
     </jsp:text>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Begin Exam - Quizki</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
-		<link href="/css/questions.css" rel="stylesheet" type="text/css"/>
+		<title>Begin Exam - Quizki</title>
+		
+		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="css/styles.css" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
 </head>
 <body>
 
-<jsp:include page="/header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
 
       <c:choose>
 	      <c:when test="${empty sessionScope.fa_listofexamtopics}">
@@ -50,18 +59,17 @@
 		
 		<form action="/BeginExamServlet" method="post">
 		
-			<div class="hidden" id="radioButtonExample"><input type="text" name="examId" value="${requestScope.examId}"/><input type="text" name="topicId" value="${requestScope.topicId}"/></div> 
 			<hr/>			
-			Press <input type="submit" id="beginButton" value="BEGIN!" name="button"/> to get to it!<br/>
+			<div class="span2">
+				<button class="btn btn-block" id="beginButton" type="submit" name="button">Begin Exam</button>
+			</div>
 				
 		</form>
 	</c:otherwise>		
 	</c:choose>		
-		
-<br/><br/><br/><br/>
-<a id="homeLink" href="/index.jsp">home</a> <br/>
 
-
+</div> <!-- content -->
+</div> <!-- container -->
 </body>
 </html>
 </jsp:root>

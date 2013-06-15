@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IExam;
 
 
@@ -34,6 +36,9 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	private String title;
 	
 	private String message;
+	
+	@Column(name="ENTITY_STATUS")
+	private long entityStatus = EntityStatusConstants.ACTIVATED;	
 
 	//bi-directional many-to-one association to User
     @ManyToOne
@@ -112,6 +117,14 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.questions = questions;
 	}
 	
+	public long getEntityStatus() {
+		return this.entityStatus;
+	}
+	
+	public void setEntityStatus(long es) {
+		this.entityStatus = es;
+	}
+	
 	public int getNumberOfQuestions()
 	{
 		return questions.size();
@@ -169,7 +182,8 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     	sb.append(getJSON("message", getMessage() + "", APPEND_COMMA));
     	sb.append(getJSON("owningUserId", getUser().getId() + "", APPEND_COMMA));
     	sb.append(getJSON("topics", getTopics().iterator(), APPEND_COMMA));
-    	sb.append(getJSON("difficulty", getDifficulty()));
+    	sb.append(getJSON("difficulty", getDifficulty(), APPEND_COMMA));
+    	sb.append(getJSON("entityStatus", getEntityStatus() + ""));
     	sb.append(getJSONClosing());
     	
     	return sb.toString();

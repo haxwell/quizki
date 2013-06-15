@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 
 
@@ -33,6 +35,9 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	private long id;
 	private String description;
 	private String text;
+	
+	@Column(name="ENTITY_STATUS")
+	private long entityStatus = EntityStatusConstants.ACTIVATED;	
 
 	//uni-directional many-to-one association to Difficulty
     @ManyToOne()
@@ -138,6 +143,14 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		this.questionType = questionType;
 	}
 	
+	public long getEntityStatus() {
+		return this.entityStatus;
+	}
+	
+	public void setEntityStatus(long es) {
+		this.entityStatus = es;
+	}
+	
 	@Override
 	public User getUser() {
 		return this.user;
@@ -199,7 +212,8 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 
 		sb.append(getJSON("choices", choices.iterator(), APPEND_COMMA));
 		sb.append(getJSON("topics", topics.iterator(), APPEND_COMMA));
-		sb.append(getJSON("references", references.iterator()));
+		sb.append(getJSON("references", references.iterator(), APPEND_COMMA));
+		sb.append(getJSON("entityStatus", getEntityStatus() + ""));
 		
 		sb.append(getJSONClosing());
 		

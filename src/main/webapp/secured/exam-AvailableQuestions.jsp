@@ -77,45 +77,25 @@
 					</div>
 				</td>
 			</tr>
-			<c:set var="rowNum" value="0" />
 			<c:set var="counter" value="0" />
 			<c:choose>
 				<c:when test="${empty fa_listofquestionstobedisplayed}">
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
 					<jsp:text>
-						<![CDATA[<tr></tr>]]>
+						<![CDATA[<tr><td></td><td colspan="6">There are no questions to display! Either adjust the filter above, or add some questions of your own!></td></tr>]]>
 					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr></tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr></tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr></tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<tr>]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[<td></td><td colspan="6">There are no questions to display! Either adjust the filter above, or add some questions of your own!]]>
-					</jsp:text>
-					<jsp:text>
-						<![CDATA[</tr>]]>
-					</jsp:text>
+					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="question"
 						items="${fa_listofquestionstobedisplayed}">
-						<c:set var="rowNum" value="${rowNum + 1}" />
 						<c:set var="counter" value="${counter + 1}" />
 						<tr id="tableRow_${counter}">
 

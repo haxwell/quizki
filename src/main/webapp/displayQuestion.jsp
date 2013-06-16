@@ -10,9 +10,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 		<title>Display Question - Quizki</title>
+
+		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="css/styles.css" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<jsp:text>
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
@@ -174,10 +181,12 @@
 	</head>
 <body>
 
-<jsp:include page="header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
+
 
 	<br/>
-	<h1 style="display:inline">Display Question  </h1>
 
 	<c:if test="${(sessionScope.shouldAllowQuestionEditing==true)}">
 		<a href="/secured/question.jsp?questionId=${displayQuestion.id}">  (edit it)</a>
@@ -272,13 +281,15 @@
 		
 		
 		<br/><br/>
-	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a>
 	
 	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>	
 	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>
 	<div class="hidden" id="textExample"><div class="??4">??1<br/></div></div>
 	<div class="hidden" id="youTypedExample"><br/>You typed: <div class="??4">??1<br/></div></div>
 	<div class="hidden" id="sequenceExample"><div class="??4">??SEQ - ??1<br/></div></div>
+
+</div>
+</div>
 
 </body>
 </html>

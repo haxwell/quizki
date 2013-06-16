@@ -10,10 +10,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 		<title>Display Exam</title>
-		<link href="/css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="/css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="/css/displayExam.css" rel="stylesheet" type="text/css"/>
+
+		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="css/styles.css" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<jsp:text>
 			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
@@ -42,7 +48,10 @@
 	</head>
 <body>
 
-<jsp:include page="header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
+
 
 	<h1>Display Exam</h1>
 	<br/>
@@ -119,6 +128,9 @@
 	<br/><br/>
 
 	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a> 
+
+</div>
+</div>
 
 </body>
 </html>

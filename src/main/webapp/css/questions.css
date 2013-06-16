@@ -26,14 +26,6 @@ table.displayExam {
 	width:100%;
 }
 
-.header {
-	background-color:#7D7578;
-	width:100%;
-	font-weight:bold;
-	font-size:14px;
-	color:white;
-}
-
 .hidden {
 		display:none;
 }

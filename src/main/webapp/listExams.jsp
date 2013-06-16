@@ -8,10 +8,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 		<title>List Exams - Quizki</title>
+
+		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="../css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
+
 				
 		<jsp:text>
 			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
@@ -76,10 +85,9 @@
 	request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "List All Questions");
 	</jsp:scriptlet>
 
-
-<jsp:include page="header.jsp"></jsp:include>
-
-		<h1>Search For An Exam</h1>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
 
 		<div id="tabs" class="mainContentArea">
 		  <div id="tabs-1">
@@ -188,8 +196,8 @@
 		  </div>
 		</div>
 
-<br/><br/>
-
+</div> <!-- Content -->
+</div> <!-- Container -->
 
 </body>
 </html>

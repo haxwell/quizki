@@ -67,7 +67,6 @@
 	
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../js/jquery.ui.touch-punch.min.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../js/bootstrap.min.js"></script> ]]>

@@ -3,106 +3,161 @@
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn" %>
 
 	<form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet">
-	<table class="displayExam">
+	<table class="table table-striped">
 		<thead>
-		<tr>
-			<th>ID</th>
-			<th></th>
-			<th>Question</th>
-			<th>Topics</th>
-			<th>Type</th>
-			<th>Difficulty</th>
-			<th>Votes</th>
-		</tr>
+			<tr>
+				<!--<th>ID</th>-->
+				<th><label class="checkbox no-label toggle-all"
+					for="checkbox-table-1"> <input type="checkbox" value=""
+						id="checkbox-table-1" data-toggle="checkbox"></label></th>
+				<th style="width: 400px;">Questions</th>
+				<th style="width: 130px;">Topics</th>
+				<th>Type</th>
+				<th>Difficulty</th>
+				<th>Votes</th>
+			</tr>
 		</thead>
 		<tbody>
-				<tr>
+				<tr class="filter-row">
 					<td></td>
-					<td style="text-align:right"><input type="submit" name="button" value="Apply Filter -->"/> </td>
-					<!--  <td>
-						Show <select name="mineOrAllOrSelected" title="..">
-							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 1}"><option value="mine" selected="selected">My</option></c:when><c:otherwise><option value="mine">My</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 2}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all">All</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterMyAllOrSelectedFilter == 3}"><option value="selected" selected="selected">Selected</option></c:when><c:otherwise><option value="selected">Selected</option></c:otherwise></c:choose>
-						</select> Questions
-						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:60%;"/>
-					</td>  -->
 					<td>
-						<input type="text" name="containsFilter" value="${mruFilterText}" title="Only show questions containing this text..." style="width:100%;"/>
+						<div class="row">
+							<select name="small" class="span2">
+								<option value="0">All</option>
+								<option value="1">Selected</option>
+								<option value="2">Mine</option>
+							</select>
+							<div class="input-append" style="margin-left: 10px;">
+								<input type="text" class="flat small"
+									placeholder="Search in questions..." style="width: 216px;">
+								<button type="submit" class="btn btn-secondary btn-small">
+									<span class="fui-search"></span>
+								</button>
+							</div>
+						</div>
+					</td>					
+					<td>
+						<div class="input-append">
+							<input type="text" class="flat small"
+								placeholder="Search in topics..." style="width: 96px;">
+							<button type="submit" class="btn btn-secondary btn-small">
+								<span class="fui-search"></span>
+							</button>
+						</div>
 					</td>
-					<td><input type="text" name="topicContainsFilter" value="${mruFilterTopicText}" title="Only show questions belonging to topics containing this text.." style="width:100%;"/></td>
-					<td >
-						<select name="questionTypeFilter" title="Only include questions of type.." style="width:100%;">
-							<c:choose><c:when test="${mruFilterQuestionType == 0}"><option value="all" selected="selected">All</option></c:when><c:otherwise><option value="all" >All</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterQuestionType == 1}"><option value="single" selected="selected">Single</option></c:when><c:otherwise><option value="single" >Single</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterQuestionType == 2}"><option value="multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="multiple" >Multiple</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterQuestionType == 3}"><option value="string" selected="selected">String</option></c:when><c:otherwise><option value="string" >String</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterQuestionType == 4}"><option value="sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="sequence">Sequence</option></c:otherwise></c:choose>
-						</select>
+					<td>
+						<div class="pull-left" style="width: 90px;">
+							<select name="small" class="select-block">
+								<option value="0">All</option>
+								<option value="1">Selected</option>
+								<option value="2">Mine</option>
+							</select>
+						</div>
 					</td>
-					<td >
-						<select name="difficultyFilter" title="Do not include any questions more difficult than.." style="width:100%;">
-							<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterDifficulty == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru">Guru</option></c:otherwise></c:choose>
-						</select>
+					<td>
+						<div class="pull-left" style="width: 87px;">
+							<select name="small" class="select-block">
+								<option value="0">All</option>
+								<option value="1">Single</option>
+								<option value="2">Multiple</option>
+								<option value="3">String</option>
+								<option value="4">Sequence</option>
+							</select>
+						</div>
 					</td>
-					<td></td>
+					<td>
+						<div class="pull-left" style="width: 103px;">
+							<select name="small" class="select-block">
+								<option value="0">All</option>
+								<option value="1">Junior</option>
+								<option value="2">Intermediate</option>
+								<option value="3">Expert</option>
+								<option value="4">Guru</option>
+							</select>
+						</div>
+					</td>
 				</tr>
-		<c:set var="rowNum" value="0"/>
-		<c:set var="counter" value="0" />
-				<c:choose >
+				<c:set var="rowNum" value="0"/>
+				<c:set var="counter" value="0" />
+			<c:choose>
 				<c:when test="${empty fa_listofquestionstobedisplayed}">
-					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="" style="width:100%"></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-					<jsp:text><![CDATA[<td></td><td colspan="6">There are no questions to display! Either adjust the filter above, or add some questions of your own!]]></jsp:text>
-					<jsp:text><![CDATA[</tr>]]></jsp:text>
+					<jsp:text>
+						<![CDATA[<tr></tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr></tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr></tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr></tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<tr>]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[<td></td><td colspan="6">There are no questions to display! Either adjust the filter above, or add some questions of your own!]]>
+					</jsp:text>
+					<jsp:text>
+						<![CDATA[</tr>]]>
+					</jsp:text>
 				</c:when>
 				<c:otherwise>
-		<c:forEach var="question" items="${fa_listofquestionstobedisplayed}">
-			<c:set var="rowNum" value="${rowNum + 1}" />
-			<c:choose><c:when test="${rowNum % 2 == 0}">
-			<jsp:text><![CDATA[<tr>]]></jsp:text>
-			</c:when>
-			<c:otherwise>
-			<jsp:text><![CDATA[<tr class="rowHighlight">]]></jsp:text>
-			</c:otherwise></c:choose>
-			
-				<td>${question.id}</td>
-				<td>
-					<c:set var="counter" value="${counter + 1}" />
-					<c:choose>
-					<c:when test="${question.user.id == currentUserEntity.id}">
-						<div class="questionButtonDiv">
-							<input type="submit" value="Edit Question" id="edit_button_${counter}" name="questionButton_${question.id}"/>
-							<input type="submit" value="Delete Question" id="delete_button_${counter}" name="questionButton_${question.id}"/>
-						</div>
-					</c:when>
-					</c:choose>
-				</td>
-				<td><c:choose><c:when test="${empty question.description}"><a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a></c:when>
-						<c:otherwise><a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a></c:otherwise>
-					</c:choose>
-				</td>
-				<td>
-					<c:forEach var="topic" items="${question.topics}">
-						${topic.text}<br/>
+					<c:forEach var="question"
+						items="${fa_listofquestionstobedisplayed}">
+						<c:set var="counter" value="${counter + 1}" />
+						<tr id="tableRow_${counter}">
+
+							<!--td>${question.id}</td>-->
+							<td><c:choose>
+									<c:when
+										test="${qfn:contains(sessionScope.exam_selectedQuestionIds, question.id)}">
+										<label class="checkbox no-label checked"
+											for="checkbox-table-2"> <input type="checkbox"
+											value="" id="checkbox-table-2" data-toggle="checkbox"
+											id="chkbox_${counter}"
+											name="selectQuestionChkbox_${question.id}" value="" />
+										</label>
+									</c:when>
+									<c:otherwise>
+										<label class="checkbox no-label" for="checkbox-table-2">
+											<input type="checkbox" value="" id="checkbox-table-2"
+											data-toggle="checkbox" id="chkbox_${counter}"
+											name="selectQuestionChkbox_${question.id}" value="" />
+										</label>
+									</c:otherwise>
+								</c:choose></td>
+							<td><c:choose>
+									<c:when test="${empty question.description}">
+										<a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a>
+									</c:when>
+									<c:otherwise>
+										<a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a>
+									</c:otherwise>
+								</c:choose></td>
+							<td><c:forEach var="topic" items="${question.topics}">
+						${topic.text}<br />
+								</c:forEach></td>
+							<td>${question.questionType.text}</td>
+							<td>${question.difficulty.text}</td>
+							<td>${qfn:getUpVotesForEntity(question,
+								sessionScope.voteDataForListOfQuestionsToBeDisplayed)} /
+								${qfn:getDownVotesForEntity(question,
+								sessionScope.voteDataForListOfQuestionsToBeDisplayed)}</td>
+						</tr>
 					</c:forEach>
-				</td>
-				<td>${question.questionType.text}</td>
-				<td>${question.difficulty.text}</td>
-				<td>${qfn:getUpVotesForEntity(question, sessionScope.voteDataForListOfQuestionsToBeDisplayed)} / ${qfn:getDownVotesForEntity(question, sessionScope.voteDataForListOfQuestionsToBeDisplayed)}</td>
-			<jsp:text><![CDATA[</tr>]]></jsp:text>
-		</c:forEach>
-		</c:otherwise>
-		</c:choose>
+				</c:otherwise>
+			</c:choose>
 		</tbody>
 	</table>
 	

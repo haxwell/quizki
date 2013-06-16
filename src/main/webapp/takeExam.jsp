@@ -13,6 +13,7 @@
 
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
 		<link href="css/styles.css" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="../images/favicon.ico" />

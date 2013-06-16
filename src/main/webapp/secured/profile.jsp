@@ -13,14 +13,15 @@
 
 		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="../css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/styles.css" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 
 		<jsp:text>
 			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/bootstrap.min.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[<script type="text/javascript">]]>
 			<c:choose>
@@ -39,13 +40,13 @@
 			<![CDATA[
 			<script type="text/javascript">
 			
-					$(function() {
-						$( "#tabs" ).tabs();
+					//$(function() {
+						//$( "#tabs" ).tabs();
 					   
-						if (tabIndex !== undefined)
-					   		$( "#tabs" ).tabs("option","active", tabIndex);
-					});			
-			
+						//if (tabIndex !== undefined)
+					   		//$( "#tabs" ).tabs("option","active", tabIndex);
+					//});			
+					
 					//$(function() {
 					//   $( document ).tooltip();
 					// });
@@ -67,9 +68,9 @@
 						var questionsBufferHeight = 97;
 						var windowHeight = $(window).height();
 						
-						$('#tabs').height(windowHeight - bottomBufferHeight);
-						$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-						$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
+						//$('#tabs').height(windowHeight - bottomBufferHeight);
+						//$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
+						//$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
 					}
 
 					$(document).ready(function(){
@@ -192,57 +193,27 @@
       </c:when>
       <c:otherwise>
 
-	<div id="tabs">
-	  <ul>
-	    <li><a href="#tabs-1">Summary</a></li>
-	    <li><a href="#tabs-2">Questions</a></li>
-	    <li><a href="#tabs-3">Exams</a></li>
-	    <li><a href="#tabs-4">Account Status</a></li>
+	<div class="tabbable">
+	  <ul class="nav nav-tabs" id="tabsUl">
+	    <li class="active"><a href="#tabs-1" data-toggle="tab">Summary</a></li>
+	    <li><a href="#tabs-2" data-toggle="tab">Questions</a></li>
+	    <li><a href="#tabs-3" data-toggle="tab">Exams</a></li>
+	    <li><a href="#tabs-4" data-toggle="tab">Account Status</a></li>
 	  </ul>
-	  <div id="tabs-1">
-	    <jsp:include page="profile-summary.jsp"></jsp:include>
-	  </div>
-	  <div id="tabs-2">
-	    	<div id="questions" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-questions.jsp"></jsp:include></div>
-	    	<br/>
-		<form id="profileQuestionNavigationForm" action="/secured/ProfileQuestionsServlet">
-		<div id="paginationDiv" class="center">
-			<c:choose>
-			<c:when test="${sessionScope.questionPaginationData.totalItemCount > 0}">
-			Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount}
-			</c:when>
-			<c:otherwise>
-			No questions to show!
-			</c:otherwise>
-			</c:choose> 
-			<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-			<input type="submit" value="&lt; PREV" name="button"/>
-			<input type="submit" value="NEXT &gt;" name="button"/>
-			<input type="submit" value="LAST &gt;&gt;" name="button"/>
-			- Max. List Size 
-			<select name="quantity">
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-			</select>
-			<input type="submit" value="REFRESH" name="button"/>
-		</div>
-		</form>
-	
-	  </div>
-	  <div id="tabs-3">
-	    	<div id="exams" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-exams.jsp"></jsp:include></div>
-	    	<br/>
-			<form id="profileExamNavigationForm" action="/secured/ProfileExamsServlet">
+	  <div class="tab-content">
+		  <div class="tab-pane active" id="tabs-1">
+		    <jsp:include page="profile-summary.jsp"></jsp:include>
+		  </div>
+		  <div class="tab-pane" id="tabs-2">
+    		<jsp:include page="profile-questions.jsp"></jsp:include>
+			<form id="profileQuestionNavigationForm" action="/secured/ProfileQuestionsServlet">
 			<div id="paginationDiv" class="center">
 				<c:choose>
-				<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
-				Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
+				<c:when test="${sessionScope.questionPaginationData.totalItemCount > 0}">
+				Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount}
 				</c:when>
 				<c:otherwise>
-				No exams to show!
+				No questions to show!
 				</c:otherwise>
 				</c:choose> 
 				<input type="submit" value="&lt;&lt; FIRST" name="button"/>
@@ -260,10 +231,41 @@
 				<input type="submit" value="REFRESH" name="button"/>
 			</div>
 			</form>
-	
-	  </div>
-	  <div id="tabs-4">
-	    	<div id="account" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="profile-account.jsp"></jsp:include></div>
+		
+		  </div>
+		  <div class="tab-pane" id="tabs-3">
+		    	<div id="exams" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-exams.jsp"></jsp:include></div>
+		    	<br/>
+				<form id="profileExamNavigationForm" action="/secured/ProfileExamsServlet">
+				<div id="paginationDiv" class="center">
+					<c:choose>
+					<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
+					Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
+					</c:when>
+					<c:otherwise>
+					No exams to show!
+					</c:otherwise>
+					</c:choose> 
+					<input type="submit" value="&lt;&lt; FIRST" name="button"/>
+					<input type="submit" value="&lt; PREV" name="button"/>
+					<input type="submit" value="NEXT &gt;" name="button"/>
+					<input type="submit" value="LAST &gt;&gt;" name="button"/>
+					- Max. List Size 
+					<select name="quantity">
+					<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
+					<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
+					<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
+					<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
+					<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
+					</select>
+					<input type="submit" value="REFRESH" name="button"/>
+				</div>
+				</form>
+		
+		  </div>
+		  <div class="tab-pane" id	="tabs-4">
+		    	<div id="account" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-account.jsp"></jsp:include></div>
+		  </div>
 	  </div>
 	</div>
 	

@@ -56,6 +56,11 @@
 		<property name="title" value="Search For An Exam"/>
 	</bean>
 	
+	<bean id="takeExam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/takeExam.jsp"/>
+		<property name="title" value="Take Exam"/>
+	</bean>
+	
 
 	<!-- TODO: need some way of returning a page title depending on state.. when creating exam, it should say Create Exam.. when editing, it should say Edit Exam -->
 	<bean id="secured/exam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">

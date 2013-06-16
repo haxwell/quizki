@@ -2,11 +2,6 @@
 	font-family:sans-serif;
 }
 
-body {
-	margin-right:50px;
-	margin-left:50px;
-}
-
 .quizkiTitle {
 	font-size:55px;
 }
@@ -83,6 +78,22 @@ div.createQuestionFormChoicesField {
 
 div.createQuestionFormTextField {
 	background-color:#ffffff;
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+  color: #ffffff;
+  background-color: #227faf;	
+}
+
+.tab-content {
+  border: 0px solid #ddd;
+  border-radius: 0px;
+  margin-bottom: 0px;
+  padding: 0px 0px 0px;
+  position: relative;
+  z-index: 1;
 }
 
 table.spaceUnder

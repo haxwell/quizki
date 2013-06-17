@@ -27,6 +27,20 @@ public class CollectionUtil {
 		return sb.toString();
 	}
 	
+	public static String getCSV(Collection coll) {
+		StringBuffer sb = new StringBuffer();
+		Iterator iterator = coll.iterator();
+		
+		while (iterator.hasNext()) {
+			sb.append(iterator.next().toString());
+			
+			if (iterator.hasNext())
+				sb.append(",");
+		}
+		
+		return sb.toString();
+	}
+	
 	public static List<Long> getListOfIds(Collection<? extends EntityWithAnIntegerIDBehavior> list)
 	{
 		List<Long> rtn = new ArrayList<Long>();

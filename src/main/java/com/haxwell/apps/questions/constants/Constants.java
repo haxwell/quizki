@@ -130,4 +130,6 @@ public class Constants {
 
 	public static final String APPLICATION_PAGE_TITLES_CONTEXT = "applicationPageTitlesContext";
 
+	public static final String SELECTED_ENTITY_IDS_AS_CSV = "selectedEntityIDs_AsCSV";
+
 }

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn"%>
 
 <form id="examAvailableQuestionsForm" action="/secured/ExamServlet">
-	<table class="table table-striped">
+	<table class="table table-striped" id="entityTable">
 		<thead>
 			<tr>
 				<!--<th>ID</th>-->
@@ -77,68 +77,9 @@
 					</div>
 				</td>
 			</tr>
-			<c:set var="counter" value="0" />
-			<c:choose>
-				<c:when test="${empty fa_listofquestionstobedisplayed}">
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-					<jsp:text>
-						<![CDATA[<tr><td></td><td colspan="6">There are no questions to display! Either adjust the filter above, or add some questions of your own!></td></tr>]]>
-					</jsp:text>
-					<jsp:text><![CDATA[<tr></tr>]]></jsp:text>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="question"
-						items="${fa_listofquestionstobedisplayed}">
-						<c:set var="counter" value="${counter + 1}" />
-						<tr id="tableRow_${counter}">
 
-							<!--td>${question.id}</td>-->
-							<td><c:choose>
-									<c:when
-										test="${qfn:contains(sessionScope.exam_selectedQuestionIds, question.id)}">
-										<label class="checkbox no-label checked"
-											for="checkbox-table-2"> <input type="checkbox"
-											value="" id="checkbox-table-2" data-toggle="checkbox"
-											id="chkbox_${counter}"
-											name="selectQuestionChkbox_${question.id}" value="" />
-										</label>
-									</c:when>
-									<c:otherwise>
-										<label class="checkbox no-label" for="checkbox-table-2">
-											<input type="checkbox" value="" id="checkbox-table-2"
-											data-toggle="checkbox" id="chkbox_${counter}"
-											name="selectQuestionChkbox_${question.id}" value="" />
-										</label>
-									</c:otherwise>
-								</c:choose></td>
-							<td><c:choose>
-									<c:when test="${empty question.description}">
-										<a href="/displayQuestion.jsp?questionId=${question.id}">${question.textWithoutHTML}</a>
-									</c:when>
-									<c:otherwise>
-										<a href="/displayQuestion.jsp?questionId=${question.id}">${question.description}</a>
-									</c:otherwise>
-								</c:choose></td>
-							<td><c:forEach var="topic" items="${question.topics}">
-						${topic.text}<br />
-								</c:forEach></td>
-							<td>${question.questionType.text}</td>
-							<td>${question.difficulty.text}</td>
-							<td>${qfn:getUpVotesForEntity(question,
-								sessionScope.voteDataForListOfQuestionsToBeDisplayed)} /
-								${qfn:getDownVotesForEntity(question,
-								sessionScope.voteDataForListOfQuestionsToBeDisplayed)}</td>
-						</tr>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
+			<!-- Javascript inserts rows here based on AJAX call -->
+				
 		</tbody>
 	</table>
 

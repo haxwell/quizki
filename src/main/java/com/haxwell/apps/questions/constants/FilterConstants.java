@@ -13,5 +13,5 @@ public class FilterConstants {
 	public static final String MAX_QUESTION_COUNT_FILTER = "maxQuestionCountFilter";
 	
 	public static final String USER_ID_FILTER = "userIdFilter";
-
+	public static final String OFFSET_FILTER = "offsetFilter";
 }

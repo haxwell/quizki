@@ -49,7 +49,8 @@
 								questionTypeFilter: $("#idQuestionTypeFilter").attr("value"),
 								difficultyFilter: $("#idDifficultyFilter").attr("value"),
 								authorFilter: $("#idAuthorFilter").attr("value"),
-								maxQuestionCountFilter: $("#idMaxQuestionCountFilter").attr("value")
+								maxQuestionCountFilter: $("#idMaxQuestionCountFilter").attr("value"),
+								offsetFilter: $("#idOffsetFilter").attr("value")
 							},
 							function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);
@@ -76,6 +77,7 @@
 	Difficulty text: <input type="text" name="difficultyFilter" id="idDifficultyFilter" value="4" />
 	Author text: <input type="text" name="authorFilter" id="idAuthorFilter" />	
 	maxQuestionCount: <input id="idMaxQuestionCountFilter" type="text" name="maxQuestionCountFilter" value="10"/>
+	offset: <input id="idOffsetFilter" type="text" name="offsetFilter" />
 
 	<input id="getQuestionsBtn" type="submit" name="button" value="Get Questions"/>
 	

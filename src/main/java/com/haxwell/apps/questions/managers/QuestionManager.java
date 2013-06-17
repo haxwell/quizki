@@ -407,6 +407,7 @@ public class QuestionManager extends Manager {
 		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER));
 		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
 		int maxQuestionCount = Integer.parseInt(fc.get(FilterConstants.MAX_QUESTION_COUNT_FILTER));
+//		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
 		

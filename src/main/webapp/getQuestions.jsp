@@ -35,6 +35,7 @@ fc.add(FilterConstants.QUESTION_TYPE_FILTER, request.getParameter(FilterConstant
 fc.add(FilterConstants.DIFFICULTY_FILTER, request.getParameter(FilterConstants.DIFFICULTY_FILTER));
 fc.add(FilterConstants.AUTHOR_FILTER, request.getParameter(FilterConstants.AUTHOR_FILTER));
 fc.add(FilterConstants.MAX_QUESTION_COUNT_FILTER, request.getParameter(FilterConstants.MAX_QUESTION_COUNT_FILTER));
+fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSET_FILTER));
 
 List list = QuestionManager.getQuestions(fc);
 

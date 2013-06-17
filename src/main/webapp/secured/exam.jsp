@@ -16,6 +16,7 @@
 <link href="../css/quizki.css" rel="stylesheet" />
 <link href="../css/styles.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="../images/favicon.ico" />
+
 </head>
 <body>
 	<div class="container">
@@ -79,6 +80,121 @@
 			<![CDATA[ <script type="text/javascript" src="../js/jquery.stacktable.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../js/quizki.js"></script> ]]>
 		</jsp:text>
+		
+		<jsp:text>
+			<![CDATA[
+				<script type="text/javascript">
+					
+					function convertToHTMLString(obj, rowNum) {
+						var choicesArr = obj.choices;
+						var topicsArr = obj.topics;
+						var referencesArr = obj.references;
+						
+						var rtn = "";
+						
+						rtn += "<tr id=\"tableRow_" + rowNum + "\">";
+						rtn += "<td>";
+						
+						if (isSelectedEntityId(obj.id)) {
+							// Checked
+							rtn += "<label class=\"checkbox no-label checked\" for=\"checkbox-table-2\">";
+							rtn += " <input type=\"checkbox\" value=\"\" id=\"checkbox-table-2\" data-toggle=\"checkbox\" id=\"chkbox_" + rowNum + "\"";
+							rtn += " name=\"selectQuestionChkbox_" + obj.id + "\" value=\"\" />";
+							rtn += "</label>";
+						}
+						else {
+							// Not checked
+							rtn += "<label class=\"checkbox no-label\" for=\"checkbox-table-2\">";
+							rtn += " <input type=\"checkbox\" value=\"\" id=\"checkbox-table-2\" data-toggle=\"checkbox\" id=\"chkbox_" + rowNum + "\"";
+							rtn += " name=\"selectQuestionChkbox_${question.id}\" value=\"\" />";
+							rtn += "</label>";
+						}
+						
+						rtn += "</td><td>";
+						
+						if (obj.description.length > 0) {
+							rtn += "<a href=\"/displayQuestion.jsp?questionId=" + obj.id + "\">" + obj.description + "</a>";
+						}
+						else {
+							rtn += "<a href=\"/displayQuestion.jsp?questionId=" + obj.id + "\">" + obj.textWithoutHTML + "</a>";
+						}
+						
+						rtn += "</td><td>";
+						
+						if (topicsArr.length > 0) {
+							for (var i=0; i<topicsArr.length; i++) {
+								rtn += topicsArr[i].text + "<br/>";
+							}
+						}
+						
+						rtn += "</td><td>";
+						
+						rtn += obj.type_text;
+						rtn += "</td><td>";
+						rtn += obj.difficulty_text;
+						rtn += "</td><td>";
+						
+						// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
+						//  then create a map of some sort out of it..
+						rtn += " -- ";
+						rtn += "</td></tr>";
+						
+						return rtn;
+					}
+					
+					function isSelectedEntityId(id) {
+						var selectedIds = new Array(${sessionScope.selectedEntityIDs_AsCSV});
+						var rtn = new Boolean();
+						
+						for (var i=0; i<selectedIds.length && rtn==false; i++) {
+							rtn = (selectedIds[i] == id);
+						}
+						
+						return rtn;
+					}
+					
+					$(document).ready(function() {
+						$.post("/getQuestions.jsp",
+						{
+							containsFilter: "",
+							topicContainsFilter: "",
+							questionTypeFilter: 0,
+							difficultyFilter: 4,
+							authorFilter: "",
+							maxQuestionCountFilter: 10,
+							offsetFilter: 0
+						},
+						function(data,status){
+							//alert("Data: " + data + "\nStatus: " + status);
+							
+							if (status == 'success') {
+								var index = data.indexOf("<!DOCTYPE");
+								var jsonExport = data;
+								
+								if (index != -1) {
+									jsonExport = data.substring(0, index);
+								}
+								
+								var obj = jQuery.parseJSON(jsonExport);
+								
+								var qArr = obj.question;
+								
+								var str = "";
+								
+								for (var i=0; i<qArr.length; i++) {
+									rowNum = i;
+									str = convertToHTMLString(qArr[i], rowNum);
+									
+									$("#entityTable > tbody:last").append(str);
+								}
+							}
+						});
+					});					
+					
+				</script>
+			]]>
+		</jsp:text>
+		
 </body>
 	</html>
 </jsp:root>

@@ -203,8 +203,10 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(getJSONOpening());
+		sb.append(getJSON("id", getId() + "", APPEND_COMMA));
 		sb.append(getJSON("description", getDescription(), APPEND_COMMA));
 		sb.append(getJSON("text", getText(), APPEND_COMMA));
+		sb.append(getJSON("textWithoutHTML", getTextWithoutHTML(), APPEND_COMMA));
 		sb.append(getJSON("difficulty_id", getDifficulty().getId()+"", APPEND_COMMA));
 		sb.append(getJSON("difficulty_text", getDifficulty().getText(), APPEND_COMMA));
 		sb.append(getJSON("type_id", getQuestionType().getId()+"", APPEND_COMMA));

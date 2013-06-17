@@ -66,6 +66,9 @@
 		</div>
 	</div>
 	
+	<input style="display:none;" id="offset" type="text" name="offset"/>
+	<input style="display:none;" id="maxQuestionCountFilter" type="text" name="mcf"/>
+	
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script> ]]>
@@ -84,6 +87,13 @@
 		<jsp:text>
 			<![CDATA[
 				<script type="text/javascript">
+					
+					$(window).scroll(function(){
+				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
+				           alert("Hit the bottom!");
+				           displayMoreRows();
+				        }
+					});
 					
 					function convertToHTMLString(obj, rowNum) {
 						var choicesArr = obj.choices;
@@ -154,42 +164,77 @@
 					}
 					
 					$(document).ready(function() {
-						$.post("/getQuestions.jsp",
-						{
-							containsFilter: "",
-							topicContainsFilter: "",
-							questionTypeFilter: 0,
-							difficultyFilter: 4,
-							authorFilter: "",
-							maxQuestionCountFilter: 10,
-							offsetFilter: 0
-						},
-						function(data,status){
-							//alert("Data: " + data + "\nStatus: " + status);
+						displayMoreRows();
+					});	
+					
+					function displayMoreRows() {
+						var data = getMoreRows();
+						
+						var index = data.indexOf("<!DOCTYPE");
+						var jsonExport = data;
+						
+						if (index != -1) {
+							jsonExport = data.substring(0, index);
+						}
+						
+						var obj = jQuery.parseJSON(jsonExport);
+						
+						var qArr = obj.question;
+						
+						var str = "";
+						
+						for (var i=0; i<qArr.length; i++) {
+							rowNum = i;
+							str = convertToHTMLString(qArr[i], rowNum);
 							
-							if (status == 'success') {
-								var index = data.indexOf("<!DOCTYPE");
-								var jsonExport = data;
+							$("#entityTable > tbody:last").append(str);
+						}
+					}				
+					
+					function getMoreRows() {
+						var os = $("#offset").attr("value");
+						
+						if (os == undefined || os.length == 0) {
+							os = 0;
+						}
+
+						var mcf = $("#maxQuestionCountFilter").attr("value");
+						
+						if (mcf == undefined || mcf.length == 0) {
+							mcf = 10;
+						}
+						
+						var rtn = "";
+						
+						// TODO: get the actual values for these filters
+						$.ajax({
+							type: "POST",
+							url: "/getQuestions.jsp",
+							data: {
+								containsFilter: "",
+								topicContainsFilter: "",
+								questionTypeFilter: 0,
+								difficultyFilter: 4,
+								authorFilter: "",
+								maxQuestionCountFilter: mcf,
+								offsetFilter: os
+							},
+							dataType: "text",
+							async: false
+						}).done(function(data,status){
+								//alert("Data: " + data + "\nStatus: " + status);
 								
-								if (index != -1) {
-									jsonExport = data.substring(0, index);
-								}
-								
-								var obj = jQuery.parseJSON(jsonExport);
-								
-								var qArr = obj.question;
-								
-								var str = "";
-								
-								for (var i=0; i<qArr.length; i++) {
-									rowNum = i;
-									str = convertToHTMLString(qArr[i], rowNum);
+								if (status == 'success') {
+									os = (os*1)+(mcf*1); // force numerical addition
+									$("#offset").attr("value", os);
+									$("#maxQuestionCountFilter").attr("value", mcf);
 									
-									$("#entityTable > tbody:last").append(str);
+									rtn = data;
 								}
-							}
-						});
-					});					
+							});
+						
+						return rtn;
+					}					
 					
 				</script>
 			]]>

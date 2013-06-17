@@ -407,7 +407,7 @@ public class QuestionManager extends Manager {
 		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER));
 		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
 		int maxQuestionCount = Integer.parseInt(fc.get(FilterConstants.MAX_QUESTION_COUNT_FILTER));
-//		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
 		
@@ -429,8 +429,11 @@ public class QuestionManager extends Manager {
 		
 		List<Question> paginatedList = new ArrayList<Question>();
 		
-		for (int i = 0; i < rtn.size() && i < maxQuestionCount; i++)
+		int itemCount = 0;
+		for (int i = offset; i < rtn.size() && itemCount < maxQuestionCount; i++) {
 			paginatedList.add(rtn.get(i));
+			itemCount++;
+		}
 
 		return paginatedList;
 	}

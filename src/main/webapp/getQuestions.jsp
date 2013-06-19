@@ -5,6 +5,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.FilterCollection"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.constants.DifficultyConstants"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.FilterConstants"/>
 	<jsp:directive.page import="java.util.List"/>	
     <jsp:directive.page language="java"
@@ -29,12 +30,17 @@ FilterCollection fc = new FilterCollection();
 if (user != null)
 	fc.add(FilterConstants.USER_ID_FILTER, user.getId() + "");
 
+String difficultyFilterValue = request.getParameter(FilterConstants.DIFFICULTY_FILTER);
+
+if (difficultyFilterValue.equals("0")) difficultyFilterValue = DifficultyConstants.GURU+"";
+
 fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, request.getParameter(FilterConstants.QUESTION_CONTAINS_FILTER));
 fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, request.getParameter(FilterConstants.TOPIC_CONTAINS_FILTER));
 fc.add(FilterConstants.QUESTION_TYPE_FILTER, request.getParameter(FilterConstants.QUESTION_TYPE_FILTER));
-fc.add(FilterConstants.DIFFICULTY_FILTER, request.getParameter(FilterConstants.DIFFICULTY_FILTER));
+fc.add(FilterConstants.DIFFICULTY_FILTER, difficultyFilterValue);
 fc.add(FilterConstants.AUTHOR_FILTER, request.getParameter(FilterConstants.AUTHOR_FILTER));
-fc.add(FilterConstants.MAX_QUESTION_COUNT_FILTER, request.getParameter(FilterConstants.MAX_QUESTION_COUNT_FILTER));
+fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, request.getParameter(FilterConstants.MAX_ENTITY_COUNT_FILTER));
+fc.add(FilterConstants.INCLUDE_ONLY_USER_CREATED_ENTITIES_FILTER, request.getParameter(FilterConstants.INCLUDE_ONLY_USER_CREATED_ENTITIES_FILTER));
 fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSET_FILTER));
 
 List list = QuestionManager.getQuestions(fc);

@@ -406,22 +406,29 @@ public class QuestionManager extends Manager {
 		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER);
 		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER));
 		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
-		int maxQuestionCount = Integer.parseInt(fc.get(FilterConstants.MAX_QUESTION_COUNT_FILTER));
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
 		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
+		boolean includeOnlyUserCreatedEntities = Boolean.parseBoolean(fc.get(FilterConstants.INCLUDE_ONLY_USER_CREATED_ENTITIES_FILTER));
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
 		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
-		
 		queryString += "q.difficulty.id <= ?1";
 		
+		if (!StringUtil.isNullOrEmpty(filterText))
+			queryString += " AND q.text LIKE ?2 OR q.description LIKE ?2"; 
+		
+		if (includeOnlyUserCreatedEntities)
+			queryString += " AND q.user.id = ?3";
+		
 		Query query = em.createQuery(queryString, Question.class);
+		
+		query.setParameter(1, maxDifficulty);
 		
 		if (!StringUtil.isNullOrEmpty(filterText))
 			query.setParameter(2, "%" + filterText + "%");
 		
-		query.setParameter(1, maxDifficulty);
+		if (includeOnlyUserCreatedEntities)
+			query.setParameter(3, Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER)));
 		
 		List<Question> rtn = (List<Question>)query.getResultList();
 
@@ -430,7 +437,7 @@ public class QuestionManager extends Manager {
 		List<Question> paginatedList = new ArrayList<Question>();
 		
 		int itemCount = 0;
-		for (int i = offset; i < rtn.size() && itemCount < maxQuestionCount; i++) {
+		for (int i = offset; i < rtn.size() && itemCount < maxEntityCount; i++) {
 			paginatedList.add(rtn.get(i));
 			itemCount++;
 		}

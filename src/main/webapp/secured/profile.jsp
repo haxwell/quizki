@@ -22,6 +22,7 @@
 			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/bootstrap.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[<script type="text/javascript">]]>
 			<c:choose>
@@ -40,17 +41,6 @@
 			<![CDATA[
 			<script type="text/javascript">
 			
-					//$(function() {
-						//$( "#tabs" ).tabs();
-					   
-						//if (tabIndex !== undefined)
-					   		//$( "#tabs" ).tabs("option","active", tabIndex);
-					//});			
-					
-					//$(function() {
-					//   $( document ).tooltip();
-					// });
-					 
 				    $( "#open-event" ).tooltip({
 				      show: null,
 				      position: {
@@ -62,26 +52,6 @@
 				      }
 				    });
 				
-					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
-						// set the height of the content area according to the browser height
-						var bottomBufferHeight = 90;
-						var questionsBufferHeight = 97;
-						var windowHeight = $(window).height();
-						
-						//$('#tabs').height(windowHeight - bottomBufferHeight);
-						//$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-						//$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-					}
-
-					$(document).ready(function(){
-				 		setDisplayDimensionsAccordingToCurrentWindowHeight();
-					});
-				 
-					$(document).ready(function(){
-					     $(window).resize(function() {
-					 		setDisplayDimensionsAccordingToCurrentWindowHeight();
-						});
-					});
 
 					function getDeleteConfirmationDialogOptions(profileFormName) {
 						var options = { 
@@ -206,62 +176,10 @@
 		  </div>
 		  <div class="tab-pane" id="tabs-2">
     		<jsp:include page="profile-questions.jsp"></jsp:include>
-			<form id="profileQuestionNavigationForm" action="/secured/ProfileQuestionsServlet">
-			<div id="paginationDiv" class="center">
-				<c:choose>
-				<c:when test="${sessionScope.questionPaginationData.totalItemCount > 0}">
-				Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount}
-				</c:when>
-				<c:otherwise>
-				No questions to show!
-				</c:otherwise>
-				</c:choose> 
-				<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-				<input type="submit" value="&lt; PREV" name="button"/>
-				<input type="submit" value="NEXT &gt;" name="button"/>
-				<input type="submit" value="LAST &gt;&gt;" name="button"/>
-				- Max. List Size 
-				<select name="quantity">
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-				</select>
-				<input type="submit" value="REFRESH" name="button"/>
-			</div>
-			</form>
-		
 		  </div>
 		  <div class="tab-pane" id="tabs-3">
 		    	<div id="exams" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-exams.jsp"></jsp:include></div>
 		    	<br/>
-				<form id="profileExamNavigationForm" action="/secured/ProfileExamsServlet">
-				<div id="paginationDiv" class="center">
-					<c:choose>
-					<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
-					Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
-					</c:when>
-					<c:otherwise>
-					No exams to show!
-					</c:otherwise>
-					</c:choose> 
-					<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-					<input type="submit" value="&lt; PREV" name="button"/>
-					<input type="submit" value="NEXT &gt;" name="button"/>
-					<input type="submit" value="LAST &gt;&gt;" name="button"/>
-					- Max. List Size 
-					<select name="quantity">
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-					<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-					</select>
-					<input type="submit" value="REFRESH" name="button"/>
-				</div>
-				</form>
-		
 		  </div>
 		  <div class="tab-pane" id	="tabs-4">
 		    	<div id="account" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-account.jsp"></jsp:include></div>
@@ -276,8 +194,176 @@
 	
 	<div class="hidden" id="dialogText">Are you SURE you want to delete?</div>  
 
+	<input style="display:none;" id="field_true" type="text" name="field_true" value="true"/>
+	<input style="display:none;" id="field_false" type="text" name="field_false" value="false"/>
+	
+	<input style="display:none;" id="offset" type="text" name="offset"/>
+	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
+	
+	<input style="display:none;" id="Questions-tab-data-url" type="text" name="question-tab-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
+	<input style="display:none;" id="Exams-tab-data-url" type="text" name="exam-tab-data-url" value="/getExams.jsp"/>
+	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
+	<input style="display:none;" id="prefix-to-current-tab-hidden-fields" type="text" name="prefix-to-current-tab-hidden-fields" value=""/>
+	
+	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
+
 </div>
 </div>
+
+			<![CDATA[
+			<script type="text/javascript">
+			
+					$(document).ready(function() {
+						setDataObjectDefinitions();
+					});
+					
+					$(window).scroll(function(){
+				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
+					        if (smoothScrollingEnabledOnCurrentTab()) {
+					           //alert("Hit the bottom!");
+					           displayMoreRows();
+					        }
+				        }
+					});
+					
+					function setDataObjectDefinitions() {
+						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"includeOnlyUserCreatedEntitiesFilter\",\"id\":\"#field_true\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+					
+						$('#Questions-data-object-definition').attr("value",str);
+						
+						// TODO: define Exam fields						
+					}
+					
+					$('a[data-toggle="tab"]').on('show', function(e) {
+						var tab = e.target;
+						var prevTab = e.relatedTarget;
+						
+						// identify the tab
+						// figure out its prefix
+						var tabText = tab.innerText;
+						
+						// write that prefix in the hidden prefix field
+						$("#prefix-to-current-tab-hidden-fields").attr("value", tabText);
+					});
+					
+					$('a[data-toggle="tab"]').on('shown', function(e) {
+						if (currentPageHasAnAJAXDataObjectDefinition()) {
+							displayMoreRows();
+						}
+					});
+					
+					function currentPageHasAnAJAXDataObjectDefinition() {
+						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						
+						// a list of the name of the field in the data object, and the name of the field with its value
+						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
+
+						return dataObjDefinition_json != undefined;					
+					}
+					
+					function smoothScrollingEnabledOnCurrentTab() {
+						return currentPageHasAnAJAXDataObjectDefinition();
+					}
+					
+					function getURLThatProvidesTableData() {
+						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						
+						return $("#"+prefix+"-tab-data-url").attr("value");
+					}
+					
+					function getDataObjectForAJAX() {
+						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						
+						// a list of the name of the field in the data object, and the name of the field with its value
+						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
+						
+						var obj = jQuery.parseJSON(dataObjDefinition_json);
+						var arr = obj.fields;
+						
+						var rtn = { };
+						
+						for (var i=0; i<arr.length; i++) {
+							
+							try {
+								rtn[arr[i].name] = $(arr[i].id).attr("value");
+							}
+							catch (err) {
+								// skip this field... TODO, handle this better.. an error means the dataObjDefinition is bad..
+							}
+						}
+						
+						return rtn;
+					}
+					
+					function displayMoreRows() {
+						var data = getMoreRows();
+						
+						var index = data.indexOf("<!DOCTYPE");
+						var jsonExport = data;
+						
+						if (index != -1) {
+							jsonExport = data.substring(0, index);
+						}
+						
+						var obj = jQuery.parseJSON(jsonExport);
+						
+						var qArr = obj.question;
+						
+						var str = "";
+						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
+						
+						for (var i=0; i<qArr.length; i++) {
+							rowNum = i;
+							str = window[prefix+"_convertToHTMLString"](qArr[i], rowNum);
+							
+							$(entityTableId + " > tbody:last").append(str);
+						}
+					}		
+					
+					function getMoreRows() {
+						var os = $("#offset").attr("value");
+						
+						if (os == undefined || os.length == 0) {
+							os = 0;
+							$("#offset").attr("value", os);
+						}
+
+						var mecf = $("#maxEntityCountFilter").attr("value");
+						
+						if (mecf == undefined || mecf.length == 0) {
+							mecf = 10;
+							$("#maxEntityCountFilter").attr("value", mecf);
+						}
+						
+						var rtn = "";
+						var data_url = getURLThatProvidesTableData();
+						var data_obj = getDataObjectForAJAX();
+
+						$.ajax({
+							type: "POST",
+							url: data_url,
+							data: data_obj,
+							dataType: "text",
+							async: false
+						}).done(function(data,status){
+								//alert("Data: " + data + "\nStatus: " + status);
+								
+								if (status == 'success') {
+									os = (os*1)+(mecf*1); // force numerical addition
+									$("#offset").attr("value", os);
+									$("#maxEntityCountFilter").attr("value", mecf);
+									
+									rtn = data;
+								}
+							});
+						
+						return rtn;
+					}					
+					
+			</script>
+			]]>
 
 </body>
 </html>

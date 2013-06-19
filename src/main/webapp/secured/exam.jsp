@@ -67,7 +67,13 @@
 	</div>
 	
 	<input style="display:none;" id="offset" type="text" name="offset"/>
-	<input style="display:none;" id="maxQuestionCountFilter" type="text" name="mcf"/>
+	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
+	
+	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
+	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
+	
+	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
 	
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
@@ -88,14 +94,26 @@
 			<![CDATA[
 				<script type="text/javascript">
 					
+					$(document).ready(function() {
+						setDataObjectDefinitions();
+						displayMoreRows();
+					});
+					
 					$(window).scroll(function(){
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
-				           alert("Hit the bottom!");
-				           displayMoreRows();
+					        if (smoothScrollingEnabledOnCurrentTab()) {
+					           //alert("Hit the bottom!");
+					           displayMoreRows();
+					        }
 				        }
 					});
 					
-					function convertToHTMLString(obj, rowNum) {
+					function setDataObjectDefinitions() {
+						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#rangeOfQuestionsFilter\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+						$('#Exams-data-object-definition').attr("value",str);
+					}
+					
+					function Exams_convertToHTMLString(obj, rowNum) {
 						var choicesArr = obj.choices;
 						var topicsArr = obj.topics;
 						var referencesArr = obj.references;
@@ -163,9 +181,48 @@
 						return rtn;
 					}
 					
-					$(document).ready(function() {
-						displayMoreRows();
-					});	
+					function currentPageHasAnAJAXDataObjectDefinition() {
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						
+						// a list of the name of the field in the data object, and the name of the field with its value
+						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
+
+						return dataObjDefinition_json != undefined;					
+					}
+					
+					function smoothScrollingEnabledOnCurrentTab() {
+						return currentPageHasAnAJAXDataObjectDefinition();
+					}
+					
+					function getURLThatProvidesTableData() {
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						
+						return $("#"+prefix+"-view-data-url").attr("value");
+					}
+					
+					function getDataObjectForAJAX() {
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						
+						// a list of the name of the field in the data object, and the name of the field with its value
+						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
+						
+						var obj = jQuery.parseJSON(dataObjDefinition_json);
+						var arr = obj.fields;
+						
+						var rtn = { };
+						
+						for (var i=0; i<arr.length; i++) {
+							
+							try {
+								rtn[arr[i].name] = $(arr[i].id).attr("value");
+							}
+							catch (err) {
+								// skip this field... TODO, handle this better.. an error means the dataObjDefinition is bad..
+							}
+						}
+						
+						return rtn;
+					}
 					
 					function displayMoreRows() {
 						var data = getMoreRows();
@@ -182,52 +239,49 @@
 						var qArr = obj.question;
 						
 						var str = "";
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 						
 						for (var i=0; i<qArr.length; i++) {
 							rowNum = i;
-							str = convertToHTMLString(qArr[i], rowNum);
+							str = window[prefix+"_convertToHTMLString"](qArr[i], rowNum);
 							
-							$("#entityTable > tbody:last").append(str);
+							$(entityTableId + " > tbody:last").append(str);
 						}
-					}				
+					}		
 					
 					function getMoreRows() {
 						var os = $("#offset").attr("value");
 						
 						if (os == undefined || os.length == 0) {
 							os = 0;
+							$("#offset").attr("value", os);
 						}
 
-						var mcf = $("#maxQuestionCountFilter").attr("value");
+						var mecf = $("#maxEntityCountFilter").attr("value");
 						
-						if (mcf == undefined || mcf.length == 0) {
-							mcf = 10;
+						if (mecf == undefined || mecf.length == 0) {
+							mecf = 10;
+							$("#maxEntityCountFilter").attr("value", mecf);
 						}
 						
 						var rtn = "";
-						
-						// TODO: get the actual values for these filters
+						var data_url = getURLThatProvidesTableData();
+						var data_obj = getDataObjectForAJAX();
+
 						$.ajax({
 							type: "POST",
-							url: "/getQuestions.jsp",
-							data: {
-								containsFilter: "",
-								topicContainsFilter: "",
-								questionTypeFilter: 0,
-								difficultyFilter: 4,
-								authorFilter: "",
-								maxQuestionCountFilter: mcf,
-								offsetFilter: os
-							},
+							url: data_url,
+							data: data_obj,
 							dataType: "text",
 							async: false
 						}).done(function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);
 								
 								if (status == 'success') {
-									os = (os*1)+(mcf*1); // force numerical addition
+									os = (os*1)+(mecf*1); // force numerical addition
 									$("#offset").attr("value", os);
-									$("#maxQuestionCountFilter").attr("value", mcf);
+									$("#maxEntityCountFilter").attr("value", mecf);
 									
 									rtn = data;
 								}
@@ -236,7 +290,7 @@
 						return rtn;
 					}					
 					
-				</script>
+			</script>
 			]]>
 		</jsp:text>
 		

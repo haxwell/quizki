@@ -3,7 +3,7 @@
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn"%>
 
 <form id="examAvailableQuestionsForm" action="/secured/ExamServlet">
-	<table class="table table-striped" id="entityTable">
+	<table class="table table-striped" id="examEntityTable">
 		<thead>
 			<tr>
 				<!--<th>ID</th>-->
@@ -22,13 +22,13 @@
 				<td></td>
 				<td>
 					<div class="row">
-						<select name="small" class="span2">
+						<select id="rangeOfQuestionsFilter" name="small" class="span2">
 							<option value="0">All</option>
-							<option value="1">Selected</option>
-							<option value="2">Mine</option>
+							<option value="1">Mine</option>
+							<option value="2">Selected</option>
 						</select>
 						<div class="input-append" style="margin-left: 10px;">
-							<input type="text" class="flat small"
+							<input id="containsFilter" type="text" class="flat small"
 								placeholder="Search in questions..." style="width: 216px;">
 							<button type="submit" class="btn btn-secondary btn-small">
 								<span class="fui-search"></span>
@@ -38,7 +38,7 @@
 				</td>
 				<td>
 					<div class="input-append">
-						<input type="text" class="flat small"
+						<input id="topicContainsFilter" type="text" class="flat small"
 							placeholder="Search in topics..." style="width: 96px;">
 						<button type="submit" class="btn btn-secondary btn-small">
 							<span class="fui-search"></span>
@@ -49,14 +49,14 @@
 					<div class="pull-left" style="width: 90px;">
 						<select name="small" class="select-block">
 							<option value="0">All</option>
-							<option value="1">Selected</option>
-							<option value="2">Mine</option>
+							<option value="1">Mine</option>
+							<option value="2">Selected</option>
 						</select>
 					</div>
 				</td>
 				<td>
 					<div class="pull-left" style="width: 87px;">
-						<select name="small" class="select-block">
+						<select id="questionTypeFilter" name="small" class="select-block">
 							<option value="0">All</option>
 							<option value="1">Single</option>
 							<option value="2">Multiple</option>
@@ -67,7 +67,7 @@
 				</td>
 				<td>
 					<div class="pull-left" style="width: 103px;">
-						<select name="small" class="select-block">
+						<select id="difficultyFilter" name="small" class="select-block">
 							<option value="0">All</option>
 							<option value="1">Junior</option>
 							<option value="2">Intermediate</option>

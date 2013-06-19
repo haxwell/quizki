@@ -40,7 +40,7 @@ fc.add(FilterConstants.QUESTION_TYPE_FILTER, request.getParameter(FilterConstant
 fc.add(FilterConstants.DIFFICULTY_FILTER, difficultyFilterValue);
 fc.add(FilterConstants.AUTHOR_FILTER, request.getParameter(FilterConstants.AUTHOR_FILTER));
 fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, request.getParameter(FilterConstants.MAX_ENTITY_COUNT_FILTER));
-fc.add(FilterConstants.INCLUDE_ONLY_USER_CREATED_ENTITIES_FILTER, request.getParameter(FilterConstants.INCLUDE_ONLY_USER_CREATED_ENTITIES_FILTER));
+fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER));
 fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSET_FILTER));
 
 List list = QuestionManager.getQuestions(fc);

@@ -194,17 +194,18 @@
 	
 	<div class="hidden" id="dialogText">Are you SURE you want to delete?</div>  
 
+	<input style="display:none;" id="field_1" type="text" name="field_1" value="1"/>
 	<input style="display:none;" id="field_true" type="text" name="field_true" value="true"/>
 	<input style="display:none;" id="field_false" type="text" name="field_false" value="false"/>
 	
 	<input style="display:none;" id="offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
-	<input style="display:none;" id="Questions-tab-data-url" type="text" name="question-tab-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/getQuestions.jsp"/>
 	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
-	<input style="display:none;" id="Exams-tab-data-url" type="text" name="exam-tab-data-url" value="/getExams.jsp"/>
+	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getExams.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
-	<input style="display:none;" id="prefix-to-current-tab-hidden-fields" type="text" name="prefix-to-current-tab-hidden-fields" value=""/>
+	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/>
 	
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 
@@ -228,7 +229,7 @@
 					});
 					
 					function setDataObjectDefinitions() {
-						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"includeOnlyUserCreatedEntitiesFilter\",\"id\":\"#field_true\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
 					
 						$('#Questions-data-object-definition').attr("value",str);
 						
@@ -244,7 +245,7 @@
 						var tabText = tab.innerText;
 						
 						// write that prefix in the hidden prefix field
-						$("#prefix-to-current-tab-hidden-fields").attr("value", tabText);
+						$("#prefix-to-current-view-hidden-fields").attr("value", tabText);
 					});
 					
 					$('a[data-toggle="tab"]').on('shown', function(e) {
@@ -254,7 +255,7 @@
 					});
 					
 					function currentPageHasAnAJAXDataObjectDefinition() {
-						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
 						
 						// a list of the name of the field in the data object, and the name of the field with its value
 						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
@@ -267,13 +268,13 @@
 					}
 					
 					function getURLThatProvidesTableData() {
-						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
 						
-						return $("#"+prefix+"-tab-data-url").attr("value");
+						return $("#"+prefix+"-view-data-url").attr("value");
 					}
 					
 					function getDataObjectForAJAX() {
-						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
 						
 						// a list of the name of the field in the data object, and the name of the field with its value
 						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
@@ -311,7 +312,7 @@
 						var qArr = obj.question;
 						
 						var str = "";
-						var prefix = $("#prefix-to-current-tab-hidden-fields").attr("value");
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 						
 						for (var i=0; i<qArr.length; i++) {

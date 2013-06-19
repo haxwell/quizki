@@ -408,7 +408,7 @@ public class QuestionManager extends Manager {
 		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
 		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
 		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
-		boolean includeOnlyUserCreatedEntities = Boolean.parseBoolean(fc.get(FilterConstants.INCLUDE_ONLY_USER_CREATED_ENTITIES_FILTER));
+		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
 		

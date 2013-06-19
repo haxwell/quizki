@@ -79,8 +79,8 @@ public class Constants {
 
 	///
 	public static final Integer MY_ITEMS = 1;
-	public static final Integer ALL_ITEMS = 2;
-	public static final Integer SELECTED_ITEMS = 3;
+	public static final Integer ALL_ITEMS = 0;
+	public static final Integer SELECTED_ITEMS = 2;
 	public static final String MY_ITEMS_STR = "mine";
 	public static final String ALL_ITEMS_STR = "all";
 	public static final String SELECTED_ITEMS_STR = "selected";

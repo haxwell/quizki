@@ -1,11 +1,13 @@
 $("#getQuestionsBtn").click(function() {
     $.post("/getQuestions.jsp", {
-        containsFilter : $("#idContainsFilter").attr("value"),
+        containsFilter : $("#containsFilter").attr("value"),
         topicContainsFilter : "",
         questionTypeFilter : "0",
         difficultyFilter : "4",
-        authorFilter : "",
-        maxQuestionCountFilter : "3",
+        //authorFilter : "",
+        //maxQuestionCountFilter : "3",
+        maxEntityCountFilter : "0",
+        rangeOfEntitiesFilter : "0",
         offsetFilter : "0"
     }, function(data, status) {
 
@@ -20,12 +22,22 @@ $("#getQuestionsBtn").click(function() {
                     $.each(questions, function(k, v) {
                         counter++;
                         tbl_row = '';
-
-                        tbl_row +=  '<td>' + '<label class="checkbox no-label" for="chkbox_$' + counter + '">'
-                                    + '<input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$'
-                                    + counter
-                                    + '" name="selectQuestionChkbox_${question.id}" /></label>'
-                                    + '</td>';
+                        
+                        if(isSelectedEntityId(parseInt(v["id"]))) {
+                            tbl_row +=  '<td>' + '<label class="checkbox no-label checked" for="chkbox_$' + counter + '">'
+                            + '<input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$'
+                            + counter
+                            + '" name="selectQuestionChkbox_$' + v["id"] + '" /></label>'
+                            + '</td>';
+                            
+                        }
+                        else {
+                            tbl_row +=  '<td>' + '<label class="checkbox no-label" for="chkbox_$' + counter + '">'
+                            + '<input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$'
+                            + counter
+                            + '" name="selectQuestionChkbox_$' + v["id"] + '" /></label>'
+                            + '</td>';
+                        }
 
                         tbl_row += '<td>' + (v["description"] == "" ? v["textWithoutHTML"] : v["description"]) + '</td>';
                         

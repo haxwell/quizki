@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn"%>
 
-<form id="examAvailableQuestionsForm" action="/secured/ExamServlet">
+<!--form id="examAvailableQuestionsForm" action="/secured/ExamServlet"-->
 	<table class="table table-striped" id="examEntityTable">
 		<thead>
 			<tr>
@@ -30,7 +30,7 @@
 						<div class="input-append" style="margin-left: 10px;">
 							<input id="containsFilter" type="text" class="flat small"
 								placeholder="Search in questions..." style="width: 216px;">
-							<button type="submit" class="btn btn-secondary btn-small">
+							<button type="submit" class="btn btn-secondary btn-small" id="getQuestionsBtn">
 								<span class="fui-search"></span>
 							</button>
 						</div>
@@ -86,4 +86,4 @@
 	<input type="hidden" id="valueOfLastPressedButton"
 		name="valueOfLastPressedButton"> <input type="hidden"
 		id="nameOfLastPressedButton" name="nameOfLastPressedButton">
-</form>
+<!--/form-->

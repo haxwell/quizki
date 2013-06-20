@@ -2,20 +2,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn" %>
 
-	<form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet">
+	
+	<div id="questionEntityTableDiv">
+	<form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet">	
 	<table class="table table-striped" id="questionEntityTable">
 		<thead>
 			<tr>
 				<!--<th>ID</th>-->
 				<th style="width: 400px;">Questions</th>
-				<th style="width: 130px;">Topics</th>
-				<th>Type</th>
-				<th>Difficulty</th>
-				<th>Votes</th>
+				<th style="width: 145px;">Topics</th>
+				<th style="width: 145px;">Type</th>
+				<th style="width: 160px;">Difficulty</th>
+				<th style="width: 70px;">Votes</th>
+				<th></th>
 			</tr>
-		</thead>
-		<tbody>
-				<tr class="filter-row">
+			<tr class="filter-row">
 					<td>
 						<div class="row">
 							<select name="small" class="span2">
@@ -66,10 +67,17 @@
 					<td>
 						Votes
 					</td>
+					<td></td>
 				</tr>
+		</thead>
+		<tbody>
 		</tbody>
 	</table>
-	
+
 	<input type="hidden" id="valueOfLastPressedButton" name="valueOfLastPressedButton">
 	<input type="hidden" id="nameOfLastPressedButton" name="nameOfLastPressedButton">
+
 	</form>
+	</div>	
+	
+	<table id="header-fixed" style="position:fixed; top:0px; background-color: #2e9dd6; display:none;"></table>

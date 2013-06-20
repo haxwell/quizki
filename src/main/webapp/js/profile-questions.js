@@ -31,6 +31,14 @@
 						// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
 						//  then create a map of some sort out of it..
 						rtn += " -- ";
+
+						rtn += "</td><td>";
+						
+						rtn += "<div class=\"questionButtonDiv\">";
+						rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small\" id=\"edit_button_" + rowNum + "\" name=\"questionButton_" + obj.id + "\" value=\"Edit Question\"><i class=\"icon-pencil\"></i></button>";
+						rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small\" id=\"delete_button_" + rowNum + "\" name=\"questionButton_" + obj.id + "\" value=\"Delete Question\"><i class=\"icon-remove\"></i></button>";
+						rtn += "</div>";
+						
 						rtn += "</td></tr>";
 						
 						return rtn;

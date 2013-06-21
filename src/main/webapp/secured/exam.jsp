@@ -95,20 +95,20 @@
 					
 					$(document).ready(function() {
 						setDataObjectDefinitions();
-						displayMoreRows();
+						//displayMoreRows();
 					});
 					
 					$(window).scroll(function(){
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
-					           displayMoreRows();
+					           //displayMoreRows();
 					        }
 				        }
 					});
 					
 					function setDataObjectDefinitions() {
-						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#rangeOfQuestionsFilter\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#offset"}]}';
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					

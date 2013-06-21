@@ -167,6 +167,6 @@ String.prototype.repeat = function(num) {
     $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
 
     // Stackable tables
-    $(".table-striped").stacktable({id: "rwd-table"});
+    //$(".table-striped").stacktable({id: "rwd-table"});
   });
 })(jQuery);

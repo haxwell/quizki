@@ -23,8 +23,7 @@
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">
-				<form action="/secured/ExamServlet" method="post"
-					id="titleAndSubmitButtonForm">
+				<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
 					<div class="span3">
 
 						<input type="text" placeholder="Enter a title for your exam..."
@@ -52,7 +51,7 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
-				</form>
+				<!--/form-->
 			</div>
 			<div class="row">
 				<div class="span12 divider">
@@ -292,6 +291,8 @@
 					
 			</script>
 			]]>
+
+            <![CDATA[ <script type="text/javascript" src="../js/CreateExam.js"></script> ]]>
 		</jsp:text>
 		
 </body>

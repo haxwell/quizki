@@ -112,6 +112,8 @@
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					
+					// TODO: actually, this is not just working on the most recent row.. its ALL rows..
+					//  1) think of a better name for this method.. 2) can we do this a different (faster) way?
 					function manageCheckboxesOnMostRecentRow() { 
 				        $('[data-toggle="checkbox"]').each(function () {
 				            var $checkbox = $(this);

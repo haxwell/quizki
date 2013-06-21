@@ -21,8 +21,7 @@ String.prototype.repeat = function(num) {
     $("select[name='huge']").selectpicker({style: 'btn-huge btn-primary', menuStyle: 'dropdown-inverse'});
     $("select[name='large']").selectpicker({style: 'btn-large btn-danger'});
     $("select[name='info']").selectpicker({style: 'btn-info'});
-    //$("select[name='small']").selectpicker({style: 'btn-small btn-warning'});
-    $("select[name='small']").selectpicker({style: 'btn-small btn-secondary'});
+    $("select[name='small']").selectpicker({style: 'btn-small btn-warning'});
 
     // Tabs
     $(".nav-tabs a").on('click', function (e) {
@@ -167,6 +166,6 @@ String.prototype.repeat = function(num) {
     $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
 
     // Stackable tables
-    //$(".table-striped").stacktable({id: "rwd-table"});
+    $(".table-striped").stacktable({id: "rwd-table"});
   });
 })(jQuery);

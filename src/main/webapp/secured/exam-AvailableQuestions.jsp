@@ -30,7 +30,7 @@
 						<div class="input-append" style="margin-left: 10px;">
 							<input id="containsFilter" type="text" class="flat small"
 								placeholder="Search in questions..." style="width: 216px;">
-							<button type="submit" class="btn btn-secondary btn-small" id="getQuestionsBtn">
+							<button type="submit" class="btn btn-secondary btn-small" id="searchQuestionsBtn">
 								<span class="fui-search"></span>
 							</button>
 						</div>
@@ -40,7 +40,7 @@
 					<div class="input-append">
 						<input id="topicContainsFilter" type="text" class="flat small"
 							placeholder="Search in topics..." style="width: 96px;">
-						<button type="submit" class="btn btn-secondary btn-small">
+						<button type="submit" class="btn btn-secondary btn-small" id="searchTopicsBtn">
 							<span class="fui-search"></span>
 						</button>
 					</div>

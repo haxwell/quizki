@@ -108,14 +108,12 @@
 					});
 					
 					function setDataObjectDefinitions() {
-						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#rangeOfQuestionsFilter\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#offset"}]}';
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					
 					function Exams_convertToHTMLString(obj, rowNum) {
-						var choicesArr = obj.choices;
 						var topicsArr = obj.topics;
-						var referencesArr = obj.references;
 						
 						var rtn = "";
 						
@@ -124,16 +122,16 @@
 						
 						if (isSelectedEntityId(obj.id)) {
 							// Checked
-							rtn += "<label class=\"checkbox no-label checked\" for=\"checkbox-table-2\">";
-							rtn += " <input type=\"checkbox\" value=\"\" id=\"checkbox-table-2\" data-toggle=\"checkbox\" id=\"chkbox_" + rowNum + "\"";
-							rtn += " name=\"selectQuestionChkbox_" + obj.id + "\" value=\"\" />";
+							rtn += "<label class=\"checkbox no-label checked\" for=\"chkbox_$" + rowNum + "\">";
+							rtn += " <input type=\"checkbox\" value=\"\" data-toggle=\"checkbox\" id=\"chkbox_$" + rowNum + "\"";
+							rtn += " name=\"selectQuestionChkbox_$" + obj.id + "\" />";
 							rtn += "</label>";
 						}
 						else {
 							// Not checked
-							rtn += "<label class=\"checkbox no-label\" for=\"checkbox-table-2\">";
-							rtn += " <input type=\"checkbox\" value=\"\" id=\"checkbox-table-2\" data-toggle=\"checkbox\" id=\"chkbox_" + rowNum + "\"";
-							rtn += " name=\"selectQuestionChkbox_${question.id}\" value=\"\" />";
+							rtn += "<label class=\"checkbox no-label\" for=\"chkbox_$" + rowNum + "\">";
+							rtn += " <input type=\"checkbox\" value=\"\" data-toggle=\"checkbox\" id=\"chkbox_$" + rowNum + "\"";
+							rtn += " name=\"selectQuestionChkbox_$" + obj.id + "\" />";
 							rtn += "</label>";
 						}
 						
@@ -223,7 +221,7 @@
 						return rtn;
 					}
 					
-					function displayMoreRows() {
+					function displayMoreRows(functionForEachRow) {
 						var data = getMoreRows();
 						
 						var index = data.indexOf("<!DOCTYPE");
@@ -246,8 +244,15 @@
 							str = window[prefix+"_convertToHTMLString"](qArr[i], rowNum);
 							
 							$(entityTableId + " > tbody:last").append(str);
+							
+							if (functionForEachRow != undefined)
+								functionForEachRow();
 						}
 					}		
+					
+					function setRowsOffsetToZero() {
+						$("#offset").attr("value", "0");
+					}
 					
 					function getMoreRows() {
 						var os = $("#offset").attr("value");

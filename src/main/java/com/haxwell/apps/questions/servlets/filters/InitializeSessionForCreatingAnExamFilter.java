@@ -76,13 +76,6 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 				}
 			}
 			
-			// Delete These 4 lines!
-			List<Long> tempIds = new ArrayList<Long>();
-			tempIds.add(12L);
-			tempIds.add(23L);
-			
-			session.setAttribute(Constants.SELECTED_ENTITY_IDS_AS_CSV, CollectionUtil.getCSV(tempIds));
-			
 			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
 
 				session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);

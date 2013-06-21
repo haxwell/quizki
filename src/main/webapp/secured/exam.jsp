@@ -95,14 +95,14 @@
 					
 					$(document).ready(function() {
 						setDataObjectDefinitions();
-						displayMoreRows();
+						displayMoreRows(manageCheckboxesOnMostRecentRow);
 					});
 					
 					$(window).scroll(function(){
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
-					           displayMoreRows();
+					           displayMoreRows(manageCheckboxesOnMostRecentRow);
 					        }
 				        }
 					});
@@ -112,57 +112,74 @@
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					
+					function manageCheckboxesOnMostRecentRow() { 
+				        $('[data-toggle="checkbox"]').each(function () {
+				            var $checkbox = $(this);
+				            $checkbox.checkbox();
+				            $checkbox.on('check uncheck toggle', function (e) {
+						      var $this = $(this)
+						        , check = $this.prop('checked')
+						        , toggle = e.type == 'toggle'
+						        , checkboxes = $('.table tbody :checkbox')
+						        , checkAll = checkboxes.length == checkboxes.filter(':checked').length;
+						
+						      $this.closest('tr')[check ? 'addClass' : 'removeClass']('selected-row');
+						      if (toggle) $this.closest('.table').find('.toggle-all :checkbox').checkbox(checkAll ? 'check' : 'uncheck');
+						    });
+						});
+			        }
+					
 					function Exams_convertToHTMLString(obj, rowNum) {
 						var topicsArr = obj.topics;
 						
 						var rtn = "";
 						
-						rtn += "<tr id=\"tableRow_" + rowNum + "\">";
-						rtn += "<td>";
+						rtn += '<tr id="tableRow_' + rowNum + '">';
+						rtn += '<td>';
 						
-						if (isSelectedEntityId(obj.id)) {
+						if (isSelectedEntityId(obj.id) == true) {
 							// Checked
-							rtn += "<label class=\"checkbox no-label checked\" for=\"chkbox_$" + rowNum + "\">";
-							rtn += " <input type=\"checkbox\" value=\"\" data-toggle=\"checkbox\" id=\"chkbox_$" + rowNum + "\"";
-							rtn += " name=\"selectQuestionChkbox_$" + obj.id + "\" />";
-							rtn += "</label>";
+							rtn += '<label class="checkbox no-label checked" for="chkbox_$' + rowNum + '">';
+							rtn += ' <input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$' + rowNum + '"';
+							rtn += ' name="selectQuestionChkbox_$' + obj.id + '" />';
+							rtn += '</label>';
 						}
 						else {
 							// Not checked
-							rtn += "<label class=\"checkbox no-label\" for=\"chkbox_$" + rowNum + "\">";
-							rtn += " <input type=\"checkbox\" value=\"\" data-toggle=\"checkbox\" id=\"chkbox_$" + rowNum + "\"";
-							rtn += " name=\"selectQuestionChkbox_$" + obj.id + "\" />";
-							rtn += "</label>";
+							rtn += '<label class="checkbox no-label" for="chkbox_$' + rowNum + '">';
+							rtn += ' <input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$' + rowNum + '"';
+							rtn += ' name="selectQuestionChkbox_$' + obj.id + '" />';
+							rtn += '</label>';
 						}
 						
-						rtn += "</td><td>";
+						rtn += '</td><td>';
 						
 						if (obj.description.length > 0) {
-							rtn += "<a href=\"/displayQuestion.jsp?questionId=" + obj.id + "\">" + obj.description + "</a>";
+							rtn += '<a href="/displayQuestion.jsp?questionId=' + obj.id + '">' + obj.description + '</a>';
 						}
 						else {
-							rtn += "<a href=\"/displayQuestion.jsp?questionId=" + obj.id + "\">" + obj.textWithoutHTML + "</a>";
+							rtn += '<a href="/displayQuestion.jsp?questionId=' + obj.id + '">' + obj.textWithoutHTML + '</a>';
 						}
 						
-						rtn += "</td><td>";
+						rtn += '</td><td>';
 						
 						if (topicsArr.length > 0) {
 							for (var i=0; i<topicsArr.length; i++) {
-								rtn += topicsArr[i].text + "<br/>";
+								rtn += topicsArr[i].text + '<br/>';
 							}
 						}
 						
-						rtn += "</td><td>";
+						rtn += '</td><td>';
 						
 						rtn += obj.type_text;
-						rtn += "</td><td>";
+						rtn += '</td><td>';
 						rtn += obj.difficulty_text;
-						rtn += "</td><td>";
+						rtn += '</td><td>';
 						
 						// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
 						//  then create a map of some sort out of it..
-						rtn += " -- ";
-						rtn += "</td></tr>";
+						rtn += ' -- ';
+						rtn += '</td><td>';
 						
 						return rtn;
 					}

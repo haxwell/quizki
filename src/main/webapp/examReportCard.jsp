@@ -13,6 +13,8 @@
 		<title>Exam Report Card Graded - Quizki</title>
 
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+		
 		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
 		<link href="css/styles.css" rel="stylesheet" type="text/css" />
@@ -59,37 +61,65 @@
 	</jsp:scriptlet>
 	
 <br/><br/><br/>
-	Okay, you correctly answered ${numberOfQuestionsAnsweredCorrectly} out of ${totalNumberOfQuestions} questions.<br/><br/>
 	
-	Questions in <span class="greenText">green</span> are correct, <span class="redText">red</span> is one you missed!<br/><br/>
+	<jsp:text>
+		<div class="input-prepend">
+			<span class="add-on short green"><![CDATA[<i class="icon-ok"></i>]]></span>
+			<input class="span1" type="text" value="${numberOfQuestionsAnsweredCorrectly}" size="2"/>
+		</div>
+		
+		<div class="input-prepend">
+			<span class="add-on short red"><![CDATA[<i class="icon-remove"></i>]]></span>
+			<input class="span1" type="text" value="${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}" size="2"/>
+		</div>
+	</jsp:text>
+		
+	You got <span class="greenText"><strong>${numberOfQuestionsAnsweredCorrectly}</strong></span> questions correct and <span class="redText"><strong>${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}</strong></span> incorrect out of a total of <strong>${totalNumberOfQuestions}</strong>. Following are the details of the exam. You can click on a question for more information.
 	
+	<br/><br/>
 	<c:forEach var="answeredQuestion" items="${currentExamHistory.iterator}">
-		<div class="qIsCorrect_${answeredQuestion.isCorrect}">
-			<c:choose>
-			<c:when test="${empty answeredQuestion.question.description}">
-				<a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.text}</a>
+		<c:choose>
+			<c:when test="${answeredQuestion.isCorrect}">
+				<strong><![CDATA[<i class="icon-circle-blank greenText span1"></i>]]></strong>
+				<c:choose>
+					<c:when test="${empty answeredQuestion.question.description}">
+						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.textWithoutHTML}</a>
+					</c:when>
+					<c:otherwise>
+						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
+					</c:otherwise>
+				</c:choose>
 			</c:when>
 			<c:otherwise>
-				<a class="q_aIsCorrect_${answeredQuestion.isCorrect}" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
+				<strong><![CDATA[<i class="icon-circle-blank redText span1"></i>]]></strong>
+				<c:choose>
+					<c:when test="${empty answeredQuestion.question.description}">
+						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.textWithoutHTML}</a>
+					</c:when>
+					<c:otherwise>
+						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
+					</c:otherwise>
+				</c:choose>
 			</c:otherwise>
-			</c:choose>
-		</div>
-	</c:forEach>
+		</c:choose>
+		
+		<br/>
+		
+	</c:forEach>	
+	
 	<br/><br/>
 	
-	<c:choose>
-		<c:when test="${empty sessionScope.feedbackForCurrentUserAndExam}">
-			<div id="divFeedbackMsgToUser">Give some feedback to the owner of this exam!</div>
-			<br/><br/>
-				<jsp:text><![CDATA[<textarea id="id_examFeedbackTextarea" name="examFeedbackTextarea" cols="50" rows="15" value="Enter some feedback"> </textarea>]]></jsp:text>
-			<br/>
-			<input type="submit" id="btnSendFeedback" value="Send Feedback" name="button"/>
-		</c:when>
-		<c:otherwise>
-			<div id="divFeedbackMsgToUser">You've already given some feedback to the owner of this exam.. Thanks!</div>
-		</c:otherwise>
-	</c:choose>
+	<div id="divFeedbackOverall">
+	<div id="divFeedbackMsgToUser"></div>
+	<input type="text"
+		placeholder="You can leave feedback for the exam creator here...."
+		class="flat input-block-level span9" maxlength="255"
+		id="id_examMessage" name="examMessage"
+		value="${sessionScope.feedbackForCurrentUserAndExam}"/>
 
+	<input type="submit" class="span2 btn" id="btnSendFeedback" value="Send Feedback" name="button"/>		
+	</div>
+	
 	
 	<br/><br/><br/>
 	<a href="/index.jsp">home</a>

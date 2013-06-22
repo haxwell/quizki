@@ -2646,6 +2646,33 @@ textarea[class*="span"] {
   transition: border .25s linear, color .25s linear, background-color .25s linear;
   -webkit-backface-visibility: hidden;
 }
+
+.input-append .add-on.short,
+.input-prepend .add-on.short {
+	padding: 4px 5px;
+	height: 18px;
+}
+
+.input-append .add-on.red,
+.input-prepend .add-on.red {
+	color: red;
+}
+
+.input-append .add-on.green,
+.input-prepend .add-on.green {
+	color: green;
+}
+
+.input-append .add-on.true,
+.input-prepend .add-on.true {
+	color: green;
+}
+
+.input-append .add-on.false,
+.input-prepend .add-on.false {
+	color: green;
+}
+
 .input-append .add-on,
 .input-prepend .add-on,
 .input-append .btn,
@@ -6061,4 +6088,12 @@ input.search-query {
 .mhl,
 .mal {
   margin-left: 20px;
+}
+
+.greenText {
+	color:green;
+}
+
+.redText {
+	color:red;
 }

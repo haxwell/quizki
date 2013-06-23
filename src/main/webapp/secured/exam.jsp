@@ -23,7 +23,7 @@
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">
-				<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
+				<form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm">
 					<div class="span3">
 
 						<input type="text" placeholder="Enter a title for your exam..."
@@ -51,7 +51,7 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
-				<!--/form-->
+				</form>
 			</div>
 			<div class="row">
 				<div class="span12 divider">
@@ -172,16 +172,18 @@
 						}
 						
 						rtn += '</td><td>';
-						
+
+                        // TODO: get author data from the database
+                        rtn += '</td><td>';
 						rtn += obj.type_text;
 						rtn += '</td><td>';
 						rtn += obj.difficulty_text;
-						rtn += '</td><td>';
+						rtn += '</td>';//<td>';
 						
 						// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
 						//  then create a map of some sort out of it..
-						rtn += ' -- ';
-						rtn += '</td><td>';
+						//rtn += ' -- ';
+						//rtn += '</td><td>';
 						
 						return rtn;
 					}

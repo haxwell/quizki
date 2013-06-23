@@ -80,24 +80,24 @@
 	<c:forEach var="answeredQuestion" items="${currentExamHistory.iterator}">
 		<c:choose>
 			<c:when test="${answeredQuestion.isCorrect}">
-				<strong><![CDATA[<i class="icon-circle-blank greenText span1"></i>]]></strong>
+				<strong><![CDATA[<i class="icon-circle-blank greenText span1 examReportCardDetailLine"></i>]]></strong>
 				<c:choose>
 					<c:when test="${empty answeredQuestion.question.description}">
-						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.textWithoutHTML}</a>
+						<a class="span11 examReportCardDetailLine" style="color:#414151;" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.textWithoutHTML}</a>
 					</c:when>
 					<c:otherwise>
-						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
+						<a class="span11 examReportCardDetailLine" style="color:#414151;" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
 					</c:otherwise>
 				</c:choose>
 			</c:when>
 			<c:otherwise>
-				<strong><![CDATA[<i class="icon-circle-blank redText span1"></i>]]></strong>
+				<strong><![CDATA[<i class="icon-circle-blank redText span1 examReportCardDetailLine"></i>]]></strong>
 				<c:choose>
 					<c:when test="${empty answeredQuestion.question.description}">
-						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.textWithoutHTML}</a>
+						<a class="span11 examReportCardDetailLine" style="color:#414151;" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.textWithoutHTML}</a>
 					</c:when>
 					<c:otherwise>
-						<a class="span11" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
+						<a class="span11 examReportCardDetailLine" style="color:#414151;" href="/displayQuestion.jsp?questionId=${answeredQuestion.question.id}">${answeredQuestion.question.description}</a>
 					</c:otherwise>
 				</c:choose>
 			</c:otherwise>
@@ -107,22 +107,17 @@
 		
 	</c:forEach>	
 	
-	<br/><br/>
+	<br/><br/>	<br/><br/>
 	
 	<div id="divFeedbackOverall">
 	<div id="divFeedbackMsgToUser"></div>
 	<input type="text"
 		placeholder="You can leave feedback for the exam creator here...."
-		class="flat input-block-level span9" maxlength="255"
+		class="span8" maxlength="255"
 		id="id_examMessage" name="examMessage"
 		value="${sessionScope.feedbackForCurrentUserAndExam}"/>
-
-	<input type="submit" class="span2 btn" id="btnSendFeedback" value="Send Feedback" name="button"/>		
+		<input type="submit" class="span3 btn" id="btnSendFeedback" value="Send Feedback" name="button"/>		
 	</div>
-	
-	
-	<br/><br/><br/>
-	<a href="/index.jsp">home</a>
 	
 </div>
 </div>

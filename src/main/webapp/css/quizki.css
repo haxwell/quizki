@@ -2670,7 +2670,7 @@ textarea[class*="span"] {
 
 .input-append .add-on.false,
 .input-prepend .add-on.false {
-	color: green;
+	color: red;
 }
 
 .input-append .add-on,
@@ -6096,4 +6096,8 @@ input.search-query {
 
 .redText {
 	color:red;
+}
+
+.examReportCardDetailLine {
+	line-height:160%;
 }

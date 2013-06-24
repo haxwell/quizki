@@ -4673,6 +4673,26 @@ input.search-query {
 .table img {
   vertical-align: top;
 }
+.table a {
+  color: #414151;
+  text-decoration: underline;
+}
+.table a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+.table .tableCommand a {
+  font-family: Segoe UI;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.table .tableCommand a:hover {
+  text-decoration: none;
+  color: #414151;
+}
 .table-striped tbody > tr:nth-child(even) > td,
 .table-striped tbody > tr:nth-child(even) > th {
   background-color: #edf0f3;

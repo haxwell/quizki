@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Quizki - Create Exam</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
 <link href="../css/quizki.css" rel="stylesheet" />
 <link href="../css/styles.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="../images/favicon.ico" />
@@ -23,7 +23,7 @@
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content">
 			<div class="row">
-				<form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm">
+				<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
 					<div class="span3">
 
 						<input type="text" placeholder="Enter a title for your exam..."
@@ -51,7 +51,7 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
-				</form>
+				<!--/form-->
 			</div>
 			<div class="row">
 				<div class="span12 divider">
@@ -75,18 +75,18 @@
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
 	
 		<jsp:text>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery.ui.touch-punch.min.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/bootstrap.min.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/bootstrap-select.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/bootstrap-switch.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/flatui-checkbox.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/flatui-radio.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery.tagsinput.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery.placeholder.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/jquery.stacktable.js"></script> ]]>
-			<![CDATA[ <script type="text/javascript" src="../js/quizki.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.ui.touch-punch.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap-select.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap-switch.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/flatui-checkbox.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/flatui-radio.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.tagsinput.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.placeholder.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.stacktable.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/quizki_custom_application.js"></script> ]]>
 		</jsp:text>
 		
 		<jsp:text>
@@ -172,18 +172,16 @@
 						}
 						
 						rtn += '</td><td>';
-
-                        // TODO: get author data from the database
-                        rtn += '</td><td>';
+						
 						rtn += obj.type_text;
 						rtn += '</td><td>';
 						rtn += obj.difficulty_text;
-						rtn += '</td>';//<td>';
+						rtn += '</td><td>';
 						
 						// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
 						//  then create a map of some sort out of it..
-						//rtn += ' -- ';
-						//rtn += '</td><td>';
+						rtn += ' -- ';
+						rtn += '</td><td>';
 						
 						return rtn;
 					}

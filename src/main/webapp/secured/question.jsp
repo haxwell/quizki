@@ -11,30 +11,33 @@
 
 		<title>Question - Quizki</title>
 
-		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="../css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/bootstrap-switch-master/stylesheets/bootstrapSwitch.css" rel="stylesheet" />
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/styles.css" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<jsp:text>
-			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
 			<![CDATA[
 			<script type="text/javascript">
 tinyMCE.init({
         theme : "advanced",
         mode : "textareas",
         plugins : "autoresize",
-		content_css : "../css/custom_content.css",
+		content_css : "../css/quizki_tinymce_custom_content.css",
 		theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
 		font_size_style_values : "10px,12px,13px,14px,16px,18px,20px",
         theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyfull,|,formatselect",
         theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,image,|,hr,removeformat,visualaid,|,sub,sup,|,charmap",
         theme_advanced_buttons3 : "",
 		theme_advanced_path : false,
+		theme_advanced_statusbar_location : 0,
 		help_shortcut : ""
 });
 
@@ -85,15 +88,6 @@ tinyMCE.init({
 		<div class="content">
 
 
-	<!-- <c:choose>
-	<c:when test="${empty sessionScope.inEditingMode}">
-	<h1>Create Question</h1>
-	</c:when>
-	<c:otherwise>
-	<h1>Edit Question</h1>
-	</c:otherwise>
-	</c: choose> -->
-
       <c:if test="${not empty requestScope.successes}">
       	<c:forEach var="str" items="${requestScope.successes}">
       		<span class="greenText">${str}</span><br/>	
@@ -108,111 +102,78 @@ tinyMCE.init({
       	<br/>      	
       </c:if>
 
+	<div class="row">
+		<div class="span3">
+			<h1 class="questionPageSectionHeader">Question</h1>
+		</div> 
+		<div class="span3 offset5">
+			<button class="btn" type="submit" name="button" style="margin-top:25px;">Save and Add Another</button>
+		</div>
+		<div class="span1">
+			<button class="btn" type="submit" name="button" style="margin-top:25px;">Save</button>
+		</div>	
+	</div>
+	
+	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+
 	<c:choose>
 		<c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
 		<div >
 		<form action="/secured/QuestionServlet" method="post">
-			<div >
-			<textarea id="id_questionText" name="questionText" cols="50" rows="15" value="Enter a question...?" class="tinymce">${currentQuestion.text}</textarea><br/>  
-			Difficulty: <select name="difficulty" id="questionDifficulty" title="How hard is this question?">
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.difficulty.id == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru" >Guru</option></c:otherwise></c:choose>
-				</select> | Type: <select name="type" id="questionType" title="What form do the answers come in?">
+			<textarea id="id_questionText" name="questionText" rows="8" class="span12 tinymce">${currentQuestion.text}</textarea><br/>  
+			<input class="span12" type="text" maxlength="998" id="id_questionDescription" name="questionDescription" value="${currentQuestion.description}" placeholder="Optional. A few words describing the question."/>
+			
+			<table class="span12" style="margin-left:0px">
+				<tr>
+					<td style="width:25%; vertical-align:top;">
+						Difficulty <br/>
+						<div class="btn-group" data-toggle="buttons-radio">
+						<button type="button" class="btn btn-small btn-primary">Junior</button>
+						<button type="button" class="btn btn-small btn-primary">Intermediate</button>
+						<button type="button" class="btn btn-small btn-primary">Well Versed</button>
+						<button type="button" class="btn btn-small btn-primary">Guru</button>
+						</div>
+					</td>
+					<td style="width:33%">
+						Topics <br/>
+						<div class="well"></div>
+					</td>
+					<td style="width:41%">
+						References <br/>
+						<div class="well"></div>
+					</td>
+				</tr>
+			</table>
+
+	<div class="row">
+		<div class="span3">
+			<h1 class="questionPageSectionHeader">Answer</h1>
+		</div>
+	</div> 
+	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+
+				<select name="type" id="questionType" title="What form do the answers come in?">
 				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="Multiple">Multiple</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
 				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>
-				 | Description: <input type="text" size="45" maxlength="998" id="id_questionDescription" name="questionDescription" value="${currentQuestion.description}" title="Optional. A few words describing the question."/>	
-			</div>
 			
-			<hr/>
 			<br/>
-			<div >
-			Answers --<br/>
-			Text: <input type="text" name="choiceText" size="35" maxlength="998" title="A potential answer.. What should this choice say?"/>  Is Correct?: 
-			<c:choose>
-				<c:when test="${currentQuestion.questionType.id > 2}">
-					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?" disabled="disabled"><option value="yes">Yes</option><option value="no">No</option></select> 
-				</c:when>
-				<c:otherwise>
-					<select name="isCorrect" class="componentSignifiesChoiceCorrectness" title="Is this a valid answer?"><option value="yes">Yes</option><option value="no">No</option></select> 
-				</c:otherwise>
-			</c:choose>
 			
-			<input type="submit" value="Add Choice" name="button"/> 
-			<c:choose>
-				<c:when test="${currentQuestion.questionType.id > 2}">
-					<input type="submit" class="componentSignifiesChoiceCorrectness" value="Add True/False" name="button" disabled="disabled"/>
-				</c:when>
-				<c:otherwise>
-					<input type="submit" class="componentSignifiesChoiceCorrectness" value="Add True/False" name="button"/>
-				</c:otherwise>
-			</c:choose>
-			<br/>
-
-			<table>
-				<c:forEach var="choice" items="${currentQuestion.choices}">
-					<tr>
-						<c:if test="${currentQuestion.questionType.id == 4}"><td><input type="text" name="sequenceNum_${choice.id}" value="${choice.sequence}" size="2" maxlength="2" title="Position # in the sequence"/> </td></c:if>
-						<td><input type="text" name="choiceText_${choice.id}" value="${choice.text}" maxlength="998" size="35" title="Make a change, then press Update."/></td>
-						<td>Is Correct? <c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" checked="checked" title="This choice is a correct answer."/>Yes</c:otherwise></c:choose></c:if> 
-										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="Yes" title="This choice is marked incorrect."/>Yes </c:otherwise></c:choose></c:if>
-										<c:if test="${choice.iscorrect == 1}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="This choice is a correct answer."/>No </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="This choice is a correct answer."/>No </c:otherwise></c:choose></c:if>
-										<c:if test="${choice.iscorrect == 0}"><c:choose><c:when test="${currentQuestion.questionType.id > 2}"><input disabled="disabled" type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="This choice is marked incorrect." checked="checked" />No </c:when><c:otherwise><input type="radio" class="componentSignifiesChoiceCorrectness" name="group1_${choice.id}" value="No" title="This choice is marked incorrect." checked="checked" />No </c:otherwise></c:choose></c:if>
-						</td>
-						<td><input type="submit" value="Update" name="choiceButton_${choice.id}" title="Save this choice's changes."/></td>
-						<td><input type="submit" value="Delete" name="choiceButton_${choice.id}" title="Obliterate this choice."/></td>
-					</tr>
-				</c:forEach>
-			</table>
-			</div>
-			<br/>
-			<hr/>
-			<div >
-			Topics --<br/>
-			Text: <input type="text" name="topicText" size="35" maxlength="98" title="Whats this question about? (try commas!)"/>  <input type="submit" value="Add Topic" name="button"/>
-			<br/>		
-			<table>
-				<c:forEach var="topic" items="${currentQuestion.topics}">
-					<tr>
-						<td><input type="text" name="topicText_${topic.id}" value="${topic.text}" readonly="readonly"/></td>
-						<td><input type="submit" value="Delete" name="topicButton_${topic.id}" title="Efface this topic."/></td>
-					</tr>
-				</c:forEach>
-			</table>
+			<input class="span6" type="text" name="choiceText" size="35" maxlength="998" placeholder="Enter answer.."/>
+			<![CDATA[
+			<div class="switch" data-on-label="<i class='icon-ok'></i>" data-off-label="<i class='icon-remove'></i>">
+				<input type="checkbox" checked/>
 			</div>
 
+			<button class="btn" type="submit" name="button">
+				<i class="icon-plus icon-white"></i>
+			</button>
+			]]>
+						
 			<br/>
-			<hr/>
-			<div >
-			References --<br/>
-			Text: <input type="text" name="referenceText" title="Back it up with facts and stuff.." maxlength="98" size="35" />  <input type="submit" value="Add Reference" name="button"/>
-			<br/>		
-			<table>
-				<c:forEach var="ref" items="${currentQuestion.references}">
-					<tr>
-						<td><input type="text" name="referenceText_${ref.id}" value="${ref.text}" size="35" readonly="readonly"/></td>
-						<td><input type="submit" value="Delete" name="referenceButton_${ref.id}" title="Expunge this reference."/></td>
-					</tr>
-				</c:forEach>
-			</table>
-			</div>
-			
-			<br/>
-			<br/>
-			<hr/>
-	<c:choose>
-	<c:when test="${empty sessionScope.inEditingMode}">
-	<input type="submit" value="Add Question" name="button" style="float:right;"/>
-	</c:when>
-	<c:otherwise>
-	<input type="submit" value="Update Question" name="button" style="float:right;"/>
-	</c:otherwise>
-	</c:choose>
 				
 		</form>
 		</div>

@@ -11,8 +11,8 @@
 
 		<title>Admin Profile - Quizki</title>
 
-		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="../css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/styles.css" rel="stylesheet" type="text/css" />
@@ -20,8 +20,8 @@
 
 
 		<jsp:text>
-			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[<script type="text/javascript">]]>
 			<c:choose>

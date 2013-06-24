@@ -11,16 +11,16 @@
 		
 		<title>Take Exam - ${currentExam.title}</title>
 
-		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
 		<link href="css/styles.css" rel="stylesheet" type="text/css" />
-		<link rel="shortcut icon" href="../images/favicon.ico" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="js/choiceFunctions.js" type="text/javascript" ></script> ]]>
 			<![CDATA[
 			<script type="text/javascript">
@@ -29,7 +29,7 @@
 				        mode : "textareas",
 				        plugins : "autoresize",
 				        readonly : 1,
-						content_css : "css/custom_content.css"
+						content_css : "css/quizki_tinymce_custom_content.css"
 				});
 			</script>
 			]]>

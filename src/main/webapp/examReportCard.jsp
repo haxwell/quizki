@@ -17,7 +17,6 @@
 		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="css/styles.css" rel="stylesheet" type="text/css" />
 		
 		<link href="images/favicon.ico" rel="shortcut icon"/>
 

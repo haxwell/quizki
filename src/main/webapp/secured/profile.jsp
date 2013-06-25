@@ -14,8 +14,7 @@
 		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+		<link href="../css/profile.css" rel="stylesheet" type="text/css" />
 		<link href="../images/favicon.ico" rel="shortcut icon"  />
 
 		<jsp:text>
@@ -189,7 +188,7 @@
 	
 	<br/>
 	
-	<div class="hidden" id="dialogText">Are you SURE you want to delete?</div>  
+	<div style="display:none;" id="dialogText">Are you SURE you want to delete?</div>  
 
 	<input style="display:none;" id="field_1" type="text" name="field_1" value="1"/>
 	<input style="display:none;" id="field_true" type="text" name="field_true" value="true"/>

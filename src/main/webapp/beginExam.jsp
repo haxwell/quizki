@@ -11,12 +11,13 @@
 		
 		<title>Begin Exam - Quizki</title>
 		
-		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="css/styles.css" rel="stylesheet" type="text/css" />
-		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link href="pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+
+		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki-flat-ui-buttons.css" rel="stylesheet" type="text/css"/>		
+
+		<link href="images/favicon.ico" rel="shortcut icon"/>
 </head>
 <body>
 

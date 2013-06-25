@@ -1,0 +1,19 @@
+/* Settings in this file apply to all pages in Quizki. It should be included after bootstrap, flat-ui, etc, but */
+/*  before other individual page css files. */
+
+body {
+  color: #414151;
+  font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
+  font-size: 100%;
+  line-height: 1.34;
+  background-color: #e7ebed;
+  background-image: url('../images/header-bg.png');
+  background-repeat: repeat-x;
+}
+
+div.horizontal-rule {
+    border-bottom: 2px solid #dadfe9;
+    margin-bottom: 20px;
+    margin-top: 14px;
+    padding-bottom: 4px;
+}

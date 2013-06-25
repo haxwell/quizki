@@ -1,0 +1,69 @@
+
+.quizki_logo {
+	height: 80px;
+}
+
+div.header-row {
+    height: 80px;
+    color: #E7EBED;
+}
+
+/* This is the username, at the top, in the right corner */
+div.headerUsernameInfo {
+    font-family: "Segoe UI";
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-align: right;
+    padding-top: 30px;
+}
+
+/* This is the title displayed in the middle of the top of each page */
+div.page-description {
+    text-align: center;
+    margin-top: 10px;
+}
+
+h1 {
+  font-family: "wf_SegoeUILight", "wf_SegoeUI", "Segoe UI Light", "Segoe WP Light", "Segoe UI", "Segoe", "Segoe WP";
+  font-size: 24px;
+  /* 24px */
+
+  line-height: 1em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 100;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+a.darkerHomeLink:active {
+	color:#FFFFFF;
+}
+
+a.darkerHomeLink:hover {
+	color:#BDB5B8;
+}
+
+a.darkerHomeLink:visited {
+	color:#BDB5B8;
+}
+
+a.darkerHomeLink:link {
+	color:#BDB5B8;
+}
+
+a.homeLink:active {
+	color:#FFFFFF;
+}
+
+a.homeLink:hover {
+	color:#F7EBF0;
+}
+
+a.homeLink:visited {
+	color:#FFFFFF;
+}
+
+a.homeLink:link {
+	color:#FFFFFF;
+}

@@ -13,9 +13,7 @@
 
 		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="css/styles.css" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
@@ -152,10 +150,10 @@
 	</c:otherwise>
 	</c:choose>
 	
-	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
-	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
-	<div class="hidden" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="stringAnswer" value="??5" autocomplete="off"/></div></div>
-	<div class="hidden" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" value="??5" size="2" maxlength="2" autocomplete="off"/> ??1</div></div>
+	<div style="display:none;" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
+	<div style="display:none;" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
+	<div style="display:none;" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="stringAnswer" value="??5" autocomplete="off"/></div></div>
+	<div style="display:none;" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" value="??5" size="2" maxlength="2" autocomplete="off"/> ??1</div></div>
 
 </div>
 </div>	

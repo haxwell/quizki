@@ -12,41 +12,13 @@
 		<title>Home Page - Quizki</title>
 		
 		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="css/styles.css" rel="stylesheet" type="text/css" />
-		<link rel="shortcut icon" href="images/favicon.ico" />
-		
-		<jsp:text>
-			
-			<![CDATA[ <script src="pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery.cookie.js" type="text/javascript"></script> ]]>
-		
-			<![CDATA[
-				<script type="text/javascript">
+		<!-- link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/  -->
 
-   					//$(document).ready(function() {
-					//	var currentSessionCookieVal = $.cookie('quizki.currentSessionCookie'); 
-					//
-					//	if (currentSessionCookieVal == null)
-					//		$("#welcomeToQuizki-dialog").dialog({modal:true,width:530,title:"Welcome to Quizki!"}).dialog();
-					//});
+		<!-- link href="css/quizki.css" rel="stylesheet" type="text/css"/  -->
+		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/>		
+		<link href="css/index.css" rel="stylesheet" type="text/css"/>
 
-					// Handler for the modal dialog CLOSING
-				    //$(document).ready(function(){
-					//	$('div#welcomeToQuizki-dialog').bind('dialogclose', function(event) {
-					//	    //var v = $.cookie('quizki.userHasBeenHereBefore');
-					//	    //$.cookie('quizki.userHasBeenHereBefore', v+1, { expires: 30 });
-
-					//	    $.cookie('quizki.currentSessionCookie', 0); // create cookie for current session
-					//	});
- 				    //});
-				    
-				</script>
-			]]>
-		</jsp:text>
+		<link href="images/favicon.ico" rel="shortcut icon"/>
 		
 </head>
 <body>

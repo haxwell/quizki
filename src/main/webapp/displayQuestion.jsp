@@ -16,9 +16,7 @@
 
 		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="css/styles.css" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
@@ -282,11 +280,11 @@
 		
 		<br/><br/>
 	
-	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>	
-	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>
-	<div class="hidden" id="textExample"><div class="??4">??1<br/></div></div>
-	<div class="hidden" id="youTypedExample"><br/>You typed: <div class="??4">??1<br/></div></div>
-	<div class="hidden" id="sequenceExample"><div class="??4">??SEQ - ??1<br/></div></div>
+	<div style="display:none;" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>	
+	<div style="display:none;" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>
+	<div style="display:none;" id="textExample"><div class="??4">??1<br/></div></div>
+	<div style="display:none;" id="youTypedExample"><br/>You typed: <div class="??4">??1<br/></div></div>
+	<div style="display:none;" id="sequenceExample"><div class="??4">??SEQ - ??1<br/></div></div>
 
 </div>
 </div>

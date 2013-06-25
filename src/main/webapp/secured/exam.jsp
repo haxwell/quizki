@@ -14,7 +14,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
 <link href="../css/quizki.css" rel="stylesheet" />
-<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+<!-- link href="../css/quizki-sitewide.css" rel="stylesheet" /  -->
+<link href="../css/exam.css" rel="stylesheet" />
+<link href="../css/displayExam.css" rel="stylesheet" />
 <link rel="shortcut icon" href="../images/favicon.ico" />
 
 </head>
@@ -54,7 +56,7 @@
 				<!--/form-->
 			</div>
 			<div class="row">
-				<div class="span12 divider">
+				<div class="span12 horizontal-rule">
 					<h2>Select questions for your exam</h2>
 				</div>
 			</div>

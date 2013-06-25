@@ -11,12 +11,14 @@
 
 		<title>Question - Quizki</title>
 
-		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="../pkgs/bootstrap-switch-master/stylesheets/bootstrapSwitch.css" rel="stylesheet" />
+		<!-- link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" / -->
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
+		<link href="../pkgs/bootstrap-switch-master/stylesheets/bootstrapSwitch.css" rel="stylesheet" />		
 		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/styles.css" rel="stylesheet" type="text/css" />
+		<!-- link href="../css/quizki.css" rel="stylesheet" type="text/css"/  -->
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
+
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<jsp:text>
@@ -56,12 +58,6 @@ tinyMCE.init({
       }
     });
 
-    $(document).ready(function() {
-    	var foo = $("textarea.tinymce").attr("title");
-    	$("textarea.tinymce").attr("title", null);
-    	foo = $("textarea.tinymce").attr("title");
-    });
-    
 	$(document).ready(function() {
 	    $("#questionType").change(function() {
 	    	var val = $("#questionType option:selected").text();
@@ -85,7 +81,7 @@ tinyMCE.init({
 
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
-		<div class="content">
+		<div>
 
 
       <c:if test="${not empty requestScope.successes}">
@@ -164,7 +160,7 @@ tinyMCE.init({
 			
 			<input class="span6" type="text" name="choiceText" size="35" maxlength="998" placeholder="Enter answer.."/>
 			<![CDATA[
-			<div class="switch" data-on-label="<i class='icon-ok'></i>" data-off-label="<i class='icon-remove'></i>">
+			<div class="switch" data-on-label="<i class='icon-ok greenText'></i>" data-off-label="<i class='icon-remove redText'></i>">
 				<input type="checkbox" checked/>
 			</div>
 

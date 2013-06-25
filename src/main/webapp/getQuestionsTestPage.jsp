@@ -10,7 +10,6 @@
 <title>Home Page - Quizki</title>
 		
 		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
 		
 		<jsp:text>
 			

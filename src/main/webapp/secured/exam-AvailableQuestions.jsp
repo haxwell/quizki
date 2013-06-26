@@ -15,6 +15,7 @@
 				<th>Author</th>
 				<th>Type</th>
 				<th>Difficulty</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,7 +23,7 @@
 				<td></td>
 				<td>
 					<div class="row">
-						<select id="rangeOfQuestionsFilter" name="small" class="span2">
+						<select id="rangeOfQuestionsFilter" name="small" class="span1">
 							<option value="0">All</option>
 							<option value="1">Mine</option>
 							<option value="2">Selected</option>
@@ -76,6 +77,7 @@
 						</select>
 					</div>
 				</td>
+				<td></td>
 			</tr>
 
 			<!-- Javascript inserts rows here based on AJAX call -->

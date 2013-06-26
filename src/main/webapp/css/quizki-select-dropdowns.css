@@ -1,0 +1,43 @@
+
+
+/* 838 */
+.btn-group > .btn:first-of-type {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+/* 842 */
+.btn-group > .btn:last-of-type {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+/* 1631 */
+.select[class*="span"] .btn {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* 1649 */
+.select .btn {
+  width: 220px;
+}
+
+/* 1665 */
+.select .btn.btn-small .filter-option {
+  left: 5px;
+  right: 33px;
+  top: 5px;
+}
+
+/* 1682 */
+.select .btn .filter-option {
+  height: 26px;
+  left: 13px;
+  overflow: hidden;
+  position: absolute;
+  right: 33px;
+  text-align: left;
+}

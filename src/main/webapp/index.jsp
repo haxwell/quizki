@@ -11,7 +11,9 @@
 
 		<title>Home Page - Quizki</title>
 		
-		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<!-- link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" /  -->
+		<link href="pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
 		<!-- link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/  -->
 
 		<!-- link href="css/quizki.css" rel="stylesheet" type="text/css"/  -->

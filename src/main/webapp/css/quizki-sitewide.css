@@ -17,3 +17,16 @@ div.horizontal-rule {
     margin-top: 14px;
     padding-bottom: 4px;
 }
+
+
+h2 {
+  font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
+  font-size: 15px;
+  /* 15px */
+
+  line-height: 1em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}

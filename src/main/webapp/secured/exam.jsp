@@ -8,22 +8,36 @@
 	</jsp:text>
 	<!--html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">-->
 	<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Quizki - Create Exam</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-<link href="../css/quizki.css" rel="stylesheet" />
-<!-- link href="../css/quizki-sitewide.css" rel="stylesheet" /  -->
-<link href="../css/exam.css" rel="stylesheet" />
-<link href="../css/displayExam.css" rel="stylesheet" />
-<link rel="shortcut icon" href="../images/favicon.ico" />
 
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<title>Quizki - Create Exam</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" /  -->
+		<!--  <link href="../css/quizki.css" rel="stylesheet" /  -->
+
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" />
+		
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-checkbox-radio-btn.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-select-dropdowns.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-tables.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>				
+		
+		<link rel="shortcut icon" href="../images/favicon.ico" />
+	
+	</head>
+
 <body>
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
-		<div class="content">
+		<div class="content" style="padding:20px 0;">
 			<div class="row">
 				<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
 					<div class="span3">

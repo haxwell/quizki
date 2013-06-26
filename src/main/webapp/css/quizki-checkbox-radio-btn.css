@@ -1,0 +1,29 @@
+
+.checkbox .icons,
+.radio .icons {
+  color: #f9fcff;
+  display: block;
+  height: 13px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 13px;
+  text-align: center;
+  line-height: 13px;
+  font-size: 13px;
+  border: 1px solid #dadfe9;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-transition: color 0.25s linear;
+  -moz-transition: color 0.25s linear;
+  -o-transition: color 0.25s linear;
+  transition: color 0.25s linear;
+  -webkit-backface-visibility: hidden;
+}
+
+.checkbox input,
+.radio input {
+  outline: none !important;
+  display: none;
+}

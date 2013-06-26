@@ -15,7 +15,7 @@
 		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
 
 		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/>
-		<link href="css/quizki-flat-ui-buttons.css" rel="stylesheet" type="text/css"/>		
+		<link href="css/quizki-buttons.css" rel="stylesheet" type="text/css"/>		
 
 		<link href="images/favicon.ico" rel="shortcut icon"/>
 </head>

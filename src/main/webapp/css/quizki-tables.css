@@ -1,0 +1,53 @@
+
+.table {
+  font-size: 15px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border: none;
+}
+.table th {
+  height: 22px;
+  padding-top: 2px;
+  padding-bottom: 6px;
+  color: white;
+  font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
+  font-weight: 100;
+  background-color: #2e9dd6;
+  text-align: center;
+}
+
+.table .checkbox,
+.table .radio {
+  margin-bottom: -3px;
+  margin-left: 3px;
+  margin-top: 3px;
+  margin-right: -10px;
+}
+.table .checkbox.no-label,
+.table .radio.no-label {
+  padding-left: 17px;
+}
+
+/* 4668 */
+.table .filter-row > td {
+  background-color: #dadfe9;
+  padding-bottom: 0px;
+  text-align: center;
+}
+
+/* 4676 */
+.table-striped tbody > tr:nth-child(even) > td,
+.table-striped tbody > tr:nth-child(even) > th {
+  background-color: #edf0f3;
+}
+
+/* 4687 */
+.table-striped tbody > tr.filter-row > td,
+.table-striped tbody > tr.filter-row > th {
+  background-color: #dadfe9;
+  padding-bottom: 0px;
+  text-align: center;
+}

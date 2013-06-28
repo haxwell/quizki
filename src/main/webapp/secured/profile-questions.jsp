@@ -19,11 +19,6 @@
 			<tr class="filter-row">
 					<td>
 						<div class="row">
-							<select name="small" class="span2">
-								<option value="0">All</option>
-								<option value="1">Selected</option>
-								<option value="2">Mine</option>
-							</select>
 							<div class="input-append" style="margin-left: 10px;">
 								<input id="containsFilter" type="text" class="flat small"
 									placeholder="Search in questions..." style="width: 216px;">
@@ -80,4 +75,4 @@
 	</form>
 	</div>	
 	
-	<table id="header-fixed" style="position:fixed; top:0px; background-color: #2e9dd6; display:none;"></table>
+	<table id="header-fixed" class="table table-striped span12 fixedTable" style="position:fixed; top:0px; display:none;"></table>

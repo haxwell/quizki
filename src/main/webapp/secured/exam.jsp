@@ -28,7 +28,9 @@
 		<link href="../css/quizki-checkbox-radio-btn.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-select-dropdowns.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-tables.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>				
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/quizki-tables-exam.css" rel="stylesheet" type="text/css"/>
 		
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 	
@@ -38,54 +40,62 @@
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content" style="padding:20px 0;">
-			<div class="row">
-				<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
-					<div class="span3">
-
-						<input type="text" placeholder="Enter a title for your exam..."
-							class="flat input-block-level" maxlength="128" id="id_examTitle"
-							name="examTitle" value="${currentExam.title}"
-							title="A name for this exam." />
+			<div id="belowTheBarPageHeader" class="fillBackgroundColor"> 
+				<div class="row">
+					<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
+						<div class="span3">
+	
+							<input type="text" placeholder="Enter a title for your exam..."
+								class="flat input-block-level" maxlength="128" id="id_examTitle"
+								name="examTitle" value="${currentExam.title}"
+								title="A name for this exam." />
+						</div>
+						<div class="span7">
+							<input type="text"
+								placeholder="Enter a message for users who will take your exam..."
+								class="flat input-block-level" size="45" maxlength="255"
+								id="id_examMessage" name="examMessage"
+								value="${currentExam.message}"
+								title="A message for folks who take this exam." />
+						</div>
+						<div class="span2">
+							<c:choose>
+								<c:when test="${empty sessionScope.inEditingMode}">
+									<button class="btn btn-block pull-right" type="submit"
+										name="button">Add Exam</button>
+								</c:when>
+								<c:otherwise>
+									<button class="btn btn-block pull-right" type="submit"
+										name="button">Update Exam</button>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					<!--/form-->
+				</div>
+				<div class="row">
+					<div class="span12 horizontal-rule">
+						<h2>Select questions for your exam</h2>
 					</div>
-					<div class="span7">
-						<input type="text"
-							placeholder="Enter a message for users who will take your exam..."
-							class="flat input-block-level" size="45" maxlength="255"
-							id="id_examMessage" name="examMessage"
-							value="${currentExam.message}"
-							title="A message for folks who take this exam." />
+				</div>
+				<div class="row">
+					<div id="examAvailableQuestionTableHeaderJSPDiv" class="span12">
+						<jsp:include page="exam-AvailableQuestions-tableHeader.jsp"></jsp:include>
 					</div>
-					<div class="span2">
-						<c:choose>
-							<c:when test="${empty sessionScope.inEditingMode}">
-								<button class="btn btn-block pull-right" type="submit"
-									name="button">Add Exam</button>
-							</c:when>
-							<c:otherwise>
-								<button class="btn btn-block pull-right" type="submit"
-									name="button">Update Exam</button>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				<!--/form-->
-			</div>
-			<div class="row">
-				<div class="span12 horizontal-rule">
-					<h2>Select questions for your exam</h2>
 				</div>
 			</div>
-			<div class="row">
-				<div class="span12"><jsp:include
-						page="exam-AvailableQuestions.jsp"></jsp:include></div>
+
+			<div id="examAvailableQuestionTableRowsJSPDiv" style="margin-left:0px;" class="span12">
+				<jsp:include page="exam-AvailableQuestions.jsp"></jsp:include>
 			</div>
-		</div>
+		</div>		
+		
 	</div>
 	
 	<input style="display:none;" id="offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
 	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getQuestions.jsp"/>
-	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
+	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTableRows"/>
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
 	
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
@@ -114,6 +124,21 @@
 						displayMoreRows(manageCheckboxesOnMostRecentRow);
 					});
 					
+					var divOffset = $("#belowTheBarPageHeader").offset().top;
+					var $header = $("#belowTheBarPageHeader").clone();
+					var $fixedHeader = $("#header-fixed").append($header);
+					
+					$(window).bind("scroll", function() {
+					    var offset = $(this).scrollTop();
+					
+					    if (offset >= divOffset && $fixedHeader.is(":hidden")) {
+					        $fixedHeader.show();
+					    }
+					    else if (offset < divOffset) {
+					        $fixedHeader.hide();
+					    }
+					});
+
 					$(window).scroll(function(){
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
@@ -170,7 +195,7 @@
 							rtn += '</label>';
 						}
 						
-						rtn += '</td><td>';
+						rtn += '</td><td class="examTableQuestionColumn">';
 						
 						if (obj.description.length > 0) {
 							rtn += '<a href="/displayQuestion.jsp?questionId=' + obj.id + '">' + obj.description + '</a>';
@@ -179,7 +204,7 @@
 							rtn += '<a href="/displayQuestion.jsp?questionId=' + obj.id + '">' + obj.textWithoutHTML + '</a>';
 						}
 						
-						rtn += '</td><td>';
+						rtn += '</td><td class="examTableTopicsColumn">';
 						
 						if (topicsArr.length > 0) {
 							for (var i=0; i<topicsArr.length; i++) {

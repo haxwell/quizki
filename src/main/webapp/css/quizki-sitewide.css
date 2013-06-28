@@ -11,6 +11,10 @@ body {
   background-repeat: repeat-x;
 }
 
+.fillBackgroundColor {
+	background-color: #e7ebed;
+}
+
 div.horizontal-rule {
     border-bottom: 2px solid #dadfe9;
     margin-bottom: 20px;

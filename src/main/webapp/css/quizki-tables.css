@@ -3,6 +3,12 @@
   font-size: 15px;
 }
 
+.fixedTable {
+	width: 940px; /* == .span12 */
+	margin-left: 0px;
+	/*margin-bottom: 0px;*/	
+}
+
 .table th,
 .table td {
   padding: 10px;

@@ -11,18 +11,25 @@
 
 		<title>Profile - Quizki</title>
 
-		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/profile.css" rel="stylesheet" type="text/css" />
-		<link href="../images/favicon.ico" rel="shortcut icon"  />
+		<!--  link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" /  -->
+		<!--  link href="../css/quizki.css" rel="stylesheet" /  -->
 
-		<jsp:text>
-			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../pkgs/bootstrap/js/bootstrap.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
-			
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+		
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet"/>
+
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" />
+		
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-checkbox-radio-btn.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-select-dropdowns.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-tables.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/profile.css" rel="stylesheet" type="text/css" />
+		
+		<link href="../images/favicon.ico" rel="shortcut icon"  />
 
 			<![CDATA[<script type="text/javascript">]]>
 			<c:choose>
@@ -38,22 +45,41 @@
 			</c:choose>
 			<![CDATA[</script>]]>
 
+		<jsp:text>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.ui.touch-punch.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap-select.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap-switch.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/flatui-checkbox.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/flatui-radio.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.tagsinput.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.placeholder.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.stacktable.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/quizki_custom_application.js"></script> ]]>
+			
+			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
+		</jsp:text>
+
 			<![CDATA[
 			<script type="text/javascript">
 
 					function getDeleteConfirmationDialogOptions(profileFormName) {
 						var options = { 
 								autoOpen: false, resizable: false, modal: true,
-							      buttons: {
-							        "Delete this item": function() {
-							          document.getElementById(profileFormName).submit();
-							        },
-							        Cancel: function() {
+							      buttons: [{
+							        text : "Delete this item", 
+							        click : function() {
+										document.getElementById(profileFormName).submit();
+							        } },
+							        {
+							        text : "Cancel",
+							        click : function() {
 							          $( this ).dialog( "close" );
-							        }
-							      }
+							        } } ]
 						};
-						
+
 						return options;
 					}
 
@@ -68,14 +94,14 @@
 					}
 					
 					function setQuestionsButtonClickHandlersForRow(rowNum) {
-
 	              		$('#delete_button_' + rowNum).click(function() {
 							var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileQuestionForm"));
 
 							setLastPressedButtonName($(this), "nameOfLastPressedButton");
 							setLastPressedButtonValue($(this), "valueOfLastPressedButton");
 
-	              			dlg.dialog("open");
+	              			dlg.dialog('open');	
+	              			
 	              			return false;
 	              		});
 
@@ -86,7 +112,6 @@
 							document.getElementById("profileQuestionForm").submit();
 						});				    
 					}
-					
 					
 					function setExamsButtonClickHandlersForRow(rowNum) {
 	              		$('#exam_delete_button_' + rowNum).click(function() {
@@ -141,8 +166,6 @@
 		     </script>
 				]]>			
 
-		</jsp:text>
-				
 	</head>
 <body>
 
@@ -384,6 +407,7 @@
 					
 			</script>
 			]]>
+			
 
 </body>
 </html>

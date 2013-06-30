@@ -1,9 +1,11 @@
 package com.haxwell.apps.questions.managers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -436,19 +438,32 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
-	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc) {
+	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc, Set<Question> questions) {
 		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
 		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 
 		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = null;
 		
-		List<Question> list = getFilteredListOfQuestions(fc);
+		if (questions == null) // this is a request for questions from the db
+			list = getFilteredListOfQuestions(fc);
+		else // this is a request for selected questions, use the passed in set of questions
+		{
+			Question[] qArr = new Question[0];
+			questions.toArray(qArr);
+			list = (List<Question>)(Arrays.asList(qArr));
+		}
 		
 		if (list.size() == 0) {
-			if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
-				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
-			else
-				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+			if (questions == null) {
+				if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+					rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
+				else
+					rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+			}
+			else {
+				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
+			}
 		}
 		else {
 			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);

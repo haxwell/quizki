@@ -190,6 +190,8 @@
 								msg = "You haven't created any questions!"; 
 							} else if (obj.addlInfoCode == 1) {
 								msg = "Nothing matches that filter...";								
+							} else if (obj.addlInfoCode == 2) {
+								msg = "There are no selected items.";
 							}
 							
 							appendTableStatusRow(msg, entityTableId, prefix);

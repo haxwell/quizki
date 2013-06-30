@@ -4,6 +4,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.AJAXReturnData"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.AbstractEntity"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.entities.Exam"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.FilterCollection"/>
@@ -12,6 +13,8 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.TypeConstants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.FilterConstants"/>
 	<jsp:directive.page import="java.util.List"/>
+	<jsp:directive.page import="java.util.Set"/>
+	<jsp:directive.page import="java.util.HashSet"/>	
 	<jsp:directive.page import="java.util.logging.Level"/>	
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
@@ -65,9 +68,21 @@ fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, request.getParameter(FilterConst
 fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, roef);
 fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSET_FILTER));
 
-//List list = QuestionManager.getQuestions(fc);
-AJAXReturnData rtnData = QuestionManager.getAJAXReturnObject(fc);
-//String json = CollectionUtil.toJSON(rtnData.entities);
+AJAXReturnData rtnData = null;
+
+if (roef.equals(Constants.SELECTED_ITEMS+"")) {
+	Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
+	Set selectedQuestions = null;
+	
+	if (exam == null)
+		selectedQuestions = new HashSet();
+	else
+		selectedQuestions = exam.getQuestions();
+	
+	rtnData = QuestionManager.getAJAXReturnObject(fc, selectedQuestions);
+}
+else
+	rtnData = QuestionManager.getAJAXReturnObject(fc, null);
 
 writer.print(rtnData.toJSON());
 

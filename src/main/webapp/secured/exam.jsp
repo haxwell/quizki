@@ -236,11 +236,11 @@
 					}
 					
 					function setClonedHeaderInTheGlobalVariables() {
-						//$header = $("#belowTheBarPageHeader").clone();
+						$header = $("#belowTheBarPageHeader").clone();
 						
-						//$("#header-fixed").empty();
+						$("#header-fixed").empty();
 						
-						//$fixedHeader = $("#header-fixed").append($header);
+						$fixedHeader = $("#header-fixed").append($header);
 						
 						disableHeaderFilterFields();
 					}

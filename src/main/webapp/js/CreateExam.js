@@ -53,7 +53,7 @@ function getQuestions() {
 }
 
 function cleanTable() {
-    $("#examEntityTable tbody tr:not(.filter-row)").remove();
+    $("#examEntityTableRows tbody tr:not(.filter-row)").remove();
 }
 
 function Exams_getNoItemsFoundHTMLString(string) {

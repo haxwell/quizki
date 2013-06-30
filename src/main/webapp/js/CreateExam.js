@@ -49,7 +49,7 @@ $("#rangeOfQuestionsFilter").change(function() {
 function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();
-	displayMoreRows(manageCheckboxesOnMostRecentRow);
+	displayMoreRows(addCheckboxToRow);
 }
 
 function cleanTable() {

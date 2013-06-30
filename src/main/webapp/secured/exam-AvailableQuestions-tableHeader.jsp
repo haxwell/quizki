@@ -20,19 +20,17 @@
 			<tr class="filter-row">
 				<td></td>
 				<td>
-					<div class="row">
-						<select id="rangeOfQuestionsFilter" name="small" class="span1">
-							<option value="0">All</option>
-							<option value="1">Mine</option>
-							<option value="2">Selected</option>
-						</select>
-						<div class="input-append" style="margin-left: 10px;">
-							<input id="containsFilter" type="text" class="flat small"
-								placeholder="Search in questions..." style="width: 216px;">
-							<button type="submit" class="btn btn-secondary btn-small" id="searchQuestionsBtn">
-								<span class="fui-search"></span>
-							</button>
-						</div>
+					<select id="rangeOfQuestionsFilter" name="small" class="span1">
+						<option value="0">All</option>
+						<option value="1">Mine</option>
+						<option value="2">Selected</option>
+					</select>
+					<div class="input-append" style="margin-left: 10px;">
+						<input id="containsFilter" type="text" class="flat small"
+							placeholder="Search in questions..." style="width: 216px;">
+						<button type="submit" class="btn btn-secondary btn-small" id="searchQuestionsBtn">
+							<span class="fui-search"></span>
+						</button>
 					</div>
 				</td>
 				<td>
@@ -46,7 +44,7 @@
 				</td>
 				<td>
 					<div class="pull-left" style="width: 90px;">
-						<select name="small" class="select-block">
+						<select id="authorFilter" name="small" class="select-block">
 							<option value="0">All</option>
 							<option value="1">Mine</option>
 							<option value="2">Selected</option>

@@ -246,18 +246,22 @@
 					}
 					
 					function disableHeaderFilterFields() {
-						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("disabled", true);
-						$("#header-fixed > thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
-
-						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
-						$("#header-fixed > thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
-
-						$("#header-fixed > thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #rangeOfQuestionsFilter").attr("disabled", true);
 						
-						$("#header-fixed > thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #containsFilter").attr("disabled", true);						
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
 						
-						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
-						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("placeholder", "");
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
+
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > div > #authorFilter").attr("disabled", true);
+						
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
+						
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
+						
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
+						$("#header-fixed > div > div > div > table > thead > tr > td > div > #containsFilter").attr("placeholder", "");
 						
 						// TODO: add missing fields
 					}

@@ -27,7 +27,6 @@ import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
-import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 
 public class QuestionManager extends Manager {
 	

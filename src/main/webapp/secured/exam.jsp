@@ -128,7 +128,55 @@
 						displayMoreRows(addCheckboxToRow);
 					});
 					
-					var divOffset = $("#belowTheBarPageHeader").offset().top;
+					// when the document loads, any rows that are selected, highlight them
+					$(document).ready(function(){
+						$('.selectQuestionChkbox').each(function() {
+				 			var v = $(this).attr('checked');
+				 			
+				 			if (v !== undefined) {
+				 				var id = $(this).attr('id');
+				 				var arr = id.split('_');
+				 				
+				 				$('#tableRow_' + arr[1]).addClass('selectedTableRow');
+				 			}
+				 		});
+					});
+					
+					$(document).ready(function(){
+						$(".selectQuestionChkbox").change(function(){
+							$.post("/secured/exam-questionChkboxClicked.jsp",
+							{
+								chkboxname: $(this).attr("name"),
+								rowid: $(this).attr("id")
+							},
+							function(data,status){
+								//alert("Data: " + data + "\nStatus: " + status);
+								
+								var arr = data.split('!');
+								
+								var rowid = arr[0];
+								var state = arr[1];
+								
+								if (state == 'selected') {
+									//$('#tableRow_' + rowid).css('background', '#E6FFCC');
+									$('#tableRow_' + rowid).addClass('selectedTableRow');
+								}
+								else {
+									$('#tableRow_' + rowid).removeClass('selectedTableRow');
+									
+									//var klass = $('#tableRow_' + rowid).attr('class');
+									
+									//if (klass == 'rowHighlight')
+										//$('#tableRow_' + rowid).css('background-color', '#F0F0EE');
+									//else 
+										//$('#tableRow_' + rowid).css('background-color', '#FFFFFF');
+								}
+							});
+						});
+					});					
+		    
+		    
+		    		var divOffset = $("#belowTheBarPageHeader").offset().top;
 					var $header = $("#belowTheBarPageHeader").clone();
 					var $fixedHeader = $("#header-fixed").append($header);
 					
@@ -157,28 +205,20 @@
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					
-					// TODO: actually, this is not just working on the most recent row.. its ALL rows..
-					//  1) think of a better name for this method.. 2) can we do this a different (faster) way?
-					function manageCheckboxesOnMostRecentRow() { 
-				        $('[data-toggle="checkbox"]').each(function () {
-				            var $checkbox = $(this);
-				            $checkbox.checkbox();
-				            $checkbox.on('check uncheck toggle', function (e) {
-						      var $this = $(this)
-						        , check = $this.prop('checked')
-						        , toggle = e.type == 'toggle'
-						        , checkboxes = $('.table tbody :checkbox')
-						        , checkAll = checkboxes.length == checkboxes.filter(':checked').length;
-						
-						      $this.closest('tr')[check ? 'addClass' : 'removeClass']('selected-row');
-						      if (toggle) $this.closest('.table').find('.toggle-all :checkbox').checkbox(checkAll ? 'check' : 'uncheck');
-						    });
-						});
-			        }
-					
 					function addCheckboxToRow(row) {
-						var $chkbox = row.find(':checkbox');
-						$chkbox.checkbox();
+						var $checkbox = row.find(':checkbox');
+						$checkbox.checkbox();
+						
+//			            $checkbox.on('check uncheck toggle', function (e) {
+	///				      var $this = $(this)
+		//			        , check = $this.prop('checked')
+			///		        , toggle = e.type == 'toggle'
+				//	        , checkboxes = $('.table tbody :checkbox')
+					//        , checkAll = checkboxes.length == checkboxes.filter(':checked').length;
+					
+					  //    $this.closest('tr')[check ? 'addClass' : 'removeClass']('selected-row');
+					    //  if (toggle) $this.closest('.table').find('.toggle-all :checkbox').checkbox(checkAll ? 'check' : 'uncheck');
+					    //});
 					}
 
 					function isSelectedEntityId(id) {
@@ -190,6 +230,33 @@
 						}
 						
 						return rtn;
+					}
+					
+					function setClonedHeaderInTheGlobalVariables() {
+						//$header = $("#belowTheBarPageHeader").clone();
+						
+						//$("#header-fixed").empty();
+						
+						//$fixedHeader = $("#header-fixed").append($header);
+						
+						disableHeaderFilterFields();
+					}
+					
+					function disableHeaderFilterFields() {
+						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("disabled", true);
+						$("#header-fixed > thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
+
+						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
+						$("#header-fixed > thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
+
+						$("#header-fixed > thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
+						
+						$("#header-fixed > thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
+						
+						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
+						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("placeholder", "");
+						
+						// TODO: add missing fields
 					}
 					
 			</script>

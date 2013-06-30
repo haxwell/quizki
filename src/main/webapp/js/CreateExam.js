@@ -78,16 +78,16 @@ function Exams_convertToHTMLString(obj, rowNum) {
 	
 	if (isSelectedEntityId(obj.id) == true) {
 		// Checked
-		rtn += '<label class="checkbox no-label checked" for="chkbox_$' + rowNum + '">';
-		rtn += ' <input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$' + rowNum + '"';
-		rtn += ' name="selectQuestionChkbox_$' + obj.id + '" />';
+		rtn += '<label class="checkbox no-label checked" for="chkbox_' + rowNum + '">';
+		rtn += ' <input type="checkbox" class="selectQuestionChkbox" value="" data-toggle="checkbox" id="chkbox_' + rowNum + '"';
+		rtn += ' name="selectQuestionChkbox_' + obj.id + '" />';
 		rtn += '</label>';
 	}
 	else {
 		// Not checked
-		rtn += '<label class="checkbox no-label" for="chkbox_$' + rowNum + '">';
-		rtn += ' <input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$' + rowNum + '"';
-		rtn += ' name="selectQuestionChkbox_$' + obj.id + '" />';
+		rtn += '<label class="checkbox no-label" for="chkbox_' + rowNum + '">';
+		rtn += ' <input type="checkbox" class="selectQuestionChkbox" value="" data-toggle="checkbox" id="chkbox_' + rowNum + '"';
+		rtn += ' name="selectQuestionChkbox_' + obj.id + '" />';
 		rtn += '</label>';
 	}
 	

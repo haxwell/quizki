@@ -14,6 +14,10 @@ import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 public class Manager {
 
 	protected static EntityManagerFactory emf;
+
+	// TODO: would these be better as constants in their own file?
+	public static final int ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES = 0;
+	public static final int ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER = 1;
 	
 	//TODO: what are the consequences of having this be static? Would it be better to just create an instance when necessary?
 	static {
@@ -65,5 +69,5 @@ public class Manager {
 			return 0;
 		}
 	};
-	
+
 }

@@ -59,7 +59,6 @@
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.stacktable.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/quizki_custom_application.js"></script> ]]>
 			
-			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
 		</jsp:text>
 
 			<![CDATA[
@@ -162,7 +161,7 @@
 			              		num = num + 1;
 			          	});
 		              });
-
+					
 		     </script>
 				]]>			
 
@@ -226,6 +225,8 @@
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/>
 	
+	<input style="display:none;" id="idNoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
+	
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 
 </div>
@@ -234,15 +235,11 @@
 			<![CDATA[
 			<script type="text/javascript">
 			
-					$(document).ready(function() {
-						setDataObjectDefinitions();
-					});
-					
 					var tableOffset = $("#tabbableDiv").offset().top + $("#tabsUl").height();
 					var $header = $("#questionEntityTable > thead").clone();
 					var $fixedHeader = $("#header-fixed").append($header);
 					
-					$(window).bind("scroll", function() {
+					$(window).scroll(function() {
 					    var offset = $(this).scrollTop();
 					
 					    if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
@@ -253,14 +250,30 @@
 					    }
 					});
 
-					$(window).scroll(function(){
-				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
-					        if (smoothScrollingEnabledOnCurrentTab()) {
-					           //alert("Hit the bottom!");
-					           displayMoreRows();
-					        }
-				        }
-					});
+					function setClonedHeaderInTheGlobalVariables() {
+						$header = $("#questionEntityTable > thead").clone();
+						
+						$("#header-fixed").empty();
+						
+						$fixedHeader = $("#header-fixed").append($header);
+						
+						disableHeaderFilterFields();
+					}
+					
+					function disableHeaderFilterFields() {
+						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("disabled", true);
+						$("#header-fixed > thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
+
+						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
+						$("#header-fixed > thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
+
+						$("#header-fixed > thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
+						
+						$("#header-fixed > thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
+						
+						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
+						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("placeholder", "");
+					}
 					
 					function setDataObjectDefinitions() {
 						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
@@ -270,145 +283,11 @@
 						// TODO: define Exam fields						
 					}
 					
-					$('a[data-toggle="tab"]').on('show', function(e) {
-						var tab = e.target;
-						var prevTab = e.relatedTarget;
-						
-						// identify the tab
-						// figure out its prefix
-						var tabText = tab.innerText;
-						
-						// write that prefix in the hidden prefix field
-						$("#prefix-to-current-view-hidden-fields").attr("value", tabText);
-					});
-					
-					$('a[data-toggle="tab"]').on('shown', function(e) {
-						if (currentPageHasAnAJAXDataObjectDefinition()) {
-							displayMoreRows();
-						}
-					});
-					
-					function currentPageHasAnAJAXDataObjectDefinition() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						// a list of the name of the field in the data object, and the name of the field with its value
-						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
-
-						return dataObjDefinition_json != undefined;					
-					}
-					
-					function smoothScrollingEnabledOnCurrentTab() {
-						return currentPageHasAnAJAXDataObjectDefinition();
-					}
-					
-					function getURLThatProvidesTableData() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						return $("#"+prefix+"-view-data-url").attr("value");
-					}
-					
-					function getDataObjectForAJAX() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						// a list of the name of the field in the data object, and the name of the field with its value
-						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
-						
-						var obj = jQuery.parseJSON(dataObjDefinition_json);
-						var arr = obj.fields;
-						
-						var rtn = { };
-						
-						for (var i=0; i<arr.length; i++) {
-							
-							try {
-								var tmp = $(arr[i].id).attr("value");
-								
-								if (tmp == undefined) tmp = "";
-								
-								rtn[arr[i].name] = tmp;
-							}
-							catch (err) {
-								// skip this field... TODO, handle this better.. an error means the dataObjDefinition is bad..
-							}
-						}
-						
-						return rtn;
-					}
-					
-					function displayMoreRows() {
-						var data = getMoreRows();
-						
-						var index = data.indexOf("<!DOCTYPE");
-						var jsonExport = data;
-						
-						if (index != -1) {
-							jsonExport = data.substring(0, index);
-						}
-						
-						var obj = jQuery.parseJSON(jsonExport);
-						
-						var qArr = obj.question;
-						
-						var str = "";
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
-						
-						var numRows = $(entityTableId + " > tbody > tr").length
-						
-						for (var i=0; i<qArr.length; i++) {
-							rowNum = i + numRows;
-							str = window[prefix+"_convertToHTMLString"](qArr[i], rowNum);
-							
-							$(entityTableId + " > tbody:last").append(str);
-							
-							window["set" + prefix + "ButtonClickHandlersForRow"](rowNum);
-						}
-					}		
-					
-					function getMoreRows() {
-						var os = $("#offset").attr("value");
-						
-						if (os == undefined || os.length == 0) {
-							os = 0;
-							$("#offset").attr("value", os);
-						}
-
-						var mecf = $("#maxEntityCountFilter").attr("value");
-						
-						if (mecf == undefined || mecf.length == 0) {
-							mecf = 10;
-							$("#maxEntityCountFilter").attr("value", mecf);
-						}
-						
-						var rtn = "";
-						var data_url = getURLThatProvidesTableData();
-						var data_obj = getDataObjectForAJAX();
-
-						$.ajax({
-							type: "POST",
-							url: data_url,
-							data: data_obj,
-							dataType: "text",
-							async: false
-						}).done(function(data,status){
-								//alert("Data: " + data + "\nStatus: " + status);
-								
-								if (status == 'success') {
-									os = (os*1)+(mecf*1); // force numerical addition
-									$("#offset").attr("value", os);
-									$("#maxEntityCountFilter").attr("value", mecf);
-									
-									rtn = data;
-								}
-							});
-						
-						return rtn;
-					}					
-					
 			</script>
 			]]>
 			
-
+			<![CDATA[ <script src="../js/smooth-scrolling.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
 </body>
 </html>
 </jsp:root>

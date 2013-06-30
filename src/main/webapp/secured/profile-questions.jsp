@@ -4,7 +4,7 @@
 
 	
 	<div id="questionEntityTableDiv">
-	<form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet">	
+	<!-- form id="profileQuestionForm" action="/secured/ProfileQuestionsServlet"  -->	
 	<table class="table table-striped" id="questionEntityTable">
 		<thead>
 			<tr>
@@ -18,21 +18,19 @@
 			</tr>
 			<tr class="filter-row">
 					<td>
-						<div class="row">
-							<div class="input-append" style="margin-left: 10px;">
-								<input id="containsFilter" type="text" class="flat small"
-									placeholder="Search in questions..." style="width: 216px;">
-								<button type="submit" class="btn btn-secondary btn-small">
-									<span class="fui-search"></span>
-								</button>
-							</div>
+						<div class="input-append" style="margin-left: 10px;">
+							<input id="containsFilter" type="text" class="flat small"
+								placeholder="Search in questions..." style="width: 216px;">
+							<button id="searchQuestionsBtn" type="submit" class="btn btn-secondary btn-small">
+								<span class="fui-search"></span>
+							</button>
 						</div>
 					</td>					
 					<td>
 						<div class="input-append">
 							<input id="topicContainsFilter" type="text" class="flat small"
 								placeholder="Search in topics..." style="width: 96px;">
-							<button type="submit" class="btn btn-secondary btn-small">
+							<button id="searchTopicsBtn" type="submit" class="btn btn-secondary btn-small">
 								<span class="fui-search"></span>
 							</button>
 						</div>
@@ -72,7 +70,7 @@
 	<input type="hidden" id="valueOfLastPressedButton" name="valueOfLastPressedButton">
 	<input type="hidden" id="nameOfLastPressedButton" name="nameOfLastPressedButton">
 
-	</form>
+	<!-- /form  -->
 	</div>	
 	
 	<table id="header-fixed" class="table table-striped span12 fixedTable" style="position:fixed; top:0px; display:none;"></table>

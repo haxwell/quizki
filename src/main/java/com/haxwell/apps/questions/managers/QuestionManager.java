@@ -20,12 +20,14 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
 import com.haxwell.apps.questions.filters.QuestionTypeFilter;
+import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 
 public class QuestionManager extends Manager {
 	
@@ -399,15 +401,13 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	public static List<Question> getQuestions(FilterCollection fc) {
+	private static List<Question> getFilteredListOfQuestions(FilterCollection fc) {
 		EntityManager em = emf.createEntityManager();
 		
 		String filterText = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER);
 		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER);
 		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER));
 		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
-		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
-		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
@@ -434,14 +434,40 @@ public class QuestionManager extends Manager {
 
 		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
 		
-		List<Question> paginatedList = new ArrayList<Question>();
-		
-		int itemCount = 0;
-		for (int i = offset; i < rtn.size() && itemCount < maxEntityCount; i++) {
-			paginatedList.add(rtn.get(i));
-			itemCount++;
-		}
+		return rtn;
+	}
+	
+	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc) {
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 
+		AJAXReturnData rtn = new AJAXReturnData();
+		
+		List<Question> list = getFilteredListOfQuestions(fc);
+		
+		if (list.size() == 0) {
+			if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
+			else
+				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+		}
+		else {
+			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);
+		}
+		
+		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);
+		
+		return rtn;
+	}
+	
+	public static List<Question> getQuestions(FilterCollection fc) {
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
+
+		List<Question> rtn = getFilteredListOfQuestions(fc);
+		
+		List<Question> paginatedList = CollectionUtil.pareListDownToSize(rtn, offset, maxEntityCount);
+		
 		return paginatedList;
 	}
 	

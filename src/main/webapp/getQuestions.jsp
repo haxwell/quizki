@@ -1,6 +1,7 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 <jsp:directive.page import="java.util.logging.Logger"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.QuestionManager"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.managers.AJAXReturnData"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.AbstractEntity"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
@@ -52,6 +53,9 @@ String roef = request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER);
 
 if (StringUtil.isNullOrEmpty(roef)) roef = Constants.ALL_ITEMS + "";
 
+log.log(Level.SEVERE, "FilterConstants.OFFSET_FILTER " + FilterConstants.OFFSET_FILTER);
+log.log(Level.SEVERE, "offset value " + request.getParameter(FilterConstants.OFFSET_FILTER));
+
 fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, request.getParameter(FilterConstants.QUESTION_CONTAINS_FILTER));
 fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, request.getParameter(FilterConstants.TOPIC_CONTAINS_FILTER));
 fc.add(FilterConstants.QUESTION_TYPE_FILTER, qtf);
@@ -61,9 +65,11 @@ fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, request.getParameter(FilterConst
 fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, roef);
 fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSET_FILTER));
 
-List list = QuestionManager.getQuestions(fc);
+//List list = QuestionManager.getQuestions(fc);
+AJAXReturnData rtnData = QuestionManager.getAJAXReturnObject(fc);
+//String json = CollectionUtil.toJSON(rtnData.entities);
 
-writer.print(CollectionUtil.toJSON(list));
+writer.print(rtnData.toJSON());
 
 //writer.print(VoteUtil.registerVote(request.getParameter("voteDirection"), request.getParameter("entityType"), request.getParameter("entityId"), (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY)));
 

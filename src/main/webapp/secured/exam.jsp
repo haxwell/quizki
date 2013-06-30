@@ -120,8 +120,12 @@
 				<script type="text/javascript">
 					
 					$(document).ready(function() {
+						//setFunctionCalledForEachRowByDisplayMoreRows(manageCheckboxesOnMostRecentRow);
+						setFunctionCalledForEachRowByDisplayMoreRows(addCheckboxToRow);
+						
 						setDataObjectDefinitions();
-						displayMoreRows(manageCheckboxesOnMostRecentRow);
+						//displayMoreRows(manageCheckboxesOnMostRecentRow);
+						displayMoreRows(addCheckboxToRow);
 					});
 					
 					var divOffset = $("#belowTheBarPageHeader").offset().top;
@@ -143,7 +147,7 @@
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
-					           displayMoreRows(manageCheckboxesOnMostRecentRow);
+					           displayMoreRows(addCheckboxToRow);
 					        }
 				        }
 					});
@@ -172,61 +176,11 @@
 						});
 			        }
 					
-					function Exams_convertToHTMLString(obj, rowNum) {
-						var topicsArr = obj.topics;
-						
-						var rtn = "";
-						
-						rtn += '<tr id="tableRow_' + rowNum + '">';
-						rtn += '<td>';
-						
-						if (isSelectedEntityId(obj.id) == true) {
-							// Checked
-							rtn += '<label class="checkbox no-label checked" for="chkbox_$' + rowNum + '">';
-							rtn += ' <input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$' + rowNum + '"';
-							rtn += ' name="selectQuestionChkbox_$' + obj.id + '" />';
-							rtn += '</label>';
-						}
-						else {
-							// Not checked
-							rtn += '<label class="checkbox no-label" for="chkbox_$' + rowNum + '">';
-							rtn += ' <input type="checkbox" value="" data-toggle="checkbox" id="chkbox_$' + rowNum + '"';
-							rtn += ' name="selectQuestionChkbox_$' + obj.id + '" />';
-							rtn += '</label>';
-						}
-						
-						rtn += '</td><td class="examTableQuestionColumn">';
-						
-						if (obj.description.length > 0) {
-							rtn += '<a href="/displayQuestion.jsp?questionId=' + obj.id + '">' + obj.description + '</a>';
-						}
-						else {
-							rtn += '<a href="/displayQuestion.jsp?questionId=' + obj.id + '">' + obj.textWithoutHTML + '</a>';
-						}
-						
-						rtn += '</td><td class="examTableTopicsColumn">';
-						
-						if (topicsArr.length > 0) {
-							for (var i=0; i<topicsArr.length; i++) {
-								rtn += topicsArr[i].text + '<br/>';
-							}
-						}
-						
-						rtn += '</td><td>';
-						
-						rtn += obj.type_text;
-						rtn += '</td><td>';
-						rtn += obj.difficulty_text;
-						rtn += '</td><td>';
-						
-						// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
-						//  then create a map of some sort out of it..
-						rtn += ' -- ';
-						rtn += '</td><td>';
-						
-						return rtn;
+					function addCheckboxToRow(row) {
+						var $chkbox = row.find(':checkbox');
+						$chkbox.checkbox();
 					}
-					
+
 					function isSelectedEntityId(id) {
 						var selectedIds = new Array(${sessionScope.selectedEntityIDs_AsCSV});
 						var rtn = new Boolean();
@@ -238,126 +192,11 @@
 						return rtn;
 					}
 					
-					function currentPageHasAnAJAXDataObjectDefinition() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						// a list of the name of the field in the data object, and the name of the field with its value
-						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
-
-						return dataObjDefinition_json != undefined;					
-					}
-					
-					function smoothScrollingEnabledOnCurrentTab() {
-						return currentPageHasAnAJAXDataObjectDefinition();
-					}
-					
-					function getURLThatProvidesTableData() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						return $("#"+prefix+"-view-data-url").attr("value");
-					}
-					
-					function getDataObjectForAJAX() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						// a list of the name of the field in the data object, and the name of the field with its value
-						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
-						
-						var obj = jQuery.parseJSON(dataObjDefinition_json);
-						var arr = obj.fields;
-						
-						var rtn = { };
-						
-						for (var i=0; i<arr.length; i++) {
-							
-							try {
-								rtn[arr[i].name] = $(arr[i].id).attr("value");
-							}
-							catch (err) {
-								// skip this field... TODO, handle this better.. an error means the dataObjDefinition is bad..
-							}
-						}
-						
-						return rtn;
-					}
-					
-					function displayMoreRows(functionForEachRow) {
-						var data = getMoreRows();
-						
-						var index = data.indexOf("<!DOCTYPE");
-						var jsonExport = data;
-						
-						if (index != -1) {
-							jsonExport = data.substring(0, index);
-						}
-						
-						var obj = jQuery.parseJSON(jsonExport);
-						
-						var qArr = obj.question;
-						
-						var str = "";
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
-						
-						for (var i=0; i<qArr.length; i++) {
-							rowNum = i;
-							str = window[prefix+"_convertToHTMLString"](qArr[i], rowNum);
-							
-							$(entityTableId + " > tbody:last").append(str);
-							
-							if (functionForEachRow != undefined)
-								functionForEachRow();
-						}
-					}		
-					
-					function setRowsOffsetToZero() {
-						$("#offset").attr("value", "0");
-					}
-					
-					function getMoreRows() {
-						var os = $("#offset").attr("value");
-						
-						if (os == undefined || os.length == 0) {
-							os = 0;
-							$("#offset").attr("value", os);
-						}
-
-						var mecf = $("#maxEntityCountFilter").attr("value");
-						
-						if (mecf == undefined || mecf.length == 0) {
-							mecf = 10;
-							$("#maxEntityCountFilter").attr("value", mecf);
-						}
-						
-						var rtn = "";
-						var data_url = getURLThatProvidesTableData();
-						var data_obj = getDataObjectForAJAX();
-
-						$.ajax({
-							type: "POST",
-							url: data_url,
-							data: data_obj,
-							dataType: "text",
-							async: false
-						}).done(function(data,status){
-								//alert("Data: " + data + "\nStatus: " + status);
-								
-								if (status == 'success') {
-									os = (os*1)+(mecf*1); // force numerical addition
-									$("#offset").attr("value", os);
-									$("#maxEntityCountFilter").attr("value", mecf);
-									
-									rtn = data;
-								}
-							});
-						
-						return rtn;
-					}					
-					
 			</script>
 			]]>
 
-            <![CDATA[ <script type="text/javascript" src="../js/CreateExam.js"></script> ]]>
+			<![CDATA[ <script src="../js/smooth-scrolling.js" type="text/javascript"></script> ]]>
+            <![CDATA[ <script src="../js/CreateExam.js" type="text/javascript"></script> ]]>
 		</jsp:text>
 		
 </body>

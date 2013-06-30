@@ -9,34 +9,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Home Page - Quizki</title>
 		
-		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		
 		<jsp:text>
 			
 			<![CDATA[ <script src="pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery.cookie.js" type="text/javascript"></script> ]]>
 		
 			<![CDATA[
 				<script type="text/javascript">
 
-   					//$(document).ready(function() {
-					//	var currentSessionCookieVal = $.cookie('quizki.currentSessionCookie'); 
-					//
-					//	if (currentSessionCookieVal == null)
-					//		$("#welcomeToQuizki-dialog").dialog({modal:true,width:530,title:"Welcome to Quizki!"}).dialog();
-					//});
-
-					// Handler for the modal dialog CLOSING
-				    //$(document).ready(function(){
-					//	$('div#welcomeToQuizki-dialog').bind('dialogclose', function(event) {
-					//	    //var v = $.cookie('quizki.userHasBeenHereBefore');
-					//	    //$.cookie('quizki.userHasBeenHereBefore', v+1, { expires: 30 });
-
-					//	    $.cookie('quizki.currentSessionCookie', 0); // create cookie for current session
-					//	});
- 				    //});
-				    
 					$(document).ready(function(){
 						$("#getQuestionsBtn").click(function(){
 							//alert("btn pushed!");
@@ -48,14 +27,16 @@
 								questionTypeFilter: $("#idQuestionTypeFilter").attr("value"),
 								difficultyFilter: $("#idDifficultyFilter").attr("value"),
 								authorFilter: $("#idAuthorFilter").attr("value"),
-								maxQuestionCountFilter: $("#idMaxQuestionCountFilter").attr("value"),
+								rangeOfEntitiesFilter: $("idRangeOfEntitiesFilter").attr("value"),
+								maxEntityCountFilter: $("#idMaxQuestionCountFilter").attr("value"),
 								offsetFilter: $("#idOffsetFilter").attr("value")
 							},
 							function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);
 								
 								if (status == 'success') {
-									$('#resultsTextarea').attr("value", data);
+									$('#resultsTextarea').val('');
+									$('#resultsTextarea').val(data);									
 								}
 							});
 						});
@@ -75,8 +56,9 @@
 	Type text: <input type="text" name="questionTypeFilter" id="idQuestionTypeFilter" value="0" />
 	Difficulty text: <input type="text" name="difficultyFilter" id="idDifficultyFilter" value="4" />
 	Author text: <input type="text" name="authorFilter" id="idAuthorFilter" />	
+	rangeOfEntities: <input id="idRangeOfEntitiesFilter" type="text" name="rangeOfEntitiesFilter" />
 	maxQuestionCount: <input id="idMaxQuestionCountFilter" type="text" name="maxQuestionCountFilter" value="10"/>
-	offset: <input id="idOffsetFilter" type="text" name="offsetFilter" />
+	offset: <input id="idOffsetFilter" type="text" name="offsetFilter" value="0"/>
 
 	<input id="getQuestionsBtn" type="submit" name="button" value="Get Questions"/>
 	

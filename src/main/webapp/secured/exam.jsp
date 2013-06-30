@@ -100,6 +100,8 @@
 	
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
 	
+	<input style="display:none;" id="Exams-last-time-checkbox-handler-called" type="text" name="Exams-last-time-checkbox-handler-called" value="0"/>	
+	
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script> ]]>
@@ -120,30 +122,29 @@
 				<script type="text/javascript">
 					
 					$(document).ready(function() {
-						//setFunctionCalledForEachRowByDisplayMoreRows(manageCheckboxesOnMostRecentRow);
 						setFunctionCalledForEachRowByDisplayMoreRows(addCheckboxToRow);
-						
 						setDataObjectDefinitions();
-						//displayMoreRows(manageCheckboxesOnMostRecentRow);
 						displayMoreRows(addCheckboxToRow);
 					});
 					
-					// when the document loads, any rows that are selected, highlight them
-					$(document).ready(function(){
-						$('.selectQuestionChkbox').each(function() {
-				 			var v = $(this).attr('checked');
-				 			
-				 			if (v !== undefined) {
-				 				var id = $(this).attr('id');
-				 				var arr = id.split('_');
-				 				
-				 				$('#tableRow_' + arr[1]).addClass('selectedTableRow');
-				 			}
-				 		});
-					});
+					function hasEnoughTimePassed() {
+						var now = new Date().getTime();
+						var then = $('#Exams-last-time-checkbox-handler-called').attr('value');
+						
+						if (then == undefined || then == "")
+							then = 0;
+						
+						return (now - then) > 250;
+					}
 					
-					$(document).ready(function(){
-						$(".selectQuestionChkbox").change(function(){
+					function rememberLastTimeCheckboxChangeHandlerCalled() {
+						$('#Exams-last-time-checkbox-handler-called').attr('value', new Date().getTime());
+					}
+					
+					function handleCheckboxChangeFunction() {
+						if (hasEnoughTimePassed()) {
+							rememberLastTimeCheckboxChangeHandlerCalled();
+							
 							$.post("/secured/exam-questionChkboxClicked.jsp",
 							{
 								chkboxname: $(this).attr("name"),
@@ -158,23 +159,41 @@
 								var state = arr[1];
 								
 								if (state == 'selected') {
-									//$('#tableRow_' + rowid).css('background', '#E6FFCC');
 									$('#tableRow_' + rowid).addClass('selectedTableRow');
 								}
 								else {
 									$('#tableRow_' + rowid).removeClass('selectedTableRow');
-									
-									//var klass = $('#tableRow_' + rowid).attr('class');
-									
-									//if (klass == 'rowHighlight')
-										//$('#tableRow_' + rowid).css('background-color', '#F0F0EE');
-									//else 
-										//$('#tableRow_' + rowid).css('background-color', '#FFFFFF');
 								}
 							});
-						});
-					});					
-		    
+						}
+					}
+					
+					function addCheckboxToRow(row) {
+						var $checkbox = row.find(':checkbox');
+						$checkbox.checkbox();
+						$checkbox.change(handleCheckboxChangeFunction); 
+					}
+
+					// set the AJAX handler to be called when the user clicks on a checkbox
+					//$(document).ready(function(){
+						//$(".selectQuestionChkbox").change(function(){
+							//handleCheckboxChangeFunction();
+						//});				
+					//});					
+
+					// when the document loads, any rows that are selected, highlight them
+					$(document).ready(function(){
+						$('.selectQuestionChkbox').each(function() {
+				 			var v = $(this).attr('checked');
+				 			
+				 			if (v !== undefined) {
+				 				var id = $(this).attr('id');
+				 				var arr = id.split('_');
+				 				
+				 				$('#tableRow_' + arr[1]).addClass('selectedTableRow');
+				 			}
+				 		});
+					});
 		    
 		    		var divOffset = $("#belowTheBarPageHeader").offset().top;
 					var $header = $("#belowTheBarPageHeader").clone();
@@ -205,22 +224,6 @@
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					
-					function addCheckboxToRow(row) {
-						var $checkbox = row.find(':checkbox');
-						$checkbox.checkbox();
-						
-//			            $checkbox.on('check uncheck toggle', function (e) {
-	///				      var $this = $(this)
-		//			        , check = $this.prop('checked')
-			///		        , toggle = e.type == 'toggle'
-				//	        , checkboxes = $('.table tbody :checkbox')
-					//        , checkAll = checkboxes.length == checkboxes.filter(':checked').length;
-					
-					  //    $this.closest('tr')[check ? 'addClass' : 'removeClass']('selected-row');
-					    //  if (toggle) $this.closest('.table').find('.toggle-all :checkbox').checkbox(checkAll ? 'check' : 'uncheck');
-					    //});
-					}
-
 					function isSelectedEntityId(id) {
 						var selectedIds = new Array(${sessionScope.selectedEntityIDs_AsCSV});
 						var rtn = new Boolean();

@@ -283,6 +283,12 @@
 						// TODO: define Exam fields						
 					}
 					
+					function setVarsUsedInProcessingIndividualRows(obj) {
+						// called from smooth-scrolling.js::displayMoreRows()
+						
+						// do nothing
+					}					
+					
 			</script>
 			]]>
 			

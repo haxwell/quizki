@@ -1,6 +1,9 @@
 package com.haxwell.apps.questions.managers;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.utils.CollectionUtil;
@@ -17,13 +20,30 @@ public class AJAXReturnData {
 	public int additionalItemCount = -1;
 	public int additionalInfoCode = -1;
 	
+	protected Map<String, String> jsonStringMap = new HashMap<String, String>();
+	
+	public void addKeyValuePairToJSON(String key, String value) {
+		jsonStringMap.put(key, value);
+	}
+	
 	public String toJSON() {
-		String rtn = "{ \"addlItemCount\":\"" + additionalItemCount + "\", \"addlInfoCode\":\"" + additionalInfoCode + "\" ";
+		String rtn = "{ ";
 		
-		String collJSON = CollectionUtil.toJSON(entities, CollectionUtil.DONT_ADD_OPENING_CLOSING_CURLY_BRACES);
+		Iterator<String> iterator = jsonStringMap.keySet().iterator();
 		
-		if (!StringUtil.isNullOrEmpty(collJSON))
-			rtn += ", " + collJSON;
+		while (iterator.hasNext())
+		{
+			String key = iterator.next();
+			
+			rtn += "\"" + key + "\": \"" + jsonStringMap.get(key) + "\", ";
+		}
+		
+		rtn += "\"addlItemCount\":\"" + additionalItemCount + "\", \"addlInfoCode\":\"" + additionalInfoCode + "\" ";
+		
+		String entitiesAsJSONString = CollectionUtil.toJSON(entities, CollectionUtil.DONT_ADD_OPENING_CLOSING_CURLY_BRACES);
+		
+		if (!StringUtil.isNullOrEmpty(entitiesAsJSONString))
+			rtn += ", " + entitiesAsJSONString;
 		
 		rtn += " }";
 		

@@ -55,6 +55,7 @@ else {
 }
 
 log.log(Level.SEVERE, "returning: " + state);
+log.log(Level.SEVERE, "exam has " + exam.getNumberOfQuestions() + " questions.");
 
 java.io.PrintWriter writer = response.getWriter();
 writer.print(rowId+"!"+state+"!");

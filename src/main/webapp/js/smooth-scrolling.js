@@ -156,6 +156,8 @@
 						var str = "";
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 
+						setVarsUsedInProcessingIndividualRows(obj);
+						
 						if (qArr != undefined) {
 							clearTableStatusRow();
 							
@@ -168,7 +170,7 @@
 								$(entityTableId + " > tbody:last").append(str);
 								
 								if (functionForEachRow != undefined)
-									functionForEachRow($(entityTableId + " > tbody:last"));
+									functionForEachRow($(entityTableId + " > tbody > tr:last"));
 							}
 							
 							var msg = "";

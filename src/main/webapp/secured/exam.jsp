@@ -168,33 +168,42 @@
 						}
 					}
 					
+					var selectedEntityIDsArray = undefined;
+					
+					// called by smoothScrolling::displayMoreRows()
+					//  obj is a JSON object based on data from the last AJAX call to getMoreRows()
+					function setVarsUsedInProcessingIndividualRows(obj) {
+						if (obj.selectedEntityIDsAsCSV != undefined)
+							selectedEntityIDsArray = obj.selectedEntityIDsAsCSV.split(',');
+					}
+					
 					function addCheckboxToRow(row) {
 						var $checkbox = row.find(':checkbox');
 						$checkbox.checkbox();
-						$checkbox.change(handleCheckboxChangeFunction); 
+						$checkbox.change(handleCheckboxChangeFunction);
+						
+						// from the checkbox on the row, get the name attribute (selectQuestionChkbox_qId)
+						// get the id from the name attribute
+						
+						if (selectedEntityIDsArray != undefined) {
+							var name = row.find('input.selectQuestionChkbox').attr('name');
+			 				var arr = name.split('_');
+			 				var id = arr[1];
+							
+							// iterate through the array to see if the ID is in there
+							//  if so, set the 'selectedTableRow' class on the row, ensure the checkbox is checked
+							var found = new Boolean();
+							for (var i=0; i<selectedEntityIDsArray.length && found==false; i++) {
+								found = (selectedEntityIDsArray[i] == id);
+							}
+	
+							if (found == true) {
+								row.addClass('selectedTableRow');
+								row.find('label.checkbox').addClass('checked');
+							}
+						}
 					}
 
-					// set the AJAX handler to be called when the user clicks on a checkbox
-					//$(document).ready(function(){
-						//$(".selectQuestionChkbox").change(function(){
-							//handleCheckboxChangeFunction();
-						//});				
-					//});					
-
-					// when the document loads, any rows that are selected, highlight them
-					$(document).ready(function(){
-						$('.selectQuestionChkbox').each(function() {
-				 			var v = $(this).attr('checked');
-				 			
-				 			if (v !== undefined) {
-				 				var id = $(this).attr('id');
-				 				var arr = id.split('_');
-				 				
-				 				$('#tableRow_' + arr[1]).addClass('selectedTableRow');
-				 			}
-				 		});
-					});
-		    
 		    		var divOffset = $("#belowTheBarPageHeader").offset().top;
 					var $header = $("#belowTheBarPageHeader").clone();
 					var $fixedHeader = $("#header-fixed").append($header);
@@ -262,8 +271,6 @@
 						
 						$("#header-fixed > div > div > div > table > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
 						$("#header-fixed > div > div > div > table > thead > tr > td > div > #containsFilter").attr("placeholder", "");
-						
-						// TODO: add missing fields
 					}
 					
 			</script>

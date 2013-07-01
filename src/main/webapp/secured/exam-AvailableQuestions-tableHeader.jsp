@@ -12,10 +12,9 @@
 						id="checkbox-table-1" data-toggle="checkbox"></label></th>
 				<th class="examTableQuestionColumn">Questions</th>
 				<th class="examTableTopicsColumn">Topics</th>
-				<th>Author</th>
 				<th>Type</th>
 				<th>Difficulty</th>
-				<th></th>
+				<th>Votes</th>
 			</tr>
 			<tr class="filter-row">
 				<td></td>
@@ -26,7 +25,7 @@
 						<option value="2">Selected</option>
 					</select>
 					<div class="input-append" style="margin-left: 10px;">
-						<input id="containsFilter" type="text" class="flat small"
+						<input id="containsFilter" type="text" class="flat small pull-right"
 							placeholder="Search in questions..." style="width: 216px;">
 						<button type="submit" class="btn btn-secondary btn-small" id="searchQuestionsBtn">
 							<span class="fui-search"></span>
@@ -40,15 +39,6 @@
 						<button type="submit" class="btn btn-secondary btn-small" id="searchTopicsBtn">
 							<span class="fui-search"></span>
 						</button>
-					</div>
-				</td>
-				<td>
-					<div class="pull-left" style="width: 90px;">
-						<select id="authorFilter" name="small" class="select-block">
-							<option value="0">All</option>
-							<option value="1">Mine</option>
-							<option value="2">Selected</option>
-						</select>
 					</div>
 				</td>
 				<td>
@@ -73,7 +63,9 @@
 						</select>
 					</div>
 				</td>
-				<td></td>
+				<td>
+				
+				</td>
 			</tr>
 		</thead>
 	</table>

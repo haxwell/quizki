@@ -3,6 +3,7 @@ package com.haxwell.apps.questions.managers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -449,9 +450,16 @@ public class QuestionManager extends Manager {
 			list = getFilteredListOfQuestions(fc);
 		else // this is a request for selected questions, use the passed in set of questions
 		{
-			Question[] qArr = new Question[0];
-			questions.toArray(qArr);
-			list = (List<Question>)(Arrays.asList(qArr));
+			// TODO: Why the fuck are we using a SET on exam? Its difficult to fucking work with!! CHANGE THAT SHIT!
+			
+			Iterator<Question> iterator = questions.iterator();
+			list = new ArrayList<Question>();
+			
+			while (iterator.hasNext()) {
+				list.add(iterator.next());
+			}
+
+			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
 		}
 		
 		if (list.size() == 0) {

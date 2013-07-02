@@ -1,7 +1,6 @@
 package com.haxwell.apps.questions.managers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +20,8 @@ import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
+import com.haxwell.apps.questions.filters.DifficultyFilter;
+import com.haxwell.apps.questions.filters.QuestionFilter;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
 import com.haxwell.apps.questions.filters.QuestionTypeFilter;
 import com.haxwell.apps.questions.utils.CollectionUtil;
@@ -434,10 +435,17 @@ public class QuestionManager extends Manager {
 		
 		List<Question> rtn = (List<Question>)query.getResultList();
 
-		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+		// TODO: figure out a way to get the query to do this...
+		FilterCollection fc2 = new FilterCollection();
+		fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+		fc.add(FilterConstants.QUESTION_TYPE_FILTER, questionType+"");
+		
+		//rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+		rtn = (List<Question>)filterList(fc2, rtn);
 		
 		return rtn;
 	}
+	
 	
 	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc, Set<Question> questions) {
 		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
@@ -458,6 +466,8 @@ public class QuestionManager extends Manager {
 			while (iterator.hasNext()) {
 				list.add(iterator.next());
 			}
+			
+			list = filterList(fc, list);
 
 			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
 		}
@@ -575,6 +585,37 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
+	// TODO: this should probably be in a util somewhere
+	private static List<Question> filterList(FilterCollection fc, List<Question> list) {
+		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
+		
+		String filter = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER);
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new QuestionTopicFilter(filter));
+		}
+		
+		filter = fc.get(FilterConstants.QUESTION_TYPE_FILTER);
+		
+		if (!StringUtil.isNullOrEmpty(filter) && (!filter.equals(TypeConstants.ALL_TYPES+""))) {
+			arr.add(new QuestionTypeFilter(Integer.parseInt(filter)));
+		}
+		
+		filter = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER);
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new QuestionFilter(filter));
+		}
+		
+		filter = fc.get(FilterConstants.DIFFICULTY_FILTER);
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
+		}
+		
+		return new ListFilterer<Question>().process(list, arr);
+	}
+	
 	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
 			final String topicFilterText, final Integer questionType,
 			List<Question> rtn) {

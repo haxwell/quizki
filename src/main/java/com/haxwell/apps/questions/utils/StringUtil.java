@@ -113,6 +113,12 @@ public class StringUtil {
 		return fullUrl.substring(index + 1);
 	}
 	
+	public static boolean isEmptyJSON(String str) {
+		String s = str.replaceAll(" ", "");
+		
+		return s.equals("{}");
+	}
+	
 //	/**
 //	 * Expects two CSVs of numbers. 
 //	 * 

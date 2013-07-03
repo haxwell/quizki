@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
-import com.haxwell.apps.questions.entities.Question;
 
 public class CollectionUtil {
 
@@ -94,6 +94,37 @@ public class CollectionUtil {
 	
 	public static String toJSON(Collection<? extends AbstractEntity> coll) {
 		return toJSON(coll, true);
+	}
+	
+	public static String toJSON(Map<String, List<String>> map) {
+		StringBuffer sb = new StringBuffer();
+		
+		Iterator<String> keyIterator = map.keySet().iterator();
+		
+		sb.append("{ ");
+		
+		while (keyIterator.hasNext()) {
+			String key = keyIterator.next();
+			sb.append("\"" + key + "\": [");
+			
+			Iterator<String> listIterator = map.get(key).iterator();
+			
+			while (listIterator.hasNext()) {
+				sb.append("\"" + listIterator.next() + "\"");
+				
+				if (listIterator.hasNext())
+					sb.append(", ");
+			}
+			
+			sb.append("]");
+			
+			if (keyIterator.hasNext())
+				sb.append(", ");
+		}
+		
+		sb.append("} ");
+		
+		return sb.toString();
 	}
 	
 	public static List pareListDownToSize(List<? extends AbstractEntity> list, int offset, int maxEntityCount) {

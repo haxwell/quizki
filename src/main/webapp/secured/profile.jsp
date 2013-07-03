@@ -79,7 +79,7 @@
 										
 										var data_obj = getDataObjectForAJAX(prefix + "-delete-entity-dataObjectDefinition");
 										
-										makeAJAXCall_andWaitForTheResults(url, data_obj, function (status,data) {
+										makeAJAXCall_andWaitForTheResults(url, data_obj, function (data,status) {
 											window[prefix+"_postDeleteEntityMethod"]();
 										});
 										

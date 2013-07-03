@@ -61,11 +61,11 @@
 						<div class="span2">
 							<c:choose>
 								<c:when test="${empty sessionScope.inEditingMode}">
-									<button class="btn btn-block pull-right" type="submit"
+									<button class="btn btn-block pull-right saveChangesBtn" type="submit"
 										name="button">Add Exam</button>
 								</c:when>
 								<c:otherwise>
-									<button class="btn btn-block pull-right" type="submit"
+									<button class="btn btn-block pull-right saveChangesBtn" type="submit"
 										name="button">Update Exam</button>
 								</c:otherwise>
 							</c:choose>
@@ -94,12 +94,11 @@
 	<input style="display:none;" id="offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
+	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
 	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getQuestions.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTableRows"/>
-	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
-	
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
-	
+	<input style="display:none;" id="Exams-persist-entity-dataObjectDefinition" name="Exams-persist-entity-dataObjectDefinition" value=""/>
 	<input style="display:none;" id="Exams-last-time-checkbox-handler-called" type="text" name="Exams-last-time-checkbox-handler-called" value="0"/>	
 	
 		<jsp:text>
@@ -127,7 +126,38 @@
 						setFunctionCalledForEachRowByDisplayMoreRows(addCheckboxToRow);
 						setDataObjectDefinitions();
 						displayMoreRows(addCheckboxToRow);
+						
+						addHandlerToSaveChangesBtn();
 					});
+					
+					function addHandlerToSaveChangesBtn() {
+						$('.saveChangesBtn').click(function() {
+							var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+							var url = '/ajax/exam-save.jsp';
+							
+							window[prefix+"_setPersistEntityDataObjectDefinition"]();
+							
+							var data_obj = getDataObjectForAJAX(prefix + "-persist-entity-dataObjectDefinition");
+
+							makeAJAXCall_andWaitForTheResults(url, data_obj, function(data,status) {
+								var index = data.indexOf("<!DOCTYPE");
+								var jsonExport = data;
+								
+								if (index != -1) {
+									jsonExport = data.substring(0, index);
+								}
+								
+								var obj = jQuery.parseJSON(jsonExport);
+
+								if (obj.examValidationErrors == undefined) {
+									alert("success! The Exam was saved!");
+								}
+								else {
+									alert("errors: " + obj.examValidationErrors[0]);
+								}
+							});
+						});
+					}
 					
 					function hasEnoughTimePassed() {
 						var now = new Date().getTime();

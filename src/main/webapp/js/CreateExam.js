@@ -122,3 +122,9 @@ function Exams_convertToHTMLString(obj, rowNum) {
 	
 	return rtn;
 }
+
+function Exams_setPersistEntityDataObjectDefinition() {
+	var str = '{"fields": [{"name":"examTitle","id":"#id_examTitle"},{"name":"examMessage","id":"#id_examMessage"}]}';
+	
+	$('#Exams-persist-entity-dataObjectDefinition').attr('value', str);
+}

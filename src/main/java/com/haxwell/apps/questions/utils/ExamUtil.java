@@ -7,10 +7,10 @@ import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.managers.ExamManager;
 
 public class ExamUtil {
 
-	
 	/**
 	 * Returns a Set, containing a unique instance of the topic from each of the questions on the exam.
 	 * 
@@ -83,5 +83,20 @@ public class ExamUtil {
 		}
 		
 		return DifficultyUtil.getDifficulty(Math.min(rtn + 1, 4)).getText();
+	}
+	
+	public static String persist(Exam e) {
+		String rtn = "";
+		String jsonErrors = ValidationUtil.validate(e);
+		
+		if (StringUtil.isEmptyJSON(jsonErrors)) {
+			ExamManager.persistExam(e);
+			rtn = "{\"successes\":\"Exam \"" + e.getTitle() + "\" was successfully saved!\"}";
+		}
+		else {
+			rtn = jsonErrors;
+		}
+		
+		return rtn;
 	}
 }

@@ -505,45 +505,47 @@ public class QuestionManager extends Manager {
 	
 	@Deprecated //with the advent of smooth scrolling, the pagination data object is no longer used
 	public static List<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
+//		
+//		String queryString = "SELECT q FROM Question q WHERE ";
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
+//		
+//		queryString += "q.difficulty.id <= ?1";
+//		
+//		Query query = em.createQuery(queryString, Question.class);
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			query.setParameter(2, "%" + filterText + "%");
+//		
+//		query.setParameter(1, maxDifficulty);
+//		
+//		List<Question> rtn = (List<Question>)query.getResultList();
+//
+//		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+//		
+//		pd.setTotalItemCount(rtn.size());
+//		
+//		List<Question> paginatedList = new ArrayList<Question>();
+//		
+//		int rtnSize = rtn.size();
+//		
+//		if (rtnSize > pd.getPageSize())
+//		{
+//			int pageSize = pd.getPageSize();
+//			int pageNumber = pd.getPageNumber();
+//			
+//			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
+//				paginatedList.add(rtn.get(i));
+//			}
+//		}
+//		else
+//			paginatedList = rtn;
+//
+//		return paginatedList;
 		
-		String queryString = "SELECT q FROM Question q WHERE ";
-		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
-		
-		queryString += "q.difficulty.id <= ?1";
-		
-		Query query = em.createQuery(queryString, Question.class);
-		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			query.setParameter(2, "%" + filterText + "%");
-		
-		query.setParameter(1, maxDifficulty);
-		
-		List<Question> rtn = (List<Question>)query.getResultList();
-
-		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
-		
-		pd.setTotalItemCount(rtn.size());
-		
-		List<Question> paginatedList = new ArrayList<Question>();
-		
-		int rtnSize = rtn.size();
-		
-		if (rtnSize > pd.getPageSize())
-		{
-			int pageSize = pd.getPageSize();
-			int pageNumber = pd.getPageNumber();
-			
-			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
-				paginatedList.add(rtn.get(i));
-			}
-		}
-		else
-			paginatedList = rtn;
-
-		return paginatedList;
+		return null;
 	}
 	
 	public static List<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {

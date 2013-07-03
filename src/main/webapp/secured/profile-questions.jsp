@@ -69,6 +69,8 @@
 
 	<input type="hidden" id="valueOfLastPressedButton" name="valueOfLastPressedButton">
 	<input type="hidden" id="nameOfLastPressedButton" name="nameOfLastPressedButton">
+	<input type="hidden" id="Questions-delete-entity-dataObjectDefinition" name="Questions-delete-entity-dataObjectDefinition">
+	
 
 	<!-- /form  -->
 	</div>	

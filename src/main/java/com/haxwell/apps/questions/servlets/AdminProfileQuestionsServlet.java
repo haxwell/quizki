@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EventConstants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
@@ -22,6 +23,7 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeListOfProfileQuestionsInSessionAction;
 import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
+import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TypeUtil;
@@ -199,19 +201,27 @@ public class AdminProfileQuestionsServlet extends AbstractHttpServlet {
 	}
 
 	private void handleFilterButtonPress(HttpServletRequest request, PaginationData pd) {
+		HttpSession session = request.getSession();
+
+		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+		
 		String filterText = request.getParameter("containsFilter");
 		String topicFilterText = request.getParameter("topicFilter");
 		int questionType = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficultyFilter"));
 		
-		HttpSession session = request.getSession();
+		FilterCollection fc = new FilterCollection();
+		fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, filterText);
+		fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+		fc.add(FilterConstants.QUESTION_TYPE_FILTER, questionType + "");
+		fc.add(FilterConstants.DIFFICULTY_FILTER, maxDifficulty + "");
+		fc.add(FilterConstants.USER_ID_FILTER, user.getId()+"");
 		
 		Collection<Question> coll = null; 
 		
-		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-		
 		if (user != null)
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+			coll = QuestionManager.getQuestions(fc);
+			//coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
 		
 		if (parametersIndicateThatFilterWasApplied(filterText, topicFilterText, maxDifficulty, questionType))
 				pd.setTotalItemCount(coll.size());
@@ -235,23 +245,31 @@ public class AdminProfileQuestionsServlet extends AbstractHttpServlet {
 	}
 	
 	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
+		HttpSession session = request.getSession();
+		
+		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+		
 		String filterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TEXT);
 		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
 		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
 		int questionType = (Integer)request.getSession().getAttribute(Constants.MRU_FILTER_QUESTION_TYPE);
 		int maxDifficulty = DifficultyConstants.GURU;
 
-		HttpSession session = request.getSession();
-		
 		if (o != null)
 			maxDifficulty = Integer.parseInt(o.toString());
 
 		List<Question> coll = null; 
 		
-		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+		FilterCollection fc = new FilterCollection();
+		fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, filterText);
+		fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+		fc.add(FilterConstants.QUESTION_TYPE_FILTER, questionType + "");
+		fc.add(FilterConstants.DIFFICULTY_FILTER, maxDifficulty + "");
+		fc.add(FilterConstants.USER_ID_FILTER, user.getId()+"");
 		
 		if (user != null)
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+			coll = QuestionManager.getQuestions(fc);
+			//coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
 
 		if (parametersIndicateThatFilterWasApplied(filterText, topicFilterText, maxDifficulty, questionType))
 				pd.setTotalItemCount(coll.size());

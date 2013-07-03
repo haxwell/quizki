@@ -59,6 +59,8 @@
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.stacktable.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/quizki_custom_application.js"></script> ]]>
 			
+			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+			
 		</jsp:text>
 
 			<![CDATA[
@@ -70,13 +72,25 @@
 							      buttons: [{
 							        text : "Delete this item", 
 							        click : function() {
-										document.getElementById(profileFormName).submit();
+										var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+										var url = $("#"+prefix+"-delete-entity-url").attr("value");
+										
+										window[prefix+"_setDeleteEntityDataObjectDefinition"]();
+										
+										var data_obj = getDataObjectForAJAX(prefix + "-delete-entity-dataObjectDefinition");
+										
+										makeAJAXCall_andWaitForTheResults(url, data_obj, function (status,data) {
+											window[prefix+"_postDeleteEntityMethod"]();
+										});
+										
+										$( this ).dialog( "close" );
 							        } },
 							        {
 							        text : "Cancel",
 							        click : function() {
-							          $( this ).dialog( "close" );
-							        } } ]
+							        	$( this ).dialog( "close" );
+							        } 
+							      }]
 						};
 
 						return options;
@@ -91,76 +105,6 @@
 						var buttonValue = obj.attr("value");
 						$('#' + fieldId).attr("value", buttonValue);
 					}
-					
-					function setQuestionsButtonClickHandlersForRow(rowNum) {
-	              		$('#delete_button_' + rowNum).click(function() {
-							var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileQuestionForm"));
-
-							setLastPressedButtonName($(this), "nameOfLastPressedButton");
-							setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-
-	              			dlg.dialog('open');	
-	              			
-	              			return false;
-	              		});
-
-						$('#edit_button_' + rowNum).click(function() { 
-							setLastPressedButtonName($(this), "nameOfLastPressedButton");
-							setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-							
-							document.getElementById("profileQuestionForm").submit();
-						});				    
-					}
-					
-					function setExamsButtonClickHandlersForRow(rowNum) {
-	              		$('#exam_delete_button_' + rowNum).click(function() {
-							var dlg2 = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileExamForm"));
-
-							setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-							setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-
-	              			dlg2.dialog("open");
-	              			return false;
-	              		});
-
-						$('#exam_edit_button_' + rowNum).click(function() { 
-							setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-							setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-							
-							document.getElementById("profileExamForm").submit();
-						});
-
-						$('#exam_take_button_' + rowNum).click(function () {
-							setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-							setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-							
-							document.getElementById("profileExamForm").submit();
-						});
-	              		
-						$('#exam_detail_button_' + rowNum).click(function () {
-							setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-							setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-							
-							document.getElementById("profileExamForm").submit();
-						});
-					}
-					
-
-					$(document).ready(function() { 
-						var num = 1;
-	
-			            $('.questionButtonDiv').each(function() {
-								setQuestionsButtonClickHandlersForRow(num);
-			              		num = num + 1;
-			              });
-	
-						num = 1;
-			              
-			          	$('.examButtonDiv').each(function() {
-			              		setExamsButtonClickHandlersForRow(num);
-			              		num = num + 1;
-			          	});
-		              });
 					
 		     </script>
 				]]>			
@@ -220,13 +164,16 @@
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
 	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Questions-delete-entity-url" type="text" name="question-delete-entity-url" value="/ajax/profile-deleteQuestion.jsp"/>
 	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
 	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getExams.jsp"/>
+	<input style="display:none;" id="Exams-delete-entity-url" type="text" name="exam-delete-entity-url" value="/ajax/profile-deleteExam.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/>
 	
 	<input style="display:none;" id="idNoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
 	
+	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 
 </div>
@@ -292,8 +239,10 @@
 			</script>
 			]]>
 			
+
 			<![CDATA[ <script src="../js/smooth-scrolling.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/profile-exams.js" type="text/javascript"></script> ]]>			
 </body>
 </html>
 </jsp:root>

@@ -1,3 +1,8 @@
+
+$(document).ready(function() {
+	setFunctionCalledForEachRowByDisplayMoreRows(setQuestionsButtonClickHandlersForRow);
+});
+
 $("#containsFilter").change(function() {
 	setClonedHeaderInTheGlobalVariables();
 });
@@ -39,7 +44,7 @@ $("#difficultyFilter").change(function() {
 function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();
-	displayMoreRows();
+	displayMoreRows(setQuestionsButtonClickHandlersForRow);
 }
 
 function cleanTable() {
@@ -97,11 +102,49 @@ function Questions_convertToHTMLString(obj, rowNum) {
 	rtn += "</td><td>";
 	
 	rtn += "<div class=\"questionButtonDiv\">";
-	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small\" id=\"edit_button_" + rowNum + "\" name=\"questionButton_" + obj.id + "\" value=\"Edit Question\"><i class=\"icon-pencil\"></i></button>";
-	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small\" id=\"delete_button_" + rowNum + "\" name=\"questionButton_" + obj.id + "\" value=\"Delete Question\"><i class=\"icon-remove\"></i></button>";
+	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small question_edit_button\" id=\"edit_button_" + rowNum + "\" name=\"questionButton_" + obj.id + "\" value=\"Edit Question\"><i class=\"icon-pencil\"></i></button>";
+	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small question_delete_button\" id=\"delete_button_" + rowNum + "\" name=\"questionButton_" + obj.id + "\" value=\"Delete Question\"><i class=\"icon-remove\"></i></button>";
 	rtn += "</div>";
 	
 	rtn += "</td></tr>";
 	
 	return rtn;
+}
+
+function setQuestionsButtonClickHandlersForRow(row) {
+	
+	row.find('.question_delete_button').click(function() {
+		var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileQuestionForm"));
+
+		setLastPressedButtonName($(this), "nameOfLastPressedButton");
+		setLastPressedButtonValue($(this), "valueOfLastPressedButton");
+
+		dlg.dialog('open');	
+		
+		return false;
+	});
+
+	row.find('.question_edit_button').click(function() { 
+		setLastPressedButtonName($(this), "nameOfLastPressedButton");
+		setLastPressedButtonValue($(this), "valueOfLastPressedButton");
+		
+		var buttonName = $(this).attr("name");
+		var arr = buttonName.split('_');
+		var id = arr[1];
+		
+		var url="/secured/question.jsp?questionId=" + id;
+		
+		// redirect to question editing page
+		window.location.href = url;
+	});				    
+}
+
+function Questions_setDeleteEntityDataObjectDefinition() {
+	var str = '{"fields": [{"name":"nameOfLastPressedButton","id":"#nameOfLastPressedButton"},{"name":"valueOfLastPressedButton","id":"#valueOfLastPressedButton"}]}';
+	
+	$('#Questions-delete-entity-dataObjectDefinition').attr('value', str);
+}
+
+function Questions_postDeleteEntityMethod() {
+	getQuestions();
 }

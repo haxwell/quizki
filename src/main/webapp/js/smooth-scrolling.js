@@ -106,37 +106,6 @@
 					}
 					
 					//
-					// Returns the data object that this tab uses in its calls to get AJAX table data
-					//
-					function getDataObjectForAJAX() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
-						
-						// a list of the name of the field in the data object, and the name of the field with its value
-						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
-						
-						var obj = jQuery.parseJSON(dataObjDefinition_json);
-						var arr = obj.fields;
-						
-						var rtn = { };
-						
-						for (var i=0; i<arr.length; i++) {
-							
-							try {
-								var tmp = $(arr[i].id).attr("value");
-								
-								if (tmp == undefined) tmp = "";
-								
-								rtn[arr[i].name] = tmp;
-							}
-							catch (err) {
-								// skip this field... TODO, handle this better.. an error means the dataObjDefinition is bad..
-							}
-						}
-						
-						return rtn;
-					}
-					
-					//
 					// Gets the table data for this tab, and then adds rows to the table
 					//
 					function displayMoreRows(functionForEachRow) {
@@ -201,6 +170,11 @@
 						}
 					}
 					
+					function getMoreRows_DataObjectForAJAX() {
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						return getDataObjectForAJAX(prefix+"-data-object-definition");
+					}
+					
 					//
 					// Makes an AJAX call to get addition table data for the current tab (page)
 					//
@@ -221,15 +195,10 @@
 						
 						var rtn = "";
 						var data_url = getURLThatProvidesTableData();
-						var data_obj = getDataObjectForAJAX();
+						var data_obj = getMoreRows_DataObjectForAJAX();
 
-						$.ajax({
-							type: "POST",
-							url: data_url,
-							data: data_obj,
-							dataType: "text",
-							async: false
-						}).done(function(data,status){
+						makeAJAXCall_andWaitForTheResults(data_url, data_obj, 
+							function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);
 								
 								if (status == 'success') {

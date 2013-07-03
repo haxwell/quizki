@@ -437,8 +437,8 @@ public class QuestionManager extends Manager {
 
 		// TODO: figure out a way to get the query to do this...
 		FilterCollection fc2 = new FilterCollection();
-		fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
-		fc.add(FilterConstants.QUESTION_TYPE_FILTER, questionType+"");
+		fc2.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+		fc2.add(FilterConstants.QUESTION_TYPE_FILTER, questionType+"");
 		
 		//rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
 		rtn = (List<Question>)filterList(fc2, rtn);
@@ -446,42 +446,41 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
-	
-	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc, Set<Question> questions) {
+	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc, Set<Question> selectedQuestions) {
 		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
 		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 
 		AJAXReturnData rtn = new AJAXReturnData();
 		List<Question> list = null;
-		
-		if (questions == null) // this is a request for questions from the db
-			list = getFilteredListOfQuestions(fc);
-		else // this is a request for selected questions, use the passed in set of questions
-		{
-			// TODO: Why the fuck are we using a SET on exam? Its difficult to fucking work with!! CHANGE THAT SHIT!
-			
-			Iterator<Question> iterator = questions.iterator();
-			list = new ArrayList<Question>();
-			
-			while (iterator.hasNext()) {
-				list.add(iterator.next());
-			}
-			
-			list = filterList(fc, list);
 
-			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
+		if (fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.SELECTED_ITEMS+"")) {
+
+			if (selectedQuestions.size() == 0)
+				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
+			else {
+				Iterator<Question> iterator = selectedQuestions.iterator();
+				list = new ArrayList<Question>();
+				
+				while (iterator.hasNext()) {
+					list.add(iterator.next());
+				}
+				
+				list = filterList(fc, list);
+	
+				rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
+			}
+		}
+		else {  // this is a request for questions from the db
+			list = getFilteredListOfQuestions(fc);
+			
+			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions));
 		}
 		
 		if (list.size() == 0) {
-			if (questions == null) {
-				if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
-					rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
-				else
-					rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
-			}
-			else {
-				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
-			}
+			if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
+			else
+				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
 		}
 		else {
 			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);

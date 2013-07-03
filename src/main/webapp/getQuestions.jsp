@@ -70,23 +70,13 @@ fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSE
 
 AJAXReturnData rtnData = null;
 
-if (roef.equals(Constants.SELECTED_ITEMS+"")) {
-	Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
-	Set selectedQuestions = null;
-	
-	if (exam == null)
-		selectedQuestions = new HashSet();
-	else
-		selectedQuestions = exam.getQuestions();
-	
-	rtnData = QuestionManager.getAJAXReturnObject(fc, selectedQuestions);
-}
-else
-	rtnData = QuestionManager.getAJAXReturnObject(fc, null);
+Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
+
+Set selectedQuestions = (exam == null ? new HashSet() : exam.getQuestions());
+
+rtnData = QuestionManager.getAJAXReturnObject(fc, selectedQuestions);
 
 writer.print(rtnData.toJSON());
-
-//writer.print(VoteUtil.registerVote(request.getParameter("voteDirection"), request.getParameter("entityType"), request.getParameter("entityId"), (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY)));
 
 </jsp:scriptlet>
 	

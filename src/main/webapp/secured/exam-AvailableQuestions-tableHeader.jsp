@@ -8,8 +8,8 @@
 			<tr>
 				<!--<th>ID</th>-->
 				<th><label class="checkbox no-label toggle-all"
-					for="checkbox-table-1"> <input type="checkbox" value=""
-						id="checkbox-table-1" data-toggle="checkbox"></label></th>
+					for="select-all-checkbox"> <input type="checkbox" value=""
+						id="select-all-checkbox" data-toggle="checkbox"></label></th>
 				<th class="examTableQuestionColumn">Questions</th>
 				<th class="examTableTopicsColumn">Topics</th>
 				<th>Type</th>
@@ -27,7 +27,7 @@
 						<option value="1">Mine</option>
 						<option value="2">Selected</option>
 					</select>
-					<div class="input-append" style="margin-left: 10px;">
+					<div id="idContainsFilterDiv"  class="input-append" style="margin-left: 10px;">
 						<input id="containsFilter" type="text" class="flat small pull-right"
 							placeholder="Search in questions..." style="width: 216px;">
 						<button type="submit" class="btn btn-secondary btn-small" id="searchQuestionsBtn">
@@ -36,7 +36,7 @@
 					</div>
 				</td>
 				<td>
-					<div class="input-append">
+					<div id="idTopicContainsFilterDiv" class="input-append">
 						<input id="topicContainsFilter" type="text" class="flat small"
 							placeholder="Search in topics..." style="width: 96px;">
 						<button type="submit" class="btn btn-secondary btn-small" id="searchTopicsBtn">
@@ -45,7 +45,7 @@
 					</div>
 				</td>
 				<td>
-					<div class="pull-left" style="width: 87px;">
+					<div id="idQuestionTypeFilterDiv" class="pull-left" style="width: 87px;">
 						<select id="questionTypeFilter" name="small" class="select-block">
 							<option value="0">All</option>
 							<option value="1">Single</option>
@@ -56,7 +56,7 @@
 					</div>
 				</td>
 				<td>
-					<div class="pull-left" style="width: 103px;">
+					<div id="idDifficultyFilterDiv" class="pull-left" style="width: 103px;">
 						<select id="difficultyFilter" name="small" class="select-block">
 							<option value="0">All</option>
 							<option value="1">Junior</option>

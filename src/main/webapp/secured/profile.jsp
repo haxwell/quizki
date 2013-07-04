@@ -192,6 +192,7 @@
 					    var offset = $(this).scrollTop();
 					
 					    if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+					        disableHeaderFilterFields();
 					        $fixedHeader.show();
 					    }
 					    else if (offset < tableOffset) {

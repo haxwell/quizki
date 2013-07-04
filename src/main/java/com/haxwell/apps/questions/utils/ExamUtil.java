@@ -2,12 +2,14 @@ package com.haxwell.apps.questions.utils;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.managers.ExamManager;
+import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class ExamUtil {
 
@@ -83,6 +85,24 @@ public class ExamUtil {
 		}
 		
 		return DifficultyUtil.getDifficulty(Math.min(rtn + 1, 4)).getText();
+	}
+	
+	public static void selectAll(Exam e, String chkboxNames, boolean makeQuestionsSelected) {
+		StringTokenizer tokenizer = new StringTokenizer(chkboxNames, ",");
+		
+		while (tokenizer.hasMoreTokens()) {
+			String str = tokenizer.nextToken();
+			
+			int index = str.indexOf("_");
+			String id = str.substring(index+1);
+			
+			Question q = QuestionManager.getQuestionById(id);
+			
+			if (makeQuestionsSelected)
+				ExamManager.addQuestion(e, q);
+			else
+				ExamManager.removeQuestion(e, q);
+		}
 	}
 	
 	public static String persist(Exam e) {

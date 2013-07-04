@@ -133,7 +133,12 @@
 						displayMoreRows(addCheckboxToRow);
 						
 						addHandlerToSaveChangesBtn();
+						addHandlerToSelectAllCheckbox();
 					});
+					
+					function addHandlerToSelectAllCheckbox() {
+						$("#select-all-checkbox").change(handleSelectAllCheckboxChangeFunction);
+					}
 					
 					function addHandlerToSaveChangesBtn() {
 						$('.saveChangesBtn').click(function() {
@@ -238,6 +243,39 @@
 							});
 						}
 					}
+			
+					function handleSelectAllCheckboxChangeFunction() {
+						var arr = "";
+						var i = 0;
+						
+						$(".selectQuestionChkbox").each(function() {
+							arr += ($(this).attr("name") + ",");
+						});
+						
+						var isSelectAllChecked = $("#select-all-checkbox").attr("checked") == 'checked';
+						
+						var data_url = "/ajax/exam-questionSelectAllClicked.jsp";
+						var data_obj = { 
+								chkboxnames: arr,
+								isSelectAll: isSelectAllChecked
+							};
+							
+						var returnFunction = function () {
+								// for each table row, set/clear class 'selectedTableRow'
+								$("#examEntityTableRows > tbody > tr").each(function() {
+									if (isSelectAllChecked && !$(this).hasClass('selectedTableRow')) {
+										$(this).addClass('selectedTableRow');
+										$(this).find('label.checkbox').addClass('checked');									
+									}
+									else if (!isSelectAllChecked && $(this).hasClass('selectedTableRow')) {
+										$(this).removeClass('selectedTableRow');
+										$(this).find('label.checkbox').removeClass('checked');										
+									}
+								});
+							};
+								
+						makeAJAXCall_andDoNotWaitForTheResults(data_url, data_obj, returnFunction);
+					}
 					
 					var selectedEntityIDsArray = undefined;
 					
@@ -248,6 +286,7 @@
 							selectedEntityIDsArray = obj.selectedEntityIDsAsCSV.split(',');
 					}
 					
+					// TODO: name this function better.. it is called for each row, and does more than add a checkbox
 					function addCheckboxToRow(row) {
 						var $checkbox = row.find(':checkbox');
 						$checkbox.checkbox();
@@ -283,6 +322,7 @@
 					    var offset = $(this).scrollTop();
 					
 					    if (offset >= divOffset && $fixedHeader.is(":hidden")) {
+					        disableHeaderFilterFields();
 					        $fixedHeader.show();
 					    }
 					    else if (offset < divOffset) {
@@ -296,11 +336,15 @@
 						
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
-					           //alert("Hit the bottom!");
 					           displayMoreRows(addCheckboxToRow);
+					           unselectTheSelectAllCheckbox();					           
 					        }
 				        }
 					});
+					
+					function unselectTheSelectAllCheckbox() {
+						$("#examEntityTableHeader > thead > tr > th > label.checkbox").removeClass('checked');
+					}
 					
 					function setDataObjectDefinitions() {
 						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#offset"}]}';
@@ -325,26 +369,27 @@
 						
 						$fixedHeader = $("#header-fixed").append($header);
 						
-						disableHeaderFilterFields();
+						$fixedHeader.find("tr.filter-row").remove();
+						
+						//disableHeaderFilterFields();
 					}
 					
 					function disableHeaderFilterFields() {
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #rangeOfQuestionsFilter").attr("disabled", true);
+						var v = $("#header-fixed > div > div#idAvailableQuestionsTableHeader > div > div#examAvailableQuestionTableHeaderJSPDiv > table > thead > tr.filter-row > td"); 
 						
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #containsFilter").attr("disabled", true);						
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
+						v.find("div.btn-group > #rangeOfQuestionsFilter").attr("disabled", true);
 						
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
+						v.find("div.input-append > #containsFilter").attr("disabled", true);
+						v.find("div.input-append > #searchQuestionsBtn").attr("disabled", true);
 
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > div > #authorFilter").attr("disabled", true);
+						v.find("div.input-append > #topicContainsFilter").attr("disabled", true);
+						v.find("div.input-append > #searchTopicsBtn").attr("disabled", true);
 						
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
+						v.find("div#idDifficultyFilterDiv > div.btn-group > #difficultyFilter").attr("disabled", true);
+						v.find("div#idQuestionTypeFilterDiv > div.btn-group > #questionTypeFilter").attr("disabled", true);
 						
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
-						
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
-						$("#header-fixed > div > div > div > table > thead > tr > td > div > #containsFilter").attr("placeholder", "");
+						v.find("div.input-append > #containsFilter").attr("placeholder", "");
+						v.find("div.input-append > #topicContainsFilter").attr("placeholder", "");						
 					}
 					
 					function clearAlertDiv() {

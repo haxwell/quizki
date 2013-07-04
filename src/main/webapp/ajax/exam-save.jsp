@@ -5,8 +5,10 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.Exam"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.constants.EventConstants"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.ExamUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.events.EventDispatcher"/>
 	<jsp:directive.page import="java.util.List"/>
 	<jsp:directive.page import="java.util.ArrayList"/>	
     <jsp:directive.page language="java"
@@ -37,6 +39,13 @@ if (exam != null) {
 	exam.setMessage(message);
 	
 	rtn = ExamUtil.persist(exam);
+	
+	if (rtn.contains("successes")) {
+		EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_PERSISTED);
+	}
+}
+else {
+	rtn = "{\"examValidationWarnings\":[\"There's nothing to save!\"]}";
 }
 
 log.log(Level.SEVERE, "exam-save.jsp is going to return: " + rtn);

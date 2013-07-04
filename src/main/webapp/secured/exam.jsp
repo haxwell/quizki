@@ -40,6 +40,7 @@
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content" style="padding:20px 0;">
+			<div id="idAlertDiv" class="alert hidden">.</div>
 			<div id="belowTheBarPageHeader" class="fillBackgroundColor"> 
 				<div class="row">
 					<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
@@ -72,14 +73,16 @@
 						</div>
 					<!--/form-->
 				</div>
-				<div class="row">
-					<div class="span12 horizontal-rule">
-						<h2>Select questions for your exam</h2>
+				<div id="idAvailableQuestionsTableHeader">
+					<div class="row">
+						<div class="span12 horizontal-rule">
+							<h2>Select questions for your exam</h2>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div id="examAvailableQuestionTableHeaderJSPDiv" class="span12">
-						<jsp:include page="exam-AvailableQuestions-tableHeader.jsp"></jsp:include>
+					<div class="row">
+						<div id="examAvailableQuestionTableHeaderJSPDiv" class="span12">
+							<jsp:include page="exam-AvailableQuestions-tableHeader.jsp"></jsp:include>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -147,16 +150,50 @@
 									jsonExport = data.substring(0, index);
 								}
 								
-								var obj = jQuery.parseJSON(jsonExport);
-
-								if (obj.examValidationErrors == undefined) {
-									alert("success! The Exam was saved!");
+								var obj = undefined;
+								
+								try {
+									obj = jQuery.parseJSON(jsonExport);
 								}
-								else {
-									alert("errors: " + obj.examValidationErrors[0]);
+								catch (err) {
+									// do nothing
+								}
+
+								if (obj != undefined) {
+									if (obj.examValidationWarnings != undefined) {
+										populateAlertDiv(obj.examValidationWarnings, 'alert-info');
+									} else if (obj.successes != undefined) {
+										alert("success! The Exam was saved!");
+										
+										window[prefix+"_resetFilters"]();
+										window[prefix+"_getEntities"]();
+										
+										$('#id_examTitle').attr('value', '');
+										$('#id_examMessage').attr('value', '');
+	
+										populateAlertDiv(obj.successes, 'alert-success');
+									}
+									else {
+										alert("errors: " + obj.examValidationErrors[0]);
+										
+										populateAlertDiv(obj.examValidationErrors, 'alert-error');
+									}
 								}
 							});
 						});
+					}
+					
+					function populateAlertDiv(msgsArr, alertClassName) {
+						var msgs = "";
+						
+						for (var i=0; i<msgsArr.length; i++) {
+							msgs += msgsArr[i] + '<br/>';
+						}
+						
+						$('#idAlertDiv').html('');
+						$('#idAlertDiv').html(msgs);
+						$('#idAlertDiv').addClass(alertClassName);
+						$('#idAlertDiv').removeClass('hidden');
 					}
 					
 					function hasEnoughTimePassed() {
@@ -252,6 +289,9 @@
 					});
 
 					$(window).scroll(function(){
+						
+						clearAlertDiv();
+						
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
@@ -303,6 +343,11 @@
 						
 						$("#header-fixed > div > div > div > table > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
 						$("#header-fixed > div > div > div > table > thead > tr > td > div > #containsFilter").attr("placeholder", "");
+					}
+					
+					function clearAlertDiv() {
+						//$('#idAlertDiv').html('');
+						$('#idAlertDiv').addClass('hidden');
 					}
 					
 			</script>

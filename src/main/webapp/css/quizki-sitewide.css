@@ -1,4 +1,4 @@
-/* Settings in this file apply to all pages in Quizki. It should be included after bootstrap, flat-ui, etc, but */
+/* Settings in this file can apply to all pages in Quizki. It should be included after bootstrap, flat-ui, etc, but */
 /*  before other individual page css files. */
 
 body {
@@ -33,4 +33,8 @@ h2 {
   text-transform: uppercase;
   margin-top: 5px;
   margin-bottom: 0px;
+}
+
+.hidden {
+	display:none;
 }

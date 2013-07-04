@@ -91,7 +91,7 @@ public class ExamUtil {
 		
 		if (StringUtil.isEmptyJSON(jsonErrors)) {
 			ExamManager.persistExam(e);
-			rtn = "{\"successes\":\"Exam \"" + e.getTitle() + "\" was successfully saved!\"}";
+			rtn = "{\"successes\":[\"Exam '" + e.getTitle() + "' was successfully saved!\"]}";
 		}
 		else {
 			rtn = jsonErrors;

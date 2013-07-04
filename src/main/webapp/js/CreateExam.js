@@ -52,6 +52,10 @@ function getQuestions() {
 	displayMoreRows(addCheckboxToRow);
 }
 
+function Exams_getEntities() {
+	getQuestions();
+}
+
 function cleanTable() {
     $("#examEntityTableRows tbody tr:not(.filter-row)").remove();
 }
@@ -127,4 +131,12 @@ function Exams_setPersistEntityDataObjectDefinition() {
 	var str = '{"fields": [{"name":"examTitle","id":"#id_examTitle"},{"name":"examMessage","id":"#id_examMessage"}]}';
 	
 	$('#Exams-persist-entity-dataObjectDefinition').attr('value', str);
+}
+
+function Exams_resetFilters() {
+	$("#containsFilter").attr("value", "");
+	$("#topicContainsFilter").attr("value", "");
+	$("#questionTypeFilter").attr("value", "0");
+	$("#difficultyFilter").attr("value", "0");
+	$("#rangeOfQuestionsFilter").attr("value", "0");	
 }

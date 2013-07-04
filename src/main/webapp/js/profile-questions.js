@@ -41,6 +41,15 @@ $("#difficultyFilter").change(function() {
 	setFocusOnTheContainer();
 });
 
+$("#idApplyFilterButton").click(function() {
+	setClonedHeaderInTheGlobalVariables();
+	getQuestions();
+});
+
+$("#idClearFilterButton").click(function() {
+	Exams_resetFilters();
+});
+
 function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();
@@ -147,4 +156,21 @@ function Questions_setDeleteEntityDataObjectDefinition() {
 
 function Questions_postDeleteEntityMethod() {
 	getQuestions();
+}
+
+function Questions_resetFilters() {
+	$("#containsFilter").attr("value", "");
+	$("#topicContainsFilter").attr("value", "");
+
+	$("#questionTypeFilter > option[selected='selected']").removeAttr('selected');
+	$("#questionTypeFilter > option[value='0']").attr('selected', 'selected');
+	$("#questionTypeFilter > span.filter-option").html($("#questionTypeFilter > option[value='0']").html());
+	$("button#questionTypeFilter ~ ul > li.selected").removeClass('selected');
+	$("button#questionTypeFilter ~ ul > li[rel='0']").addClass('selected');
+
+	$("#difficultyFilter > option[selected='selected']").removeAttr('selected');
+	$("#difficultyFilter > option[value='0']").attr('selected', 'selected');
+	$("#difficultyFilter > span.filter-option").html($("#difficultyFilter > option[value='0']").html());
+	$("button#difficultyFilter ~ ul > li.selected").removeClass('selected');
+	$("button#difficultyFilter ~ ul > li[rel='0']").addClass('selected');
 }

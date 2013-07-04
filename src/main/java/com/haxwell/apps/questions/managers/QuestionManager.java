@@ -451,30 +451,52 @@ public class QuestionManager extends Manager {
 		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
 
 		AJAXReturnData rtn = new AJAXReturnData();
-		List<Question> list = null;
 
 		if (fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.SELECTED_ITEMS+"")) {
-
-			if (selectedQuestions.size() == 0)
-				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
-			else {
-				Iterator<Question> iterator = selectedQuestions.iterator();
-				list = new ArrayList<Question>();
-				
-				while (iterator.hasNext()) {
-					list.add(iterator.next());
-				}
-				
-				list = filterList(fc, list);
-	
-				rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
-			}
+			rtn = handleTheSelectedQuestionsCase(fc, selectedQuestions, maxEntityCount, offset);
 		}
 		else {  // this is a request for questions from the db
-			list = getFilteredListOfQuestions(fc);
-			
-			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions));
+			rtn = handleTheOtherCases(fc, selectedQuestions, maxEntityCount, offset);
 		}
+		
+		return rtn;
+	}
+	
+	/* Helper method for ::getAJAXReturnObject() */
+	private static AJAXReturnData handleTheSelectedQuestionsCase(FilterCollection fc, Set<Question> selectedQuestions, int maxEntityCount, int offset) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = null;
+
+		list = new ArrayList<Question>();
+		
+		if (selectedQuestions.size() > 0)
+		{
+			Iterator<Question> iterator = selectedQuestions.iterator();
+			
+			while (iterator.hasNext()) {
+				list.add(iterator.next());
+			}
+			
+			list = filterList(fc, list);
+
+			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
+			
+			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);			
+		}
+		else
+			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
+		
+		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);		
+		
+		return rtn;
+	}
+	
+	/* Helper method for ::getAJAXReturnObject() */
+	private static AJAXReturnData handleTheOtherCases(FilterCollection fc, Set<Question> selectedQuestions, int maxEntityCount, int offset) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = null;
+
+		list = getFilteredListOfQuestions(fc);
 		
 		if (list.size() == 0) {
 			if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
@@ -485,12 +507,13 @@ public class QuestionManager extends Manager {
 		else {
 			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);
 		}
-		
+
+		rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions));
 		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);
 		
 		return rtn;
 	}
-	
+
 	public static List<Question> getQuestions(FilterCollection fc) {
 		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
 		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));

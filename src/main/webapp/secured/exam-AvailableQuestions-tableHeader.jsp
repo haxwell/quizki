@@ -17,7 +17,10 @@
 				<th>Votes</th>
 			</tr>
 			<tr class="filter-row">
-				<td></td>
+				<td>
+					<button type="submit" class="btn btn-secondary btn-small" id="idApplyFilterButton" name="applyFilterButton" title="Apply the filter." value="Apply Filter Button"><i class="icon-magic"></i></button>
+					<button type="submit" class="btn btn-secondary btn-small" id="idClearFilterButton" name="clearFilterButton" title="Reset the filter." value="Clear Filter Button"><i class="icon-remove"></i></button>
+				</td>
 				<td>
 					<select id="rangeOfQuestionsFilter" name="small" class="span1">
 						<option value="0">All</option>

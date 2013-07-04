@@ -46,6 +46,16 @@ $("#rangeOfQuestionsFilter").change(function() {
 	setFocusOnTheContainer();	
 });
 
+$("#idApplyFilterButton").click(function() {
+	setClonedHeaderInTheGlobalVariables();
+	getQuestions();
+});
+
+$("#idClearFilterButton").click(function() {
+	Exams_resetFilters();
+	getQuestions();
+});
+
 function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();
@@ -136,7 +146,22 @@ function Exams_setPersistEntityDataObjectDefinition() {
 function Exams_resetFilters() {
 	$("#containsFilter").attr("value", "");
 	$("#topicContainsFilter").attr("value", "");
-	$("#questionTypeFilter").attr("value", "0");
-	$("#difficultyFilter").attr("value", "0");
-	$("#rangeOfQuestionsFilter").attr("value", "0");	
+
+	$("#rangeOfQuestionsFilter > option[selected='selected']").removeAttr('selected');
+	$("#rangeOfQuestionsFilter > option[value='0']").attr('selected', 'selected');
+	$("#rangeOfQuestionsFilter > span.filter-option").html($("#rangeOfQuestionsFilter > option[value='0']").html());
+	$("button#rangeOfQuestionsFilter ~ ul > li.selected").removeClass('selected');
+	$("button#rangeOfQuestionsFilter ~ ul > li[rel='0']").addClass('selected');
+
+	$("#questionTypeFilter > option[selected='selected']").removeAttr('selected');
+	$("#questionTypeFilter > option[value='0']").attr('selected', 'selected');
+	$("#questionTypeFilter > span.filter-option").html($("#questionTypeFilter > option[value='0']").html());
+	$("button#questionTypeFilter ~ ul > li.selected").removeClass('selected');
+	$("button#questionTypeFilter ~ ul > li[rel='0']").addClass('selected');
+
+	$("#difficultyFilter > option[selected='selected']").removeAttr('selected');
+	$("#difficultyFilter > option[value='0']").attr('selected', 'selected');
+	$("#difficultyFilter > span.filter-option").html($("#difficultyFilter > option[value='0']").html());
+	$("button#difficultyFilter ~ ul > li.selected").removeClass('selected');
+	$("button#difficultyFilter ~ ul > li[rel='0']").addClass('selected');
 }

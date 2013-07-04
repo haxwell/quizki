@@ -18,6 +18,10 @@
 			</tr>
 			<tr class="filter-row">
 					<td>
+						<button type="submit" class="btn btn-secondary btn-small" id="idApplyFilterButton" name="applyFilterButton" title="Apply the filter." value="Apply Filter Button"><i class="icon-magic"></i></button>
+						<button type="submit" class="btn btn-secondary btn-small" id="idClearFilterButton" name="clearFilterButton" title="Reset the filter." value="Clear Filter Button"><i class="icon-remove"></i></button>
+					</td>
+					<td>
 						<div class="input-append" style="margin-left: 10px;">
 							<input id="containsFilter" type="text" class="flat small"
 								placeholder="Search in questions..." style="width: 216px;">

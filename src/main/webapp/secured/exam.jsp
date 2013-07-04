@@ -22,6 +22,8 @@
 		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
 
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+		
 		<link href="../css/quizki-sitewide.css" rel="stylesheet" />
 		
 		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>

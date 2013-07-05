@@ -106,6 +106,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.questions.add(q);
 	}
 	
+	// NOTE, we use a set because it cannot contain duplicates...
 	public Set<Question> getQuestions() {
 		if (this.questions == null)
 			this.questions = new HashSet<Question>();

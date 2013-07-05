@@ -104,7 +104,9 @@
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTableRows"/>
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
 	<input style="display:none;" id="Exams-persist-entity-dataObjectDefinition" name="Exams-persist-entity-dataObjectDefinition" value=""/>
-	<input style="display:none;" id="Exams-last-time-checkbox-handler-called" type="text" name="Exams-last-time-checkbox-handler-called" value="0"/>	
+	<input style="display:none;" id="Exams-last-time-checkbox-handler-called" type="text" name="Exams-last-time-checkbox-handler-called" value="0"/>
+	<input style="display:none;" id="Exams-header-div-prefix" type="text" name="Exams-header-div-prefix" value="#belowTheBarPageHeader"/>
+	<input style="display:none;" id="Exams-boolean-all-entities-are-selected" type="text" name="Exams-boolean-all-entities-are-selected" value="false"/>
 	
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
@@ -133,11 +135,11 @@
 						displayMoreRows(addCheckboxToRow);
 						
 						addHandlerToSaveChangesBtn();
-						addHandlerToSelectAllCheckbox();
+						addHandlerToSelectAllCheckbox($("#select-all-checkbox"));
 					});
 					
-					function addHandlerToSelectAllCheckbox() {
-						$("#select-all-checkbox").change(handleSelectAllCheckboxChangeFunction);
+					function addHandlerToSelectAllCheckbox($obj) {
+						$obj.change(handleSelectAllCheckboxChangeFunction);
 					}
 					
 					function addHandlerToSaveChangesBtn() {
@@ -244,20 +246,53 @@
 						}
 					}
 			
+					function syncSelectAllCheckboxes(isChecked) {
+						var $origHeaderLabelCheckbox = $(origHeaderID).find('label.checkbox');
+						var $clonedHeaderLabelCheckbox = $(clonedHeaderID).find('label.checkbox'); 
+						
+						if (isChecked) {
+							if (!$origHeaderLabelCheckbox.hasClass('checked')) {
+								$origHeaderLabelCheckbox.addClass('checked');
+								$origHeaderLabelCheckbox.find('input#select-all-checkbox').attr('checked','checked');
+							}
+							if (!$clonedHeaderLabelCheckbox.hasClass('checked')) {
+								$clonedHeaderLabelCheckbox.addClass('checked');
+								$clonedHeaderLabelCheckbox.find('input#select-all-checkbox').attr('checked','checked');
+							}
+						} else {
+							$origHeaderLabelCheckbox.removeClass('checked');
+							$origHeaderLabelCheckbox.find('input#select-all-checkbox').removeAttr('checked');
+							$clonedHeaderLabelCheckbox.removeClass('checked');
+							$clonedHeaderLabelCheckbox.find('input#select-all-checkbox').removeAttr('checked');
+						}
+					}
+
+					function setAllEntitiesAreSelected(bool) {
+						$("#Exams-boolean-all-entities-are-selected").attr("value", bool);
+					}
+					
+					function getAllEntitiesAreSelected() {
+						return $("#Exams-boolean-all-entities-are-selected").attr("value");
+					}
+					
 					function handleSelectAllCheckboxChangeFunction() {
 						var arr = "";
 						var i = 0;
+						
+						var headerID = getVisibleHeaderID();
+						var isSelectAllChecked = $(headerID).find("#select-all-checkbox").attr("checked") == 'checked';
+						var allEntitiesAreSelected = getAllEntitiesAreSelected();
+						
+						syncSelectAllCheckboxes(isSelectAllChecked);
 						
 						$(".selectQuestionChkbox").each(function() {
 							arr += ($(this).attr("name") + ",");
 						});
 						
-						var isSelectAllChecked = $("#select-all-checkbox").attr("checked") == 'checked';
-						
 						var data_url = "/ajax/exam-questionSelectAllClicked.jsp";
 						var data_obj = { 
 								chkboxnames: arr,
-								isSelectAll: isSelectAllChecked
+								isSelectAll: (isSelectAllChecked && !allEntitiesAreSelected)
 							};
 							
 						var returnFunction = function () {
@@ -265,16 +300,20 @@
 								$("#examEntityTableRows > tbody > tr").each(function() {
 									if (isSelectAllChecked && !$(this).hasClass('selectedTableRow')) {
 										$(this).addClass('selectedTableRow');
-										$(this).find('label.checkbox').addClass('checked');									
+										$(this).find('label.checkbox').addClass('checked');
 									}
 									else if (!isSelectAllChecked && $(this).hasClass('selectedTableRow')) {
 										$(this).removeClass('selectedTableRow');
 										$(this).find('label.checkbox').removeClass('checked');										
 									}
 								});
-							};
 								
+								setAllEntitiesAreSelected(isSelectAllChecked);
+							};
+
 						makeAJAXCall_andDoNotWaitForTheResults(data_url, data_obj, returnFunction);
+						
+						setClonedHeaderInTheGlobalVariables();
 					}
 					
 					var selectedEntityIDsArray = undefined;
@@ -318,33 +357,50 @@
 					var $header = $("#belowTheBarPageHeader").clone();
 					var $fixedHeader = $("#header-fixed").append($header);
 					
+					var origHeaderID = "#belowTheBarPageHeader";
+					var clonedHeaderID = "div#header-fixed";
+					
 					$(window).bind("scroll", function() {
 					    var offset = $(this).scrollTop();
 					
 					    if (offset >= divOffset && $fixedHeader.is(":hidden")) {
-					        disableHeaderFilterFields();
+					        //disableHeaderFilterFields();
 					        $fixedHeader.show();
+					        
+					        $("#Exams-header-div-prefix").val(clonedHeaderID);
 					    }
 					    else if (offset < divOffset) {
 					        $fixedHeader.hide();
+					        
+					        $("#Exams-header-div-prefix").val(origHeaderID);
 					    }
 					});
 
+					function getHiddenHeaderID() {
+						var val = $("#Exams-header-div-prefix").attr("value");
+						
+						if (val == origHeaderID) 
+							return clonedHeaderID;
+						else
+							return origHeaderID;
+					}
+					
+					function getVisibleHeaderID() {
+						return $("#Exams-header-div-prefix").attr("value");
+					}
+					
 					$(window).scroll(function(){
 						
 						clearAlertDiv();
 						
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
-					           displayMoreRows(addCheckboxToRow);
-					           unselectTheSelectAllCheckbox();					           
+					           	displayMoreRows(addCheckboxToRow);
+								syncSelectAllCheckboxes(false);
+								setAllEntitiesAreSelected(false);					           
 					        }
 				        }
 					});
-					
-					function unselectTheSelectAllCheckbox() {
-						$("#examEntityTableHeader > thead > tr > th > label.checkbox").removeClass('checked');
-					}
 					
 					function setDataObjectDefinitions() {
 						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#offset"}]}';
@@ -370,6 +426,8 @@
 						$fixedHeader = $("#header-fixed").append($header);
 						
 						$fixedHeader.find("tr.filter-row").remove();
+						
+						addHandlerToSelectAllCheckbox($fixedHeader.find("#select-all-checkbox"));
 						
 						//disableHeaderFilterFields();
 					}

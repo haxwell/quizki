@@ -246,6 +246,7 @@
 								}
 								else {
 									$('#tableRow_' + rowid).removeClass('selectedTableRow');
+									syncSelectAllCheckboxes(false);
 								}
 							});
 						}

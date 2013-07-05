@@ -42,8 +42,8 @@
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content" style="padding:20px 0;">
-			<div id="idAlertDiv" class="alert hidden">.</div>
 			<div id="belowTheBarPageHeader" class="fillBackgroundColor"> 
+				<div id="idAlertDiv" class="alert hidden">.</div>
 				<div class="row">
 					<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
 						<div class="span3">
@@ -134,16 +134,19 @@
 						setDataObjectDefinitions();
 						displayMoreRows(addCheckboxToRow);
 						
-						addHandlerToSaveChangesBtn();
+						addHandlerToSaveChangesBtn($('.saveChangesBtn'));
 						addHandlerToSelectAllCheckbox($("#select-all-checkbox"));
+						
+						$("#id_examTitle").change(syncExamTitleFields);
+						$("#id_examMessage").change(syncExamMessageFields);
 					});
 					
 					function addHandlerToSelectAllCheckbox($obj) {
 						$obj.change(handleSelectAllCheckboxChangeFunction);
 					}
 					
-					function addHandlerToSaveChangesBtn() {
-						$('.saveChangesBtn').click(function() {
+					function addHandlerToSaveChangesBtn($obj) {
+						$obj.click(function() {
 							var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
 							var url = '/ajax/exam-save.jsp';
 							
@@ -199,10 +202,12 @@
 							msgs += msgsArr[i] + '<br/>';
 						}
 						
-						$('#idAlertDiv').html('');
-						$('#idAlertDiv').html(msgs);
-						$('#idAlertDiv').addClass(alertClassName);
-						$('#idAlertDiv').removeClass('hidden');
+						var $idAlertDiv = $(getVisibleHeaderID()).find('#idAlertDiv'); 
+												
+						$idAlertDiv.html('');
+						$idAlertDiv.html(msgs);
+						$idAlertDiv.addClass(alertClassName);
+						$idAlertDiv.removeClass('hidden');
 					}
 					
 					function hasEnoughTimePassed() {
@@ -246,6 +251,34 @@
 						}
 					}
 			
+					function syncExamTitleFields() {
+						var $origHeaderTitleField = $(origHeaderID).find('#id_examTitle');
+						var $clonedHeaderTitleField = $(clonedHeaderID).find('#id_examTitle');
+						
+						var headerID = getVisibleHeaderID();
+						
+						if (headerID == origHeaderID) {
+							$clonedHeaderTitleField.val($origHeaderTitleField.val());
+						}
+						else {
+							$origHeaderTitleField.val($clonedHeaderTitleField.val());
+						}
+					}
+					
+					function syncExamMessageFields() {
+						var $origHeaderMessageField = $(origHeaderID).find('#id_examMessage');
+						var $clonedHeaderMessageField = $(clonedHeaderID).find('#id_examMessage');
+						
+						var headerID = getVisibleHeaderID();
+						
+						if (headerID == origHeaderID) {
+							$clonedHeaderMessageField.val($origHeaderMessageField.val());
+						}
+						else {
+							$origHeaderMessageField.val($clonedHeaderMessageField.val());
+						}
+					}
+					
 					function syncSelectAllCheckboxes(isChecked) {
 						var $origHeaderLabelCheckbox = $(origHeaderID).find('label.checkbox');
 						var $clonedHeaderLabelCheckbox = $(clonedHeaderID).find('label.checkbox'); 
@@ -427,7 +460,11 @@
 						
 						$fixedHeader.find("tr.filter-row").remove();
 						
-						addHandlerToSelectAllCheckbox($fixedHeader.find("#select-all-checkbox"));
+						addHandlerToSelectAllCheckbox($fixedHeader.find('#select-all-checkbox'));
+						addHandlerToSaveChangesBtn($fixedHeader.find('.saveChangesBtn'));
+						
+						$fixedHeader.find("#id_examTitle").change(syncExamTitleFields);
+						$fixedHeader.find("#id_examMessage").change(syncExamMessageFields);
 						
 						//disableHeaderFilterFields();
 					}
@@ -452,7 +489,7 @@
 					
 					function clearAlertDiv() {
 						//$('#idAlertDiv').html('');
-						$('#idAlertDiv').addClass('hidden');
+						$(getVisibleHeaderID()).find('#idAlertDiv').addClass('hidden');
 					}
 					
 			</script>

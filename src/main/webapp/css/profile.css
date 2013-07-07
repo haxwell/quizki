@@ -20,3 +20,9 @@
   color: #ffffff;
   background-color: #227faf;	
 }
+
+/* 4668 */
+.table .filter-row > td {
+  background-color: #dadfe9;
+  padding-bottom: 0px;
+}

@@ -33,11 +33,11 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-
 FilterCollection fc = new FilterCollection();
 
-log.log(Level.SEVERE, "just created FilterCollection");
+User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+
+fc.add(FilterConstants.USER_ID_ENTITY, user);
 
 if (user != null)
 	fc.add(FilterConstants.USER_ID_FILTER, user.getId() + "");

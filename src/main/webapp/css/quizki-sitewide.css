@@ -38,3 +38,11 @@ h2 {
 .hidden {
 	display:none;
 }
+
+.greenText {
+	color:green;
+}
+
+.redText {
+	color:red;
+}

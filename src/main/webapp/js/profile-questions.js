@@ -1,28 +1,35 @@
+// This file is a collection of methods that focus on the components in the UI. You will find methods which 
+//  set event handers on specific UI components, and change the state of specific UI components, perhaps by 
+//  removing a row, or changing its text. Also, not only setting the event handlers to be called at a future 
+//  time, but event handlers called by a component are here.  See *_convertToHTML(). 
 
-$(document).ready(function() {
-	setFunctionCalledForEachRowByDisplayMoreRows(setQuestionsButtonClickHandlersForRow);
-});
+function Questions_getHeadDOMElementInOriginalHeader() {
+	return $("#questionEntityTable > thead");
+}
+function Questions_getHeadDOMElementInClonedHeader() {
+	return $("#header-fixed");
+}
 
 $("#containsFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 });
 
 $("#searchQuestionsBtn").click(function() {
-	setClonedHeaderInTheGlobalVariables();
+//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#topicContainsFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+//	setClonedHeaderInTheGlobalVariables();
 });
 
 $("#searchTopicsBtn").click(function() {
-	setClonedHeaderInTheGlobalVariables();
+//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#questionTypeFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 	
 	// the point here is to move the focus elsewhere than this component.
@@ -32,7 +39,7 @@ $("#questionTypeFilter").change(function() {
 });
 
 $("#difficultyFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 	
 	// the point here is to move the focus elsewhere than this component.
@@ -42,18 +49,24 @@ $("#difficultyFilter").change(function() {
 });
 
 $("#idApplyFilterButton").click(function() {
-	setClonedHeaderInTheGlobalVariables();
+//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#idClearFilterButton").click(function() {
-	Exams_resetFilters();
+	Questions_resetFilters();
+	getQuestions();
 });
 
 function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();
-	displayMoreRows(setQuestionsButtonClickHandlersForRow);
+	displayMoreRows(setQuestionsButtonClickHandlersForRow); // when we are inside of profile-questions, we call displayMoreRows this way, passing the method that should be called for each row created as this execution of display more rows executes.
+}
+
+// This is how 'the method that should be called for each row created as this execution of display more rows executes' from when we don't initiate the call to displayMoreRows, rather an event handled in common code fires, and needs the displayMoreRows behavior as it applies to the current tab. This is how we execute this method for each row. 
+function Questions_thisFunctionCalledForEachRowByDisplayMoreRows(row) {
+	setQuestionsButtonClickHandlersForRow(row);
 }
 
 function cleanTable() {
@@ -80,7 +93,7 @@ function Questions_convertToHTMLString(obj, rowNum) {
 	var rtn = "";
 	
 	rtn += "<tr id=\"tableRow_" + rowNum + "\">";
-	rtn += "<td>";
+	rtn += "<td colspan=\"2\">";
 	
 	if (obj.description.length > 0) {
 		rtn += "<a href=\"/displayQuestion.jsp?questionId=" + obj.id + "\">" + obj.description + "</a>";
@@ -122,30 +135,43 @@ function Questions_convertToHTMLString(obj, rowNum) {
 
 function setQuestionsButtonClickHandlersForRow(row) {
 	
-	row.find('.question_delete_button').click(function() {
-		var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileQuestionForm"));
+	if (row != undefined) {
+		row.find('.question_delete_button').click(function() {
+			var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions());
+	
+			// These are used in creating the object which is passed back to the server
+			//  identifying the name of the last pressed button (hint, its the delete
+			//  button that just got clicked) and its value, from which we get the 
+			//  question ID on the server side.. and then the question entity, etc, etc.
+			setLastPressedButtonName($(this), "nameOfLastPressedButton");
+			setLastPressedButtonValue($(this), "valueOfLastPressedButton");
+	
+			dlg.dialog('open');	
+			
+			return false;
+		});
+	
+		row.find('.question_edit_button').click(function() { 
 
-		setLastPressedButtonName($(this), "nameOfLastPressedButton");
-		setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-
-		dlg.dialog('open');	
-		
-		return false;
-	});
-
-	row.find('.question_edit_button').click(function() { 
-		setLastPressedButtonName($(this), "nameOfLastPressedButton");
-		setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-		
-		var buttonName = $(this).attr("name");
-		var arr = buttonName.split('_');
-		var id = arr[1];
-		
-		var url="/secured/question.jsp?questionId=" + id;
-		
-		// redirect to question editing page
-		window.location.href = url;
-	});				    
+			// These are used in creating the object which is passed back to the server
+			//  identifying the name of the last pressed button (hint, its the 
+			//  button that just got clicked) and its value, from which we get the 
+			//  question ID on the server side.. and then the question entity, etc, etc.
+			setLastPressedButtonName($(this), "nameOfLastPressedButton");
+			setLastPressedButtonValue($(this), "valueOfLastPressedButton");
+			
+			var buttonName = $(this).attr("name");
+			var arr = buttonName.split('_');
+			var id = arr[1];
+			
+			var url="/secured/question.jsp?questionId=" + id;
+			
+			// redirect to question editing page
+			window.location.href = url;
+		});				    
+	}
+	else
+		alert("The row sent to setQuestionsButtonclickedHandlersForRow was undefined!");
 }
 
 function Questions_setDeleteEntityDataObjectDefinition() {

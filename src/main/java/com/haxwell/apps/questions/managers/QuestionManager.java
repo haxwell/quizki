@@ -29,6 +29,7 @@ import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
+import com.haxwell.apps.questions.utils.QuestionUtil;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -65,16 +66,17 @@ public class QuestionManager extends Manager {
 		return rtn.getId();
 	}
 	
-	public static void deleteQuestion(long userId, String questionId)
+	public static String deleteQuestion(long userId, String questionId)
 	{
-		deleteQuestion(userId, getQuestionById(questionId));
+		return deleteQuestion(userId, getQuestionById(questionId));
 	}
 	
-	public static void deleteQuestion(long userId, Question question)
+	public static String deleteQuestion(long userId, Question question)
 	{
 		EntityManager em = emf.createEntityManager();
 		
 		long questionId = question.getId();		
+		String rtn  = QuestionUtil.getDisplayString(question, Constants.MAX_QUESTION_TEXT_LENGTH);
 		
 		em.getTransaction().begin();
 		
@@ -208,6 +210,8 @@ public class QuestionManager extends Manager {
 		em.getTransaction().commit();
 		
 		em.close();
+		
+		return rtn;
 	}
 	
 	public static Question newQuestion()
@@ -407,11 +411,12 @@ public class QuestionManager extends Manager {
 	private static List<Question> getFilteredListOfQuestions(FilterCollection fc) {
 		EntityManager em = emf.createEntityManager();
 		
-		String filterText = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER);
-		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER);
-		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER));
-		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER));
+		String filterText = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER).toString();
+		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
+		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER).toString());
+		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER).toString());
 		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
+		User user = (User)fc.get(FilterConstants.USER_ID_ENTITY);
 		
 		String queryString = "SELECT q FROM Question q WHERE ";
 		
@@ -431,7 +436,7 @@ public class QuestionManager extends Manager {
 			query.setParameter(2, "%" + filterText + "%");
 		
 		if (includeOnlyUserCreatedEntities)
-			query.setParameter(3, Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER)));
+			query.setParameter(3, Long.parseLong(user.getId()+""));
 		
 		List<Question> rtn = (List<Question>)query.getResultList();
 
@@ -447,8 +452,8 @@ public class QuestionManager extends Manager {
 	}
 	
 	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc, Set<Question> selectedQuestions) {
-		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
-		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER).toString());
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER).toString());
 
 		AJAXReturnData rtn = new AJAXReturnData();
 
@@ -499,7 +504,7 @@ public class QuestionManager extends Manager {
 		list = getFilteredListOfQuestions(fc);
 		
 		if (list.size() == 0) {
-			if (getNumberOfQuestionsCreatedByUser(Long.parseLong(fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+			if (getNumberOfQuestionsCreatedByUser( Long.parseLong((String)fc.get(FilterConstants.USER_ID_FILTER))) == 0)
 				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
 			else
 				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
@@ -515,8 +520,8 @@ public class QuestionManager extends Manager {
 	}
 
 	public static List<Question> getQuestions(FilterCollection fc) {
-		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER));
-		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER));
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER).toString());
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER).toString());
 
 		List<Question> rtn = getFilteredListOfQuestions(fc);
 		
@@ -613,25 +618,25 @@ public class QuestionManager extends Manager {
 	private static List<Question> filterList(FilterCollection fc, List<Question> list) {
 		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
 		
-		String filter = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER);
+		String filter = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
 		
 		if (!StringUtil.isNullOrEmpty(filter)) {
 			arr.add(new QuestionTopicFilter(filter));
 		}
 		
-		filter = fc.get(FilterConstants.QUESTION_TYPE_FILTER);
+		filter = fc.get(FilterConstants.QUESTION_TYPE_FILTER).toString();
 		
 		if (!StringUtil.isNullOrEmpty(filter) && (!filter.equals(TypeConstants.ALL_TYPES+""))) {
 			arr.add(new QuestionTypeFilter(Integer.parseInt(filter)));
 		}
 		
-		filter = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER);
+		filter = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER) != null ? fc.get(FilterConstants.QUESTION_CONTAINS_FILTER).toString() : "";
 		
 		if (!StringUtil.isNullOrEmpty(filter)) {
 			arr.add(new QuestionFilter(filter));
 		}
 		
-		filter = fc.get(FilterConstants.DIFFICULTY_FILTER);
+		filter = fc.get(FilterConstants.DIFFICULTY_FILTER) != null ? fc.get(FilterConstants.DIFFICULTY_FILTER).toString() : "";
 		
 		if (!StringUtil.isNullOrEmpty(filter)) {
 			arr.add(new DifficultyFilter(Integer.parseInt(filter)));

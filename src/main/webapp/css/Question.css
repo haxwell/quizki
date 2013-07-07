@@ -1,0 +1,17 @@
+
+.entityAttributeHeaderName {
+	font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
+	text-transform: uppercase;
+	font-size: 0.85em;	
+}
+
+.btn.submitAnswer {
+  font-size: 16.996px;
+  /* 17px */
+
+  line-height: 20px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  padding-top: 8px;
+}

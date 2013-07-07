@@ -8,9 +8,11 @@
 	//		Its value should be the url of the AJAX call to get more table rows.
 	//  A text field with the id #*-entity-table-id, where * is the title of a tab which will use smooth scrolling.
 	//		Its value should be the id of the table in which to insert more table rows.
-	//  A text field with the id #prefix-to-current-view-hidden-fields, which will have an empty value by default.
 	//  A text field with the id #*-data-object-definition, where * is the title of a tab which will use smooth scrolling.
 	//		Its value will be set in the function setDataObjectDefinitions(), which is assumed to be defined.
+	//  A text field with the id #prefix-to-current-view-hidden-fields, used to indicate the string which should be prepended
+	//		to the ID of the hidden field located in the current view that is trying to be accessed. should be empty by
+	// 		default.
 
 	//	function setDataObjectDefinitions() - A method which defines a JSON string which describes the filters to be passed
 	//		to the AJAX url, and sets that string in the appropriate #*-data-object-definition field. The JSON string should
@@ -29,7 +31,7 @@
 					//
 					$(document).ready(function() {
 						setDataObjectDefinitions();
-						setClonedHeaderInTheGlobalVariables();						
+						//setClonedHeaderInTheGlobalVariables();						
 					});
 					
 					//
@@ -39,15 +41,104 @@
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
 					        if (smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
-					           displayMoreRows(functionCalledForEachRowByDisplayMoreRows);
+					        	displayMoreRows(getFunctionCalledForEachRowByDisplayMoreRows(getPrefix()));
+					        	
+					        	var entity_level_function = window[getPrefix()+"_postUserHasScrolledAndRowsHaveBeenDisplayed"];
+					        	
+					        	if (entity_level_function != undefined)
+					        		entity_level_function();
 					        }
 				        }
 					});
 					
-					function setFunctionCalledForEachRowByDisplayMoreRows(func) {
-						functionCalledForEachRowByDisplayMoreRows = func;
+					//
+					// Show the hidden and fixed header when the original header scrolls offscreen
+					//
+					$(window).scroll(function() {
+					    clearAlertDiv();
+					    
+					    var offset = $(this).scrollTop();
+					    var headerOffset = getHeaderOffset();
+					    var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
+					
+					    if (offset >= headerOffset && $headDOMElementInClonedHeader.is(":hidden")) {
+					    	var $fixedHeader = attachClonedHeaderToItsDOMElement();
+					    	$fixedHeader.show();
+					    	disableHeaderFilterFields();
+					        // save the id of the now visible header...
+					        $("#" + getPrefix() + "-header-div-prefix").val(getClonedHeaderId());
+					    }
+					    else if (offset < headerOffset) {
+					    	$headDOMElementInClonedHeader.hide();
+					        
+					        // save the id of the now visible header...
+					        $("#" + getPrefix() + "-header-div-prefix").val(getOrigHeaderId());
+					    }
+					});
+					
+					function attachClonedHeaderToItsDOMElement() {
+						var $header = getHeadDOMElementInOriginalHeader().clone();
+						
+						$clonedHeader = getHeadDOMElementInClonedHeader();
+						$clonedHeader.empty();
+						
+						return $clonedHeader.append($header);
+					}
+					
+					function getHeadDOMElementInOriginalHeader() {
+						// see is there a function defined with the name getPrefix()+_getHeadDOMElementInOriginalHeader()
+						//  if so, call it, if not, return $(getOrigHeaderId()) 
+						var entity_level_function = window[getPrefix()+"_getHeadDOMElementInOriginalHeader"];
+						
+						if (entity_level_function != undefined)
+							return entity_level_function();
+						else
+							return $(getOrigHeaderId());
+					}
+					
+					function getHeadDOMElementInClonedHeader() {
+						// see is there a function defined with the name getPrefix()+_getHeadDOMElementInOriginalHeader()
+						//  if so, call it, if not, return $(getOrigHeaderId()) 
+						var entity_level_function = window[getPrefix()+"_getHeadDOMElementInClonedHeader"];
+						
+						if (entity_level_function != undefined)
+							return entity_level_function();
+						else
+							return $(getClonedHeaderId());
+
 					}
 
+					// Think of this as a pointer to a pointer.. this dynamically constructed method call, think calling a runtime discovered
+					//  method, a la reflection. This method call is to a method discovered at runtime. It is a pointer to that method.
+					//  That method is implemented in the scope of the entity that this common code is dealing with, so for instance, the JS
+					//  for question or exam, would implement this method. Its implementation would call the method that should be called for 
+					//  each row displayed in the context of whatever entity this common code is running in..
+					function internalFunction(row) {
+						window[getPrefix()+"_thisFunctionCalledForEachRowByDisplayMoreRows"](row);
+					}
+					
+					// This code is called by common, not entity specific, code. It is called immediately before that code needs to call displayMoreRows();
+					// 
+					// This code returns an object, with an attribute that is: the (1)function that is calling the (2)method that is calling the (3)method 
+					// that is executed for each row shown by DisplayMoreRows().
+					
+					//  This calling code was likely an anonymous method, probably in response to an event
+					//  .. this anon code doesn't have any knowledge of the method that should be called for each row when DisplayMoreRows executes.
+					//  The JS code for the current scope DOES have that knowledge though, so it implements a uniquely named method which then 
+					// executes that 'each row' method, one time.
+					function getFunctionCalledForEachRowByDisplayMoreRows(prefix) {
+						var return_obj = {
+							func: undefined,
+							params: undefined
+						};
+						
+						var rtn = Object.create(return_obj);
+						
+						rtn.func = internalFunction;
+
+						return internalFunction;
+					}
+					
 					//
 					//
 					//
@@ -73,7 +164,7 @@
 					//
 					$('a[data-toggle="tab"]').on('shown', function(e) {
 						if (currentPageHasAnAJAXDataObjectDefinition()) {
-							displayMoreRows(functionCalledForEachRowByDisplayMoreRows);
+							displayMoreRows(getFunctionCalledForEachRowByDisplayMoreRows(getPrefix()));
 						}
 					});
 					
@@ -81,7 +172,7 @@
 					// Returns true if there is an AJAX data object definition for the current page
 					//
 					function currentPageHasAnAJAXDataObjectDefinition() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						var prefix = getPrefix();
 						
 						// a list of the name of the field in the data object, and the name of the field with its value
 						var dataObjDefinition_json = $("#"+prefix+"-data-object-definition").attr("value");
@@ -97,10 +188,10 @@
 					}
 					
 					//
-					// Returns the url which provides table data for the currently selected tab
+					// Returns the url which provides table data for the currently selected view
 					//
 					function getURLThatProvidesTableData() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						var prefix = getPrefix();
 						
 						return $("#"+prefix+"-view-data-url").attr("value");
 					}
@@ -118,14 +209,16 @@
 							jsonExport = data.substring(0, index);
 						}
 						
-						var obj = jQuery.parseJSON(jsonExport);
+						var parsedJSONObject = jQuery.parseJSON(jsonExport);
 						
-						var qArr = obj.question;
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						var qArr = parsedJSONObject.question;
+						var prefix = getPrefix();
 						var str = "";
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 
-						setVarsUsedInProcessingIndividualRows(obj);
+						// if the function for each row needs to call methods which need some one-time setup,
+						//  this call is that one-time...
+						oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(parsedJSONObject);
 						
 						if (qArr != undefined) {
 							clearTableStatusRow();
@@ -143,11 +236,11 @@
 							}
 							
 							var msg = "";
-							if (obj.addlItemCount == 0) {
+							if (parsedJSONObject.addlItemCount == 0) {
 								msg = "That's all folks!";
 								setNoMoreItemsToDisplayFlag();
-							} else if (obj.addlItemCount > 0) {
-								msg = (obj.addlItemCount + " more items!");
+							} else if (parsedJSONObject.addlItemCount > 0) {
+								msg = (parsedJSONObject.addlItemCount + " more items!");
 							}
 							
 							appendTableStatusRow(msg, entityTableId, prefix);
@@ -157,11 +250,11 @@
 							
 							var msg = "";
 							
-							if (obj.addlInfoCode == 0) {
+							if (parsedJSONObject.addlInfoCode == 0) {
 								msg = "You haven't created any questions!"; 
-							} else if (obj.addlInfoCode == 1) {
+							} else if (parsedJSONObject.addlInfoCode == 1) {
 								msg = "Nothing matches that filter...";								
-							} else if (obj.addlInfoCode == 2) {
+							} else if (parsedJSONObject.addlInfoCode == 2) {
 								msg = "There are no selected items.";
 							}
 							
@@ -171,7 +264,7 @@
 					}
 					
 					function getMoreRows_DataObjectForAJAX() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						var prefix = getPrefix();
 						return getDataObjectForAJAX(prefix+"-data-object-definition");
 					}
 					
@@ -227,7 +320,7 @@
 					}
 					
 					function clearTableStatusRow() {
-						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						var prefix = getPrefix();
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 						
 						$(entityTableId + " tbody tr:last(.table-status-row)").remove();
@@ -236,4 +329,46 @@
 					
 					function setNoMoreItemsToDisplayFlag() {
 						$("#idNoMoreItemsToDisplayFlag").attr("value", "true");
+					}
+
+					
+					function populateAlertDiv(msgsArr, alertClassName) {
+						var msgs = "";
+						
+						for (var i=0; i<msgsArr.length; i++) {
+							msgs += msgsArr[i] + '<br/>';
+						}
+						
+						var $idAlertDiv = $(getVisibleHeaderID()).find('#idAlertDiv'); 
+												
+						$idAlertDiv.html('');
+						$idAlertDiv.html(msgs);
+						$idAlertDiv.addClass(alertClassName);
+						$idAlertDiv.removeClass('hidden');
+					}
+					
+					function clearAlertDiv() {
+						$(getVisibleHeaderID()).find('#idAlertDiv').addClass('hidden');
+					}
+					
+					function getHiddenHeaderID() {
+						var val = $("#" + getPrefix() + "-header-div-prefix").attr("value");
+						
+						var origHeaderId = getOrigHeaderId();
+						var clonedHeaderId = getClonedHeaderId();
+						
+						if (val == origHeaderId) 
+							return clonedHeaderId
+						else
+							return origHeaderID;
+					}
+					
+					function getVisibleHeaderID() {
+						var rtn = $("#" + getPrefix() + "-header-div-prefix").attr("value"); 
+						return rtn;
+					}
+					
+					function getPrefix() {
+						var rtn = $("#prefix-to-current-view-hidden-fields").attr("value"); 
+						return rtn;
 					}

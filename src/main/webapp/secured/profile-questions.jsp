@@ -8,7 +8,7 @@
 	<table class="table table-striped" id="questionEntityTable">
 		<thead>
 			<tr>
-				<!--<th>ID</th>-->
+				<th></th>
 				<th style="width: 400px;">Questions</th>
 				<th style="width: 145px;">Topics</th>
 				<th style="width: 145px;">Type</th>
@@ -17,7 +17,7 @@
 				<th></th>
 			</tr>
 			<tr class="filter-row">
-					<td>
+					<td style="width:85px;padding-right:0px;">
 						<button type="submit" class="btn btn-secondary btn-small" id="idApplyFilterButton" name="applyFilterButton" title="Apply the filter." value="Apply Filter Button"><i class="icon-magic"></i></button>
 						<button type="submit" class="btn btn-secondary btn-small" id="idClearFilterButton" name="clearFilterButton" title="Reset the filter." value="Clear Filter Button"><i class="icon-remove"></i></button>
 					</td>

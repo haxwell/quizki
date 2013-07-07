@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 public class FilterCollection {
 
-	HashMap<String, String> map = new HashMap<String, String>();
+	HashMap<String, Object> map = new HashMap<String, Object>();
 	
 	public FilterCollection() { }
 		
-	public void add(String filterName, String filterValue) {
+	public void add(String filterName, Object filterValue) {
 		map.put(filterName, filterValue);
 	}
 	
@@ -16,7 +16,7 @@ public class FilterCollection {
 		return map.containsKey(filterName);
 	}
 	
-	public String get(String filterName)
+	public Object get(String filterName)
 	{
 		return map.get(filterName);
 	}

@@ -5743,21 +5743,6 @@ input.search-query {
   }
 }
 
-.greenText {
-	color:green;
-}
-
-.redText {
-	color:red;
-}
-
 .examReportCardDetailLine {
 	line-height:160%;
-}
-
-h1.questionPageSectionHeader {
-	font-size:3.5em;
-	text-transform:none;
-	margin-top:4px;
-	margin-bottom:2px;
 }

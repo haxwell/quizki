@@ -11,13 +11,19 @@
 
 		<title>Question - Quizki</title>
 
-		<!-- link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" / -->
 		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
 		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
-		<link href="../pkgs/bootstrap-switch-master/stylesheets/bootstrapSwitch.css" rel="stylesheet" />		
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
 		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<!-- link href="../css/quizki.css" rel="stylesheet" type="text/css"/  -->
+
 		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-switch.css" rel="stylesheet" type="text/css"/>		
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
 
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
@@ -25,6 +31,7 @@
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
 			<![CDATA[
 			<script type="text/javascript">
@@ -103,10 +110,10 @@ tinyMCE.init({
 			<h1 class="questionPageSectionHeader">Question</h1>
 		</div> 
 		<div class="span3 offset5">
-			<button class="btn" type="submit" name="button" style="margin-top:25px;">Save and Add Another</button>
+			<button class="btn btn-block" type="submit" name="button" style="margin-top:25px;">Save and Add Another</button>
 		</div>
 		<div class="span1">
-			<button class="btn" type="submit" name="button" style="margin-top:25px;">Save</button>
+			<button class="btn btn-block" type="submit" name="button" style="margin-top:25px;">Save</button>
 		</div>	
 	</div>
 	
@@ -123,20 +130,20 @@ tinyMCE.init({
 			<table class="span12" style="margin-left:0px">
 				<tr>
 					<td style="width:25%; vertical-align:top;">
-						Difficulty <br/>
-						<div class="btn-group" data-toggle="buttons-radio">
-						<button type="button" class="btn btn-small btn-primary">Junior</button>
-						<button type="button" class="btn btn-small btn-primary">Intermediate</button>
-						<button type="button" class="btn btn-small btn-primary">Well Versed</button>
-						<button type="button" class="btn btn-small btn-primary">Guru</button>
-						</div>
+						<div class="entityAttributeHeaderName">Difficulty <br/></div>
+							<div class="btn-group" data-toggle="buttons-radio">
+								<button type="button" class="btn btn-small btn-primary active">Junior</button>
+								<button type="button" class="btn btn-small btn-primary">Intermediate</button>
+								<button type="button" class="btn btn-small btn-primary">Well Versed</button>
+								<button type="button" class="btn btn-small btn-primary">Guru</button>
+							</div>					
 					</td>
 					<td style="width:33%">
-						Topics <br/>
+						<div class="entityAttributeHeaderName">Topics<br/> </div>
 						<div class="well"></div>
 					</td>
 					<td style="width:41%">
-						References <br/>
+						<div class="entityAttributeHeaderName">References<br/> </div>
 						<div class="well"></div>
 					</td>
 				</tr>
@@ -160,11 +167,11 @@ tinyMCE.init({
 			
 			<input class="span6" type="text" name="choiceText" size="35" maxlength="998" placeholder="Enter answer.."/>
 			<![CDATA[
-			<div class="switch" data-on-label="<i class='icon-ok greenText'></i>" data-off-label="<i class='icon-remove redText'></i>">
+			<div class="switch switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
 				<input type="checkbox" checked/>
 			</div>
 
-			<button class="btn" type="submit" name="button">
+			<button class="btn submitAnswer" type="submit" name="button">
 				<i class="icon-plus icon-white"></i>
 			</button>
 			]]>

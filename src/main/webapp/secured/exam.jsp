@@ -44,36 +44,34 @@
 		<div class="content" style="padding:20px 0;">
 			<div id="belowTheBarPageHeader" class="fillBackgroundColor"> 
 				<div id="idAlertDiv" class="alert hidden">.</div>
-				<div class="row">
-					<!--form action="/secured/ExamServlet" method="post" id="titleAndSubmitButtonForm"-->
-						<div class="span3">
-	
-							<input type="text" placeholder="Enter a title for your exam..."
-								class="flat input-block-level" maxlength="128" id="id_examTitle"
-								name="examTitle" value="${currentExam.title}"
-								title="A name for this exam." />
-						</div>
-						<div class="span7">
-							<input type="text"
-								placeholder="Enter a message for users who will take your exam..."
-								class="flat input-block-level" size="45" maxlength="255"
-								id="id_examMessage" name="examMessage"
-								value="${currentExam.message}"
-								title="A message for folks who take this exam." />
-						</div>
-						<div class="span2">
-							<c:choose>
-								<c:when test="${empty sessionScope.inEditingMode}">
-									<button class="btn btn-block pull-right saveChangesBtn" type="submit"
-										name="button">Add Exam</button>
-								</c:when>
-								<c:otherwise>
-									<button class="btn btn-block pull-right saveChangesBtn" type="submit"
-										name="button">Update Exam</button>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					<!--/form-->
+				<div id="Exams-Enity-Manipulation-Page-Header-Div" class="row">
+					<div class="span3">
+
+						<input type="text" placeholder="Enter a title for your exam..."
+							class="flat input-block-level" maxlength="128" id="id_examTitle"
+							name="examTitle" value="${currentExam.title}"
+							title="A name for this exam." />
+					</div>
+					<div class="span7">
+						<input type="text"
+							placeholder="Enter a message for users who will take your exam..."
+							class="flat input-block-level" size="45" maxlength="255"
+							id="id_examMessage" name="examMessage"
+							value="${currentExam.message}"
+							title="A message for folks who take this exam." />
+					</div>
+					<div class="span2">
+						<c:choose>
+							<c:when test="${empty sessionScope.inEditingMode}">
+								<button class="btn btn-block pull-right saveChangesBtn" type="submit"
+									name="button">Add Exam</button>
+							</c:when>
+							<c:otherwise>
+								<button class="btn btn-block pull-right saveChangesBtn" type="submit"
+									name="button">Update Exam</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>
 				<div id="idAvailableQuestionsTableHeader">
 					<div class="row">
@@ -130,7 +128,6 @@
 				<script type="text/javascript">
 					
 					$(document).ready(function() {
-						setFunctionCalledForEachRowByDisplayMoreRows(addCheckboxToRow);
 						setDataObjectDefinitions();
 						displayMoreRows(addCheckboxToRow);
 						
@@ -147,7 +144,7 @@
 					
 					function addHandlerToSaveChangesBtn($obj) {
 						$obj.click(function() {
-							var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+							var prefix = getPrefix();
 							var url = '/ajax/exam-save.jsp';
 							
 							window[prefix+"_setPersistEntityDataObjectDefinition"]();
@@ -194,22 +191,7 @@
 							});
 						});
 					}
-					
-					function populateAlertDiv(msgsArr, alertClassName) {
-						var msgs = "";
-						
-						for (var i=0; i<msgsArr.length; i++) {
-							msgs += msgsArr[i] + '<br/>';
-						}
-						
-						var $idAlertDiv = $(getVisibleHeaderID()).find('#idAlertDiv'); 
-												
-						$idAlertDiv.html('');
-						$idAlertDiv.html(msgs);
-						$idAlertDiv.addClass(alertClassName);
-						$idAlertDiv.removeClass('hidden');
-					}
-					
+
 					function hasEnoughTimePassed() {
 						var now = new Date().getTime();
 						var then = $('#Exams-last-time-checkbox-handler-called').attr('value');
@@ -252,7 +234,11 @@
 						}
 					}
 			
+					// TODO: these following few lines are the same in exam.jsp and profile.jsp
+					
 					function syncExamTitleFields() {
+						var origHeaderID = getOrigHeaderId();
+						var clonedHeaderID = getClonedHeaderId();
 						var $origHeaderTitleField = $(origHeaderID).find('#id_examTitle');
 						var $clonedHeaderTitleField = $(clonedHeaderID).find('#id_examTitle');
 						
@@ -267,6 +253,9 @@
 					}
 					
 					function syncExamMessageFields() {
+						var origHeaderID = getOrigHeaderId();
+						var clonedHeaderID = getClonedHeaderId();
+
 						var $origHeaderMessageField = $(origHeaderID).find('#id_examMessage');
 						var $clonedHeaderMessageField = $(clonedHeaderID).find('#id_examMessage');
 						
@@ -280,7 +269,12 @@
 						}
 					}
 					
+					// For the Select All checkbox on one header, be sure the other is set to the same value
+					//	if 'isChecked' is true, both are made to appear in the UI as selected, and vice versa.
 					function syncSelectAllCheckboxes(isChecked) {
+						var origHeaderID = getOrigHeaderId();
+						var clonedHeaderID = getClonedHeaderId();
+
 						var $origHeaderLabelCheckbox = $(origHeaderID).find('label.checkbox');
 						var $clonedHeaderLabelCheckbox = $(clonedHeaderID).find('label.checkbox'); 
 						
@@ -347,14 +341,14 @@
 
 						makeAJAXCall_andDoNotWaitForTheResults(data_url, data_obj, returnFunction);
 						
-						setClonedHeaderInTheGlobalVariables();
+						//setClonedHeaderInTheGlobalVariables();
 					}
 					
 					var selectedEntityIDsArray = undefined;
 					
 					// called by smoothScrolling::displayMoreRows()
 					//  obj is a JSON object based on data from the last AJAX call to getMoreRows()
-					function setVarsUsedInProcessingIndividualRows(obj) {
+					function oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(obj) {
 						if (obj.selectedEntityIDsAsCSV != undefined)
 							selectedEntityIDsArray = obj.selectedEntityIDsAsCSV.split(',');
 					}
@@ -387,54 +381,18 @@
 						}
 					}
 
-		    		var divOffset = $("#belowTheBarPageHeader").offset().top;
-					var $header = $("#belowTheBarPageHeader").clone();
-					var $fixedHeader = $("#header-fixed").append($header);
-					
-					var origHeaderID = "#belowTheBarPageHeader";
-					var clonedHeaderID = "div#header-fixed";
-					
-					$(window).bind("scroll", function() {
-					    var offset = $(this).scrollTop();
-					
-					    if (offset >= divOffset && $fixedHeader.is(":hidden")) {
-					        //disableHeaderFilterFields();
-					        $fixedHeader.show();
-					        
-					        $("#Exams-header-div-prefix").val(clonedHeaderID);
-					    }
-					    else if (offset < divOffset) {
-					        $fixedHeader.hide();
-					        
-					        $("#Exams-header-div-prefix").val(origHeaderID);
-					    }
-					});
-
-					function getHiddenHeaderID() {
-						var val = $("#Exams-header-div-prefix").attr("value");
-						
-						if (val == origHeaderID) 
-							return clonedHeaderID;
-						else
-							return origHeaderID;
+					function getOrigHeaderId() {
+						return "#belowTheBarPageHeader";
 					}
 					
-					function getVisibleHeaderID() {
-						return $("#Exams-header-div-prefix").attr("value");
+					function getClonedHeaderId() {
+						return "div#header-fixed"
 					}
 					
-					$(window).scroll(function(){
-						
-						clearAlertDiv();
-						
-				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
-					        if (smoothScrollingEnabledOnCurrentTab()) {
-					           	displayMoreRows(addCheckboxToRow);
-								syncSelectAllCheckboxes(false);
-								setAllEntitiesAreSelected(false);					           
-					        }
-				        }
-					});
+					function getHeaderOffset() {
+					 	// I think should maybe be using getOrigHeaderId()....
+					 	return $(getOrigHeaderId()).offset().top;
+					}
 					
 					function setDataObjectDefinitions() {
 						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#offset"}]}';
@@ -452,20 +410,21 @@
 						return rtn;
 					}
 					
-					function setClonedHeaderInTheGlobalVariables() {
-						$header = $("#belowTheBarPageHeader").clone();
+					function Exams_postUserHasScrolledAndRowsHaveBeenDisplayed() {
+						syncSelectAllCheckboxes(false);
+						setAllEntitiesAreSelected(false);					           
+					}
+					
+					function smoothScrolling_afterClonedHeaderSetInTheGlobalVariables() {
+						var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
 						
-						$("#header-fixed").empty();
+						$headDOMElementInClonedHeader.find("tr.filter-row").remove();
 						
-						$fixedHeader = $("#header-fixed").append($header);
+						addHandlerToSelectAllCheckbox($headDOMElementInClonedHeader.find('#select-all-checkbox'));
+						addHandlerToSaveChangesBtn($headDOMElementInClonedHeader.find('.saveChangesBtn'));
 						
-						$fixedHeader.find("tr.filter-row").remove();
-						
-						addHandlerToSelectAllCheckbox($fixedHeader.find('#select-all-checkbox'));
-						addHandlerToSaveChangesBtn($fixedHeader.find('.saveChangesBtn'));
-						
-						$fixedHeader.find("#id_examTitle").change(syncExamTitleFields);
-						$fixedHeader.find("#id_examMessage").change(syncExamMessageFields);
+						$headDOMElementInClonedHeader.find("#id_examTitle").change(syncExamTitleFields);
+						$headDOMElementInClonedHeader.find("#id_examMessage").change(syncExamMessageFields);
 						
 						//disableHeaderFilterFields();
 					}
@@ -488,10 +447,6 @@
 						v.find("div.input-append > #topicContainsFilter").attr("placeholder", "");						
 					}
 					
-					function clearAlertDiv() {
-						//$('#idAlertDiv').html('');
-						$(getVisibleHeaderID()).find('#idAlertDiv').addClass('hidden');
-					}
 					
 			</script>
 			]]>

@@ -30,7 +30,7 @@ if (!StringUtil.isNullOrEmpty(id)) {
 		if (btnValue.equals("Delete Question")) {
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			
-			QuestionManager.deleteQuestion(user.getId(), id);
+			String rtn = QuestionManager.deleteQuestion(user.getId(), id);
 			request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 			
 			//new InitializeListOfProfileQuestionsInSessionAction().doAction(request, response);
@@ -38,7 +38,7 @@ if (!StringUtil.isNullOrEmpty(id)) {
 			
 			//request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 			
-			writer.print("true");
+			writer.print(rtn);
 		}
 	}
 }

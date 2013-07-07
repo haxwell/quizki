@@ -1,23 +1,23 @@
 $("#containsFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 });
 
 $("#searchQuestionsBtn").click(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#topicContainsFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 });
 
 $("#searchTopicsBtn").click(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#questionTypeFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 
 	// the point here is to move the focus elsewhere than this component.
@@ -27,7 +27,7 @@ $("#questionTypeFilter").change(function() {
 });
 
 $("#difficultyFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 
 	// the point here is to move the focus elsewhere than this component.
@@ -37,7 +37,7 @@ $("#difficultyFilter").change(function() {
 });
 
 $("#rangeOfQuestionsFilter").change(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 
 	// the point here is to move the focus elsewhere than this component.
@@ -47,7 +47,7 @@ $("#rangeOfQuestionsFilter").change(function() {
 });
 
 $("#idApplyFilterButton").click(function() {
-	setClonedHeaderInTheGlobalVariables();
+	//setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
@@ -60,6 +60,12 @@ function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();
 	displayMoreRows(addCheckboxToRow);
+}
+
+//called by smooth-scrolling.js::displayMoreRows when some anonymous piece of code calls displayMoreRows, as opposed to
+//an invocation that happened in this file (see getQuestions()).
+function Exams_thisFunctionCalledForEachRowByDisplayMoreRows(row) {
+	addCheckboxToRow(row);
 }
 
 function Exams_getEntities() {
@@ -165,3 +171,4 @@ function Exams_resetFilters() {
 	$("button#difficultyFilter ~ ul > li.selected").removeClass('selected');
 	$("button#difficultyFilter ~ ul > li[rel='0']").addClass('selected');
 }
+

@@ -74,7 +74,7 @@
 							      buttons: [{
 							        text : "Delete this item", 
 							        click : function() {
-										var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+										var prefix = getPrefix();
 										var url = $("#"+prefix+"-delete-entity-url").attr("value");
 										
 										window[prefix+"_setDeleteEntityDataObjectDefinition"]();
@@ -83,7 +83,17 @@
 										
 										makeAJAXCall_andWaitForTheResults(url, data_obj, function (data,status) {
 											window[prefix+"_postDeleteEntityMethod"]();
+											
+											// get from data the text of the question 
+											var text = data;
+											
+											// display it in alert div
+											var str = 'Your question has been deleted! ( "' + text + '" )';
+											var obj = { arr : [str] };
+											populateAlertDiv(obj.arr, 'alert-info');
 										});
+										
+										
 										
 										$( this ).dialog( "close" );
 							        } },
@@ -117,8 +127,9 @@
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content">
-
-	<br/>
+		<div id="belowTheBarPageHeader" class="fillBackgroundColor">
+			<br/>
+			<div id="idAlertDiv" class="alert hidden">.</div>
 
       <c:choose>
       <c:when test="${empty sessionScope.currentUserEntity}">
@@ -168,61 +179,52 @@
 	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/getQuestions.jsp"/>
 	<input style="display:none;" id="Questions-delete-entity-url" type="text" name="question-delete-entity-url" value="/ajax/profile-deleteQuestion.jsp"/>
 	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
+	<input style="display:none;" id="Questions-header-div-prefix" type="text" name="Questions-header-div-prefix" value="#belowTheBarPageHeader"/>
 	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getExams.jsp"/>
 	<input style="display:none;" id="Exams-delete-entity-url" type="text" name="exam-delete-entity-url" value="/ajax/profile-deleteExam.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
+	<input style="display:none;" id="Exams-header-div-prefix" type="text" name="Exams-header-div-prefix" value="#belowTheBarPageHeader"/>
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/>
 	
 	<input style="display:none;" id="idNoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
 	
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
-
+	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
+</div>
 </div>
 </div>
 
 			<![CDATA[
 			<script type="text/javascript">
 			
-					var tableOffset = $("#tabbableDiv").offset().top + $("#tabsUl").height();
-					var $header = $("#questionEntityTable > thead").clone();
-					var $fixedHeader = $("#header-fixed").append($header);
-					
-					$(window).scroll(function() {
-					    var offset = $(this).scrollTop();
-					
-					    if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
-					        disableHeaderFilterFields();
-					        $fixedHeader.show();
-					    }
-					    else if (offset < tableOffset) {
-					        $fixedHeader.hide();
-					    }
-					});
-
-					function setClonedHeaderInTheGlobalVariables() {
-						$header = $("#questionEntityTable > thead").clone();
-						
-						$("#header-fixed").empty();
-						
-						$fixedHeader = $("#header-fixed").append($header);
-						
-						disableHeaderFilterFields();
+					function getOrigHeaderId() {
+						return "#belowTheBarPageHeader";
 					}
 					
+					function getClonedHeaderId() {
+						return "div#header-fixed"
+					}
+					
+					function getHeaderOffset() {
+						return $("#tabbableDiv").offset().top + $("#tabsUl").height();
+					}
+
 					function disableHeaderFilterFields() {
-						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("disabled", true);
-						$("#header-fixed > thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
+						var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
+					
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > #containsFilter").attr("disabled", true);
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
 
-						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
-						$("#header-fixed > thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
 
-						$("#header-fixed > thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
 						
-						$("#header-fixed > thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
 						
-						$("#header-fixed > thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
-						$("#header-fixed > thead > tr > td > div > #containsFilter").attr("placeholder", "");
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
+						$headDOMElementInClonedHeader.find("thead > tr > td > div > #containsFilter").attr("placeholder", "");
 					}
 					
 					function setDataObjectDefinitions() {
@@ -233,9 +235,8 @@
 						// TODO: define Exam fields						
 					}
 					
-					function setVarsUsedInProcessingIndividualRows(obj) {
+					function oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(obj) {
 						// called from smooth-scrolling.js::displayMoreRows()
-						
 						// do nothing
 					}					
 					

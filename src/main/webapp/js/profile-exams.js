@@ -1,7 +1,17 @@
+// ENTITY SCOPE LEVEL.. this type file is included by a Root level file (profile.jsp, for example)
 
-$(document).ready(function() {
-	setFunctionCalledForEachRowByDisplayMoreRows(setExamButtonClickHandlersForRow);
-});
+function Exams_getHeadDOMElementInOriginalHeader() {
+	return $("#TO_BE_SET_LATER > thead");
+}
+
+function Exams_getHeadDOMElementInClonedHeader() {
+	return $("#header-fixed");
+}
+
+// called by smooth-scrolling.js::displayMoreRows
+function Exams_thisFunctionCalledForEachRowByDisplayMoreRows(row) {
+	setExamsButtonClickHandlersForRow(row);
+}
 
 function setExamsButtonClickHandlersForRow(row) {
 	

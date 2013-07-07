@@ -14,5 +14,6 @@ public class FilterConstants {
 	public static final String RANGE_OF_ENTITIES_FILTER = "rangeOfEntitiesFilter"; // mine, selected, all
 	
 	public static final String USER_ID_FILTER = "userIdFilter";
+	public static final String USER_ID_ENTITY = "userIdEntity";
 	public static final String OFFSET_FILTER = "offsetFilter";
 }

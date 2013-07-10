@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
@@ -50,6 +51,8 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 				else {
 					session.setAttribute(Constants.CURRENT_QUESTION, q);
 					session.setAttribute(Constants.IN_EDITING_MODE, Boolean.TRUE);
+					
+					session.setAttribute(FilterConstants.ENTITY_ID_FILTER, q.getId());
 				}
 			}
 		}

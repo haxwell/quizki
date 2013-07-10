@@ -390,7 +390,6 @@
 					}
 					
 					function getHeaderOffset() {
-					 	// I think should maybe be using getOrigHeaderId()....
 					 	return $(getOrigHeaderId()).offset().top;
 					}
 					

@@ -461,7 +461,45 @@ public class QuestionManager extends Manager {
 			rtn = handleTheSelectedQuestionsCase(fc, selectedQuestions, maxEntityCount, offset);
 		}
 		else {  // this is a request for questions from the db
-			rtn = handleTheOtherCases(fc, selectedQuestions, maxEntityCount, offset);
+			String entityIdFilter = (String)fc.get(FilterConstants.ENTITY_ID_FILTER);
+			
+			if (!StringUtil.isNullOrEmpty(entityIdFilter))
+				rtn = handleTheGetEntityByIdCase(fc, selectedQuestions);
+			else
+				rtn = handleTheOtherCases(fc, selectedQuestions, maxEntityCount, offset);
+		}
+		
+		return rtn;
+	}
+	
+	private static AJAXReturnData handleTheGetEntityByIdCase(FilterCollection fc, Set<Question> selectedQuestions) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		
+		long questionId = Long.parseLong(fc.get(FilterConstants.ENTITY_ID_FILTER)+"");
+		
+		Question q = getQuestionById(questionId);
+		
+		if (q == null)
+			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+		else {
+			ArrayList<Question>arr = new ArrayList<Question>();
+			arr.add(q);
+			
+			rtn.entities = arr; 
+			
+			if (selectedQuestions != null) {
+				Iterator<Question> iterator = selectedQuestions.iterator();
+				List<Question> listOfSelectedEntitiesMatchingFilter = new ArrayList<Question>();
+				
+				while (iterator.hasNext())
+				{
+					Question selectedQuestion = iterator.next();
+					if (selectedQuestion.getId() == q.getId())
+						listOfSelectedEntitiesMatchingFilter.add(q);
+				}
+				
+				rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(listOfSelectedEntitiesMatchingFilter));				
+			}
 		}
 		
 		return rtn;
@@ -474,7 +512,7 @@ public class QuestionManager extends Manager {
 
 		list = new ArrayList<Question>();
 		
-		if (selectedQuestions.size() > 0)
+		if (selectedQuestions != null && selectedQuestions.size() > 0)
 		{
 			Iterator<Question> iterator = selectedQuestions.iterator();
 			

@@ -35,6 +35,10 @@ h2 {
   margin-bottom: 0px;
 }
 
+.inline {
+	display:inline;
+}
+
 .hidden {
 	display:none;
 }

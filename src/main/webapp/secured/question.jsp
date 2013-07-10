@@ -68,6 +68,116 @@
 			      }
 			    });
 			    
+				    	 function getChoiceToAddToUI(choice) {
+							var correctCopySuffix = "XXX";
+							var incorrectCopySuffix = "YYY";
+							var suffix = "";
+							
+							if (choice.iscorrect == "true") {
+								suffix = correctCopySuffix;
+							}
+							else {
+								suffix = incorrectCopySuffix;
+							}
+								
+							var now = new Date().getTime();
+
+							var newAnswerTableRow = $("#switchContainer" + suffix).clone();
+							var newId =  'switchContainer' + (now+'');
+
+							newAnswerTableRow.attr('id', newId);
+							
+							var newInnerId = 'switch' + (now+'');
+							var $elem = newAnswerTableRow.find('#switch' + suffix);
+							$elem.attr('id', newInnerId);
+							$elem.addClass('switch');
+							
+							// save the id in a hidden field, as a CSV, by order of appearance in the UI
+							addChoiceIdToList(newInnerId); 
+							
+							// get the field that is the choice text, and put this choice's text in there
+							var switchText = newAnswerTableRow.find('#switchTextDiv' + suffix);
+							switchText.html(choice.text);
+							switchText.attr('id', ("switchTextDiv"+ suffix +(now+'')));
+							
+							return newAnswerTableRow;
+				    	 }
+				    	 
+				    	 function getMostRecentChoiceId() {
+				    	 	var arr = getChoiceIds();
+				    	 	
+				    	 	var size = arr.length;
+				    	 	
+				    	 	return arr[size-1];
+				    	 }
+				    	 
+				    	 function addChoiceIdToList(choiceId) {
+				    	 	var list = $("#idChoiceIDList").val();
+				    	 	
+				    	 	list = list + "," + choiceId;
+				    	 	
+				    	 	if (list[0] == ",")
+				    	 		list=list.substring(1);
+				    	 	
+				    	 	$("#idChoiceIDList").val(list);
+				    	 }
+				    	 
+				    	 function getChoiceIds() {
+				    	 	var list = $("#idChoiceIDList").val();
+				    	 	
+				    	 	return list.split(',');
+				    	 }
+				    	 
+				    	 function removeChoiceFromList(choiceId) {
+				    	 	var arr = getChoiceIds();
+				    	 	var out = '';
+				    	 	
+				    	 	for (var i=0; i<arr.length; i++) {
+				    	 		if (choiceId != arr[i])
+				    	 			out += arr[i];
+				    	 			
+				    	 		if (i+1<arr.length)
+				    	 			out += ",";
+				    	 	}
+				    	 	
+				    	 	return out;
+				    	 }
+
+
+			    function getIsEnterAnswerCheckboxSetToCorrect() {
+			    	return true;
+			    }
+			    
+			    $(".submitAnswer").change(function() { 
+			    	// add a choice
+			    	
+			    	// get the value from the text field
+			    	var textFieldVal = $("#enterAnswerTextField").val();
+			    	
+			    	// get the slider, is it correct?
+			    	var isCorrect = getIsEnterAnswerCheckboxSetToCorrect();
+			    	
+			    	var choice = { text:textFieldVal,
+			    					iscorrect:isCorrect };
+			    	
+			    	// add the row to the ui
+			    	addChoiceToUI(getChoiceToAddToUI(choice));
+			    	$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
+			    });
+			    
+			    function clearChoiceDiv() {
+					var answersDiv = $("#idListOfAnswersDiv");
+					answersDiv.find("#idListOfAnswersTable").empty()
+				}			    
+			    
+			    // The 'choice' this method is expecting is not the two-property iscorrect and text object..
+			    //  it is the row that comes from getChoicetoAddToUI() that is then appended to tha answer table..
+			    //  TODO: figure out how to use Modules or whatever to be abl to tell the difference..
+			    function addChoiceToUI(choice) {
+					var answersDiv = $("#idListOfAnswersDiv");
+					answersDiv.append( choice );
+			    }
+			    
 			    $(document).ready(function() {
 			    	populateQuestionFields();
 			    });
@@ -102,64 +212,24 @@
 								var choices = qArr[0].choices;
 								var html = document.createElement('table');
 								
-								var answersDiv = $("#idListOfAnswersDiv");
-								answersDiv.find("#idListOfAnswersTable").empty()
-								
+								clearChoiceDiv();
 								
 								// for each choice,
 								for (var i=0; i<choices.length; i++) {
-									var correctCopySuffix = "XXX";
-									var incorrectCopySuffix = "YYY";
-									var suffix = "";
-									
-									if (choices[i].iscorrect == "true") {
-										suffix = correctCopySuffix;
-									}
-									else {
-										suffix = incorrectCopySuffix;
-									}
-										
-									var now = new Date().getTime();
-
-									var newAnswerTableRow = $("#switchContainer" + suffix).clone();
-									var newId =  'switchContainer' + (now+'');
-
-									newAnswerTableRow.attr('id', newId);
-									
-									var newInnerId = 'switch' + (now+'');
-									var $elem = newAnswerTableRow.find('#switch' + suffix);
-									$elem.attr('id', newInnerId);
-									$elem.addClass('switch');
-									
-									// perhaps save the id in a hidden field, probably a CSV, by order or appearance in the UI
-									addChoiceIdToList(newInnerId); 
-									
-									// get the field that is the choice text, and put this choice's text in there
-									var switchText = newAnswerTableRow.find('#switchTextDiv' + suffix);
-									switchText.html(choices[i].text);
-									switchText.attr('id', ("switchTextDiv"+ suffix +(now+'')));
-									
-									answersDiv.append(newAnswerTableRow);
-									
-									$('#' + newInnerId)['bootstrapSwitch']();									
+									addChoiceToUI( getChoiceToAddToUI(choices[i]) );
+									$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
 								}
-								
-								// add that to the answer div
-								//var answersDiv = document.getElementById("idListOfAnswersDiv");
-								//answersDiv.appendChild(html);
-								
+
 								// - ----= - ---==- --- --==
 								// set difficulty radio buttons
 								var difficultyId = qArr[0].difficulty_id;
 								
 								for (var i=0; i<4; i++) {
+									$("#difficultyBtn"+i).removeClass('active');
 									
 									if (difficultyId == i)
 										$("#difficultyBtn"+i).addClass('active');
-									else 
-										$("#difficultyBtn"+i).removeClass('active');
 								}								
-								
 								
 								
 								// add topics
@@ -171,37 +241,6 @@
 							}
 				    	 });
 				    	 
-				    	 function addChoiceIdToList(choiceId) {
-				    	 	var list = $("#idChoiceIDList").val();
-				    	 	
-				    	 	list = list + "," + choiceId;
-				    	 	
-				    	 	if (list[0] == ",")
-				    	 		list=list.substring(1);
-				    	 	
-				    	 	$("#idChoiceIDList").val(list);
-				    	 }
-				    	 
-				    	 function getChoiceIds() {
-				    	 	var list = $("#idChoiceIDList").val();
-				    	 	
-				    	 	return list.split(',');
-				    	 }
-				    	 
-				    	 function removeChoiceFromList(choiceId) {
-				    	 	var arr = getChoiceIds();
-				    	 	var out = '';
-				    	 	
-				    	 	for (var i=0; i<arr.length; i++) {
-				    	 		if (choiceId != arr[i])
-				    	 			out += arr[i];
-				    	 			
-				    	 		if (i+1<arr.length)
-				    	 			out += ",";
-				    	 	}
-				    	 	
-				    	 	return out;
-				    	 }
 			    	}
 			    }
 			    
@@ -282,13 +321,13 @@
 			
 			<br/>
 			
-			<input class="span6" type="text" name="choiceText" size="35" maxlength="998" placeholder="Enter answer.."/>
+			<input id="enterAnswerTextField" class="span6" type="text" name="choiceText" size="35" maxlength="998" placeholder="Enter answer.."/>
 			<![CDATA[
 			<div class="switch switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
 				<input type="checkbox" checked/>
 			</div>
 
-			<button class="btn submitAnswer" type="submit" name="button">
+			<button id="submitNewChoiceBtn" class="btn submitAnswer" type="submit" name="button">
 				<i class="icon-plus icon-white"></i>
 			</button>
 			]]>	<br/>

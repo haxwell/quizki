@@ -228,7 +228,7 @@
 					}
 					
 					function setDataObjectDefinitions() {
-						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+						var str = '{'fields': [{'name':'containsFilter','id':'#containsFilter'},{'name':'topicContainsFilter','id':'#topicContainsFilter'},{'name':'questionTypeFilter','id':'#questionTypeFilter'},{'name':'difficultyFilter','id':'#difficultyFilter'},{'name':'maxEntityCountFilter','id':'#maxEntityCountFilter'},{'name':'rangeOfEntitiesFilter','id':'#field_1'},{'name':'offsetFilter','id':'#offset'}]}";
 					
 						$('#Questions-data-object-definition').attr("value",str);
 						

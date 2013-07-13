@@ -28,15 +28,22 @@
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<jsp:text>
+			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
+			
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
 			
+			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
+
+			
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>			
 			
 			<![CDATA[
+			
 			<script type="text/javascript">
 				tinyMCE.init({
 				        theme : "advanced",
@@ -98,7 +105,7 @@
 							// get the field that is the choice text, and put this choice's text in there
 							var switchText = newAnswerTableRow.find('#switchTextDiv' + suffix);
 							switchText.html(choice.text);
-							switchText.attr('id', ("switchTextDiv"+ suffix +(now+'')));
+							switchText.attr('id', ("switchTextDiv"+(now+'')));
 							
 							return newAnswerTableRow;
 				    	 }
@@ -144,26 +151,46 @@
 				    	 }
 
 
-			    function getIsEnterAnswerCheckboxSetToCorrect() {
+			    function getIsNewChoiceAnswerCheckboxSetToCorrect() {
 			    	return true;
 			    }
 			    
-			    $(".submitAnswer").change(function() { 
-			    	// add a choice
-			    	
-			    	// get the value from the text field
-			    	var textFieldVal = $("#enterAnswerTextField").val();
-			    	
-			    	// get the slider, is it correct?
-			    	var isCorrect = getIsEnterAnswerCheckboxSetToCorrect();
-			    	
-			    	var choice = { text:textFieldVal,
-			    					iscorrect:isCorrect };
-			    	
-			    	// add the row to the ui
-			    	addChoiceToUI(getChoiceToAddToUI(choice));
-			    	$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
-			    });
+			    function addHandlerToNewChoiceBtn($obj) {
+				    $($obj).click(function() { 
+				    	// add a choice
+				    	
+				    	// get the value from the text field
+				    	var textFieldVal = $("#enterAnswerTextField").val();
+				    	
+				    	if (textFieldVal != undefined && textFieldValue != "") {
+				    	
+					    	// get the slider, is it correct?
+					    	var isCorrect = getIsNewChoiceAnswerCheckboxSetToCorrect();
+					    	
+					    	var choice = { text:textFieldVal,
+					    					iscorrect:(isCorrect ? "true":"false") };
+					    	
+					    	// add the row to the ui
+					    	addChoiceToUI(getChoiceToAddToUI(choice));
+					    	$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
+				    	}
+				    });
+				}
+				
+				function getChoiceObjectForChoiceId(choiceId) {
+					var rtn = {};
+					var numericChoiceId = getNumericPartOfChoiceId(choiceId);
+					
+					rtn.text = $("#switchTextDiv"+numericChoiceId).html();
+					rtn.iscorrect = $("switch"+numericChoiceId+" > div > input").hasAttr('checked');
+
+					return rtn;					
+				}
+				
+				function getNumericPartOfChoiceId(choiceId) {
+					var index = choiceId.indexOf("1373");
+					return choiceId.substring(0, index);
+				}
 			    
 			    function clearChoiceDiv() {
 					var answersDiv = $("#idListOfAnswersDiv");
@@ -179,8 +206,26 @@
 			    }
 			    
 			    $(document).ready(function() {
+			    	Quizki.loadTemplates(["EnterNewChoiceView","questionChoiceCollectionView", "questionChoiceItemView"],
+			    		function() {  });
+			    		
 			    	populateQuestionFields();
+			    	
+			    	//addHandlerToNewChoiceBtn($("#submitNewChoiceBtn"));
+			    	
+			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv"), model:questionChoiceCollection });
+					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#idListOfAnswersDiv"), model:questionChoiceCollection });
 			    });
+			    
+			    function persistTheQuestion() {
+			    	var data_url = "/ajax/question-save.jsp";
+			    	var data_obj = { 	text : $("#id_questionText").val(),
+			    						description : $("#id_questionDescription").val(),
+			    						difficulty : $("#difficultyBtnGroup > .active").attr("value"),
+			    						topics : $("#topicsCSV").val(),
+			    						references: $("#referencesCSV").val()};
+			    						//choices : $
+			    }
 			    
 			    function populateQuestionFields() {
 			    	
@@ -249,6 +294,7 @@
 			    	return $("#idEntityIdField").val();
 			    }
 			    
+			    
 			</script>]]>
 		</jsp:text>
 				
@@ -279,7 +325,6 @@
 		<c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
 		<div >
-		<form action="/secured/QuestionServlet" method="post">
 			<textarea id="id_questionText" name="questionText" rows="8" class="span12 tinymce">${currentQuestion.text}</textarea><br/>  
 			<input class="span12" type="text" maxlength="998" id="id_questionDescription" name="questionDescription" value="${currentQuestion.description}" placeholder="Optional. A few words describing the question."/>
 			
@@ -288,10 +333,10 @@
 					<td style="width:25%; vertical-align:top;">
 						<div class="entityAttributeHeaderName">Difficulty <br/></div>
 							<div id="difficultyBtnGroup" class="btn-group" data-toggle="buttons-radio">
-								<button id="difficultyBtn1" type="button" class="btn btn-small btn-primary active">Junior</button>
-								<button id="difficultyBtn2" type="button" class="btn btn-small btn-primary">Intermediate</button>
-								<button id="difficultyBtn3" type="button" class="btn btn-small btn-primary">Well Versed</button>
-								<button id="difficultyBtn4" type="button" class="btn btn-small btn-primary">Guru</button>
+								<button id="difficultyBtn1" value="1" type="button" class="btn btn-small btn-primary active">Junior</button>
+								<button id="difficultyBtn2" value="2" type="button" class="btn btn-small btn-primary">Intermediate</button>
+								<button id="difficultyBtn3" value="3" type="button" class="btn btn-small btn-primary">Well Versed</button>
+								<button id="difficultyBtn4" value="4" type="button" class="btn btn-small btn-primary">Guru</button>
 							</div>					
 					</td>
 					<td style="width:33%">
@@ -321,23 +366,17 @@
 			
 			<br/>
 			
-			<input id="enterAnswerTextField" class="span6" type="text" name="choiceText" size="35" maxlength="998" placeholder="Enter answer.."/>
-			<![CDATA[
-			<div class="switch switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
-				<input type="checkbox" checked/>
+			<div id="enterNewChoiceContainerDiv">
+				
 			</div>
 
-			<button id="submitNewChoiceBtn" class="btn submitAnswer" type="submit" name="button">
-				<i class="icon-plus icon-white"></i>
-			</button>
-			]]>	<br/>
+			<!-- NOTE: the contents of enterNewChoiceView.html was here... -->
 				
 			<div id="idListOfAnswersDiv">
 				<table id="idListOfAnswersTable">
 				<tr><td></td></tr>
 				</table>
 			</div>
-		</form>
 		</div>
 		
 		</c:when>
@@ -401,6 +440,227 @@
 	
 </div>
 </div>
+
+<script type="text/javascript">
+
+	var Quizki = {
+		views : {},
+		models: {},
+		
+		loadTemplates: function(views, callback) {
+	        var deferreds = [];
+
+	        $.each(views, function(index, view) {
+	            if (Quizki[view]) {
+//	                var rtn = $.get(
+	//                			'/templates/' + view + '.html',
+	  //              			function(template) {
+	    //            				console.debug(">>> " + template);
+	      //          			}
+	        //        			);
+	                
+	                var rtn = makeAJAXCall_andWaitForTheResults('/templates/' + view + '.html', { }, 
+	                		function(template) {
+	                			// how to pass in variables for variable-type-fields in the HTML?
+	                			// perhaps here is not the best place to do this template thing..
+	                			// variables would be nice.. (to test, try putting LABEL as a var in
+	                			// the template HTML.. you can't pass a model value for it to _.template.. we're
+	                			//  too early in the process.. none created!)
+	                			
+		        				console.debug(">>> " + template);
+		        				Quizki[view].prototype.template = _.template(template, {}, {});
+		        			}
+	                );
+	            	
+	            	//deferreds.push(rtn);
+	            } else {
+	                console.debug(view + " not found");
+	            }
+	        });
+
+	        //$.when.apply(null, deferreds).done(callback);
+		}
+	};
+	
+	Quizki.QuestionChoice = Backbone.Model.extend({
+		defaults: {
+			text:'',
+			iscorrect:false
+		},
+		initialize:function() {
+
+		}
+	});
+	
+	Quizki.QuestionChoiceCollection = Backbone.Collection.extend({
+		model: Quizki.QuestionChoice,
+		initialize: function() {
+			_.extend(this, Backbone.Events);
+			this.on('somethingAdded', function() { alert("Something was added to the choice collection"); });
+		}
+	});
+	
+	// supposed to maintain a reference to a list of choices
+	//  it gets notified when the user clicks the add choice btn
+	//  --
+	Quizki.QuestionChoiceModel = Backbone.Model.extend({
+		initialize:function() {
+			this.choiceCollection = arguments[0].model;
+		},
+		add:function(choiceData) {
+			// add the choice to this.choiceCollection
+			this.choiceCollection.add(choiceData);
+			
+			this.choiceCollection.trigger('somethingAdded');			
+		},
+		models:function () {
+			return this.choiceCollection.models(); // or however Backbone.Collection returns all its elements
+		}
+	});
+	
+	// this view represents a list of choices
+	Quizki.ChoiceListView = Backbone.View.extend({
+		tagName:'ul',
+		
+		className:'quizkiChoiceList',
+		
+		initialize: function() {
+			// model is set as a parameter when doing a new on this view.
+			// model is expected to be a QuestionChoiceCollection
+			this.model.on('somethingAdded', this.render, this);
+		},
+		render: function() {
+			this.$el.empty();
+	        
+			_.each(this.model.models, function (choice) {
+	            this.$el.append(new Quizki.QuestionChoiceItemView({model:choice}).render().el);
+	        }, this);
+	        return this;
+		}
+	});
+	
+	// this view represents an item in a list of choices
+	Quizki.QuestionChoiceItemView = Backbone.View.extend({
+		tagName:'li',
+		
+		className:'quizkiChoice',
+		
+		initialize: function() {
+			//
+		},
+		render:function() {
+			this.$el.empty();
+			
+			var template = _.template( Quizki.questionChoiceItemView.prototype.template, { });
+			this.$el.html( template );
+			
+			return this;
+		}
+	});
+	
+	// This view, when clicked, alerts the QuestionChoice model,
+	// and passes an object with which it can get choice text, and choice
+	//  correctness. The collection adds that to itself. A view listens for
+	//  that event, and draws each item in the collection.
+	Quizki.EnterNewChoiceView = Backbone.View.extend({
+		initialize: function() {
+			this.choiceCollection = arguments[0].model;
+			this.choiceModel = new Quizki.QuestionChoiceModel({ model:this.choiceCollection});
+			
+			this.render();
+		},
+		render: function () {
+			var variables = { label: 'LABEL!!' };
+			var template = _.template( Quizki.EnterNewChoiceView.prototype.template, variables );
+			this.$el.html( template );
+			
+			//get the actual bootstrap slider ui component div
+			var $slider = this.$el.find('#idNewChoiceCorrectnessSlider');
+			$slider.bootstrapSwitch();
+		},
+		events: {
+			"click button": "btnClicked",
+			"keypress #enterAnswerTextField" : "updateOnEnter"
+		},
+		btnClicked: function (event) { alert("submit button clicked!"); 
+	
+			    	// add a choice
+			    	// tell the model, something got added.
+					this.choiceModel.add({text:$('#enterAnswerTextField'),iscorrect:$('#id_enterNewChoiceDiv > div.switch > input').hasAttr('checked')});
+			    	
+			       	// the model then adds it to its list
+			    	//  another view, displaying the list, listens to that list
+			    	//  when the view gets notified it adds an item to the ui
+			    	// dont do it here...
+			    	
+			    	// also each choice in the list is a model
+			    	// and a view
+			    	// so when the user clicks to remove a choice
+			    	// the choice view tells its model, destroy yourself
+			    	// list of choices is a model that listens to each choice in it
+			    	// when listOfChoices notified one of its choices destroyed itself, 
+			    	//   it removes that choice from teh list
+			    	// the view which is watching the list updates itself
+			    	
+			    	// get the value from the text field
+			    	//var textFieldVal = $("#enterAnswerTextField").val();
+			    	
+			    	//if (textFieldVal != undefined)
+//			    		if (textFieldValue != "") {
+			    	
+				    	// get the slider, is it correct?
+				    	//var isCorrect = getIsNewChoiceAnswerCheckboxSetToCorrect();
+				    	
+				    	//var choice = { text:textFieldVal,
+				    	//				iscorrect:(isCorrect ? "true":"false") };
+				    	
+				    	// add the row to the ui
+				    	//addChoiceToUI(getChoiceToAddToUI(choice));
+				    	//$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
+		    		//}
+		    	},
+		toggleModel : function() { this.model.toggle();  },
+		updateOnEnter: function(e) {
+			if (e.keyCode == 13) btnClicked();
+		}
+	});
+	
+	var questionChoiceCollection = new Quizki.QuestionChoiceCollection();
+	
+	var Choice = Backbone.Model.extend({ 
+		defaults:function() {return {
+			text:'',
+			iscorrect: false,
+			nextChoice: listOfChoices.next()
+			};
+		},
+		text:function() { alert('Choice::text()!'); 
+			},
+		id : '',
+		iscorrect: '',
+		initialize : function(){
+			this.on("change:text", function(model){ var text = model.get("text"); alert("Choice Text Changed to"+text); });
+		}
+	});
+	var ListOfChoicesModel = Backbone.Model.extend({
+		model : Choice,
+		//localStorage: new Backbone.LocalStorage("quizki-backbone"),
+		next: function() {
+			if (!this.length) return 1;
+			return this.last().get('id')+1;
+		},
+		comparator: 'id'
+	});
+	
+	var listOfChoices = new ListOfChoicesModel();
+	
+	var Question = Backbone.Model.extend({ 
+		defaults: { choicesString:'' },
+		choices : function() { // take the text field value, split it, return arr 
+			return choicesString.split(',');	
+		}});
+	
+</script>
 
 </body>
 </html>

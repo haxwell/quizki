@@ -40,12 +40,12 @@
 		renderElement:function (model) {
 			var ul = this.$el.find("#listOfChoices");
 			
-			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model); //{checked:(model.iscorrect ? 'checked' : ''), text:model.text});
+			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model);
 			ul.append( questionChoiceItemView.render() ); //.html()?
 		},
 		render:function() {
 			//  this is returning a function??
-			this.$el.html( _.template( "<ul class='choiceItemList' id='listOfChoices'></ul>" )() );
+			this.$el.html( _.template( "<table class='choiceItemList span5' id='listOfChoices'></table>" )() );
 			
 			_.each(this.model.models, function(model) { this.renderElement(model)}, this);
 			

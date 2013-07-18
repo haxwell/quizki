@@ -14,6 +14,8 @@
 	Quizki.QuestionChoiceModel = Backbone.Model.extend({
 		initialize:function() {
 			this.choiceCollection = arguments[0].model;
+			
+			var v = model_factory
 		},
 		add:function(choiceData) {
 			// add the choice to this.choiceCollection

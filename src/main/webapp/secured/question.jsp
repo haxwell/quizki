@@ -41,6 +41,8 @@
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
+			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
+			
 			<![CDATA[ <script src="../js/models/question-models.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
@@ -80,178 +82,19 @@
 			      }
 			    });
 			    
-				    	 function getChoiceToAddToUI(choice) {
-							var correctCopySuffix = "XXX";
-							var incorrectCopySuffix = "YYY";
-							var suffix = "";
-							
-							if (choice.iscorrect == "true") {
-								suffix = correctCopySuffix;
-							}
-							else {
-								suffix = incorrectCopySuffix;
-							}
-								
-							var now = new Date().getTime();
-
-							var newAnswerTableRow = $("#switchContainer" + suffix).clone();
-							var newId =  'switchContainer' + (now+'');
-
-							newAnswerTableRow.attr('id', newId);
-							
-							var newInnerId = 'switch' + (now+'');
-							var $elem = newAnswerTableRow.find('#switch' + suffix);
-							$elem.attr('id', newInnerId);
-							$elem.addClass('switch');
-							
-							// save the id in a hidden field, as a CSV, by order of appearance in the UI
-							addChoiceIdToList(newInnerId); 
-							
-							// get the field that is the choice text, and put this choice's text in there
-							var switchText = newAnswerTableRow.find('#switchTextDiv' + suffix);
-							switchText.html(choice.text);
-							switchText.attr('id', ("switchTextDiv"+(now+'')));
-							
-							return newAnswerTableRow;
-				    	 }
-				    	 
-				    	 function getMostRecentChoiceId() {
-				    	 	var arr = getChoiceIds();
-				    	 	
-				    	 	var size = arr.length;
-				    	 	
-				    	 	return arr[size-1];
-				    	 }
-				    	 
-				    	 function addChoiceIdToList(choiceId) {
-				    	 	var list = $("#idChoiceIDList").val();
-				    	 	
-				    	 	list = list + "," + choiceId;
-				    	 	
-				    	 	if (list[0] == ",")
-				    	 		list=list.substring(1);
-				    	 	
-				    	 	$("#idChoiceIDList").val(list);
-				    	 }
-				    	 
-				    	 function getChoiceIds() {
-				    	 	var list = $("#idChoiceIDList").val();
-				    	 	
-				    	 	return list.split(',');
-				    	 }
-				    	 
-				    	 function removeChoiceFromList(choiceId) {
-				    	 	var arr = getChoiceIds();
-				    	 	var out = '';
-				    	 	
-				    	 	for (var i=0; i<arr.length; i++) {
-				    	 		if (choiceId != arr[i])
-				    	 			out += arr[i];
-				    	 			
-				    	 		if (i+1<arr.length)
-				    	 			out += ",";
-				    	 	}
-				    	 	
-				    	 	return out;
-				    	 }
-
-
-			    function getIsNewChoiceAnswerCheckboxSetToCorrect() {
-			    	return true;
-			    }
-			    
-			    function addHandlerToNewChoiceBtn($obj) {
-				    $($obj).click(function() { 
-				    	// add a choice
-				    	
-				    	// get the value from the text field
-				    	var textFieldVal = $("#enterAnswerTextField").val();
-				    	
-				    	if (textFieldVal != undefined && textFieldValue != "") {
-				    	
-					    	// get the slider, is it correct?
-					    	var isCorrect = getIsNewChoiceAnswerCheckboxSetToCorrect();
-					    	
-					    	var choice = { text:textFieldVal,
-					    					iscorrect:(isCorrect ? "true":"false") };
-					    	
-					    	// add the row to the ui
-					    	addChoiceToUI(getChoiceToAddToUI(choice));
-					    	$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
-				    	}
-				    });
-				}
-				
-				function getChoiceObjectForChoiceId(choiceId) {
-					var rtn = {};
-					var numericChoiceId = getNumericPartOfChoiceId(choiceId);
-					
-					rtn.text = $("#switchTextDiv"+numericChoiceId).html();
-					rtn.iscorrect = $("switch"+numericChoiceId+" > div > input").hasAttr('checked');
-
-					return rtn;					
-				}
-				
-				function getNumericPartOfChoiceId(choiceId) {
-					var index = choiceId.indexOf("1373");
-					return choiceId.substring(0, index);
-				}
-			    
-			    function clearChoiceDiv() {
-					//var answersDiv = $("#idListOfAnswersDiv");
-					//answersDiv.find("#idListOfAnswersTable").empty()
-				}			    
-			    
-			    // The 'choice' this method is expecting is not the two-property iscorrect and text object..
-			    //  it is the row that comes from getChoicetoAddToUI() that is then appended to tha answer table..
-			    //  TODO: figure out how to use Modules or whatever to be abl to tell the difference..
-			    function addChoiceToUI(choice) {
-					//var answersDiv = $("#idListOfAnswersDiv");
-					//answersDiv.append( choice );
-			    }
-			    
 			    $(document).ready(function() {
 			    	Quizki.loadTemplates(["EnterNewChoiceView","QuestionChoiceCollectionView"],
 			    		function() {  });
 			    		
 			    	populateQuestionFields();
 			    	
-			    	//addHandlerToNewChoiceBtn($("#submitNewChoiceBtn"));
-			    	
 			    	var questionChoiceCollection =
 			    			model_factory.get(	"questionChoiceCollection", 
-			    								function() { var rtn = new Backbone.Collection(); _.extend(rtn, Backbone.Events); return rtn; }
+			    								function() { return new Quizki.QuestionChoiceCollection(); }
 			    							);
 			    	
 			    	var currentQuestion = model_factory.get(	"currentQuestion",
-			    												function() {
-			    												 			    	var rtn = { }; 
-			    												 			    	
-			    												 			    	// this method executes if the entity id hidden field is set
-																			    	var entityId = getEntityId();
-																			    	
-																			    	if (entityId != undefined && entityId != "") {
-																				    	var data_url = "/ajax/getSingleQuestion.jsp";
-																				    	var data_obj = { entityIdFilter : entityId }; 
-																				    	
-																				    	makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
-																						
-																							var index = data.indexOf("<!DOCTYPE");
-																							var jsonExport = data;
-																							
-																							if (index != -1) {
-																								jsonExport = data.substring(0, index);
-																							}
-																							
-																							var parsedJSONObject = jQuery.parseJSON(jsonExport);
-																							
-																							rtn = parsedJSONObject.question[0];
-																						});
-																					}
-
-																					_.extend(rtn, Backbone.Events);
-																					return rtn;
-			    												 			}
+																getFunctionToRetrieveCurrentQuestion
 			    											);
 			    	
 			    	questionChoiceCollection.add(currentQuestion.choices);
@@ -275,74 +118,46 @@
 			    function populateQuestionFields() {
 			    	
 			    	// this method executes if the entity id hidden field is set
-			    	var entityId = getEntityId();
-			    	
-			    	if (entityId != undefined && entityId != "") {
-				    	var data_url = "/ajax/getSingleQuestion.jsp";
-				    	var data_obj = { entityIdFilter : entityId }; 
-				    	
-				    	makeAJAXCall_andDoNotWaitForTheResults(data_url, data_obj, function(data,status) {
+					var qArr = getFunctionToRetrieveCurrentQuestion();
+					
+					if (qArr != undefined) {
+						// populate fields by their ID
 						
-							var index = data.indexOf("<!DOCTYPE");
-							var jsonExport = data;
+						// see how qArr is structured,
+						// get from it the choices,
+						var choices = qArr.choices;
+						var html = document.createElement('table');
+						
+						var questionChoiceCollection = 
+									    			model_factory.get(	"questionChoiceCollection", 
+	    								function() { return new Quizki.QuestionChoiceCollection(); }
+	    							);
+	    							
+	    				for (var x=0; x<choices.length; x++) {
+	    					questionChoiceCollection.add(choices[x]);
+	    					// consider a way to tell it, don't throw "add" event until ... function()
+	    					// also keep in mind, this is prime "refactor to a common method" material
+	    				}
+						
+						// - ----= - ---==- --- --==
+						// set difficulty radio buttons
+						var difficultyId = qArr.difficulty_id;
+						
+						for (var i=0; i<4; i++) {
+							$("#difficultyBtn"+i).removeClass('active');
 							
-							if (index != -1) {
-								jsonExport = data.substring(0, index);
-							}
-							
-							var parsedJSONObject = jQuery.parseJSON(jsonExport);
-							
-							var qArr = parsedJSONObject.question;
-							
-							if (qArr != undefined) {
-								// populate fields by their ID
-								
-								// see how qArr is structured,
-								// get from it the choices,
-								var choices = qArr[0].choices;
-								var html = document.createElement('table');
-								
-								var questionChoiceCollection = 
-											    			model_factory.get(	"questionChoiceCollection", 
-			    								function() { return new Quizki.QuestionChoiceCollection(); }
-			    							);
-			    							
-			    				for (var x=0; x<choices.length; x++) {
-			    					questionChoiceCollection.add(choices[x]);
-			    					// consider a way to tell it, don't throw "add" event until ... function()
-			    					// also keep in mind, this is prime "refactor to a common method" material
-			    				}
-								
-								//clearChoiceDiv();
-	 							
-								// for each choice,
-								//for (var i=0; i<choices.length; i++) {
-									//addChoiceToUI( getChoiceToAddToUI(choices[i]) );
-									//$('#' + getMostRecentChoiceId())['bootstrapSwitch']();
-								//}
-
-								// - ----= - ---==- --- --==
-								// set difficulty radio buttons
-								var difficultyId = qArr[0].difficulty_id;
-								
-								for (var i=0; i<4; i++) {
-									$("#difficultyBtn"+i).removeClass('active');
-									
-									if (difficultyId == i)
-										$("#difficultyBtn"+i).addClass('active');
-								}								
-								
-								
-								// add topics
-								
-								// add references
-							}
-							else {
-								// there's no question by that entity ID!
-							}
-				    	 });
-				    	 
-			    	}
+							if (difficultyId == i)
+								$("#difficultyBtn"+i).addClass('active');
+						}								
+						
+						
+						// add topics
+						
+						// add references
+					}
+					else {
+						// there's no question by that entity ID!
+					}
 			    }
 			    
 			    function getEntityId() {
@@ -420,12 +235,8 @@
 				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
 				</select>
 			
-			<br/>bv
+			<br/>
 			
-			<div id="fooDiv2">
-				..
-			</div>
-
 			<div id="enterNewChoiceContainerDiv">
 				..
 			</div>

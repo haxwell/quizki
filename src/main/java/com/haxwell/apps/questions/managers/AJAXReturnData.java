@@ -17,6 +17,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 public class AJAXReturnData {
 	
 	public Collection<? extends AbstractEntity> entities = null;
+
 	public int additionalItemCount = -1;
 	public int additionalInfoCode = -1;
 	
@@ -48,5 +49,29 @@ public class AJAXReturnData {
 		rtn += " }";
 		
 		return rtn;
+	}
+	
+	public Collection<? extends AbstractEntity> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(Collection<? extends AbstractEntity> entities) {
+		this.entities = entities;
+	}
+
+	public int getAdditionalItemCount() {
+		return additionalItemCount;
+	}
+
+	public void setAdditionalItemCount(int additionalItemCount) {
+		this.additionalItemCount = additionalItemCount;
+	}
+
+	public int getAdditionalInfoCode() {
+		return additionalInfoCode;
+	}
+
+	public void setAdditionalInfoCode(int additionalInfoCode) {
+		this.additionalInfoCode = additionalInfoCode;
 	}
 }

@@ -472,6 +472,14 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
+	/**
+	 * 
+	 * @param fc
+	 * @param selectedQuestions a Set of questions, representing those selected on an exam. Now that I think about it, don't really
+	 * 			like this here. Another, separate method should be doing what the selectedQuestions section is. Other than that, why
+	 * 			should this method care about which questions are selected?
+	 * @return
+	 */
 	private static AJAXReturnData handleTheGetEntityByIdCase(FilterCollection fc, Set<Question> selectedQuestions) {
 		AJAXReturnData rtn = new AJAXReturnData();
 		

@@ -7,9 +7,11 @@
 		initialize: function() {
 			this.model = arguments[0];
 			
-			var checked = ((this.model.attributes.iscorrect == 'true' || this.model.attributes.iscorrect === true) ? 'checked' : ''); 
+			var text = this.model.attributes.text;
+			var checked = ((this.model.attributes.iscorrect == 'true' || this.model.attributes.iscorrect === true) ? 'checked' : '');
+			var sequence = this.model.attributes.sequence || 0;
 			
-			this.model = {text:this.model.attributes.text,checked:checked};
+			this.model = {text:text,checked:checked,sequence:sequence};
 		},
 		render:function() {
             var view = "QuestionChoiceItemView";
@@ -18,8 +20,8 @@
 			makeAJAXCall_andWaitForTheResults('/templates/' + view + '.html', { }, 
             		function(textTemplate) {
             			
-        				// this is not returning a function???
-        				Quizki[view].prototype.template = _.template(textTemplate, {text:_model.text,checked:_model.checked}, {});
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+        				Quizki[view].prototype.template = _.template(textTemplate, {text:_model.text,checked:_model.checked,sequence:_model.sequence}, {});
         			}
             );
 
@@ -30,9 +32,14 @@
 		}
 	});
 
+	// this view represents the list of choices
 	Quizki.ChoiceListView = Backbone.View.extend({
 		initialize: function() {
-			this.model = arguments[0].model;
+			this.model = 
+				model_factory.get(	"questionChoiceCollection", 
+						function() { return new Quizki.QuestionChoiceCollection(); }
+				);
+
 			this.model.on('somethingAdded', this.render, this);
 			
 			this.$el = arguments[0].el;
@@ -41,10 +48,10 @@
 			var ul = this.$el.find("#listOfChoices");
 			
 			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model);
-			ul.append( questionChoiceItemView.render() ); //.html()?
+			ul.append( questionChoiceItemView.render() );
 		},
 		render:function() {
-			//  this is returning a function??
+			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<table class='choiceItemList span5' id='listOfChoices'></table>" )() );
 			
 			_.each(this.model.models, function(model) { this.renderElement(model)}, this);
@@ -53,7 +60,7 @@
 			var $slider = this.$el.find('.switch-square');
 			$slider.bootstrapSwitch();
 			
-			return this; //.html()?
+			return this;
 		}
 	});
 
@@ -64,8 +71,11 @@
 	//  that event, and draws each item in the collection.
 	Quizki.EnterNewChoiceView = Backbone.View.extend({
 		initialize: function() {
-			this.choiceCollection = arguments[0].model;
-			this.choiceModel = new Quizki.QuestionChoiceModel({ model:this.choiceCollection});
+			this.choiceModel = 
+				model_factory.get(	"questionChoiceCollection", 
+						function() { return new Quizki.QuestionChoiceCollection(); }
+				);
+
 			
 			this.$el = arguments[0].el;
 			
@@ -84,9 +94,9 @@
 			"click button": "btnClicked",
 			"keypress #enterAnswerTextField" : "updateOnEnter"
 		},
-		btnClicked: function (event) { alert("submit button clicked!"); 
-			    	// tell the model, user requested a choice be added.
-					this.choiceModel.add({text:$('#enterAnswerTextField').val(),iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
-		    	}
+		btnClicked: function (event) { //alert("submit button clicked!"); 
+			// tell the model, user requested a choice be added.
+			this.choiceModel.put({text:$('#enterAnswerTextField').val(),iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
+		}
 	});
 	

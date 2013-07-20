@@ -67,21 +67,6 @@
 						help_shortcut : ""
 				});
 
-					//$(function() {
-					   //$( document ).tooltip();
-					 //});
-					 
-			    $( "#open-event" ).tooltip({
-			      show: null,
-			      position: {
-			        my: "left top",
-			        at: "left bottom"
-			      },
-			      open: function( event, ui ) {
-			        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
-			      }
-			    });
-			    
 			    $(document).ready(function() {
 			    	Quizki.loadTemplates(["EnterNewChoiceView","QuestionChoiceCollectionView"],
 			    		function() {  });
@@ -99,8 +84,8 @@
 			    	
 			    	questionChoiceCollection.add(currentQuestion.choices);
 			    	
-			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv"), model:questionChoiceCollection });
-					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#fooDiv"), model:questionChoiceCollection });
+			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv") });
+					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#fooDiv") });
 					
 					bv_questionChoiceList.render();
 			    });
@@ -121,26 +106,24 @@
 					var qArr = getFunctionToRetrieveCurrentQuestion();
 					
 					if (qArr != undefined) {
-						// populate fields by their ID
-						
-						// see how qArr is structured,
-						// get from it the choices,
-						var choices = qArr.choices;
-						var html = document.createElement('table');
-						
-						var questionChoiceCollection = 
-									    			model_factory.get(	"questionChoiceCollection", 
-	    								function() { return new Quizki.QuestionChoiceCollection(); }
-	    							);
-	    							
-	    				for (var x=0; x<choices.length; x++) {
-	    					questionChoiceCollection.add(choices[x]);
-	    					// consider a way to tell it, don't throw "add" event until ... function()
-	    					// also keep in mind, this is prime "refactor to a common method" material
+
+						// set the choices from this question
+	    				if (qArr.choices != undefined && qArr.choices.length > 0) {
+							var questionChoiceCollection = 
+										    			model_factory.get(	"questionChoiceCollection", 
+		    								function() { return new Quizki.QuestionChoiceCollection(); }
+		    							);
+
+		    				for (var x=0; x<qArr.choices.length; x++) {
+		    					questionChoiceCollection.add(qArr.choices[x]);
+		    					// consider a way to tell it, don't throw "add" event until ... function()
+		    					// also keep in mind, this is prime "refactor to a common method" material
+		    				}
 	    				}
 						
 						// - ----= - ---==- --- --==
 						// set difficulty radio buttons
+						// TODO: make this a view
 						var difficultyId = qArr.difficulty_id;
 						
 						for (var i=0; i<4; i++) {

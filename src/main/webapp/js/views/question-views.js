@@ -80,6 +80,7 @@
 		},
 		events: {
 			"dblclick":"edit",
+			"keypress .edit":"closeOnEnter",
 			"blur .edit":"close",
 			"click .destroyBtn":"remove"
 		},
@@ -90,6 +91,19 @@
 			_el.find(".edit").focus();			
 		},
 		close : function(event) {
+			var $currentLineItem = this.$el.find(".editing");
+			var currMillisecondId = $currentLineItem.attr("id");
+
+			this.model = 
+				model_factory.get(	"questionChoiceCollection", 
+						function() { return new Quizki.QuestionChoiceCollection(); }
+				);
+
+			this.model.update(currMillisecondId, 'text', $currentLineItem.find('.edit').val());
+		},
+		closeOnEnter : function(event) {
+			if (event.keyCode != 13) return;
+			
 			var $currentLineItem = this.$el.find(".editing");
 			var currMillisecondId = $currentLineItem.attr("id");
 

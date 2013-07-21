@@ -1,6 +1,5 @@
 
-Quizki.QuestionChoiceCollection = Backbone.Collection.extend({
-		model: Quizki.QuestionChoice,
+Quizki.Collection = Backbone.Collection.extend({
 		initialize: function() {
 			_.extend(this, Backbone.Events);
 		},
@@ -45,3 +44,7 @@ Quizki.QuestionChoiceCollection = Backbone.Collection.extend({
 		
 	});
 	
+Quizki.QuestionChoiceCollection = Quizki.Collection.extend ({
+	model: Quizki.QuestionChoice
+});
+

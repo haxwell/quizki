@@ -63,3 +63,12 @@ var model_factory = (function(){
 		};
 	}());
 
+var method_utility = (function(){
+	
+	return {
+		wrap:function(template, elementName) {
+			return '<' + elementName + '>' + template + '</' + elementName + '>';
+		}
+	};
+	}());
+

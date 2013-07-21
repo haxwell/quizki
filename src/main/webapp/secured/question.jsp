@@ -85,9 +85,18 @@
 			    	questionChoiceCollection.add(currentQuestion.choices);
 			    	
 			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv") });
-					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#fooDiv") });
+					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv") });
 					
 					bv_questionChoiceList.render();
+					
+					// TODO: populate topicsAttrWellCollection with topics
+					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics' });
+
+					// TODO: populate referencesAttrWellCollection with references
+					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references' });
+					
+					bv_topicsWell.render();
+					bv_referencesWell.render();
 			    });
 			    
 			    function persistTheQuestion() {
@@ -195,11 +204,11 @@
 					</td>
 					<td style="width:33%">
 						<div class="entityAttributeHeaderName">Topics<br/> </div>
-						<div class="well"></div>
+						<div id="topicsWell" class="well"></div>
 					</td>
 					<td style="width:41%">
 						<div class="entityAttributeHeaderName">References<br/> </div>
-						<div class="well"></div>
+						<div id="referencesWell" class="well"></div>
 					</td>
 				</tr>
 			</table>
@@ -224,7 +233,7 @@
 				..
 			</div>
 			
-			<div id="fooDiv">
+			<div id="choiceListDiv">
 				..
 			</div>
 		</div>

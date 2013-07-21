@@ -1,3 +1,54 @@
+	Quizki.QuestionAttributeWellView = Backbone.View.extend({
+		initialize:function() {
+			this.id = new Date().getMilliseconds();
+			this.viewKey = arguments[1];
+			
+			this.model = model_factory.get(	this.viewKey + "AttrWellCollection", 
+					function() { return new Quizki.Collection(); }
+			);
+			
+			this.template = undefined;
+		},
+		events: {
+			"click .well_add_button":"addNewEntry",
+		},
+		addNewEntry:function(event){
+			//popup popup
+			// get text
+			// add text to this.model
+			
+			alert('well_add_button clicked!');
+		},
+		renderElement:function(model) {
+			var ul = this.$el.find("#attributeWell"+this.id);
+			
+			// need a function that can take a template, and wrap an li element around it
+			var template = method_utility.wrap("<div>testing123</div>", "li");
+			
+			ul.append(template);
+		},
+		render:function() {
+			var _id = this.id;
+			
+			var _stringModel = model_factory.get(	"StringModel", 
+													function() { return ""; }
+			);
+			
+			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellView.html', { }, 
+            		function(textTemplate) {
+            			
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel = _.template(textTemplate, {id:_id}, {});
+        			}
+            );
+
+			
+			this.$el.html( _stringModel );
+			
+			_.each(this.model.models, function(model) { this.renderElement(model);}, this);
+		}
+	});
+
 	// this view represents an item in a list of choices
 	Quizki.QuestionChoiceItemView = Backbone.View.extend({
 		tagName:'li',
@@ -202,8 +253,30 @@
 			"keypress #enterAnswerTextField" : "updateOnEnter"
 		},
 		btnClicked: function (event) { //alert("submit button clicked!"); 
-			// tell the model, user requested a choice be added.
-			this.choiceModel.put({text:$('#enterAnswerTextField').val(),iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
+			var $textField = $('#enterAnswerTextField');
+			
+			var tokens = $textField.val().split(',');
+			
+			for (var i=0; i<tokens.length; i++) {
+				// tell the model, user requested a choice be added.
+				this.millisecond_id = this.choiceModel.put({text:tokens[i],iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
+			}
+
+			$textField.val('');
+		},
+		updateOnEnter : function (event) {
+			if (event.keyCode == 13) {
+				var $textField = $('#enterAnswerTextField');
+				
+				var tokens = $textField.val().split(',');
+				
+				for (var i=0; i<tokens.length; i++) {
+					// tell the model, user requested a choice be added.
+					this.millisecond_id = this.choiceModel.put({text:tokens[i],iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
+				}
+
+				$textField.val('');
+			}
 		}
 	});
 	

@@ -37,6 +37,15 @@ input.edit {
 	display:none;
 }
 
+button.btn.well_add_button {
+	position:relative;
+	display:none;
+}
+
+div.well:hover button.btn.well_add_button {
+	display:block;
+}
+
 .destroyBtn {
 	position:relative;
 	display:none;

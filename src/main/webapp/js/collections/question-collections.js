@@ -25,14 +25,15 @@ Quizki.QuestionChoiceCollection = Backbone.Collection.extend({
 		getByMillisecondId: function(millis) {
 			return _.filter(this, function (item) { return item.millisecond_id == millis; })[0];
 		},
-		update :function (millis, attr, value){
+		update :function (millis, attr, value, throwEvent){
 			var v = _.filter(this.models, function (item) {return item.attributes.millisecond_id == millis;	})[0];
 			
 			var map = {};
 			map[attr] = value;
 			v.set(map);
 			
-			this.trigger('somethingAdded'); // should be renamed to somethingChanged.. or something
+			if (throwEvent !== false)
+				this.trigger('somethingAdded'); // should be renamed to somethingChanged.. or something
 		}
 	});
 	

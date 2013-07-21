@@ -13,10 +13,12 @@
 			var id = this.model.attributes.millisecond_id || new Date().getMilliseconds();
 			
 			this.model = {text:text,checked:checked,sequence:sequence,id:id};
+			
+			this.onIsCorrectChangedHandler = arguments[1];
 		}, 
 		render:function() {
 
-			// This method is due for a refactor.. it is doing two different things, updating an LI element, and creating an LI element,
+			// This method is due for a refactor.. it is handling two different cases, updating an LI element, and creating an LI element,
 			//  depending on if said element exists..
 			
 			var view = "QuestionChoiceItemView";
@@ -53,7 +55,9 @@
 		},
 		milliseconds: function() { return this.model.id; },
 		setText: function(newText) { this.model.text = newText; },
-		getText: function() { return this.model.text; }
+		getText: function() { return this.model.text; },
+		setIsCorrectChangedHandler: function(func) { this.onIsCorrectChangedHandler = func;},
+		getIsCorrectChangedHandler: function() { return this.onIsCorrectChangedHandler;}
 		
 	});
 
@@ -67,6 +71,7 @@
 						function() { return new Quizki.QuestionChoiceCollection(); }
 				);
 
+			// compare this to .listenTo().. which is better?
 			this.model.on('somethingAdded', this.render, this);
 			
 			this.$el = arguments[0].el;
@@ -86,13 +91,32 @@
 		close : function(event) {
 			var $currentLineItem = this.$el.find(".editing");
 			var currMillisecondId = $currentLineItem.attr("id");
-			
+
+			this.model = 
+				model_factory.get(	"questionChoiceCollection", 
+						function() { return new Quizki.QuestionChoiceCollection(); }
+				);
+
 			this.model.update(currMillisecondId, 'text', $currentLineItem.find('.edit').val());
 		},
 		renderElement:function (model) {
 			var ul = this.$el.find("#listOfChoices");
 			
-			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model);
+			// need to set a callback, which will get the appropriate model from questionChoiceCollection
+			//  set the isCorrect attr on it. Should not redraw the list, thats already been done
+			var isCorrectChangedCallbackFunc = function(event,data) {
+
+				var millisecond_id = event.target.id.replace('switch','');
+				
+				this.model = 
+					model_factory.get(	"questionChoiceCollection", 
+							function() { return new Quizki.QuestionChoiceCollection(); }
+					);
+				
+				this.model.update(millisecond_id, 'iscorrect', $(event.target).find('.switch-animate').hasClass('switch-on'), false);
+			};
+			
+			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, isCorrectChangedCallbackFunc);
 			ul.append( questionChoiceItemView.render().$el.html() );
 			
 			var obj = {millisecondId:questionChoiceItemView.milliseconds(), view:questionChoiceItemView};
@@ -110,6 +134,11 @@
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');
 			$slider.bootstrapSwitch();
+
+			// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
+			_.each(this.ChoiceItemViewCollection, function(model) {
+				$("#switch" + model.millisecondId).on('switch-change', model.view.getIsCorrectChangedHandler());
+			})
 			
 			return this;
 		}		

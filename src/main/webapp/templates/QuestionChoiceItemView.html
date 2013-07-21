@@ -1,11 +1,11 @@
 
 		<li class="choiceItem span6"  id="<%- id %>" data-choice-sequence="<%- sequence %>">
 			<div>
-				<div id="switchXXX" class="inline span1 switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
-					<input type="checkbox" <%- checked %> />
+				<div id="switch<%- id %>" class="inline span1 switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
+					<input class="checkbox" type="checkbox" <%- checked %> />
 				</div>
 				<div>
-					<div id="switchTextDivXXX" class="inline span4 view">
+					<div id="switchTextDiv<%- id %>" class="inline span4 view">
 					<%- text %>
 					</div>
 					<input class="edit" type="text" value="<%- text %>" />

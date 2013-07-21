@@ -20,3 +20,5 @@ function   ($,        backbone,   underscore) {
     //jQuery, canvas and the app/sub module are all
     //loaded and can be used here now.
 });
+
+$('body').on('dblclick', function () { alert("body dblclick!"); });

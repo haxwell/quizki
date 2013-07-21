@@ -16,6 +16,37 @@
   padding-top: 8px;
 }
 
+.view {
+	position:relative;
+	
+}
+
 .choiceItemList {
 	list-style-type:none;
+}
+
+.editing .edit {
+	display:block;
+}
+
+.editing .view {
+	display:none;
+}
+
+input.edit {
+	display:none;
+}
+
+.destroyBtn {
+	position:relative;
+	display:none;
+}
+
+li:hover .destroyBtn {
+	display:block;
+}
+
+button.choice_delete_button {
+	position:absolute;
+	right: 1px;
 }

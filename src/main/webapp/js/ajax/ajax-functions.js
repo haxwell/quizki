@@ -36,7 +36,7 @@ function makeAJAXCall_andDoNotWaitForTheResults(data_url, data_obj, returnFuncti
 		data: data_obj,
 		dataType: "text",
 		async: true
-	}).done(returnFunction);
+	}).done(returnFunction || new function() { });
 }
 
 function makeAJAXCall_andWaitForTheResults(data_url, data_obj, returnFunction) {
@@ -46,6 +46,6 @@ function makeAJAXCall_andWaitForTheResults(data_url, data_obj, returnFunction) {
 		data: data_obj,
 		dataType: "text",
 		async: false
-	}).done(returnFunction);
+	}).done(returnFunction || new function() { });
 }
 

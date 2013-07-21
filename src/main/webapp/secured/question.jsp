@@ -29,7 +29,7 @@
 		
 		<jsp:text>
 			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
-			
+						
 			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 			
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
@@ -41,13 +41,13 @@
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
+			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../js/models/question-models.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
-			
-			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>			
 			
 			<![CDATA[
 			
@@ -296,6 +296,10 @@
 	var questionChoiceCollection = new Quizki.QuestionChoiceCollection();
 	
 </script>
+
+<br/>
+<br/>
+<br/>
 
 </body>
 </html>

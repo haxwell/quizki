@@ -72,7 +72,7 @@
 				);
 
 			// compare this to .listenTo().. which is better?
-			this.model.on('somethingAdded', this.render, this);
+			this.model.on('somethingChanged', this.render, this);
 			
 			this.$el = arguments[0].el;
 			
@@ -80,7 +80,8 @@
 		},
 		events: {
 			"dblclick":"edit",
-			"blur .edit":"close"
+			"blur .edit":"close",
+			"click .destroyBtn":"remove"
 		},
 		edit : function(event) {
 			var _el = this.$el.find("li:hover");
@@ -141,7 +142,19 @@
 			})
 			
 			return this;
-		}		
+		},
+		remove:function(event) {
+			var _el = this.$el.find("li:hover");
+			var currMillisecondId = _el.attr("id");
+			
+			this.model = 
+				model_factory.get(	"questionChoiceCollection", 
+						function() { return new Quizki.QuestionChoiceCollection(); }
+				);
+
+			this.model.remove(currMillisecondId);
+		}
+		
 	});
 
 	

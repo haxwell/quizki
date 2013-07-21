@@ -23,7 +23,7 @@
 			// add the choice to this.choiceCollection
 			this.choiceCollection.add(choiceData);
 			
-			this.choiceCollection.trigger('somethingAdded');			
+			this.choiceCollection.trigger('somethingChanged');			
 		},
 		addFromJSON:function(json) {
 			_.forEach(json, function(model) {

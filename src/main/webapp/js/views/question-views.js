@@ -1,12 +1,18 @@
 	Quizki.QuestionAttributeWellView = Backbone.View.extend({
 		initialize:function() {
 			this.id = new Date().getMilliseconds();
-			this.viewKey = arguments[1];
+			var viewKey = arguments[0].viewKey;
 			
-			this.model = model_factory.get(	this.viewKey + "AttrWellCollection", 
+			this.model = model_factory.get(	viewKey + "AttrWellCollection", 
 					function() { return new Quizki.Collection(); }
 			);
 			
+			this.listenTo(this.model, 'somethingChanged', this.render)
+			
+			model_factory.get( this.id + "ViewKey", function() { 
+				return ("" + viewKey); 
+			});
+						
 			this.template = undefined;
 		},
 		events: {
@@ -14,10 +20,32 @@
 		},
 		addNewEntry:function(event){
 			//popup popup
-			// get text
-			// add text to this.model
-			
-			alert('well_add_button clicked!');
+			$('#myModal'+this.id).modal({})
+
+			$('#myModal'+this.id).on('hide', function(event) {
+				var _id = method_utility.getNumericPortionOfString(this.id);
+				
+				var arr = $(event.target).find('#modalTextField' + _id).val().split(',');
+				
+				_.each(arr, function(arrX) {
+					// TODO: I'm sure this is horribly inefficient... be better to have these
+					//  variables locally, rather than call model_factory
+					this.viewKey = model_factory.get(_id + "ViewKey");
+					
+					this.model = model_factory.get(	this.viewKey + "AttrWellCollection", 
+							function() { return new Quizki.Collection(); }
+					);
+
+					if (arrX.length > 0) this.model.put(arrX, false);
+				});
+				
+				this.viewKey = model_factory.get(_id + "ViewKey");
+				this.model = model_factory.get(	this.viewKey + "AttrWellCollection"	);
+
+				this.model.releasePentUpEvents();
+			});
+				
+//			alert('well_add_button clicked!');
 		},
 		renderElement:function(model) {
 			var ul = this.$el.find("#attributeWell"+this.id);
@@ -45,7 +73,15 @@
 			
 			this.$el.html( _stringModel );
 			
+			this.viewKey = model_factory.get(_id + "ViewKey");
+			
+			this.model = model_factory.get(	this.viewKey + "AttrWellCollection", 
+					function() { return new Quizki.Collection(); }
+			);
+			
 			_.each(this.model.models, function(model) { this.renderElement(model);}, this);
+			
+			model_factory.destroy("StringModel");
 		}
 	});
 

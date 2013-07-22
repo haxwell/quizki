@@ -53,12 +53,15 @@ var model_factory = (function(){
 	
 	return {
 		get: function(id, constructionFunction) {
-			if (arr[id] == undefined) {
+			if (arr[id] == undefined && constructionFunction != undefined) {
 				console.log("the model_factory entry for " + id + " was undefined. Executing its constructor, and then saving the reference for next time.");
 				arr[id] = constructionFunction();
 			}
 			
 			return arr[id];
+		},
+		destroy: function(id) {
+			arr[id] = undefined;
 		}
 		};
 	}());
@@ -68,6 +71,9 @@ var method_utility = (function(){
 	return {
 		wrap:function(template, elementName) {
 			return '<' + elementName + '>' + template + '</' + elementName + '>';
+		},
+		getNumericPortionOfString:function (str) {
+			return str.match(/\d+/);
 		}
 	};
 	}());

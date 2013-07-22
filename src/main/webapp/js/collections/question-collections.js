@@ -3,14 +3,15 @@ Quizki.Collection = Backbone.Collection.extend({
 		initialize: function() {
 			_.extend(this, Backbone.Events);
 		},
-		put: function(model) {
+		put: function(model, throwEvent) {
 			// Created this method put, because I couldn't find a way to override add(), so that I could
 			//  trigger the 'somethingChanged' event when something was added.
 			model.millisecond_id = new Date().getMilliseconds();
 			
 			this.add(model);
 			
-			this.trigger('somethingChanged');
+			if (throwEvent !== false)
+				this.trigger('somethingChanged');
 			
 			return model.millisecond_id;
 		},
@@ -32,14 +33,17 @@ Quizki.Collection = Backbone.Collection.extend({
 			v.set(map);
 			
 			if (throwEvent !== false)
-				this.trigger('somethingChanged'); // should be renamed to somethingChanged.. or something
+				this.trigger('somethingChanged'); 
 		},
 		remove: function(millis, throwEvent) {
 			// new list where only those that do not match millis remain, all except the one we've been asked to remove
 			this.models = _.reject(this.models, function(item) { return item.attributes.millisecond_id == millis; });
 			
 			if (throwEvent !== false)
-				this.trigger('somethingChanged'); // should be renamed to somethingChanged.. or something
+				this.trigger('somethingChanged'); 
+		},
+		releasePentUpEvents : function() {
+			this.trigger('somethingChanged');
 		}
 		
 	});

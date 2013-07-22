@@ -39,11 +39,13 @@ input.edit {
 
 button.btn.well_add_button {
 	position:relative;
-	display:none;
+	right:12px;
+	top:14px;
+	visibility:hidden;
 }
 
 div.well:hover button.btn.well_add_button {
-	display:block;
+	visibility:visible;
 }
 
 .destroyBtn {

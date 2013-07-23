@@ -22,6 +22,14 @@ Quizki.Collection = Backbone.Collection.extend({
 			
 			this.trigger('somethingChanged');	
 		},
+		addArray: function(arr, throwEvent) {
+			for (var i=0; i<arr.length; i++) {
+				this.add(arr[i]);
+			}
+			
+			if (throwEvent !== false)
+				this.trigger('somethingChanged');	
+		},
 		getByMillisecondId: function(millis) {
 			return _.filter(this, function (item) { return item.millisecond_id == millis; })[0];
 		},

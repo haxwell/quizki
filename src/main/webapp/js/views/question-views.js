@@ -7,7 +7,7 @@
 					function() { return new Quizki.Collection(); }
 			);
 			
-			this.listenTo(this.model, 'somethingChanged', this.render)
+			this.listenTo(this.model, 'somethingChanged', this.render);
 			
 			model_factory.get( this.id + "ViewKey", function() { 
 				return ("" + viewKey); 
@@ -17,35 +17,28 @@
 		},
 		events: {
 			"click .well_add_button":"addNewEntry",
+			"click button.editing":"saveNewEntries"
 		},
 		addNewEntry:function(event){
-			//popup popup
-			$('#myModal'+this.id).modal({})
-
-			$('#myModal'+this.id).on('hide', function(event) {
-				var _id = method_utility.getNumericPortionOfString(this.id);
-				
-				var arr = $(event.target).find('#modalTextField' + _id).val().split(',');
-				
-				_.each(arr, function(arrX) {
-					// TODO: I'm sure this is horribly inefficient... be better to have these
-					//  variables locally, rather than call model_factory
-					this.viewKey = model_factory.get(_id + "ViewKey");
-					
-					this.model = model_factory.get(	this.viewKey + "AttrWellCollection", 
-							function() { return new Quizki.Collection(); }
-					);
-
-					if (arrX.length > 0) this.model.put(arrX, false);
-				});
-				
-				this.viewKey = model_factory.get(_id + "ViewKey");
-				this.model = model_factory.get(	this.viewKey + "AttrWellCollection"	);
-
-				this.model.releasePentUpEvents();
-			});
-				
-//			alert('well_add_button clicked!');
+			var $elements = $('#textFieldDiv'+this.id+' > .hideForEditing'); 
+			
+			$elements.addClass('editing');
+			$elements.removeClass('hideForEditing');
+		},
+		saveNewEntries:function(model) {
+			var $elements = $('#textFieldDiv'+this.id+' > .editing');
+			
+			$elements.addClass('hideForEditing');
+			$elements.removeClass('editing');
+			
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			
+			this.model = model_factory.get(	viewKey + "AttrWellCollection", 
+					function() { return new Quizki.Collection(); }
+			);
+			
+			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
+			this.model.addArray(arr);
 		},
 		renderElement:function(model) {
 			var ul = this.$el.find("#attributeWell"+this.id);
@@ -114,6 +107,7 @@
             // if this view already exists in the html, get it!
             var foo = $("li#"+_model.id);
             
+            // TODO: rewrite this to use jquery's wrap.. or something..
             if (foo.length > 0) {
             	this.$el = foo;
 
@@ -175,6 +169,8 @@
 			var _el = this.$el.find("li:hover");
 			
 			_el.addClass('editing');
+			
+			_el.find('.edit').removeClass('hideForEditing');
 			_el.find(".edit").focus();			
 		},
 		close : function(event) {
@@ -190,6 +186,8 @@
 		},
 		closeOnEnter : function(event) {
 			if (event.keyCode != 13) return;
+			
+			// can I just call close() now? Please?
 			
 			var $currentLineItem = this.$el.find(".editing");
 			var currMillisecondId = $currentLineItem.attr("id");

@@ -21,6 +21,10 @@
 	
 }
 
+input.editing .edit {
+	width:100%;
+}
+
 .choiceItemList {
 	list-style-type:none;
 }
@@ -33,7 +37,12 @@
 	display:none;
 }
 
-input.edit {
+.hideForEditing.edit {
+	display:none;
+}
+
+/* This is used by questionChoiceItem.. refactor that */
+input.edit.inputEdit {
 	display:none;
 }
 

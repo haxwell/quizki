@@ -62,6 +62,7 @@ var model_factory = (function(){
 		},
 		destroy: function(id) {
 			arr[id] = undefined;
+			console.log("the model_factory entry for " + id + " was eradicated,destroyed,vaquished. It no longer exists.");			
 		}
 		};
 	}());

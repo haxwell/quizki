@@ -19,7 +19,7 @@ Quizki.Collection = Backbone.Collection.extend({
 		},
 		addArray: function(arr, throwEvent) {
 			for (var i=0; i<arr.length; i++) {
-				this.add(arr[i]);
+				this.add([{val:arr[i]+""}]);
 			}
 			
 			if (throwEvent !== false)

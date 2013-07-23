@@ -40,7 +40,7 @@
 			var ul = this.$el.find("#attributeWell"+this.id);
 			
 			// need a function that can take a template, and wrap an li element around it
-			var template = method_utility.wrap("<div>testing123</div>", "li");
+			var template = method_utility.wrap("<div>"+model.attributes.val+"</div>", "li");
 			
 			ul.append(template);
 		},

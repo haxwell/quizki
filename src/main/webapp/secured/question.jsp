@@ -22,6 +22,7 @@
 		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
 		
 		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
 

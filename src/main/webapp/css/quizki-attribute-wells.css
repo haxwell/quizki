@@ -1,0 +1,13 @@
+div.well {
+	padding:1px;
+}
+
+div.well > ul {
+	margin-left:1px;
+	margin-bottom:2px;
+}
+
+div.wellAttribute {
+	display:inline;
+	padding:4px;
+}

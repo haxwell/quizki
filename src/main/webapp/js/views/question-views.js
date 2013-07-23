@@ -4,7 +4,7 @@
 			var viewKey = arguments[0].viewKey;
 			
 			// TODO: remove on destroy
-			model_constructor_factory.put(viewKey + "AttrWellCollection", function() { return new Quizki.Collection(); });
+			model_constructor_factory.put(viewKey + "AttrWellCollection", function() { return new Quizki.Collection({},{duplicatesAllowed:false}); });
 			model_constructor_factory.put(this.id + "ViewKey",function() {return ("" + viewKey); }); 
 			
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
@@ -15,7 +15,8 @@
 		},
 		events: {
 			"click .well_add_button":"addNewEntry",
-			"click button.editing":"saveNewEntries"
+			"click button.editing":"saveNewEntries",
+			"click .label":"removeEntry"
 		},
 		addNewEntry:function(event){
 			var $elements = $('#textFieldDiv'+this.id+' > .hideForEditing'); 
@@ -34,40 +35,64 @@
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
 			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
-			this.model.addArray(arr);
+			this.model.addArray(arr, true);
+		},
+		removeEntry:function(entry) {
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			
+			this.model = model_factory.get(	viewKey + "AttrWellCollection");
+			
+			var html = $(entry.target).html();
+			
+			this.model.models = _.reject(this.model.models, function(item) { 
+				html === item.attributes.val; 
+				});  
 		},
 		renderElement:function(model) {
 			var ul = this.$el.find("#attributeWell"+this.id);
 			
 			// need a function that can take a template, and wrap an li element around it
-			var template = method_utility.wrap("<div>"+model.attributes.val+"</div>", "li");
+			//var template = method_utility.wrap("<div>"+model.attributes.val+"</div>", "li");
+
+			var _stringModel = model_factory.getStringModel();
 			
-			ul.append(template);
+			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellItemView.html', { }, 
+            		function(textTemplate) {
+            			
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textTemplate, {text:model.attributes.val}, {});
+        			}
+            );
+
+			ul.append(_stringModel.stringModel);
+			
+			model_factory.destroy(_stringModel.id);			
 		},
 		render:function() {
 			var _id = this.id;
 			
-			model_constructor_factory.put("StringModel", function() { return ""; });
+			//model_constructor_factory.put("StringModel", function() { return ""; });
 			
-			var _stringModel = model_factory.get("StringModel");
+			//var _stringModel = model_factory.get("StringModel");
+			var _stringModel = model_factory.getStringModel();
 			
 			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellView.html', { }, 
             		function(textTemplate) {
             			
         				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel = _.template(textTemplate, {id:_id}, {});
+						_stringModel.stringModel = _.template(textTemplate, {id:_id}, {});
         			}
             );
 
 			
-			this.$el.html( _stringModel );
+			this.$el.html( _stringModel.stringModel );
 			
 			this.viewKey = model_factory.get(_id + "ViewKey");
 			this.model = model_factory.get(	this.viewKey + "AttrWellCollection");
 			
 			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
 			
-			model_factory.destroy("StringModel");
+			model_factory.destroy(_stringModel.id);
 		}
 	});
 

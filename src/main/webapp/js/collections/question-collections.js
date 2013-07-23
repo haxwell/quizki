@@ -1,7 +1,13 @@
 
 Quizki.Collection = Backbone.Collection.extend({
+	
 		initialize: function() {
 			_.extend(this, Backbone.Events);
+			
+			this.isSkipDuplicates = false;
+			
+			if (arguments[1] !== undefined)
+				this.isSkipDuplicates = !arguments[1].duplicatesAllowed;
 		},
 		put: function(model, throwEvent) {
 			// Created this method put, because I couldn't find a way to override add(), so that I could
@@ -17,12 +23,23 @@ Quizki.Collection = Backbone.Collection.extend({
 			
 			return model.millisecond_id;
 		},
-		addArray: function(arr, throwEvent) {
+		addArray: function(arr, isSkipDuplicates, isThrowEvent) {
+			var x = {};
+			this.isSkipDuplicates = this.isSkipDuplicates || false;
+			
 			for (var i=0; i<arr.length; i++) {
-				this.add([{val:arr[i]+""}]);
+				
+				if (this.isSkipDuplicates) {
+					if (x[arr[i]] == undefined) {
+						this.add([{val:arr[i]+""}]); 
+						x[arr[i]] = "";
+					}
+				}
+				else 
+					this.add([{val:arr[i]+""}]);
 			}
 			
-			if (throwEvent !== false)
+			if (isThrowEvent !== false)
 				this.trigger('somethingChanged');	
 		},
 		getByMillisecondId: function(millis) {

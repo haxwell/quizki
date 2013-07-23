@@ -43,27 +43,44 @@ var Quizki = {
 	};
 
 
+KeyValueMap = function() {
+	var arr = {};
+	
+	return {
+			put: function(id, func) {
+				arr[id] = func;
+			},
+			get: function(id) {
+				return arr[id];
+			},
+			destroy: function(id) {
+				arr[id] = undefined;
+			}
+		};
+	};
+
+var model_constructor_factory = new KeyValueMap();
 
 // thinking about a function which returns a singleton, unique for a given key,
 //  and that singleton is used to get instances of models, etc.
 
 var model_factory = (function(){
-	var i = 0;
 	var arr = {};
 	
 	return {
-		get: function(id, constructionFunction) {
-			if (arr[id] == undefined && constructionFunction != undefined) {
-				console.log("the model_factory entry for " + id + " was undefined. Executing its constructor, and then saving the reference for next time.");
-				arr[id] = constructionFunction();
+			get: function(id, attemptToCreateIfNonexistant) {
+				if (arr[id] == undefined && attemptToCreateIfNonexistant !== false) {
+					var func = model_constructor_factory.get(id);
+					
+					if (func != undefined)
+						arr[id] = func();
+				}
+				
+				return arr[id];
+			},
+			destroy: function(id) {
+				arr[id] = undefined;
 			}
-			
-			return arr[id];
-		},
-		destroy: function(id) {
-			arr[id] = undefined;
-			console.log("the model_factory entry for " + id + " was eradicated,destroyed,vaquished. It no longer exists.");			
-		}
 		};
 	}());
 

@@ -70,17 +70,14 @@
 			    $(document).ready(function() {
 			    	Quizki.loadTemplates(["EnterNewChoiceView","QuestionChoiceCollectionView"],
 			    		function() {  });
+
+			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
+			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    		
 			    	populateQuestionFields();
 			    	
-			    	var questionChoiceCollection =
-			    			model_factory.get(	"questionChoiceCollection", 
-			    								function() { return new Quizki.QuestionChoiceCollection(); }
-			    							);
-			    	
-			    	var currentQuestion = model_factory.get(	"currentQuestion",
-																getFunctionToRetrieveCurrentQuestion
-			    											);
+			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
+			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
 			    	questionChoiceCollection.add(currentQuestion.choices);
 			    	
@@ -112,7 +109,9 @@
 			    function populateQuestionFields() {
 			    	
 			    	// this method executes if the entity id hidden field is set
-					var qArr = getFunctionToRetrieveCurrentQuestion();
+					//var qArr = getFunctionToRetrieveCurrentQuestion();
+					
+					var qArr = model_factory.get("currentQuestion");					
 					
 					if (qArr != undefined) {
 
@@ -120,7 +119,7 @@
 	    				if (qArr.choices != undefined && qArr.choices.length > 0) {
 							var questionChoiceCollection = 
 										    			model_factory.get(	"questionChoiceCollection", 
-		    								function() { return new Quizki.QuestionChoiceCollection(); }
+		    								function() { return new Quizki.Collection(); }
 		    							);
 
 		    				for (var x=0; x<qArr.choices.length; x++) {
@@ -302,7 +301,7 @@
 
 <script type="text/javascript">
 	
-	var questionChoiceCollection = new Quizki.QuestionChoiceCollection();
+	//var questionChoiceCollection = new Quizki.QuestionChoiceCollection();
 	
 </script>
 

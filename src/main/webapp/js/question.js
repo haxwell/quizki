@@ -1,4 +1,4 @@
-// TODO: rather than using the selector for entityId, it would be good to be able to pass in a function. But
+// TODO: rather than using the selector for entityId, it would be good to be able to pass in a function. But	
 //  since this is a declaration of a function, how do you say this function needs a function passed in, when 
 //  all you are doing is passing the variable (representing the function's) name? for instance if I'm passing
 //.  this functioin to another function, how does 

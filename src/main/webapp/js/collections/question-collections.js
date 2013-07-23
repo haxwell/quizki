@@ -8,19 +8,14 @@ Quizki.Collection = Backbone.Collection.extend({
 			//  trigger the 'somethingChanged' event when something was added.
 			model.millisecond_id = new Date().getMilliseconds();
 			
+			// TODO: use a filter, check for models with the same id, and create a new id if necessessary.
+			
 			this.add(model);
 			
 			if (throwEvent !== false)
 				this.trigger('somethingChanged');
 			
 			return model.millisecond_id;
-		},
-		addFromJSON: function(choices) {
-			for (var i=0; i<choices.length; i++) {
-				this.add(choices[i]);
-			}
-			
-			this.trigger('somethingChanged');	
 		},
 		addArray: function(arr, throwEvent) {
 			for (var i=0; i<arr.length; i++) {
@@ -55,8 +50,4 @@ Quizki.Collection = Backbone.Collection.extend({
 		}
 		
 	});
-	
-Quizki.QuestionChoiceCollection = Quizki.Collection.extend ({
-	model: Quizki.QuestionChoice
-});
 

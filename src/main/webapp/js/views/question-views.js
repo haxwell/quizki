@@ -3,15 +3,13 @@
 			this.id = new Date().getMilliseconds();
 			var viewKey = arguments[0].viewKey;
 			
-			this.model = model_factory.get(	viewKey + "AttrWellCollection", 
-					function() { return new Quizki.Collection(); }
-			);
+			// TODO: remove on destroy
+			model_constructor_factory.put(viewKey + "AttrWellCollection", function() { return new Quizki.Collection(); });
+			model_constructor_factory.put(this.id + "ViewKey",function() {return ("" + viewKey); }); 
+			
+			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
 			this.listenTo(this.model, 'somethingChanged', this.render);
-			
-			model_factory.get( this.id + "ViewKey", function() { 
-				return ("" + viewKey); 
-			});
 						
 			this.template = undefined;
 		},
@@ -33,9 +31,7 @@
 			
 			var viewKey = model_factory.get( this.id + "ViewKey" );
 			
-			this.model = model_factory.get(	viewKey + "AttrWellCollection", 
-					function() { return new Quizki.Collection(); }
-			);
+			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
 			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
 			this.model.addArray(arr);
@@ -51,9 +47,9 @@
 		render:function() {
 			var _id = this.id;
 			
-			var _stringModel = model_factory.get(	"StringModel", 
-													function() { return ""; }
-			);
+			model_constructor_factory.put("StringModel", function() { return ""; });
+			
+			var _stringModel = model_factory.get("StringModel");
 			
 			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellView.html', { }, 
             		function(textTemplate) {
@@ -67,12 +63,9 @@
 			this.$el.html( _stringModel );
 			
 			this.viewKey = model_factory.get(_id + "ViewKey");
+			this.model = model_factory.get(	this.viewKey + "AttrWellCollection");
 			
-			this.model = model_factory.get(	this.viewKey + "AttrWellCollection", 
-					function() { return new Quizki.Collection(); }
-			);
-			
-			_.each(this.model.models, function(model) { this.renderElement(model);}, this);
+			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
 			
 			model_factory.destroy("StringModel");
 		}
@@ -147,10 +140,7 @@
 		tagName:'ul',
 		
 		initialize: function() {
-			this.model = 
-				model_factory.get(	"questionChoiceCollection", 
-						function() { return new Quizki.QuestionChoiceCollection(); }
-				);
+			this.model = model_factory.get("questionChoiceCollection");
 
 			// compare this to .listenTo().. which is better?
 			this.model.on('somethingChanged', this.render, this);
@@ -177,10 +167,7 @@
 			var $currentLineItem = this.$el.find(".editing");
 			var currMillisecondId = $currentLineItem.attr("id");
 
-			this.model = 
-				model_factory.get(	"questionChoiceCollection", 
-						function() { return new Quizki.QuestionChoiceCollection(); }
-				);
+			this.model = model_factory.get("questionChoiceCollection");
 
 			this.model.update(currMillisecondId, 'text', $currentLineItem.find('.edit').val());
 		},
@@ -192,11 +179,7 @@
 			var $currentLineItem = this.$el.find(".editing");
 			var currMillisecondId = $currentLineItem.attr("id");
 
-			this.model = 
-				model_factory.get(	"questionChoiceCollection", 
-						function() { return new Quizki.QuestionChoiceCollection(); }
-				);
-
+			this.model = model_factory.get("questionChoiceCollection");
 			this.model.update(currMillisecondId, 'text', $currentLineItem.find('.edit').val());
 		},
 		renderElement:function (model) {
@@ -208,11 +191,7 @@
 
 				var millisecond_id = event.target.id.replace('switch','');
 				
-				this.model = 
-					model_factory.get(	"questionChoiceCollection", 
-							function() { return new Quizki.QuestionChoiceCollection(); }
-					);
-				
+				this.model = model_factory.get("questionChoiceCollection");				
 				this.model.update(millisecond_id, 'iscorrect', $(event.target).find('.switch-animate').hasClass('switch-on'), false);
 			};
 			
@@ -246,11 +225,7 @@
 			var _el = this.$el.find("li:hover");
 			var currMillisecondId = _el.attr("id");
 			
-			this.model = 
-				model_factory.get(	"questionChoiceCollection", 
-						function() { return new Quizki.QuestionChoiceCollection(); }
-				);
-
+			this.model = model_factory.get("questionChoiceCollection");
 			this.model.remove(currMillisecondId);
 		}
 		
@@ -263,11 +238,7 @@
 	//  that event, and draws each item in the collection.
 	Quizki.EnterNewChoiceView = Backbone.View.extend({
 		initialize: function() {
-			this.choiceModel = 
-				model_factory.get(	"questionChoiceCollection", 
-						function() { return new Quizki.QuestionChoiceCollection(); }
-				);
-
+			this.choiceModel = model_factory.get("questionChoiceCollection");
 			
 			this.$el = arguments[0].el;
 			
@@ -300,6 +271,7 @@
 		},
 		updateOnEnter : function (event) {
 			if (event.keyCode == 13) {
+				// TODO: sure wish I could just call the btnClicked method...
 				var $textField = $('#enterAnswerTextField');
 				
 				var tokens = $textField.val().split(',');

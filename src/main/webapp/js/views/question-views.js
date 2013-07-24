@@ -14,15 +14,52 @@
 			this.template = undefined;
 		},
 		events: {
-			"click .well_add_button":"addNewEntry",
-			"click button.editing":"saveNewEntries",
-			"click .label":"removeEntry"
+			"click .well_add_button":"toggleNewEntryField",
+			"click button.entryField":"saveNewEntries",
+			"keypress .edit.well":"pressEnterToSaveNewEntries",
+			"dblclick span.label":"removeEntry",				
 		},
-		addNewEntry:function(event){
-			var $elements = $('#textFieldDiv'+this.id+' > .hideForEditing'); 
+		toggleNewEntryField:function(event){
+			var $elements = $('#textFieldDiv'+this.id+' > .entryField'); 
 			
-			$elements.addClass('editing');
-			$elements.removeClass('hideForEditing');
+			if ($elements.length > 0) {
+				
+				if ($elements.is(':visible')) {
+					$elements.hide();
+				}
+				else {
+					$elements.slideDown("slow");
+					
+					//$elements.addClass('editing');
+					//$elements.removeClass('hideForEditing');
+					$elements.find('input').focus();
+				}
+			} 
+			else {
+				$elements = $('#textFieldDiv'+this.id+' > .editing');
+				
+				//$elements.removeClass('editing');
+				//$elements.addClass('hideForEditing');
+				
+				$elements.hide();
+			}
+		},
+		pressEnterToSaveNewEntries : function(event) {
+			if (event.keyCode != 13) return;
+			
+			// saveNewEntries()
+			var $elements = $('#textFieldDiv'+this.id+' > .editing');
+			
+			$elements.addClass('hideForEditing');
+			$elements.removeClass('editing');
+			
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			
+			this.model = model_factory.get(	viewKey + "AttrWellCollection");
+			
+			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
+			this.model.addArray(arr, true);
+
 		},
 		saveNewEntries:function(model) {
 			var $elements = $('#textFieldDiv'+this.id+' > .editing');
@@ -37,54 +74,48 @@
 			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
 			this.model.addArray(arr, true);
 		},
-		removeEntry:function(entry) {
+		removeEntry:function(event) {
 			var viewKey = model_factory.get( this.id + "ViewKey" );
 			
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
-			var html = $(entry.target).html();
+			var entryText = $(event.target).html();
 			
 			this.model.models = _.reject(this.model.models, function(item) { 
-				html === item.attributes.val; 
-				});  
+				return item.attributes.val && entryText === item.attributes.val; 
+			});
+			
+			this.render();
 		},
 		renderElement:function(model) {
-			var ul = this.$el.find("#attributeWell"+this.id);
+			var ul = this.$el.find("#wellItemList"+this.id);
 			
-			// need a function that can take a template, and wrap an li element around it
-			//var template = method_utility.wrap("<div>"+model.attributes.val+"</div>", "li");
-
 			var _stringModel = model_factory.getStringModel();
 			
 			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellItemView.html', { }, 
             		function(textTemplate) {
-            			
         				// TO UNDERSTAND: why does this return text rather than a function to be executed?
 						_stringModel.stringModel = _.template(textTemplate, {text:model.attributes.val}, {});
         			}
             );
 
 			ul.append(_stringModel.stringModel);
-			
+
 			model_factory.destroy(_stringModel.id);			
 		},
 		render:function() {
 			var _id = this.id;
 			
-			//model_constructor_factory.put("StringModel", function() { return ""; });
-			
-			//var _stringModel = model_factory.get("StringModel");
 			var _stringModel = model_factory.getStringModel();
 			
+			//todo: remove question from questionatributewell...
 			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellView.html', { }, 
             		function(textTemplate) {
-            			
         				// TO UNDERSTAND: why does this return text rather than a function to be executed?
 						_stringModel.stringModel = _.template(textTemplate, {id:_id}, {});
         			}
             );
 
-			
 			this.$el.html( _stringModel.stringModel );
 			
 			this.viewKey = model_factory.get(_id + "ViewKey");
@@ -92,6 +123,18 @@
 			
 			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
 			
+			makeAJAXCall_andWaitForTheResults('/templates/AttributeWellViewInputField.html', { }, 
+            		function(textTemplate) {
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textTemplate, {id:_id}, {});
+        			}
+            );
+			
+			var currHtml = this.$el.html();
+			currHtml += _stringModel.stringModel;
+			
+			this.$el.html(currHtml);
+
 			model_factory.destroy(_stringModel.id);
 		}
 	});

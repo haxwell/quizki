@@ -41,13 +41,6 @@ input.editing .edit {
 	display:none;
 }
 
-button.btn.well_add_button {
-	position:relative;
-	right:12px;
-	top:14px;
-	visibility:hidden;
-}
-
 div.well:hover button.btn.well_add_button {
 	visibility:visible;
 }

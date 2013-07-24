@@ -1,5 +1,6 @@
 div.well {
 	padding:1px;
+	margin-bottom:2px;
 }
 
 div.well > ul {
@@ -10,4 +11,16 @@ div.well > ul {
 div.wellAttribute {
 	display:inline;
 	padding:4px;
+}
+
+button.btn.well_add_button {
+	visibility:hidden;
+}
+
+input {
+	width:88%;
+}
+
+.entryField.edit.well {
+	display:none;
 }

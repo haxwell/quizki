@@ -202,13 +202,13 @@
 								<button id="difficultyBtn4" value="4" type="button" class="btn btn-small btn-primary">Guru</button>
 							</div>					
 					</td>
-					<td style="width:33%">
+					<td style="width:33%; vertical-align:top;">
 						<div class="entityAttributeHeaderName">Topics<br/> </div>
-						<div id="topicsWell" class="well"></div>
+						<div id="topicsWell"></div>
 					</td>
-					<td style="width:41%">
+					<td style="width:41%; vertical-align:top;">
 						<div class="entityAttributeHeaderName">References<br/> </div>
-						<div id="referencesWell" class="well"></div>
+						<div id="referencesWell"></div>
 					</td>
 				</tr>
 			</table>

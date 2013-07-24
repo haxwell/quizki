@@ -87,6 +87,8 @@
 					
 					bv_questionChoiceList.render();
 					
+					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement") /*, fill in the difficulty */ });
+					
 					// TODO: populate topicsAttrWellCollection with topics
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics' });
 
@@ -195,12 +197,7 @@
 				<tr>
 					<td style="width:25%; vertical-align:top;">
 						<div class="entityAttributeHeaderName">Difficulty <br/></div>
-							<div id="difficultyBtnGroup" class="btn-group" data-toggle="buttons-radio">
-								<button id="difficultyBtn1" value="1" type="button" class="btn btn-small btn-primary active">Junior</button>
-								<button id="difficultyBtn2" value="2" type="button" class="btn btn-small btn-primary">Intermediate</button>
-								<button id="difficultyBtn3" value="3" type="button" class="btn btn-small btn-primary">Well Versed</button>
-								<button id="difficultyBtn4" value="4" type="button" class="btn btn-small btn-primary">Guru</button>
-							</div>					
+						<div id="difficultyChooserElement"></div>
 					</td>
 					<td style="width:33%; vertical-align:top;">
 						<div class="entityAttributeHeaderName">Topics<br/> </div>

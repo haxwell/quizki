@@ -1,3 +1,41 @@
+	Quizki.DifficultyChooserView = Backbone.View.extend({
+		initialize:function() {
+			this.render();
+			
+			// the id of the button to select will have been passed in
+			// that id, is basically the model for this view
+			// store the model
+			this.buttonId = arguments[0].id;
+			
+			// the ui manages the state of this button group. all 
+			// this view has to do, when the time comes is return
+			// the value.. or perhaps another class somewhere else can
+			// as long as the iteration is done on the render, that
+			// should do it..
+		},
+		render:function() {
+			var _stringModel = model_factory.getStringModel();
+			
+			//todo: remove question from questionatributewell...
+			makeAJAXCall_andWaitForTheResults('/templates/QuestionDifficultyChooserView.html', { }, 
+            		function(textTemplate) {
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textTemplate, {}, {});
+        			}
+            );
+
+			this.$el.html( _stringModel.stringModel );
+			var buttonId = this.buttonId || -1;
+			
+			// iterate over each of the buttons, if it matches the model, set it as active
+			// otherwise remove the active attribute
+			_.each($("#difficultyBtnGroup").find("button"), function($item) { 
+				$item = $($item);
+				($item.val() == buttonId) ? $item.addClass('active') : $item.removeClass('active'); 
+			});
+		}
+	});
+	
 	Quizki.QuestionAttributeWellView = Backbone.View.extend({
 		initialize:function() {
 			this.id = new Date().getMilliseconds();

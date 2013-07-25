@@ -59,3 +59,42 @@ button.choice_delete_button {
 	right: 1px;
 }
 
+input.textInputField {
+	border: 1px solid #bdc3c7;
+	background-color:white;
+}
+
+.well {
+	border: 1px solid #bdc3c7;
+	border-radius:0px;
+	background-color:white;
+}
+
+button.difficultyBtn.btn-primary {
+	border: 1px solid #bdc3c7;
+	background-color:white;
+}
+
+button.submitAnswer {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+/* 663 in flat-ui.css */
+.btn-group > .btn:first-of-type {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.btn-group > .btn:last-of-type {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+select {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}

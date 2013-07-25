@@ -98,3 +98,25 @@ select {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
+
+div.switch-square div.destroyBtn {
+	position:relative;
+}
+
+i.greenText {
+	position:absolute;
+	top:-0.5px;
+	left: 18px;
+}
+
+i.redText {
+	position:absolute;
+	top:0px;
+	left: 18px;
+}
+
+.choice_delete_button {
+	position:absolute;
+	right:1px;
+	top:9px;
+}

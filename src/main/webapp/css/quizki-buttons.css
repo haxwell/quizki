@@ -115,14 +115,14 @@ button {
 .btn.btn-primary:hover,
 .btn.btn-primary:focus,
 .btn-group:focus .btn.btn-primary.dropdown-toggle {
-  background-color: #b0b0b0;
+  background-color: #1abc2c;
 }
 
 /* 552 */
 .btn.btn-primary:active,
 .btn-group.open .btn.btn-primary.dropdown-toggle,
 .btn.btn-primary.active {
-  background-color: #d1d1d1;
+  background-color: #1abc9c;
 }
 
 /* 581 */

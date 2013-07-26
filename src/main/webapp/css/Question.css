@@ -16,13 +16,18 @@
   padding-top: 8px;
 }
 
-.view {
+#enterNewChoiceContainerDiv {
 	position:relative;
-	
 }
 
-input.editing .edit {
-	width:100%;
+#submitNewChoiceBtn {
+	position:relative;
+	top:-5px;
+}
+
+.view {
+	position:relative;
+	top:7px;
 }
 
 .choiceItemList {
@@ -57,6 +62,11 @@ li:hover .destroyBtn {
 button.choice_delete_button {
 	position:absolute;
 	right: 1px;
+}
+
+input.edit {
+	position:relative;
+	top:4px;
 }
 
 input.textInputField {
@@ -119,4 +129,20 @@ i.redText {
 	position:absolute;
 	right:1px;
 	top:9px;
+}
+
+.btn.btn-small {
+	line-height:17px;
+}
+
+ul#listOfChoices {
+	margin: 0 0 0 0;
+}
+
+li.choiceItem {
+	margin: 0 0 0 0;
+}
+
+[id*="switch"] {
+	margin: 0 0 0 0;
 }

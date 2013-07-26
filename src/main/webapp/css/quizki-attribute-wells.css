@@ -17,8 +17,8 @@ button.btn.well_add_button {
 	visibility:hidden;
 }
 
-input {
-	width:88%;
+input.entryField.edit {
+	width:85%;
 }
 
 .entryField.edit.well {

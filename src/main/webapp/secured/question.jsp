@@ -104,9 +104,19 @@
 					// TODO: populate referencesAttrWellCollection with references
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references' });
 					
-					bv_topicsWell.render();
-					bv_referencesWell.render();
+					addCollectionToWell(bv_topicsWell, currentQuestion.topics);
+					addCollectionToWell(bv_referencesWell, currentQuestion.references);
 			    });
+			    
+			    function addCollectionToWell(view, coll) {
+			    	var collection = model_factory.get(view.getModelKey());
+			    	
+			    	var arr = new Array();
+			    	
+			    	_.each(coll, function(item) { arr.push(item.text); });
+			    	
+			    	collection.addArray(arr); 
+			    }
 			    
 			    function persistTheQuestion() {
 			    	var data_url = "/ajax/question-save.jsp";

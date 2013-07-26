@@ -25,7 +25,7 @@ Quizki.Collection = Backbone.Collection.extend({
 		},
 		addArray: function(arr, isSkipDuplicates, isThrowEvent) {
 			var x = {};
-			this.isSkipDuplicates = this.isSkipDuplicates || false;
+			this.isSkipDuplicates = isSkipDuplicates || false;
 			
 			for (var i=0; i<arr.length; i++) {
 				

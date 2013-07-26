@@ -114,6 +114,11 @@
 			"keypress .edit.well":"pressEnterToSaveNewEntries",
 			"dblclick span.label":"removeEntry",				
 		},
+		getModelKey: function() {
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			
+			return (viewKey + "AttrWellCollection");
+		},
 		toggleNewEntryField:function(event){
 			var $elements = $('#textFieldDiv'+this.id+' > .entryField'); 
 			

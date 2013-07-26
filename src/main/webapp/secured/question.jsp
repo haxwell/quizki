@@ -53,7 +53,12 @@
 			<![CDATA[
 			
 			<script type="text/javascript">
-				tinyMCE.init({
+				function myCustomOnChangeHandler(inst) {
+				        alert("Some one modified something");
+				        alert("The HTML is now:" + inst.getBody().innerHTML);
+				};
+				
+        		tinyMCE.init({
 				        theme : "advanced",
 				        mode : "textareas",
 				        plugins : "autoresize",
@@ -65,8 +70,9 @@
 				        theme_advanced_buttons3 : "",
 						theme_advanced_path : false,
 						theme_advanced_statusbar_location : 0,
-						help_shortcut : ""
-				});
+						help_shortcut : "",
+				        onchange_callback : "myCustomOnChangeHandler"						
+        			});
 
 			    $(document).ready(function() {
 			    	Quizki.loadTemplates(["EnterNewChoiceView","QuestionChoiceCollectionView"],
@@ -82,12 +88,15 @@
 			    	
 			    	questionChoiceCollection.add(currentQuestion.choices);
 			    	
+			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });
+			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
+			    	
 			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv") });
 					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv") });
 					
 					bv_questionChoiceList.render();
 					
-					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement") /*, fill in the difficulty */ });
+					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.difficulty_id});
 					
 					// TODO: populate topicsAttrWellCollection with topics
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics' });
@@ -172,16 +181,8 @@
 		<div class="content">
 		<div id="idAlertDiv" class="alert hidden">.</div>
 
-		<div class="row">
-			<div class="span3">
-				<h1 class="questionPageSectionHeader">Question</h1>
-			</div> 
-			<div class="span3 offset5">
-				<button class="btn btn-block" type="submit" name="button" style="margin-top:25px;">Save and Add Another</button>
-			</div>
-			<div class="span1">
-				<button class="btn btn-block" type="submit" name="button" style="margin-top:25px;">Save</button>
-			</div>	
+		<div id="divQuestionHeaderWithSaveButtons" class="row">
+		..
 		</div>
 	
 		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
@@ -190,8 +191,9 @@
 		<c:when test="${empty requestScope.doNotAllowEntityEditing}">
 	
 		<div >
-			<textarea id="id_questionText" name="questionText" rows="8" class="span12 tinymce">${currentQuestion.text}</textarea><br/>  
-			<input class="textInputField span12" type="text" maxlength="998" id="id_questionDescription" name="questionDescription" value="${currentQuestion.description}" placeholder="Optional. A few words describing the question."/>
+			<div id="divTextarea">
+			..
+			</div>
 			
 			<table class="span12" style="margin-left:0px">
 				<tr>
@@ -210,11 +212,12 @@
 				</tr>
 			</table>
 
-	<div class="row">
-		<div class="span3">
-			<h1 class="questionPageSectionHeader">Answer</h1>
-		</div>
-	</div> 
+			<div class="row">
+				<div class="span3">
+					<h1 class="questionPageSectionHeader">Answer</h1>
+				</div>
+			</div> 
+
 	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
 
 				<select name="type" id="questionType" title="What form do the answers come in?">

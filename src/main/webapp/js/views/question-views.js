@@ -1,7 +1,62 @@
-	Quizki.DifficultyChooserView = Backbone.View.extend({
+	Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
+
+		},
+		events: {
+			"keypress #id_questionText":"updateText",
+			"keypress #id_questionDescription":"updateDescription"
+		},
+		render: function() {
+			var _stringModel = model_factory.getStringModel();
+			var currentQuestion = model_factory.get("currentQuestion");
 			
+			makeAJAXCall_andWaitForTheResults('/templates/QuestionTextAndDescriptionView.html', { }, 
+            		function(textTemplate) {
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textTemplate, {text:currentQuestion.text, description:currentQuestion.description}, {});
+        			}
+            );
+
+			this.$el.html( _stringModel.stringModel );
+		},
+		updateText:function(event) {
+			var v = $(event.target).val();
+			
+			// store v as a model 
+		},
+		updateDescription:function(event) {
+			var v = $(event.target).val();
+		}
+	});
+
+	Quizki.SaveButtonView = Backbone.View.extend({
+		initialize:function() {
+			this.render();
+		},
+		events: {
+			"click #btnSaveAndAddAnother":"saveQuestion",
+			"click #btnSave":"saveQuestion"
+		},
+		render:function() {
+			var _stringModel = model_factory.getStringModel();
+			
+			makeAJAXCall_andWaitForTheResults('/templates/QuestionHeaderWithSaveButtons.html', { }, 
+            		function(textTemplate) {
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textTemplate, {}, {});
+        			}
+            );
+
+			this.$el.html( _stringModel.stringModel );
+		},
+		saveQuestion: function() {
+			alert("Save Question!");
+		}
+	});
+
+	Quizki.DifficultyChooserView = Backbone.View.extend({
+		initialize:function() {
 			// the id of the button to select will have been passed in
 			// that id, is basically the model for this view
 			// store the model
@@ -12,6 +67,8 @@
 			// the value.. or perhaps another class somewhere else can
 			// as long as the iteration is done on the render, that
 			// should do it..
+			
+			this.render();
 		},
 		render:function() {
 			var _stringModel = model_factory.getStringModel();

@@ -189,7 +189,7 @@
 	<input style="display:none;" id="idNoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
 	
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
-	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
+	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
 </div>
 </div>
@@ -228,7 +228,7 @@
 					}
 					
 					function setDataObjectDefinitions() {
-						var str = '{'fields': [{'name':'containsFilter','id':'#containsFilter'},{'name':'topicContainsFilter','id':'#topicContainsFilter'},{'name':'questionTypeFilter','id':'#questionTypeFilter'},{'name':'difficultyFilter','id':'#difficultyFilter'},{'name':'maxEntityCountFilter','id':'#maxEntityCountFilter'},{'name':'rangeOfEntitiesFilter','id':'#field_1'},{'name':'offsetFilter','id':'#offset'}]}";
+						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
 					
 						$('#Questions-data-object-definition').attr("value",str);
 						

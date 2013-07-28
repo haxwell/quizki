@@ -86,11 +86,12 @@
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
-			    	questionChoiceCollection.add(currentQuestion.choices);
+		    		questionChoiceCollection.addArray(currentQuestion.choices);
 			    	
 			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
 			    	
+			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), id:currentQuestion.type_id});
 			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv") });
 					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv") });
 					
@@ -98,10 +99,7 @@
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.difficulty_id});
 					
-					// TODO: populate topicsAttrWellCollection with topics
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics' });
-
-					// TODO: populate referencesAttrWellCollection with references
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references' });
 					
 					addCollectionToWell(bv_topicsWell, currentQuestion.topics);
@@ -115,6 +113,7 @@
 			    	
 			    	_.each(coll, function(item) { arr.push(item.text); });
 			    	
+			    	arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
 			    	collection.addArray(arr); 
 			    }
 			    
@@ -137,20 +136,6 @@
 					
 					if (qArr != undefined) {
 
-						// set the choices from this question
-	    				if (qArr.choices != undefined && qArr.choices.length > 0) {
-							var questionChoiceCollection = 
-										    			model_factory.get(	"questionChoiceCollection", 
-		    								function() { return new Quizki.Collection(); }
-		    							);
-
-		    				for (var x=0; x<qArr.choices.length; x++) {
-		    					questionChoiceCollection.add(qArr.choices[x]);
-		    					// consider a way to tell it, don't throw "add" event until ... function()
-		    					// also keep in mind, this is prime "refactor to a common method" material
-		    				}
-	    				}
-						
 						// - ----= - ---==- --- --==
 						// set difficulty radio buttons
 						// TODO: make this a view
@@ -230,15 +215,8 @@
 
 	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
 
-				<select name="type" id="questionType" title="What form do the answers come in?">
-				<c:choose><c:when test="${currentQuestion.questionType.id == 1}"><option value="Single" selected="selected">Single</option></c:when><c:otherwise><option value="Single">Single</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 2}"><option value="Multiple" selected="selected">Multiple</option></c:when><c:otherwise><option value="Multiple">Multiple</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 3}"><option value="String" selected="selected">String</option></c:when><c:otherwise><option value="String">String</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${currentQuestion.questionType.id == 4}"><option value="Sequence" selected="selected">Sequence</option></c:when><c:otherwise><option value="Sequence">Sequence</option></c:otherwise></c:choose>
-				</select>
-			
-			<br/>
-			
+			<div id="questionTypeView">..</div>
+						
 			<div id="enterNewChoiceContainerDiv">
 				..
 			</div>

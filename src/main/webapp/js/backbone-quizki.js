@@ -99,6 +99,20 @@ var method_utility = (function(){
 		},
 		getNumericPortionOfString:function (str) {
 			return str.match(/\d+/);
+		},
+		giveAttributeNamesToElementsOfAnArray:function (attrName, arr) {
+			if (!arr) return null;
+			
+			var rtn = new Array();
+			
+			for (var i=0;i<arr.length;i++) {
+				var obj = { };
+				
+				obj[attrName] = arr[i];
+				rtn[i] = obj;
+			}
+			
+			return rtn;
 		}
 	};
 	}());

@@ -1,3 +1,46 @@
+	Quizki.QuestionTypeView = Backbone.View.extend({
+		initialize:function() {
+			this.render();
+
+			this.optionId = arguments[0].id;
+		},
+		events: {
+			"change select":"changed"
+		},
+		changed:function(event) {
+			alert(event);
+		},
+		render: function() {
+			var _stringModel = model_factory.getStringModel();
+			
+			makeAJAXCall_andWaitForTheResults('/templates/QuestionTypeView.html', { }, 
+            		function(textTemplate) {
+        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textTemplate, { }, { });
+        			}
+            );
+
+			this.$el.html( _stringModel.stringModel );
+			
+			var currentQuestion = model_factory.get("currentQuestion");
+			
+			var optionId = currentQuestion.type_id || -1;
+			
+			// iterate over each of the buttons, if it matches the model, set it as active
+			// otherwise remove the active attribute
+			_.each($("#questionTypeSelectBox").find("option"), function($item) { 
+				$item = $($item);
+				($item.val() == optionId) ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
+			});
+			
+			// HACK.
+			var v = this.$el.html();
+			this.$el.html(v);
+			
+			return this;
+		}
+	});
+
 	Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
@@ -19,6 +62,8 @@
             );
 
 			this.$el.html( _stringModel.stringModel );
+			
+			return this;
 		},
 		updateText:function(event) {
 			var v = $(event.target).val();
@@ -49,6 +94,8 @@
             );
 
 			this.$el.html( _stringModel.stringModel );
+			
+			return this;
 		},
 		saveQuestion: function() {
 			alert("Save Question!");
@@ -90,6 +137,8 @@
 				$item = $($item);
 				($item.val() == buttonId) ? $item.addClass('active') : $item.removeClass('active'); 
 			});
+			
+			return this;
 		}
 	});
 	
@@ -99,7 +148,7 @@
 			var viewKey = arguments[0].viewKey;
 			
 			// TODO: remove on destroy
-			model_constructor_factory.put(viewKey + "AttrWellCollection", function() { return new Quizki.Collection({},{duplicatesAllowed:false}); });
+			model_constructor_factory.put(viewKey + "AttrWellCollection", function() { return new Quizki.Collection({modelKeyFunction:function() {return "text"; }}); });
 			model_constructor_factory.put(this.id + "ViewKey",function() {return ("" + viewKey); }); 
 			
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
@@ -129,18 +178,11 @@
 				}
 				else {
 					$elements.slideDown("slow");
-					
-					//$elements.addClass('editing');
-					//$elements.removeClass('hideForEditing');
-					$elements.find('input').focus();
+					$('#textFieldDiv'+this.id+' > input.entryField').focus();
 				}
 			} 
 			else {
 				$elements = $('#textFieldDiv'+this.id+' > .editing');
-				
-				//$elements.removeClass('editing');
-				//$elements.addClass('hideForEditing');
-				
 				$elements.hide();
 			}
 		},
@@ -158,6 +200,8 @@
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
 			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
+			arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
+			
 			this.model.addArray(arr, true);
 
 		},
@@ -172,6 +216,8 @@
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
 			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
+			arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
+			
 			this.model.addArray(arr, true);
 		},
 		removeEntry:function(event) {
@@ -188,20 +234,22 @@
 			this.render();
 		},
 		renderElement:function(model) {
-			var ul = this.$el.find("#wellItemList"+this.id);
-			
-			var _stringModel = model_factory.getStringModel();
-			
-			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellItemView.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, {text:model.attributes.val}, {});
-        			}
-            );
-
-			ul.append(_stringModel.stringModel);
-
-			model_factory.destroy(_stringModel.id);			
+			if (model.attributes.val != undefined) {
+				var ul = this.$el.find("#wellItemList"+this.id);
+				
+				var _stringModel = model_factory.getStringModel();
+				
+				makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellItemView.html', { }, 
+	            		function(textTemplate) {
+	        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+							_stringModel.stringModel = _.template(textTemplate, {text:model.attributes.val.text}, {});
+	        			}
+	            );
+	
+				ul.append(_stringModel.stringModel);
+	
+				model_factory.destroy(_stringModel.id);
+			}
 		},
 		render:function() {
 			var _id = this.id;
@@ -236,6 +284,8 @@
 			this.$el.html(currHtml);
 
 			model_factory.destroy(_stringModel.id);
+			
+			return this;
 		}
 	});
 
@@ -243,15 +293,18 @@
 	Quizki.QuestionChoiceItemView = Backbone.View.extend({
 		tagName:'li',
 		
-		//template: _.template(makeAJAXCall_andWaitForTheResults('/templates/QuestionChoiceItemView.html', { }, undefined)),
-		
 		initialize: function() {
-			this.model = arguments[0];
+			this.model = arguments[0].attributes;
 			
-			var text = this.model.attributes.text;
-			var checked = ((this.model.attributes.iscorrect == 'true' || this.model.attributes.iscorrect === true) ? 'checked' : '');
-			var sequence = this.model.attributes.sequence || 0;
-			var id = this.model.attributes.millisecond_id || new Date().getMilliseconds();
+			var text = this.model.val.text;
+			//var checked = ((this.model.val.iscorrect == 'true' || (this.model.attributes !== undefined && this.model.attributes.iscorrect === true)) ? 'checked' : '');
+			
+			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
+			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
+			//  instead of a value. That should be cleaned up one day..
+			var checked = (this.model.val.iscorrect == 'true' || this.model.val.iscorrect === true) ? 'checked' : '';
+			var sequence = this.model.val.sequence || 0;
+			var id = this.model.millisecond_id || new Date().getMilliseconds();
 			
 			this.model = {text:text,checked:checked,sequence:sequence,id:id};
 			
@@ -413,13 +466,15 @@
 			this.render();
 		},
 		render: function () {
-			var variables = { label: 'LABEL!!' };
+			var variables = { };
 			var template = _.template( Quizki.EnterNewChoiceView.prototype.template, variables );
 			this.$el.html( template );
 			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('#idNewChoiceCorrectnessSlider');
 			$slider.bootstrapSwitch();
+			
+			return this;
 		},
 		events: {
 			"click button": "btnClicked",

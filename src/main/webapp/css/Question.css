@@ -59,6 +59,10 @@ li:hover .destroyBtn {
 	display:block;
 }
 
+li.editing:hover .destroyBtn {
+	display:none;
+}
+
 button.choice_delete_button {
 	position:absolute;
 	right: 1px;
@@ -67,6 +71,7 @@ button.choice_delete_button {
 input.edit {
 	position:relative;
 	top:4px;
+	margin-bottom:3px;
 }
 
 input.textInputField {

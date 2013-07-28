@@ -251,7 +251,6 @@ var view_utility = (function() {
 			this.model = arguments[0].attributes;
 			
 			var text = this.model.val.text;
-			//var checked = ((this.model.val.iscorrect == 'true' || (this.model.attributes !== undefined && this.model.attributes.iscorrect === true)) ? 'checked' : '');
 			
 			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
 			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
@@ -371,7 +370,7 @@ var view_utility = (function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<ul class='choiceItemList span6' id='listOfChoices'></ul>" )() );
 			
-			_.each(this.model.models, function(model) { this.renderElement(model)}, this);
+			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
 			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');
@@ -380,7 +379,7 @@ var view_utility = (function() {
 			// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
 			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#switch" + model.millisecondId).on('switch-change', model.view.getIsCorrectChangedHandler());
-			})
+			});
 			
 			return this;
 		},

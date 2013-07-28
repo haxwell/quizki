@@ -1,4 +1,5 @@
-Collection.Methods = {
+var collection_utility = (function() {
+		return {
 			addUniqueModelToCollection : function(model, modelKeysFunction, quizkiCollection) {
 					var millis = new Date().getMilliseconds();
 					
@@ -29,7 +30,7 @@ Collection.Methods = {
 					else 
 						quizkiCollection.add([{val:model, millisecond_id:millis}]);
 				}
-};
+		}}());
 
 Quizki.Collection = Backbone.Collection.extend({
 		initialize: function() {
@@ -40,7 +41,7 @@ Quizki.Collection = Backbone.Collection.extend({
 			}
 		},
 		put: function(model, throwEvent) {
-			Collection.Methods.addUniqueModelToCollection(model, this.modelKeysFunction, this);
+			collection_utility.addUniqueModelToCollection(model, this.modelKeysFunction, this);
 			
 			// Created this method put, because I couldn't find a way to override add(), so that I could
 			//  trigger the 'somethingChanged' event when something was added.
@@ -52,7 +53,7 @@ Quizki.Collection = Backbone.Collection.extend({
 		},
 		addArray: function(arr, isThrowEvent) {
 			for (var i=0; i<arr.length; i++) 
-				Collection.Methods.addUniqueModelToCollection(arr[i], this.modelKeysFunction, this);
+				collection_utility.addUniqueModelToCollection(arr[i], this.modelKeysFunction, this);
 			
 			if (isThrowEvent !== false)
 				this.trigger('somethingChanged');	

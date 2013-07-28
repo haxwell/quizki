@@ -1,3 +1,24 @@
+var view_utility = (function() {
+	return {
+		executeTemplate : function(templateURL, templateParams) {
+	
+			var _stringModel = model_factory.getStringModel();
+			
+			makeAJAXCall_andWaitForTheResults(templateURL, { }, 
+	        		function(textFromTheURL) {
+	    				// TO UNDERSTAND: why does this return text rather than a function to be executed?
+						_stringModel.stringModel = _.template(textFromTheURL, templateParams, { });
+	    			}
+	        );
+			
+			var rtn = _stringModel.stringModel;
+			
+			model_factory.destroy(_stringModel.id);
+			
+			return rtn;
+		}	
+	}}());
+
 	Quizki.QuestionTypeView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
@@ -11,16 +32,7 @@
 			alert(event);
 		},
 		render: function() {
-			var _stringModel = model_factory.getStringModel();
-			
-			makeAJAXCall_andWaitForTheResults('/templates/QuestionTypeView.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, { }, { });
-        			}
-            );
-
-			this.$el.html( _stringModel.stringModel );
+			this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView.html', {}));
 			
 			var currentQuestion = model_factory.get("currentQuestion");
 			
@@ -51,17 +63,9 @@
 			"keypress #id_questionDescription":"updateDescription"
 		},
 		render: function() {
-			var _stringModel = model_factory.getStringModel();
 			var currentQuestion = model_factory.get("currentQuestion");
 			
-			makeAJAXCall_andWaitForTheResults('/templates/QuestionTextAndDescriptionView.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, {text:currentQuestion.text, description:currentQuestion.description}, {});
-        			}
-            );
-
-			this.$el.html( _stringModel.stringModel );
+			this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.text, description:currentQuestion.description}));
 			
 			return this;
 		},
@@ -84,17 +88,7 @@
 			"click #btnSave":"saveQuestion"
 		},
 		render:function() {
-			var _stringModel = model_factory.getStringModel();
-			
-			makeAJAXCall_andWaitForTheResults('/templates/QuestionHeaderWithSaveButtons.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, {}, {});
-        			}
-            );
-
-			this.$el.html( _stringModel.stringModel );
-			
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithSaveButtons.html', {}));			
 			return this;
 		},
 		saveQuestion: function() {
@@ -112,23 +106,13 @@
 			// the ui manages the state of this button group. all 
 			// this view has to do, when the time comes is return
 			// the value.. or perhaps another class somewhere else can
-			// as long as the iteration is done on the render, that
-			// should do it..
+			// as long as the iteration is done on the render, (which 
+			// sets the 'active' attribute) that should do it..
 			
 			this.render();
 		},
 		render:function() {
-			var _stringModel = model_factory.getStringModel();
-			
-			//todo: remove question from questionatributewell...
-			makeAJAXCall_andWaitForTheResults('/templates/QuestionDifficultyChooserView.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, {}, {});
-        			}
-            );
-
-			this.$el.html( _stringModel.stringModel );
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionDifficultyChooserView.html', {}));
 			var buttonId = this.buttonId || -1;
 			
 			// iterate over each of the buttons, if it matches the model, set it as active
@@ -237,53 +221,23 @@
 			if (model.attributes.val != undefined) {
 				var ul = this.$el.find("#wellItemList"+this.id);
 				
-				var _stringModel = model_factory.getStringModel();
-				
-				makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellItemView.html', { }, 
-	            		function(textTemplate) {
-	        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-							_stringModel.stringModel = _.template(textTemplate, {text:model.attributes.val.text}, {});
-	        			}
-	            );
-	
-				ul.append(_stringModel.stringModel);
-	
-				model_factory.destroy(_stringModel.id);
+				ul.append( view_utility.executeTemplate('/templates/QuestionAttributeWellItemView.html', {text:model.attributes.val.text}));
 			}
 		},
 		render:function() {
 			var _id = this.id;
 			
-			var _stringModel = model_factory.getStringModel();
-			
-			//todo: remove question from questionatributewell...
-			makeAJAXCall_andWaitForTheResults('/templates/QuestionAttributeWellView.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, {id:_id}, {});
-        			}
-            );
-
-			this.$el.html( _stringModel.stringModel );
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionAttributeWellView.html', {id:_id}));
 			
 			this.viewKey = model_factory.get(_id + "ViewKey");
 			this.model = model_factory.get(	this.viewKey + "AttrWellCollection");
 			
 			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
 			
-			makeAJAXCall_andWaitForTheResults('/templates/AttributeWellViewInputField.html', { }, 
-            		function(textTemplate) {
-        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textTemplate, {id:_id}, {});
-        			}
-            );
-			
 			var currHtml = this.$el.html();
-			currHtml += _stringModel.stringModel;
+			currHtml += view_utility.executeTemplate('/templates/AttributeWellViewInputField.html',{id:_id});
 			
 			this.$el.html(currHtml);
-
-			model_factory.destroy(_stringModel.id);
 			
 			return this;
 		}
@@ -319,28 +273,16 @@
             var _model = this.model;
 
             // if this view already exists in the html, get it!
-            var foo = $("li#"+_model.id);
+            var li = $("li#"+_model.id);
             
-            // TODO: rewrite this to use jquery's wrap.. or something..
-            if (foo.length > 0) {
-            	this.$el = foo;
+            // TODO: rewrite this to use jquery's wrap.. or something.. instead of two htmls..
+            if (li.length > 0) {
+            	this.$el = li;
 
-    			makeAJAXCall_andWaitForTheResults('/templates/' + view + '-minus-LI-tag.html', { }, 
-                		function(textTemplate) {
-                			
-            				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-            				Quizki[view].prototype.template = _.template(textTemplate, {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence}, {});
-            			}
-                );
+            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence});
             }
             else {
-				makeAJAXCall_andWaitForTheResults('/templates/' + view + '.html', { }, 
-	            		function(textTemplate) {
-	            			
-	        				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-	        				Quizki[view].prototype.template = _.template(textTemplate, {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence}, {});
-	        			}
-	            );
+            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence});
             }
 
             var template = Quizki[view].prototype.template;

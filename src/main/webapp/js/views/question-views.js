@@ -273,7 +273,9 @@ var view_utility = (function() {
 			
 			this.model = {text:text,checked:checked,sequence:sequence,id:id};
 			
-			this.onIsCorrectChangedHandler = arguments[1];
+			this.disableCheckboxes = arguments[1];
+			
+			this.onIsCorrectChangedHandler = arguments[2];
 		},
 		getHideSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -285,6 +287,12 @@ var view_utility = (function() {
 
 			return hideSequence;
 		},
+		getDisabledText: function () {
+			if (this.disableCheckboxes === true)
+				return "disabled";
+			
+			return "";
+		},
 		render:function() {
 
 			// This method is due for a refactor.. it is handling two different cases, updating an LI element, and creating an LI element,
@@ -293,7 +301,8 @@ var view_utility = (function() {
 			var view = "QuestionChoiceItemView";
             var _model = this.model;
             var hideSequence = this.getHideSequence();
-
+            var disabled = this.getDisabledText();
+            
             // if this view already exists in the html, get it!
             var li = $("li#"+_model.id);
             
@@ -301,10 +310,10 @@ var view_utility = (function() {
             if (li.length > 0) {
             	this.$el = li;
 
-            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence});
+            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
             }
             else {
-            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence});
+            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
             }
 
             var template = Quizki[view].prototype.template;
@@ -349,18 +358,25 @@ var view_utility = (function() {
 				_el.addClass("hidden");
 			}
 		},
+		choiceItemSwitchesShouldBeDisabled : function() {
+			var currQuestion = model_factory.get('currentQuestion');
+			return (currQuestion.type_id == "3" || currQuestion.type_id == "4");
+		},
 		setStateOnInitialization: function () {
 			var currQuestion = model_factory.get('currentQuestion');
-
-			this.setSequenceFieldsAreVisible(currQuestion.type_id == "4");
+			this.setSequenceFieldsAreVisible(currQuestion.type_id == "3" || currQuestion.type_id == "4");
 		},
 		setStateOnQuestionChangedEvent: function(event) {
-			if (event.type_id.to == "4") {
-				this.setSequenceFieldsAreVisible(true);
+			var rtn = undefined;
+			
+			if (event.type_id.to == "3" || event.type_id.to == "4") {
+				rtn = true;
 			}
-			else if (event.type_id.from == "4") {
-				this.setSequenceFieldsAreVisible(false);
+			else if (rtn == undefined && (event.type_id.from == "3" || event.type_id.from == "4")) {
+				rtn = false;
 			}
+			
+			this.setSequenceFieldsAreVisible(rtn || false);
 		},
 		events: {
 			"dblclick":"edit",
@@ -386,14 +402,8 @@ var view_utility = (function() {
 		},
 		closeOnEnter : function(event) {
 			if (event.keyCode != 13) return;
-			
-			// can I just call close() now? Please?
-			
-			var $currentLineItem = this.$el.find(".editing");
-			var currMillisecondId = $currentLineItem.attr("id");
 
-			this.model = model_factory.get("questionChoiceCollection");
-			this.model.update(currMillisecondId, 'text', $currentLineItem.find('.edit').val());
+			this.close(event);
 		},
 		renderElement:function (model) {
 			var ul = this.$el.find("#listOfChoices");
@@ -408,7 +418,7 @@ var view_utility = (function() {
 				this.model.update(millisecond_id, 'iscorrect', $(event.target).find('.switch-animate').hasClass('switch-on'), false);
 			};
 			
-			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, isCorrectChangedCallbackFunc);
+			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc);
 			ul.append( questionChoiceItemView.render().$el.html() );
 			
 			var obj = {millisecondId:questionChoiceItemView.milliseconds(), view:questionChoiceItemView};

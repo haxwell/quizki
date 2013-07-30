@@ -1,7 +1,6 @@
 var collection_utility = (function() {
 		return {
 			addUniqueModelToCollection : function(model, modelKeysFunction, quizkiCollection) {
-					var millis = new Date().getMilliseconds();
 					
 					if (modelKeysFunction !== undefined) {
 						var nameOfComparisonKey = modelKeysFunction();
@@ -24,11 +23,11 @@ var collection_utility = (function() {
 										}
 									);
 							
-							if (v.length == 0) quizkiCollection.add( [ {val:model, millisecond_id:millis} ] );
+							if (v.length == 0) quizkiCollection.add( [ method_utility.getQuizkiObject(model) ] );
 						}
 					}
 					else 
-						quizkiCollection.add([{val:model, millisecond_id:millis}]);
+						quizkiCollection.add([ method_utility.getQuizkiObject(model) ]);
 				}
 		}}());
 

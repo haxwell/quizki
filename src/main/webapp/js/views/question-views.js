@@ -22,14 +22,26 @@ var view_utility = (function() {
 	Quizki.QuestionTypeView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
-
-			this.optionId = arguments[0].id;
 		},
 		events: {
 			"change select":"changed"
 		},
 		changed:function(event) {
-			alert(event);
+			// get the value from the html element
+			var val = event.target.value;
+			
+			// set it in the model
+			var currentQuestion = model_factory.get("currentQuestion");
+
+			var _from = currentQuestion.type_id;
+			var _to = val;
+			
+			if (_from != _to) {
+				currentQuestion.type_id = _to;
+			
+				// either model should throw event, or we do it here.. methinks the model.. but don't see a way of doing that so..
+				currentQuestion.trigger('changed', {type_id:{from:_from,to:_to}});
+			}
 		},
 		render: function() {
 			this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView.html', {}));
@@ -404,11 +416,39 @@ var view_utility = (function() {
 			
 			this.$el = arguments[0].el;
 			
+			var currQuestion = model_factory.get('currentQuestion', false);
+			this.listenTo(currQuestion, 'changed', function(event) { this.setStateOnQuestionChangedEvent(event); this.render(); });
+			
+			var state = method_utility.getQuizkiObject({});
+			
+			// TODO: destroy this..
+			model_factory.put('EnterNewChoiceViewState', state);
+			
+			this.setStateOnInitialization();
+			
 			this.render();
 		},
+		setCheckBoxDisabled: function(bool) {
+			var state = model_factory.get('EnterNewChoiceViewState');
+			
+			if (bool)
+				state.val.checkBoxDisabled = "disabled";
+			else
+				state.val.checkBoxDisabled = "";
+		},
+		setStateOnInitialization: function () {
+			var currQuestion = model_factory.get('currentQuestion');
+			
+			this.setCheckBoxDisabled(currQuestion.type_id == "2" || currQuestion.type_id == "3");
+		},
+		setStateOnQuestionChangedEvent: function(event) { 
+			
+			this.setCheckBoxDisabled(event.type_id.to == "2" || event.type_id.to == "3"); 
+		},
 		render: function () {
-			var variables = { };
-			var template = _.template( Quizki.EnterNewChoiceView.prototype.template, variables );
+			var state = model_factory.get('EnterNewChoiceViewState');
+			
+			var template = view_utility.executeTemplate('/templates/EnterNewChoiceView.html', {disabled:(state.val.checkBoxDisabled)});
 			this.$el.html( template );
 			
 			//get the actual bootstrap slider ui component div

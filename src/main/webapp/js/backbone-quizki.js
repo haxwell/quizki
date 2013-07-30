@@ -66,7 +66,7 @@ var model_constructor_factory = new KeyValueMap();
 
 var model_factory = (function(){
 	var arr = {};
-	
+
 	return {
 			get: function(id, attemptToCreateIfNonexistant) {
 				if (arr[id] == undefined && attemptToCreateIfNonexistant !== false) {
@@ -77,6 +77,10 @@ var model_factory = (function(){
 				}
 				
 				return arr[id];
+			},
+			put: function(id, model) {
+				// todo: perhaps an event when this happens?
+				arr[id] = model;
 			},
 			getStringModel:function() {
 				var id = new Date().getMilliseconds();
@@ -113,6 +117,9 @@ var method_utility = (function(){
 			}
 			
 			return rtn;
+		},
+		getQuizkiObject:function(model) {
+			return {val:model, millisecond_id:new Date().getMilliseconds()};
 		}
 	};
 	}());

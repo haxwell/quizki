@@ -75,7 +75,7 @@
         			});
 
 			    $(document).ready(function() {
-			    	Quizki.loadTemplates(["EnterNewChoiceView","QuestionChoiceCollectionView"],
+			    	Quizki.loadTemplates(["QuestionChoiceCollectionView"],
 			    		function() {  });
 
 			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
@@ -91,7 +91,7 @@
 			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
 			    	
-			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), id:currentQuestion.type_id});
+			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView") });
 			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv") });
 					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv") });
 					

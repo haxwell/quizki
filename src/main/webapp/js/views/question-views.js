@@ -274,7 +274,17 @@ var view_utility = (function() {
 			this.model = {text:text,checked:checked,sequence:sequence,id:id};
 			
 			this.onIsCorrectChangedHandler = arguments[1];
-		}, 
+		},
+		getHideSequence:function() {
+			var currQuestion = model_factory.get('currentQuestion');
+			
+			var hideSequence = "hidden";
+			
+			if (currQuestion.type_id == "4")
+				hideSequence = "";
+
+			return hideSequence;
+		},
 		render:function() {
 
 			// This method is due for a refactor.. it is handling two different cases, updating an LI element, and creating an LI element,
@@ -282,6 +292,7 @@ var view_utility = (function() {
 			
 			var view = "QuestionChoiceItemView";
             var _model = this.model;
+            var hideSequence = this.getHideSequence();
 
             // if this view already exists in the html, get it!
             var li = $("li#"+_model.id);
@@ -290,10 +301,10 @@ var view_utility = (function() {
             if (li.length > 0) {
             	this.$el = li;
 
-            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence});
+            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence});
             }
             else {
-            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence});
+            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence});
             }
 
             var template = Quizki[view].prototype.template;
@@ -322,6 +333,34 @@ var view_utility = (function() {
 			this.$el = arguments[0].el;
 			
 			this.ChoiceItemViewCollection = new Array();
+			
+			var currQuestion = model_factory.get('currentQuestion');
+			this.listenTo(currQuestion, 'changed', function(event) { this.setStateOnQuestionChangedEvent(event); this.render(); });
+			
+			this.setStateOnInitialization();
+		},
+		setSequenceFieldsAreVisible: function (bool) {
+			var _el = this.$el.find(".sequenceDiv");
+			
+			if (bool) {
+				_el.removeClass("hidden");
+			}
+			else {
+				_el.addClass("hidden");
+			}
+		},
+		setStateOnInitialization: function () {
+			var currQuestion = model_factory.get('currentQuestion');
+
+			this.setSequenceFieldsAreVisible(currQuestion.type_id == "4");
+		},
+		setStateOnQuestionChangedEvent: function(event) {
+			if (event.type_id.to == "4") {
+				this.setSequenceFieldsAreVisible(true);
+			}
+			else if (event.type_id.from == "4") {
+				this.setSequenceFieldsAreVisible(false);
+			}
 		},
 		events: {
 			"dblclick":"edit",
@@ -439,11 +478,11 @@ var view_utility = (function() {
 		setStateOnInitialization: function () {
 			var currQuestion = model_factory.get('currentQuestion');
 			
-			this.setCheckBoxDisabled(currQuestion.type_id == "2" || currQuestion.type_id == "3");
+			this.setCheckBoxDisabled(currQuestion.type_id == "3" || currQuestion.type_id == "4");
 		},
 		setStateOnQuestionChangedEvent: function(event) { 
 			
-			this.setCheckBoxDisabled(event.type_id.to == "2" || event.type_id.to == "3"); 
+			this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4"); 
 		},
 		render: function () {
 			var state = model_factory.get('EnterNewChoiceViewState');

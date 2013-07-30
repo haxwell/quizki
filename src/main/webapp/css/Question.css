@@ -46,17 +46,22 @@
 	display:none;
 }
 
+.hidden {
+	display:none;
+}
+
 div.well:hover button.btn.well_add_button {
 	visibility:visible;
 }
 
 .destroyBtn {
 	position:relative;
+	top:-10px;
 	display:none;
 }
 
 li:hover .destroyBtn {
-	display:block;
+	display:inline;
 }
 
 li.editing:hover .destroyBtn {
@@ -150,4 +155,27 @@ li.choiceItem {
 
 [id*="switch"] {
 	margin: 0 0 0 0;
+}
+
+.sequenceDiv {
+	display:inline;
+}
+
+.sequenceDiv.hidden {
+	display:none;
+}
+
+.sequenceTextField {
+	position: relative;
+	
+	width: 5%;
+	top: 5px;
+	padding: 4px;
+	margin-left: 4px;
+	height: 17px;
+}
+
+.choiceTextDiv {
+	width:75%;
+	display:inline-block;
 }

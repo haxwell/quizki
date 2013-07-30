@@ -82,17 +82,33 @@ var view_utility = (function() {
 			return this;
 		},
 		updateText:function(event) {
-			var v = $(event.target).val();
-			
-			// store v as a model 
+			var currentQuestion = model_factory.get("currentQuestion");
+			currentQuestion.text = $(event.target).val();
 		},
 		updateDescription:function(event) {
-			var v = $(event.target).val();
+			var currentQuestion = model_factory.get("currentQuestion");
+			currentQuestion.description = $(event.target).val();
 		}
 	});
 
 	Quizki.SaveButtonView = Backbone.View.extend({
+		// A flaw in this view is that it must know the names of the models used by the 
+		// other views, in order to build data sent to the server for persistence.
+		
+		// I thought about a way of seperating this dependecy, and thats basically that
+		// each view, upon creation register itself, and the name of its model. This would
+		// be done within a context, and then this view could ask that object, give me all
+		// the model names for this context.
+		
+		// I suppose each model would then have to know how to persist itself to the string
+		// that will go into the AJAX data object, because though we have the names, we have
+		// no idea whats in each model, nor how to get it out in order to associate it with
+		// an attribute name.
+		
+		// But thats a lot of work...
 		initialize:function() {
+			this.prependages = arguments[0].prependages;
+			
 			this.render();
 		},
 		events: {
@@ -104,7 +120,28 @@ var view_utility = (function() {
 			return this;
 		},
 		saveQuestion: function() {
-			alert("Save Question!");
+			// TODO: I don't like this here.. the view shouldn't know how to create a question object.. it should just
+			//  pass the data, and get a question object back
+			var data_url = "/ajax/question-save.jsp";
+			var currentQuestion = model_factory.get("currentQuestion");
+			var questionChoiceColl = model_factory.get("questionChoiceCollection");
+
+			var data_obj = {
+				text:currentQuestion.text,
+				description:currentQuestion.description,
+				type_id:currentQuestion.type_id,
+				difficulty_id:currentQuestion.difficulty_id
+			};
+			
+			for (var i=0;i<this.prependages.length;i++) {
+				var coll = model_factory.get(this.prependages[i]+"AttrWellCollection");
+				
+				data_obj[this.prependages[i]] = method_utility.getCSVFromCollection(coll, "text");
+			}
+
+			// need to add choices to the data obj.
+			
+			// do the ajax call
 		}
 	});
 
@@ -122,6 +159,21 @@ var view_utility = (function() {
 			// sets the 'active' attribute) that should do it..
 			
 			this.render();
+		},
+		events : {
+			"click button":"changed"
+		},
+		changed:function(event) {
+			var currQuestion = model_factory.get("currentQuestion");
+			
+			var from = currQuestion.difficulty_id;
+			var to = event.target.val();
+			
+			if (from != to) {
+				currQuestion.difficulty_id = to;
+				
+				currentQuestion.trigger('changed', {difficulty_id:{from:_from,to:_to}});				
+			}
 		},
 		render:function() {
 			this.$el.html(view_utility.executeTemplate('/templates/QuestionDifficultyChooserView.html', {}));

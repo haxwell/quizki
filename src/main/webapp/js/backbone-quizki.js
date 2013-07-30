@@ -101,8 +101,18 @@ var method_utility = (function(){
 		wrap:function(template, elementName) {
 			return '<' + elementName + '>' + template + '</' + elementName + '>';
 		},
-		getNumericPortionOfString:function (str) {
-			return str.match(/\d+/);
+		getCSVFromCollection:function(coll, elementFieldName) {
+			var rtn = "";
+			
+			for (var i=0;i<coll.models.length; i++) {
+				var v = coll.models[i].attributes.val;
+				
+				if (v != undefined) {
+					rtn += v[elementFieldName]+",";	
+				}
+			}
+			
+			return rtn;
 		},
 		giveAttributeNamesToElementsOfAnArray:function (attrName, arr) {
 			if (!arr) return null;

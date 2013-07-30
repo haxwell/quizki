@@ -88,7 +88,6 @@
 			    	
 		    		questionChoiceCollection.addArray(currentQuestion.choices);
 			    	
-			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
 			    	
 			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView") });
@@ -104,6 +103,8 @@
 					
 					addCollectionToWell(bv_topicsWell, currentQuestion.topics);
 					addCollectionToWell(bv_referencesWell, currentQuestion.references);
+					
+			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons"), prependages:['topics','references'] });					
 			    });
 			    
 			    function addCollectionToWell(view, coll) {

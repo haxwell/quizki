@@ -81,8 +81,6 @@
 			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    		
-			    	populateQuestionFields();
-			    	
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
@@ -126,37 +124,6 @@
 			    						topics : $("#topicsCSV").val(),
 			    						references: $("#referencesCSV").val()};
 			    						//choices : $
-			    }
-			    
-			    function populateQuestionFields() {
-			    	
-			    	// this method executes if the entity id hidden field is set
-					//var qArr = getFunctionToRetrieveCurrentQuestion();
-					
-					var qArr = model_factory.get("currentQuestion");					
-					
-					if (qArr != undefined) {
-
-						// - ----= - ---==- --- --==
-						// set difficulty radio buttons
-						// TODO: make this a view
-						var difficultyId = qArr.difficulty_id;
-						
-						for (var i=0; i<4; i++) {
-							$("#difficultyBtn"+i).removeClass('active');
-							
-							if (difficultyId == i)
-								$("#difficultyBtn"+i).addClass('active');
-						}								
-						
-						
-						// add topics
-						
-						// add references
-					}
-					else {
-						// there's no question by that entity ID!
-					}
 			    }
 			    
 			    function getEntityId() {

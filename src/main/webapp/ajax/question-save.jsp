@@ -1,13 +1,16 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.page import="java.util.logging.Logger"/>
 	<jsp:directive.page import="java.util.logging.Level"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.managers.ExamManager"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.managers.QuestionManager"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.entities.Exam"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.entities.Question"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.EventConstants"/>	
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.ExamUtil"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.DifficultyUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.ReferenceUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.TopicUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.TypeUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.QuestionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.events.EventDispatcher"/>
 	<jsp:directive.page import="java.util.List"/>
 	<jsp:directive.page import="java.util.ArrayList"/>	
@@ -28,33 +31,33 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-String 
+// need to get the text data from the javascript, and convert it to a real Question object
+Question question = new Question();
 
+User user = (User)request.getSession().getAttribute("currentUserEntity");
+Long user_id = Long.parseLong(request.getParameter("user_id"));
 
-Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
+if (user.getId() == user_id) {
+	question.setId(Long.parseLong(request.getParameter("id")));
+	question.setUser(user);
 
-String rtn = "";
+	question.setText((String)request.getParameter("text"));
+	question.setDescription((String)request.getParameter("description"));
+	question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
+	question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
+	question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices")));
+	question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
+	question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
 
-if (exam != null) {
-	String title = request.getParameter("examTitle");
-	String message = request.getParameter("examMessage");
-	
-	exam.setTitle(title);
-	exam.setMessage(message);
-	
-	rtn = ExamUtil.persist(exam);
-	
-	if (rtn.contains("successes")) {
-		EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_PERSISTED);
-	}
+	log.log(Level.SEVERE, "got: " + question);
+
+	long rtn = QuestionManager.persistQuestion(question);
 }
-else {
-	rtn = "{\"examValidationWarnings\":[\"There's nothing to save!\"]}";
-}
 
-log.log(Level.SEVERE, "exam-save.jsp is going to return: " + rtn);
 
-writer.print(rtn);
+//(rtn > -1) ? writer.print("") : writer.print("");
+
+writer.print("");
 
 </jsp:scriptlet>
 	

@@ -68,4 +68,8 @@ public class DifficultyUtil {
 		
 		return d;
 	}
+	
+	public static Difficulty getDifficulty(String iint) {
+		return getDifficulty(Integer.parseInt(iint));
+	}
 }

@@ -215,7 +215,9 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		sb.append(getJSON("choices", choices.iterator(), APPEND_COMMA));
 		sb.append(getJSON("topics", topics.iterator(), APPEND_COMMA));
 		sb.append(getJSON("references", references.iterator(), APPEND_COMMA));
-		sb.append(getJSON("entityStatus", getEntityStatus() + ""));
+		sb.append(getJSON("entityStatus", getEntityStatus() + "", APPEND_COMMA));
+		
+		sb.append(getJSON("user_id", getUser().getId()+""));
 		
 		sb.append(getJSONClosing());
 		

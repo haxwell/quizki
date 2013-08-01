@@ -124,13 +124,14 @@ var view_utility = (function() {
 			//  pass the data, and get a question object back
 			var data_url = "/ajax/question-save.jsp";
 			var currentQuestion = model_factory.get("currentQuestion");
-			var questionChoiceColl = model_factory.get("questionChoiceCollection");
 
 			var data_obj = {
+				id:currentQuestion.id,
 				text:currentQuestion.text,
 				description:currentQuestion.description,
 				type_id:currentQuestion.type_id,
-				difficulty_id:currentQuestion.difficulty_id
+				difficulty_id:currentQuestion.difficulty_id,
+				user_id:currentQuestion.user_id
 			};
 			
 			for (var i=0;i<this.prependages.length;i++) {
@@ -139,9 +140,50 @@ var view_utility = (function() {
 				data_obj[this.prependages[i]] = method_utility.getCSVFromCollection(coll, "text");
 			}
 
+			var v = model_factory.get("questionChoiceCollection");
+			
 			// need to add choices to the data obj.
+			var strrrr = '{ "choice":[';
+			
+			//for (var i=0;i<currentQuestion.choices.length;i++) {
+			for (var i=0;i<v.models.length;i++) {
+				
+				var str = "{";
+				for (var property in v.models[i]["attributes"]["val"]) {
+					str += '"' + property + '":' + '"' + v.models[i]["attributes"]["val"][property] + '",';
+				}
+				
+				str += "}";
+				
+				if (i+1 < v.models.length)
+					str += ",";
+				
+				strrrr += str;
+			}
+			
+			strrrr += "]}";
+			
+			data_obj["choices"] = strrrr;
+			
+			var resetCurrentQuestion = this.resetCurrentQuestion;
 			
 			// do the ajax call
+			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(o1,o2) { resetCurrentQuestion(); });
+		},
+		resetCurrentQuestion:function() {
+			// TODO: There needs to be a Quizki.Question object, which has the necessary fields, and also has methods, specifically this method,
+			//  to reset itself. Also Events, but not sure about that.. not sure there's anything really to do... that kind of works, now.. *shrug*
+			var currQuestion = model_factory.get('currentQuestion');
+			
+			currQuestion.text = "";
+			currQuestion.description = "";
+			currQuestion.type_id = 1;
+			currQuestion.difficulty_id = 4;
+			currQuestion.topics = "";
+			currQuestion.references = "";
+			currQuestion.choices = {};
+			
+			currQuestion.trigger('somethingChanged');
 		}
 	});
 
@@ -356,17 +398,17 @@ var view_utility = (function() {
             var disabled = this.getDisabledText();
             
             // if this view already exists in the html, get it!
-            var li = $("li#"+_model.id);
+//            var li = $("li#"+_model.id);
             
             // TODO: rewrite this to use jquery's wrap.. or something.. instead of two htmls..
-            if (li.length > 0) {
-            	this.$el = li;
+  //          if (li.length > 0) {
+    //        	this.$el = li;
 
-            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
-            }
-            else {
+      //      	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
+        //    }
+          //  else {
             	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
-            }
+            //}
 
             var template = Quizki[view].prototype.template;
 			this.$el.html( template );
@@ -569,24 +611,17 @@ var view_utility = (function() {
 			
 			for (var i=0; i<tokens.length; i++) {
 				// tell the model, user requested a choice be added.
-				this.millisecond_id = this.choiceModel.put({text:tokens[i],iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
+				var id = this.choiceModel.models.length + 1;
+				
+				this.millisecond_id = 
+					this.choiceModel.put({id:-1,text:tokens[i],iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0),sequence:"0"});
 			}
 
 			$textField.val('');
 		},
 		updateOnEnter : function (event) {
 			if (event.keyCode == 13) {
-				// TODO: sure wish I could just call the btnClicked method...
-				var $textField = $('#enterAnswerTextField');
-				
-				var tokens = $textField.val().split(',');
-				
-				for (var i=0; i<tokens.length; i++) {
-					// tell the model, user requested a choice be added.
-					this.millisecond_id = this.choiceModel.put({text:tokens[i],iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0)});
-				}
-
-				$textField.val('');
+				this.btnClicked();
 			}
 		}
 	});

@@ -108,7 +108,10 @@ var method_utility = (function(){
 				var v = coll.models[i].attributes.val;
 				
 				if (v != undefined) {
-					rtn += v[elementFieldName]+",";	
+					rtn += v[elementFieldName];
+					
+					if (i+1 < coll.models.length)
+						rtn += ",";
 				}
 			}
 			

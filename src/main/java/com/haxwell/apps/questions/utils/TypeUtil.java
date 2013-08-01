@@ -22,6 +22,19 @@ public class TypeUtil {
 		
 		return TypeConstants.ALL_TYPES;
 	}
+	
+	public static String convertToString(int n) {
+		if (n == TypeConstants.SINGLE)
+			return TypeConstants.SINGLE_STR;
+		if (n == TypeConstants.STRING)
+			return TypeConstants.STRING_STR;
+		if (n == TypeConstants.MULTIPLE)
+			return TypeConstants.MULTIPLE_STR;
+		if (n == TypeConstants.SEQUENCE)
+			return TypeConstants.SEQUENCE_STR;
+		
+		return TypeConstants.ALL_TYPES_STR;
+	}
 
 	public static QuestionType convertToObject(String parameter) {
 		QuestionType qt = new QuestionType(parameter);
@@ -29,5 +42,11 @@ public class TypeUtil {
 		qt.setId(convertToInt(parameter));
 		
 		return qt;
+	}
+	
+	public static QuestionType getObjectFromStringTypeId(String iint) {
+		int n = Integer.parseInt(iint);
+		
+		return convertToObject(convertToString(n));
 	}
 }

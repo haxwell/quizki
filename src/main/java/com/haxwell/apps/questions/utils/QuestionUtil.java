@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
@@ -160,4 +165,29 @@ public class QuestionUtil {
 		
 		return str.substring(0, maxLength);
 	}
+	
+	public static Set<Choice> getSetFromAjaxDefinition(String str) {
+		Set<Choice> rtn = new HashSet<Choice>();
+		
+		JSONValue jValue= new JSONValue();
+		JSONObject jObj = (JSONObject)jValue.parse(str);
+		
+		JSONArray arr = (JSONArray)jObj.get("choice");
+		
+		for (int i=0; i < arr.size(); i++) {
+			JSONObject o = (JSONObject)arr.get(i);
+			
+			Choice c = new Choice();
+			
+			c.setText((String)o.get("text"));
+			c.setSequence(Integer.parseInt((String)o.get("sequence")));
+			c.setIscorrect("true".equals((String)o.get("iscorrect")));
+			c.setId(Long.parseLong((String)o.get("id")));
+			
+			rtn.add(c);
+		}
+		
+		return rtn;
+	}
+	
 }

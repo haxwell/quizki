@@ -166,7 +166,7 @@ public class QuestionUtil {
 		return str.substring(0, maxLength);
 	}
 	
-	public static Set<Choice> getSetFromAjaxDefinition(String str) {
+	public static Set<Choice> getSetFromAjaxDefinition(String str, long newChoiceIndexBegin) {
 		Set<Choice> rtn = new HashSet<Choice>();
 		
 		JSONValue jValue= new JSONValue();
@@ -182,7 +182,10 @@ public class QuestionUtil {
 			c.setText((String)o.get("text"));
 			c.setSequence(Integer.parseInt((String)o.get("sequence")));
 			c.setIscorrect("true".equals((String)o.get("iscorrect")));
-			c.setId(Long.parseLong((String)o.get("id")));
+			
+			Long id = Long.parseLong((String)o.get("id"));
+			if (id != -1)
+				c.setId(id);
 			
 			rtn.add(c);
 		}

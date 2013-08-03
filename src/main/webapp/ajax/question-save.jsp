@@ -37,6 +37,13 @@ Question question = new Question();
 User user = (User)request.getSession().getAttribute("currentUserEntity");
 Long user_id = Long.parseLong(request.getParameter("user_id"));
 
+Object obj = request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER);
+int nextSequenceNumber = Integer.MIN_VALUE;
+
+if (obj != null) {
+	nextSequenceNumber = Integer.parseInt(obj.toString());
+}
+
 if (user.getId() == user_id) {
 	question.setId(Long.parseLong(request.getParameter("id")));
 	question.setUser(user);
@@ -45,7 +52,7 @@ if (user.getId() == user_id) {
 	question.setDescription((String)request.getParameter("description"));
 	question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
 	question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
-	question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices")));
+	question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
 	question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
 	question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
 

@@ -143,27 +143,26 @@ var view_utility = (function() {
 			var v = model_factory.get("questionChoiceCollection");
 			
 			// need to add choices to the data obj.
-			var strrrr = '{ "choice":[';
+			var choicesAsJSONString = '{ "choice":[';
 			
-			//for (var i=0;i<currentQuestion.choices.length;i++) {
 			for (var i=0;i<v.models.length;i++) {
 				
-				var str = "{";
+				var attrs = "{";
 				for (var property in v.models[i]["attributes"]["val"]) {
-					str += '"' + property + '":' + '"' + v.models[i]["attributes"]["val"][property] + '",';
+					attrs += '"' + property + '":' + '"' + v.models[i]["attributes"]["val"][property] + '",';
 				}
 				
-				str += "}";
+				attrs += "}";
 				
 				if (i+1 < v.models.length)
-					str += ",";
+					attrs += ",";
 				
-				strrrr += str;
+				choicesAsJSONString += attrs;
 			}
 			
-			strrrr += "]}";
+			choicesAsJSONString += "]}";
 			
-			data_obj["choices"] = strrrr;
+			data_obj["choices"] = choicesAsJSONString;
 			
 			var resetCurrentQuestion = this.resetCurrentQuestion;
 			
@@ -279,21 +278,7 @@ var view_utility = (function() {
 		pressEnterToSaveNewEntries : function(event) {
 			if (event.keyCode != 13) return;
 			
-			// saveNewEntries()
-			var $elements = $('#textFieldDiv'+this.id+' > .editing');
-			
-			$elements.addClass('hideForEditing');
-			$elements.removeClass('editing');
-			
-			var viewKey = model_factory.get( this.id + "ViewKey" );
-			
-			this.model = model_factory.get(	viewKey + "AttrWellCollection");
-			
-			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
-			arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
-			
-			this.model.addArray(arr, true);
-
+			this.saveNewEntries(event);
 		},
 		saveNewEntries:function(model) {
 			var $elements = $('#textFieldDiv'+this.id+' > .editing');
@@ -388,27 +373,12 @@ var view_utility = (function() {
 			return "";
 		},
 		render:function() {
-
-			// This method is due for a refactor.. it is handling two different cases, updating an LI element, and creating an LI element,
-			//  depending on if said element exists..
-			
 			var view = "QuestionChoiceItemView";
             var _model = this.model;
             var hideSequence = this.getHideSequence();
             var disabled = this.getDisabledText();
             
-            // if this view already exists in the html, get it!
-//            var li = $("li#"+_model.id);
-            
-            // TODO: rewrite this to use jquery's wrap.. or something.. instead of two htmls..
-  //          if (li.length > 0) {
-    //        	this.$el = li;
-
-      //      	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '-minus-LI-tag.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
-        //    }
-          //  else {
-            	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
-            //}
+           	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
 
             var template = Quizki[view].prototype.template;
 			this.$el.html( template );
@@ -502,8 +472,8 @@ var view_utility = (function() {
 		renderElement:function (model) {
 			var ul = this.$el.find("#listOfChoices");
 			
-			// need to set a callback, which will get the appropriate model from questionChoiceCollection
-			//  set the isCorrect attr on it. Should not redraw the list, thats already been done
+			// this is a callback, which will get the appropriate model from questionChoiceCollection
+			//  set the isCorrect attr on it. Does not redraw the list, thats already been done
 			var isCorrectChangedCallbackFunc = function(event,data) {
 
 				var millisecond_id = event.target.id.replace('switch','');

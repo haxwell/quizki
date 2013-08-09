@@ -20,10 +20,14 @@ import net.minidev.json.JSONValue;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.managers.Manager;
+import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class QuestionUtil {
 
@@ -85,6 +89,85 @@ public class QuestionUtil {
 		Collections.sort(list, Manager.SEQUENCE_NUMBER_COMPARATOR);
 		
 		return list;
+	}
+	
+	/**
+	 * 
+	 */
+	public static Map<String, List<String>> persistQuestionBasedOnHttpServletRequest(HttpServletRequest request) {
+		Question question = buildQuestionBasedOnHttpServletRequest(request);
+		
+		Map<String, List<String>> rtn = new HashMap<String, List<String>>();
+		
+		List<String> errors = QuestionManager.validate(question);
+		
+		if (errors.size() == 0)
+		{
+			long qid = QuestionManager.persistQuestion(question);
+			List<String> successes = new ArrayList<String>();
+			
+			successes.add("Question was successfully saved! ");
+			
+			rtn.put("successes", successes);			
+
+//			request.getSession().setAttribute(Constants.CURRENT_QUESTION, null);
+			request.setAttribute(Constants.CURRENT_QUESTION, null);
+			
+//			request.getSession().setAttribute(Constants.URL_TO_REDIRECT_TO_WHEN_BACK_BUTTON_PRESSED, "/secured/question.jsp");
+			request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Edit Question");
+//			request.getSession().setAttribute(Constants.CURRENT_QUESTION_HAS_BEEN_PERSISTED, Boolean.TRUE);
+//			request.getSession().setAttribute(Constants.IN_EDITING_MODE, null); // HACK!! I would rather do this in the initializeQuestions filter, but its not being called by the forwardToJSP() call.
+			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
+			
+			EventDispatcher.getInstance().fireEvent(request, EventConstants.QUESTION_WAS_PERSISTED);
+		}
+		else
+		{
+//			log.log(Level.SEVERE, "errors.size() == " + errors.size());
+//			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
+			rtn.put("errors", errors);
+		}
+
+		return rtn;
+	}
+	
+	/**
+	 * 
+	 */
+	public static Question buildQuestionBasedOnHttpServletRequest(HttpServletRequest request) {
+		Question question = new Question();
+		
+		User user = (User)request.getSession().getAttribute("currentUserEntity");
+
+		String questionUserId = (String)request.getParameter("user_id");
+		Long user_id = Long.parseLong(questionUserId == null ? user.getId()+"" : questionUserId);
+
+		Object obj = request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER);
+		int nextSequenceNumber = Integer.MIN_VALUE;
+
+		if (obj != null) {
+			nextSequenceNumber = Integer.parseInt(obj.toString());
+		}
+
+		if (user.getId() == user_id) {
+			String id = (String)request.getParameter("id");
+			
+			if (id != null)
+				question.setId(Long.parseLong(id));
+			
+			question.setUser(user);
+
+			question.setText((String)request.getParameter("text"));
+			question.setDescription((String)request.getParameter("description"));
+			question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
+			question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
+			question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
+			question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
+			question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
+
+		}
+		
+		return question;
 	}
 	
 	/**

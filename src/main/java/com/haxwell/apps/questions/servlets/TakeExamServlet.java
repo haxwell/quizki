@@ -27,7 +27,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 /**
  * Servlet implementation class ExamServlet
  */
-@WebServlet("/TakeExamServlet")
+//@ WebServlet("/TakeExamServlet")
 public class TakeExamServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 135739L;
 	private Logger log = Logger.getLogger(TakeExamServlet.class.getName());

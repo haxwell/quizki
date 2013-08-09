@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.checkers;
 
-import java.util.List;
+import java.util.List;	
 import java.util.Map;
 
 import com.haxwell.apps.questions.entities.Choice;

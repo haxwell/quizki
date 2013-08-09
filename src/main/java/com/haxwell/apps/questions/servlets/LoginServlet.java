@@ -26,7 +26,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/LoginServlet")
+//@ WebServlet("/LoginServlet")
 public class LoginServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(LoginServlet.class.getName());

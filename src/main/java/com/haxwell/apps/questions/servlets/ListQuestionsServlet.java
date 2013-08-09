@@ -22,7 +22,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 /**
  * Servlet implementation class ListQuestionsServlet
  */
-@WebServlet("/ListQuestionsServlet")
+//@ WebServlet("/ListQuestionsServlet")
 public class ListQuestionsServlet extends AbstractHttpServlet {
 
 	Logger log = Logger.getLogger(ListQuestionsServlet.class.getName());

@@ -167,7 +167,42 @@ var view_utility = (function() {
 			var resetCurrentQuestion = this.resetCurrentQuestion;
 			
 			// do the ajax call
-			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(o1,o2) { resetCurrentQuestion(); });
+			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) { 
+//				resetCurrentQuestion(); 
+				
+				var index = data.indexOf("<!DOCTYPE");
+				var jsonExport = data;
+				
+				if (index != -1) {
+					jsonExport = data.substring(0, index);
+				}
+				
+				var parsedJSONObject = jQuery.parseJSON(jsonExport);
+				var arr = undefined;
+				var alertClass = undefined;
+				
+				if (parsedJSONObject.errors != undefined) {
+					arr = parsedJSONObject.errors[0].val.split(',');
+					alertClass = 'alert-error';
+				} else {
+					arr = parsedJSONObject.successes[0].val.split(',');
+					alertClass = 'alert-success';
+					resetCurrentQuestion();
+				}
+				
+				var msgs = "";
+				
+				for (var i=0; i<arr.length; i++) {
+					msgs += arr[i] + '<br/>';
+				}
+
+				var $alertDiv = $("#idAlertDiv"); 
+				
+				$alertDiv.html('');
+				$alertDiv.html(msgs);
+				$alertDiv.addClass(alertClass);
+				$alertDiv.removeClass('hidden');
+			});
 		},
 		resetCurrentQuestion:function() {
 			// TODO: There needs to be a Quizki.Question object, which has the necessary fields, and also has methods, specifically this method,
@@ -303,8 +338,10 @@ var view_utility = (function() {
 			var entryText = $(event.target).html();
 			
 			this.model.models = _.reject(this.model.models, function(item) { 
-				return item.attributes.val && entryText === item.attributes.val; 
-			});
+				return item.attributes.val !== undefined 
+						&& item.attributes.val.text 
+						&& entryText === item.attributes.val.text; 
+				});
 			
 			this.render();
 		},

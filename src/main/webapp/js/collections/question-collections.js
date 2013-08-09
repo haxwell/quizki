@@ -51,6 +51,8 @@ Quizki.Collection = Backbone.Collection.extend({
 			return model.millisecond_id;     
 		},
 		addArray: function(arr, isThrowEvent) {
+			if (arr === undefined) return;
+			
 			for (var i=0; i<arr.length; i++) 
 				collection_utility.addUniqueModelToCollection(arr[i], this.modelKeysFunction, this);
 			

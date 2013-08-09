@@ -14,7 +14,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 /**
  * Servlet implementation class BeginExamServlet
  */
-@WebServlet("/BeginExamServlet")
+//@ WebServlet("/BeginExamServlet")
 public class BeginExamServlet extends AbstractHttpServlet {
 	
 	Logger log = Logger.getLogger(BeginExamServlet.class.getName());

@@ -31,7 +31,7 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 /**
  * Servlet implementation class ProfileQuestionsServlet
  */
-@WebServlet("/secured/AdminProfileQuestionsServlet")
+//@ WebServlet("/secured/AdminProfileQuestionsServlet")
 public class AdminProfileQuestionsServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
        

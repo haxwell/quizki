@@ -45,6 +45,8 @@ public class TypeUtil {
 	}
 	
 	public static QuestionType getObjectFromStringTypeId(String iint) {
+		if (iint == null) iint = TypeConstants.SINGLE+"";
+		
 		int n = Integer.parseInt(iint);
 		
 		return convertToObject(convertToString(n));

@@ -17,7 +17,7 @@ import com.haxwell.apps.questions.managers.ExamManager;
 /**
  * Servlet implementation class ExamServlet
  */
-@WebServlet("/ExamReportCardServlet")
+//@ WebServlet("/ExamReportCardServlet")
 public class ExamReportCardServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 135739L;
 	private Logger log = Logger.getLogger(ExamReportCardServlet.class.getName());

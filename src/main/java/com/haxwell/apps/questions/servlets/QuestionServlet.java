@@ -34,7 +34,7 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 /**
  * Servlet implementation class QuestionServlet
  */
-@WebServlet("/secured/QuestionServlet")
+//@ WebServlet("/secured/QuestionServlet")
 public class QuestionServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
 	private int nextSequenceNumber = 0;

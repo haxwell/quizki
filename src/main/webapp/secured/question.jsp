@@ -54,8 +54,8 @@
 			
 			<script type="text/javascript">
 				function myCustomOnChangeHandler(inst) {
-				        alert("Some one modified something");
-				        alert("The HTML is now:" + inst.getBody().innerHTML);
+				        var currentQuestion = model_factory.get("currentQuestion");
+				        currentQuestion.text = inst.getBody().innerHTML;
 				};
 				
         		tinyMCE.init({

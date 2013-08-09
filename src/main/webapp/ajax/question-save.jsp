@@ -8,11 +8,13 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.EventConstants"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.DifficultyUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.ReferenceUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.TopicUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.TypeUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.QuestionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.events.EventDispatcher"/>
 	<jsp:directive.page import="java.util.List"/>
+	<jsp:directive.page import="java.util.Map"/>
 	<jsp:directive.page import="java.util.ArrayList"/>	
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
@@ -32,39 +34,13 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 java.io.PrintWriter writer = response.getWriter();
 
 // need to get the text data from the javascript, and convert it to a real Question object
-Question question = new Question();
+String jsonRtn = StringUtil.toJSON(QuestionUtil.persistQuestionBasedOnHttpServletRequest(request));
 
-User user = (User)request.getSession().getAttribute("currentUserEntity");
-Long user_id = Long.parseLong(request.getParameter("user_id"));
-
-Object obj = request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER);
-int nextSequenceNumber = Integer.MIN_VALUE;
-
-if (obj != null) {
-	nextSequenceNumber = Integer.parseInt(obj.toString());
-}
-
-if (user.getId() == user_id) {
-	question.setId(Long.parseLong(request.getParameter("id")));
-	question.setUser(user);
-
-	question.setText((String)request.getParameter("text"));
-	question.setDescription((String)request.getParameter("description"));
-	question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
-	question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
-	question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
-	question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
-	question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
-
-	log.log(Level.SEVERE, "got: " + question);
-
-	long rtn = QuestionManager.persistQuestion(question);
-}
-
+log.log(Level.SEVERE, jsonRtn);
 
 //(rtn > -1) ? writer.print("") : writer.print("");
 
-writer.print("");
+writer.print(jsonRtn);
 
 </jsp:scriptlet>
 	

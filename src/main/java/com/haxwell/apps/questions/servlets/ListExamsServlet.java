@@ -25,7 +25,7 @@ import com.haxwell.apps.questions.utils.PaginationData;
 /**
  * Servlet implementation class ListExamServlet
  */
-@WebServlet("/ListExamsServlet")
+//@ WebServlet("/ListExamsServlet")
 public class ListExamsServlet extends AbstractHttpServlet {
 	
 	Logger log = Logger.getLogger(ListExamsServlet.class.getName());

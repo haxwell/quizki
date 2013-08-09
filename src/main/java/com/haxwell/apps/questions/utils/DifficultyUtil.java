@@ -70,6 +70,8 @@ public class DifficultyUtil {
 	}
 	
 	public static Difficulty getDifficulty(String iint) {
+		if (iint == null) iint = DifficultyConstants.JUNIOR+"";
+		
 		return getDifficulty(Integer.parseInt(iint));
 	}
 }

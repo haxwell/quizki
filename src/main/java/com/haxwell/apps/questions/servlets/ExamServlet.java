@@ -43,7 +43,7 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 /**
  * Servlet implementation class ExamServlet
  */
-@WebServlet("/secured/ExamServlet")
+//@ WebServlet("/secured/ExamServlet")
 public class ExamServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
     

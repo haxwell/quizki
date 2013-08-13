@@ -22,6 +22,10 @@ var view_utility = (function() {
 	Quizki.QuestionTypeView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
+			
+			var currQuestion = model_factory.get("currentQuestion");
+			
+			this.listenTo(currQuestion, 'changed', function(event) { this.render(); });
 		},
 		events: {
 			"change select":"changed"
@@ -69,6 +73,9 @@ var view_utility = (function() {
 		initialize:function() {
 			this.render();
 
+			var currQuestion = model_factory.get("currentQuestion");
+			
+			this.listenTo(currQuestion, 'changed', function(event) { this.render(); });
 		},
 		events: {
 			"keypress #id_questionText":"updateText",
@@ -78,6 +85,22 @@ var view_utility = (function() {
 			var currentQuestion = model_factory.get("currentQuestion");
 			
 			this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.text, description:currentQuestion.description}));
+			
+    		tinyMCE.init({
+		        theme : "advanced",
+		        mode : "textareas",
+		        plugins : "autoresize",
+				content_css : "../css/quizki_tinymce_custom_content.css",
+				theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
+				font_size_style_values : "10px,12px,13px,14px,16px,18px,20px",
+		        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyfull,|,formatselect",
+		        theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,image,|,hr,removeformat,visualaid,|,sub,sup,|,charmap",
+		        theme_advanced_buttons3 : "",
+				theme_advanced_path : false,
+				theme_advanced_statusbar_location : 0,
+				help_shortcut : "",
+		        onchange_callback : "myCustomOnChangeHandler"						
+			});
 			
 			return this;
 		},
@@ -95,7 +118,7 @@ var view_utility = (function() {
 		// A flaw in this view is that it must know the names of the models used by the 
 		// other views, in order to build data sent to the server for persistence.
 		
-		// I thought about a way of seperating this dependecy, and thats basically that
+		// I thought about a way of separating this dependency, and thats basically that
 		// each view, upon creation register itself, and the name of its model. This would
 		// be done within a context, and then this view could ask that object, give me all
 		// the model names for this context.
@@ -112,7 +135,7 @@ var view_utility = (function() {
 			this.render();
 		},
 		events: {
-			"click #btnSaveAndAddAnother":"saveQuestion",
+			//"click #btnSaveAndAddAnother":"saveQuestion",
 			"click #btnSave":"saveQuestion"
 		},
 		render:function() {
@@ -168,8 +191,6 @@ var view_utility = (function() {
 			
 			// do the ajax call
 			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) { 
-//				resetCurrentQuestion(); 
-				
 				var index = data.indexOf("<!DOCTYPE");
 				var jsonExport = data;
 				
@@ -200,6 +221,8 @@ var view_utility = (function() {
 				
 				$alertDiv.html('');
 				$alertDiv.html(msgs);
+				$alertDiv.removeClass('alert-success');
+				$alertDiv.removeClass('alert-error');
 				$alertDiv.addClass(alertClass);
 				$alertDiv.removeClass('hidden');
 			});
@@ -212,12 +235,13 @@ var view_utility = (function() {
 			currQuestion.text = "";
 			currQuestion.description = "";
 			currQuestion.type_id = 1;
-			currQuestion.difficulty_id = 4;
+			currQuestion.difficulty_id = 1;
 			currQuestion.topics = "";
 			currQuestion.references = "";
 			currQuestion.choices = {};
 			
-			currQuestion.trigger('somethingChanged');
+			currQuestion.trigger('reset');
+			currQuestion.trigger('changed');
 		}
 	});
 
@@ -235,6 +259,13 @@ var view_utility = (function() {
 			// sets the 'active' attribute) that should do it..
 			
 			this.render();
+			
+			var currQuestion = model_factory.get("currentQuestion");
+			
+			this.listenTo(currQuestion, 'changed', function(event) { 
+				var currQuestion = model_factory.get("currentQuestion");
+				this.buttonId = currQuestion.difficulty_id; this.render(); 
+				});
 		},
 		events : {
 			"click button":"changed"
@@ -242,13 +273,13 @@ var view_utility = (function() {
 		changed:function(event) {
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			var from = currQuestion.difficulty_id;
-			var to = event.target.val();
+			var _from = currQuestion.difficulty_id;
+			var _to = event.target.value;
 			
-			if (from != to) {
-				currQuestion.difficulty_id = to;
+			if (_from != _to) {
+				currQuestion.difficulty_id = _to;
 				
-				currentQuestion.trigger('changed', {difficulty_id:{from:_from,to:_to}});				
+				currQuestion.trigger('changed', {difficulty_id:{from:_from,to:_to}});				
 			}
 		},
 		render:function() {
@@ -278,7 +309,15 @@ var view_utility = (function() {
 			this.model = model_factory.get(	viewKey + "AttrWellCollection");
 			
 			this.listenTo(this.model, 'somethingChanged', this.render);
-						
+			
+			if (arguments[0].modelToListenTo != undefined) {
+				var modelToListenTo = model_factory.get(arguments[0].modelToListenTo);
+				this.listenTo(modelToListenTo, arguments[0].modelEventToListenFor, function() { 
+					var model = model_factory.get( this.getModelKey());
+					model.reset();
+				});
+			}
+			
 			this.template = undefined;
 		},
 		events: {
@@ -392,6 +431,7 @@ var view_utility = (function() {
 			this.disableCheckboxes = arguments[1];
 			
 			this.onIsCorrectChangedHandler = arguments[2];
+			this.onSequenceTextFieldBlurHandler = arguments[3];
 		},
 		getHideSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -426,7 +466,9 @@ var view_utility = (function() {
 		setText: function(newText) { this.model.text = newText; },
 		getText: function() { return this.model.text; },
 		setIsCorrectChangedHandler: function(func) { this.onIsCorrectChangedHandler = func;},
-		getIsCorrectChangedHandler: function() { return this.onIsCorrectChangedHandler;}
+		getIsCorrectChangedHandler: function() { return this.onIsCorrectChangedHandler;},
+		setSequenceTextFieldBlurHandler: function(func) { this.onSequenceTextFieldBlurHandler = func;},
+		getSequenceTextFieldBlurHandler: function() { return this.onSequenceTextFieldBlurHandler;}
 		
 	});
 
@@ -438,7 +480,8 @@ var view_utility = (function() {
 			this.model = model_factory.get("questionChoiceCollection");
 
 			// compare this to .listenTo().. which is better?
-			this.model.on('somethingChanged', this.render, this);
+			// this.model.on('somethingChanged', this.render, this);
+			this.listenTo(this.model, 'somethingChanged', this.render);
 			
 			this.$el = arguments[0].el;
 			
@@ -446,6 +489,14 @@ var view_utility = (function() {
 			
 			var currQuestion = model_factory.get('currentQuestion');
 			this.listenTo(currQuestion, 'changed', function(event) { this.setStateOnQuestionChangedEvent(event); this.render(); });
+			
+			// TODO: perhaps for these views which need to reset their internal, unexposed models when the 
+			//  current question resets, can be passed the model, its event name, and call to reset their
+			//  internal model.. similar to how i did that with the attributeWellViews. its better than this..
+			this.listenTo(currQuestion, 'reset', function(event) {
+				var model = model_factory.get("questionChoiceCollection");
+				model.reset();
+			});
 			
 			this.setStateOnInitialization();
 		},
@@ -469,12 +520,14 @@ var view_utility = (function() {
 		},
 		setStateOnQuestionChangedEvent: function(event) {
 			var rtn = undefined;
-			
-			if (event.type_id.to == "3" || event.type_id.to == "4") {
-				rtn = true;
-			}
-			else if (rtn == undefined && (event.type_id.from == "3" || event.type_id.from == "4")) {
-				rtn = false;
+
+			if (event !== undefined && event.type_id !== undefined) {
+				if (event.type_id.to == "3" || event.type_id.to == "4") {
+					rtn = true;
+				}
+				else if (rtn == undefined && (event.type_id.from == "3" || event.type_id.from == "4")) {
+					rtn = false;
+				}
 			}
 			
 			this.setSequenceFieldsAreVisible(rtn || false);
@@ -518,8 +571,14 @@ var view_utility = (function() {
 				this.model = model_factory.get("questionChoiceCollection");				
 				this.model.update(millisecond_id, 'iscorrect', $(event.target).find('.switch-animate').hasClass('switch-on'), false);
 			};
+
+			var onSequenceTextFieldBlurFunc = function(event,data) {
+				var millisecond_id = event.target.id.replace('sequenceTextField','');
+				var choiceCollection = model_factory.get("questionChoiceCollection");
+				choiceCollection.update(millisecond_id, 'sequence', $(event.target).val(), false);
+			};
 			
-			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc);
+			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc);
 			ul.append( questionChoiceItemView.render().$el.html() );
 			
 			var obj = {millisecondId:questionChoiceItemView.milliseconds(), view:questionChoiceItemView};
@@ -541,6 +600,10 @@ var view_utility = (function() {
 			// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
 			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#switch" + model.millisecondId).on('switch-change', model.view.getIsCorrectChangedHandler());
+			});
+			
+			_.each(this.ChoiceItemViewCollection, function(model) {
+				$("#sequenceTextField" + model.millisecondId).on('blur', model.view.getSequenceTextFieldBlurHandler());
 			});
 			
 			return this;
@@ -592,8 +655,8 @@ var view_utility = (function() {
 			this.setCheckBoxDisabled(currQuestion.type_id == "3" || currQuestion.type_id == "4");
 		},
 		setStateOnQuestionChangedEvent: function(event) { 
-			
-			this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4"); 
+			if (event !== undefined && event.type_id !== undefined)
+				this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4"); 
 		},
 		render: function () {
 			var state = model_factory.get('EnterNewChoiceViewState');
@@ -613,8 +676,13 @@ var view_utility = (function() {
 		},
 		btnClicked: function (event) { //alert("submit button clicked!"); 
 			var $textField = $('#enterAnswerTextField');
+			var textFieldVal = $textField.val();
 			
-			var tokens = $textField.val().split(',');
+			
+			if (textFieldVal == undefined || textFieldVal == '')
+				return;
+			
+			var tokens = textFieldVal.split(',');
 			
 			for (var i=0; i<tokens.length; i++) {
 				// tell the model, user requested a choice be added.

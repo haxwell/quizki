@@ -77,6 +77,12 @@ Quizki.Collection = Backbone.Collection.extend({
 			if (throwEvent !== false)
 				this.trigger('somethingChanged'); 
 		},
+		reset: function(throwEvent) {
+			this.models = [];
+			
+			if (throwEvent !== false)
+				this.trigger('somethingChanged'); 
+		},
 		releasePentUpEvents : function() {
 			this.trigger('somethingChanged');
 		}

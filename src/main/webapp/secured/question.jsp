@@ -58,22 +58,6 @@
 				        currentQuestion.text = inst.getBody().innerHTML;
 				};
 				
-        		tinyMCE.init({
-				        theme : "advanced",
-				        mode : "textareas",
-				        plugins : "autoresize",
-						content_css : "../css/quizki_tinymce_custom_content.css",
-						theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
-						font_size_style_values : "10px,12px,13px,14px,16px,18px,20px",
-				        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyfull,|,formatselect",
-				        theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,image,|,hr,removeformat,visualaid,|,sub,sup,|,charmap",
-				        theme_advanced_buttons3 : "",
-						theme_advanced_path : false,
-						theme_advanced_statusbar_location : 0,
-						help_shortcut : "",
-				        onchange_callback : "myCustomOnChangeHandler"						
-        			});
-
 			    $(document).ready(function() {
 			    	Quizki.loadTemplates(["QuestionChoiceCollectionView"],
 			    		function() {  });
@@ -96,7 +80,7 @@
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.difficulty_id});
 					
-					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics' });
+					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references' });
 					
 					addCollectionToWell(bv_topicsWell, currentQuestion.topics);

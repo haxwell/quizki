@@ -22,13 +22,23 @@ var getFunctionToRetrieveCurrentQuestion = function() {
  	
  	// this method executes if the entity id hidden field is set
 	var entityId = $("#idEntityIdField").val();
+
+	var data_url = undefined;
+	var data_obj = undefined;
 	
 	if (entityId != undefined && entityId != "") {
-    	var data_url = "/ajax/getSingleQuestion.jsp";
-    	var data_obj = { entityIdFilter : entityId }; 
+    	data_url = "/ajax/getSingleQuestion.jsp";
+    	data_obj = { entityIdFilter : entityId }; 
     	
-    	makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
-		
+	}
+	else {
+		data_url = "/ajax/getBlankQuestion.jsp";
+		data_obj = { };
+	}
+	
+	if (data_url !== undefined && data_obj != undefined) {
+		makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
+			
 			var index = data.indexOf("<!DOCTYPE");
 			var jsonExport = data;
 			
@@ -40,8 +50,9 @@ var getFunctionToRetrieveCurrentQuestion = function() {
 			
 			rtn = parsedJSONObject.question[0];
 		});
+
+		_.extend(rtn, Backbone.Events);
 	}
 
-	_.extend(rtn, Backbone.Events);
 	return rtn;
-	}
+}

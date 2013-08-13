@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.managers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,16 @@ import javax.persistence.Query;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.AbstractEntity;
+import com.haxwell.apps.questions.entities.Choice;
+import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.QuestionType;
+import com.haxwell.apps.questions.entities.Reference;
+import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.filters.DifficultyFilter;
@@ -490,7 +497,7 @@ public class QuestionManager extends Manager {
 		if (q == null)
 			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
 		else {
-			ArrayList<Question>arr = new ArrayList<Question>();
+			ArrayList<Question> arr = new ArrayList<Question>();
 			arr.add(q);
 			
 			rtn.entities = arr; 
@@ -561,6 +568,30 @@ public class QuestionManager extends Manager {
 
 		rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions));
 		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);
+		
+		return rtn;
+	}
+	
+	public static AJAXReturnData getBlankQuestion() {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = new ArrayList<Question>();
+		
+		Question q = new Question();
+		
+		q.setDifficulty(new Difficulty(DifficultyConstants.JUNIOR));
+		q.setQuestionType(new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR));
+		q.setChoices(new HashSet<Choice>());
+		q.setTopics(new HashSet<Topic>());
+		q.setReferences(new HashSet<Reference>());
+		
+		User u = new User();
+		u.setId(-1);
+		
+		q.setUser(u);
+		
+		list.add(q);
+		
+		rtn.entities = list;
 		
 		return rtn;
 	}

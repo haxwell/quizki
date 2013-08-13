@@ -103,10 +103,15 @@ public class QuestionUtil {
 		
 		if (errors.size() == 0)
 		{
+			if (question.getUser() == null) {
+				User user = (User)request.getSession().getAttribute("currentUserEntity");
+				question.setUser(user);
+			}
+			
 			long qid = QuestionManager.persistQuestion(question);
 			List<String> successes = new ArrayList<String>();
 			
-			successes.add("Question was successfully saved! ");
+			successes.add("Question was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a>");
 			
 			rtn.put("successes", successes);			
 
@@ -156,16 +161,15 @@ public class QuestionUtil {
 				question.setId(Long.parseLong(id));
 			
 			question.setUser(user);
-
-			question.setText((String)request.getParameter("text"));
-			question.setDescription((String)request.getParameter("description"));
-			question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
-			question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
-			question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
-			question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
-			question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
-
 		}
+
+		question.setText((String)request.getParameter("text"));
+		question.setDescription((String)request.getParameter("description"));
+		question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
+		question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
+		question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
+		question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
+		question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
 		
 		return question;
 	}

@@ -36,7 +36,10 @@ public class AbstractEntity implements Comparable {
 	}
 	
 	protected String getJSON(String fieldName, String value, boolean commaShouldBeAppended) {
-		value = value.replace("\"", "\\\"");
+		if (value == null)
+			value = "";
+		else
+			value = value.replace("\"", "\\\"");
 		
 		String rtn = "\"" + fieldName + "\":\"" + value + "\"";
 		

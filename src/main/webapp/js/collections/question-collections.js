@@ -29,7 +29,8 @@ var collection_utility = (function() {
 					else 
 						quizkiCollection.add([ method_utility.getQuizkiObject(model) ]);
 				}
-		}}());
+		};
+	}());
 
 Quizki.Collection = Backbone.Collection.extend({
 		initialize: function() {
@@ -82,9 +83,6 @@ Quizki.Collection = Backbone.Collection.extend({
 			
 			if (throwEvent !== false)
 				this.trigger('somethingChanged'); 
-		},
-		releasePentUpEvents : function() {
-			this.trigger('somethingChanged');
 		}
 		
 	});

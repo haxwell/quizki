@@ -1,46 +1,8 @@
 	
 var Quizki = {
-		views : {},
-		models: {},
-		
-		loadTemplates: function(views, dataForTheViews, callback) {
-	        var deferreds = [];
-
-	        $.each(views, function(index, view) {
-	            if (Quizki[view]) {
-	                //var rtn = $.get(
-	            	//		'/templates/' + view + '.html',
-	            	//   	function(template) {
-	            	//            				console.debug(">>> " + template);
-	            	//          			}
-	            	//		);
-	                
-	                var rtn = makeAJAXCall_andWaitForTheResults('/templates/' + view + '.html', { }, 
-	                		function(template) {
-	                			// how to pass in variables for variable-type-fields in the HTML?
-	                			// perhaps here is not the best place to do this template thing..
-	                			// variables would be nice.. (to test, try putting LABEL as a var in
-	                			// the template HTML.. you can't pass a model value for it to _.template.. we're
-	                			//  too early in the process.. none created!)
-	                			
-		        				// console.debug(">>> " + template);
-		        				
-		        				// I think it means that this is too early in the process, and the _.template() call
-		        				//  needs to be made closer to the time the template is to be displayed.. specifically,
-		        				//  when we have that information.
-		        				Quizki[view].prototype.template = _.template(template, {}, {});
-		        			}
-	                );
-	            	
-	            	//deferreds.push(rtn);
-	            } else {
-	                console.debug(view + " not found");
-	            }
-	        });
-
-	        //$.when.apply(null, deferreds).done(callback);
-		}
-	};
+	views : {},
+	models: {}
+};
 
 
 KeyValueMap = function() {
@@ -60,9 +22,6 @@ KeyValueMap = function() {
 	};
 
 var model_constructor_factory = new KeyValueMap();
-
-// thinking about a function which returns a singleton, unique for a given key,
-//  and that singleton is used to get instances of models, etc.
 
 var model_factory = (function(){
 	var arr = {};
@@ -98,9 +57,6 @@ var model_factory = (function(){
 var method_utility = (function(){
 	
 	return {
-		wrap:function(template, elementName) {
-			return '<' + elementName + '>' + template + '</' + elementName + '>';
-		},
 		getCSVFromCollection:function(coll, elementFieldName) {
 			var rtn = "";
 			
@@ -118,6 +74,21 @@ var method_utility = (function(){
 			return rtn;
 		},
 		giveAttributeNamesToElementsOfAnArray:function (attrName, arr) {
+			// takes an array of values (think: csv), and an attribute name
+			// that applies to each element of the array. it then creates
+			// an object for each element, assigning the element to an
+			// attribute of the object, and then the object to an array
+			// which is returned.
+			
+			// this function is necessary, because some quizki collections
+			// need to contain only unique items. in order to determine
+			// what is unique, we need a way of comparing them. See 
+			//  collection_utility.addUniqueModelToCollection(). It takes
+			// a collection, an entity to be added to the collection, and
+			// a function which returns the name of the attribute of the
+			// entity by which it is to be compared, so as to determine
+			// uniqueness.
+			
 			if (!arr) return null;
 			
 			var rtn = new Array();
@@ -132,6 +103,10 @@ var method_utility = (function(){
 			return rtn;
 		},
 		getQuizkiObject:function(model) {
+
+			// a 'Quizki Object' is an object with an id based on the millisecond it was created,
+			//  and a javascript object of any definition.
+			
 			return {val:model, millisecond_id:new Date().getMilliseconds()};
 		}
 	};

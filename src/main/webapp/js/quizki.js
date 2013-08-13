@@ -21,4 +21,4 @@ function   ($,        backbone,   underscore) {
     //loaded and can be used here now.
 });
 
-$('body').on('dblclick', function () { alert("body dblclick!"); });
+//$('body').on('dblclick', function () { alert("body dblclick!"); });

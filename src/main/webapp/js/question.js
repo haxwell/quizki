@@ -1,3 +1,115 @@
+var Question = (function() {
+	var text = "";
+	var description = "";
+	var type_id = 1;
+	var difficulty_id = 1;
+	var topics = "";
+	var references = "";
+	var choices = {};
+	
+	return {
+		initialize : function() {
+			this.initializeFields();
+			
+			_.extend(rtn, Backbone.Events);
+		},
+		initializeFields : function () {
+			text = ''; description = ''; type_id = 1; difficulty_id = 1;
+			topics = ''; references = ''; choices = {};
+		}, 
+		initWithAJAXSource : function(source) {
+			text = source.text;	description = source.description; type_id = source.type_id; 
+			difficulty_id = source.difficulty_id; topics = source.topics;
+			references = source.references; choices = source.choices;
+			
+			_.extend(rtn, Backbone.Events);
+		},
+		reset : function() {
+			this.initializeFields();
+			
+			trigger('reset');
+			trigger('changed');
+		},
+		getText : function() {
+			return text;
+		},
+		setText : function(val) {
+			var _from = text;
+			var _to = val;
+			
+			text = val;
+			
+			trigger('changed', {text:{from:_from,to:_to}});			
+		},
+		getDescription: function() {
+			return description;
+		},
+		setDescription: function(val) {
+			var _from = description;
+			var _to = val;
+			
+			description = val;
+			
+			trigger('changed', {description:{from:_from,to:_to}});			
+		},
+		getTypeId : function() {
+			return type_id;
+		},
+		setTypeId : function(val) {
+			var _from = type_id;
+			var _to = val;
+			
+			type_id = val;
+			
+			trigger('changed', {type_id:{from:_from,to:_to}});			
+		},
+		getDifficultyId : function () {
+			return difficulty_id;
+		},
+		setDifficultyId : function(val) {
+			var _from = difficulty_id;
+			var _to = val;
+			
+			difficulty_id = val;
+			
+			trigger('changed', {difficulty_id:{from:_from,to:_to}});			
+		},
+		getTopics : function() {
+			return topics;
+		},
+		setTopics : function(val) {
+			var _from = topics;
+			var _to = val;
+			
+			topics = val;
+			
+			trigger('changed', {topics:{from:_from,to:_to}});			
+		},
+		getReferences : function() {
+			return references;
+		},
+		setReferences : function(val) {
+			var _from = references;
+			var _to = val;
+			
+			references = val;
+			
+			trigger('changed', {references:{from:_from,to:_to}});			
+		},
+		getChoices : function() {
+			return choices;
+		},
+		setChoices : function(val) {
+			var _from = choices;
+			var _to = val;
+			
+			choices = val;
+			
+			trigger('changed', {choices:{from:_from,to:_to}});			
+		}
+	};
+});
+
 // TODO: rather than using the selector for entityId, it would be good to be able to pass in a function. But	
 //  since this is a declaration of a function, how do you say this function needs a function passed in, when 
 //  all you are doing is passing the variable (representing the function's) name? for instance if I'm passing
@@ -55,4 +167,4 @@ var getFunctionToRetrieveCurrentQuestion = function() {
 	}
 
 	return rtn;
-}
+};

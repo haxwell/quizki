@@ -53,15 +53,12 @@
 			<![CDATA[
 			
 			<script type="text/javascript">
-				function myCustomOnChangeHandler(inst) {
+				function questionTinyMCEChangeHandler(inst) {
 				        var currentQuestion = model_factory.get("currentQuestion");
 				        currentQuestion.text = inst.getBody().innerHTML;
 				};
 				
 			    $(document).ready(function() {
-			    	Quizki.loadTemplates(["QuestionChoiceCollectionView"],
-			    		function() {  });
-
 			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    		
@@ -81,7 +78,7 @@
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.difficulty_id});
 					
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
-					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references' });
+					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
 					
 					addCollectionToWell(bv_topicsWell, currentQuestion.topics);
 					addCollectionToWell(bv_referencesWell, currentQuestion.references);

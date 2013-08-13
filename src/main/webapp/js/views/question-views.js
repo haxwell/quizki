@@ -17,7 +17,8 @@ var view_utility = (function() {
 			
 			return rtn;
 		}	
-	}}());
+	}; 
+}());
 
 	Quizki.QuestionTypeView = Backbone.View.extend({
 		initialize:function() {
@@ -99,7 +100,7 @@ var view_utility = (function() {
 				theme_advanced_path : false,
 				theme_advanced_statusbar_location : 0,
 				help_shortcut : "",
-		        onchange_callback : "myCustomOnChangeHandler"						
+		        onchange_callback : "questionTinyMCEChangeHandler"						
 			});
 			
 			return this;

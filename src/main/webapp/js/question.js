@@ -45,10 +45,10 @@ var Question = (function() {
 	
 	my.setQuizkiCollection = function (key, quizkiCollection) {
 		if (key == "topics")
-			topics = method_utility.getCSVFromCollection(coll, "text");
+			topics = method_utility.getCSVFromCollection(quizkiCollection, "text");
 		
 		if (key == "references")
-			references = method_utility.getCSVFromCollection(coll, "text");
+			references = method_utility.getCSVFromCollection(quizkiCollection, "text");
 	};
 	
 	my.getDataObject = function () {

@@ -27,6 +27,7 @@ var view_utility = (function() {
 			var currQuestion = model_factory.get("currentQuestion");
 			
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.render(); });
+			this.listenTo(currQuestion, 'reset', function(event) { this.render(); });			
 		},
 		events: {
 			"change select":"changed"
@@ -74,6 +75,7 @@ var view_utility = (function() {
 			var currQuestion = model_factory.get("currentQuestion");
 			
 			this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
+			this.listenTo(currQuestion, 'reset', function(event) { this.render(); });			
 		},
 		events: {
 			"keypress #id_questionText":"updateText",
@@ -210,6 +212,11 @@ var view_utility = (function() {
 				var currQuestion = model_factory.get("currentQuestion");
 				this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 				});
+
+			this.listenTo(currQuestion, 'reset', function(event) { 
+				var currQuestion = model_factory.get("currentQuestion");
+				this.buttonId = currQuestion.getDifficultyId(); this.render(); 
+				});
 		},
 		events : {
 			"click button":"changed"
@@ -314,7 +321,8 @@ var view_utility = (function() {
 			
 			this.model.addArray(arr, true);
 			
-			this.modelToListenTo.setQuizkiCollection(model_factory.get( this.id + "ViewKey" ), this.model);
+			var modelToListenTo = model_factory.get(this.modelToListenTo);
+			modelToListenTo.setQuizkiCollection(model_factory.get( this.id + "ViewKey" ), this.model);
 		},
 		removeEntry:function(event) {
 			var viewKey = model_factory.get( this.id + "ViewKey" );
@@ -429,6 +437,7 @@ var view_utility = (function() {
 			this.ChoiceItemViewCollection = new Array();
 			
 			var currQuestion = model_factory.get('currentQuestion');
+			this.listenTo(currQuestion, 'reset', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
@@ -563,6 +572,7 @@ var view_utility = (function() {
 			
 			var currQuestion = model_factory.get('currentQuestion', false);
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'reset', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			var state = method_utility.getQuizkiObject({});
 			

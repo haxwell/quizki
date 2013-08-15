@@ -1,113 +1,202 @@
 var Question = (function() {
+	var my = {};
+	
 	var text = "";
 	var description = "";
 	var type_id = 1;
 	var difficulty_id = 1;
 	var topics = "";
 	var references = "";
-	var choices = {};
+	var choices = undefined;
 	
-	return {
-		initialize : function() {
-			this.initializeFields();
-			
-			_.extend(rtn, Backbone.Events);
-		},
-		initializeFields : function () {
-			text = ''; description = ''; type_id = 1; difficulty_id = 1;
-			topics = ''; references = ''; choices = {};
-		}, 
-		initWithAJAXSource : function(source) {
+	function initializeFields() {
+		text = ''; description = ''; type_id = 1; difficulty_id = 1;
+		topics = ''; references = ''; choices = new Quizki.Collection();
+	};
+	
+	my.initialize = function() {
+		this.initializeFields();
+		
+		_.extend(this, Backbone.Events);
+	};
+	
+	my.initWithAJAXSource = function(source) {
 			text = source.text;	description = source.description; type_id = source.type_id; 
-			difficulty_id = source.difficulty_id; topics = source.topics;
-			references = source.references; choices = source.choices;
+			difficulty_id = source.difficulty_id; 
 			
-			_.extend(rtn, Backbone.Events);
-		},
-		reset : function() {
+			topics = method_utility.getCSVFromJSArray(source.topics, "text");
+			references = method_utility.getCSVFromJSArray(source.references, "text"); 
+			
+			choices = new Quizki.Collection();
+			choices.addArray(source.choices);
+			
+			_.extend(this, Backbone.Events);
+	};
+	
+	my.reset = function() {
 			this.initializeFields();
 			
-			trigger('reset');
-			trigger('changed');
-		},
-		getText : function() {
+			this.trigger('reset');
+	};
+	
+	my.setQuizkiCollection = function (key, quizkiCollection) {
+			if (key == "topics")
+				this.topics = method_utility.getCSVFromCollection(coll, "text");
+			
+			if (key == "references")
+				this.references = method_utility.getCSVFromCollection(coll, "text");
+	};
+	
+	my.getDataObject = function () {
+			return  {
+					id:this.id,
+					text:this.text,
+					description:this.description,
+					type_id:this.type_id,
+					difficulty_id:this.difficulty_id,
+					user_id:this.user_id,
+					topics:this.topics,
+					references:this.references,
+					choices:this.getChoicesAsJSONString()
+				};
+	};
+	
+	my.getText = function() {
 			return text;
-		},
-		setText : function(val) {
+	};
+	
+	my.setText = function(val, throwEvent) {
 			var _from = text;
 			var _to = val;
 			
 			text = val;
 			
-			trigger('changed', {text:{from:_from,to:_to}});			
-		},
-		getDescription: function() {
+			if (throwEvent !== false)
+				this.trigger('questionTextChanged', {text:{from:_from,to:_to}});			
+	};
+	
+	my.getDescription = function() {
 			return description;
-		},
-		setDescription: function(val) {
+	};
+	
+	my.setDescription = function(val, throwEvent) {
 			var _from = description;
 			var _to = val;
 			
 			description = val;
 			
-			trigger('changed', {description:{from:_from,to:_to}});			
-		},
-		getTypeId : function() {
+			if (throwEvent !== false)			
+				this.trigger('questionTextChanged', {description:{from:_from,to:_to}});			
+	};
+
+	my.getTypeId = function() {
 			return type_id;
-		},
-		setTypeId : function(val) {
+	};
+		
+	my.setTypeId = function(val, throwEvent) {
 			var _from = type_id;
 			var _to = val;
 			
 			type_id = val;
 			
-			trigger('changed', {type_id:{from:_from,to:_to}});			
-		},
-		getDifficultyId : function () {
+			if (throwEvent !== false)
+				this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});			
+	};
+		
+	my.getDifficultyId = function () {
 			return difficulty_id;
-		},
-		setDifficultyId : function(val) {
+	};
+		
+	my.setDifficultyId = function(val, throwEvent) {
 			var _from = difficulty_id;
 			var _to = val;
 			
 			difficulty_id = val;
 			
-			trigger('changed', {difficulty_id:{from:_from,to:_to}});			
-		},
-		getTopics : function() {
+			if (throwEvent !== false)
+				this.trigger('difficultyChanged', {difficulty_id:{from:_from,to:_to}});			
+	};
+	
+	my.getTopics = function() {
 			return topics;
-		},
-		setTopics : function(val) {
+	};
+	
+	my.setTopics = function(val, throwEvent) {
 			var _from = topics;
 			var _to = val;
 			
 			topics = val;
 			
-			trigger('changed', {topics:{from:_from,to:_to}});			
-		},
-		getReferences : function() {
+			if (throwEvent !== false)
+				this.trigger('topicsChanged', {topics:{from:_from,to:_to}});			
+	};
+	
+	my.getReferences = function() {
 			return references;
-		},
-		setReferences : function(val) {
+	};
+		
+	my.setReferences = function(val, throwEvent) {
 			var _from = references;
 			var _to = val;
 			
 			references = val;
 			
-			trigger('changed', {references:{from:_from,to:_to}});			
-		},
-		getChoices : function() {
-			return choices;
-		},
-		setChoices : function(val) {
-			var _from = choices;
-			var _to = val;
-			
-			choices = val;
-			
-			trigger('changed', {choices:{from:_from,to:_to}});			
-		}
+			if (throwEvent !== false)
+				this.trigger('referencesChanged', {references:{from:_from,to:_to}});			
 	};
+		
+	my.getChoices = function() {
+			return choices;
+	};
+		
+	my.addChoice = function(_text, _iscorrect, _sequence, throwEvent) {
+			var choice = {id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence};
+			var millisecond_id = choices.put(choice);
+
+			if (throwEvent !== false)
+				this.trigger('choicesChanged', {choices:{val:""}});
+			
+			return millisecond_id;
+	};
+		
+	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
+			choices.update(_millisecondId, _attrToUpdate, _val);
+			
+			if (throwEvent !== false)
+				this.trigger('choicesChanged', {choices:{val:""}});
+	};
+		
+	my.removeChoice = function(_millisecondId, throwEvent) {
+			choices.remove(_millisecondId);
+			
+			if (throwEvent !== false)
+				this.trigger('choicesChanged', {choices:{val:""}});
+	};
+		
+	my.getChoicesAsJSONString = function() {
+			var choicesAsJSONString = '{ "choice":[';
+			
+			for (var i=0; i < choices.models.length; i++) {
+				
+				var attrs = "{";
+				for (var property in choices.models[i]["attributes"]["val"]) {
+					attrs += '"' + property + '":' + '"' + choices.models[i]["attributes"]["val"][property] + '",';
+				}
+				
+				attrs += "}";
+				
+				if (i+1 < choices.models.length)
+					attrs += ",";
+				
+				choicesAsJSONString += attrs;
+			}
+			
+			choicesAsJSONString += "]}";
+			
+			return choicesAsJSONString;
+	};
+	
+	return my;
 });
 
 // TODO: rather than using the selector for entityId, it would be good to be able to pass in a function. But	
@@ -130,7 +219,7 @@ var Question = (function() {
 //  the entity, likely passed in as a URL parameter.
 //
 var getFunctionToRetrieveCurrentQuestion = function() {
- 	var rtn = { }; 
+ 	var rtn = new Question(); 
  	
  	// this method executes if the entity id hidden field is set
 	var entityId = $("#idEntityIdField").val();
@@ -160,10 +249,8 @@ var getFunctionToRetrieveCurrentQuestion = function() {
 			
 			var parsedJSONObject = jQuery.parseJSON(jsonExport);
 			
-			rtn = parsedJSONObject.question[0];
+			rtn.initWithAJAXSource(parsedJSONObject.question[0]);
 		});
-
-		_.extend(rtn, Backbone.Events);
 	}
 
 	return rtn;

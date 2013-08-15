@@ -54,8 +54,8 @@
 			
 			<script type="text/javascript">
 				function questionTinyMCEChangeHandler(inst) {
-				        var currentQuestion = model_factory.get("currentQuestion");
-				        currentQuestion.text = inst.getBody().innerHTML;
+			        var currentQuestion = model_factory.get("currentQuestion");
+			        currentQuestion.setText(inst.getBody().innerHTML, false);
 				};
 				
 			    $(document).ready(function() {
@@ -65,7 +65,7 @@
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
-		    		questionChoiceCollection.addArray(currentQuestion.choices);
+		    		questionChoiceCollection.addArray(currentQuestion.getChoices());
 			    	
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
 			    	
@@ -75,36 +75,30 @@
 					
 					bv_questionChoiceList.render();
 					
-					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.difficulty_id});
+					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId()});
 					
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
 					
-					addCollectionToWell(bv_topicsWell, currentQuestion.topics);
-					addCollectionToWell(bv_referencesWell, currentQuestion.references);
+					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
+					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
 					
 			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons"), prependages:['topics','references'] });					
 			    });
 			    
-			    function addCollectionToWell(view, coll) {
+			    function addCSVItemsToWell(view, csv) {
 			    	var collection = model_factory.get(view.getModelKey());
 			    	
 			    	var arr = new Array();
 			    	
-			    	_.each(coll, function(item) { arr.push(item.text); });
+					var tokens = csv.split(',');
+					
+					for (var i=0; i<tokens.length; i++) {
+						arr.push(tokens[i]);
+					}
 			    	
 			    	arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
 			    	collection.addArray(arr); 
-			    }
-			    
-			    function persistTheQuestion() {
-			    	var data_url = "/ajax/question-save.jsp";
-			    	var data_obj = { 	text : $("#id_questionText").val(),
-			    						description : $("#id_questionDescription").val(),
-			    						difficulty : $("#difficultyBtnGroup > .active").attr("value"),
-			    						topics : $("#topicsCSV").val(),
-			    						references: $("#referencesCSV").val()};
-			    						//choices : $
 			    }
 			    
 			    function getEntityId() {
@@ -189,12 +183,6 @@
 	
 </div>
 </div>
-
-<script type="text/javascript">
-	
-	//var questionChoiceCollection = new Quizki.QuestionChoiceCollection();
-	
-</script>
 
 <br/>
 <br/>

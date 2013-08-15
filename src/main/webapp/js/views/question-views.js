@@ -26,7 +26,7 @@ var view_utility = (function() {
 			
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			this.listenTo(currQuestion, 'changed', function(event) { this.render(); });
+			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.render(); });
 		},
 		events: {
 			"change select":"changed"
@@ -38,14 +38,11 @@ var view_utility = (function() {
 			// set it in the model
 			var currentQuestion = model_factory.get("currentQuestion");
 
-			var _from = currentQuestion.type_id;
+			var _from = currentQuestion.getTypeId();
 			var _to = val;
 			
 			if (_from != _to) {
-				currentQuestion.type_id = _to;
-			
-				// either model should throw event, or we do it here.. methinks the model.. but don't see a way of doing that so..
-				currentQuestion.trigger('changed', {type_id:{from:_from,to:_to}});
+				currentQuestion.setTypeId(_to);
 			}
 		},
 		render: function() {
@@ -53,7 +50,7 @@ var view_utility = (function() {
 			
 			var currentQuestion = model_factory.get("currentQuestion");
 			
-			var optionId = currentQuestion.type_id || -1;
+			var optionId = currentQuestion.getTypeId();// || -1;
 			
 			// iterate over each of the buttons, if it matches the model, set it as active
 			// otherwise remove the active attribute
@@ -76,16 +73,16 @@ var view_utility = (function() {
 
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			this.listenTo(currQuestion, 'changed', function(event) { this.render(); });
+			this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
 		},
 		events: {
 			"keypress #id_questionText":"updateText",
-			"keypress #id_questionDescription":"updateDescription"
+			"blur #id_questionDescription":"updateDescription"
 		},
 		render: function() {
 			var currentQuestion = model_factory.get("currentQuestion");
 			
-			this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.text, description:currentQuestion.description}));
+			this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription()}));
 			
     		tinyMCE.init({
 		        theme : "advanced",
@@ -107,11 +104,11 @@ var view_utility = (function() {
 		},
 		updateText:function(event) {
 			var currentQuestion = model_factory.get("currentQuestion");
-			currentQuestion.text = $(event.target).val();
+			currentQuestion.setText($(event.target).val(), false);
 		},
 		updateDescription:function(event) {
 			var currentQuestion = model_factory.get("currentQuestion");
-			currentQuestion.description = $(event.target).val();
+			currentQuestion.setDescription($(event.target).val(), false);
 		}
 	});
 
@@ -144,49 +141,8 @@ var view_utility = (function() {
 			return this;
 		},
 		saveQuestion: function() {
-			// TODO: I don't like this here.. the view shouldn't know how to create a question object.. it should just
-			//  pass the data, and get a question object back
 			var data_url = "/ajax/question-save.jsp";
-			var currentQuestion = model_factory.get("currentQuestion");
-
-			var data_obj = {
-				id:currentQuestion.id,
-				text:currentQuestion.text,
-				description:currentQuestion.description,
-				type_id:currentQuestion.type_id,
-				difficulty_id:currentQuestion.difficulty_id,
-				user_id:currentQuestion.user_id
-			};
-			
-			for (var i=0;i<this.prependages.length;i++) {
-				var coll = model_factory.get(this.prependages[i]+"AttrWellCollection");
-				
-				data_obj[this.prependages[i]] = method_utility.getCSVFromCollection(coll, "text");
-			}
-
-			var v = model_factory.get("questionChoiceCollection");
-			
-			// need to add choices to the data obj.
-			var choicesAsJSONString = '{ "choice":[';
-			
-			for (var i=0;i<v.models.length;i++) {
-				
-				var attrs = "{";
-				for (var property in v.models[i]["attributes"]["val"]) {
-					attrs += '"' + property + '":' + '"' + v.models[i]["attributes"]["val"][property] + '",';
-				}
-				
-				attrs += "}";
-				
-				if (i+1 < v.models.length)
-					attrs += ",";
-				
-				choicesAsJSONString += attrs;
-			}
-			
-			choicesAsJSONString += "]}";
-			
-			data_obj["choices"] = choicesAsJSONString;
+			var data_obj = model_factory.get("currentQuestion").getDataObject();
 			
 			var resetCurrentQuestion = this.resetCurrentQuestion;
 			
@@ -229,20 +185,7 @@ var view_utility = (function() {
 			});
 		},
 		resetCurrentQuestion:function() {
-			// TODO: There needs to be a Quizki.Question object, which has the necessary fields, and also has methods, specifically this method,
-			//  to reset itself. Also Events, but not sure about that.. not sure there's anything really to do... that kind of works, now.. *shrug*
-			var currQuestion = model_factory.get('currentQuestion');
-			
-			currQuestion.text = "";
-			currQuestion.description = "";
-			currQuestion.type_id = 1;
-			currQuestion.difficulty_id = 1;
-			currQuestion.topics = "";
-			currQuestion.references = "";
-			currQuestion.choices = {};
-			
-			currQuestion.trigger('reset');
-			currQuestion.trigger('changed');
+			model_factory.get('currentQuestion').reset();
 		}
 	});
 
@@ -263,9 +206,9 @@ var view_utility = (function() {
 			
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			this.listenTo(currQuestion, 'changed', function(event) { 
+			this.listenTo(currQuestion, 'difficultyChanged', function(event) { 
 				var currQuestion = model_factory.get("currentQuestion");
-				this.buttonId = currQuestion.difficulty_id; this.render(); 
+				this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 				});
 		},
 		events : {
@@ -274,13 +217,11 @@ var view_utility = (function() {
 		changed:function(event) {
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			var _from = currQuestion.difficulty_id;
+			var _from = currQuestion.getDifficultyId();
 			var _to = event.target.value;
 			
 			if (_from != _to) {
-				currQuestion.difficulty_id = _to;
-				
-				currQuestion.trigger('changed', {difficulty_id:{from:_from,to:_to}});				
+				currQuestion.setDifficultyId(_to);
 			}
 		},
 		render:function() {
@@ -311,9 +252,12 @@ var view_utility = (function() {
 			
 			this.listenTo(this.model, 'somethingChanged', this.render);
 			
-			if (arguments[0].modelToListenTo != undefined) {
-				var modelToListenTo = model_factory.get(arguments[0].modelToListenTo);
-				this.listenTo(modelToListenTo, arguments[0].modelEventToListenFor, function() { 
+			this.modelToListenTo = arguments[0].modelToListenTo;
+			this.modelEventToListenFor = arguments[0].modelEventToListenFor;
+			
+			if (this.modelToListenTo != undefined) {
+				var modelToListenTo = model_factory.get(this.modelToListenTo);
+				this.listenTo(modelToListenTo, this.modelEventToListenFor, function() { 
 					var model = model_factory.get( this.getModelKey());
 					model.reset();
 				});
@@ -369,6 +313,8 @@ var view_utility = (function() {
 			arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
 			
 			this.model.addArray(arr, true);
+			
+			this.modelToListenTo.setQuizkiCollection(model_factory.get( this.id + "ViewKey" ), this.model);
 		},
 		removeEntry:function(event) {
 			var viewKey = model_factory.get( this.id + "ViewKey" );
@@ -478,26 +424,13 @@ var view_utility = (function() {
 		tagName:'ul',
 		
 		initialize: function() {
-			this.model = model_factory.get("questionChoiceCollection");
-
-			// compare this to .listenTo().. which is better?
-			// this.model.on('somethingChanged', this.render, this);
-			this.listenTo(this.model, 'somethingChanged', this.render);
-			
 			this.$el = arguments[0].el;
 			
 			this.ChoiceItemViewCollection = new Array();
 			
 			var currQuestion = model_factory.get('currentQuestion');
-			this.listenTo(currQuestion, 'changed', function(event) { this.setStateOnQuestionChangedEvent(event); this.render(); });
-			
-			// TODO: perhaps for these views which need to reset their internal, unexposed models when the 
-			//  current question resets, can be passed the model, its event name, and call to reset their
-			//  internal model.. similar to how i did that with the attributeWellViews. its better than this..
-			this.listenTo(currQuestion, 'reset', function(event) {
-				var model = model_factory.get("questionChoiceCollection");
-				model.reset();
-			});
+			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			this.setStateOnInitialization();
 		},
@@ -512,14 +445,14 @@ var view_utility = (function() {
 			}
 		},
 		choiceItemSwitchesShouldBeDisabled : function() {
-			var currQuestion = model_factory.get('currentQuestion');
-			return (currQuestion.type_id == "3" || currQuestion.type_id == "4");
+			var typeId = model_factory.get('currentQuestion').getTypeId();
+			return (typeId == "3" || typeId == "4");
 		},
 		setStateOnInitialization: function () {
-			var currQuestion = model_factory.get('currentQuestion');
-			this.setSequenceFieldsAreVisible(currQuestion.type_id == "3" || currQuestion.type_id == "4");
+			var typeId = model_factory.get('currentQuestion').getTypeId();
+			this.setSequenceFieldsAreVisible(typeId == "3" || typeId == "4");
 		},
-		setStateOnQuestionChangedEvent: function(event) {
+		setStateOnQuestionTypeChangedEvent: function(event) {
 			var rtn = undefined;
 
 			if (event !== undefined && event.type_id !== undefined) {
@@ -549,11 +482,10 @@ var view_utility = (function() {
 		},
 		close : function(event) {
 			var $currentLineItem = this.$el.find(".editing");
-			var currMillisecondId = $currentLineItem.attr("id");
+			var millisecond_id = $currentLineItem.attr("id");
 
-			this.model = model_factory.get("questionChoiceCollection");
-
-			this.model.update(currMillisecondId, 'text', $currentLineItem.find('.edit').val());
+			var currQuestion = model_factory.get("currentQuestion");
+			currQuestion.updateChoice(millisecond_id, 'text', $currentLineItem.find('.edit').val());
 		},
 		closeOnEnter : function(event) {
 			if (event.keyCode != 13) return;
@@ -568,15 +500,15 @@ var view_utility = (function() {
 			var isCorrectChangedCallbackFunc = function(event,data) {
 
 				var millisecond_id = event.target.id.replace('switch','');
-				
-				this.model = model_factory.get("questionChoiceCollection");				
-				this.model.update(millisecond_id, 'iscorrect', $(event.target).find('.switch-animate').hasClass('switch-on'), false);
+				var currQuestion = model_factory.get("currentQuestion");
+				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
+				currQuestion.updateChoice(millisecond_id, 'iscorrect', v, false);
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('sequenceTextField','');
-				var choiceCollection = model_factory.get("questionChoiceCollection");
-				choiceCollection.update(millisecond_id, 'sequence', $(event.target).val(), false);
+				var currQuestion = model_factory.get("currentQuestion");
+				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val(), false);
 			};
 			
 			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc);
@@ -592,7 +524,9 @@ var view_utility = (function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<ul class='choiceItemList span6' id='listOfChoices'></ul>" )() );
 			
-			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
+			var choices = model_factory.get("currentQuestion").getChoices();
+			
+			_.each(choices.models, function(model) { this.renderElement(model); }, this);
 			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');
@@ -613,8 +547,7 @@ var view_utility = (function() {
 			var _el = this.$el.find("li:hover");
 			var currMillisecondId = _el.attr("id");
 			
-			this.model = model_factory.get("questionChoiceCollection");
-			this.model.remove(currMillisecondId);
+			model_factory.get("currentQuestion").removeChoice(currMillisecondId);
 		}
 		
 	});
@@ -626,12 +559,10 @@ var view_utility = (function() {
 	//  that event, and draws each item in the collection.
 	Quizki.EnterNewChoiceView = Backbone.View.extend({
 		initialize: function() {
-			this.choiceModel = model_factory.get("questionChoiceCollection");
-			
 			this.$el = arguments[0].el;
 			
 			var currQuestion = model_factory.get('currentQuestion', false);
-			this.listenTo(currQuestion, 'changed', function(event) { this.setStateOnQuestionChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			var state = method_utility.getQuizkiObject({});
 			
@@ -655,7 +586,7 @@ var view_utility = (function() {
 			
 			this.setCheckBoxDisabled(currQuestion.type_id == "3" || currQuestion.type_id == "4");
 		},
-		setStateOnQuestionChangedEvent: function(event) { 
+		setStateOnQuestionTypeChangedEvent: function(event) { 
 			if (event !== undefined && event.type_id !== undefined)
 				this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4"); 
 		},
@@ -679,18 +610,13 @@ var view_utility = (function() {
 			var $textField = $('#enterAnswerTextField');
 			var textFieldVal = $textField.val();
 			
-			
 			if (textFieldVal == undefined || textFieldVal == '')
 				return;
 			
 			var tokens = textFieldVal.split(',');
 			
 			for (var i=0; i<tokens.length; i++) {
-				// tell the model, user requested a choice be added.
-				var id = this.choiceModel.models.length + 1;
-				
-				this.millisecond_id = 
-					this.choiceModel.put({id:-1,text:tokens[i],iscorrect:($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0),sequence:"0"});
+				this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
 			}
 
 			$textField.val('');

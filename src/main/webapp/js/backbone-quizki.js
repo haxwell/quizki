@@ -57,6 +57,22 @@ var model_factory = (function(){
 var method_utility = (function(){
 	
 	return {
+		getCSVFromJSArray:function(arr, elementFieldName) {
+			var rtn = "";
+			
+			for (var i=0;i<arr.length; i++) {
+				var v = arr[i];
+				
+				if (v != undefined) {
+					rtn += v[elementFieldName];
+					
+					if (i+1 < arr.length)
+						rtn += ",";
+				}
+			}
+			
+			return rtn;
+		},
 		getCSVFromCollection:function(coll, elementFieldName) {
 			var rtn = "";
 			

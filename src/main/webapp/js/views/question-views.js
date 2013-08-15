@@ -115,20 +115,6 @@ var view_utility = (function() {
 	});
 
 	Quizki.SaveButtonView = Backbone.View.extend({
-		// A flaw in this view is that it must know the names of the models used by the 
-		// other views, in order to build data sent to the server for persistence.
-		
-		// I thought about a way of separating this dependency, and thats basically that
-		// each view, upon creation register itself, and the name of its model. This would
-		// be done within a context, and then this view could ask that object, give me all
-		// the model names for this context.
-		
-		// I suppose each model would then have to know how to persist itself to the string
-		// that will go into the AJAX data object, because though we have the names, we have
-		// no idea whats in each model, nor how to get it out in order to associate it with
-		// an attribute name.
-		
-		// But thats a lot of work...
 		initialize:function() {
 			this.prependages = arguments[0].prependages;
 			

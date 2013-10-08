@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
@@ -50,12 +51,11 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			
 			setCurrentQuestion(req, Constants.DISPLAY_QUESTION, question);
 			
+			req.getSession().setAttribute(FilterConstants.ENTITY_ID_FILTER, question.getId());
+			
 			User u = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			
-			if (QuestionManager.userCanEditThisQuestion(question, u))
-			{
-				req.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, Boolean.TRUE);
-			}
+			req.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, QuestionManager.userCanEditThisQuestion(question, u));
 			
 			ExamHistory examHistory = (ExamHistory)req.getSession().getAttribute(Constants.CURRENT_EXAM_HISTORY);
 			

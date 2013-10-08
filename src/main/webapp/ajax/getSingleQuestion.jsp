@@ -52,6 +52,8 @@ fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, 1);
 fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, 0);
 fc.add(FilterConstants.OFFSET_FILTER, 0);
 
+log.log(Level.SEVERE, fc.toString() + "\n\n");
+
 AJAXReturnData rtnData = null;
 
 rtnData = QuestionManager.getAJAXReturnObject(fc, null);

@@ -44,9 +44,9 @@
 
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
+			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			
-			<![CDATA[ <script src="../js/models/question-models.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
 			
@@ -83,7 +83,7 @@
 					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
 					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
 					
-			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons"), prependages:['topics','references'] });					
+			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });					
 			    });
 			    
 			    function addCSVItemsToWell(view, csv) {

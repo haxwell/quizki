@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
+import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.ExamManager;
@@ -52,6 +53,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 			{
 				log.log(java.util.logging.Level.FINER, "Exam is not in progress, so proceeding to initialize session exam variables.");
 				
+				// 1. Get an exam object
 				Exam exam = null;
 				Object examIdRequestParameter = req.getParameter("examId");
 				
@@ -77,6 +79,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					exam = ExamManager.getExam(examId);
 				}
 				
+				// 2. Set session attributes based on the exam object we just got..
 				if (exam != null) {
 					ExamHistory examHistory = ExamManager.initializeExamHistory(exam);
 					
@@ -89,14 +92,18 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					session.setAttribute(Constants.CURRENT_EXAM, null);
 					session.setAttribute(Constants.CURRENT_EXAM, exam);
 		
+					Question currentQuestion = examHistory.getNextQuestion();
+					
 					setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
-					setCurrentQuestion(req, Constants.CURRENT_QUESTION, examHistory.getNextQuestion());
+					setCurrentQuestion(req, Constants.CURRENT_QUESTION, currentQuestion);
 					
 					int qn = examHistory.getCurrentQuestionNumber();
 					if (qn == 0) qn = 1;
 					
 					session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, qn);
 					session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
+					
+					session.setAttribute(Constants.EXAM_HISTORY_QUESTION_INDEX_LIST, examHistory.getQuestionIDListAsCSV());
 					
 					List<String> list = new ArrayList<String>();
 					

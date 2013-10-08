@@ -1,27 +1,7 @@
-var view_utility = (function() {
-	return {
-		executeTemplate : function(templateURL, templateParams) {
-	
-			var _stringModel = model_factory.getStringModel();
-			
-			makeAJAXCall_andWaitForTheResults(templateURL, { }, 
-	        		function(textFromTheURL) {
-	    				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textFromTheURL, templateParams, { });
-	    			}
-	        );
-			
-			var rtn = _stringModel.stringModel;
-			
-			model_factory.destroy(_stringModel.id);
-			
-			return rtn;
-		}	
-	}; 
-}());
-
 	Quizki.QuestionTypeView = Backbone.View.extend({
 		initialize:function() {
+			this.readOnly = arguments[0].readOnly;
+			
 			this.render();
 			
 			var currQuestion = model_factory.get("currentQuestion");
@@ -47,18 +27,23 @@ var view_utility = (function() {
 			}
 		},
 		render: function() {
-			this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView.html', {}));
-			
 			var currentQuestion = model_factory.get("currentQuestion");
-			
 			var optionId = currentQuestion.getTypeId();// || -1;
 			
-			// iterate over each of the buttons, if it matches the model, set it as active
-			// otherwise remove the active attribute
-			_.each($("#questionTypeSelectBox").find("option"), function($item) { 
-				$item = $($item);
-				($item.val() == optionId) ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
-			});
+			if (this.readOnly == undefined) {
+				this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView.html', {}));
+				
+				// iterate over each of the buttons, if it matches the model, set it as active
+				// otherwise remove the active attribute
+				_.each($("#questionTypeSelectBox").find("option"), function($item) { 
+					$item = $($item);
+					($item.val() == optionId) ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
+				});
+			}
+			else {
+				var str = QuestionTypes.getString(optionId);
+				this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView-readOnly.html', {type:str}));
+			}
 			
 			// HACK.
 			var v = this.$el.html();
@@ -68,55 +53,9 @@ var view_utility = (function() {
 		}
 	});
 
-	Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
-		initialize:function() {
-			this.render();
-
-			var currQuestion = model_factory.get("currentQuestion");
-			
-			this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
-			this.listenTo(currQuestion, 'reset', function(event) { this.render(); });			
-		},
-		events: {
-			"keypress #id_questionText":"updateText",
-			"blur #id_questionDescription":"updateDescription"
-		},
-		render: function() {
-			var currentQuestion = model_factory.get("currentQuestion");
-			
-			this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription()}));
-			
-    		tinyMCE.init({
-		        theme : "advanced",
-		        mode : "textareas",
-		        plugins : "autoresize",
-				content_css : "../css/quizki_tinymce_custom_content.css",
-				theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
-				font_size_style_values : "10px,12px,13px,14px,16px,18px,20px",
-		        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyfull,|,formatselect",
-		        theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,image,|,hr,removeformat,visualaid,|,sub,sup,|,charmap",
-		        theme_advanced_buttons3 : "",
-				theme_advanced_path : false,
-				theme_advanced_statusbar_location : 0,
-				help_shortcut : "",
-		        onchange_callback : "questionTinyMCEChangeHandler"						
-			});
-			
-			return this;
-		},
-		updateText:function(event) {
-			var currentQuestion = model_factory.get("currentQuestion");
-			currentQuestion.setText($(event.target).val(), false);
-		},
-		updateDescription:function(event) {
-			var currentQuestion = model_factory.get("currentQuestion");
-			currentQuestion.setDescription($(event.target).val(), false);
-		}
-	});
-
 	Quizki.SaveButtonView = Backbone.View.extend({
 		initialize:function() {
-			this.prependages = arguments[0].prependages;
+			this.readOnly = arguments[0].readOnly;
 			
 			this.render();
 		},
@@ -125,14 +64,14 @@ var view_utility = (function() {
 			"click #btnSave":"saveQuestion"
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithSaveButtons.html', {}));			
+			var classAttributeHidden = this.readOnly == undefined ? "" : "hidden";
+			
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithSaveButtons.html', {hidden:classAttributeHidden}));			
 			return this;
 		},
 		saveQuestion: function() {
 			var data_url = "/ajax/question-save.jsp";
 			var data_obj = model_factory.get("currentQuestion").getDataObject();
-			
-			var resetCurrentQuestion = this.resetCurrentQuestion;
 			
 			// do the ajax call
 			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) { 
@@ -153,7 +92,8 @@ var view_utility = (function() {
 				} else {
 					arr = parsedJSONObject.successes[0].val.split(',');
 					alertClass = 'alert-success';
-					resetCurrentQuestion();
+					
+					model_factory.get('currentQuestion').reset();
 				}
 				
 				var msgs = "";
@@ -171,14 +111,50 @@ var view_utility = (function() {
 				$alertDiv.addClass(alertClass);
 				$alertDiv.removeClass('hidden');
 			});
+		}
+	});
+
+	Quizki.CreatedByView = Backbone.View.extend({
+		initialize:function() {
+			this.render();
 		},
-		resetCurrentQuestion:function() {
-			model_factory.get('currentQuestion').reset();
+		render:function() {
+			var currQuestion = model_factory.get("currentQuestion");
+			var name = currQuestion.getUserName();
+			var userId = model_factory.get("currentUserId");
+			
+			if (userId == currQuestion.getUserId())
+				name = "You";
+			
+			this.$el.html(view_utility.executeTemplate('/templates/CreatedBy.html', {creator:name}));
+			return this;
+		}
+	});
+	
+	Quizki.EditButtonView = Backbone.View.extend({
+		initialize:function() {
+			this.showEditBtn = arguments[0].showEditBtn;
+			this.render();
+		},
+		events: {
+			"click #btnEdit":"editQuestion"
+		},
+		render:function() {
+			var classAttributeHidden = (this.showEditBtn == false ? "hidden" : "");
+			
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithEditButtons.html', {hidden:classAttributeHidden}));
+			return this;
+		},
+		editQuestion: function() {
+			var url="/secured/question.jsp?questionId=" + model_factory.get("currentQuestion").getId();
+			window.location.href = url;
 		}
 	});
 
 	Quizki.DifficultyChooserView = Backbone.View.extend({
 		initialize:function() {
+			this.readOnly = arguments[0].readOnly;
+			
 			// the id of the button to select will have been passed in
 			// that id, is basically the model for this view
 			// store the model
@@ -218,7 +194,9 @@ var view_utility = (function() {
 			}
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/QuestionDifficultyChooserView.html', {}));
+			var disabledText = this.readOnly == undefined ? "" : "disabled";
+			
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionDifficultyChooserView.html', {disabled:disabledText}));
 			var buttonId = this.buttonId || -1;
 			
 			// iterate over each of the buttons, if it matches the model, set it as active
@@ -234,6 +212,8 @@ var view_utility = (function() {
 	
 	Quizki.QuestionAttributeWellView = Backbone.View.extend({
 		initialize:function() {
+			this.readOnly = arguments[0].readOnly;
+			
 			this.id = new Date().getMilliseconds();
 			var viewKey = arguments[0].viewKey;
 			
@@ -311,19 +291,21 @@ var view_utility = (function() {
 			modelToListenTo.setQuizkiCollection(model_factory.get( this.id + "ViewKey" ), this.model);
 		},
 		removeEntry:function(event) {
-			var viewKey = model_factory.get( this.id + "ViewKey" );
-			
-			this.model = model_factory.get(	viewKey + "AttrWellCollection");
-			
-			var entryText = $(event.target).html();
-			
-			this.model.models = _.reject(this.model.models, function(item) { 
-				return item.attributes.val !== undefined 
-						&& item.attributes.val.text 
-						&& entryText === item.attributes.val.text; 
-				});
-			
-			this.render();
+			if (this.readOnly == undefined) {
+				var viewKey = model_factory.get( this.id + "ViewKey" );
+				
+				this.model = model_factory.get(	viewKey + "AttrWellCollection");
+				
+				var entryText = $(event.target).html();
+				
+				this.model.models = _.reject(this.model.models, function(item) { 
+					return item.attributes.val !== undefined 
+							&& item.attributes.val.text 
+							&& entryText === item.attributes.val.text; 
+					});
+				
+				this.render();
+			}
 		},
 		renderElement:function(model) {
 			if (model.attributes.val != undefined) {
@@ -333,9 +315,10 @@ var view_utility = (function() {
 			}
 		},
 		render:function() {
+			var readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
 			var _id = this.id;
 			
-			this.$el.html(view_utility.executeTemplate('/templates/QuestionAttributeWellView.html', {id:_id}));
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionAttributeWellView.html', {id:_id, readOnly:readOnlyAttr}));
 			
 			this.viewKey = model_factory.get(_id + "ViewKey");
 			this.model = model_factory.get(	this.viewKey + "AttrWellCollection");
@@ -373,6 +356,8 @@ var view_utility = (function() {
 			
 			this.onIsCorrectChangedHandler = arguments[2];
 			this.onSequenceTextFieldBlurHandler = arguments[3];
+			
+			this.readOnly = arguments[4];
 		},
 		getHideSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -395,8 +380,9 @@ var view_utility = (function() {
             var _model = this.model;
             var hideSequence = this.getHideSequence();
             var disabled = this.getDisabledText();
-            
-           	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled});
+            var readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
+
+           	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 
             var template = Quizki[view].prototype.template;
 			this.$el.html( template );
@@ -418,6 +404,8 @@ var view_utility = (function() {
 		tagName:'ul',
 		
 		initialize: function() {
+			this.readOnly = arguments[0].readOnly;
+			
 			this.$el = arguments[0].el;
 			
 			this.ChoiceItemViewCollection = new Array();
@@ -441,7 +429,7 @@ var view_utility = (function() {
 		},
 		choiceItemSwitchesShouldBeDisabled : function() {
 			var typeId = model_factory.get('currentQuestion').getTypeId();
-			return (typeId == "3" || typeId == "4");
+			return (typeId == "3" || typeId == "4") || this.readOnly !== undefined;
 		},
 		setStateOnInitialization: function () {
 			var typeId = model_factory.get('currentQuestion').getTypeId();
@@ -468,12 +456,14 @@ var view_utility = (function() {
 			"click .destroyBtn":"remove"
 		},
 		edit : function(event) {
-			var _el = this.$el.find("li:hover");
-			
-			_el.addClass('editing');
-			
-			_el.find('.edit').removeClass('hideForEditing');
-			_el.find(".edit").focus();			
+			if (this.readOnly == undefined) {
+				var _el = this.$el.find("li:hover");
+				
+				_el.addClass('editing');
+				
+				_el.find('.edit').removeClass('hideForEditing');
+				_el.find(".edit").focus();
+			}
 		},
 		close : function(event) {
 			var $currentLineItem = this.$el.find(".editing");
@@ -506,7 +496,7 @@ var view_utility = (function() {
 				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val(), false);
 			};
 			
-			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc);
+			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc, this.readOnly);
 			ul.append( questionChoiceItemView.render().$el.html() );
 			
 			var obj = {millisecondId:questionChoiceItemView.milliseconds(), view:questionChoiceItemView};

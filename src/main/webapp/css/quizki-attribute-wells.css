@@ -13,6 +13,14 @@ div.wellAttribute {
 	padding:4px;
 }
 
+div.well:hover button.well_add_button {
+	visibility:visible;
+}
+
+div.well.readOnly:hover button.well_add_button {
+	visibility:hidden;
+}
+
 button.btn.well_add_button {
 	visibility:hidden;
 }

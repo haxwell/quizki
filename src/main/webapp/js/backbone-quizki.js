@@ -7,20 +7,34 @@ var Quizki = {
 
 KeyValueMap = function() {
 	var arr = {};
+	var count = 0;
 	
 	return {
-			put: function(id, func) {
-				arr[id] = func;
+			put: function(id, obj) {
+				arr[id] = obj;
+				count++;
 			},
 			get: function(id) {
 				return arr[id];
 			},
 			destroy: function(id) {
 				arr[id] = undefined;
+				count--;
+			},
+			size: function() {
+				return count;
+			},
+			toString: function () {
+				var str = 'KeyValueMap --> ';
+				
+				for (var property in arr)
+					str += property + ": " + arr[property].toString();
+				
+				return str;
 			}
 		};
 	};
-
+	
 var model_constructor_factory = new KeyValueMap();
 
 var model_factory = (function(){
@@ -126,5 +140,56 @@ var method_utility = (function(){
 			return {val:model, millisecond_id:new Date().getMilliseconds()};
 		}
 	};
-	}());
+}());
 
+var JSONUtility = (function() {
+	var my = {};
+	
+	my.startJSONString = function(str) {
+		return (str += '{ ');
+	};
+	
+	my.endJSONString = function(str) {
+		return (str += ' }');
+	};
+	
+	my.getJSON = function(fieldName, valueToAdd, appendComma) {
+		if (valueToAdd == undefined || valueToAdd == null)
+			valueToAdd = '';
+		else
+			valueToAdd = valueToAdd.replace(/"/g, '\\\"');
+		
+		var rtn = '\"' + fieldName + '\":\"' + valueToAdd + '\"';
+		
+		if (appendComma !== false)
+			rtn += ', ';
+		
+		return rtn;
+	};
+	
+	my.getJSON_ExistingQuoteFriendly = function(fieldName, valueToAdd, appendComma) {
+		if (valueToAdd == undefined || valueToAdd == null)
+			valueToAdd = '';
+
+		var rtn = '\"' + fieldName + '\":' + valueToAdd;
+
+		if (appendComma !== false)
+			rtn += ', ';
+		
+		return rtn;
+	};
+	
+	return my;
+	
+}());
+
+var AttributeHider = (function() {
+	var my = {};
+	
+	my.hideAttribute = function(obj, attrToHide) {
+		return (function(obj_) {
+			
+		});
+	}
+	
+}());

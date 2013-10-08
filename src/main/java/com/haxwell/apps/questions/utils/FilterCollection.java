@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.utils;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class FilterCollection {
 
@@ -18,6 +19,21 @@ public class FilterCollection {
 	
 	public Object get(String filterName)
 	{
-		return map.get(filterName);
+		Object rtn = map.get(filterName);
+		return rtn == null ? "" : rtn;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Iterator<String> iterator = map.keySet().iterator();
+		
+		sb.append("FilterCollection --> ");
+		
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			sb.append(key + ": " + map.get(key) + " ");
+		}
+		
+		return sb.toString();
 	}
 }

@@ -6,6 +6,7 @@ public class Constants {
 	
 	public static final String CURRENT_EXAM = "currentExam";
 	public static final String CURRENT_QUESTION = "currentQuestion";
+	public static final String CURRENT_QUESTION_AS_JSON = "currentQuestionAsJson";
 	public static final String CURRENT_QUESTION_KEY = "currentQuestionKey";
 	public static final String DISPLAY_QUESTION = "displayQuestion";
 	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
@@ -17,6 +18,7 @@ public class Constants {
 	public static final String LIST_OF_VALUES_OF_CHOICES = "listOfCurrentQuestionsChoicesValues";
 	public static final String LIST_OF_VALUES_OF_CHOICES_FOR_DISPLAY_QUESTION = "listOfCurrentQuestionsChoicesValuesForDisplayQuestion";
 	
+	public static final String EXAM_HISTORY_QUESTION_INDEX_LIST = "examHistoryQuestionIndexList";
 	public static final String CURRENT_QUESTION_NUMBER = "currentQuestionNumber";
 	public static final String TOTAL_POTENTIAL_QUESTIONS = "totalNumberOfQuestionsInCurrentExam";
 	public static final String EXAM_IN_PROGRESS = "examInProgress";

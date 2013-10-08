@@ -1,8 +1,27 @@
+var Exam = (function() {
+	var my = {};
+	
+	var questions = undefined;
+	
+	function initializeFields() {
+		questions = Quizki.Collection();
+	};
+	
+	my.initialize = function () {
+		initializeFields();
+		
+		_.extend(this, Backbone.Events);
+	};
+	
+	
+});
+
 var Question = (function() {
 	var my = {};
 	
 	var id = -1;
 	var user_id = -1;
+	var user_name = "";
 	var text = "";
 	var description = "";
 	var type_id = 1;
@@ -12,7 +31,7 @@ var Question = (function() {
 	var choices = undefined;
 	
 	function initializeFields() {
-		id = -1; user_id = -1;
+		id = -1; user_id = -1; user_name = '';
 		text = ''; description = ''; type_id = 1; difficulty_id = 1;
 		topics = ''; references = ''; choices = new Quizki.Collection();
 	};
@@ -24,7 +43,7 @@ var Question = (function() {
 	};
 	
 	my.initWithAJAXSource = function(source) {
-		id = source.id; user_id = source.user_id;
+		id = source.id; user_id = source.user_id; user_name = source.user_name;
 		text = source.text;	description = source.description; type_id = source.type_id; 
 		difficulty_id = source.difficulty_id; 
 		
@@ -36,6 +55,12 @@ var Question = (function() {
 		
 		_.extend(this, Backbone.Events);
 	};
+	
+	my.initWithJSONSource = function(source) {
+		var obj = JSON.parse(source);
+		
+		this.initWithAJAXSource(obj);
+	}
 	
 	my.reset = function() {
 		initializeFields();
@@ -51,6 +76,27 @@ var Question = (function() {
 			references = method_utility.getCSVFromCollection(quizkiCollection, "text");
 	};
 	
+	my.toJSON = function() {
+		var rtn = '';
+
+		rtn += JSONUtility.startJSONString(rtn);
+		
+		rtn += JSONUtility.getJSON('id', id);
+		rtn += JSONUtility.getJSON('text', text);
+		rtn += JSONUtility.getJSON('description', description);
+		rtn += JSONUtility.getJSON('type_id', type_id);
+		rtn += JSONUtility.getJSON('difficulty_id', difficulty_id);
+		rtn += JSONUtility.getJSON('user_id', user_id);
+		rtn += JSONUtility.getJSON('user_name', user_name);
+		rtn += JSONUtility.getJSON('topics', topics);
+		rtn += JSONUtility.getJSON('references', references);
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', this.getChoicesAsJSONString(), false);
+		
+		rtn = JSONUtility.endJSONString(rtn);
+		
+		return rtn;
+	};
+	
 	my.getDataObject = function () {
 		return  {
 				id:id,
@@ -63,6 +109,18 @@ var Question = (function() {
 				references:references,
 				choices:this.getChoicesAsJSONString()
 		};
+	};
+	
+	my.getId = function() {
+		return id;
+	};
+	
+	my.getUserId = function() {
+		return user_id;
+	};
+	
+	my.getUserName = function() {
+		return user_name;
 	};
 	
 	my.getText = function() {
@@ -178,13 +236,38 @@ var Question = (function() {
 	};
 		
 	my.getChoicesAsJSONString = function() {
-		var choicesAsJSONString = '{ "choice":[';
+		var choicesAsJSONString = '[';
 		
 		for (var i=0; i < choices.models.length; i++) {
 			
-			var attrs = "{";
+			// in order to check whether a comma should be appended in a loop below,
+			//  we have to know is there another element.. so, since in doing a 
+			//    for (var property in ... )
+			//  there is no way to see of there is a next element, you can't do a plus one,
+			//  then we create two maps to store the two pieces of info we care about,
+			//  in a way that we can use to determine if a next element exists, solving
+			//  our comma problem. We save those two values by int index, and use a normal
+			//  for loop based on an int to get the info out the maps, and be the basis
+			//  of the comma check. #dareISayElegant?
+			
+			var propertyNameMap = new KeyValueMap();
+			var propertyValueMap = new KeyValueMap();
+			var index = 0;
+			
 			for (var property in choices.models[i]["attributes"]["val"]) {
-				attrs += '"' + property + '":' + '"' + choices.models[i]["attributes"]["val"][property] + '",';
+				propertyNameMap.put(index, property);
+				propertyValueMap.put(index, choices.models[i]["attributes"]["val"][property]);
+				
+				index++;
+			}
+			
+			var attrs = "{";
+			var propertyValueMapSize = propertyValueMap.size();
+			for (var ii = 0; ii < propertyValueMapSize; ii++) {
+				attrs += '"' + propertyNameMap.get(ii) + '":' + '"' + propertyValueMap.get(ii) + '"';
+				
+				if (ii+1 < propertyValueMapSize)
+					attrs += ',';
 			}
 			
 			attrs += "}";
@@ -195,7 +278,7 @@ var Question = (function() {
 			choicesAsJSONString += attrs;
 		}
 		
-		choicesAsJSONString += "]}";
+		choicesAsJSONString += "]";
 		
 		return choicesAsJSONString;
 	};
@@ -203,10 +286,28 @@ var Question = (function() {
 	return my;
 });
 
-// TODO: rather than using the selector for entityId, it would be good to be able to pass in a function. But	
+var QuestionTypes = (function() {
+	var my = {};
+
+	my.getString = function(intKey) {
+		if (intKey == 1)
+			return "Single";
+		else if (intKey == 2)
+			return "Multiple";
+		else if (intKey == 3)
+			return "String";
+		else if (intKey == 4)
+			return "Sequence";
+		
+		return "ERROR!!";
+	};
+	
+	return my;
+}());
+
 //  since this is a declaration of a function, how do you say this function needs a function passed in, when 
 //  all you are doing is passing the variable (representing the function's) name? for instance if I'm passing
-//.  this functioin to another function, how does 
+//.  this function to another function, how does 
 //
 //		foo(getFunctionToRetrieveCurrentQuestion)
 //
@@ -224,38 +325,86 @@ var Question = (function() {
 //
 var getFunctionToRetrieveCurrentQuestion = function() {
  	var rtn = new Question(); 
- 	
- 	// this method executes if the entity id hidden field is set
-	var entityId = $("#idEntityIdField").val();
 
-	var data_url = undefined;
-	var data_obj = undefined;
-	
-	if (entityId != undefined && entityId != "") {
-    	data_url = "/ajax/getSingleQuestion.jsp";
-    	data_obj = { entityIdFilter : entityId }; 
-    	
+	var currentQuestionAsJson = $("#idCurrentQuestionAsJson").val();
+
+	// if somebody has already set a question in our special JSON field, lets use it!
+	if (currentQuestionAsJson != undefined && currentQuestionAsJson != "") {
+		rtn.initWithJSONSource(currentQuestionAsJson);
+		$("#idCurrentQuestionAsJson").val('');
 	}
 	else {
-		data_url = "/ajax/getBlankQuestion.jsp";
-		data_obj = { };
-	}
+		// otherwise, we need to get the question ourselves.. check the special Entity ID field..
+		var entityId = $("#idEntityIdField").val();
+		
+		var data_url = undefined;
+		var data_obj = undefined;
 	
-	if (data_url !== undefined && data_obj != undefined) {
-		makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
-			
-			var index = data.indexOf("<!DOCTYPE");
-			var jsonExport = data;
-			
-			if (index != -1) {
-				jsonExport = data.substring(0, index);
-			}
-			
-			var parsedJSONObject = jQuery.parseJSON(jsonExport);
-			
-			rtn.initWithAJAXSource(parsedJSONObject.question[0]);
-		});
+		if (entityId != undefined && entityId != "") {
+	    	data_url = "/ajax/getSingleQuestion.jsp";
+	    	data_obj = { entityIdFilter : entityId };
+	    	
+	    	rtn = getSingleQuestion(entityId);
+		}
+		else {
+			data_url = "/ajax/getBlankQuestion.jsp";
+			data_obj = { };
+		}
+		
+		if (data_url !== undefined && data_obj != undefined) {
+			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
+				
+				var index = data.indexOf("<!DOCTYPE");
+				var jsonExport = data;
+				
+				if (index != -1) {
+					jsonExport = data.substring(0, index);
+				}
+				
+				var parsedJSONObject = jQuery.parseJSON(jsonExport);
+				
+				rtn.initWithAJAXSource(parsedJSONObject.question[0]);
+			});
+		}
 	}
 
+	return rtn;
+};
+
+var getSingleQuestionByEntityId = function(entityId) {
+	var data_url = "/ajax/getSingleQuestion.jsp";
+	var data_obj = { entityIdFilter : entityId }; 
+
+	var rtn = getQuestionByAJAXCall(data_url, data_obj);
+	
+	return rtn;
+};
+
+var getBlankQuestionFromServer = function() {
+	var data_url = "/ajax/getBlankQuestion.jsp";
+	var data_obj = { }; 
+
+	var rtn = getQuestionByAJAXCall(data_url, data_obj); 
+	
+	return rtn;
+};
+
+var getQuestionByAJAXCall = function(data_url, data_obj) {
+	var rtn = new Question();
+	
+	makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
+		
+		var index = data.indexOf("<!DOCTYPE");
+		var jsonExport = data;
+		
+		if (index != -1) {
+			jsonExport = data.substring(0, index);
+		}
+		
+		var parsedJSONObject = jQuery.parseJSON(jsonExport);
+		
+		rtn.initWithAJAXSource(parsedJSONObject.question[0]);
+	});
+	
 	return rtn;
 };

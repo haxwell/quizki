@@ -120,6 +120,23 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 		
 		return rtn;
 	}
+	
+	// TODO, this method should go in a more common place.. it takes a list of entities, and returns 
+	//  a csv list of their ids..
+	public String getQuestionIDListAsCSV() {
+		StringBuffer sb = new StringBuffer();
+		Iterator<Question> iterator = originalQuestionList.iterator();
+
+		while (iterator.hasNext())
+		{
+			sb.append(iterator.next().getId());
+			
+			if (iterator.hasNext())
+				sb.append(",");
+		}
+
+		return sb.toString();
+	}
 
 	/**
 	 * 

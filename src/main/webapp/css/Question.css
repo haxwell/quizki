@@ -50,10 +50,6 @@
 	display:none;
 }
 
-div.well:hover button.btn.well_add_button {
-	visibility:visible;
-}
-
 .destroyBtn {
 	position:relative;
 	top:-10px;
@@ -62,6 +58,10 @@ div.well:hover button.btn.well_add_button {
 
 li:hover .destroyBtn {
 	display:inline;
+}
+
+li.readOnly:hover .destroyBtn {
+	display:none;
 }
 
 li.editing:hover .destroyBtn {
@@ -178,4 +178,12 @@ li.choiceItem {
 .choiceTextDiv {
 	width:75%;
 	display:inline-block;
+}
+
+div.uppercase {
+	text-transform:uppercase;
+}
+
+div.bold {
+	font-weight:bold;
 }

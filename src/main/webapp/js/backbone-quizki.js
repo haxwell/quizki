@@ -64,6 +64,7 @@ var model_factory = (function(){
 			},
 			destroy: function(id) {
 				arr[id] = undefined;
+				arr["stringModel"+id] = undefined;
 			}
 		};
 	}());

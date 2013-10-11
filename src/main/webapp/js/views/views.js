@@ -29,13 +29,25 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		var currQuestion = model_factory.get("currentQuestion");
 		
 		this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
-		this.listenTo(currQuestion, 'reset', function(event) { this.render(); });			
+		this.listenTo(currQuestion, 'reset', function(event) { this.render(); });
+		
+		if (arguments[0].modelToListenTo !== undefined) {
+			this.modelToListenTo = arguments[0].modelToListenTo;
+			this.modelEventToListenFor = arguments[0].modelEventToListenFor;
+			
+			var modelToListenTo = model_factory.get(this.modelToListenTo);
+			this.listenTo(modelToListenTo, this.modelEventToListenFor, function() { 
+				this.render();
+			});
+		}
 	},
 	events: {
 		"keypress #id_questionText":"updateText",
 		"blur #id_questionDescription":"updateDescription"
 	},
 	render: function() {
+		model_factory.destroy("currentQuestion");
+		
 		var currentQuestion = model_factory.get("currentQuestion");
 
 		var disabledText = this.readOnly == undefined ? "" : "disabled";

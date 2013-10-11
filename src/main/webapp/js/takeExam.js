@@ -47,11 +47,12 @@ var ExamEngine = (function() {
 		if (str == undefined || str == '') {
 			rtn = getSingleQuestionByEntityId(id);
 			
-			listQuestionsAsJsonStrings.put(rtn.getId(), rtn.getDataObject());
+			listQuestionsAsJsonStrings.put(rtn.getId(), rtn.toJSON());
 		}
 		else {
 			// otherwise, use our cached version
-			rtn.initWithAJAXSource(str);
+			rtn = new Question();
+			rtn.initWithJSONSource(str);
 		}
 		
 		return rtn;
@@ -70,6 +71,8 @@ var ExamEngine = (function() {
 		totalNumberOfQuestions = listQuestionIds.length;
 		
 		index = 0;
+		
+		model_factory.put('ExamEngine', this);
 
 		var rtn = this.getFirstQuestion(); 
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
@@ -88,7 +91,7 @@ var ExamEngine = (function() {
 		}
 		
 		// get question by that index from listQuestionsAsJsonStrings
-		return setQuestionByIndex(indexOfTheNextQuestionInTheExam);
+		return this.setQuestionByIndex(indexOfTheNextQuestionInTheExam);
 	};
 	
 	my.prevQuestion = function() {
@@ -102,8 +105,10 @@ var ExamEngine = (function() {
 		return this.setQuestionByIndex(indexOfTheNextQuestionInTheExam);
 	};
 	
-	my.setQuestionByIndex = function(index) {
-		var rtn = this.getQuestionByItsId(listQuestionIds.get(index));
+	my.setQuestionByIndex = function(idx) {
+		index = idx;
+		
+		var rtn = this.getQuestionByItsId(listQuestionIds[index]);
 		
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
 		this.trigger('currentQuestionUpdated');

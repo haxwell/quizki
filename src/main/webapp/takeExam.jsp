@@ -25,7 +25,7 @@
 		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
 		
 		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/takeExam.css" rel="stylesheet" type="text/css"/>
+		<!-- link href="../css/takeExam.css" rel="stylesheet" type="text/css"/  -->
 
 		<link rel="shortcut icon" href="images/favicon.ico" />
 				
@@ -117,7 +117,7 @@
 			    
 			    	var bv_header = new Quizki.QuitThisExamView({ el: $("#divQuestionHeaderWithQuitButtons") });
 
-					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true });
+					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'currentQuestionUpdated' });
 					
 					var bv_choiceListView = new Quizki.ExamChoiceListView({ el: $("#divQuestionChoices") });
 					

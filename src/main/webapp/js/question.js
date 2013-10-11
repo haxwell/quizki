@@ -344,7 +344,7 @@ var getFunctionToRetrieveCurrentQuestion = function() {
 	    	data_url = "/ajax/getSingleQuestion.jsp";
 	    	data_obj = { entityIdFilter : entityId };
 	    	
-	    	rtn = getSingleQuestion(entityId);
+	    	rtn = getSingleQuestionByEntityId(entityId);
 		}
 		else {
 			data_url = "/ajax/getBlankQuestion.jsp";

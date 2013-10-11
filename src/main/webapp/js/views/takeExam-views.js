@@ -77,7 +77,7 @@
 			this.render();
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.model.id,string:this.model.text}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.model.id}));
 			return this;
 		}
 	});

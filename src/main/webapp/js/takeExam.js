@@ -16,7 +16,7 @@ var TakeExamChoiceItemFactory = (function() {
 			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamMultipleQuestionChoiceItemView(model)); }, this);
 		}
 		else if (type == 3) {
-			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamStringQuestionChoiceItemView(model)); }, this);
+			rtn.put( new Quizki.ExamStringQuestionChoiceItemView( choices.at(0) )); 
 		}
 		else if (type == 4) {
 			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamSequenceQuestionChoiceItemView(model)); }, this);

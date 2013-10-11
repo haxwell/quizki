@@ -184,13 +184,3 @@ var JSONUtility = (function() {
 	
 }());
 
-var AttributeHider = (function() {
-	var my = {};
-	
-	my.hideAttribute = function(obj, attrToHide) {
-		return (function(obj_) {
-			
-		});
-	}
-	
-}());

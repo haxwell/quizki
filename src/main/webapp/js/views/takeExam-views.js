@@ -46,7 +46,14 @@
 			this.render();
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamSingleQuestionChoiceItemView.html', {id:this.model.id,text:this.model.text}));
+			
+			var selected = '';
+			
+			if (this.model.isselected !== undefined && (this.model.isselected == "true" || this.model.isselected === true)) {
+				selected = 'checked';
+			}
+			
+			this.$el.html(view_utility.executeTemplate('/templates/ExamSingleQuestionChoiceItemView.html', {id:this.model.id,checked:selected,text:this.model.text,disabled:''}));
 			return this;
 		}
 	});
@@ -152,6 +159,15 @@
 		events: {
 			// do nothing
 		},
+		renderElement: function(model) {
+			var ul = this.$el.find("#listOfChoices");
+
+			ul.append( model.val.render().$el.html() );
+			
+			var obj = {millisecondId:model.millisecond_id, view:model.val};
+			
+			this.ChoiceItemViewCollection.push(obj);
+		},
 		render:function() {
 			this.ChoiceItemViewCollection = new Array();
 			
@@ -160,12 +176,11 @@
 			
 			var views = TakeExamChoiceItemFactory.getViewsForCurrentQuestion();
 			
-			_.each(views.models, function(model) { 
-				var str = model.attributes.val.render().$el.html(); 
-				this.$el.append( str ); 
-			}, this);
+			_.each(views.models, function(model) { this.renderElement(model.attributes); }, this);
 			
-			var str = this.$el.html();
+			//get the actual bootstrap slider ui component div
+			var $slider = this.$el.find('.switch-square');
+			$slider.bootstrapSwitch();
 			
 			return this;
 		}

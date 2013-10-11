@@ -43,7 +43,6 @@
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
-			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
 
@@ -118,7 +117,7 @@
 			    
 			    	var bv_header = new Quizki.QuitThisExamView({ el: $("#divQuestionHeaderWithQuitButtons") });
 
-					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
+					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true });
 					
 					var bv_choiceListView = new Quizki.ExamChoiceListView({ el: $("#divQuestionChoices") });
 					
@@ -154,20 +153,21 @@
 				<div id="divTextarea">
 				..
 				</div>
-			</div>
-			
-			<div class="row">
-				<div class="span3">
-					<h1 class="questionPageSectionHeader">Answer</h1>
+				
+				<div class="row">
+					<div class="span3">
+						<h1 class="questionPageSectionHeader">Answer</h1>
+					</div>
+				</div> 
+		
+				<div id="divQuestionChoices">
+				..
+				</div>		
+		
+				<br/>
+				<div id="divExamNavigationButtons">
+				..
 				</div>
-			</div> 
-	
-			<div id="divQuestionChoices">
-			..
-			</div>		
-	
-			<div id="divExamNavigationButtons">
-			..
 			</div>
 		</c:otherwise>
 	</c:choose>

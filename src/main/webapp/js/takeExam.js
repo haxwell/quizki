@@ -35,6 +35,7 @@ var ExamEngine = (function() {
 	var listQuestionsAsJsonStrings = new KeyValueMap();
 	var index = -1;
 	var totalNumberOfQuestions = 0;
+	var lastReturnedQuestion = null;
 	
 	
 	// would like this to be a private method.......................
@@ -54,6 +55,8 @@ var ExamEngine = (function() {
 			rtn = new Question();
 			rtn.initWithJSONSource(str);
 		}
+		
+		lastReturnedQuestion = rtn;
 		
 		return rtn;
 	};
@@ -80,47 +83,64 @@ var ExamEngine = (function() {
 	};
 	
 	my.nextQuestion = function() {
-		var indexOfTheNextQuestionInTheExam = index + 1;
-		
-		if (indexOfTheNextQuestionInTheExam < 0) {
-			indexOfTheNextQuestionInTheExam = 0;
+		if (index + 1 < totalNumberOfQuestions) {
+			// get question by that index from listQuestionsAsJsonStrings
+			return this.setQuestionByIndex(++index);
 		}
-		
-		if (indexOfTheNextQuestionInTheExam >= totalNumberOfQuestions) {
+		else {
 			return null; 	// there is no next question
 		}
-		
-		// get question by that index from listQuestionsAsJsonStrings
-		return this.setQuestionByIndex(indexOfTheNextQuestionInTheExam);
 	};
 	
 	my.prevQuestion = function() {
-		var indexOfTheNextQuestionInTheExam = index - 1;
+		var rtn = undefined;
 		
-		if (indexOfTheNextQuestionInTheExam < 0) {
-			indexOfTheNextQuestionInTheExam = 0;
+		if (index > 0) {
+			rtn = this.setQuestionByIndex(--index);
 		}
-		
-		// get question by that index from listQuestionsAsJsonStrings
-		return this.setQuestionByIndex(indexOfTheNextQuestionInTheExam);
+		else {
+			rtn = lastReturnedQuestion;
+		}
+
+		return rtn;
 	};
 	
 	my.setQuestionByIndex = function(idx) {
 		index = idx;
-		
+
+		// these four lines would be good in a private method..
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		}
+
 		var rtn = this.getQuestionByItsId(listQuestionIds[index]);
 		
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
 		this.trigger('currentQuestionUpdated');
 		
+		lastReturnedQuestion = rtn;
+		
 		return rtn;
 	};
 	
 	my.getFirstQuestion = function() {
+		// these four lines would be good in a private method..
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		}
+
 		return this.getQuestionByItsId(listQuestionIds[0]);
 	};
 	
 	my.getLastQuestion = function() {
+		// these four lines would be good in a private method..
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		}
+
 		return this.getQuestionByItsId(listQuestionIds[listQuestionIds.length - 1]);
 	};
 	

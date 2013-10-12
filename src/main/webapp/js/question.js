@@ -47,8 +47,8 @@ var Question = (function() {
 		text = source.text;	description = source.description; type_id = source.type_id; 
 		difficulty_id = source.difficulty_id; 
 		
-		topics = method_utility.getCSVFromJSArray(source.topics, "text");
-		references = method_utility.getCSVFromJSArray(source.references, "text"); 
+		topics = JSON.stringify(source.topics);
+		references = JSON.stringify(source.references);
 		
 		choices = new Quizki.Collection();
 		choices.addArray(source.choices);
@@ -60,7 +60,7 @@ var Question = (function() {
 		var obj = JSON.parse(source);
 		
 		this.initWithAJAXSource(obj);
-	}
+	};
 	
 	my.reset = function() {
 		initializeFields();
@@ -88,8 +88,8 @@ var Question = (function() {
 		rtn += JSONUtility.getJSON('difficulty_id', difficulty_id);
 		rtn += JSONUtility.getJSON('user_id', user_id);
 		rtn += JSONUtility.getJSON('user_name', user_name);
-		rtn += JSONUtility.getJSON('topics', topics);
-		rtn += JSONUtility.getJSON('references', references);
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', topics);
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', references);
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', this.getChoicesAsJSONString(), false);
 		
 		rtn = JSONUtility.endJSONString(rtn);
@@ -105,8 +105,8 @@ var Question = (function() {
 				type_id:type_id,
 				difficulty_id:difficulty_id,
 				user_id:user_id,
-				topics:topics,
-				references:references,
+				topics:method_utility.getCSVFromJSArray(topics, "text"),
+				references:method_utility.getCSVFromJSArray(references, "text"),
 				choices:this.getChoicesAsJSONString()
 		};
 	};
@@ -212,7 +212,7 @@ var Question = (function() {
 	};
 		
 	my.addChoice = function(_text, _iscorrect, _sequence, throwEvent) {
-		var choice = {id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence};
+		var choice = {id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false};
 		var millisecond_id = choices.put(choice);
 
 		if (throwEvent !== false)

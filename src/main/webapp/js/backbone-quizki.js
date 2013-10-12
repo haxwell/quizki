@@ -51,6 +51,9 @@ var model_factory = (function(){
 				
 				return arr[id];
 			},
+			contains: function(id) {
+				return arr[id] != undefined;
+			},
 			put: function(id, model) {
 				// todo: perhaps an event when this happens?
 				arr[id] = model;
@@ -138,7 +141,14 @@ var method_utility = (function(){
 			// a 'Quizki Object' is an object with an id based on the millisecond it was created,
 			//  and a javascript object of any definition.
 			
-			return {val:model, millisecond_id:new Date().getMilliseconds()};
+			// do something.. lessen the chance that two quick calls to this method will return the
+			//  same millisecond id
+			var delayVar = new Date().getMilliseconds();
+			for (var i=0;i<42;i++) {
+				delayVar++;
+			}
+			
+			return {val:model, millisecond_id:delayVar};
 		}
 	};
 }());

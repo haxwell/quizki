@@ -42,8 +42,17 @@
 	Quizki.ExamSingleQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
 			this.model = arguments[0].attributes.val;
+			this.millisecondId = arguments[0].attributes.millisecond_id;
+			
+			this.eventHandlerMap = new KeyValueMap();
 			
 			this.render();
+		},
+		setEventHandler:function(key, func) {
+			this.eventHandlerMap.put(key, func);
+		},
+		getEventHandler:function(key) {
+			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
 			
@@ -53,7 +62,7 @@
 				selected = 'checked';
 			}
 			
-			this.$el.html(view_utility.executeTemplate('/templates/ExamSingleQuestionChoiceItemView.html', {id:this.model.id,checked:selected,text:this.model.text,disabled:''}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamSingleQuestionChoiceItemView.html', {id:this.millisecondId,checked:selected,text:this.model.text,disabled:''}));
 			return this;
 		}
 	});
@@ -61,11 +70,20 @@
 	Quizki.ExamMultipleQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
 			this.model = arguments[0].attributes.val;
+			this.millisecondId = arguments[0].attributes.millisecond_id;
 			
+			this.eventHandlerMap = new KeyValueMap();
+
 			this.render();
 		},
+		setEventHandler:function(key, func) {
+			this.eventHandlerMap.put(key, func);
+		},
+		getEventHandler:function(key) {
+			return this.eventHandlerMap.get(key);
+		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamMultipleQuestionChoiceItemView.html', {id:this.model.id,text:this.model.text}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamMultipleQuestionChoiceItemView.html', {id:this.millisecondId,text:this.model.text}));
 			return this;
 		}
 	});
@@ -73,11 +91,20 @@
 	Quizki.ExamStringQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
 			this.model = arguments[0].attributes.val;
+			this.millisecondId = arguments[0].attributes.millisecond_id;
 			
+			this.eventHandlerMap = new KeyValueMap();
+
 			this.render();
 		},
+		setEventHandler:function(key, func) {
+			this.eventHandlerMap.put(key, func);
+		},
+		getEventHandler:function(key) {
+			return this.eventHandlerMap.get(key);
+		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.model.id}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.millisecondId}));
 			return this;
 		}
 	});
@@ -85,60 +112,24 @@
 	Quizki.ExamSequenceQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
 			this.model = arguments[0].attributes.val;
+			this.millisecondId = arguments[0].attributes.millisecond_id;
 			
+			this.eventHandlerMap = new KeyValueMap();
+
 			this.render();
+		},
+		setEventHandler:function(key, func) {
+			this.eventHandlerMap.put(key, func);
+		},
+		getEventHandler:function(key) {
+			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
 			var _sequence = this.model.sequence == 0 ? "" : this.model.sequence;
-			this.$el.html(view_utility.executeTemplate('/templates/ExamSequenceQuestionChoiceItemView.html', {id:this.model.id,sequence:_sequence,text:this.model.text}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamSequenceQuestionChoiceItemView.html', {id:this.millisecondId,sequence:_sequence,text:this.model.text}));
 			return this;
 		}
 	});
-
-	// this view represents an item in a list of choices
-//	Quizki.ExamQuestionChoiceItemView = Backbone.View.extend({
-//		tagName:'li',
-//		
-//		initialize: function() {
-//			this.model = arguments[0].attributes;
-//			
-//			var text = this.model.val.text;
-//			
-//			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
-//			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
-//			//  instead of a value. That should be cleaned up one day..
-//			var checked = (this.model.val.iscorrect == 'true' || this.model.val.iscorrect === true) ? 'checked' : '';
-//			var sequence = this.model.val.sequence || 0;
-//			var id = this.model.millisecond_id || new Date().getMilliseconds();
-//			
-//			this.model = {text:text,checked:checked,sequence:sequence,id:id};
-//		},
-//		getHideSequence:function() {
-//			var currQuestion = model_factory.get('currentQuestion');
-//			
-//			var hideSequence = "hidden";
-//			
-//			if (currQuestion.type_id == "4")
-//				hideSequence = "";
-//
-//			return hideSequence;
-//		},
-//		render:function() {
-//			var view = "QuestionChoiceItemView";
-//            var _model = this.model;
-//            var hideSequence = this.getHideSequence();
-//
-//			this.$el.html(view_utility.executeTemplate('/templates/TakeExamQuestionChoiceItemView.html', {}));
-//
-//            var template = Quizki[view].prototype.template;
-//			this.$el.html( template );
-//			
-//			return this;
-//		},
-//		milliseconds: function() { return this.model.id; },
-//		setText: function(newText) { this.model.text = newText; },
-//		getText: function() { return this.model.text; },
-//	});
 
 	// this view represents the list of choices
 	Quizki.ExamChoiceListView = Backbone.View.extend({
@@ -159,12 +150,31 @@
 		events: {
 			// do nothing
 		},
-		renderElement: function(model) {
+		renderElement: function(childChoiceView) {
 			var ul = this.$el.find("#listOfChoices");
 
-			ul.append( model.val.render().$el.html() );
+			// this is a callback, which will get the appropriate model from questionChoiceCollection
+			//  set the isCorrect attr on it. Does not redraw the list, thats already been done
+			var isCorrectChangedCallbackFunc = function(event,data) {
+
+				var millisecond_id = event.target.id.replace('switch','');
+				var currQuestion = model_factory.get("currentQuestion");
+				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
+				currQuestion.updateChoice(millisecond_id, 'isselected', v, false);
+			};
+
+			var onSequenceTextFieldBlurFunc = function(event,data) {
+				var millisecond_id = event.target.id.replace('sequenceTextField','');
+				var currQuestion = model_factory.get("currentQuestion");
+				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val(), false);
+			};
+
+			ul.append( childChoiceView.val.render().$el.html() );
 			
-			var obj = {millisecondId:model.millisecond_id, view:model.val};
+			childChoiceView.val.setEventHandler("iscorrectchanged", isCorrectChangedCallbackFunc);
+			childChoiceView.val.setEventHandler("onsequencetextfieldblur", onSequenceTextFieldBlurFunc);
+			
+			var obj = {millisecondId:childChoiceView.val.millisecondId, view:childChoiceView.val};
 			
 			this.ChoiceItemViewCollection.push(obj);
 		},
@@ -176,15 +186,24 @@
 			
 			var views = TakeExamChoiceItemFactory.getViewsForCurrentQuestion();
 			
-			_.each(views.models, function(model) { this.renderElement(model.attributes); }, this);
+			_.each(views.models, function(view) { this.renderElement(view.attributes); }, this);
 			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');
 			$slider.bootstrapSwitch();
 			
+			// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
+			_.each(this.ChoiceItemViewCollection, function(model) {
+				$("#switch" + model.view.millisecondId).on('switch-change', model.view.getEventHandler("iscorrectchanged"));
+			});
+			
+			_.each(this.ChoiceItemViewCollection, function(model) {
+				$("#sequenceTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
+				$("#stringTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
+			});
+
 			return this;
 		}
-		
 	});
 	
 	Quizki.ExamNavigationButtons = Backbone.View.extend({

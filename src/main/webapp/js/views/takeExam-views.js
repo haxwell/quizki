@@ -18,7 +18,7 @@
 
 	Quizki.ExamQuestionTextView = Backbone.View.extend({
 		initialize:function() {
-			this.listenTo(ExamEngine, 'currentQuestionUpdated', function(event) { this.render();});
+			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});
 			
 			this.render();
 		},
@@ -136,14 +136,10 @@
 		tagName:'ul',
 		
 		initialize: function() {
-			// the model for this view is the current question.. 
-			//  renderElement needs to get the current question type, then call a factory which
-			//  returns a function which acts as an iterator for (or returns a collection of)
-			//  views representing the choices
 			this.$el = arguments[0].el;
 			this.ChoiceItemViewCollection = new Array();
 
-			this.listenTo(ExamEngine, 'currentQuestionUpdated', function(event) { this.render();});
+			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});
 			
 			this.render();
 		},
@@ -154,19 +150,23 @@
 			var ul = this.$el.find("#listOfChoices");
 
 			// this is a callback, which will get the appropriate model from questionChoiceCollection
-			//  set the isCorrect attr on it. Does not redraw the list, thats already been done
+			//  set the isCorrect attr on it. 
 			var isCorrectChangedCallbackFunc = function(event,data) {
 
 				var millisecond_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
 				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
-				currQuestion.updateChoice(millisecond_id, 'isselected', v, false);
+				currQuestion.updateChoice(millisecond_id, 'isselected', v);
+				
+				event_intermediary.throwEvent('choicesChanged');
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val(), false);
+				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val());
+				
+				event_intermediary.throwEvent('choicesChanged');
 			};
 
 			ul.append( childChoiceView.val.render().$el.html() );
@@ -209,8 +209,9 @@
 	Quizki.ExamNavigationButtons = Backbone.View.extend({
 		initialize: function() {
 			this.$el = arguments[0].el;
+			this.isOkayToMoveForward = false;
 
-			this.listenTo(ExamEngine, 'currentQuestionUpdated', function(event) { this.render();});
+			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render(); });
 			
 			this.render();
 		},
@@ -223,12 +224,12 @@
 		},
 		nextBtnClicked: function() {
 			ExamEngine.nextQuestion();
+				
 		},
 		render:function () {
 			// eventually, we'll need to check if the exam is completed, and display another set of buttons..
 			//  but for now.. this one will do..
 			var template = view_utility.executeTemplate('/templates/ExamInProgressNavigationButtonsView.html', {disabled:""});
 			this.$el.html( template );
-			
 		}
 	});

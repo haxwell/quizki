@@ -36,7 +36,7 @@ var ExamEngine = (function() {
 	var index = -1;
 	var totalNumberOfQuestions = 0;
 	var lastReturnedQuestion = null;
-	
+	var isOkayToMoveForward = false; 
 	
 	// would like this to be a private method.......................
 	my.getQuestionByItsId = function(id) {
@@ -76,13 +76,22 @@ var ExamEngine = (function() {
 		index = 0;
 		
 		model_factory.put('ExamEngine', this);
+		
+		this.listenTo(event_intermediary, 'choicesChanged', function(event) { isOkayToMoveForward = true; });
 
 		var rtn = this.getFirstQuestion(); 
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
-		this.trigger('currentQuestionUpdated');
+//		model_factory.put("currentQuestion", rtn);
+		this.trigger('examEngineSetNewCurrentQuestion');
 	};
 	
 	my.nextQuestion = function() {
+		if (isOkayToMoveForward == false) {
+			return lastReturnedQuestion;
+		}
+
+		isOkayToMoveForward = false;
+		
 		if (index + 1 < totalNumberOfQuestions) {
 			// get question by that index from listQuestionsAsJsonStrings
 			return this.setQuestionByIndex(++index);
@@ -117,9 +126,11 @@ var ExamEngine = (function() {
 		var rtn = this.getQuestionByItsId(listQuestionIds[index]);
 		
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
-		this.trigger('currentQuestionUpdated');
+		model_factory.put("currentQuestion", rtn);
+		this.trigger('examEngineSetNewCurrentQuestion');
 		
 		lastReturnedQuestion = rtn;
+		isOkayToMoveForward = lastReturnedQuestion.hasBeenAnswered;
 		
 		return rtn;
 	};

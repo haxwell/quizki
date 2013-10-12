@@ -29,6 +29,7 @@ var Question = (function() {
 	var topics = "";
 	var references = "";
 	var choices = undefined;
+	var hasBeenAnswered = false;
 	
 	function initializeFields() {
 		id = -1; user_id = -1; user_name = '';
@@ -52,6 +53,8 @@ var Question = (function() {
 		
 		choices = new Quizki.Collection();
 		choices.addArray(source.choices);
+		
+		this.hasBeenAnswered = _.filter(choices.models, function(item) { return item !== undefined && item.attributes.val !== undefined && item.attributes.val.isselected !== undefined; }).length > 0;
 		
 		_.extend(this, Backbone.Events);
 	};
@@ -224,6 +227,9 @@ var Question = (function() {
 	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
 		choices.update(_millisecondId, _attrToUpdate, _val);
 		
+		if (_attrToUpdate == 'isselected')
+			this.hasBeenAnswered = true;
+		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 	};
@@ -233,6 +239,10 @@ var Question = (function() {
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
+	};
+	
+	my.hasBeenAnswered = function() {
+		return this.hasBeenAnswered;
 	};
 		
 	my.getChoicesAsJSONString = function() {

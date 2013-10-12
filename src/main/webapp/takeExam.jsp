@@ -110,14 +110,16 @@
 			<script type="text/javascript">
 				
 			    $(document).ready(function() {
+					event_intermediary.initialize();
+
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("examHistoryQuestionIndexList", function() { return '${sessionScope.examHistoryQuestionIndexList}'; });
 			    	
-			    	ExamEngine.initialize();
+					ExamEngine.initialize();
 			    
 			    	var bv_header = new Quizki.QuitThisExamView({ el: $("#divQuestionHeaderWithQuitButtons") });
 
-					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'currentQuestionUpdated' });
+					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'examEngineSetNewCurrentQuestion' });
 					
 					var bv_choiceListView = new Quizki.ExamChoiceListView({ el: $("#divQuestionChoices") });
 					

@@ -5,11 +5,11 @@ import com.haxwell.apps.questions.entities.QuestionType;
 
 public class TypeUtil {
 
-	public static int convertToInt(QuestionType qt) {
-		return convertToInt(qt.getText());
+	public static long convertToLong(QuestionType qt) {
+		return convertToLong(qt.getText());
 	}
 	
-	public static int convertToInt(String parameter) {
+	public static long convertToLong(String parameter) {
 
 		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SINGLE_STR)))
 			return TypeConstants.SINGLE;
@@ -39,7 +39,13 @@ public class TypeUtil {
 	public static QuestionType convertToObject(String parameter) {
 		QuestionType qt = new QuestionType(parameter);
 		
-		qt.setId(convertToInt(parameter));
+		long l = Long.parseLong(parameter);
+		
+		if (l < TypeConstants.SINGLE) // if the parameter they sent us is less than our lowest value, assume they meant our lowest value
+			l = TypeConstants.SINGLE;
+				
+		qt.setId(l);
+		qt.setText(convertToString((int)l));
 		
 		return qt;
 	}

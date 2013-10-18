@@ -61,10 +61,10 @@ Quizki.Collection = Backbone.Collection.extend({
 				this.trigger('somethingChanged');	
 		},
 		getByMillisecondId: function(millis) {
-			return _.filter(this, function (item) { return item.millisecond_id == millis; })[0];
+			return _.filter(this.models, function (item) {return item.attributes.millisecond_id == millis;	})[0];
 		},
 		update :function (millis, attr, value, throwEvent){
-			var v = _.filter(this.models, function (item) {return item.attributes.millisecond_id == millis;	})[0];
+			var v = this.getByMillisecondId(millis); 
 			
 			v.attributes.val[attr] = value;
 			

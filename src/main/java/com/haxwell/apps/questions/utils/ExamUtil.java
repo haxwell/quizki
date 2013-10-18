@@ -1,18 +1,73 @@
 package com.haxwell.apps.questions.utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+
+import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class ExamUtil {
 
+	public static ExamReportCardData gradeExam(String qJson, String aJson) {
+		//build a collection of question objects
+		List<Question> qList = QuestionUtil.getQuestions(qJson);
+
+		// associate them with their answers from the json
+		Map<String /* questionId,choiceId */, String /* selectedValue */> answers = QuestionUtil.getAnswers(aJson);
+
+		// for each question answer pair, is it answered correctly?
+
+		Map<String, Map<String, String>> mapOfQuestionNumberToAnswerMap = new HashMap<String, Map<String, String>>();
+
+		// get keys to answers map
+		Set<String> answerKeySet = answers.keySet();
+		
+		// for each key
+		for (String key : answerKeySet) {
+		// parse it, get the question number
+			String qNum = key.substring(0, key.indexOf(','));
+			Map<String, String> map = null;
+			
+			map = mapOfQuestionNumberToAnswerMap.get(qNum);
+
+			// does that number exist in our map of maps?
+			if (map == null) {
+				// if not, create a map, add it to the map of maps
+				map = new HashMap<String, String>();
+				mapOfQuestionNumberToAnswerMap.put(qNum, map);
+			}
+			
+		// get the value from the answer map
+			String value = answers.get(key);
+		// add key for this loop, and its associated value to the map
+			map.put(key, value);
+			
+		// at the end of this should have a map of questionNumber to map of answerkey to selected value
+		}				
+				
+		ExamReportCardData dataObj = new ExamReportCardData();
+		
+		for (Question q:qList) {
+			dataObj.addQuestionAndAnswer(q, mapOfQuestionNumberToAnswerMap.get(q.getId()+""));
+		}
+		
+		return dataObj;
+	}
+	
 	/**
 	 * Returns a Set, containing a unique instance of the topic from each of the questions on the exam.
 	 * 

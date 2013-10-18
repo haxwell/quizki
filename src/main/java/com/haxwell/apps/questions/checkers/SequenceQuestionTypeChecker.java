@@ -22,6 +22,8 @@ public class SequenceQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		boolean rtn = true;
 		Collection<String> coll = mapOfFieldNamesToValues.values();
 		
+		rtn &= (question.getChoices().size() == coll.size());
+
 		for (String str : coll)
 			rtn &= (!StringUtil.isNullOrEmpty(str));
 		
@@ -51,10 +53,7 @@ public class SequenceQuestionTypeChecker extends AbstractQuestionTypeChecker {
 
 		for (Choice c : choices)
 		{
-			String fieldName = QuestionUtil.getFieldnameForChoice(this.question, c);
-			
-			String userSuppliedValue = mapOfFieldNamesToValues.get(fieldName);
-
+			String userSuppliedValue = mapOfFieldNamesToValues.get(this.question.getId() + "," + c.getId());
 			rtn &= userSuppliedValue.equals(c.getSequence()+"");
 		}
 		

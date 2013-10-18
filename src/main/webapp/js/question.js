@@ -12,8 +12,6 @@ var Exam = (function() {
 		
 		_.extend(this, Backbone.Events);
 	};
-	
-	
 });
 
 var Question = (function() {
@@ -28,7 +26,7 @@ var Question = (function() {
 	var difficulty_id = 1;
 	var topics = "";
 	var references = "";
-	var choices = undefined;
+	var choices = undefined; /* will be a Quizki.Collection */
 	var hasBeenAnswered = false;
 	
 	function initializeFields() {
@@ -222,6 +220,10 @@ var Question = (function() {
 			this.trigger('choicesChanged', {choices:{val:""}});
 		
 		return millisecond_id;
+	};
+	
+	my.getChoice = function(_millisecondId) {
+		return choices.getByMillisecondId(_millisecondId).attributes.val;
 	};
 		
 	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {

@@ -453,6 +453,9 @@ public class ExamManager extends Manager {
 		
 		em.close();
 		
+		if (rtn.size() == 0)
+			rtn = null;
+		
 		return rtn;
 	}
 	

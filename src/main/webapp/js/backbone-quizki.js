@@ -8,21 +8,45 @@ var Quizki = {
 KeyValueMap = function() {
 	var arr = {};
 	var count = 0;
+	var dirty = false;
 	
 	return {
 			put: function(id, obj) {
 				arr[id] = obj;
-				count++;
+				dirty = true;
 			},
 			get: function(id) {
 				return arr[id];
 			},
 			destroy: function(id) {
 				arr[id] = undefined;
-				count--;
+				dirty = true;
+			},
+			reset: function() {
+				arr = {};
+				count = 0;
 			},
 			size: function() {
-				return count;
+				if (!dirty)
+					return count;
+				
+				var cnt = 0;
+				
+				for (var property in arr)
+					cnt++;
+
+				dirty = false;
+				count = cnt;
+				
+				return cnt;
+			},
+			keys: function() {
+				var rtn = {};
+				
+				for (var property in arr)
+					rtn[property] = property;
+				
+				return rtn;
 			},
 			toString: function () {
 				var str = 'KeyValueMap --> ';
@@ -183,6 +207,22 @@ var JSONUtility = (function() {
 		return (str += ' }');
 	};
 	
+	my.startJSONArray = function(str) {
+		return '{"'+str+'": ';
+	};
+	
+	my.startElementInJSONArray = function(str) {
+		return str + '[{'; // next call getJSON()
+	};
+	
+	my.endElementInJSONArray = function(str) {
+		return str + ']';
+	};
+	
+	my.endJSONArray = function(str) {
+		return this.endJSONString(str);
+	};
+	
 	my.getJSON = function(fieldName, valueToAdd, appendComma) {
 		if (valueToAdd == undefined || valueToAdd == null)
 			valueToAdd = '';
@@ -205,6 +245,89 @@ var JSONUtility = (function() {
 
 		if (appendComma !== false)
 			rtn += ', ';
+		
+		return rtn;
+	};
+	
+	
+	my.indexFunction = function(index) {
+		return listQuestionIds[index];
+	};
+	
+	// Inspired by ExamEngine.. it keeps a list of questions as json strings, in the order they appear.
+	//  this is to put those in an overall json string.
+	my.getJSONForQuizkiCollection = function(name, quizkiCollectionOfJSONStrings, indexFunction) {
+		if (indexFunction === undefined) 
+			indexFunction = function(index) { return index; };
+		
+		var rtn = this.startJSONArray(name);
+		
+		rtn += '[';
+		
+		for (var x=0; x<quizkiCollectionOfJSONStrings.size(); x++) {
+			var jsonstr = quizkiCollectionOfJSONStrings.at(indexFunction(x));
+			
+			rtn += jsonstr;
+			
+			if (x+1 < quizkiCollectionOfJSONStrings.size())
+				rtn += ', ';
+		}
+		
+		rtn += ']';
+		
+		rtn = this.endJSONArray(rtn);
+		
+		return rtn;
+	};
+	
+	my.getJSONForAnArray = function(name, arrayOfJSONStrings, indexFunction) {
+		if (indexFunction === undefined) 
+			indexFunction = function(index) { return index; };
+		
+		var rtn = this.startJSONArray(name);
+		
+		rtn += '[';
+		
+		for (var x=0; x<quizkiCollectionOfJSONStrings.length; x++) {
+			var jsonstr = quizkiCollectionOfJSONStrings.at(indexFunction(x));
+			
+			rtn += jsonstr;
+			
+			if (x+1 < quizkiCollectionOfJSONStrings.length)
+				rtn += ', ';
+		}
+		
+		rtn += ']';
+		
+		rtn = this.endJSONArray(rtn);
+		
+		return rtn;
+	};
+	
+	my.getJSONForKeyValueMap = function(map, overallName, keyFieldName, valueFieldName) {
+		var rtn = this.startJSONArray(overallName);
+		
+		rtn += '[';
+		
+		var keys = map.keys();
+		
+		var count = 0;
+		for (var key in keys) {
+			rtn = this.startJSONString(rtn);
+			rtn += '"' + keyFieldName + '": "' + key + '", ';
+			rtn += '"' + valueFieldName + '": "' + map.get(key) + '"';
+			
+			rtn = this.endJSONString(rtn);
+			
+			if (count + 1 < map.size()) {
+				count++;
+				rtn += ', ';
+			}
+		}
+		
+		rtn += ']';
+		
+		rtn = this.endJSONArray(rtn);
 		
 		return rtn;
 	};

@@ -38,6 +38,27 @@ var ExamEngine = (function() {
 	var lastReturnedQuestion = null;
 	var isOkayToMoveForward = false; 
 	
+	my.getQuestionsAsJsonString = function() {
+		var rtn = JSONUtility.startJSONArray('questions');
+		
+		rtn += '[';
+		
+		for (var x=0; x<listQuestionIds.length; x++) {
+			var qAsJSON = listQuestionsAsJsonStrings.get(listQuestionIds[x]);
+			
+			rtn += qAsJSON;
+			
+			if (x+1<listQuestionIds.length)
+				rtn += ', ';
+		}
+		
+		rtn += ']';
+		
+		rtn = JSONUtility.endJSONArray(rtn);
+		
+		return rtn;
+	};
+	
 	// would like this to be a private method.......................
 	my.getQuestionByItsId = function(id) {
 		var str = listQuestionsAsJsonStrings.get(id);

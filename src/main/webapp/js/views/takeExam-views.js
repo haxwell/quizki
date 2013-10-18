@@ -158,13 +158,41 @@
 				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
 				currQuestion.updateChoice(millisecond_id, 'isselected', v);
 				
+				var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
+				var answers = model_factory.get("answersMap");
+				
+				answers.destroy(key);
+				answers.put(key, currQuestion.getChoice(millisecond_id).text);
+
 				event_intermediary.throwEvent('choicesChanged');
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val());
+				var newAnswer = $(event.target).val();
+				currQuestion.updateChoice(millisecond_id, 'sequence', newAnswer);
+				
+				var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
+				var answers = model_factory.get("answersMap");
+				
+				answers.destroy(key);
+				answers.put(key, newAnswer);
+				
+				event_intermediary.throwEvent('choicesChanged');
+			};
+
+			var onStringTextFieldBlurFunc = function(event,data) {
+				var millisecond_id = event.target.id.replace('stringTextField','');
+				var currQuestion = model_factory.get("currentQuestion");
+				var newAnswer = $(event.target).val();
+				currQuestion.updateChoice(millisecond_id, 'string', newAnswer);
+				
+				var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
+				var answers = model_factory.get("answersMap");
+				
+				answers.destroy(key);
+				answers.put(key, newAnswer);
 				
 				event_intermediary.throwEvent('choicesChanged');
 			};
@@ -173,6 +201,7 @@
 			
 			childChoiceView.val.setEventHandler("iscorrectchanged", isCorrectChangedCallbackFunc);
 			childChoiceView.val.setEventHandler("onsequencetextfieldblur", onSequenceTextFieldBlurFunc);
+			childChoiceView.val.setEventHandler("onstringtextfieldblur", onStringTextFieldBlurFunc);
 			
 			var obj = {millisecondId:childChoiceView.val.millisecondId, view:childChoiceView.val};
 			
@@ -223,8 +252,48 @@
 			ExamEngine.prevQuestion();
 		},
 		nextBtnClicked: function() {
-			ExamEngine.nextQuestion();
+			var q = ExamEngine.nextQuestion();
+			
+			if (q == null) {
+				// there are no more questions, pop a dialog telling
+				//  the user they are at the end.
+				var dlg = $('#dialogText').dialog({ 
+						autoOpen: false, resizable: false, modal: true,
+					      buttons: [{
+					        text : "< Wait!! Let me review!", 
+					        click : function() {
+					        	$( this ).dialog( "close" );
+					        }},
+					        {
+					        text : "GRADE IT!",
+					        click : function() {
+					        	$( this ).dialog( "close" );
+					        	
+					        	// make ajax call
+					        	var v = ExamEngine.getQuestionsAsJsonString();
+					        	var answersAsJson = JSONUtility.getJSONForKeyValueMap(model_factory.get("answersMap"), "answers", "fieldId", "value");
+					        	
+					        	var data_obj = { questions_json:v, answers_json:answersAsJson };
+					        	
+					        	makeAJAXCall_andWaitForTheResults('/ajax/exam-grade.jsp', data_obj, function(data, status) {
+					        		
+									var index = data.indexOf("<!DOCTYPE");
+									var jsonExport = data;
+									
+									if (index != -1) {
+										jsonExport = data.substring(0, index);
+									}
+									
+									var parsedJSONObject = jQuery.parseJSON(jsonExport);
+					        		
+					        		window.location.href = '/examReportCard.jsp';					        		
+					        	});
+					        } 
+					      }]
+				});
 				
+				dlg.dialog('open');
+			}
 		},
 		render:function () {
 			// eventually, we'll need to check if the exam is completed, and display another set of buttons..

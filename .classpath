@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" path="src/test/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry including="**/*.java" kind="src" path="src/test/java"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1.1-redhat-1/activation-1.1.1-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/enterprise/cdi-api/1.0-SP4-redhat-1/cdi-api-1.0-SP4-redhat-1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1-redhat-1/javax.inject-1-redhat-1.jar"/>

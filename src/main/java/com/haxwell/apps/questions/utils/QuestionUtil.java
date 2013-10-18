@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.utils;
 
-import java.util.ArrayList;
+import java.util.ArrayList;	
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,11 +31,22 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class QuestionUtil {
 
+	/**
+	 * @deprecated
+	 * @param q
+	 * @param c
+	 * @return
+	 */
 	public static String getFieldnameForChoice(Question q, Choice c)
 	{
 		return "field_" + "question" + q.getId() + "choice" + c.getId();
 	}
 	
+	/**
+	 * @deprecated
+	 * @param q
+	 * @return
+	 */
 	public static List<String> getFieldnamesForChoices(Question q)
 	{
 		List<Choice> choices = getChoiceList(q);
@@ -49,6 +60,11 @@ public class QuestionUtil {
 		return list;
 	}
 	
+	/**
+	 * @deprecated
+	 * @param q
+	 * @return
+	 */
 	public static Collection<String> getFieldnamesForCorrectChoices(Question q) {
 		List<Choice> choices = getChoiceList(q);
 		
@@ -247,19 +263,25 @@ public class QuestionUtil {
 		if (StringUtil.isNullOrEmpty(str))
 			str = q.getDescription();
 		
-		if (maxLength >= 0)
+		if (maxLength <= 0)
 			maxLength = str.length();
 		
 		return str.substring(0, maxLength);
 	}
 	
+	// TODO: rename this to getSetFromJsonString() or something more accurate
 	public static Set<Choice> getSetFromAjaxDefinition(String str, long newChoiceIndexBegin) {
 		Set<Choice> rtn = new HashSet<Choice>();
 		
 		JSONValue jValue= new JSONValue();
-		JSONObject jObj = (JSONObject)jValue.parse(str);
+		JSONArray arr = null;
 		
-		JSONArray arr = (JSONArray)jObj.get("choice");
+		Object obj = jValue.parse(str);
+		
+		if (obj instanceof JSONObject)
+			arr = (JSONArray)((JSONObject)obj).get("choice");
+		else
+			arr = (JSONArray)obj;
 		
 		for (int i=0; i < arr.size(); i++) {
 			JSONObject o = (JSONObject)arr.get(i);
@@ -280,4 +302,64 @@ public class QuestionUtil {
 		return rtn;
 	}
 	
+	public static List<Question> getQuestions(String str) {
+		JSONValue jValue= new JSONValue();
+		JSONObject jObj = (JSONObject)jValue.parse(str);
+
+		JSONArray arr = (JSONArray)jObj.get("questions");
+		
+		LinkedList<Question> ll = new LinkedList<Question>();
+		
+		for (int i=0; i < arr.size(); i++) {
+			JSONObject o = (JSONObject)arr.get(i);
+			
+			Question q = new Question();
+			
+			q.setId(Long.parseLong(o.get("id").toString()));
+			q.setDescription(o.get("description").toString());
+			q.setText(o.get("text").toString());
+			q.setDifficulty(DifficultyUtil.getDifficulty(o.get("difficulty_id").toString()));
+			q.setQuestionType(TypeUtil.convertToObject(o.get("type_id").toString()));
+			
+			q.setChoices(getSetFromAjaxDefinition(o.get("choices").toString(), -1));
+			q.setTopics(TopicUtil.getSetFromJsonString(o.get("topics").toString()));
+			q.setReferences(ReferenceUtil.getSetFromJsonString(o.get("references").toString()));
+			
+			ll.add(q);
+		}
+		
+		return ll;
+	}
+	
+	public static Map<String, String> getAnswers(String str) {
+		JSONValue jValue = new JSONValue();
+		JSONObject jObj = (JSONObject)jValue.parse(str);
+		
+		JSONArray arr = (JSONArray)jObj.get("answers");
+		
+		Map<String, String> rtn = new HashMap<String, String>();
+		
+		for (int i=0; i < arr.size(); i++) {
+			JSONObject o = (JSONObject)arr.get(i);
+
+			String key = o.get("fieldId").toString();
+			String value = o.get("value").toString();
+			
+			rtn.put(key, value);
+		}
+		
+		return rtn;
+	}
+	
+	public static List<Choice> getCorrectChoices(Question q) {
+		Set<Choice> choices = q.getChoices();
+		List<Choice> list = new ArrayList<Choice>(); 
+		
+		for (Choice choice : choices) {
+			if (choice.getIscorrect() > 0)
+				list.add(choice);
+		}
+		
+		return list;
+	}
 }

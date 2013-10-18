@@ -5,6 +5,11 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
+import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.managers.TopicManager;
 
@@ -30,5 +35,35 @@ public class TopicUtil {
 		}
 		
 		return topics;
+	}
+	
+	public static Set<Topic> getSetFromJsonString(String str) {
+		Set<Topic> rtn = new HashSet<Topic>();
+		
+		JSONValue jValue= new JSONValue();
+		JSONArray arr = null;
+		
+		Object obj = jValue.parse(str);
+		
+		if (obj instanceof JSONObject)
+			arr = (JSONArray)((JSONObject)obj).get("topics");
+		else
+			arr = (JSONArray)obj;
+		
+		for (int i=0; i < arr.size(); i++) {
+			JSONObject o = (JSONObject)arr.get(i);
+			
+			Topic t = new Topic();
+			
+			t.setText((String)o.get("text"));
+			
+			Long id = Long.parseLong((String)o.get("id"));
+			if (id != -1)
+				t.setId(id);
+			
+			rtn.add(t);
+		}
+		
+		return rtn;
 	}
 }

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
+import com.haxwell.apps.questions.entities.ExamFeedback;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
@@ -118,7 +119,12 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 					
 					if (user != null) {
-						session.setAttribute(Constants.FEEDBACK_FOR_CURRENT_USER_AND_EXAM, ExamManager.getFeedback(user.getId(), exam.getId()));
+						List<ExamFeedback> feedbackList = ExamManager.getFeedback(user.getId(), exam.getId());
+						
+						if (feedbackList != null) {
+							ExamFeedback feedback = feedbackList.get(0);
+							session.setAttribute(Constants.FEEDBACK_FOR_CURRENT_USER_AND_EXAM, feedback.getComment());
+						}
 					}
 					
 					log.log(java.util.logging.Level.FINER, "Exam is NOW in progress, session exam variables initialized.");				

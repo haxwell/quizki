@@ -66,45 +66,6 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:choose>
-				<c:when test="${not empty sessionScope.listOfPreviouslySuppliedAnswers}">
-					<![CDATA[ var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers}; ]]>
-				</c:when>
-				<c:otherwise>
-					<![CDATA[ var previouslySuppliedAnswers = undefined; ]]>
-				</c:otherwise>
-			</c:choose>
-
-			<![CDATA[
-					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var fieldValues = ${listOfCurrentQuestionsChoicesValues};
-					var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
-
-					$(document).ready(function() {
-						
-//						$('div.choices').html('');
-//
-//						if (${currentQuestion.questionType.id} == 1)
-//						{
-//							addChoiceInputsForThisQuestionType('#radioButtonExample');
-//						}
-//						else if (${currentQuestion.questionType.id} == 2)
-//						{
-//							addChoiceInputsForThisQuestionType('#checkboxExample');
-//						}
-//						else if (${currentQuestion.questionType.id} == 3)
-//						{
-//							addChoiceInputsForStringQuestionType();
-//						}
-//						else if (${currentQuestion.questionType.id} == 4)
-//						{
-//							addChoiceInputsForSequenceQuestionType();
-//						}
-					});
-
-				</script>
-			]]>
-			
 			<![CDATA[
 			
 			<script type="text/javascript">

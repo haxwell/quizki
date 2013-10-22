@@ -29,7 +29,11 @@ public class Topic extends AbstractEntity implements ITopic, EntityWithAnInteger
     public Topic() {
     }
 
-    public Topic(String str) {
+	public String getEntityDescription()  {
+		return "topic";
+	}
+	
+   public Topic(String str) {
     	this.text = str;
     }
 

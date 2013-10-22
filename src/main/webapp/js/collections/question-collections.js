@@ -1,7 +1,8 @@
 var collection_utility = (function() {
 		return {
 			addUniqueModelToCollection : function(model, modelKeysFunction, quizkiCollection) {
-					
+					var obj = undefined;
+				
 					if (modelKeysFunction !== undefined) {
 						var nameOfComparisonKey = modelKeysFunction();
 						
@@ -23,11 +24,18 @@ var collection_utility = (function() {
 										}
 									);
 							
-							if (v.length == 0) quizkiCollection.add( [ method_utility.getQuizkiObject(model) ] );
+							if (v.length == 0) {
+								obj = method_utility.getQuizkiObject(model);
+								quizkiCollection.add( [ obj ] );
+							}
 						}
 					}
-					else 
-						quizkiCollection.add([ method_utility.getQuizkiObject(model) ]);
+					else {
+						obj = method_utility.getQuizkiObject(model);
+						quizkiCollection.add([ obj ]);
+					}
+					
+					return obj.millisecond_id || -1;
 				}
 		};
 	}());
@@ -41,7 +49,7 @@ Quizki.Collection = Backbone.Collection.extend({
 			}
 		},
 		put: function(model, throwEvent) {
-			collection_utility.addUniqueModelToCollection(model, this.modelKeysFunction, this);
+			var rtn = collection_utility.addUniqueModelToCollection(model, this.modelKeysFunction, this);
 			
 			// Created this method put, because I couldn't find a way to override add(), so that I could
 			//  trigger the 'somethingChanged' event when something was added.
@@ -49,7 +57,7 @@ Quizki.Collection = Backbone.Collection.extend({
 			if (throwEvent !== false)
 				this.trigger('somethingChanged');
 			
-			return model.millisecond_id;     
+			return rtn; // returns the millisecond_id     
 		},
 		addArray: function(arr, isThrowEvent) {
 			if (arr === undefined) return;
@@ -59,6 +67,9 @@ Quizki.Collection = Backbone.Collection.extend({
 			
 			if (isThrowEvent !== false)
 				this.trigger('somethingChanged');	
+		},
+		addJson: function(json, isThrowEvent) {
+			
 		},
 		getByMillisecondId: function(millis) {
 			return _.filter(this.models, function (item) {return item.attributes.millisecond_id == millis;	})[0];
@@ -84,6 +95,5 @@ Quizki.Collection = Backbone.Collection.extend({
 			if (throwEvent !== false)
 				this.trigger('somethingChanged'); 
 		}
-		
 	});
 

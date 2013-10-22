@@ -1,5 +1,6 @@
 package com.haxwell.apps.questions.utils;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -9,7 +10,6 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
-import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.managers.TopicManager;
 
@@ -65,5 +65,17 @@ public class TopicUtil {
 		}
 		
 		return rtn;
+	}
+	
+	public static String getJSONOfAllTopicsForQuestionsCreatedByAGivenUserThatContain(long userId, String containsFilter) {
+		Collection<Topic> coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUserThatContain(userId, containsFilter);
+		
+		return CollectionUtil.toJSON(coll);
+	}
+	
+	public static String getJSONOfAllTopicsThatContain(String containsFilter) {
+		Collection<Topic> coll = TopicManager.getAllTopicsThatContain(containsFilter);
+		
+		return CollectionUtil.toJSON(coll);
 	}
 }

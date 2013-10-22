@@ -19,8 +19,12 @@ KeyValueMap = function() {
 				return arr[id];
 			},
 			destroy: function(id) {
+				// TODO: eradicate this method.. remove() is a better name, consistent with Quizki.Collection
 				arr[id] = undefined;
 				dirty = true;
+			},
+			remove: function(id) {
+				this.destroy(id);
 			},
 			reset: function() {
 				arr = {};
@@ -51,8 +55,14 @@ KeyValueMap = function() {
 			toString: function () {
 				var str = 'KeyValueMap --> ';
 				
-				for (var property in arr)
-					str += property + ": " + arr[property].toString();
+				for (var property in arr) {
+					str += property + ": ";
+					
+					if (arr[property] === undefined)
+						str += "undefined";
+					else
+						str += arr[property].toString();
+				}
 				
 				return str;
 			}
@@ -104,7 +114,7 @@ var model_factory = (function(){
 // that need to hear my event thrown, won't know when this handler is created, and
 // won't be able to attach to it. They don't know about it, as rightly they should not
 // in a good OO design. So, this object is a third party. The handler can tell it,
-// throw this event, and the 'won't know objects' can listen to this event_thrower
+// throw this event, and the 'won't know objects' can `en to this event_thrower
 // for the third-party event.
 var event_intermediary = (function(){
 	var my = {};
@@ -189,9 +199,9 @@ var method_utility = (function(){
 
 			// a 'Quizki Object' is an object with a random id and a javascript 
 			// object of any definition.
-			var val = Math.floor(Math.random() * 9999) + 1;
+			var mID = Math.floor(Math.random() * 9999) + 1;
 			
-			return {val:model, millisecond_id:val};
+			return {val:model, millisecond_id:mID};
 		}
 	};
 }());
@@ -250,9 +260,9 @@ var JSONUtility = (function() {
 	};
 	
 	
-	my.indexFunction = function(index) {
-		return listQuestionIds[index];
-	};
+//	my.indexFunction = function(index) {
+//		return listQuestionIds[index];
+//	};
 	
 	// Inspired by ExamEngine.. it keeps a list of questions as json strings, in the order they appear.
 	//  this is to put those in an overall json string.

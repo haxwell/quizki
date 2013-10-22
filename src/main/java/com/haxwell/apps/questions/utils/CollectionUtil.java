@@ -127,6 +127,14 @@ public class CollectionUtil {
 		return sb.toString();
 	}
 	
+	/**
+	 * @deprecated No longer necessary.
+	 * 
+	 * @param list
+	 * @param offset
+	 * @param maxEntityCount
+	 * @return
+	 */
 	public static List pareListDownToSize(List<? extends AbstractEntity> list, int offset, int maxEntityCount) {
 		List paginatedList = new ArrayList();
 		

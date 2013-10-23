@@ -41,7 +41,11 @@
 			var id = keyMap.get(topicText);
 			
 			// remove that item from currentListOfTopics
-			var topicObject = currentListOfTopics.getByMillisecondId(id);
+//			var topicObject = currentListOfTopics.getByMillisecondId(id);
+			
+			var topicObject = currentListOfTopics.where({ text:topicText });
+			if (topicObject === undefined) console.print('-----=-=-=-=error-===-=----===');
+			
 			currentListOfTopics.remove(id);
 			
 			// remove it from the key map
@@ -56,6 +60,18 @@
 			keyMap2.put(topicText, mID);
 		}
 	});
+
+//	var temp = new function(collectionKey, assocKeyMapName, forEachfunction) {
+//		var topics = model_factory.get(collectionKey);
+//		
+//		_.each(topics.models, function(model) { 
+//			var keyMap = model_factory.get(assocKeyMapName);
+//			keyMap.put(model.attributes.val.text, model.attributes.millisecond_id);
+//			
+////			this.renderElement(model);
+//			forEachFunction(model);
+//		}, this);
+//	};
 	
 	Quizki.AllTopicsListItemView = Backbone.View.extend({
 		tagName:'li',
@@ -85,10 +101,16 @@
 			return this;
 		},
 		events: {
-			"keypress #topicContainsFilter" : "handleKeypress"
+			"blur #topicContainsFilter" : "applyTextFilter"
 		},
-		handleKeypress: function(model) {
+		handleKeypress: function(event) {
+			var list = FilteredTopicListGetter.get(false, $(event.target).val);
 			
+			// need to update the currentListOfTopics with this list
+			//  the associated map must be updated
+			
+			// so, create an object.. which contains a list, and a map
+			// needs a method which sets the list, and when that happens, builds the map.
 		}
 	});
 	

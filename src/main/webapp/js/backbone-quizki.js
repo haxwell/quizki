@@ -5,6 +5,7 @@ var Quizki = {
 };
 
 
+// TODO: see how much of this can be replaced by _.pluck(list, propertyName)
 KeyValueMap = function() {
 	var arr = {};
 	var count = 0;
@@ -37,7 +38,7 @@ KeyValueMap = function() {
 				var cnt = 0;
 				
 				for (var property in arr)
-					cnt++;
+					if (arr[property] !== undefined) cnt++;
 
 				dirty = false;
 				count = cnt;

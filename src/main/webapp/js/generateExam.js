@@ -2,8 +2,8 @@
 var FilteredTopicListGetter = (function() {
 	var my = {};
 	
-	my.get = function(filterByUserId, containsFilter) {
-		var data_obj = { filterByUserId:false, containsFilter:'' };
+	my.get = function(_filterByUserId, _containsFilter) {
+		var data_obj = { filterByUserId:_filterByUserId, containsFilter:_containsFilter };
 		var data_url = '/ajax/topic-getJSONListOf.jsp';
 
 		var rtn = undefined;
@@ -18,8 +18,13 @@ var FilteredTopicListGetter = (function() {
 			
 			var parsedJSONObject = jQuery.parseJSON(jsonExport);
 
-			rtn = new Quizki.Collection();
-			rtn.addArray(parsedJSONObject.topic);
+//			rtn = new Quizki.Collection();
+			
+			rtn = new Backbone.Collection(parsedJSONObject.topic, {
+				model: Topic
+			});
+			
+//			rtn.addArray(parsedJSONObject.topic);
 		});
 		
 		return rtn;

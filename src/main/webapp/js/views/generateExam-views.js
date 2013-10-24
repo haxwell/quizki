@@ -3,8 +3,10 @@
 		
 		initialize:function() {
 			this.render();
-			
-			this.listenTo(model_factory.get('currentListOfTopics'), 'somethingChanged', function(event) { this.render(); });
+
+			this.listenTo(model_factory.get('currentListOfTopics'), 'add', function(event) { this.render(); });
+			this.listenTo(model_factory.get('currentListOfTopics'), 'remove', function(event) { this.render(); });
+			this.listenTo(model_factory.get('currentListOfTopics'), 'reset', function(event) { this.render(); });
 		},
 		renderElement: function(model) {
 			var ul = this.$el.find("#listOfTopics");
@@ -18,12 +20,7 @@
 			
 			var topics = model_factory.get("currentListOfTopics");
 			
-			_.each(topics.models, function(model) { 
-				var keyMap = model_factory.get("currentListOfTopicsKeyMap");
-				keyMap.put(model.attributes.val.text, model.attributes.millisecond_id);
-				
-				this.renderElement(model); 
-			}, this);
+			_.each(topics.models, function(model) { this.renderElement(model); }, this);
 			
 			return this;
 		},
@@ -35,44 +32,16 @@
 			
 			var topicText = $(event.target).html().trim();
 			
-			// use a key map with the millisecond ID mapped to the text
-			// get the millisecond id,
-			var keyMap = model_factory.get("currentListOfTopicsKeyMap");
-			var id = keyMap.get(topicText);
+			var topicObject = currentListOfTopics.where({ text:topicText })[0].attributes;
 			
-			// remove that item from currentListOfTopics
-//			var topicObject = currentListOfTopics.getByMillisecondId(id);
-			
-			var topicObject = currentListOfTopics.where({ text:topicText });
-			if (topicObject === undefined) console.print('-----=-=-=-=error-===-=----===');
-			
-			currentListOfTopics.remove(id);
-			
-			// remove it from the key map
-			keyMap.remove(topicText);
+			currentListOfTopics.remove(topicObject);
 			
 			// add an object to the selected item list
 			var selectedListOfTopics = model_factory.get("selectedListOfTopics");
-			var mID = selectedListOfTopics.put(topicObject.attributes.val);
-			
-			// store the millisecond id in a key map
-			var keyMap2 = model_factory.get("selectedListOfTopicsKeyMap");
-			keyMap2.put(topicText, mID);
+			selectedListOfTopics.add(topicObject);
 		}
 	});
 
-//	var temp = new function(collectionKey, assocKeyMapName, forEachfunction) {
-//		var topics = model_factory.get(collectionKey);
-//		
-//		_.each(topics.models, function(model) { 
-//			var keyMap = model_factory.get(assocKeyMapName);
-//			keyMap.put(model.attributes.val.text, model.attributes.millisecond_id);
-//			
-////			this.renderElement(model);
-//			forEachFunction(model);
-//		}, this);
-//	};
-	
 	Quizki.AllTopicsListItemView = Backbone.View.extend({
 		tagName:'li',
 		
@@ -84,10 +53,9 @@
 			var _model = this.model;
 			var _fieldClass = this.fieldClass;
 			
-			this.$el.html( view_utility.executeTemplate('/templates/ItemInAllTopicsList.html', {text:_model.val.text,klass:_fieldClass}));
+			this.$el.html( view_utility.executeTemplate('/templates/ItemInAllTopicsList.html', {text:_model.text,klass:_fieldClass}));
 			
 			return this;
-
 		}
 	});
 	
@@ -103,14 +71,8 @@
 		events: {
 			"blur #topicContainsFilter" : "applyTextFilter"
 		},
-		handleKeypress: function(event) {
-			var list = FilteredTopicListGetter.get(false, $(event.target).val);
-			
-			// need to update the currentListOfTopics with this list
-			//  the associated map must be updated
-			
-			// so, create an object.. which contains a list, and a map
-			// needs a method which sets the list, and when that happens, builds the map.
+		applyTextFilter: function(event) {
+			FilteredTopicListGetter.get(false, $(event.target).val(), model_factory.get("currentListOfTopics"));
 		}
 	});
 	
@@ -120,7 +82,8 @@
 		initialize:function() {
 			this.render();
 			
-			this.listenTo(model_factory.get('selectedListOfTopics'), 'somethingChanged', function(event) { this.render(); });
+			this.listenTo(model_factory.get('selectedListOfTopics'), 'add', function(event) { this.render(); });
+			this.listenTo(model_factory.get('selectedListOfTopics'), 'remove', function(event) { this.render(); });
 		},
 		renderElement: function(model) {
 			var ul = this.$el.find("#selectedListOfTopics");
@@ -146,25 +109,14 @@
 			
 			var topicText = $(event.target).html().trim();
 			
-			// use a key map with the millisecond ID mapped to the text
-			// get the millisecond id,
-			var keyMap = model_factory.get("selectedListOfTopicsKeyMap");
-			var id = keyMap.get(topicText);
-			
 			// remove that item from currentListOfTopics
-			var topicObject = selectedListOfTopics.getByMillisecondId(id);
-			selectedListOfTopics.remove(id);
+			var topicObject = selectedListOfTopics.where({ text:topicText })[0].attributes;
 			
-			// remove it from the key map
-			keyMap.remove(topicText);
+			selectedListOfTopics.remove(topicObject);
 			
 			// add an object to the selected item list
 			var currentListOfTopics = model_factory.get("currentListOfTopics");
-			var mID = currentListOfTopics.put(topicObject.attributes.val);
-			
-			// store the millisecond id in a key map
-			var keyMap2 = model_factory.get("currentListOfTopicsKeyMap");
-			keyMap2.put(topicText, mID);
+			currentListOfTopics.add(topicObject);
 		}
 		
 	});

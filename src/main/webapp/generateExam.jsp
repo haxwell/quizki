@@ -58,13 +58,12 @@
 			<script type="text/javascript">
 				
 			    $(document).ready(function() {
-					model_constructor_factory.put("currentListOfTopics", function() { return FilteredTopicListGetter.get(false, ''); });
-					model_constructor_factory.put("currentListOfTopicsKeyMap", function() { return new KeyValueMap(); });
-					
-					model_constructor_factory.put("selectedListOfTopics", function() { return new Quizki.Collection(); });
-					model_constructor_factory.put("selectedListOfTopicsKeyMap", function() { return new KeyValueMap(); });
+					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
+					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					
 					model_constructor_factory.put("listOfMatchingExams", function() { return new Quizki.Collection(); });
+					
+					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
 					
 					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
 					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });

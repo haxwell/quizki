@@ -20,6 +20,7 @@ import com.haxwell.apps.questions.entities.ExamFeedback;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.ExamHistory;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
@@ -467,5 +468,51 @@ public class ExamManager extends Manager {
 		for (Exam e : coll) {
 			e.setTopics(getAllQuestionTopics(e));
 		}
+	}
+	
+	public static List<Long> getExamsWhichContain(Question q) {
+		EntityManager em = emf.createEntityManager();
+
+		String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id = ?1";
+		
+		Query query = em.createNativeQuery(queryString);
+		query.setParameter(1, q.getId());
+		
+		List<Long> rtn = query.getResultList();
+		
+		em.close();
+		
+		if (rtn.size() == 0)
+			rtn = null;
+		
+		return rtn;
+	}
+
+	public static List<Long> getExamsWhichContain(List<Topic> topics) {
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id IN (SELECT question_id FROM question_topic WHERE topic_id in (?1)";
+		
+		Query query = em.createNativeQuery(queryString);
+		query.setParameter(1, CollectionUtil.getCSV(topics));
+		
+		List<Long> rtn = query.getResultList();
+		
+		em.close();
+		
+		if (rtn.size() == 0)
+			rtn = null;
+		
+		return rtn;
+	}
+	
+	public static List<Exam> getExamsById(List<Long> list) {
+		List<Exam> rtn = new ArrayList<Exam>();
+		
+		for (Long l : list) {
+			rtn.add(getExam(l));
+		}
+		
+		return rtn;
 	}
 }

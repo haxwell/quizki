@@ -2,7 +2,7 @@
 var FilteredTopicListGetter = (function() {
 	var my = {};
 	
-	my.get = function(_filterByUserId, _containsFilter, collection) {
+	my.get = function(_filterByUserId, _containsFilter, collection, filterCollection) {
 		var data_obj = { filterByUserId:_filterByUserId, containsFilter:_containsFilter };
 		var data_url = '/ajax/topic-getJSONListOf.jsp';
 
@@ -18,7 +18,16 @@ var FilteredTopicListGetter = (function() {
 			
 			var parsedJSONObject = jQuery.parseJSON(jsonExport);
 
-			rtn.reset(parsedJSONObject.topic);
+			var cloneRtn = new Backbone.Collection(parsedJSONObject.topic, { model: Topic });
+			
+			var filterCollectionIds = {};
+
+			if (filterCollection !== undefined)
+				filterCollectionIds = filterCollection.pluck("id");
+
+			var v = _.reject(cloneRtn.models, function(param) { return _.contains(filterCollectionIds, param.id); });
+			
+			rtn.reset(v);
 		});
 		
 		return rtn;

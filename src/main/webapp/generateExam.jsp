@@ -61,7 +61,7 @@
 					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					
-					model_constructor_factory.put("listOfMatchingExams", function() { return new Quizki.Collection(); });
+					model_constructor_factory.put("listOfMatchingExams", function() { return new Backbone.Collection([], { model: Exam }); });
 					
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
 					

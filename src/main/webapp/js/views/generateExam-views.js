@@ -32,7 +32,7 @@
 			
 			var topicText = $(event.target).html().trim();
 			
-			var topicObject = currentListOfTopics.where({ text:topicText })[0].attributes;
+			var topicObject = currentListOfTopics.findWhere({ text:topicText }).attributes;
 			
 			currentListOfTopics.remove(topicObject);
 			
@@ -62,6 +62,8 @@
 	Quizki.AllTopicsListFilterView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
+			
+			this.checked = false;
 		},
 		render: function(model) {
 			// TODO: will need to remember state.. probably.
@@ -69,10 +71,17 @@
 			return this;
 		},
 		events: {
-			"blur #topicContainsFilter" : "applyTextFilter"
+			"blur #topicContainsFilter" : "applyTextFilter",
+			"click #onlyMyTopicsFilter" : "applyOnlyMyTopicsFilter"
 		},
 		applyTextFilter: function(event) {
-			FilteredTopicListGetter.get(false, $(event.target).val(), model_factory.get("currentListOfTopics"));
+			FilteredTopicListGetter.get(this.checked, $(event.target).val(), model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
+		},
+		applyOnlyMyTopicsFilter: function(event) {
+			this.checked = !this.checked;
+			var text = $("#topicContainsFilter").val();
+			
+			FilteredTopicListGetter.get(this.checked, text, model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
 		}
 	});
 	
@@ -110,7 +119,7 @@
 			var topicText = $(event.target).html().trim();
 			
 			// remove that item from currentListOfTopics
-			var topicObject = selectedListOfTopics.where({ text:topicText })[0].attributes;
+			var topicObject = selectedListOfTopics.findWhere({ text:topicText }).attributes;
 			
 			selectedListOfTopics.remove(topicObject);
 			

@@ -200,9 +200,11 @@ DROP TABLE IF EXISTS `exam_topic_cache`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exam_topic_cache` (
   `exam_id` bigint(20) NOT NULL,
+  `question_id` bigint(20) NOT NULL,
   `topic_id` bigint(20) NOT NULL,
   `count` bigint(20) NOT NULL,
   KEY `exam_id` (`exam_id`),
+  KEY `question_id` (`question_id`),
   KEY `topic_id` (`topic_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

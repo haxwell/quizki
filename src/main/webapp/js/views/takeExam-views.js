@@ -150,7 +150,6 @@
 			var ul = this.$el.find("#listOfChoices");
 
 			// this is a callback, which will get the appropriate model from questionChoiceCollection
-			//  set the isCorrect attr on it. 
 			var isCorrectChangedCallbackFunc = function(event,data) {
 
 				var millisecond_id = event.target.id.replace('switch','');
@@ -228,7 +227,7 @@
 			
 			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#sequenceTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
-				$("#stringTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
+				$("#stringTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onstringtextfieldblur"));
 			});
 
 			return this;

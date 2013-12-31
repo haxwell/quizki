@@ -28,18 +28,18 @@ public class ExamTopicCacheManager extends Manager {
 	}
 
 	public static void cacheQuestion(Exam e, Question q) {
-		EntityManager em = emf.createEntityManager();
-
-		em.getTransaction().begin();
-
-		Query query = em.createNativeQuery("INSERT INTO exam_topics_cache VALUES (?1, ?2, ?3)");
-		query.setParameter(1, examId);
-		query.setParameter(2, topicId);
-		query.setParameter(3, count);
-		
-		em.getTransaction().commit();
-		
-		em.close();
+//		EntityManager em = emf.createEntityManager();
+//
+//		em.getTransaction().begin();
+//
+//		Query query = em.createNativeQuery("INSERT INTO exam_topics_cache VALUES (?1, ?2, ?3)");
+//		query.setParameter(1, e.getId());
+//		query.setParameter(2, topicId);
+//		query.setParameter(3, count);
+//		
+//		em.getTransaction().commit();
+//		
+//		em.close();
 	}
 	
 	public static void cacheQuestion(Question q) {
@@ -160,7 +160,7 @@ public class ExamTopicCacheManager extends Manager {
 
 		Query query = em.createNativeQuery("INSERT INTO exam_topics_cache WHERE exam_id = ?1 AND topic_id = ?2");
 		query.setParameter(1, e.getId());
-		query.setParameter(2, t.getId());
+		query.setParameter(2, topicId);
 		
 		query.executeUpdate();
 		

@@ -115,7 +115,7 @@ var model_factory = (function(){
 // that need to hear my event thrown, won't know when this handler is created, and
 // won't be able to attach to it. They don't know about it, as rightly they should not
 // in a good OO design. So, this object is a third party. The handler can tell it,
-// throw this event, and the 'won't know objects' can `en to this event_thrower
+// throw this event, and the 'won't know objects' can listen to this event_thrower
 // for the third-party event.
 var event_intermediary = (function(){
 	var my = {};

@@ -67,9 +67,6 @@
 			</c:choose>
 
 			<![CDATA[
-			
-			<script type="text/javascript">
-				
 			    $(document).ready(function() {
 					event_intermediary.initialize();
 
@@ -87,8 +84,11 @@
 					
 					var bv_navigationButtons = new Quizki.ExamNavigationButtons({ el: $("#divExamNavigationButtons") });
 			    });
-			    
-			</script>]]>
+			]]>
+
+			<![CDATA[
+				</script>
+			]]>
 		</jsp:text>
 	</head>
 <body>

@@ -16,7 +16,7 @@ var TakeExamChoiceItemFactory = (function() {
 			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamMultipleQuestionChoiceItemView(model)); }, this);
 		}
 		else if (type == 3) {
-			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamStringQuestionChoiceItemView(model)); }, this);
+			rtn.put( new Quizki.ExamStringQuestionChoiceItemView( choices.at(0) )); 
 		}
 		else if (type == 4) {
 			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamSequenceQuestionChoiceItemView(model)); }, this);
@@ -35,7 +35,29 @@ var ExamEngine = (function() {
 	var listQuestionsAsJsonStrings = new KeyValueMap();
 	var index = -1;
 	var totalNumberOfQuestions = 0;
+	var lastReturnedQuestion = null;
+	var isOkayToMoveForward = false; 
 	
+	my.getQuestionsAsJsonString = function() {
+		var rtn = JSONUtility.startJSONArray('questions');
+		
+		rtn += '[';
+		
+		for (var x=0; x<listQuestionIds.length; x++) {
+			var qAsJSON = listQuestionsAsJsonStrings.get(listQuestionIds[x]);
+			
+			rtn += qAsJSON;
+			
+			if (x+1<listQuestionIds.length)
+				rtn += ', ';
+		}
+		
+		rtn += ']';
+		
+		rtn = JSONUtility.endJSONArray(rtn);
+		
+		return rtn;
+	};
 	
 	// would like this to be a private method.......................
 	my.getQuestionByItsId = function(id) {
@@ -47,12 +69,15 @@ var ExamEngine = (function() {
 		if (str == undefined || str == '') {
 			rtn = getSingleQuestionByEntityId(id);
 			
-			listQuestionsAsJsonStrings.put(rtn.getId(), rtn.getDataObject());
+			listQuestionsAsJsonStrings.put(rtn.getId(), rtn.toJSON());
 		}
 		else {
 			// otherwise, use our cached version
-			rtn.initWithAJAXSource(str);
+			rtn = new Question();
+			rtn.initWithJSONSource(str);
 		}
+		
+		lastReturnedQuestion = rtn;
 		
 		return rtn;
 	};
@@ -70,52 +95,84 @@ var ExamEngine = (function() {
 		totalNumberOfQuestions = listQuestionIds.length;
 		
 		index = 0;
+		
+		model_factory.put('ExamEngine', this);
+		
+		this.listenTo(event_intermediary, 'choicesChanged', function(event) { isOkayToMoveForward = true; });
 
 		var rtn = this.getFirstQuestion(); 
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
-		this.trigger('currentQuestionUpdated');
+//		model_factory.put("currentQuestion", rtn);
+		this.trigger('examEngineSetNewCurrentQuestion');
 	};
 	
 	my.nextQuestion = function() {
-		var indexOfTheNextQuestionInTheExam = index + 1;
-		
-		if (indexOfTheNextQuestionInTheExam < 0) {
-			indexOfTheNextQuestionInTheExam = 0;
+		if (isOkayToMoveForward == false) {
+			return lastReturnedQuestion;
 		}
+
+		isOkayToMoveForward = false;
 		
-		if (indexOfTheNextQuestionInTheExam >= totalNumberOfQuestions) {
+		if (index + 1 < totalNumberOfQuestions) {
+			// get question by that index from listQuestionsAsJsonStrings
+			return this.setQuestionByIndex(++index);
+		}
+		else {
 			return null; 	// there is no next question
 		}
-		
-		// get question by that index from listQuestionsAsJsonStrings
-		return setQuestionByIndex(indexOfTheNextQuestionInTheExam);
 	};
 	
 	my.prevQuestion = function() {
-		var indexOfTheNextQuestionInTheExam = index - 1;
+		var rtn = undefined;
 		
-		if (indexOfTheNextQuestionInTheExam < 0) {
-			indexOfTheNextQuestionInTheExam = 0;
+		if (index > 0) {
+			rtn = this.setQuestionByIndex(--index);
 		}
-		
-		// get question by that index from listQuestionsAsJsonStrings
-		return this.setQuestionByIndex(indexOfTheNextQuestionInTheExam);
+		else {
+			rtn = lastReturnedQuestion;
+		}
+
+		return rtn;
 	};
 	
-	my.setQuestionByIndex = function(index) {
-		var rtn = this.getQuestionByItsId(listQuestionIds.get(index));
+	my.setQuestionByIndex = function(idx) {
+		index = idx;
+
+		// these four lines would be good in a private method..
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		}
+
+		var rtn = this.getQuestionByItsId(listQuestionIds[index]);
 		
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
-		this.trigger('currentQuestionUpdated');
+		model_factory.put("currentQuestion", rtn);
+		this.trigger('examEngineSetNewCurrentQuestion');
+		
+		lastReturnedQuestion = rtn;
+		isOkayToMoveForward = lastReturnedQuestion.hasBeenAnswered;
 		
 		return rtn;
 	};
 	
 	my.getFirstQuestion = function() {
+		// these four lines would be good in a private method..
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		}
+
 		return this.getQuestionByItsId(listQuestionIds[0]);
 	};
 	
 	my.getLastQuestion = function() {
+		// these four lines would be good in a private method..
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		}
+
 		return this.getQuestionByItsId(listQuestionIds[listQuestionIds.length - 1]);
 	};
 	

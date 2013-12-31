@@ -34,9 +34,9 @@ public class MultiQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		for (Choice c : choices)
 		{
 			if (c.getIscorrect() > 0) 
-				rtn &= mapOfFieldNamesToValues.containsKey(QuestionUtil.getFieldnameForChoice(question, c));
+				rtn &= mapOfFieldNamesToValues.containsKey(this.question.getId() + "," + c.getId());
 			else
-				rtn &= !mapOfFieldNamesToValues.containsKey(QuestionUtil.getFieldnameForChoice(question, c));
+				rtn &= !mapOfFieldNamesToValues.containsKey(this.question.getId() + "," + c.getId());
 		}
 		
 		return rtn;

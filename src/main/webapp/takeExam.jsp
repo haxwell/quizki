@@ -25,7 +25,7 @@
 		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
 		
 		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/takeExam.css" rel="stylesheet" type="text/css"/>
+		<!-- link href="../css/takeExam.css" rel="stylesheet" type="text/css"/  -->
 
 		<link rel="shortcut icon" href="images/favicon.ico" />
 				
@@ -43,7 +43,6 @@
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
-			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
 
@@ -67,58 +66,22 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:choose>
-				<c:when test="${not empty sessionScope.listOfPreviouslySuppliedAnswers}">
-					<![CDATA[ var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers}; ]]>
-				</c:when>
-				<c:otherwise>
-					<![CDATA[ var previouslySuppliedAnswers = undefined; ]]>
-				</c:otherwise>
-			</c:choose>
-
-			<![CDATA[
-					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var fieldValues = ${listOfCurrentQuestionsChoicesValues};
-					var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
-
-					$(document).ready(function() {
-						
-//						$('div.choices').html('');
-//
-//						if (${currentQuestion.questionType.id} == 1)
-//						{
-//							addChoiceInputsForThisQuestionType('#radioButtonExample');
-//						}
-//						else if (${currentQuestion.questionType.id} == 2)
-//						{
-//							addChoiceInputsForThisQuestionType('#checkboxExample');
-//						}
-//						else if (${currentQuestion.questionType.id} == 3)
-//						{
-//							addChoiceInputsForStringQuestionType();
-//						}
-//						else if (${currentQuestion.questionType.id} == 4)
-//						{
-//							addChoiceInputsForSequenceQuestionType();
-//						}
-					});
-
-				</script>
-			]]>
-			
 			<![CDATA[
 			
 			<script type="text/javascript">
 				
 			    $(document).ready(function() {
+					event_intermediary.initialize();
+
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("examHistoryQuestionIndexList", function() { return '${sessionScope.examHistoryQuestionIndexList}'; });
+			    	model_constructor_factory.put("answersMap", function() { return new KeyValueMap(); });
 			    	
-			    	ExamEngine.initialize();
+					ExamEngine.initialize();
 			    
 			    	var bv_header = new Quizki.QuitThisExamView({ el: $("#divQuestionHeaderWithQuitButtons") });
 
-					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
+					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'examEngineSetNewCurrentQuestion' });
 					
 					var bv_choiceListView = new Quizki.ExamChoiceListView({ el: $("#divQuestionChoices") });
 					
@@ -154,20 +117,21 @@
 				<div id="divTextarea">
 				..
 				</div>
-			</div>
-			
-			<div class="row">
-				<div class="span3">
-					<h1 class="questionPageSectionHeader">Answer</h1>
+				
+				<div class="row">
+					<div class="span3">
+						<h1 class="questionPageSectionHeader">Answer</h1>
+					</div>
+				</div> 
+		
+				<div id="divQuestionChoices">
+				..
+				</div>		
+		
+				<br/>
+				<div id="divExamNavigationButtons">
+				..
 				</div>
-			</div> 
-	
-			<div id="divQuestionChoices">
-			..
-			</div>		
-	
-			<div id="divExamNavigationButtons">
-			..
 			</div>
 		</c:otherwise>
 	</c:choose>
@@ -175,6 +139,8 @@
 	<input style="display:none;" id="idCurrentQuestionAsJson" type="text" value="${sessionScope.currentQuestionAsJson}"/>
 	
 	<input style="display:none;" id="idExamHistoryQuestionIndexList" type="text" value="${sessionScope.examHistoryQuestionIndexList}"/>
+	
+	<div style="display:none;" id="dialogText">You're at the end of the exam!</div>
 	
 	<div style="display:none;" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div style="display:none;" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>

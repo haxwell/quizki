@@ -1,4 +1,4 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -8,35 +8,72 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<title>Generate Exam</title>
 
-		<title>Generate Exam - Quizki</title>
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 
-		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-switch.css" rel="stylesheet" type="text/css"/>		
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
+
 		<link rel="shortcut icon" href="images/favicon.ico" />
-
-		<jsp:text>
-			<![CDATA[ <script src="pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ 			<script type="text/javascript">
-
-				 $(document).ready(function(){
-					// set the height of the content area according to the browser height
-					var bottomBufferHeight = 550;
-					var windowHeight = $(window).height();
-					
-					$('#center').height(windowHeight - bottomBufferHeight);
-				});
-				 
-				 $(document).ready(function(){
-				     $(window).resize(function() {
-				             var bottomBufferHeight = 550;
-				             var windowHeight = $(window).height();
 				
-				             $('#center').height(windowHeight - bottomBufferHeight);
-				     })});
-				     </script>
-				]]>			
+		<jsp:text>
+			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
+						
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
+			
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
+			
+			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+
+			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/generateExam.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/views/generateExam-views.js" type="text/javascript" ></script> ]]>
+			
+			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>			
+
+			<![CDATA[
+			
+			<script type="text/javascript">
+				
+			    $(document).ready(function() {
+					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
+					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
+					
+					model_constructor_factory.put("listOfMatchingExams", function() { return new Backbone.Collection([], { model: Exam }); });
+					
+					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
+					
+					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
+					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });
+					var bv_selectedTopicsListView = new Quizki.SelectedTopicsListView({ el: $("#divSelectedTopicsListView") });
+					
+					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
+					var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
+			    });
+			    
+			</script>]]>
 		</jsp:text>
 	</head>
 <body>
@@ -45,152 +82,20 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="content">
 
-
-	<h1>Generate Exam</h1>
-	<br/>
-
-      <c:if test="${not empty requestScope.validationErrors}">
-      	<c:forEach var="str" items="${requestScope.validationErrors}">
-      		<span class="redText">${str}</span><br/>
-      	</c:forEach>
-      	<br/>      	
-      </c:if>
-
-	<form action="/GenerateExamServlet" method="post">
+		<div id="divAllTopicsListFilterView">..</div>
 		
-		<table style="width:100%">
-			<tr><td>
-				Number Of Questions: <input type="text" name="numberOfQuestions" value="${mruMaxNumberOfQuestionsOnGeneratedExam}" size="4"/>
-				<br/>  
-				Max. Difficulty: <select name="difficulty">
-						<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="wellversed" selected="selected">Well-versed</option></c:when><c:otherwise><option value="wellversed" >Well-versed</option></c:otherwise></c:choose>
-						<c:choose><c:when test="${mruFilterDifficulty == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru">Guru</option></c:otherwise></c:choose>
-						</select>
-				</td>
-				<td>
-					<c:choose>
-	   					<c:when test="${not empty sessionScope.currentUserEntity}">
-						Show topics related to <select name="mineOrAll">
-					<c:choose><c:when test="${mruMineOrAll == 'mine'}"><option value="mine" selected="selected">my</option></c:when><c:otherwise><option value="mine">my</option></c:otherwise></c:choose>
-					<c:choose><c:when test="${mruMineOrAll == 'all'}"><option value="all" selected="selected">all</option></c:when><c:otherwise><option value="all">all</option></c:otherwise></c:choose>
-					</select> questions
-	
-					</c:when>
-					<c:otherwise>
-						Show topics related to <select name="mineOrAll">
-					<option value="mine" >my</option>
-					<option value="all" selected="selected">all</option>
-					</select> questions
-					
-					</c:otherwise>
-					</c:choose>
-	
-				</td>
-				<td >
-					Topic contains <input type="text" name="topicContainsFilter" value="${mruFilterTopicText}"/>
-				</td>
-				<td>
-				</td>
-				<td>
-					<input type="submit" value="Filter" name="button"/><input type="submit" value="Clear Filter" name="button"/>
-				</td>			
-			</tr>
-		</table>				
+		<div id="divAllTopicsListView">..</div>
 
-		<br/>
-		${fn:length(fa_listofalltopics)} topics available to select:<br/>
-		<div id="center" class="listOfQuestions" style="overflow:auto; width:100%">
-			<table  style="width:100%">
-			<c:set var="rowNum" value="0"/>
-			<c:forEach var="topic" items="${fa_listofalltopics}">
-				<c:set var="rowNum" value="${rowNum + 1}" />
-				<c:choose><c:when test="${rowNum % 2 == 0}">
-				<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-				</c:when>
-				<c:otherwise>
-				<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-				</c:otherwise></c:choose>
-	
-					<td>
-						<input type="checkbox" name="a_chkbox_${topic.id}"/>  ${topic.text}
-					</td>
-					<jsp:text><![CDATA[</tr>]]></jsp:text>				
-				</c:forEach>
-			</table>
-		</div>
-		<br/>
-						Selected topics will be <select name="includeExclude">
-							<c:choose><c:when test="${mruIncludeExclude == 1}"><option value="include" selected="selected">Included</option></c:when><c:otherwise><option value="include" >Included</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruIncludeExclude == 2}"><option value="exclude" selected="selected">Excluded</option></c:when><c:otherwise><option value="exclude" >Excluded</option></c:otherwise></c:choose>
-						</select> in the exam
-		<br/><br/>						
-		<input type="submit" value="Select Topics" name="button" />
-		<hr/>
-			<table style="width:100%">
-			<tr>
-				<td style="vertical-align:top">
-					<table  style="width:50%">
-					<tr><td> Included</td></tr>
-					<c:if test="${empty fa_listofincludedtopics}">
-						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%"><td> -- No Topics Included Yet! -- </td></tr>]]></jsp:text>
-					</c:if>
-					
-					<c:set var="rowNum" value="0"/>
-					<c:forEach var="topic" items="${fa_listofincludedtopics}">
-						<c:set var="rowNum" value="${rowNum + 1}" />
-						<c:choose><c:when test="${rowNum % 2 == 0}">
-						<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-						</c:when>
-						<c:otherwise>
-						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-						</c:otherwise></c:choose>
-			
-							<td>
-								${topic.text}
-							</td>
-							<jsp:text><![CDATA[</tr>]]></jsp:text>				
-						</c:forEach>
-					</table>
+		<div id="divSelectedTopicsListView">..</div>
 		
-				</td>
-				<td style="vertical-align:top">
-					<table  style="width:50%">
-					<tr><td> Excluded </td></tr>
-					<c:if test="${empty fa_listofexcludedtopics}">
-						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%"><td> -- No Topics Excluded Yet! -- </td></tr>]]></jsp:text>
-					</c:if>
-					<c:set var="rowNum" value="0"/>
-					<c:forEach var="topic" items="${fa_listofexcludedtopics}">
-						<c:set var="rowNum" value="${rowNum + 1}" />
-						<c:choose><c:when test="${rowNum % 2 == 0}">
-						<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-						</c:when>
-						<c:otherwise>
-						<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-						</c:otherwise></c:choose>
-			
-							<td>
-								${topic.text}
-							</td>
-							<jsp:text><![CDATA[</tr>]]></jsp:text>				
-						</c:forEach>
-					</table>
-				</td>
-			</tr>
-			</table>
-			<br/><br/>
-			<input type="submit" name="button" value="Clear"/>
-		<hr/>
-		<input type="submit" value="Generate Exam" name="button" style="float:right;"/>
-	</form>
-	
-	<br/><br/><br/>
-	<a href="/index.jsp">home</a>
+		<div id="divMatchingExamsFilterView">..</div>
+		
+		<div id="divMatchingExamsView">..</div>
+		
+</div>
+</div>	
 
-</div>
-</div>
+<br/><br/>
 
 </body>
 </html>

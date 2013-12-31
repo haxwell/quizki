@@ -376,15 +376,13 @@
 			return "";
 		},
 		render:function() {
-			var view = "QuestionChoiceItemView";
             var _model = this.model;
             var hideSequence = this.getHideSequence();
             var disabled = this.getDisabledText();
             var readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
 
-           	Quizki[view].prototype.template = view_utility.executeTemplate('/templates/' + view + '.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
+           	var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 
-            var template = Quizki[view].prototype.template;
 			this.$el.html( template );
 			
 			return this;

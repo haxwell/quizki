@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -207,7 +206,7 @@ public class AdminProfileQuestionsServlet extends AbstractHttpServlet {
 		
 		String filterText = request.getParameter("containsFilter");
 		String topicFilterText = request.getParameter("topicFilter");
-		int questionType = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
+		long questionType = TypeUtil.convertToLong(request.getParameter("questionTypeFilter"));
 		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficultyFilter"));
 		
 		FilterCollection fc = new FilterCollection();
@@ -292,7 +291,7 @@ public class AdminProfileQuestionsServlet extends AbstractHttpServlet {
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 	
-	private boolean parametersIndicateThatFilterWasApplied(String filterText, String topicFilterText, int maxDifficulty, int questionType) {
+	private boolean parametersIndicateThatFilterWasApplied(String filterText, String topicFilterText, int maxDifficulty, long questionType) {
 		
 		if (!StringUtil.isNullOrEmpty(filterText)) return true;
 		if (!StringUtil.isNullOrEmpty(topicFilterText)) return true;

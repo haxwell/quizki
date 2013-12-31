@@ -192,6 +192,33 @@ LOCK TABLES `exam_question` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `exam_topic_cache`
+--
+
+DROP TABLE IF EXISTS `exam_topic_cache`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exam_topic_cache` (
+  `exam_id` bigint(20) NOT NULL,
+  `question_id` bigint(20) NOT NULL,
+  `topic_id` bigint(20) NOT NULL,
+  `count` bigint(20) NOT NULL,
+  KEY `exam_id` (`exam_id`),
+  KEY `question_id` (`question_id`),
+  KEY `topic_id` (`topic_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exam_topic_cache`
+--
+
+LOCK TABLES `exam_topic_cache` WRITE;
+/*!40000 ALTER TABLE `exam_topic_cache` DISABLE KEYS */;
+/*!40000 ALTER TABLE `exam_topic_cache` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `notification`
 --
 

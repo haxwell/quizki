@@ -27,11 +27,11 @@ public class SingleQuestionTypeChecker extends AbstractQuestionTypeChecker {
 	 * Returns true if the map of field names contains (as a value) the field name of the choice on the given question that has 
 	 * indicated that it is CORRECT.
 	 * 
-	 * @param mapOfFieldNamesToValues a list of Strings, representing the field names that the user selected
+	 * @param mapOfQAndCIdsToValues a map of Strings to strings, the question,choiceId to the selected value
 	 * @return
 	 */
 	@Override
-	public boolean questionIsCorrect(Map<String, String> mapOfFieldNamesToValues)
+	public boolean questionIsCorrect(Map<String, String> mapOfQAndCIdsToValues)
 	{
 		List<Choice> choices = QuestionUtil.getChoiceList(this.question);
 		
@@ -40,7 +40,11 @@ public class SingleQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		for (Choice c : choices)
 		{
 			if (c.getIscorrect() > 0) 
-				rtn &= mapOfFieldNamesToValues.containsValue(QuestionUtil.getFieldnameForChoice(question, c));
+				// if choice is correct, check that we have the choice in our answer map..
+				rtn &= mapOfQAndCIdsToValues.containsKey(this.question.getId() + "," + c.getId());
+			else
+				// ..ensure that we DO NOT have this choice in our answer map; its incorrect!
+				rtn &= !mapOfQAndCIdsToValues.containsKey(this.question.getId() + "," + c.getId());
 		}
 		
 		return rtn;

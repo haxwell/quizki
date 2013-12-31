@@ -187,4 +187,7 @@ public class TopicManager extends Manager {
 		topics.remove(t);
 	}
 
+	public static List<Topic> fromJSON(String json) {
+		return null;
+	}
 }

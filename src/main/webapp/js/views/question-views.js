@@ -214,7 +214,7 @@
 		initialize:function() {
 			this.readOnly = arguments[0].readOnly;
 			
-			this.id = new Date().getMilliseconds();
+			this.id = Math.floor(Math.random() * 9999) + 1;
 			var viewKey = arguments[0].viewKey;
 			
 			// TODO: remove on destroy

@@ -349,34 +349,11 @@ var getFunctionToRetrieveCurrentQuestion = function() {
 		// otherwise, we need to get the question ourselves.. check the special Entity ID field..
 		var entityId = $("#idEntityIdField").val();
 		
-		var data_url = undefined;
-		var data_obj = undefined;
-	
 		if (entityId != undefined && entityId != "") {
-	    	data_url = "/ajax/getSingleQuestion.jsp";
-	    	data_obj = { entityIdFilter : entityId };
-	    	
 	    	rtn = getSingleQuestionByEntityId(entityId);
 		}
 		else {
-			data_url = "/ajax/getBlankQuestion.jsp";
-			data_obj = { };
-		}
-		
-		if (data_url !== undefined && data_obj != undefined) {
-			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
-				
-				var index = data.indexOf("<!DOCTYPE");
-				var jsonExport = data;
-				
-				if (index != -1) {
-					jsonExport = data.substring(0, index);
-				}
-				
-				var parsedJSONObject = jQuery.parseJSON(jsonExport);
-				
-				rtn.initWithAJAXSource(parsedJSONObject.question[0]);
-			});
+			rtn = getBlankQuestionFromServer();
 		}
 	}
 

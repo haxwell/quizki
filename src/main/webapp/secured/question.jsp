@@ -80,21 +80,19 @@
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
 					
-					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
-					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
+					addCSVItemsToWell(bv_topicsWell, _.pluck(jQuery.parseJSON(currentQuestion.getTopics()), 'text'));
+					addCSVItemsToWell(bv_referencesWell, _.pluck(jQuery.parseJSON(currentQuestion.getReferences()), 'text'));
 					
 			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });					
 			    });
 			    
-			    function addCSVItemsToWell(view, csv) {
+			    function addCSVItemsToWell(view, items) {
 			    	var collection = model_factory.get(view.getModelKey());
 			    	
 			    	var arr = new Array();
 			    	
-					var tokens = csv.split(',');
-					
-					for (var i=0; i<tokens.length; i++) {
-						arr.push(tokens[i]);
+					for (var i=0; i<items.length; i++) {
+						arr.push(items[i]);
 					}
 			    	
 			    	arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);

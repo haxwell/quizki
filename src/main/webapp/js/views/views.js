@@ -46,6 +46,9 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		"blur #id_questionDescription":"updateDescription"
 	},
 	render: function() {
+		// TODO: Research why this is necessary.. at least in displayQuestion, its causing a second, seemingly unnecessary call to the
+		//  server for a question. It seems this is for a refresh of the current question, but what about it needs to be refreshed? can
+		//  we check if that thing that needs to be refreshed is even dirty, before making the call to get the question over again?
 		model_factory.destroy("currentQuestion");
 		
 		var currentQuestion = model_factory.get("currentQuestion");

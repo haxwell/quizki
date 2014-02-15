@@ -1,5 +1,4 @@
 	Quizki.AllTopicsListView = Backbone.View.extend({
-		tagName:'ul',
 		
 		initialize:function() {
 			this.render();
@@ -9,14 +8,14 @@
 			this.listenTo(model_factory.get('currentListOfTopics'), 'reset', function(event) { this.render(); });
 		},
 		renderElement: function(model) {
-			var ul = this.$el.find("#listOfTopics");
+			var listOfTopics = this.$el.find("#listOfTopics");
 			
 			var topicItem = new Quizki.AllTopicsListItemView(model, 'topicItem');
-			ul.append( topicItem.render().$el.html() );
+			listOfTopics.append( topicItem.render().$el.html() );
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<ul class='span3' id='listOfTopics'></ul>" )() );
+			this.$el.html( _.template( "<select multiple class='span3' id='listOfTopics'></select>" )() );
 			
 			var topics = model_factory.get("currentListOfTopics");
 			
@@ -86,7 +85,6 @@
 	});
 	
 	Quizki.SelectedTopicsListView = Backbone.View.extend({
-		tagName:'ul',
 		
 		initialize:function() {
 			this.render();
@@ -95,14 +93,14 @@
 			this.listenTo(model_factory.get('selectedListOfTopics'), 'remove', function(event) { this.render(); });
 		},
 		renderElement: function(model) {
-			var ul = this.$el.find("#selectedListOfTopics");
+			var listOfTopics = this.$el.find("#selectedListOfTopics");
 			
 			var topicItem = new Quizki.AllTopicsListItemView(model, 'selectedTopicItem');
-			ul.append( topicItem.render().$el.html() );
+			listOfTopics.append( topicItem.render().$el.html() );
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<ul class='span3' id='selectedListOfTopics'></ul>" )() );
+			this.$el.html( _.template( "<select multiple class='span3' id='listOfTopics'></select>" )() );
 			
 			var topics = model_factory.get("selectedListOfTopics");
 			
@@ -131,7 +129,24 @@
 	});
 	
 	Quizki.ArrowView = Backbone.View.extend({
-		
+		initialize:function() {
+			this.showEditBtn = arguments[0].showEditBtn;
+			this.render();
+		},
+		events: {
+			"click #btnAddTopic": "addTopic",
+			"click #btnRemoveTopic" : "removeTopic"
+		},
+		render:function() {
+			this.$el.html(view_utility.executeTemplate('/templates/GenerateExamArrowButtons.html', {}));
+			return this;
+		},
+		addTopic : function() {
+			
+		},
+		removeTopic : function() {
+			
+		}
 	});
 
 	Quizki.MatchingExamsView = Backbone.View.extend({
@@ -189,11 +204,34 @@
 	});
 	
 	Quizki.OptionsForGenerateExamView = Backbone.View.extend({
-		
+		initialize:function() {
+			this.model = arguments[0].attributes;
+		},
+		render: function(model) {
+			this.$el.html(view_utility.executeTemplate('/templates/optionsForGenerateExamView.html', { }));
+			return this;
+		}
 	});
 	
 	Quizki.TakeGeneratedOrSelectedExamButtonView = Backbone.View.extend({
+		initialize:function() {
+			this.showEditBtn = arguments[0].showEditBtn;
+			this.render();
+		},
+		events: {
+			"click #btnTakeGeneratedExam": "takeGeneratedExam",
+			"click #btnTakeSelectedExam" : "takeSelectedExam"
+		},
+		render:function() {
+			this.$el.html(view_utility.executeTemplate('/templates/TakeGeneratedOrSelectedExamBtnView.html', {}));
+			return this;
+		},
+		takeGeneratedExam : function() {
 		
+		},
+		takeSelectedExam : function() {
+			
+		}
 	});
 	
 	Quizki.HeaderTextForGenerateExam = Backbone.View.extend({

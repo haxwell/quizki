@@ -25,6 +25,28 @@ var TakeExamChoiceItemFactory = (function() {
 		return rtn;
 	};
 	
+	// to be used once I get bootstrap-switch upgraded... which I hope is soon its waaay behind as of now..
+	my.getFinalizeViewCollectionFunction = function() {
+		var currentQuestion = model_factory.get("currentQuestion");
+		var type = currentQuestion.getTypeId();
+		var rtn = undefined;
+
+		if (type == 1) {
+			rtn = function() {
+				$('.radio').on('switch-change', function() {
+					$('.radio').bootstrapSwitch('toggleRadioStateAllowUncheck');					
+				});
+			};
+		}
+		else {
+			rtn = function () {
+				;
+			};
+		}
+
+		return rtn;
+	};
+
 	return my;
 
 }());

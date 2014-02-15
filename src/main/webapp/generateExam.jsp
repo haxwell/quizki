@@ -68,6 +68,7 @@
 					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
 					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });
 					var bv_selectedTopicsListView = new Quizki.SelectedTopicsListView({ el: $("#divSelectedTopicsListView") });
+					var bv_arrowView = new Quizki.ArrowView({ el: $("#divArrowView") });
 					
 					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
 					var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
@@ -85,6 +86,8 @@
 		<div id="divAllTopicsListFilterView">..</div>
 		
 		<div id="divAllTopicsListView">..</div>
+		
+		<div id="divArrowView">..</div>
 
 		<div id="divSelectedTopicsListView">..</div>
 		

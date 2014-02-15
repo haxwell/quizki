@@ -64,6 +64,10 @@
 			
 			this.$el.html(view_utility.executeTemplate('/templates/ExamSingleQuestionChoiceItemView.html', {id:this.millisecondId,checked:selected,text:this.model.text,disabled:''}));
 			return this;
+		},
+		doThingsUniqueToTheView:function(el) {
+			var $radioBtns = el.find('.radio1');
+			$radioBtns.bootstrapSwitch('toggleRadioStateAllowUncheck');
 		}
 	});
 	
@@ -219,13 +223,12 @@
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');
 			$slider.bootstrapSwitch();
+
+//			TakeExamChoiceItemFactory.getFinalizeViewCollectionFunction()();
 			
 			// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
 			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#switch" + model.view.millisecondId).on('switch-change', model.view.getEventHandler("iscorrectchanged"));
-			});
-			
-			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#sequenceTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
 				$("#stringTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onstringtextfieldblur"));
 			});

@@ -3,6 +3,8 @@
 		initialize:function() {
 			this.render();
 
+			model_constructor_factory.put("stagedSelectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
+			
 			this.listenTo(model_factory.get('currentListOfTopics'), 'add', function(event) { this.render(); });
 			this.listenTo(model_factory.get('currentListOfTopics'), 'remove', function(event) { this.render(); });
 			this.listenTo(model_factory.get('currentListOfTopics'), 'reset', function(event) { this.render(); });
@@ -24,7 +26,8 @@
 			return this;
 		},
 		events: {
-			"dblclick .topicItem":"addItemToSelectedList"
+			"dblclick .topicItem":"addItemToSelectedList",
+			"click .topicItem":"stageSelectedItemForListOfTopics"
 		},
 		addItemToSelectedList: function(event) {
 			var currentListOfTopics = model_factory.get("currentListOfTopics");
@@ -36,14 +39,29 @@
 			currentListOfTopics.remove(topicObject);
 			
 			// add an object to the selected item list
-			var selectedListOfTopics = model_factory.get("selectedListOfTopics");
-			selectedListOfTopics.add(topicObject);
+			model_factory.get("selectedListOfTopics").add(topicObject);
+			
+			model_factory.get("stagedSelectedListOfTopics").reset();
+		},
+		stageSelectedItemForListOfTopics: function(event) {
+			var currentListOfTopics = model_factory.get("currentListOfTopics");
+			var selectedTopics = $('#listOfTopics option:selected');
+			
+			var coll = model_factory.get("stagedSelectedListOfTopics");
+			
+			if (coll.length > selectedTopics.length)
+				coll.reset();
+			
+			selectedTopics.each(function(item) {
+				var topicText = $(this).val(); 
+				var topicObject = currentListOfTopics.findWhere({ text:topicText }).attributes;
+				
+				coll.add(topicObject);
+			});
 		}
 	});
 
 	Quizki.AllTopicsListItemView = Backbone.View.extend({
-		tagName:'li',
-		
 		initialize:function() {
 			this.model = arguments[0].attributes;
 			this.fieldClass = arguments[1];
@@ -89,27 +107,30 @@
 		initialize:function() {
 			this.render();
 			
-			this.listenTo(model_factory.get('selectedListOfTopics'), 'add', function(event) { this.render(); });
-			this.listenTo(model_factory.get('selectedListOfTopics'), 'remove', function(event) { this.render(); });
+			model_constructor_factory.put("stagedUnselectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
+			
+			this.listenTo(event_intermediary, 'selectedListOfTopicsChanged', function(event) { this.render(); });
 		},
 		renderElement: function(model) {
 			var listOfTopics = this.$el.find("#selectedListOfTopics");
 			
-			var topicItem = new Quizki.AllTopicsListItemView(model, 'selectedTopicItem');
-			listOfTopics.append( topicItem.render().$el.html() );
+			var v = view_utility.executeTemplate('/templates/ItemInAllTopicsList.html', {text:model.text,klass:'selectedTopicItem'});
+			
+			listOfTopics.append( v );
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<select multiple class='span3' id='listOfTopics'></select>" )() );
+			this.$el.html( _.template( "<select multiple class='span3' id='selectedListOfTopics'></select>" )() );
 			
 			var topics = model_factory.get("selectedListOfTopics");
 			
-			_.each(topics.models, function(model) { this.renderElement(model); }, this);
+			_.each(topics.models, function(model) { this.renderElement(model.attributes); }, this);
 			
 			return this;
 		},
 		events: {
-			"dblclick .selectedTopicItem":"removeItemFromSelectedList"
+			"dblclick .selectedTopicItem":"removeItemFromSelectedList",
+			"click .selectedTopicItem":"stageSelectedItemForListOfTopics"			
 		},
 		removeItemFromSelectedList: function(event) {
 			var selectedListOfTopics = model_factory.get("selectedListOfTopics");
@@ -122,10 +143,26 @@
 			selectedListOfTopics.remove(topicObject);
 			
 			// add an object to the selected item list
-			var currentListOfTopics = model_factory.get("currentListOfTopics");
-			currentListOfTopics.add(topicObject);
+			model_factory.get("currentListOfTopics").add(topicObject);
+			
+			model_factory.get("stagedUnselectedListOfTopics").reset();
+		},
+		stageSelectedItemForListOfTopics: function(event) {
+			var selectedListOfTopics = model_factory.get("selectedListOfTopics");
+			var selectedTopics = $('#selectedListOfTopics option:selected');
+			
+			var coll = model_factory.get("stagedUnselectedListOfTopics");
+			
+			if (coll.length >= selectedTopics.length)
+				coll.reset();
+			
+			selectedTopics.each(function(item) {
+				var topicText = $(this).val(); 
+				var topicObject = selectedListOfTopics.findWhere({ text:topicText }).attributes;
+				
+				coll.add(topicObject);
+			});
 		}
-		
 	});
 	
 	Quizki.ArrowView = Backbone.View.extend({
@@ -142,15 +179,34 @@
 			return this;
 		},
 		addTopic : function() {
+			var stagedColl = model_factory.get("stagedSelectedListOfTopics");
+			var selectedTopics = model_factory.get("selectedListOfTopics");
+			var mainListOfTopics = model_factory.get("currentListOfTopics");
 			
+			_.each(stagedColl.models, function(model) { selectedTopics.add(model); });
+			event_intermediary.throwEvent('selectedListOfTopicsChanged');
+
+			_.each(stagedColl.models, function(model) { mainListOfTopics.remove(model); });
+			event_intermediary.throwEvent('mainListOfTopicsChanged');
+
+			stagedColl.reset();
 		},
 		removeTopic : function() {
-			
+			var stagedColl = model_factory.get("stagedUnselectedListOfTopics");
+			var selectedTopics = model_factory.get("selectedListOfTopics");
+			var mainListOfTopics = model_factory.get("currentListOfTopics");
+
+			_.each(stagedColl.models, function(model) { selectedTopics.remove(model); });
+			event_intermediary.throwEvent('selectedListOfTopicsChanged');
+
+			_.each(stagedColl.models, function(model) { mainListOfTopics.add(model); });
+			event_intermediary.throwEvent('mainListOfTopicsChanged');
+
+			stagedColl.reset();
 		}
 	});
 
 	Quizki.MatchingExamsView = Backbone.View.extend({
-		tagName:'ul',
 		
 		initialize:function() {
 			this.render();
@@ -162,7 +218,7 @@
 			ul.append( examItem.render().$el.html() );
 		},
 		render:function() {
-			this.$el.html( _.template( "<ul class='span3' id='matchingExamsView'></ul>" )() );
+			this.$el.html( _.template( "<select multiple class='span3' id='matchingExamsView'></select>" )() );			
 			
 			var exams = model_factory.get("listOfMatchingExams");
 			

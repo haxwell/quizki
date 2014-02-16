@@ -58,6 +58,8 @@
 			<script type="text/javascript">
 				
 			    $(document).ready(function() {
+					event_intermediary.initialize();
+					
 					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					
@@ -70,36 +72,44 @@
 					var bv_selectedTopicsListView = new Quizki.SelectedTopicsListView({ el: $("#divSelectedTopicsListView") });
 					var bv_arrowView = new Quizki.ArrowView({ el: $("#divArrowView") });
 					
-					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
 					var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
+					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
 			    });
 			    
 			</script>]]>
 		</jsp:text>
 	</head>
-<body>
+	<body>
+	
+		<div class="container">
+			<jsp:include page="header.jsp"></jsp:include>
+			<div class="content">
+				<table>
+					<tr>
+					<td>
+						<div id="divAllTopicsListFilterView">..</div>
+						
+						<div id="divAllTopicsListView">..</div>
+					</td>
+					<td>
+						<div id="divArrowView">..</div>
+					</td>
+					<td>
+						<div id="divSelectedTopicsListView">..</div>
+					</td>
+					<td>
+						<div id="divMatchingExamsFilterView">..</div>
+						
+						<div id="divMatchingExamsView">..</div>
+					</td>
+					</tr>
+				</table>
+			</div>
+		</div>	
+	
+		<br/><br/>
+	
+	</body>
 
-	<div class="container">
-		<jsp:include page="header.jsp"></jsp:include>
-		<div class="content">
-
-		<div id="divAllTopicsListFilterView">..</div>
-		
-		<div id="divAllTopicsListView">..</div>
-		
-		<div id="divArrowView">..</div>
-
-		<div id="divSelectedTopicsListView">..</div>
-		
-		<div id="divMatchingExamsFilterView">..</div>
-		
-		<div id="divMatchingExamsView">..</div>
-		
-</div>
-</div>	
-
-<br/><br/>
-
-</body>
 </html>
 </jsp:root>

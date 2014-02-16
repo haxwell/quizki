@@ -117,6 +117,8 @@ var model_factory = (function(){
 // in a good OO design. So, this object is a third party. The handler can tell it,
 // throw this event, and the 'won't know objects' can listen to this event_thrower
 // for the third-party event.
+
+// REMINDER: call initialize() in your JSP to make use of this object.
 var event_intermediary = (function(){
 	var my = {};
 	

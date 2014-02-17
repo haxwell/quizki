@@ -245,8 +245,6 @@
 	Quizki.MatchingExamsFilterView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
-			
-			
 		},
 		render: function(model) {
 			// TODO: will need to remember state.. probably.
@@ -254,10 +252,13 @@
 			return this;
 		},
 		events: {
-			// TODO: handle checkbox click
+			"click #mustContainAllTopicsChkbox" : "handleCheckboxClick"
 		},
-		handleCheckboxClick: function(model) {
-			
+		handleCheckboxClick: function(event) {
+			var model = model_factory.get("matchingExamsMustContainAllTopics");
+			var v = !($(event.target).find("#mustContainAllTopicsChkbox").attr('checked') == 'checked');
+
+			model.val = v;
 		}
 	});
 	

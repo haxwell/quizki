@@ -65,19 +65,25 @@
 					
 					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
-					
 					model_constructor_factory.put("listOfMatchingExams", function() { return new Backbone.Collection([], { model: Exam }); });
+					model_constructor_factory.put("matchingExamsMustContainAllTopics", function() { return {val:false}; }); 
 					
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
 					
-					MatchingExamsListGetter.listenFor('selectedListOfTopicsChanged', function() { return model_factory.get("listOfMatchingExams"); }, function() {return model_factory.get("selectedListOfTopics"); });
+					MatchingExamsListGetter.listenFor(
+						'selectedListOfTopicsChanged', 
+						function() { return model_factory.get("listOfMatchingExams"); }, 
+						function() { return model_factory.get("selectedListOfTopics"); },
+						function() { return false; },
+						function() { return model_factory.get("matchingExamsMustContainAllTopics").val; }
+					);
 					
 					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
 					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });
 					var bv_selectedTopicsListView = new Quizki.SelectedTopicsListView({ el: $("#divSelectedTopicsListView") });
 					var bv_arrowView = new Quizki.ArrowView({ el: $("#divArrowView") });
 					
-					var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
+					//var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
 					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
 			    });
 			    
@@ -103,7 +109,7 @@
 						<div id="divSelectedTopicsListView">..</div>
 					</td>
 					<td>
-						<div id="divMatchingExamsFilterView">..</div>
+						<!--  <div id="divMatchingExamsFilterView">..</div>  -->
 						
 						<div id="divMatchingExamsView">..</div>
 					</td>

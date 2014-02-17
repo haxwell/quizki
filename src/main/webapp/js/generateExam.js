@@ -61,13 +61,13 @@ var MatchingExamsListGetter = (function() {
 		_.extend(this, Backbone.Events);
 	};
 	
-	my.listenFor = function(eventIntermediaryEventName, getReturnCollectionFunc, getTopicsFilterCollectionFunc, filterByUserId, mustContainAllTopics) {
+	my.listenFor = function(eventIntermediaryEventName, getReturnCollectionFunc, getTopicsFilterCollectionFunc, filterByUserIdFunc, mustContainAllTopicsFunc) {
 
 		this.listenTo(event_intermediary, eventIntermediaryEventName, 
 				function(event) { 
 					this.get(
-							filterByUserId || false, 
-							mustContainAllTopics || false, 
+							(filterByUserIdFunc == undefined ? false : filterByUserIdFunc()), 
+							(mustContainAllTopicsFunc == undefined ? false : mustContainAllTopicsFunc()), 
 							getReturnCollectionFunc(),
 							getTopicsFilterCollectionFunc()
 					);

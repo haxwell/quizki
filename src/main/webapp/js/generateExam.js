@@ -89,8 +89,14 @@ var MatchingExamsListGetter = (function() {
 			}
 			
 			var parsedJSONObject = jQuery.parseJSON(jsonExport);
-
-			var examsRtndFromSrvr = new Backbone.Collection(parsedJSONObject.exam, { model: Exam });
+			var examsRtndFromSrvr = null;
+			
+			if (parsedJSONObject == null) {
+				examsRtndFromSrvr = new Backbone.Collection();
+			}
+			else {
+				examsRtndFromSrvr = new Backbone.Collection(parsedJSONObject.exam, { model: Exam });
+			}
 			
 			rtn.reset(examsRtndFromSrvr.models);
 		});

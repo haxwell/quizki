@@ -493,19 +493,27 @@ public class ExamManager extends Manager {
 	}
 
 	public static List<Long> getExamsWhichContain(List<Topic> topics) {
-		EntityManager em = emf.createEntityManager();
-		
-		String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id IN (SELECT question_id FROM question_topic WHERE topic_id in (?1))";
-		
-		Query query = em.createNativeQuery(queryString);
-		query.setParameter(1, CollectionUtil.getCSVofIDsFromListofEntities(topics));
-		
-		List<Long> rtn = query.getResultList();
-		
-		em.close();
-		
-		if (rtn.size() == 0)
-			rtn = null;
+		List<Long> rtn = null;
+
+		if (topics != null) {
+			
+			EntityManager em = emf.createEntityManager();
+			
+			// I did have this using ?1 as a parameter marker which was replaced with the value from a call to CollectionUtil.getCSVofIDsFromListofEntities(topics),
+			// but when I did that, I wasn't getting any results in my test case. To reproduce, replace the CollectionUtil.getCSVofIDsFromListofEntities(topics) with ?1
+			// and then add a line saying query.setParameter(1, CollectionUtil.getCSVofIDsFromListofEntities(topics)), and have the parameter value be "2,1".
+			// messed around with it for a while, changing to named parameters (ie :topicIdList), but couldn't figure exactly what was wrong.. maybe one day I'll have time
+			String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id IN (SELECT question_id FROM question_topic WHERE topic_id in (" + CollectionUtil.getCSVofIDsFromListofEntities(topics) + "))";
+			
+			Query query = em.createNativeQuery(queryString);
+			
+			rtn = query.getResultList();
+			
+			em.close();
+			
+			if (rtn.size() == 0)
+				rtn = null;
+		}
 		
 		return rtn;
 	}

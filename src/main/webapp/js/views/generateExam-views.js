@@ -49,7 +49,7 @@
 			
 			var coll = model_factory.get("stagedSelectedListOfTopics");
 			
-			if (coll.length > selectedTopics.length)
+			if (coll.length >= selectedTopics.length)
 				coll.reset();
 			
 			selectedTopics.each(function(item) {

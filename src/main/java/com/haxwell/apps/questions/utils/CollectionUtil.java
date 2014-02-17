@@ -62,34 +62,36 @@ public class CollectionUtil {
 	}
 
 	public static String toJSON(Collection<? extends AbstractEntity> coll, boolean addOpenAndClosingCurlyBraces) {
-		StringBuffer sb = new StringBuffer();
+		String rtn = null;
 		
-		Iterator<? extends AbstractEntity> iterator = coll.iterator();
-
-		if (addOpenAndClosingCurlyBraces)
-			sb.append("{ ");
-		
-		if (iterator.hasNext()) {
-			AbstractEntity ae = coll.iterator().next();
-
-			if (ae != null) {
-				sb.append("\"" + ae.getEntityDescription() + "\": [");
-				
-				while (iterator.hasNext()) {
-					sb.append(iterator.next().toJSON());
-				
-					if (iterator.hasNext())
-						sb.append(", ");
+		if (coll != null) {
+			StringBuffer sb = new StringBuffer();
+			Iterator<? extends AbstractEntity> iterator = coll.iterator();
+	
+			if (addOpenAndClosingCurlyBraces)
+				sb.append("{ ");
+			
+			if (iterator.hasNext()) {
+				AbstractEntity ae = coll.iterator().next();
+	
+				if (ae != null) {
+					sb.append("\"" + ae.getEntityDescription() + "\": [");
+					
+					while (iterator.hasNext()) {
+						sb.append(iterator.next().toJSON());
+						if (iterator.hasNext())	sb.append(", ");
+					}
+					
+					sb.append("]");
 				}
-				
-				sb.append("]");
 			}
+			
+			if (addOpenAndClosingCurlyBraces) sb.append("}");
+			
+			rtn = sb.toString();
 		}
 		
-		if (addOpenAndClosingCurlyBraces)
-			sb.append("}");
-		
-		return sb.toString();
+		return rtn;
 	}
 	
 	public static String toJSON(Collection<? extends AbstractEntity> coll) {

@@ -1,7 +1,9 @@
 package com.haxwell.apps.questions.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -35,6 +37,36 @@ public class TopicUtil {
 		}
 		
 		return topics;
+	}
+	
+	public static List<Topic> getListFromJsonString(String str) {
+		List<Topic> rtn = new ArrayList<Topic>();
+		
+		JSONValue jValue = new JSONValue();
+		JSONArray arr = null;
+		
+		Object obj = jValue.parse(str);
+		
+		if (obj instanceof JSONObject)
+			arr = (JSONArray)((JSONObject)obj).get("topics");
+		else
+			arr = (JSONArray)obj;
+		
+		for (int i=0; i < arr.size(); i++) {
+			JSONObject o = (JSONObject)arr.get(i);
+			
+			Topic t = new Topic();
+			
+			t.setText((String)o.get("text"));
+			
+			Long id = Long.parseLong((String)o.get("id"));
+			if (id != -1)
+				t.setId(id);
+			
+			rtn.add(t);
+		}
+		
+		return rtn;
 	}
 	
 	public static Set<Topic> getSetFromJsonString(String str) {

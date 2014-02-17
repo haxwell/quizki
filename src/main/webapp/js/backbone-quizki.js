@@ -269,6 +269,8 @@ var JSONUtility = (function() {
 	
 	// Inspired by ExamEngine.. it keeps a list of questions as json strings, in the order they appear.
 	//  this is to put those in an overall json string.
+	//
+	// TODO: Remove this, it doesn't seem to be used at present..
 	my.getJSONForQuizkiCollection = function(name, quizkiCollectionOfJSONStrings, indexFunction) {
 		if (indexFunction === undefined) 
 			indexFunction = function(index) { return index; };
@@ -293,6 +295,7 @@ var JSONUtility = (function() {
 		return rtn;
 	};
 	
+	// TODO: Remove this.. it doesn't seem to be used at present...
 	my.getJSONForAnArray = function(name, arrayOfJSONStrings, indexFunction) {
 		if (indexFunction === undefined) 
 			indexFunction = function(index) { return index; };
@@ -316,6 +319,10 @@ var JSONUtility = (function() {
 		
 		return rtn;
 	};
+	
+	my.getJSONForBackboneCollection = function(coll) {
+		return coll.toJSON();
+	}
 	
 	my.getJSONForKeyValueMap = function(map, overallName, keyFieldName, valueFieldName) {
 		var rtn = this.startJSONArray(overallName);

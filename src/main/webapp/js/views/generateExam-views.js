@@ -17,7 +17,7 @@
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<select multiple class='span3' id='listOfTopics'></select>" )() );
+			this.$el.html( _.template( "<select multiple class='span3 mainSelectBox' id='listOfTopics'></select>" )() );
 			
 			var topics = model_factory.get("currentListOfTopics");
 			
@@ -120,7 +120,7 @@
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<select multiple class='span3' id='selectedListOfTopics'></select>" )() );
+			this.$el.html( _.template( "<select multiple class='span3 selectedSelectBox' id='selectedListOfTopics'></select>" )() );
 			
 			var topics = model_factory.get("selectedListOfTopics");
 			
@@ -209,16 +209,18 @@
 	Quizki.MatchingExamsView = Backbone.View.extend({
 		
 		initialize:function() {
+			this.listenTo(event_intermediary, 'matchingListOfExamsChanged', function(event) { this.render(); });
+			
 			this.render();
 		},
 		renderElement: function(model) {
-			var ul = this.$el.find("#matchingExamsView");
+			var listOfMatchingExams = this.$el.find("#matchingExamsView");
 			
 			var examItem = new Quizki.MatchingExamItemView(model);
-			ul.append( examItem.render().$el.html() );
+			listOfMatchingExams.append( examItem.render().$el.html() );
 		},
 		render:function() {
-			this.$el.html( _.template( "<select multiple class='span3' id='matchingExamsView'></select>" )() );			
+			this.$el.html( _.template( "<select multiple class='span5 examsSelectBox' id='matchingExamsView'></select>" )() );			
 			
 			var exams = model_factory.get("listOfMatchingExams");
 			
@@ -229,14 +231,12 @@
 	});
 	
 	Quizki.MatchingExamItemView = Backbone.View.extend({
-		tagName:'li',
-		
 		initialize:function() {
 			this.model = arguments[0].attributes;
 		},
 		render: function(model) {
 			var _model = this.model;
-			this.$el.html( view_utility.executeTemplate('/templates/ItemInMatchingExamList.html', {text:_model.val.text}));
+			this.$el.html( view_utility.executeTemplate('/templates/ItemInMatchingExamsList.html', {text:_model.title}));
 			
 			return this;
 		}
@@ -245,6 +245,8 @@
 	Quizki.MatchingExamsFilterView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
+			
+			
 		},
 		render: function(model) {
 			// TODO: will need to remember state.. probably.

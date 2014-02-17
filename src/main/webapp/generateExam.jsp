@@ -23,6 +23,7 @@
 		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-select-multiselect-generateExam.css" rel="stylesheet" type="text/css"/>
 		
 		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
 
@@ -47,10 +48,11 @@
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/exam.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/generateExam.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/generateExam-views.js" type="text/javascript" ></script> ]]>
-			
+
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>			
 
 			<![CDATA[
@@ -59,6 +61,7 @@
 				
 			    $(document).ready(function() {
 					event_intermediary.initialize();
+					MatchingExamsListGetter.initialize();
 					
 					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
 					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
@@ -66,6 +69,8 @@
 					model_constructor_factory.put("listOfMatchingExams", function() { return new Backbone.Collection([], { model: Exam }); });
 					
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
+					
+					MatchingExamsListGetter.listenFor('selectedListOfTopicsChanged', function() { return model_factory.get("listOfMatchingExams"); }, function() {return model_factory.get("selectedListOfTopics"); });
 					
 					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
 					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });

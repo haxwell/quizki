@@ -221,9 +221,11 @@ public class ExamManager extends Manager {
 			 */
 			
 			rtn = (Exam)query.getSingleResult();
-			
-			em.close();
+
+			setTopicsAttribute(rtn);
 		}
+
+		em.close();
 		
 		return rtn;
 	}
@@ -465,9 +467,11 @@ public class ExamManager extends Manager {
 	}
 
 	public static void setTopicsAttribute(Collection<Exam> coll) {
-		for (Exam e : coll) {
-			e.setTopics(getAllQuestionTopics(e));
-		}
+		for (Exam e : coll) setTopicsAttribute(e);
+	}
+	
+	public static void setTopicsAttribute(Exam e) {
+		e.setTopics(getAllQuestionTopics(e));
 	}
 	
 	public static List<Long> getExamsWhichContain(Question q) {
@@ -491,10 +495,10 @@ public class ExamManager extends Manager {
 	public static List<Long> getExamsWhichContain(List<Topic> topics) {
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id IN (SELECT question_id FROM question_topic WHERE topic_id in (?1)";
+		String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id IN (SELECT question_id FROM question_topic WHERE topic_id in (?1))";
 		
 		Query query = em.createNativeQuery(queryString);
-		query.setParameter(1, CollectionUtil.getCSV(topics));
+		query.setParameter(1, CollectionUtil.getCSVofIDsFromListofEntities(topics));
 		
 		List<Long> rtn = query.getResultList();
 		
@@ -507,10 +511,20 @@ public class ExamManager extends Manager {
 	}
 	
 	public static List<Exam> getExamsById(List<Long> list) {
-		List<Exam> rtn = new ArrayList<Exam>();
+		List<Exam> rtn = null;
 		
-		for (Long l : list) {
-			rtn.add(getExam(l));
+		if (list != null) {
+			rtn = new ArrayList<Exam>();
+			
+			Set<Long> set = new HashSet<Long>();
+			
+			for (Long l : list) {
+				if (!set.contains(l))
+				{
+					set.add(l);
+					rtn.add(getExam(l));
+				}
+			}
 		}
 		
 		return rtn;

@@ -495,7 +495,7 @@ public class ExamManager extends Manager {
 	public static List<Long> getExamsWhichContain(List<Topic> topics) {
 		List<Long> rtn = null;
 
-		if (topics != null) {
+		if (topics != null && topics.size() > 0) {
 			
 			EntityManager em = emf.createEntityManager();
 			

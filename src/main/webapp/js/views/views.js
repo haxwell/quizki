@@ -96,3 +96,61 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 });
 
 
+Quizki.DifficultyChooserView = Backbone.View.extend({
+	initialize:function() {
+		this.readOnly = arguments[0].readOnly;
+		
+		// the id of the button to select will have been passed in
+		// that id, is basically the model for this view
+		// store the model
+		this.buttonId = arguments[0].id;
+		
+		// the ui manages the state of this button group. all 
+		// this view has to do, when the time comes is return
+		// the value.. or perhaps another class somewhere else can
+		// as long as the iteration is done on the render, (which 
+		// sets the 'active' attribute) that should do it..
+		
+		this.render();
+		
+		var currQuestion = model_factory.get("currentQuestion");
+		
+		this.listenTo(currQuestion, 'difficultyChanged', function(event) { 
+			var currQuestion = model_factory.get("currentQuestion");
+			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
+			});
+
+		this.listenTo(currQuestion, 'reset', function(event) { 
+			var currQuestion = model_factory.get("currentQuestion");
+			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
+			});
+	},
+	events : {
+		"click button":"changed"
+	},
+	changed:function(event) {
+		var currQuestion = model_factory.get("currentQuestion");
+		
+		var _from = currQuestion.getDifficultyId();
+		var _to = event.target.value;
+		
+		if (_from != _to) {
+			currQuestion.setDifficultyId(_to);
+		}
+	},
+	render:function() {
+		var disabledText = this.readOnly == undefined ? "" : "disabled";
+		
+		this.$el.html(view_utility.executeTemplate('/templates/QuestionDifficultyChooserView.html', {disabled:disabledText}));
+		var buttonId = this.buttonId || -1;
+		
+		// iterate over each of the buttons, if it matches the model, set it as active
+		// otherwise remove the active attribute
+		_.each($("#difficultyBtnGroup").find("button"), function($item) { 
+			$item = $($item);
+			($item.val() == buttonId) ? $item.addClass('active') : $item.removeClass('active'); 
+		});
+		
+		return this;
+	}
+});

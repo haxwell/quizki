@@ -278,24 +278,54 @@
 		}
 	});
 	
-	Quizki.TakeGeneratedOrSelectedExamButtonView = Backbone.View.extend({
+	Quizki.MaxQuestionsView = Backbone.View.extend({
 		initialize:function() {
 			this.showEditBtn = arguments[0].showEditBtn;
 			this.render();
 		},
 		events: {
-			"click #btnTakeGeneratedExam": "takeGeneratedExam",
+
+		},
+		render:function() {
+			this.$el.html(view_utility.executeTemplate('/templates/MaxQuestionsAndDifficultyView.html', {}));
+			
+			var spinner = $( "#spinner" ).spinner();
+			
+			return this;
+		}
+	});
+
+	Quizki.TakeSelectedExamButtonView = Backbone.View.extend({
+		initialize:function() {
+			this.showEditBtn = arguments[0].showEditBtn;
+			this.render();
+		},
+		events: {
 			"click #btnTakeSelectedExam" : "takeSelectedExam"
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/TakeGeneratedOrSelectedExamBtnView.html', {}));
+			this.$el.html(view_utility.executeTemplate('/templates/TakeSelectedExamBtnView.html', {}));
+			return this;
+		},
+		takeSelectedExam : function() {
+			
+		}
+	});
+	
+	Quizki.TakeGeneratedExamButtonView = Backbone.View.extend({
+		initialize:function() {
+			this.showEditBtn = arguments[0].showEditBtn;
+			this.render();
+		},
+		events: {
+			"click #btnTakeGeneratedExam": "takeGeneratedExam"
+		},
+		render:function() {
+			this.$el.html(view_utility.executeTemplate('/templates/TakeGeneratedExamBtnView.html', {}));
 			return this;
 		},
 		takeGeneratedExam : function() {
 		
-		},
-		takeSelectedExam : function() {
-			
 		}
 	});
 	

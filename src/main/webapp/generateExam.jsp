@@ -78,6 +78,8 @@
 						function() { return model_factory.get("matchingExamsMustContainAllTopics").val; }
 					);
 					
+					var bv_headerTextForGenerateExam = new Quizki.HeaderTextForGenerateExam({ el: $("#divHeaderText") });
+					
 					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
 					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });
 					var bv_selectedTopicsListView = new Quizki.SelectedTopicsListView({ el: $("#divSelectedTopicsListView") });
@@ -85,6 +87,13 @@
 					
 					//var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
 					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
+					
+					var bv_maxQuestionsView = new Quizki.MaxQuestionsView({ el: $("#divMaxQuestionsView") });
+					var bv_takeGeneratedExamBtnView = new Quizki.TakeGeneratedExamButtonView({ el: $("#takeGeneratedExamBtnView") });
+					var bv_takeSelectedExamBtnView = new Quizki.TakeSelectedExamButtonView({ el: $("#takeSelectedExamBtnView") });
+					
+					// TODO: set the difficulty ID appropriately here
+					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:1});
 			    });
 			    
 			</script>]]>
@@ -95,23 +104,29 @@
 		<div class="container">
 			<jsp:include page="header.jsp"></jsp:include>
 			<div class="content">
+			
+				<div id="divHeaderText">..</div>
+				
 				<table>
 					<tr>
 					<td>
 						<div id="divAllTopicsListFilterView">..</div>
-						
 						<div id="divAllTopicsListView">..</div>
+						<div id="difficultyChooserElement">..</div>
+						<div id="divMaxQuestionsView">..</div>
 					</td>
 					<td>
 						<div id="divArrowView">..</div>
 					</td>
 					<td>
 						<div id="divSelectedTopicsListView">..</div>
+						<div id="takeGeneratedExamBtnView">..</div>
 					</td>
 					<td>
 						<!--  <div id="divMatchingExamsFilterView">..</div>  -->
 						
 						<div id="divMatchingExamsView">..</div>
+						<div id="takeSelectedExamBtnView">..</div>
 					</td>
 					</tr>
 				</table>

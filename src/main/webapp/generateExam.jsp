@@ -63,9 +63,9 @@
 					event_intermediary.initialize();
 					MatchingExamsListGetter.initialize();
 					
-					model_constructor_factory.put("currentListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
-					model_constructor_factory.put("selectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
-					model_constructor_factory.put("listOfMatchingExams", function() { return new Backbone.Collection([], { model: Exam }); });
+					model_constructor_factory.put("currentListOfTopics", function() { var c = new Backbone.Collection([], { model: Topic }); c.comparator = 'text'; return c; });
+					model_constructor_factory.put("selectedListOfTopics", function() { var c = new Backbone.Collection([], { model: Topic }); c.comparator = 'text'; return c; });
+					model_constructor_factory.put("listOfMatchingExams", function() { var c = new Backbone.Collection([], { model: Exam }); c.comparator = 'title'; return c; });
 					model_constructor_factory.put("matchingExamsMustContainAllTopics", function() { return {val:false}; }); 
 					
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));

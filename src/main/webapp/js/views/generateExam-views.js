@@ -30,18 +30,22 @@
 			"click .topicItem":"stageSelectedItemForListOfTopics"
 		},
 		addItemToSelectedList: function(event) {
-			var currentListOfTopics = model_factory.get("currentListOfTopics");
-			
+			var stagedColl = model_factory.get("stagedSelectedListOfTopics");
+			var selectedTopics = model_factory.get("selectedListOfTopics");
+			var mainListOfTopics = model_factory.get("currentListOfTopics");
+
 			var topicText = $(event.target).html().trim();
 			
-			var topicObject = currentListOfTopics.findWhere({ text:topicText }).attributes;
-			
-			currentListOfTopics.remove(topicObject);
+			var topicObject = mainListOfTopics.findWhere({ text:topicText }).attributes;
 			
 			// add an object to the selected item list
-			model_factory.get("selectedListOfTopics").add(topicObject);
+			selectedTopics.add(topicObject);
+			event_intermediary.throwEvent('selectedListOfTopicsChanged');
 			
-			model_factory.get("stagedSelectedListOfTopics").reset();
+			mainListOfTopics.remove(topicObject);			
+			event_intermediary.throwEvent('mainListOfTopicsChanged');
+			
+			stagedColl.reset();
 		},
 		stageSelectedItemForListOfTopics: function(event) {
 			var currentListOfTopics = model_factory.get("currentListOfTopics");
@@ -133,19 +137,21 @@
 			"click .selectedTopicItem":"stageSelectedItemForListOfTopics"			
 		},
 		removeItemFromSelectedList: function(event) {
-			var selectedListOfTopics = model_factory.get("selectedListOfTopics");
+			var stagedColl = model_factory.get("stagedUnselectedListOfTopics");
+			var selectedTopics = model_factory.get("selectedListOfTopics");
+			var mainListOfTopics = model_factory.get("currentListOfTopics");
 			
 			var topicText = $(event.target).html().trim();
 			
-			// remove that item from currentListOfTopics
-			var topicObject = selectedListOfTopics.findWhere({ text:topicText }).attributes;
+			var topicObject = selectedTopics.findWhere({ text:topicText }).attributes;
 			
-			selectedListOfTopics.remove(topicObject);
+			selectedTopics.remove(topicObject);
+			event_intermediary.throwEvent('selectedListOfTopicsChanged');
+
+			mainListOfTopics.add(topicObject);
+			event_intermediary.throwEvent('mainListOfTopicsChanged');			
 			
-			// add an object to the selected item list
-			model_factory.get("currentListOfTopics").add(topicObject);
-			
-			model_factory.get("stagedUnselectedListOfTopics").reset();
+			stagedColl.reset();
 		},
 		stageSelectedItemForListOfTopics: function(event) {
 			var selectedListOfTopics = model_factory.get("selectedListOfTopics");

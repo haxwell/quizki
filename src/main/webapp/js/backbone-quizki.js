@@ -320,10 +320,6 @@ var JSONUtility = (function() {
 		return rtn;
 	};
 	
-	my.getJSONForBackboneCollection = function(coll) {
-		return coll.toJSON();
-	}
-	
 	my.getJSONForKeyValueMap = function(map, overallName, keyFieldName, valueFieldName) {
 		var rtn = this.startJSONArray(overallName);
 		

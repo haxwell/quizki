@@ -81,7 +81,7 @@ var ExamEngine = (function() {
 		return rtn;
 	};
 	
-	// would like this to be a private method.......................
+	// TODO: explore closures... would like this to be a private method.......................
 	my.getQuestionByItsId = function(id) {
 		var str = listQuestionsAsJsonStrings.get(id);
 
@@ -160,7 +160,7 @@ var ExamEngine = (function() {
 	my.setQuestionByIndex = function(idx) {
 		index = idx;
 
-		// these four lines would be good in a private method..
+		// TODO: explore closures... these four lines would be good in a private method..
 		if (model_factory.contains("currentQuestion")) {
 			var currQ = model_factory.get("currentQuestion");
 			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
@@ -179,7 +179,7 @@ var ExamEngine = (function() {
 	};
 	
 	my.getFirstQuestion = function() {
-		// these four lines would be good in a private method..
+		// TODO: explore closures... these four lines would be good in a private method..
 		if (model_factory.contains("currentQuestion")) {
 			var currQ = model_factory.get("currentQuestion");
 			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
@@ -189,7 +189,7 @@ var ExamEngine = (function() {
 	};
 	
 	my.getLastQuestion = function() {
-		// these four lines would be good in a private method..
+		// TODO: explore closures... these four lines would be good in a private method..
 		if (model_factory.contains("currentQuestion")) {
 			var currQ = model_factory.get("currentQuestion");
 			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());

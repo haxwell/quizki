@@ -325,7 +325,13 @@
 			return this;
 		},
 		takeGeneratedExam : function() {
-		
+			// need to put the params in a JSON string
+			// get difficulty
+			var difficulty = model_factory.get("difficultyObj");
+			
+			// get number of questions
+			// get list of selected topics
+			// for consistency, create empty list for excluded topics
 		}
 	});
 	

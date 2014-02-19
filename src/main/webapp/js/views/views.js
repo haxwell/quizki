@@ -100,10 +100,12 @@ Quizki.DifficultyChooserView = Backbone.View.extend({
 	initialize:function() {
 		this.readOnly = arguments[0].readOnly;
 		
-		// the id of the button to select will have been passed in
+		// the id of the button to select will have been passed in.
 		// that id, is basically the model for this view
 		// store the model
 		this.buttonId = arguments[0].id;
+		
+		this.getModelNameKey = (arguments[0].getModelNameKey || "currentQuestion");
 		
 		// the ui manages the state of this button group. all 
 		// this view has to do, when the time comes is return
@@ -113,15 +115,15 @@ Quizki.DifficultyChooserView = Backbone.View.extend({
 		
 		this.render();
 		
-		var currQuestion = model_factory.get("currentQuestion");
+		var currQuestion = model_factory.get(this.getModelNameKey);
 		
 		this.listenTo(currQuestion, 'difficultyChanged', function(event) { 
-			var currQuestion = model_factory.get("currentQuestion");
+			var currQuestion = model_factory.get(this.getModelNameKey);
 			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 			});
 
 		this.listenTo(currQuestion, 'reset', function(event) { 
-			var currQuestion = model_factory.get("currentQuestion");
+			var currQuestion = model_factory.get(this.getModelNameKey);
 			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 			});
 	},
@@ -129,7 +131,7 @@ Quizki.DifficultyChooserView = Backbone.View.extend({
 		"click button":"changed"
 	},
 	changed:function(event) {
-		var currQuestion = model_factory.get("currentQuestion");
+		var currQuestion = model_factory.get(this.getModelNameKey);
 		
 		var _from = currQuestion.getDifficultyId();
 		var _to = event.target.value;

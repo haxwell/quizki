@@ -1,17 +1,75 @@
-var Exam = (function() {
+//var Exam = (function() {
+//	var my = {};
+//	
+//	var questions = undefined;
+//	
+//	function initializeFields() {
+//		questions = Quizki.Collection();
+//	};
+//	
+//	my.initialize = function () {
+//		initializeFields();
+//		
+//		_.extend(this, Backbone.Events);
+//	};
+//});
+
+// TODO: this should be moved to a common area.. question.js should not need to be included solely because, for instance, DifficultyChooserView is included.
+var Difficulty = (function() {
 	var my = {};
 	
-	var questions = undefined;
+	var difficulty_id = 1;
 	
+	// TODO: verify that this is a private method.. if it is then the other places we need private methods (search for it) maybe can use this style
 	function initializeFields() {
-		questions = Quizki.Collection();
+		difficulty_id = 1;
 	};
 	
-	my.initialize = function () {
+	my.initialize = function() {
 		initializeFields();
 		
 		_.extend(this, Backbone.Events);
+		
+		return this;
 	};
+
+	my.getDifficultyId = function () {
+		return difficulty_id;
+	};
+		
+	my.setDifficultyId = function(val, throwEvent) {
+		var _from = difficulty_id;
+		var _to = val;
+		
+		difficulty_id = val;
+		
+		var changesObject = {difficulty_id:{from:_from,to:_to}};
+		
+		if (throwEvent !== false)
+			this.trigger('difficultyChanged', changesObject);	
+		
+		return changesObject;
+	};
+
+	my.toJSON = function() {
+		var rtn = '';
+
+		rtn += JSONUtility.startJSONString(rtn);
+
+		rtn += JSONUtility.getJSON('difficulty_id', difficulty_id);
+		
+		rtn = JSONUtility.endJSONString(rtn);
+		
+		return rtn;		
+	};
+	
+	my.getDataObject = function () {
+		return  {
+			difficulty_id:difficulty_id,
+		};
+	};
+	
+	return my;
 });
 
 var Question = (function() {
@@ -23,15 +81,17 @@ var Question = (function() {
 	var text = "";
 	var description = "";
 	var type_id = 1;
-	var difficulty_id = 1;
 	var topics = "";
 	var references = "";
 	var choices = undefined; /* will be a Quizki.Collection */
 	var hasBeenAnswered = false;
 	
+	var difficulty = new Difficulty();
+	
+	// TODO: verify that this is a private method.. if it is then the other places we need private methods (search for it) maybe can use this style
 	function initializeFields() {
 		id = -1; user_id = -1; user_name = '';
-		text = ''; description = ''; type_id = 1; difficulty_id = 1;
+		text = ''; description = ''; type_id = 1; difficulty.initialize();
 		topics = ''; references = ''; choices = new Quizki.Collection();
 	};
 	
@@ -86,7 +146,7 @@ var Question = (function() {
 		rtn += JSONUtility.getJSON('text', text);
 		rtn += JSONUtility.getJSON('description', description);
 		rtn += JSONUtility.getJSON('type_id', type_id);
-		rtn += JSONUtility.getJSON('difficulty_id', difficulty_id);
+		rtn += JSONUtility.getJSON('difficulty_id', difficulty.getDifficultyId());
 		rtn += JSONUtility.getJSON('user_id', user_id);
 		rtn += JSONUtility.getJSON('user_name', user_name);
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', topics);
@@ -104,7 +164,7 @@ var Question = (function() {
 				text:text,
 				description:description,
 				type_id:type_id,
-				difficulty_id:difficulty_id,
+				difficulty_id:difficulty.getDifficultyId(),
 				user_id:user_id,
 				topics:method_utility.getCSVFromJSArray(topics, "text"),
 				references:method_utility.getCSVFromJSArray(references, "text"),
@@ -167,17 +227,14 @@ var Question = (function() {
 	};
 		
 	my.getDifficultyId = function () {
-		return difficulty_id;
+		return difficulty.getDifficultyId();
 	};
-		
+
 	my.setDifficultyId = function(val, throwEvent) {
-		var _from = difficulty_id;
-		var _to = val;
-		
-		difficulty_id = val;
+		var changesObject = difficulty.setDifficultyId(val, false);
 		
 		if (throwEvent !== false)
-			this.trigger('difficultyChanged', {difficulty_id:{from:_from,to:_to}});			
+			this.trigger('difficultyChanged', changesObject);			
 	};
 	
 	my.getTopics = function() {

@@ -66,7 +66,8 @@
 					model_constructor_factory.put("currentListOfTopics", function() { var c = new Backbone.Collection([], { model: Topic }); c.comparator = 'text'; return c; });
 					model_constructor_factory.put("selectedListOfTopics", function() { var c = new Backbone.Collection([], { model: Topic }); c.comparator = 'text'; return c; });
 					model_constructor_factory.put("listOfMatchingExams", function() { var c = new Backbone.Collection([], { model: Exam }); c.comparator = 'title'; return c; });
-					model_constructor_factory.put("matchingExamsMustContainAllTopics", function() { return {val:false}; }); 
+					model_constructor_factory.put("matchingExamsMustContainAllTopics", function() { return { val:false }; });
+					model_constructor_factory.put("difficultyObj", function() { return new Difficulty().initialize(); });
 					
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
 					
@@ -92,8 +93,7 @@
 					var bv_takeGeneratedExamBtnView = new Quizki.TakeGeneratedExamButtonView({ el: $("#takeGeneratedExamBtnView") });
 					var bv_takeSelectedExamBtnView = new Quizki.TakeSelectedExamButtonView({ el: $("#takeSelectedExamBtnView") });
 					
-					// TODO: set the difficulty ID appropriately here
-					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:1});
+					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:1, getModelNameKey:"difficultyObj" });
 			    });
 			    
 			</script>]]>

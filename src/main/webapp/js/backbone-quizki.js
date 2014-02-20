@@ -250,6 +250,15 @@ var JSONUtility = (function() {
 		return rtn;
 	};
 	
+	my.getJSONForBackboneCollection = function(fieldName, backboneCollection, appendComma) {
+		var rtn = '\"' + fieldName + '\":' + JSON.stringify(backboneCollection.toJSON());
+
+		if (appendComma !== false)
+			rtn += ', ';
+		
+		return rtn;
+	};
+	
 	my.getJSON_ExistingQuoteFriendly = function(fieldName, valueToAdd, appendComma) {
 		if (valueToAdd == undefined || valueToAdd == null)
 			valueToAdd = '';

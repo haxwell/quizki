@@ -23,6 +23,11 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 java.io.PrintWriter writer = response.getWriter();
 
 // get the json from the client
+String json = request.getParameter("data");
+
+log.log(Level.SEVERE, json + "\n\n");
+
+ExamUtil.generateExam(json);
 
 // get number of questions from json
 // get difficulty from json

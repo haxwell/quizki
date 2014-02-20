@@ -284,12 +284,18 @@
 			this.render();
 		},
 		events: {
-
+			
 		},
 		render:function() {
 			this.$el.html(view_utility.executeTemplate('/templates/MaxQuestionsAndDifficultyView.html', {}));
 			
-			var spinner = $( "#spinner" ).spinner();
+			var spinner = $( "#spinner" ).spinner({min: 0, max:35});
+			
+			$('.ui-spinner-button').click(function() { $(this).siblings('input').change(); });
+
+			$('#spinner').spinner().change(function(){
+			    model_factory.get("numOfQuestions").val = $(this).spinner('value');         
+	        });
 			
 			return this;
 		}
@@ -325,13 +331,31 @@
 			return this;
 		},
 		takeGeneratedExam : function() {
-			// need to put the params in a JSON string
-			// get difficulty
-			var difficulty = model_factory.get("difficultyObj");
+			var json = '';
+
+			json += JSONUtility.startJSONString(json);
+
+			json += JSONUtility.getJSON('difficulty_id', ''+model_factory.get("difficultyObj").getDifficultyId());
+			json += JSONUtility.getJSON('numberOfQuestions', ''+model_factory.get("numberOfQuestions").val);
+			json += JSONUtility.getJSONForBackboneCollection('selectedListOfTopics', model_factory.get("selectedListOfTopics"));
+			json += JSONUtility.getJSONForBackboneCollection('excludedListOfTopics', new Backbone.Collection([], { model: Topic }), false);
 			
-			// get number of questions
-			// get list of selected topics
-			// for consistency, create empty list for excluded topics
+			json = JSONUtility.endJSONString(json);
+			
+			var data_obj = { data : json };
+
+        	makeAJAXCall_andWaitForTheResults('/ajax/exam-generate.jsp', data_obj, function(data, status) {
+				var index = data.indexOf("<!DOCTYPE");
+				var jsonExport = data;
+				
+				if (index != -1) {
+					jsonExport = data.substring(0, index);
+				}
+				
+				var parsedJSONObject = jQuery.parseJSON(jsonExport);
+
+//        		window.location.href = '/beginExam.jsp';					        		
+        	});
 		}
 	});
 	

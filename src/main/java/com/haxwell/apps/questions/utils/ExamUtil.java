@@ -1,6 +1,5 @@
 package com.haxwell.apps.questions.utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,18 +9,25 @@ import java.util.StringTokenizer;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
-import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
-import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class ExamUtil {
 
+	public static void generateExam(String json) {
+		JSONValue jValue= new JSONValue();
+		JSONObject jObj = (JSONObject)jValue.parse(json);
+
+		JSONArray arr = (JSONArray)jObj.get("questions");
+
+	}
+	
 	public static ExamReportCardData gradeExam(String qJson, String aJson) {
 		//build a collection of question objects
 		List<Question> qList = QuestionUtil.getQuestions(qJson);

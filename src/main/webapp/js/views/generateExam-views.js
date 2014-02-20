@@ -289,12 +289,12 @@
 		render:function() {
 			this.$el.html(view_utility.executeTemplate('/templates/MaxQuestionsAndDifficultyView.html', {}));
 			
-			var spinner = $( "#spinner" ).spinner({min: 0, max:35});
+			var spinner = $( "#spinner" ).spinner({min: 1, max:35}).val(5);
 			
 			$('.ui-spinner-button').click(function() { $(this).siblings('input').change(); });
 
 			$('#spinner').spinner().change(function(){
-			    model_factory.get("numOfQuestions").val = $(this).spinner('value');         
+			    model_factory.get("numberOfQuestions").val = $(this).spinner('value');         
 	        });
 			
 			return this;
@@ -345,16 +345,16 @@
 			var data_obj = { data : json };
 
         	makeAJAXCall_andWaitForTheResults('/ajax/exam-generate.jsp', data_obj, function(data, status) {
-				var index = data.indexOf("<!DOCTYPE");
-				var jsonExport = data;
+//				var index = data.indexOf("<!DOCTYPE");
+//				var jsonExport = data;
+//				
+//				if (index != -1) {
+//					jsonExport = data.substring(0, index);
+//				}
 				
-				if (index != -1) {
-					jsonExport = data.substring(0, index);
-				}
-				
-				var parsedJSONObject = jQuery.parseJSON(jsonExport);
+//				var parsedJSONObject = jQuery.parseJSON(jsonExport);
 
-//        		window.location.href = '/beginExam.jsp';					        		
+        		window.location.href = '/beginExam.jsp';					        		
         	});
 		}
 	});

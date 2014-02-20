@@ -1,7 +1,9 @@
 package com.haxwell.apps.questions.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,14 +22,6 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class ExamUtil {
 
-	public static void generateExam(String json) {
-		JSONValue jValue= new JSONValue();
-		JSONObject jObj = (JSONObject)jValue.parse(json);
-
-		JSONArray arr = (JSONArray)jObj.get("questions");
-
-	}
-	
 	public static ExamReportCardData gradeExam(String qJson, String aJson) {
 		//build a collection of question objects
 		List<Question> qList = QuestionUtil.getQuestions(qJson);

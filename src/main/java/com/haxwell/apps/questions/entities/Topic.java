@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.minidev.json.JSONObject;
+
 import com.haxwell.apps.questions.interfaces.ITopic;
 
 
@@ -90,5 +92,12 @@ public class Topic extends AbstractEntity implements ITopic, EntityWithAnInteger
     	sb.append(getJSONClosing());
     	
     	return sb.toString();
+    }
+    
+    public Topic fromJSON(JSONObject obj) {
+    	this.setId(Long.parseLong(obj.get("id")+""));
+    	this.setText(obj.get("text")+"");
+    	
+    	return this;
     }
 }

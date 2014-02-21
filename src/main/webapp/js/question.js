@@ -20,12 +20,9 @@ var Difficulty = (function() {
 	
 	var difficulty_id = 1;
 	
-	// TODO: verify that this is a private method.. if it is then the other places we need private methods (search for it) maybe can use this style
-	function initializeFields() {
-		difficulty_id = 1;
-	};
-	
 	my.initialize = function() {
+		difficulty_id = 1;
+		
 		initializeFields();
 		
 		_.extend(this, Backbone.Events);
@@ -142,12 +139,12 @@ var Question = (function() {
 
 		rtn += JSONUtility.startJSONString(rtn);
 		
-		rtn += JSONUtility.getJSON('id', id);
+		rtn += JSONUtility.getJSON('id', id+'');
 		rtn += JSONUtility.getJSON('text', text);
 		rtn += JSONUtility.getJSON('description', description);
-		rtn += JSONUtility.getJSON('type_id', type_id);
+		rtn += JSONUtility.getJSON('type_id', type_id+'');
 		rtn += JSONUtility.getJSON('difficulty_id', difficulty.getDifficultyId()+'');
-		rtn += JSONUtility.getJSON('user_id', user_id);
+		rtn += JSONUtility.getJSON('user_id', user_id+'');
 		rtn += JSONUtility.getJSON('user_name', user_name);
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', topics);
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', references);

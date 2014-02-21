@@ -87,7 +87,13 @@
 			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamMultipleQuestionChoiceItemView.html', {id:this.millisecondId,text:this.model.text}));
+			var selected = '';
+			
+			if (this.model.isselected !== undefined && (this.model.isselected == "true" || this.model.isselected === true)) {
+				selected = 'checked';
+			}
+
+			this.$el.html(view_utility.executeTemplate('/templates/ExamMultipleQuestionChoiceItemView.html', {id:this.millisecondId,checked:selected,text:this.model.text,disabled:''}));
 			return this;
 		}
 	});

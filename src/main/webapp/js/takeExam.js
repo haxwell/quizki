@@ -52,38 +52,16 @@ var TakeExamChoiceItemFactory = (function() {
 }());
 
 var ExamEngine = (function() {
-	var my = {};
-	var listQuestionIds = new Array();
-	var listQuestionsAsJsonStrings = new KeyValueMap();
-	var index = -1;
-	var totalNumberOfQuestions = 0;
-	var lastReturnedQuestion = null;
-	var isOkayToMoveForward = false; 
+	var my = {},
+		listQuestionIds = new Array(),
+		questionToJSON_map = new KeyValueMap(),
+		index = -1,
+		totalNumberOfQuestions = 0,
+		lastReturnedQuestion = null,
+		isOkayToMoveForward = false; 
 	
-	my.getQuestionsAsJsonString = function() {
-		var rtn = JSONUtility.startJSONArray('questions');
-		
-		rtn += '[';
-		
-		for (var x=0; x<listQuestionIds.length; x++) {
-			var qAsJSON = listQuestionsAsJsonStrings.get(listQuestionIds[x]);
-			
-			rtn += qAsJSON;
-			
-			if (x+1<listQuestionIds.length)
-				rtn += ', ';
-		}
-		
-		rtn += ']';
-		
-		rtn = JSONUtility.endJSONArray(rtn);
-		
-		return rtn;
-	};
-	
-	// TODO: explore closures... would like this to be a private method.......................
-	my.getQuestionByItsId = function(id) {
-		var str = listQuestionsAsJsonStrings.get(id);
+	function getQuestionByItsId(id) {
+		var str = questionToJSON_map.get(id);
 
 		var rtn = undefined;
 		
@@ -91,7 +69,7 @@ var ExamEngine = (function() {
 		if (str == undefined || str == '') {
 			rtn = getSingleQuestionByEntityId(id);
 			
-			listQuestionsAsJsonStrings.put(rtn.getId(), rtn.toJSON());
+			questionToJSON_map.put(rtn.getId(), rtn.toJSON());
 		}
 		else {
 			// otherwise, use our cached version
@@ -103,6 +81,17 @@ var ExamEngine = (function() {
 		
 		return rtn;
 	};
+	
+	function cacheCurrentQuestionAsJSON() {
+		if (model_factory.contains("currentQuestion")) {
+			var currQ = model_factory.get("currentQuestion");
+			questionToJSON_map.put(currQ.getId(), currQ.toJSON());
+		}
+	}
+	
+	function getQuestionByItsIndex(idx) {
+		return getQuestionByItsId(listQuestionIds[idx]);
+	}
 	
 	my.initialize = function() {
 		_.extend(this, Backbone.Events);
@@ -124,7 +113,6 @@ var ExamEngine = (function() {
 
 		var rtn = this.getFirstQuestion(); 
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
-//		model_factory.put("currentQuestion", rtn);
 		this.trigger('examEngineSetNewCurrentQuestion');
 	};
 	
@@ -160,13 +148,8 @@ var ExamEngine = (function() {
 	my.setQuestionByIndex = function(idx) {
 		index = idx;
 
-		// TODO: explore closures... these four lines would be good in a private method..
-		if (model_factory.contains("currentQuestion")) {
-			var currQ = model_factory.get("currentQuestion");
-			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
-		}
-
-		var rtn = this.getQuestionByItsId(listQuestionIds[index]);
+		cacheCurrentQuestionAsJSON();
+		var rtn = getQuestionByItsIndex(index);
 		
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
 		model_factory.put("currentQuestion", rtn);
@@ -179,23 +162,34 @@ var ExamEngine = (function() {
 	};
 	
 	my.getFirstQuestion = function() {
-		// TODO: explore closures... these four lines would be good in a private method..
-		if (model_factory.contains("currentQuestion")) {
-			var currQ = model_factory.get("currentQuestion");
-			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
-		}
-
-		return this.getQuestionByItsId(listQuestionIds[0]);
+		cacheCurrentQuestionAsJSON();
+		return getQuestionByItsIndex(0);
 	};
 	
 	my.getLastQuestion = function() {
-		// TODO: explore closures... these four lines would be good in a private method..
-		if (model_factory.contains("currentQuestion")) {
-			var currQ = model_factory.get("currentQuestion");
-			listQuestionsAsJsonStrings.put(currQ.getId(), currQ.toJSON());
+		cacheCurrentQuestionAsJSON();
+		return getQuestionByItsIndex(listQuestionIds.length - 1);
+	};
+	
+	my.getQuestionsAsJsonString = function() {
+		var rtn = JSONUtility.startJSONArray('questions');
+		
+		rtn += '[';
+		
+		for (var x=0; x<listQuestionIds.length; x++) {
+			var qAsJSON = questionToJSON_map.get(listQuestionIds[x]);
+			
+			rtn += qAsJSON;
+			
+			if (x+1<listQuestionIds.length)
+				rtn += ', ';
 		}
-
-		return this.getQuestionByItsId(listQuestionIds[listQuestionIds.length - 1]);
+		
+		rtn += ']';
+		
+		rtn = JSONUtility.endJSONArray(rtn);
+		
+		return rtn;
 	};
 	
 	return my;

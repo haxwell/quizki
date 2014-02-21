@@ -28,14 +28,6 @@ log.log(Level.SEVERE, json + "\n\n");
 
 ExamGenerationUtil.generateExam(request, json);
 
-// get number of questions from json
-// get difficulty from json
-// get list of topics to be included from json
-// get list of topics to be excluded from json
-
-// write util class which does what GenerateExamServlet used to do when (button.equals("Generate Exam"))
-//  the util should store generated exam in the session
-
 // return empty success msg, or detailed error msg as appropriate.. the javascript should then forward to beginExam.jsp
 
 writer.print("");

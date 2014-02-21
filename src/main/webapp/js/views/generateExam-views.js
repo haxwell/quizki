@@ -219,6 +219,17 @@
 			
 			this.render();
 		},
+		events : {
+			"click .examItem":"setSelectedExam"
+		},
+		setSelectedExam : function(event) {
+			var exams = model_factory.get("listOfMatchingExams");
+			
+			var examText = $(event.target).html().trim();
+			var examObject = exams.findWhere({ title:examText }).attributes;
+			
+			model_factory.put("selectedExam", examObject);
+		},
 		renderElement: function(model) {
 			var listOfMatchingExams = this.$el.find("#matchingExamsView");
 			
@@ -228,6 +239,7 @@
 		render:function() {
 			this.$el.html( _.template( "<select multiple class='span5 examsSelectBox' id='matchingExamsView'></select>" )() );			
 			
+			// this model is set by the MatchingExamsListGetter object
 			var exams = model_factory.get("listOfMatchingExams");
 			
 			_.each(exams.models, function(model) { this.renderElement(model); }, this);
@@ -314,7 +326,7 @@
 			return this;
 		},
 		takeSelectedExam : function() {
-			
+			window.location.href = '/beginExam.jsp?examId=' + model_factory.get("selectedExam").id;
 		}
 	});
 	
@@ -331,6 +343,8 @@
 			return this;
 		},
 		takeGeneratedExam : function() {
+			// TODO: I'd like to have something else create this data object, though I don't know what else would need to other
+			//   than this view.. still, it seems it should not be done here.
 			var json = '';
 
 			json += JSONUtility.startJSONString(json);
@@ -345,15 +359,7 @@
 			var data_obj = { data : json };
 
         	makeAJAXCall_andWaitForTheResults('/ajax/exam-generate.jsp', data_obj, function(data, status) {
-//				var index = data.indexOf("<!DOCTYPE");
-//				var jsonExport = data;
-//				
-//				if (index != -1) {
-//					jsonExport = data.substring(0, index);
-//				}
-				
-//				var parsedJSONObject = jQuery.parseJSON(jsonExport);
-
+        		// TODO: Explicitly handle success and failure cases
         		window.location.href = '/beginExam.jsp';					        		
         	});
 		}

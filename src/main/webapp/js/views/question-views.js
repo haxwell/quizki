@@ -375,7 +375,6 @@
 			this.onSequenceTextFieldBlurHandler = arguments[3];
 			
 			this.readOnly = arguments[4];
-			this.inExamContext = arguments[5];
 		},
 		getHideSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -518,7 +517,7 @@
 				questionChoiceItemView = new Quizki.ChosenChoicesQuestionChoiceItemView(model);
 			}
 			else {
-				questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc, this.readOnly, this.inExamContext);
+				questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc, this.readOnly);
 			}
 			
 			ul.append( questionChoiceItemView.render().$el.html() );

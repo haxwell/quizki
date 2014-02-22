@@ -331,6 +331,13 @@ public class QuestionUtil {
 		return ll;
 	}
 	
+	/**
+	 * Returns a map of field ids (in the form 'question_id[comma]choice_id') to the values for those fields.
+	 * 
+	 * Example JSON: {"answers": [{ "fieldId": "32,87", "value": "William J. Clinton" }, .... ] }
+	 * @param str
+	 * @return
+	 */
 	public static Map<String, String> getAnswers(String str) {
 		JSONValue jValue = new JSONValue();
 		JSONObject jObj = (JSONObject)jValue.parse(str);

@@ -247,10 +247,10 @@ public class ExamManager extends Manager {
 		return set.iterator().next();
 	}
 	
-	public static ExamHistory initializeExamHistory(Exam e)
-	{
-		return new ExamHistory(e);
-	}
+//	public static ExamHistory initializeExamHistory(Exam e)
+//	{
+//		return new ExamHistory(e);
+//	}
 	
 	public static int getNumberOfQuestionsAnsweredCorrectly(ExamHistory eh)
 	{

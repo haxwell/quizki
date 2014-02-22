@@ -275,6 +275,81 @@
 		}
 	});
 
+	Quizki.ChosenChoicesQuestionChoiceItemView = Backbone.View.extend({
+		tagName:'li',
+		
+		initialize:function() {
+			this.model = arguments[0].attributes;
+			
+			var text = this.model.val.text;
+			
+			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
+			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
+			//  instead of a value. That should be cleaned up one day..
+			var checked = (this.model.val.iscorrect == 'true' || this.model.val.iscorrect === true) ? 'checked' : '';
+			var sequence = this.model.val.sequence || 0;
+			var millisecond_id = this.model.millisecond_id || new Date().getMilliseconds();
+			var id = this.model.val.id;
+			
+			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
+		},
+		getChoiceCorrectlyChosenStatus : function() {
+			var rtn = -1;
+
+			var _model = this.model;
+			
+        	var c = model_factory.get("answersToTheMostRecentExam");
+        	var cq = model_factory.get('currentQuestion');
+        	var o = c.findWhere({fieldId:cq.getId()+','+_model.id});
+        	
+        	if (o != undefined && o.attributes.value == _model.text && _model.checked == true) {
+        		// this choice was correct, and you chose it.
+        		rtn = 1;
+        	} else if (o == undefined && _model.checked == true) {
+        		// this choice was correct, and you did not choose it.
+        		rtn = 2;
+        	} else if (o != undefined && _model.checked !== true) {
+        		// this choice was chosen, but is incorrect.
+        		rtn = 3;
+            }
+			
+			return rtn;
+		},
+		getHideSequence:function() {
+			var currQuestion = model_factory.get('currentQuestion');
+			
+			var hideSequence = "hidden";
+			
+			if (currQuestion.type_id == "4")
+				hideSequence = "";
+
+			return hideSequence;
+		},
+		render:function() {
+			var _model = this.model,
+				status = this.getChoiceCorrectlyChosenStatus(),
+            	choiceCorrectStatusClass = undefined,
+            	hideSequence = this.getHideSequence();
+            
+            if (status == 1) {
+            	choiceCorrectStatusClass = 'correctAndChosen';
+            } else if (status == 2) {
+            	choiceCorrectStatusClass = 'correctButNotChosen';
+            } else if (status == 3) {
+            	choiceCorrectStatusClass = 'incorrectAndChosen';
+            }
+			
+            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,choiceCorrectStatusClass:choiceCorrectStatusClass});
+            
+			this.$el.html( template );
+			
+            return this;
+		},
+		milliseconds: function() { return this.model.millisecond_id; },
+		setText: function(newText) { ; },
+		getText: function() { return this.model.text; },
+	});
+	
 	// this view represents an item in a list of choices
 	Quizki.QuestionChoiceItemView = Backbone.View.extend({
 		tagName:'li',
@@ -289,9 +364,10 @@
 			//  instead of a value. That should be cleaned up one day..
 			var checked = (this.model.val.iscorrect == 'true' || this.model.val.iscorrect === true) ? 'checked' : '';
 			var sequence = this.model.val.sequence || 0;
-			var id = this.model.millisecond_id || new Date().getMilliseconds();
+			var millisecond_id = this.model.millisecond_id || new Date().getMilliseconds();
+			var id = this.model.val.id;
 			
-			this.model = {text:text,checked:checked,sequence:sequence,id:id};
+			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 			
 			this.disableCheckboxes = arguments[1];
 			
@@ -299,6 +375,7 @@
 			this.onSequenceTextFieldBlurHandler = arguments[3];
 			
 			this.readOnly = arguments[4];
+			this.inExamContext = arguments[5];
 		},
 		getHideSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -317,18 +394,18 @@
 			return "";
 		},
 		render:function() {
-            var _model = this.model;
-            var hideSequence = this.getHideSequence();
-            var disabled = this.getDisabledText();
-            var readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
-
-           	var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {id:_model.id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
+            var _model = this.model,
+            	hideSequence = this.getHideSequence(),
+            	disabled = this.getDisabledText(),
+            	readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
+            
+            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 
 			this.$el.html( template );
 			
 			return this;
 		},
-		milliseconds: function() { return this.model.id; },
+		milliseconds: function() { return this.model.millisecond_id; },
 		setText: function(newText) { this.model.text = newText; },
 		getText: function() { return this.model.text; },
 		setIsCorrectChangedHandler: function(func) { this.onIsCorrectChangedHandler = func;},
@@ -344,6 +421,7 @@
 		
 		initialize: function() {
 			this.readOnly = arguments[0].readOnly;
+			this.inExamContext = arguments[0].inExamContext;
 			
 			this.$el = arguments[0].el;
 			
@@ -422,7 +500,6 @@
 			// this is a callback, which will get the appropriate model from questionChoiceCollection
 			//  set the isCorrect attr on it. Does not redraw the list, thats already been done
 			var isCorrectChangedCallbackFunc = function(event,data) {
-
 				var millisecond_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
 				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
@@ -435,7 +512,15 @@
 				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val(), false);
 			};
 			
-			var questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc, this.readOnly);
+			var questionChoiceItemView = undefined;
+			
+			if (this.inExamContext) {
+				questionChoiceItemView = new Quizki.ChosenChoicesQuestionChoiceItemView(model);
+			}
+			else {
+				questionChoiceItemView = new Quizki.QuestionChoiceItemView(model, this.choiceItemSwitchesShouldBeDisabled(), isCorrectChangedCallbackFunc, onSequenceTextFieldBlurFunc, this.readOnly, this.inExamContext);
+			}
+			
 			ul.append( questionChoiceItemView.render().$el.html() );
 			
 			var obj = {millisecondId:questionChoiceItemView.milliseconds(), view:questionChoiceItemView};
@@ -456,14 +541,16 @@
 			var $slider = this.$el.find('.switch-square');
 			$slider.bootstrapSwitch();
 
-			// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
-			_.each(this.ChoiceItemViewCollection, function(model) {
-				$("#switch" + model.millisecondId).on('switch-change', model.view.getIsCorrectChangedHandler());
-			});
-			
-			_.each(this.ChoiceItemViewCollection, function(model) {
-				$("#sequenceTextField" + model.millisecondId).on('blur', model.view.getSequenceTextFieldBlurHandler());
-			});
+			if (!this.inExamContext) {
+				// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
+				_.each(this.ChoiceItemViewCollection, function(model) {
+					$("#switch" + model.millisecondId).on('switch-change', model.view.getIsCorrectChangedHandler());
+				});
+				
+				_.each(this.ChoiceItemViewCollection, function(model) {
+					$("#sequenceTextField" + model.millisecondId).on('blur', model.view.getSequenceTextFieldBlurHandler());
+				});
+			}
 			
 			return this;
 		},

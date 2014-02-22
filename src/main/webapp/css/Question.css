@@ -187,3 +187,19 @@ div.uppercase {
 div.bold {
 	font-weight:bold;
 }
+
+div.correctAndChosen {
+	font-weight:bold;
+	color:green;
+}
+
+div.correctButNotChosen {
+	font-weight:bold;
+	color:red;
+}
+
+div.incorrectAndChosen {
+	font-weight:bold;
+	font-style:italic;
+	color:red;
+}

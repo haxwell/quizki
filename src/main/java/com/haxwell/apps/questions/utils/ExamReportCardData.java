@@ -24,10 +24,10 @@ public class ExamReportCardData {
 		_obj.put("questionId", q.getId()+"");
 		arr.add(_obj);
 
+		// pass it to the checker, see if this question is correct
 		AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(q);
 		boolean isCorrect = checker.questionIsCorrect(a); 
 
-		// pass it to the checker, see if this question is correct
 		if (!isCorrect) {
 			incorrect.add(q.getId()+"");
 		}

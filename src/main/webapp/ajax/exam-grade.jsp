@@ -44,6 +44,9 @@ JSONObject jObj = (JSONObject)JSONValue.parse(ercdJSON);
 request.getSession().setAttribute("numberOfQuestionsAnsweredCorrectly", jObj.get("numberCorrect"));
 request.getSession().setAttribute("totalNumberOfQuestions", jObj.get("numberTotal"));
 
+request.getSession().setAttribute("questionsOnTheMostRecentExam", qJson);
+request.getSession().setAttribute("answersToTheMostRecentExam", aJson);
+
 writer.print(ercdJSON);
 
 </jsp:scriptlet>

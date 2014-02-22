@@ -279,7 +279,13 @@
 					        	
 					        	// make ajax call
 					        	var v = ExamEngine.getQuestionsAsJsonString();
-					        	var answersAsJson = JSONUtility.getJSONForKeyValueMap(model_factory.get("answersMap"), "answers", "fieldId", "value");
+					        	var answersAsJson = JSONUtility.getJSONForKeyValueMap(
+					        			model_factory.get("answersMap"), 
+					        			"answers", "fieldId", "value", 
+					        			{
+					        				getFieldName:function() {return "question_id";}, 
+					        				processKeyValue:function(key,value) {return key.substring(0, key.indexOf(','));} 
+					        			});
 					        	
 					        	var data_obj = { questions_json:v, answers_json:answersAsJson };
 					        	

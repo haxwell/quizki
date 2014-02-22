@@ -136,7 +136,7 @@
 		},
 		render:function() {
 			var _sequence = this.model.sequence == 0 ? "" : this.model.sequence;
-			this.$el.html(view_utility.executeTemplate('/templates/ExamSequenceQuestionChoiceItemView.html', {id:this.millisecondId,sequence:_sequence,text:this.model.text}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamSequenceQuestionChoiceItemView.html', {id:this.millisecondId,sequence:'',text:this.model.text}));
 			return this;
 		}
 	});

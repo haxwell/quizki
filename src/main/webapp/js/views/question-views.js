@@ -293,16 +293,12 @@
 			
 			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 		},
-		getChoiceCorrectlyChosenStatus : function() {
+		getChoiceCorrectlyChosenStatus : function(o, cq) {
 			var rtn = -1;
 
 			var _model = this.model;
 			
-        	var c = model_factory.get("answersToTheMostRecentExam");
-        	var cq = model_factory.get('currentQuestion');
-        	var o = c.findWhere({fieldId:cq.getId()+','+_model.id});
-        	
-        	if (o != undefined && o.attributes.value == _model.text && _model.checked == 'checked') {
+        	if (o != undefined && _model.checked == 'checked' && o.attributes.value == (cq.getTypeId() == "4" ? _model.sequence : _model.text)) {
         		// this choice was correct, and you chose it.
         		rtn = 1;
         	} else if (o == undefined && _model.checked == 'checked') {
@@ -311,35 +307,47 @@
         	} else if (o != undefined && _model.checked !== 'checked') {
         		// this choice was chosen, but is incorrect.
         		rtn = 3;
+            } else if (cq.getTypeId() == "4" && o != undefined && _model.checked == 'checked' && o.attributes.value !== _model.sequence) {
+            	rtn = 4;
             }
 			
 			return rtn;
 		},
-		getHideSequence:function() {
+		setHideSwitchAndSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
 			
-			var hideSequence = "hidden";
+			this.hideSequence = "hidden";
+			this.hideSwitch = "";
 			
-			if (currQuestion.type_id == "4")
-				hideSequence = "";
-
-			return hideSequence;
+			if (currQuestion.getTypeId() == "4") {
+				this.hideSequence = "";
+				this.hideSwitch = "hidden";
+			}
 		},
 		render:function() {
 			var _model = this.model,
-				status = this.getChoiceCorrectlyChosenStatus(),
-            	choiceCorrectStatusClass = undefined,
-            	hideSequence = this.getHideSequence();
-            
+    			cq = model_factory.get('currentQuestion'),
+				mostRecentExamAnswers = model_factory.get("answersToTheMostRecentExam"),
+        		o = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_model.id}),
+				status = this.getChoiceCorrectlyChosenStatus(o, cq),
+            	choiceCorrectStatusClass = undefined;
+
+			this.setHideSwitchAndSequence();
+
+			_model.comment = '';
+			
             if (status == 1) {
             	choiceCorrectStatusClass = 'correctAndChosen';
             } else if (status == 2) {
             	choiceCorrectStatusClass = 'correctButNotChosen';
             } else if (status == 3) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
+            } else if (status == 4) {
+            	choiceCorrectStatusClass = 'incorrectAndChosen';
+            	_model.comment = ' (You typed: ' + o.attributes.value + ')';
             }
 			
-            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,choiceCorrectStatusClass:choiceCorrectStatusClass});
+            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,comment:_model.comment,checked:_model.checked,sequence:_model.sequence,hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
             
 			this.$el.html( template );
 			
@@ -398,7 +406,7 @@
             	disabled = this.getDisabledText(),
             	readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
             
-            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:'',hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
+            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 
 			this.$el.html( template );
 			

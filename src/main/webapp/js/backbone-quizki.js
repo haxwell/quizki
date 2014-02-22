@@ -329,7 +329,7 @@ var JSONUtility = (function() {
 		return rtn;
 	};
 	
-	my.getJSONForKeyValueMap = function(map, overallName, keyFieldName, valueFieldName) {
+	my.getJSONForKeyValueMap = function(map, overallName, keyFieldName, valueFieldName, customFunc) {
 		var rtn = this.startJSONArray(overallName);
 		
 		rtn += '[';
@@ -338,9 +338,24 @@ var JSONUtility = (function() {
 		
 		var count = 0;
 		for (var key in keys) {
+			var value = map.get(key);
+			
 			rtn = this.startJSONString(rtn);
 			rtn += '"' + keyFieldName + '": "' + key + '", ';
-			rtn += '"' + valueFieldName + '": "' + map.get(key) + '"';
+			rtn += '"' + valueFieldName + '": "' + value + '"';
+			
+			// added this so that I could add another attribute to the resulting map JSON, if for instance
+			//  I needed to parse the map's compound key field to get a single id. For instance, the answers
+			//  map used by takeExam has a compound key of XX,YY representing the question id and the choice
+			//  on that question. But display question needs to be able to get all the answers for a given
+			//  question, and I couldn't search the Backbone.Collection like "give me all XX* elements", the
+			//  only way to do it was "give me all XX elements", so I put this in to add that XX element field.
+			if (customFunc !== undefined) {
+				var fn = customFunc.getFieldName();
+				var va = customFunc.processKeyValue(key,value);
+				
+				rtn += ',"' + fn + '": "' + va + '"';
+			}
 			
 			rtn = this.endJSONString(rtn);
 			

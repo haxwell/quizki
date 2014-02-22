@@ -302,13 +302,13 @@
         	var cq = model_factory.get('currentQuestion');
         	var o = c.findWhere({fieldId:cq.getId()+','+_model.id});
         	
-        	if (o != undefined && o.attributes.value == _model.text && _model.checked == true) {
+        	if (o != undefined && o.attributes.value == _model.text && _model.checked == 'checked') {
         		// this choice was correct, and you chose it.
         		rtn = 1;
-        	} else if (o == undefined && _model.checked == true) {
+        	} else if (o == undefined && _model.checked == 'checked') {
         		// this choice was correct, and you did not choose it.
         		rtn = 2;
-        	} else if (o != undefined && _model.checked !== true) {
+        	} else if (o != undefined && _model.checked !== 'checked') {
         		// this choice was chosen, but is incorrect.
         		rtn = 3;
             }
@@ -398,7 +398,7 @@
             	disabled = this.getDisabledText(),
             	readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
             
-            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
+            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:'',hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 
 			this.$el.html( template );
 			

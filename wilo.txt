@@ -22,3 +22,12 @@ happen. And thats just too much to do now. So I reverted those changes, and move
 
 I read my notes on the 2TB drive about Generate Exam, and got the image from elance.. the views for generate exam are not populating yet, and
 I next need to complete them, and get the views to display. 
+
+--------
+
+2/22/14
+
+GenerateExam works now.. its not pretty, but it works.. Since then I have worked on Display Question, so that it now displays the answers that
+the user chose in their most recent exam, and it also works without an exam context.
+
+When I left, I was looking into the event system again. Its not clearing the current exam when you go to the index page for some reason.

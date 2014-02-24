@@ -56,6 +56,10 @@ $("#idClearFilterButton").click(function() {
 	getQuestions();
 });
 
+function Exams_getJSONFromServerSuppliedData(parsedJSONObject) {
+	return parsedJSONObject.question;
+}
+
 function getQuestions() {
 	setRowsOffsetToZero();
 	cleanTable();

@@ -117,14 +117,25 @@
 			<div class="content">
 			
 				<div id="divHeaderText">..</div>
+
+				<table>
+					<tr>
+						<td>
+							<div id="divAllTopicsListFilterView">..</div>
+						</td>
+						<td>
+							<div id="difficultyChooserElement">..</div>
+						</td>
+						<td>
+							<div id="divMaxQuestionsView">..</div>
+						</td>
+					</tr>
+				</table>
 				
 				<table>
 					<tr>
 					<td>
-						<div id="divAllTopicsListFilterView">..</div>
 						<div id="divAllTopicsListView">..</div>
-						<div id="difficultyChooserElement">..</div>
-						<div id="divMaxQuestionsView">..</div>
 					</td>
 					<td>
 						<div id="divArrowView">..</div>

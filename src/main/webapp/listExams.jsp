@@ -20,7 +20,6 @@
 		<link href="../css/displayExam.css" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="images/favicon.ico" />
 
-				
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script> ]]>

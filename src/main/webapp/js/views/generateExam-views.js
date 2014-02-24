@@ -89,6 +89,11 @@
 		render: function(model) {
 			// TODO: will need to remember state.. probably.
 			this.$el.html(view_utility.executeTemplate('/templates/AllTopicsListFilterView.html', { }));
+
+			//get the actual bootstrap slider ui component div
+			var $slider = this.$el.find('.switch-square');
+			$slider.bootstrapSwitch();
+			
 			return this;
 		},
 		events: {
@@ -299,7 +304,7 @@
 			
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/MaxQuestionsAndDifficultyView.html', {}));
+			this.$el.html(view_utility.executeTemplate('/templates/MaxQuestionsView.html', {}));
 			
 			var spinner = $( "#spinner" ).spinner({min: 1, max:35}).val(5);
 			

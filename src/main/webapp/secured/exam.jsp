@@ -94,7 +94,7 @@
 		
 	</div>
 	
-	<input style="display:none;" id="offset" type="text" name="offset"/>
+	<input style="display:none;" id="Exams-offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
@@ -105,6 +105,7 @@
 	<input style="display:none;" id="Exams-last-time-checkbox-handler-called" type="text" name="Exams-last-time-checkbox-handler-called" value="0"/>
 	<input style="display:none;" id="Exams-header-div-prefix" type="text" name="Exams-header-div-prefix" value="#belowTheBarPageHeader"/>
 	<input style="display:none;" id="Exams-boolean-all-entities-are-selected" type="text" name="Exams-boolean-all-entities-are-selected" value="false"/>
+	<input style="display:none;" id="Exams-NoMoreItemsToDisplayFlag" type="text" name="Exams-NoMoreItemsToDisplayFlag" value="false"/>	
 	
 		<jsp:text>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
@@ -394,7 +395,7 @@
 					}
 					
 					function setDataObjectDefinitions() {
-						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#offset"}]}';
+						var str = '{"fields": [{"name":"containsFilter","id":"#containsFilter"},{"name":"topicContainsFilter","id":"#topicContainsFilter"},{"name":"questionTypeFilter","id":"#questionTypeFilter"},{"name":"difficultyFilter","id":"#difficultyFilter"},{"name":"maxEntityCountFilter","id":"#maxEntityCountFilter"},{"name":"rangeOfEntitiesFilter","id":"#rangeOfQuestionsFilter"},{"name":"offsetFilter","id":"#Exams-offset"}]}';
 						$('#Exams-data-object-definition').attr("value",str);
 					}
 					

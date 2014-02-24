@@ -59,6 +59,16 @@
 			
 			<script type="text/javascript">
 				
+					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
+						// set the height of the content area according to the browser height
+						var bottomBufferHeight = 175;
+						var windowHeight = $(window).height();
+						
+						$('#tabs').height(windowHeight - bottomBufferHeight);
+						$('#availableExamsDiv').height(windowHeight - bottomBufferHeight);
+					}
+
+
 			    $(document).ready(function() {
 					event_intermediary.initialize();
 					MatchingExamsListGetter.initialize();

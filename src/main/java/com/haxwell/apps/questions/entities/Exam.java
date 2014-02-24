@@ -26,7 +26,7 @@ import com.haxwell.apps.questions.interfaces.IExam;
  */
 @Entity
 @Table(name="exam")
-public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, Serializable {
+public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -61,7 +61,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     private Set<Topic> examTopics;
 	
 	@Transient
-	private String difficulty;
+	private Difficulty difficulty;
 
     public Exam() {
     }
@@ -144,12 +144,12 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	}
 	
 	@Transient
-	public String getDifficulty() {
+	public Difficulty getDifficulty() {
 		return difficulty;
 	}
 
 	@Transient
-	public void setDifficulty(String difficulty) {
+	public void setDifficulty(Difficulty difficulty) {
 		this.difficulty = difficulty;
 	}
 
@@ -183,7 +183,9 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     	sb.append(getJSON("message", getMessage() + "", APPEND_COMMA));
     	sb.append(getJSON("owningUserId", getUser().getId() + "", APPEND_COMMA));
     	sb.append(getJSON("topics", getTopics().iterator(), APPEND_COMMA));
-    	sb.append(getJSON("difficulty", getDifficulty(), APPEND_COMMA));
+    	Difficulty diff = getDifficulty();
+		sb.append(getJSON("difficulty", diff.getId() + "", APPEND_COMMA));
+    	sb.append(getJSON("difficulty_text", diff.getText(), APPEND_COMMA));
     	sb.append(getJSON("entityStatus", getEntityStatus() + ""));
     	sb.append(getJSONClosing());
     	

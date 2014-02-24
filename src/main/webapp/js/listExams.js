@@ -1,52 +1,16 @@
 // ENTITY SCOPE LEVEL.. this type file is included by a Root level file (profile.jsp, for example)
 
+ 	$(document).ready(function(){
+ 		populateTheTable();
+ 	});
+
 function Exams_getHeadDOMElementInOriginalHeader() {
 	return $("#examEntityTable > thead");
 }
 
 function Exams_getHeadDOMElementInClonedHeader() {
-	return $("#exam-header-fixed");
+	return $("#header-fixed");
 }
-
-$("#examContainsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
-});
-
-$("#searchExamsBtn").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
-	getExams();
-});
-
-$("#examTopicContainsFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
-});
-
-$("#examSearchTopicsBtn").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
-	getExams();
-});
-
-$("#examDifficultyFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
-	getExams();
-	
-	// the point here is to move the focus elsewhere than this component.
-	//  This is because when it maintains focus, it is not hidden when the 
-	//  user scrolls, so it ruins the effect of the hidden fixed header at the top.
-	setFocusOnTheContainer();
-});
-
-$("#idExamsApplyFilterButton").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
-	getExams();
-});
-
-$("#idExamsClearFilterButton").click(function() {
-	if (true) { // TODO: set a variable for when the filters have been set, so we don't just call getExams() unnecessarily.
-		Exams_resetFilters();
-		getExams();
-	}
-});
 
 function getExams() {
 	setRowsOffsetToZero();
@@ -167,28 +131,28 @@ function Exams_convertToHTMLString(obj, rowNum) {
 function Exams_setDeleteEntityDataObjectDefinition() {
 	var str = '{"fields": [{"name":"nameOfLastPressedButton","id":"#nameOfLastPressedButton"},{"name":"valueOfLastPressedButton","id":"#valueOfLastPressedButton"}]}';
 	
-	$('#Exams-delete-entity-dataObjectDefinition').attr('value', str);
+	$('#Questions-delete-entity-dataObjectDefinition').attr('value', str);
 }
 
 function Exams_postDeleteEntityMethod() {
-	getExams();
+	getQuestions();
 }
 
 function Exams_resetFilters() {
-	$("#examContainsFilter").attr("value", "");
-	$("#examTopicContainsFilter").attr("value", "");
+	$("#containsFilter").attr("value", "");
+	$("#topicContainsFilter").attr("value", "");
 
-//	$("#questionTypeFilter > option[selected='selected']").removeAttr('selected');
-//	$("#questionTypeFilter > option[value='0']").attr('selected', 'selected');
-//	$("#questionTypeFilter > span.filter-option").html($("#questionTypeFilter > option[value='0']").html());
-//	$("button#questionTypeFilter ~ ul > li.selected").removeClass('selected');
-//	$("button#questionTypeFilter ~ ul > li[rel='0']").addClass('selected');
+	$("#questionTypeFilter > option[selected='selected']").removeAttr('selected');
+	$("#questionTypeFilter > option[value='0']").attr('selected', 'selected');
+	$("#questionTypeFilter > span.filter-option").html($("#questionTypeFilter > option[value='0']").html());
+	$("button#questionTypeFilter ~ ul > li.selected").removeClass('selected');
+	$("button#questionTypeFilter ~ ul > li[rel='0']").addClass('selected');
 
-	$("#examDifficultyFilter > option[selected='selected']").removeAttr('selected');
-	$("#examDifficultyFilter > option[value='0']").attr('selected', 'selected');
-	$("#examDifficultyFilter > span.filter-option").html($("#difficultyFilter > option[value='0']").html());
-	$("button#examDifficultyFilter ~ ul > li.selected").removeClass('selected');
-	$("button#examDifficultyFilter ~ ul > li[rel='0']").addClass('selected');
+	$("#difficultyFilter > option[selected='selected']").removeAttr('selected');
+	$("#difficultyFilter > option[value='0']").attr('selected', 'selected');
+	$("#difficultyFilter > span.filter-option").html($("#difficultyFilter > option[value='0']").html());
+	$("button#difficultyFilter ~ ul > li.selected").removeClass('selected');
+	$("button#difficultyFilter ~ ul > li[rel='0']").addClass('selected');
 }
 
 function setExamsButtonClickHandlersForRow(row) {
@@ -210,17 +174,17 @@ function setExamsButtonClickHandlersForRow(row) {
 		document.getElementById("profileExamForm").submit();
 	});
 
-//	row.find('.exam_take_button').click(function () {
-//		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-//		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-//		
-//		document.getElementById("profileExamForm").submit();
-//	});
-//		
-//	row.find('.exam_detail_button').click(function () {
-//		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-//		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-//		
-//		document.getElementById("profileExamForm").submit();
-//	});
+	row.find('.exam_take_button').click(function () {
+		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
+		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+		
+		document.getElementById("profileExamForm").submit();
+	});
+		
+	row.find('.exam_detail_button').click(function () {
+		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
+		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+		
+		document.getElementById("profileExamForm").submit();
+	});
 }

@@ -172,3 +172,6 @@ function Exams_resetFilters() {
 	$("button#difficultyFilter ~ ul > li[rel='0']").addClass('selected');
 }
 
+function getTheAppropriateArray(parsedJSONObject) {
+	return parsedJSONObject.question;
+}

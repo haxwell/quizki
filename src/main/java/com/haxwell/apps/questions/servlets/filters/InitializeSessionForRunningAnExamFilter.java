@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.ExamFeedback;
 import com.haxwell.apps.questions.entities.Question;
@@ -24,7 +25,6 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.utils.CollectionUtil;
-import com.haxwell.apps.questions.utils.ExamHistory;
 import com.haxwell.apps.questions.utils.ExamUtil;
 
 /**
@@ -85,7 +85,9 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 				if (exam != null) {
 //					ExamHistory examHistory = ExamManager.initializeExamHistory(exam);
 					
-					String examDifficulty = new ExamUtil().getExamDifficultyAsString(exam);
+//					String examDifficulty = new ExamUtil().getExamDifficultyAsString(exam);
+//					exam.setDifficulty(examDifficulty);
+					Difficulty examDifficulty = new ExamUtil().getExamDifficulty(exam);
 					exam.setDifficulty(examDifficulty);
 					
 //					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);

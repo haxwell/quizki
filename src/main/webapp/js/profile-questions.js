@@ -69,6 +69,10 @@ function Questions_thisFunctionCalledForEachRowByDisplayMoreRows(row) {
 	setQuestionsButtonClickHandlersForRow(row);
 }
 
+function Questions_getJSONFromServerSuppliedData(parsedJSONObject) {
+	return parsedJSONObject.question;
+}
+
 function cleanTable() {
 	$("#questionEntityTable tbody tr:not(.filter-row)").remove();
 	$("#questionEntityTable tbody tr:not(.table-status-row)").remove();

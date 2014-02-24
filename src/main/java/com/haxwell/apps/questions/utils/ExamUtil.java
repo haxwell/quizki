@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
@@ -68,7 +69,7 @@ public class ExamUtil {
 	 * @param exam
 	 * @return
 	 */
-	public Set<Topic> getExamTopics(Exam exam)
+	public static Set<Topic> getExamTopics(Exam exam)
 	{
 		Set<Question> questions = exam.getQuestions();
 		
@@ -82,7 +83,7 @@ public class ExamUtil {
 		return rtn;
 	}
 	
-	public String getExamDifficultyAsString(Exam exam)
+	public static Difficulty getExamDifficulty(Exam exam)
 	{
 		int rtn = DifficultyConstants.JUNIOR-1;
 		
@@ -133,7 +134,7 @@ public class ExamUtil {
 			rtn = arr[sumOfQuestionDifficulties];
 		}
 		
-		return DifficultyUtil.getDifficulty(Math.min(rtn + 1, 4)).getText();
+		return DifficultyUtil.getDifficulty(Math.min(rtn + 1, 4));
 	}
 	
 	public static void selectAll(Exam e, String chkboxNames, boolean makeQuestionsSelected) {

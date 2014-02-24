@@ -27,7 +27,7 @@ import com.haxwell.apps.questions.interfaces.IQuestion;
  */
 @Entity
 @Table(name="question")
-public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, Serializable {
+public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -207,8 +207,9 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		sb.append(getJSON("description", getDescription(), APPEND_COMMA));
 		sb.append(getJSON("text", getText(), APPEND_COMMA));
 		sb.append(getJSON("textWithoutHTML", getTextWithoutHTML(), APPEND_COMMA));
-		sb.append(getJSON("difficulty_id", getDifficulty().getId()+"", APPEND_COMMA));
-		sb.append(getJSON("difficulty_text", getDifficulty().getText(), APPEND_COMMA));
+		Difficulty diff = getDifficulty();
+		sb.append(getJSON("difficulty_id", diff.getId()+"", APPEND_COMMA));
+		sb.append(getJSON("difficulty_text", diff.getText(), APPEND_COMMA));
 		sb.append(getJSON("type_id", getQuestionType().getId()+"", APPEND_COMMA));
 		sb.append(getJSON("type_text", getQuestionType().getText(), APPEND_COMMA));
 

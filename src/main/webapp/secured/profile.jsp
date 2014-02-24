@@ -136,33 +136,32 @@
       	<br/><br/>
 		Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning</a>.
       </c:when>
-      <c:otherwise>
+      	<c:otherwise>
 
-	<div id="tabbableDiv" class="tabbable">
-	  <ul class="nav nav-tabs" id="tabsUl">
-	    <li class="active"><a href="#tabs-1" data-toggle="tab">Summary</a></li>
-	    <li><a href="#tabs-2" data-toggle="tab">Questions</a></li>
-	    <li><a href="#tabs-3" data-toggle="tab">Exams</a></li>
-	    <li><a href="#tabs-4" data-toggle="tab">Account Status</a></li>
-	  </ul>
-	  <div class="tab-content">
-		  <div class="tab-pane active" id="tabs-1">
-		    <jsp:include page="profile-summary.jsp"></jsp:include>
-		  </div>
-		  <div class="tab-pane" id="tabs-2">
-    		<jsp:include page="profile-questions.jsp"></jsp:include>
-		  </div>
-		  <div class="tab-pane" id="tabs-3">
-		    	<div id="exams" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-exams.jsp"></jsp:include></div>
-		    	<br/>
-		  </div>
-		  <div class="tab-pane" id	="tabs-4">
-		    	<div id="account" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-account.jsp"></jsp:include></div>
-		  </div>
-	  </div>
-	</div>
+			<div id="tabbableDiv" class="tabbable">
+			  <ul class="nav nav-tabs" id="tabsUl">
+			    <li class="active"><a href="#tabs-1" data-toggle="tab">Summary</a></li>
+			    <li><a href="#tabs-2" data-toggle="tab">Questions</a></li>
+			    <li><a href="#tabs-3" data-toggle="tab">Exams</a></li>
+			    <li><a href="#tabs-4" data-toggle="tab">Account Status</a></li>
+			  </ul>
+			  <div class="tab-content">
+				  <div class="tab-pane active" id="tabs-1">
+				    <jsp:include page="profile-summary.jsp"></jsp:include>
+				  </div>
+				  <div class="tab-pane" id="tabs-2">
+		    		<jsp:include page="profile-questions.jsp"></jsp:include>
+				  </div>
+				  <div class="tab-pane" id="tabs-3">
+				    <jsp:include page="profile-exams.jsp"></jsp:include>
+				  </div>
+				  <div class="tab-pane" id	="tabs-4">
+				    	<div id="account" class="listOfQuestions" style="overflow:auto;"><jsp:include page="profile-account.jsp"></jsp:include></div>
+				  </div>
+			  </div>
+			</div>
 	
-	</c:otherwise>
+		</c:otherwise>
 	</c:choose>
 	
 	<br/>
@@ -173,20 +172,23 @@
 	<input style="display:none;" id="field_true" type="text" name="field_true" value="true"/>
 	<input style="display:none;" id="field_false" type="text" name="field_false" value="false"/>
 	
-	<input style="display:none;" id="offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
 	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/getQuestions.jsp"/>
 	<input style="display:none;" id="Questions-delete-entity-url" type="text" name="question-delete-entity-url" value="/ajax/profile-deleteQuestion.jsp"/>
 	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
 	<input style="display:none;" id="Questions-header-div-prefix" type="text" name="Questions-header-div-prefix" value="#belowTheBarPageHeader"/>
+	<input style="display:none;" id="Questions-offset" type="text" name="question-offset"/>
 	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getExams.jsp"/>
 	<input style="display:none;" id="Exams-delete-entity-url" type="text" name="exam-delete-entity-url" value="/ajax/profile-deleteExam.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
 	<input style="display:none;" id="Exams-header-div-prefix" type="text" name="Exams-header-div-prefix" value="#belowTheBarPageHeader"/>
-	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/>
+	<input style="display:none;" id="Exams-offset" type="text" name="exam-offset"/>
+	<!-- input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/  -->
 	
-	<input style="display:none;" id="idNoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
+	
+	<input style="display:none;" id="Exams-NoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
+	<input style="display:none;" id="Questions-NoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
 	
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
@@ -228,11 +230,15 @@
 					}
 					
 					function setDataObjectDefinitions() {
-						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#offset\"}]}";
+						// define a JSON string which has the name of the attribute to be sent to the server, along with the ID of the field from which the value sent to the server
+						//   should be pulled from. Later we iterate over each element and build the data object sent to the server when getExams() or getQuestions() or whatever
+						//   is called.
 					
+						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#Questions-offset\"}]}";
 						$('#Questions-data-object-definition').attr("value",str);
-						
-						// TODO: define Exam fields						
+
+						str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#examContainsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#examTopicContainsFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#examDifficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#Exams-offset\"}]}";
+						$('#Exams-data-object-definition').attr("value",str);						
 					}
 					
 					function oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(obj) {

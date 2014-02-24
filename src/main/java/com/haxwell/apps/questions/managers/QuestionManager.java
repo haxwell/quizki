@@ -693,7 +693,7 @@ public class QuestionManager extends Manager {
 
 	// TODO: this should probably be in a util somewhere
 	private static List<Question> filterList(FilterCollection fc, List<Question> list) {
-		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
+		ArrayList<ShouldRemoveAnObjectCommand> arr = new ArrayList<ShouldRemoveAnObjectCommand>();
 		
 		String filter = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
 		
@@ -719,7 +719,7 @@ public class QuestionManager extends Manager {
 			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
 		}
 		
-		return new ListFilterer<Question>().process(list, arr);
+		return new ListFilterer().process(list, arr);
 	}
 	
 	private static Collection<Question> filterQuestionListByTopicAndQuestionType(

@@ -4,8 +4,6 @@
 	//
 	//	A text field with the id #offset
 	//	A text field with the id #maxEntityCountFilter
-	//  A text field with the id #*-tab-data-url, where * is the title of a tab which will use smooth scrolling. 
-	//		Its value should be the url of the AJAX call to get more table rows.
 	//  A text field with the id #*-entity-table-id, where * is the title of a tab which will use smooth scrolling.
 	//		Its value should be the id of the table in which to insert more table rows.
 	//  A text field with the id #*-data-object-definition, where * is the title of a tab which will use smooth scrolling.
@@ -157,16 +155,25 @@
 						
 						// write that prefix in the hidden prefix field
 						$("#prefix-to-current-view-hidden-fields").attr("value", tabText);
+						
+						setRowsOffsetToZero();
 					});
 					
 					//
 					// Populate the table on this tab, if necessary
 					//
 					$('a[data-toggle="tab"]').on('shown', function(e) {
+						populateTheTable();
+					});
+					
+					//
+					// 
+					// 
+					function populateTheTable() {
 						if (currentPageHasAnAJAXDataObjectDefinition()) {
 							displayMoreRows(getFunctionCalledForEachRowByDisplayMoreRows(getPrefix()));
 						}
-					});
+					}
 					
 					//
 					// Returns true if there is an AJAX data object definition for the current page
@@ -211,8 +218,8 @@
 						
 						var parsedJSONObject = jQuery.parseJSON(jsonExport);
 						
-						var qArr = parsedJSONObject.question;
 						var prefix = getPrefix();
+						var qArr = window[prefix+"_getJSONFromServerSuppliedData"](parsedJSONObject);
 						var str = "";
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 
@@ -272,48 +279,51 @@
 					// Makes an AJAX call to get addition table data for the current tab (page)
 					//
 					function getMoreRows() {
-						var os = $("#offset").attr("value");
-						
-						if (os == undefined || os.length == 0) {
-							os = 0;
-							$("#offset").attr("value", os);
-						}
-
-						var mecf = $("#maxEntityCountFilter").attr("value");
-						
-						if (mecf == undefined || mecf.length == 0) {
-							mecf = 10;
-							$("#maxEntityCountFilter").attr("value", mecf);
-						}
-						
 						var rtn = "";
-						var data_url = getURLThatProvidesTableData();
-						var data_obj = getMoreRows_DataObjectForAJAX();
-
-						makeAJAXCall_andWaitForTheResults(data_url, data_obj, 
-							function(data,status){
-								//alert("Data: " + data + "\nStatus: " + status);
-								
-								if (status == 'success') {
-									os = (os*1)+(mecf*1); // force numerical addition
-									$("#offset").attr("value", os);
-									$("#maxEntityCountFilter").attr("value", mecf);
-									
-									rtn = data;
-								}
-							});
 						
-						return rtn;
+						if (isNoMoreItemsToDisplayFlagSet() == false) {
+							var prefix = getPrefix();
+							var os = $("#" + prefix + "-offset").attr("value");
+							
+							if (os == undefined || os.length == 0) {
+								os = 0;
+								$("#" + prefix + "-offset").attr("value", os);
+							}
+	
+							var mecf = $("#maxEntityCountFilter").attr("value");
+							
+							if (mecf == undefined || mecf.length == 0) {
+								mecf = 10;
+								$("#maxEntityCountFilter").attr("value", mecf);
+							}
+							
+							var data_url = getURLThatProvidesTableData();
+							var data_obj = getMoreRows_DataObjectForAJAX();
+	
+							makeAJAXCall_andWaitForTheResults(data_url, data_obj, 
+								function(data,status){
+									//alert("Data: " + data + "\nStatus: " + status);
+									
+									if (status == 'success') {
+										var prefix = getPrefix();
+										
+										os = (os*1)+(mecf*1); // force numerical addition
+										$("#" + prefix + "-offset").attr("value", os);
+										$("#maxEntityCountFilter").attr("value", mecf);
+										
+										rtn = data;
+									}
+								});
+						}
+
+						return rtn;						
 					}
 					
 					function setRowsOffsetToZero() {
-						$("#offset").attr("value", "0");
+						var prefix = getPrefix(); 
+						$("#" + prefix + "-offset").attr("value", "0");
 					}
 					
-					function clearNoMoreItemsToDisplayFlag() {
-						$("#idNoMoreItemsToDisplayFlag").attr("value", "");
-					}
-
 					function appendTableStatusRow(msg, entityTableId, prefix) {
 						var html = window[prefix+"_getNoItemsFoundHTMLString"](msg);
 						$(entityTableId + " > tbody:last").append(html);
@@ -328,9 +338,16 @@
 					}
 					
 					function setNoMoreItemsToDisplayFlag() {
-						$("#idNoMoreItemsToDisplayFlag").attr("value", "true");
+						$("#" + getPrefix() + "-NoMoreItemsToDisplayFlag").attr("value", "true");
+					}
+					
+					function isNoMoreItemsToDisplayFlagSet() {
+						return $("#" + getPrefix() + "-NoMoreItemsToDisplayFlag").attr("value") == "true";
 					}
 
+					function clearNoMoreItemsToDisplayFlag() {
+						$("#" + getPrefix() + "-NoMoreItemsToDisplayFlag").attr("value", "");
+					}
 					
 					function populateAlertDiv(msgsArr, alertClassName) {
 						var msgs = "";

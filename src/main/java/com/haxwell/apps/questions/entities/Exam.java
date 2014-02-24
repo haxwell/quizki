@@ -183,9 +183,13 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     	sb.append(getJSON("message", getMessage() + "", APPEND_COMMA));
     	sb.append(getJSON("owningUserId", getUser().getId() + "", APPEND_COMMA));
     	sb.append(getJSON("topics", getTopics().iterator(), APPEND_COMMA));
+
     	Difficulty diff = getDifficulty();
-		sb.append(getJSON("difficulty", diff.getId() + "", APPEND_COMMA));
-    	sb.append(getJSON("difficulty_text", diff.getText(), APPEND_COMMA));
+    	String diffId = (diff == null) ? "-1" : diff.getId()+"";
+    	String diffText = (diff == null) ? "undefined" : diff.getText();
+    	
+		sb.append(getJSON("difficulty", diffId, APPEND_COMMA));
+    	sb.append(getJSON("difficulty_text", diffText, APPEND_COMMA));
     	sb.append(getJSON("entityStatus", getEntityStatus() + ""));
     	sb.append(getJSONClosing());
     	

@@ -77,7 +77,7 @@
 					model_constructor_factory.put("selectedListOfTopics", function() { var c = new Backbone.Collection([], { model: Topic }); c.comparator = 'text'; return c; });
 					model_constructor_factory.put("listOfMatchingExams", function() { var c = new Backbone.Collection([], { model: Exam }); c.comparator = 'title'; return c; });
 					model_constructor_factory.put("matchingExamsMustContainAllTopics", function() { return { val:false }; });
-					model_constructor_factory.put("numberOfQuestions", function() { return { val:1 }; });
+					model_constructor_factory.put("numberOfQuestions", function() { return { val:5 }; });
 					model_constructor_factory.put("difficultyObj", function() { return new Difficulty().initialize(); });
 					
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));

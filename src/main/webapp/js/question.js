@@ -23,8 +23,6 @@ var Difficulty = (function() {
 	my.initialize = function() {
 		difficulty_id = 1;
 		
-		initializeFields();
-		
 		_.extend(this, Backbone.Events);
 		
 		return this;

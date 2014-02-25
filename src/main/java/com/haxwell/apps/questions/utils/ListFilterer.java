@@ -1,12 +1,22 @@
 package com.haxwell.apps.questions.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Returns a list that has been filtered. It iterates over each item in a source list,
+ * passing the item to an object which says 'keep it' or 'filter it'. The resulting
+ * list of the 'keep it' items is returned.
+ *  
+ * @author jjames
+ *
+ * @param <T>
+ */
 public class ListFilterer<T> {
 
-	public List<T> process(List<T> source, List<ShouldRemoveAnObjectCommand<T>> filters)
+	public Collection<T> process(Collection<T> source, Collection<ShouldRemoveAnObjectCommand<T>> filters)
 	{
 		if (filters != null) {
 			ArrayList<T> toBeRemoved = new ArrayList<T>(); 
@@ -30,7 +40,7 @@ public class ListFilterer<T> {
 		return source;
 	}
 	
-	public List<T> process(List<T> source, ShouldRemoveAnObjectCommand<T> filter)
+	public Collection<T> process(Collection<T> source, ShouldRemoveAnObjectCommand<T> filter)
 	{
 		ArrayList<ShouldRemoveAnObjectCommand<T>> filters = new ArrayList<ShouldRemoveAnObjectCommand<T>>();
 		

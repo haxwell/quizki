@@ -58,8 +58,6 @@ public class ExamGenerationUtil {
 		
 		session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);
 
-//		fwdPage = "/beginExam.jsp";
-		
 		//session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 		
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_GENERATED);

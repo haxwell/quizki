@@ -719,7 +719,10 @@ public class QuestionManager extends Manager {
 			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
 		}
 		
-		return new ListFilterer().process(list, arr);
+		ListFilterer lf = new ListFilterer();
+		ArrayList al = new ArrayList(lf.process(list,arr));
+		
+		return al;
 	}
 	
 	private static Collection<Question> filterQuestionListByTopicAndQuestionType(

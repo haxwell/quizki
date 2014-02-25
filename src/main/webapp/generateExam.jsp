@@ -124,7 +124,7 @@
 							<div id="divAllTopicsListFilterView">..</div>
 						</td>
 						<td>
-							<div id="difficultyChooserElement">..</div>
+							<div id="difficultyChooserElement" style="margin-bottom:6px;">..</div>
 						</td>
 						<td>
 							<div id="divMaxQuestionsView">..</div>
@@ -134,10 +134,10 @@
 				
 				<table>
 					<tr>
-					<td>
+					<td style="vertical-align:top;">
 						<div id="divAllTopicsListView">..</div>
 					</td>
-					<td>
+					<td style="vertical-align:top;">
 						<div id="divArrowView">..</div>
 					</td>
 					<td>
@@ -147,7 +147,7 @@
 					<td>
 						<!--  <div id="divMatchingExamsFilterView">..</div>  -->
 						
-						<div id="divMatchingExamsView">..</div>
+						<div id="divMatchingExamsView" style="margin-left:20px;">..</div>
 						<div id="takeSelectedExamBtnView">..</div>
 					</td>
 					</tr>

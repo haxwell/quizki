@@ -17,7 +17,7 @@
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<select multiple class='span3 mainSelectBox' id='listOfTopics'></select>" )() );
+			this.$el.html( _.template( "<select multiple class='span3 mainSelectBox' id='listOfTopics' style='height:160px;'></select>" )() );
 			
 			var topics = model_factory.get("currentListOfTopics");
 			
@@ -129,7 +129,7 @@
 		},
 		render:function() {
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<select multiple class='span3 selectedSelectBox' id='selectedListOfTopics'></select>" )() );
+			this.$el.html( _.template( "<select multiple class='span3 selectedSelectBox' id='selectedListOfTopics' style='height:160px;'></select>" )() );
 			
 			var topics = model_factory.get("selectedListOfTopics");
 			
@@ -242,7 +242,7 @@
 			listOfMatchingExams.append( examItem.render().$el.html() );
 		},
 		render:function() {
-			this.$el.html( _.template( "<select multiple class='span5 examsSelectBox' id='matchingExamsView'></select>" )() );			
+			this.$el.html( _.template( "<select multiple class='span5 examsSelectBox' id='matchingExamsView' style='height:160px;'></select>" )() );			
 			
 			// this model is set by the MatchingExamsListGetter object
 			var exams = model_factory.get("listOfMatchingExams");

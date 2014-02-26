@@ -31,6 +31,8 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
 		this.listenTo(currQuestion, 'reset', function(event) { this.render(); });
 		
+		// Set up custom listenTo's, for views that need something custom to happen when something else happens, but that doesn't apply
+		//  apply to all views which may use This view.
 		if (arguments[0].modelToListenTo !== undefined) {
 			this.modelToListenTo = arguments[0].modelToListenTo;
 			this.modelEventToListenFor = arguments[0].modelEventToListenFor;
@@ -53,9 +55,13 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		
 		var currentQuestion = model_factory.get("currentQuestion");
 
+		var questionHasDescription = (currentQuestion.getDescription().length > 0); 
+		var hidden = ((questionHasDescription) ? "" : "hidden");
+		var rows = (questionHasDescription ? "8" : "11");
+		
 		var disabledText = this.readOnly == undefined ? "" : "disabled";
 		
-		this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription(), disabled:disabledText}));
+		this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription(), disabled:disabledText, hidden:hidden, rows:rows}));
 		
 		if (this.readOnly != undefined) {
 			tinyMCE.init({

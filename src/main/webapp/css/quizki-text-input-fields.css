@@ -1,3 +1,6 @@
+.hidden input[type="text"] {
+	display:none;
+}
 
 input,
 textarea {

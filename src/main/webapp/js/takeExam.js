@@ -116,6 +116,14 @@ var ExamEngine = (function() {
 		this.trigger('examEngineSetNewCurrentQuestion');
 	};
 	
+	my.getCurrentQuestionIndex = function() {
+		return index;
+	};
+	
+	my.getTotalQuestionCount = function() {
+		return totalNumberOfQuestions;
+	}
+	
 	my.nextQuestion = function() {
 		if (isOkayToMoveForward == false) {
 			return lastReturnedQuestion;

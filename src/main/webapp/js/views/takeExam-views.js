@@ -1,5 +1,7 @@
 	Quizki.QuitThisExamView = Backbone.View.extend({
 		initialize:function() {
+			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});
+			
 			this.showEditBtn = arguments[0].showEditBtn;
 			this.render();
 		},
@@ -7,7 +9,10 @@
 			"click #btnQuit":"sendEmBackToTheIndexPage"
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/TakeExamWithQuitThisExamButton.html', {}));
+			var curr = ExamEngine.getCurrentQuestionIndex() + 1,
+				total = ExamEngine.getTotalQuestionCount();
+			
+			this.$el.html(view_utility.executeTemplate('/templates/TakeExamWithQuitThisExamButton.html', {currQuestionIndex:curr, totalQuestionCount:total}));
 			return this;
 		},
 		sendEmBackToTheIndexPage: function() {
@@ -18,14 +23,18 @@
 
 	Quizki.ExamQuestionTextView = Backbone.View.extend({
 		initialize:function() {
-			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});
+			//this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});
 			
 			this.render();
 		},
 		render: function() {
-			var currentQuestion = model_factory.get("currentQuestion");
-
-			this.$el.html( view_utility.executeTemplate('/templates/ExamQuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription()}));
+//			var currentQuestion = model_factory.get("currentQuestion");
+//			
+//			var hideDescriptionRow = (currentQuestion.getDescription().length > 0); 
+//			var hidden = (hideDescriptionRow ? "" : "hidden");
+//			var rows = (hideDescriptionRow ? "11" : "8");
+//
+//			this.$el.html( view_utility.executeTemplate('/templates/ExamQuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription(), hidden:hidden, rows:rows}));
 			
 			tinyMCE.init({
 		        theme : "advanced",

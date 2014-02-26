@@ -12,12 +12,28 @@
 
 		<title>List Exams - Quizki</title>
 
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+		
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" />
+		
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-checkbox-radio-btn.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-select-dropdowns.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-tables.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/quizki-tables-exam.css" rel="stylesheet" type="text/css"/>
+
 		<link href="../css/createExam.css" rel="stylesheet" type="text/css"/>
 		
-		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
+		<!-- link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki.css" rel="stylesheet" type="text/css"  -->
+
 		<link href="../css/displayExam.css" rel="stylesheet" type="text/css" />
+
 		<link rel="shortcut icon" href="images/favicon.ico" />
 
 		<jsp:text>
@@ -117,7 +133,15 @@
 	<div class="container">
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="content">
-
+			<div id="belowTheBarPageHeader" class="fillBackgroundColor">
+				<br/>
+				<div id="idAlertDiv" class="alert hidden">.</div>
+				<div class="row">
+					<div class="span12 horizontal-rule">
+						<h2>Select from a list of exams</h2>
+					</div>
+				</div>
+			</div>
 			<jsp:include page="listExamsTable.jsp"></jsp:include>
 
 		</div> <!-- Content -->
@@ -134,7 +158,7 @@
 					}
 					
 					function getHeaderOffset() {
-						return $("#tabbableDiv").offset().top + $("#tabsUl").height();
+						return $("#examEntityTable").offset().top;
 					}
 
 					function disableHeaderFilterFields() {

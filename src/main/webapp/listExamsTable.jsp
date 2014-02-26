@@ -65,4 +65,4 @@
 	<input type="hidden" id="exam_nameOfLastPressedButton" name="exam_nameOfLastPressedButton">
 	</div>
 
-	<table id="exam-header-fixed" class="table table-striped span12 fixedTable" style="position:fixed; top:0px; display:none;"></table>
+	<table id="exam-header-fixed" class="table table-striped fixedTable" style="position:fixed; top:0px; display:none;"></table>

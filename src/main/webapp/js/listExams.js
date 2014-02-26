@@ -9,7 +9,7 @@ function Exams_getHeadDOMElementInOriginalHeader() {
 }
 
 function Exams_getHeadDOMElementInClonedHeader() {
-	return $("#header-fixed");
+	return $("#exam-header-fixed");
 }
 
 function getExams() {

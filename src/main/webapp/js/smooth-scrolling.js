@@ -37,7 +37,7 @@
 					//
 					$(window).scroll(function(){
 				        if  ($(window).scrollTop() == $(document).height() - $(window).height()) {
-					        if (smoothScrollingEnabledOnCurrentTab()) {
+					        if (isNoMoreItemsToDisplayFlagSet() == false && smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
 					        	displayMoreRows(getFunctionCalledForEachRowByDisplayMoreRows(getPrefix()));
 					        	

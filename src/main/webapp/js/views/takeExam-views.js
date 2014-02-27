@@ -21,33 +21,6 @@
 		}
 	});
 
-	Quizki.ExamQuestionTextView = Backbone.View.extend({
-		initialize:function() {
-			//this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});
-			
-			this.render();
-		},
-		render: function() {
-//			var currentQuestion = model_factory.get("currentQuestion");
-//			
-//			var hideDescriptionRow = (currentQuestion.getDescription().length > 0); 
-//			var hidden = (hideDescriptionRow ? "" : "hidden");
-//			var rows = (hideDescriptionRow ? "11" : "8");
-//
-//			this.$el.html( view_utility.executeTemplate('/templates/ExamQuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription(), hidden:hidden, rows:rows}));
-			
-			tinyMCE.init({
-		        theme : "advanced",
-		        mode : "textareas",
-		        plugins : "autoresize",
-		        readonly : 1,
-				content_css : "css/quizki_tinymce_custom_content.css"
-			});
-			
-			return this;
-		}
-	});
-	
 	Quizki.ExamSingleQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
 			this.model = arguments[0].attributes.val;

@@ -190,7 +190,7 @@
 			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
-			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { return new Backbone.Collection(JSON.parse('${sessionScope.answersToTheMostRecentExam}').answers); });
+			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 			    		
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
@@ -203,7 +203,7 @@
 			    	
 			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), readOnly: true });
 			    	//var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv"), readOnly: true });
-					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: true });
+					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: model_factory.get("answersToTheMostRecentExam") !== undefined });
 					
 					bv_questionChoiceList.render();
 					

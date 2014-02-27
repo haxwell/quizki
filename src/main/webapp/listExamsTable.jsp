@@ -11,7 +11,7 @@
 				<th style="width: 145px;"></th>
 				<th style="width: 145px;">Topics</th>
 				<th style="width: 160px;">Difficulty</th>
-				<th style="width: 70px;">Votes</th>
+				<th style="width: 70px;"><!-- Votes  --></th>
 				<th></th>
 			</tr>
 			<tr class="filter-row">

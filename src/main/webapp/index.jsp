@@ -129,7 +129,8 @@
      	You are logged in. <a class="greyLink" href="logout.jsp" id="logout">logout</a>
      </c:otherwise>
     </c:choose>
-    
+
+<br/><br/>
 </div>    
 
 </div> <!-- mainContentArea -->

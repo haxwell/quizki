@@ -113,7 +113,7 @@ function Exams_convertToHTMLString(obj, rowNum) {
 	
 	// TODO: figure out a way of populating the Vote info.. Probably put it in a JSON str, like [{"objectId":"1","votesUp":"1","votesDown":"0"}]
 	//  then create a map of some sort out of it..
-	rtn += " -- ";
+	rtn += ""; //" -- ";
 
 	rtn += "</td><td>";
 	

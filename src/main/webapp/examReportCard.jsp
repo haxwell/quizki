@@ -111,12 +111,12 @@
 	
 	<div id="divFeedbackOverall">
 	<div id="divFeedbackMsgToUser"></div>
-	<input type="text"
+	<!-- input type="text"
 		placeholder="You can leave feedback for the exam creator here...."
-		class="span8" maxlength="255"
+		class="span8 hidden" maxlength="255"
 		id="id_examMessage" name="examMessage"
-		value="${sessionScope.feedbackForCurrentUserAndExam}"/>
-		<input type="submit" class="span3 btn" id="btnSendFeedback" value="Send Feedback" name="button"/>		
+		value="${sessionScope.feedbackForCurrentUserAndExam}" / -->
+		<!-- input type="submit" class="span3 btn hidden" id="btnSendFeedback" value="Send Feedback" name="button"/  -->		
 	</div>
 	
 </div>

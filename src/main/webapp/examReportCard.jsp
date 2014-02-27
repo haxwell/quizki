@@ -43,6 +43,10 @@
 								}
 							});
 						});
+						
+						$("#btnHome").click(function() {
+							window.location.href = "/index.jsp";
+						});
 					});					
 		    </script> ]]>			
 		</jsp:text>
@@ -65,12 +69,12 @@
 	<jsp:text>
 		<div class="input-prepend">
 			<span class="add-on short green"><![CDATA[<i class="icon-ok"></i>]]></span>
-			<input class="span1" type="text" value="${numberOfQuestionsAnsweredCorrectly}" size="2"/>
+			<input class="span1" type="text" value="${numberOfQuestionsAnsweredCorrectly}" size="2" disabled="disabled"/>
 		</div>
 		
 		<div class="input-prepend">
 			<span class="add-on short red"><![CDATA[<i class="icon-remove"></i>]]></span>
-			<input class="span1" type="text" value="${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}" size="2"/>
+			<input class="span1" type="text" value="${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}" size="2" disabled="disabled"/>
 		</div>
 	</jsp:text>
 		
@@ -108,6 +112,8 @@
 	</c:forEach>	
 	
 	<br/><br/>	<br/><br/>
+	
+	<input type="submit" class="span12 btn" id="btnHome" value="Home"/>
 	
 	<div id="divFeedbackOverall">
 	<div id="divFeedbackMsgToUser"></div>

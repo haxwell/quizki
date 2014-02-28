@@ -65,6 +65,8 @@
 				<button class="btn btn-block" id="beginButton" type="submit" name="button">Begin Exam</button>
 			</div>
 				
+			<br/><br/>
+			
 		</form>
 	</c:otherwise>		
 	</c:choose>		

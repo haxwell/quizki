@@ -131,23 +131,29 @@
 		}
 	});
 	
-	Quizki.EditButtonView = Backbone.View.extend({
+	Quizki.QuestionHeaderButtonView = Backbone.View.extend({
 		initialize:function() {
 			this.showEditBtn = arguments[0].showEditBtn;
+			this.showBackBtn = arguments[0].showBackBtn;
 			this.render();
 		},
 		events: {
-			"click #btnEdit":"editQuestion"
+			"click #btnEdit":"editQuestion",
+			"click #btnBack":"goBack"
 		},
 		render:function() {
-			var classAttributeHidden = (this.showEditBtn == false ? "hidden" : "");
+			var editBtnVisibility = (this.showEditBtn == false ? "hidden" : "");
+			var backBtnVisibility = (this.showBackBtn == false ? "hidden" : "");
 			
-			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithEditButtons.html', {hidden:classAttributeHidden}));
+			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithButtons.html', {hideEditBtn:editBtnVisibility, hideBackBtn:backBtnVisibility}));
 			return this;
 		},
 		editQuestion: function() {
 			var url="/secured/question.jsp?questionId=" + model_factory.get("currentQuestion").getId();
 			window.location.href = url;
+		},
+		goBack: function() {
+			window.history.go(-1);
 		}
 	});
 

@@ -34,8 +34,6 @@
 		<jsp:text>
 			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
 						
-			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
-			
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
@@ -44,6 +42,8 @@
 			
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
@@ -95,25 +95,6 @@
 		    </script> ]]>			
 
 			<![CDATA[
-			<script type="text/javascript">
-			
-//		$(function() {
-	//	   $( document ).tooltip();
-		// });
-		 
-    $( "#open-event" ).tooltip({
-      show: null,
-      position: {
-        my: "left top",
-        at: "left bottom"
-      },
-      open: function( event, ui ) {
-        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
-      }
-    });
-    </script> ]]>
-			
-			<![CDATA[
 				<script type="text/javascript">
 			]]>
 
@@ -163,29 +144,6 @@
 			<![CDATA[
 				<script type="text/javascript">
 
-//					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-//					var fieldValues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; 
-//					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
-//					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
-	
-
-//					$(document).ready(function() {
-//						$('div.choices').html('');
-//		
-//						if (${displayQuestion.questionType.id} == 1) {
-//							addChoiceInputsForThisQuestionType('#radioButtonExample');
-//						}
-//						else if (${displayQuestion.questionType.id} == 2) {
-//							addChoiceInputsForThisQuestionType('#checkboxExample');
-//						}
-//						else if (${displayQuestion.questionType.id} == 3) {
-//							displayStringTypeQuestionChoices('#textExample');
-//						}
-//						else if (${displayQuestion.questionType.id} == 4) {
-//							displaySequenceTypeQuestionChoices('#sequenceExample');
-//						}
-//					});
-
 			    $(document).ready(function() {
 			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
@@ -195,6 +153,8 @@
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
+			    	var _inExamContext = (model_factory.get("answersToTheMostRecentExam") !== undefined);
+			    	
 		    		questionChoiceCollection.addArray(currentQuestion.getChoices());
 			    	
 			    	var bv_questionCreatedByView = new Quizki.CreatedByView({ el: $("#divCreatedBy") });
@@ -203,7 +163,7 @@
 			    	
 			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), readOnly: true });
 			    	//var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv"), readOnly: true });
-					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: model_factory.get("answersToTheMostRecentExam") !== undefined });
+					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: _inExamContext });
 					
 					bv_questionChoiceList.render();
 					
@@ -215,7 +175,7 @@
 					addCSVItemsToWell(bv_topicsWell, _.pluck(jQuery.parseJSON(currentQuestion.getTopics()), 'text'));
 					addCSVItemsToWell(bv_referencesWell, _.pluck(jQuery.parseJSON(currentQuestion.getReferences()), 'text'));
 					
-			    	var bv_header = new Quizki.EditButtonView({ el: $("#divQuestionHeader"), showEditBtn: ${shouldAllowQuestionEditing} });
+			    	var bv_header = new Quizki.QuestionHeaderButtonView({ el: $("#divQuestionHeader"), showEditBtn: (!_inExamContext && ${shouldAllowQuestionEditing}), showBackBtn: (_inExamContext) });
 			    });
 			    
 			    function addCSVItemsToWell(view, items) {

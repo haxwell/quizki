@@ -135,5 +135,6 @@ public class Constants {
 	public static final String SELECTED_ENTITY_IDS_AS_CSV = "selectedEntityIDs_AsCSV";
 
 	public static final String IN_PRODUCTION_MODE = "ThisShitsLiveMan!";
-
+	
+	public static final String ANSWERS_TO_THE_MOST_RECENT_EXAM = "answersToTheMostRecentExam";
 }

@@ -3,8 +3,10 @@
 	<jsp:directive.page import="java.util.logging.Level"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.ExamUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.ExamReportCardData"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="net.minidev.json.JSONObject"/>
 	<jsp:directive.page import="net.minidev.json.JSONValue"/>
+	
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -45,7 +47,7 @@ request.getSession().setAttribute("numberOfQuestionsAnsweredCorrectly", jObj.get
 request.getSession().setAttribute("totalNumberOfQuestions", jObj.get("numberTotal"));
 
 request.getSession().setAttribute("questionsOnTheMostRecentExam", qJson);
-request.getSession().setAttribute("answersToTheMostRecentExam", aJson);
+request.getSession().setAttribute(Constants.ANSWERS_TO_THE_MOST_RECENT_EXAM, aJson);
 
 writer.print(ercdJSON);
 

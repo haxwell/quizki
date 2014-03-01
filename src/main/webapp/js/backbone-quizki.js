@@ -93,13 +93,6 @@ var model_factory = (function(){
 				// todo: perhaps an event when this happens?
 				arr[id] = model;
 			},
-			getStringModel:function() {
-				var id = new Date().getMilliseconds();
-				
-				arr["stringModel"+id] = "";
-				
-				return {id:id,stringModel:arr["stringModel"+id]};
-			},
 			destroy: function(id) {
 				arr[id] = undefined;
 				arr["stringModel"+id] = undefined;

@@ -12,12 +12,15 @@
 		
 		<title>Exam Report Card Graded - Quizki</title>
 
-		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="pkgs/font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<link href="pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
+		<link href="pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
 		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
 
-		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/>
-		
+		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
+		<link href="css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+
 		<link href="images/favicon.ico" rel="shortcut icon"/>
 
 		<jsp:text>

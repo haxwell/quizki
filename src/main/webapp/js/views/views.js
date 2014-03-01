@@ -2,18 +2,16 @@ var view_utility = (function() {
 	return {
 		executeTemplate : function(templateURL, templateParams) {
 	
-			var _stringModel = model_factory.getStringModel();
+			var _stringModel = undefined;
 			
 			makeAJAXCall_andWaitForTheResults(templateURL, { }, 
 	        		function(textFromTheURL) {
 	    				// TO UNDERSTAND: why does this return text rather than a function to be executed?
-						_stringModel.stringModel = _.template(textFromTheURL, templateParams, { });
+						_stringModel = _.template(textFromTheURL, templateParams, { });
 	    			}
 	        );
 			
-			var rtn = _stringModel.stringModel;
-			
-			model_factory.destroy(_stringModel.id);
+			var rtn = _stringModel;
 			
 			return rtn;
 		}	

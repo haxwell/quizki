@@ -253,9 +253,9 @@ var JSONUtility = (function() {
 	};
 	
 	my.getJSON_ExistingQuoteFriendly = function(fieldName, valueToAdd, appendComma) {
-		if (valueToAdd == undefined || valueToAdd == null)
-			valueToAdd = '';
-
+		if (valueToAdd == undefined || valueToAdd == null || valueToAdd.length == 0)
+			valueToAdd = '\"\"';
+		
 		var rtn = '\"' + fieldName + '\":' + valueToAdd;
 
 		if (appendComma !== false)
@@ -263,11 +263,6 @@ var JSONUtility = (function() {
 		
 		return rtn;
 	};
-	
-	
-//	my.indexFunction = function(index) {
-//		return listQuestionIds[index];
-//	};
 	
 	// Inspired by ExamEngine.. it keeps a list of questions as json strings, in the order they appear.
 	//  this is to put those in an overall json string.

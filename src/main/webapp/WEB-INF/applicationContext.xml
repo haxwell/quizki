@@ -15,6 +15,12 @@
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: indexPage -->
 	<!--  **==**==****====***==*-===****=== -->	
+	<bean id="ResetEntityIdFilterOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="entityIdFilter"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
 	<bean id="ResetAnswersToTheMostRecentExamOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
 		<property name="attr" value="answersToTheMostRecentExam"/>
 		<property name="event" value="indexPage"/>
@@ -351,6 +357,7 @@
 	<bean id="attributeEventHandlerList" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerList">
 		<property name="attributeEventHandlerList">
 			<list>
+				<ref bean="ResetEntityIdFilterOnIndexPageDisplay"/>
 				<ref bean="ResetAnswersToTheMostRecentExamOnIndexPageDisplay"/>
 				<ref bean="ResetQuestionPaginationDataOnIndexPageDisplay"/>
 				<ref bean="ResetExamPaginationDataOnIndexPageDisplay"/>

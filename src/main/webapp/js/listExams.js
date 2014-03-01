@@ -94,7 +94,7 @@ function Exams_convertToHTMLString(obj, rowNum) {
 	rtn += "<td></td>";
 	rtn += "<td colspan=\"2\">";
 	
-	rtn += obj.title;
+	rtn += "<a href=\"/beginExam.jsp?examId=" + obj.id + "\">" + obj.title + "</a>";
 	
 	rtn += "</td><td>";
 

@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;	
+
 import javax.persistence.*;
 
 import java.util.Set;
@@ -98,6 +99,15 @@ public class User implements EntityWithAnIntegerIDBehavior, Serializable {
 
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("ID: " + getId());
+		sb.append("  |Username: " + getUsername());
+		
+		return sb.toString();
 	}
 	
 }

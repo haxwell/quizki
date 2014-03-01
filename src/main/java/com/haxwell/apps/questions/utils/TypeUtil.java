@@ -23,19 +23,20 @@ public class TypeUtil {
 		return TypeConstants.ALL_TYPES;
 	}
 	
-	public static String convertToString(int n) {
-		if (n == TypeConstants.SINGLE)
+	public static String convertToString(long l) {
+		if (l == TypeConstants.SINGLE)
 			return TypeConstants.SINGLE_STR;
-		if (n == TypeConstants.STRING)
+		if (l == TypeConstants.STRING)
 			return TypeConstants.STRING_STR;
-		if (n == TypeConstants.MULTIPLE)
+		if (l == TypeConstants.MULTIPLE)
 			return TypeConstants.MULTIPLE_STR;
-		if (n == TypeConstants.SEQUENCE)
+		if (l == TypeConstants.SEQUENCE)
 			return TypeConstants.SEQUENCE_STR;
 		
 		return TypeConstants.ALL_TYPES_STR;
 	}
 
+	@Deprecated //use getObjectFromStringTypeId() instead
 	public static QuestionType convertToObject(String parameter) {
 		QuestionType qt = new QuestionType(parameter);
 		
@@ -50,11 +51,18 @@ public class TypeUtil {
 		return qt;
 	}
 	
-	public static QuestionType getObjectFromStringTypeId(String iint) {
-		if (iint == null) iint = TypeConstants.SINGLE+"";
+	/**
+	 * Returns a complete QuestionType object that is based on the numeric value of a given string.
+	 *  
+	 * @param str a numeric value as a String
+	 * @return a complete QuestionType object that is based on the numeric value of a given string.
+	 */
+	public static QuestionType getObjectFromStringTypeId(String str) {
+		if (str == null) 
+			str = TypeConstants.SINGLE+"";
 		
-		int n = Integer.parseInt(iint);
+		long l = Long.parseLong(str);
 		
-		return convertToObject(convertToString(n));
+		return new QuestionType(l, convertToString(l));
 	}
 }

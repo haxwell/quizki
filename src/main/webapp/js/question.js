@@ -104,6 +104,12 @@ var Question = (function() {
 		topics = JSON.stringify(source.topics);
 		references = JSON.stringify(source.references);
 		
+		if (topics == '[]')
+			topics = '';
+		
+		if (references == '[]')
+			references = '';
+		
 		choices = new Quizki.Collection();
 		choices.addArray(source.choices);
 		

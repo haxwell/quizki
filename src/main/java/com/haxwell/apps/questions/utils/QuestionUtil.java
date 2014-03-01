@@ -319,7 +319,7 @@ public class QuestionUtil {
 			q.setDescription(o.get("description").toString());
 			q.setText(o.get("text").toString());
 			q.setDifficulty(DifficultyUtil.getDifficulty(o.get("difficulty_id").toString()));
-			q.setQuestionType(TypeUtil.convertToObject(o.get("type_id").toString()));
+			q.setQuestionType(TypeUtil.getObjectFromStringTypeId(o.get("type_id").toString()));
 			
 			q.setChoices(getSetFromAjaxDefinition(o.get("choices").toString(), -1));
 			q.setTopics(TopicUtil.getSetFromJsonString(o.get("topics").toString()));

@@ -96,7 +96,7 @@
 			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.millisecondId}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.millisecondId,answer:this.model.string}));
 			return this;
 		}
 	});

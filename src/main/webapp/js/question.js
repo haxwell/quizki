@@ -78,8 +78,7 @@ var Question = (function() {
 	var type_id = 1;
 	var topics = "";
 	var references = "";
-	var choices = undefined; /* will be a Quizki.Collection */
-	var hasBeenAnswered = false;
+	var choices = undefined; /* will be a Backbone.Collection */
 	
 	var difficulty = new Difficulty();
 	
@@ -87,7 +86,7 @@ var Question = (function() {
 	function initializeFields() {
 		id = -1; user_id = -1; user_name = '';
 		text = ''; description = ''; type_id = 1; difficulty.initialize();
-		topics = ''; references = ''; choices = new Quizki.Collection();
+		topics = ''; references = ''; choices = new Backbone.Collection([], {model : Choice});
 	};
 	
 	my.initialize = function() {
@@ -110,10 +109,10 @@ var Question = (function() {
 		if (references == '[]')
 			references = '';
 		
-		choices = new Quizki.Collection();
-		choices.addArray(source.choices);
+		choices = new Backbone.Collection([], {model:Choice});
+		choices.add(source.choices);
 		
-		this.hasBeenAnswered = _.filter(choices.models, function(item) { return item !== undefined && item.attributes.val !== undefined && item.attributes.val.isselected !== undefined; }).length > 0;
+//		this.hasBeenAnswered = hasBeenAnswered(); // _.filter(choices.models, function(item) { return item !== undefined && item.attributes.val !== undefined && item.attributes.val.isselected !== undefined; }).length > 0;
 		
 		_.extend(this, Backbone.Events);
 	};
@@ -271,8 +270,9 @@ var Question = (function() {
 	};
 		
 	my.addChoice = function(_text, _iscorrect, _sequence, throwEvent) {
-		var choice = {id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false};
-		var millisecond_id = choices.put(choice);
+//		var choice = {id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false};
+//		var millisecond_id = choices.put(choice);
+		choices.add({id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false});
 
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
@@ -281,76 +281,98 @@ var Question = (function() {
 	};
 	
 	my.getChoice = function(_millisecondId) {
-		return choices.getByMillisecondId(_millisecondId).attributes.val;
+//		return choices.getByMillisecondId(_millisecondId).attributes.val;
+		return choices.where({id:_millisecondId})[0];
 	};
 		
 	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
-		choices.update(_millisecondId, _attrToUpdate, _val);
+//		choices.update(_millisecondId, _attrToUpdate, _val);
 		
-		if (_attrToUpdate == 'isselected')
-			this.hasBeenAnswered = true;
+		choices.where({id:_millisecondId})[0].set(_attrToUpdate, _val);
+		
+//		if (_attrToUpdate == 'isselected')
+//			this.hasBeenAnswered = true;
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 	};
 		
 	my.removeChoice = function(_millisecondId, throwEvent) {
-		choices.remove(_millisecondId);
+//		choices.remove(_millisecondId);
+		choices = _.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId;  });
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 	};
 	
 	my.hasBeenAnswered = function() {
-		return this.hasBeenAnswered;
+		var rtn = false;
+		
+		if (type_id == 1 || type_id == 2) {
+			rtn = _.some(choices.models, function(choice) {
+				return choice.get('isselected') == true;
+			});
+		} else if (type_id == 3) {
+			rtn = _.some(choices.models, function(choice) {
+				return choice.get('string') != '';
+			});
+		} else if (type_id == 4) {
+			rtn = _.every(choices.models, function(choice) {
+				return choice.get('sequence') != 0;
+			});
+		}
+		
+		return rtn;
 	};
 		
 	my.getChoicesAsJSONString = function() {
-		var choicesAsJSONString = '[';
+//		var choicesAsJSONString = '[';
+//		
+//		for (var i=0; i < choices.models.length; i++) {
+//			
+//			// in order to check whether a comma should be appended in a loop below,
+//			//  we have to know is there another element.. so, since in doing a 
+//			//    for (var property in ... )
+//			//  there is no way to see of there is a next element, you can't do a plus one,
+//			//  then we create two maps to store the two pieces of info we care about,
+//			//  in a way that we can use to determine if a next element exists, solving
+//			//  our comma problem. We save those two values by int index, and use a normal
+//			//  for loop based on an int to get the info out the maps, and be the basis
+//			//  of the comma check. #dareISayElegant?
+//			
+//			var propertyNameMap = new KeyValueMap();
+//			var propertyValueMap = new KeyValueMap();
+//			var index = 0;
+//			
+//			for (var property in choices.models[i]["attributes"]["val"]) {
+//				propertyNameMap.put(index, property);
+//				propertyValueMap.put(index, choices.models[i]["attributes"]["val"][property]);
+//				
+//				index++;
+//			}
+//			
+//			var attrs = "{";
+//			var propertyValueMapSize = propertyValueMap.size();
+//			for (var ii = 0; ii < propertyValueMapSize; ii++) {
+//				attrs += '"' + propertyNameMap.get(ii) + '":' + '"' + propertyValueMap.get(ii) + '"';
+//				
+//				if (ii+1 < propertyValueMapSize)
+//					attrs += ',';
+//			}
+//			
+//			attrs += "}";
+//			
+//			if (i+1 < choices.models.length)
+//				attrs += ",";
+//			
+//			choicesAsJSONString += attrs;
+//		}
+//		
+//		choicesAsJSONString += "]";
+//		
+//		return choicesAsJSONString;
 		
-		for (var i=0; i < choices.models.length; i++) {
-			
-			// in order to check whether a comma should be appended in a loop below,
-			//  we have to know is there another element.. so, since in doing a 
-			//    for (var property in ... )
-			//  there is no way to see of there is a next element, you can't do a plus one,
-			//  then we create two maps to store the two pieces of info we care about,
-			//  in a way that we can use to determine if a next element exists, solving
-			//  our comma problem. We save those two values by int index, and use a normal
-			//  for loop based on an int to get the info out the maps, and be the basis
-			//  of the comma check. #dareISayElegant?
-			
-			var propertyNameMap = new KeyValueMap();
-			var propertyValueMap = new KeyValueMap();
-			var index = 0;
-			
-			for (var property in choices.models[i]["attributes"]["val"]) {
-				propertyNameMap.put(index, property);
-				propertyValueMap.put(index, choices.models[i]["attributes"]["val"][property]);
-				
-				index++;
-			}
-			
-			var attrs = "{";
-			var propertyValueMapSize = propertyValueMap.size();
-			for (var ii = 0; ii < propertyValueMapSize; ii++) {
-				attrs += '"' + propertyNameMap.get(ii) + '":' + '"' + propertyValueMap.get(ii) + '"';
-				
-				if (ii+1 < propertyValueMapSize)
-					attrs += ',';
-			}
-			
-			attrs += "}";
-			
-			if (i+1 < choices.models.length)
-				attrs += ",";
-			
-			choicesAsJSONString += attrs;
-		}
-		
-		choicesAsJSONString += "]";
-		
-		return choicesAsJSONString;
+		return JSON.stringify(choices.toJSON());
 	};
 	
 	return my;

@@ -23,8 +23,8 @@
 
 	Quizki.ExamSingleQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
-			this.model = arguments[0].attributes.val;
-			this.millisecondId = arguments[0].attributes.millisecond_id;
+			this.model = arguments[0].attributes;
+			this.millisecondId = arguments[0].attributes.id;
 			
 			this.eventHandlerMap = new KeyValueMap();
 			
@@ -55,8 +55,8 @@
 	
 	Quizki.ExamMultipleQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
-			this.model = arguments[0].attributes.val;
-			this.millisecondId = arguments[0].attributes.millisecond_id;
+			this.model = arguments[0].attributes;
+			this.millisecondId = arguments[0].attributes.id;
 			
 			this.eventHandlerMap = new KeyValueMap();
 
@@ -82,8 +82,8 @@
 	
 	Quizki.ExamStringQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
-			this.model = arguments[0].attributes.val;
-			this.millisecondId = arguments[0].attributes.millisecond_id;
+			this.model = arguments[0].attributes;
+			this.millisecondId = arguments[0].attributes.id;
 			
 			this.eventHandlerMap = new KeyValueMap();
 
@@ -103,8 +103,8 @@
 	
 	Quizki.ExamSequenceQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
-			this.model = arguments[0].attributes.val;
-			this.millisecondId = arguments[0].attributes.millisecond_id;
+			this.model = arguments[0].attributes;
+			this.millisecondId = arguments[0].attributes.id;
 			
 			this.eventHandlerMap = new KeyValueMap();
 
@@ -147,45 +147,57 @@
 				var millisecond_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
 				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
-				currQuestion.updateChoice(millisecond_id, 'isselected', v);
+				var oldAnswer = currQuestion.getChoice(millisecond_id).get('isselected');
 				
-				var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
-				var answers = model_factory.get("answersMap");
-				
-				answers.destroy(key);
-				answers.put(key, currQuestion.getChoice(millisecond_id).text);
-
-				event_intermediary.throwEvent('choicesChanged');
+				if (v != oldAnswer) {
+					currQuestion.updateChoice(millisecond_id, 'isselected', v);
+					
+					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
+					var answers = model_factory.get("answersMap");
+					
+					answers.destroy(key);
+					answers.put(key, currQuestion.getChoice(millisecond_id).text);
+	
+					event_intermediary.throwEvent('choicesChanged');
+				}
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
+				var oldAnswer = currQuestion.getChoice(millisecond_id).get('sequence');
 				var newAnswer = $(event.target).val();
-				currQuestion.updateChoice(millisecond_id, 'sequence', newAnswer);
 				
-				var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
-				var answers = model_factory.get("answersMap");
-				
-				answers.destroy(key);
-				answers.put(key, newAnswer);
-				
-				event_intermediary.throwEvent('choicesChanged');
+				if (newAnswer != oldAnswer) {
+					currQuestion.updateChoice(millisecond_id, 'sequence', newAnswer);
+					
+					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
+					var answers = model_factory.get("answersMap");
+					
+					answers.destroy(key);
+					answers.put(key, newAnswer);
+					
+					event_intermediary.throwEvent('choicesChanged');
+				}
 			};
 
 			var onStringTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('stringTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
+				var oldAnswer = currQuestion.getChoice(millisecond_id).get('string');
 				var newAnswer = $(event.target).val();
-				currQuestion.updateChoice(millisecond_id, 'string', newAnswer);
 				
-				var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
-				var answers = model_factory.get("answersMap");
-				
-				answers.destroy(key);
-				answers.put(key, newAnswer);
-				
-				event_intermediary.throwEvent('choicesChanged');
+				if (newAnswer != oldAnswer) {
+					currQuestion.updateChoice(millisecond_id, 'string', newAnswer);
+					
+					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
+					var answers = model_factory.get("answersMap");
+					
+					answers.destroy(key);
+					answers.put(key, newAnswer);
+					
+					event_intermediary.throwEvent('choicesChanged');
+				}
 			};
 
 			ul.append( childChoiceView.val.render().$el.html() );

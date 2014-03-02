@@ -48,6 +48,7 @@
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
@@ -172,23 +173,29 @@
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset', readOnly: true });
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset', readOnly: true });
 					
-					addCSVItemsToWell(bv_topicsWell, _.pluck(jQuery.parseJSON(currentQuestion.getTopics()), 'text'));
-					addCSVItemsToWell(bv_referencesWell, _.pluck(jQuery.parseJSON(currentQuestion.getReferences()), 'text'));
+					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
+					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
 					
 			    	var bv_header = new Quizki.QuestionHeaderButtonView({ el: $("#divQuestionHeader"), showEditBtn: (!_inExamContext && ${shouldAllowQuestionEditing}), showBackBtn: (_inExamContext) });
 			    });
 			    
-			    function addCSVItemsToWell(view, items) {
-			    	var collection = model_factory.get(view.getModelKey());
-			    	
-			    	var arr = new Array();
-			    	
-					for (var i=0; i<items.length; i++) {
-						arr.push(items[i]);
-					}
-			    	
-			    	arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
-			    	collection.addArray(arr); 
+				// this same code is in displayQuestion.jsp.. extract it somewhere
+			    function addCSVItemsToWell(view, jsonListOfItems) {
+					var items = '';
+					var arr = new Array();
+				    var collection = model_factory.get(view.getModelKey());
+				    						
+					if (jsonListOfItems.length > 0) {
+						items = _.pluck(jQuery.parseJSON(jsonListOfItems), 'text');
+			    
+						for (var i=0; i<items.length; i++) {
+							arr.push(items[i]);
+						}
+				    	
+				    	arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
+			    	}
+
+			    	collection.addArray(arr);
 			    }
 			    
 			    function getEntityId() {

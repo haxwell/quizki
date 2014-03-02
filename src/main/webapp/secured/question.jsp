@@ -86,13 +86,14 @@
 			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });					
 			    });
 			    
+				// this same code is in displayQuestion.jsp.. extract it somewhere
 			    function addCSVItemsToWell(view, jsonListOfItems) {
 					var items = '';
 					var arr = new Array();
 				    var collection = model_factory.get(view.getModelKey());
 				    						
 					if (jsonListOfItems.length > 0) {
-						items = _pluck(jQuery.parseJSON(jsonListOfItems, 'text'));
+						items = _.pluck(jQuery.parseJSON(jsonListOfItems), 'text');
 			    
 						for (var i=0; i<items.length; i++) {
 							arr.push(items[i]);

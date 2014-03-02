@@ -40,28 +40,30 @@ public class ReferenceUtil {
 	public static Set<Reference> getSetFromJsonString(String str) {
 		Set<Reference> rtn = new HashSet<Reference>();
 		
-		JSONValue jValue= new JSONValue();
-		JSONArray arr = null;
-		
-		Object obj = jValue.parse(str);
-		
-		if (obj instanceof JSONObject)
-			arr = (JSONArray)((JSONObject)obj).get("references");
-		else
-			arr = (JSONArray)obj;
-		
-		for (int i=0; i < arr.size(); i++) {
-			JSONObject o = (JSONObject)arr.get(i);
+		if (str.length() > 0) {
+			JSONValue jValue= new JSONValue();
+			JSONArray arr = null;
 			
-			Reference r = new Reference();
+			Object obj = jValue.parse(str);
 			
-			r.setText((String)o.get("text"));
+			if (obj instanceof JSONObject)
+				arr = (JSONArray)((JSONObject)obj).get("references");
+			else
+				arr = (JSONArray)obj;
 			
-			Long id = Long.parseLong((String)o.get("id"));
-			if (id != -1)
-				r.setId(id);
-			
-			rtn.add(r);
+			for (int i=0; i < arr.size(); i++) {
+				JSONObject o = (JSONObject)arr.get(i);
+				
+				Reference r = new Reference();
+				
+				r.setText((String)o.get("text"));
+				
+				Long id = Long.parseLong((String)o.get("id"));
+				if (id != -1)
+					r.setId(id);
+				
+				rtn.add(r);
+			}
 		}
 		
 		return rtn;

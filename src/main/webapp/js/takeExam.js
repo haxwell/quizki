@@ -109,7 +109,9 @@ var ExamEngine = (function() {
 		
 		model_factory.put('ExamEngine', this);
 		
-		this.listenTo(event_intermediary, 'choicesChanged', function(event) { isOkayToMoveForward = true; });
+		this.listenTo(event_intermediary, 'choicesChanged', function(event) { 
+			isOkayToMoveForward = true; 
+		});
 
 		var rtn = this.getFirstQuestion(); 
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
@@ -129,10 +131,10 @@ var ExamEngine = (function() {
 			return lastReturnedQuestion;
 		}
 
-		isOkayToMoveForward = false;
-		
 		if (index + 1 < totalNumberOfQuestions) {
 			// get question by that index from listQuestionsAsJsonStrings
+			isOkayToMoveForward = false;
+
 			return this.setQuestionByIndex(++index);
 		}
 		else {
@@ -164,7 +166,7 @@ var ExamEngine = (function() {
 		this.trigger('examEngineSetNewCurrentQuestion');
 		
 		lastReturnedQuestion = rtn;
-		isOkayToMoveForward = lastReturnedQuestion.hasBeenAnswered;
+		isOkayToMoveForward = lastReturnedQuestion.hasBeenAnswered();
 		
 		return rtn;
 	};

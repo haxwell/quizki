@@ -42,28 +42,30 @@ public class TopicUtil {
 	public static List<Topic> getListFromJsonString(String str) {
 		List<Topic> rtn = new ArrayList<Topic>();
 		
-		JSONValue jValue = new JSONValue();
-		JSONArray arr = null;
-		
-		Object obj = jValue.parse(str);
-		
-		if (obj instanceof JSONObject)
-			arr = (JSONArray)((JSONObject)obj).get("topics");
-		else
-			arr = (JSONArray)obj;
-		
-		for (int i=0; i < arr.size(); i++) {
-			JSONObject o = (JSONObject)arr.get(i);
+		if (str.length() > 0) {
+			JSONValue jValue = new JSONValue();
+			JSONArray arr = null;
 			
-			Topic t = new Topic();
+			Object obj = jValue.parse(str);
 			
-			t.setText((String)o.get("text"));
+			if (obj instanceof JSONObject)
+				arr = (JSONArray)((JSONObject)obj).get("topics");
+			else
+				arr = (JSONArray)obj;
 			
-			Long id = Long.parseLong((String)o.get("id"));
-			if (id != -1)
-				t.setId(id);
-			
-			rtn.add(t);
+			for (int i=0; i < arr.size(); i++) {
+				JSONObject o = (JSONObject)arr.get(i);
+				
+				Topic t = new Topic();
+				
+				t.setText((String)o.get("text"));
+				
+				Long id = Long.parseLong((String)o.get("id"));
+				if (id != -1)
+					t.setId(id);
+				
+				rtn.add(t);
+			}
 		}
 		
 		return rtn;

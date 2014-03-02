@@ -285,35 +285,37 @@
 		tagName:'li',
 		
 		initialize:function() {
-			this.model = arguments[0].attributes;
+			this.model = arguments[0];
 			
-			var text = this.model.val.text;
+			var text = this.model.get('text');
 			
 			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
 			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
 			//  instead of a value. That should be cleaned up one day..
-			var checked = (this.model.val.iscorrect == 'true' || this.model.val.iscorrect === true) ? 'checked' : '';
-			var sequence = this.model.val.sequence || 0;
-			var millisecond_id = this.model.millisecond_id || new Date().getMilliseconds();
-			var id = this.model.val.id;
+			var checked = (this.model.get('iscorrect') == 'true' || this.model.get('iscorrect') === true) ? 'checked' : '';
+			var sequence = this.model.get('sequence') || 0;
+			
+			// TODO: now that Choice is a backbone model, and we're using backbone as we should.. is millisecond_id still necessary?
+			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
+			var id = this.model.get('id');
 			
 			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 		},
 		getChoiceCorrectlyChosenStatus : function(o, cq) {
 			var rtn = -1;
 
-			var _model = this.model;
+			var _viewmodel = this.model;
 			
-        	if (o != undefined && _model.checked == 'checked' && o.attributes.value == (cq.getTypeId() == "4" ? _model.sequence : _model.text)) {
+        	if (o != undefined && _viewmodel.checked == 'checked' && o.attributes.value == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
         		// this choice was correct, and you chose it.
         		rtn = 1;
-        	} else if (o == undefined && _model.checked == 'checked') {
+        	} else if (o == undefined && _viewmodel.checked == 'checked') {
         		// this choice was correct, and you did not choose it.
         		rtn = 2;
-        	} else if (o != undefined && _model.checked !== 'checked') {
+        	} else if (o != undefined && _viewmodel.checked !== 'checked') {
         		// this choice was chosen, but is incorrect.
         		rtn = 3;
-            } else if (cq.getTypeId() == "4" && o != undefined && _model.checked == 'checked' && o.attributes.value !== _model.sequence) {
+            } else if (cq.getTypeId() == "4" && o != undefined && _viewmodel.checked == 'checked' && o.attributes.value !== _viewmodel.sequence) {
             	rtn = 4;
             }
 			
@@ -350,7 +352,7 @@
             	choiceCorrectStatusClass = 'incorrectAndChosen';
             } else if (status == 4) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
-            	_model.comment = ' (You typed: ' + o.attributes.value + ')';
+            	_model.set('comment', ' (You typed: ' + o.attributes.value + ')');
             }
 			
             var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,comment:_model.comment,checked:_model.checked,sequence:_model.sequence,hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
@@ -359,7 +361,7 @@
 			
             return this;
 		},
-		milliseconds: function() { return this.model.millisecond_id; },
+		milliseconds: function() { return this.model.id; },
 		setText: function(newText) { ; },
 		getText: function() { return this.model.text; },
 	});
@@ -369,17 +371,17 @@
 		tagName:'li',
 		
 		initialize: function() {
-			this.model = arguments[0].attributes;
+			this.model = arguments[0];
 			
-			var text = this.model.val.text;
+			var text = this.model.get('text');
 			
 			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
 			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
 			//  instead of a value. That should be cleaned up one day..
-			var checked = (this.model.val.iscorrect == 'true' || this.model.val.iscorrect === true) ? 'checked' : '';
-			var sequence = this.model.val.sequence || 0;
-			var millisecond_id = this.model.millisecond_id || new Date().getMilliseconds();
-			var id = this.model.val.id;
+			var checked = (this.model.get('iscorrect') == 'true' || this.model.get('iscorrect') === true) ? 'checked' : '';
+			var sequence = this.model.get('sequence') || 0;
+			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
+			var id = this.model.get('id');
 			
 			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 			
@@ -412,15 +414,14 @@
             	disabled = this.getDisabledText(),
             	readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
             
-            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,checked:_model.checked,sequence:_model.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
-
+            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.get('id'),text:_model.get('text'),checked:_model.get('checked'),sequence:_model.get('sequence'),hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 			this.$el.html( template );
 			
 			return this;
 		},
-		milliseconds: function() { return this.model.millisecond_id; },
-		setText: function(newText) { this.model.text = newText; },
-		getText: function() { return this.model.text; },
+		milliseconds: function() { return this.model.get('id'); },
+		setText: function(newText) { this.model.set('text', newText); },
+		getText: function() { return this.model.get('text'); },
 		setIsCorrectChangedHandler: function(func) { this.onIsCorrectChangedHandler = func;},
 		getIsCorrectChangedHandler: function() { return this.onIsCorrectChangedHandler;},
 		setSequenceTextFieldBlurHandler: function(func) { this.onSequenceTextFieldBlurHandler = func;},

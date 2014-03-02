@@ -3,12 +3,16 @@
 var Difficulty = (function() {
 	var my = {};
 	
-	var difficulty_id = 1;
+	var difficulty_id = 1,
+		initialized = false;
 	
 	my.initialize = function() {
-		difficulty_id = 1;
-		
-		_.extend(this, Backbone.Events);
+		if (!initialized) {
+			difficulty_id = 1;
+			_.extend(this, Backbone.Events);
+			
+			initialized = true;
+		}
 		
 		return this;
 	};
@@ -65,25 +69,27 @@ var Question = (function() {
 	var references = "";
 	var choices = undefined; /* will be a Backbone.Collection */
 	
-	var difficulty = new Difficulty();
+	var difficulty = undefined; /* will be a Difficulty object */
 	
 	// private method
 	function initializeFields() {
 		id = -1; user_id = -1; user_name = '';
-		text = ''; description = ''; type_id = 1; difficulty.initialize();
+		text = ''; description = ''; type_id = 1; difficulty = new Difficulty().initialize();
 		topics = ''; references = ''; choices = new Backbone.Collection([], {model : Choice});
 	};
 	
 	my.initialize = function() {
 		initializeFields();
-		
 		_.extend(this, Backbone.Events);
 	};
 	
 	my.initWithAJAXSource = function(source) {
+		this.initialize();
+		
 		id = source.id; user_id = source.user_id; user_name = source.user_name;
 		text = source.text;	description = source.description; type_id = source.type_id; 
-		difficulty_id = source.difficulty_id; 
+		
+		difficulty.setDifficultyId(source.difficulty_id);
 		
 		topics = JSON.stringify(source.topics);
 		references = JSON.stringify(source.references);
@@ -209,6 +215,10 @@ var Question = (function() {
 			this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});			
 	};
 		
+	my.getDifficulty = function() {
+		return difficulty;
+	};
+	
 	my.getDifficultyId = function () {
 		return difficulty.getDifficultyId();
 	};

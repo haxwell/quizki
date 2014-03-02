@@ -40,6 +40,16 @@ $("#examDifficultyFilter").change(function() {
 	setFocusOnTheContainer();
 });
 
+$("#rangeOfExamsFilter").change(function() {
+	//setClonedHeaderInTheGlobalVariables();
+	getExams();
+
+	// the point here is to move the focus elsewhere than this component.
+	//  This is because when it maintains focus, it is not hidden when the 
+	//  user scrolls, so it ruins the effect of the hidden fixed header at the top.
+	setFocusOnTheContainer();	
+});
+
 $("#idExamsApplyFilterButton").click(function() {
 //	setClonedHeaderInTheGlobalVariables();
 	getExams();
@@ -117,10 +127,10 @@ function Exams_convertToHTMLString(obj, rowNum) {
 
 	rtn += "</td><td>";
 	
-	rtn += "<div class=\"questionButtonDiv\">";
-	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small exam_edit_button\" id=\"edit_button_" + rowNum + "\" name=\"examButton_" + obj.id + "\" value=\"Edit Exam\"><i class=\"icon-pencil\"></i></button>";
-	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small exam_delete_button\" id=\"delete_button_" + rowNum + "\" name=\"examButton_" + obj.id + "\" value=\"Delete Exam\"><i class=\"icon-remove\"></i></button>";
-	rtn += "</div>";
+//	rtn += "<div class=\"questionButtonDiv\">";
+//	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small exam_edit_button\" id=\"edit_button_" + rowNum + "\" name=\"examButton_" + obj.id + "\" value=\"Edit Exam\"><i class=\"icon-pencil\"></i></button>";
+//	rtn += "<button type=\"submit\" class=\"btn btn-secondary btn-small exam_delete_button\" id=\"delete_button_" + rowNum + "\" name=\"examButton_" + obj.id + "\" value=\"Delete Exam\"><i class=\"icon-remove\"></i></button>";
+//	rtn += "</div>";
 	
 	rtn += "</td></tr>";
 	
@@ -181,6 +191,12 @@ function Exams_postDeleteEntityMethod() {
 function Exams_resetFilters() {
 	$("#examContainsFilter").attr("value", "");
 	$("#examTopicContainsFilter").attr("value", "");
+
+	$("#rangeOfExamsFilter > option[selected='selected']").removeAttr('selected');
+	$("#rangeOfExamsFilter > option[value='0']").attr('selected', 'selected');
+	$("#rangeOfExamsFilter > span.filter-option").html($("#rangeOfExamsFilter > option[value='0']").html());
+	$("button#rangeOfExamsFilter ~ ul > li.selected").removeClass('selected');
+	$("button#rangeOfExamsFilter ~ ul > li[rel='0']").addClass('selected');
 
 	$("#examDifficultyFilter > option[selected='selected']").removeAttr('selected');
 	$("#examDifficultyFilter > option[value='0']").attr('selected', 'selected');

@@ -20,6 +20,10 @@
 					<button type="submit" class="btn btn-secondary btn-small" id="idExamsClearFilterButton" name="clearFilterButton" title="Reset the filter." value="Clear Filter Button"><i class="icon-remove"></i></button>
 				</td>
 				<td>
+					<select id="rangeOfExamsFilter" name="small" class="span1">
+						<option value="0">All</option>
+						<option value="1">Mine</option>
+					</select>
 					<div class="input-append">
 						<input id="examContainsFilter" type="text" class="flat small"
 							placeholder="Search by exam name..." style="width: 96px;">

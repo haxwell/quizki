@@ -14,7 +14,8 @@
 				<th class="examTableTopicsColumn">Topics</th>
 				<th>Type</th>
 				<th>Difficulty</th>
-				<th>Votes</th>
+				<!-- th>Votes</th  -->
+				<th></th>
 			</tr>
 			<tr class="filter-row">
 				<td>

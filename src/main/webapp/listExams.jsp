@@ -164,6 +164,9 @@
 					function disableHeaderFilterFields() {
 						var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
 					
+						$headDOMElementInClonedHeader.find("div.btn-group > #rangeOfExamsFilter").attr("disabled", true);
+						
+						
 						$headDOMElementInClonedHeader.find("thead > tr > td > div > #containsFilter").attr("disabled", true);
 						$headDOMElementInClonedHeader.find("thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
 
@@ -179,7 +182,7 @@
 					}
 					
 					function setDataObjectDefinitions() {
-						str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#examContainsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#examTopicContainsFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#examDifficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#Exams-offset\"}]}";
+						str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#examContainsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#examTopicContainsFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#examDifficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#rangeOfExamsFilter\"},{\"name\":\"offsetFilter\",\"id\":\"#Exams-offset\"}]}";
 						$('#Exams-data-object-definition').attr("value",str);						
 					}
 					

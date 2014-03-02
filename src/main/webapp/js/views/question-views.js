@@ -354,7 +354,7 @@
             	_model.set('comment', ' (You typed: ' + o.attributes.value + ')');
             }
 			
-            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.millisecond_id,text:_model.text,comment:_model.comment,checked:_model.checked,sequence:_model.sequence,hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
+            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.get('id'),text:_model.get('text'),comment:_model.comment,checked:_model.get('checked'),sequence:_model.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
             
 			this.$el.html( template );
 			

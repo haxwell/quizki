@@ -273,10 +273,9 @@ public class QuestionUtil {
 	public static Set<Choice> getSetFromAjaxDefinition(String str, long newChoiceIndexBegin) {
 		Set<Choice> rtn = new HashSet<Choice>();
 		
-		JSONValue jValue= new JSONValue();
 		JSONArray arr = null;
 		
-		Object obj = jValue.parse(str);
+		Object obj = JSONValue.parse(str);
 		
 		if (obj instanceof JSONObject)
 			arr = (JSONArray)((JSONObject)obj).get("choice");
@@ -291,16 +290,9 @@ public class QuestionUtil {
 			c.setText((String)o.get("text"));
 			c.setSequence(Integer.parseInt((String)o.get("sequence")));
 			
-			// HACK - when choices are initially created in the javascript, they are created with the type boolean. But when saved, and read back,
-			//  they are strings. Ideally they would always be boolean. But alas... (or we could set them to always be strings.. to do that, start
-			//	in the Choice.js)
-			Object objIscorrect = o.get("iscorrect");
-			if (objIscorrect instanceof Boolean)
-				c.setIscorrect((Boolean)objIscorrect);
-			else
-				c.setIscorrect("true".equals((String)objIscorrect));
+			c.setIscorrect("true".equals((String)(o.get("iscorrect"))));
 			
-			long id = (Integer)(o.get("id"));
+			long id = Long.parseLong((String)o.get("id"));
 			if (id != -1)
 				c.setId(id);
 			
@@ -311,8 +303,7 @@ public class QuestionUtil {
 	}
 	
 	public static List<Question> getQuestions(String str) {
-		JSONValue jValue= new JSONValue();
-		JSONObject jObj = (JSONObject)jValue.parse(str);
+		JSONObject jObj = (JSONObject)JSONValue.parse(str);
 
 		JSONArray arr = (JSONArray)jObj.get("questions");
 		

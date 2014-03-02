@@ -154,10 +154,10 @@
 					
 					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
 					var answers = model_factory.get("answersMap");
-					
+
 					answers.destroy(key);
-					answers.put(key, currQuestion.getChoice(millisecond_id).text);
-	
+					answers.put(key, currQuestion.getChoice(millisecond_id).get('text'));
+					
 					event_intermediary.throwEvent('choicesChanged');
 				}
 			};

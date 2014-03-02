@@ -274,18 +274,18 @@ var Question = (function() {
 	};
 	
 	my.getChoice = function(_millisecondId) {
-		return choices.where({id:_millisecondId*1})[0];
+		return choices.where({id:_millisecondId})[0];
 	};
 		
 	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
-		choices.where({id:_millisecondId*1})[0].set(_attrToUpdate, _val);
+		choices.where({id:_millisecondId})[0].set(_attrToUpdate, _val);
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 	};
 		
 	my.removeChoice = function(_millisecondId, throwEvent) {
-		choices = _.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId*1;  });
+		choices = _.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId;  });
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

@@ -290,9 +290,17 @@ public class QuestionUtil {
 			
 			c.setText((String)o.get("text"));
 			c.setSequence(Integer.parseInt((String)o.get("sequence")));
-			c.setIscorrect("true".equals((String)o.get("iscorrect")));
 			
-			Long id = Long.parseLong((String)o.get("id"));
+			// HACK - when choices are initially created in the javascript, they are created with the type boolean. But when saved, and read back,
+			//  they are strings. Ideally they would always be boolean. But alas... (or we could set them to always be strings.. to do that, start
+			//	in the Choice.js)
+			Object objIscorrect = o.get("iscorrect");
+			if (objIscorrect instanceof Boolean)
+				c.setIscorrect((Boolean)objIscorrect);
+			else
+				c.setIscorrect("true".equals((String)objIscorrect));
+			
+			long id = (Integer)(o.get("id"));
 			if (id != -1)
 				c.setId(id);
 			

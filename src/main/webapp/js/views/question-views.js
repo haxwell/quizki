@@ -7,7 +7,7 @@
 			var currQuestion = model_factory.get("currentQuestion");
 			
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.render(); });
-			this.listenTo(currQuestion, 'reset', function(event) { this.render(); });			
+			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });			
 		},
 		events: {
 			"change select":"changed"
@@ -60,7 +60,6 @@
 			this.render();
 		},
 		events: {
-			//"click #btnSaveAndAddAnother":"saveQuestion",
 			"click #btnSave":"saveQuestion"
 		},
 		render:function() {
@@ -93,7 +92,7 @@
 					arr = parsedJSONObject.successes[0].val.split(',');
 					alertClass = 'alert-success';
 					
-					model_factory.get('currentQuestion').reset();
+					model_factory.get('currentQuestion').resetQuestion();
 				}
 				
 				var msgs = "";
@@ -299,12 +298,12 @@
 			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
 			var id = this.model.get('id');
 			
-			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
+			this.viewmodel = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 		},
 		getChoiceCorrectlyChosenStatus : function(o, cq) {
 			var rtn = -1;
 
-			var _viewmodel = this.model;
+			var _viewmodel = this.viewmodel;
 			
         	if (o != undefined && _viewmodel.checked == 'checked' && o.attributes.value == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
         		// this choice was correct, and you chose it.
@@ -361,9 +360,9 @@
 			
             return this;
 		},
-		milliseconds: function() { return this.model.id; },
+		milliseconds: function() { return this.viewmodel.id; },
 		setText: function(newText) { ; },
-		getText: function() { return this.model.text; },
+		getText: function() { return this.viewmodel.text; },
 	});
 	
 	// this view represents an item in a list of choices
@@ -383,7 +382,7 @@
 			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
 			var id = this.model.get('id');
 			
-			this.model = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
+			this.viewmodel = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 			
 			this.disableCheckboxes = arguments[1];
 			
@@ -409,24 +408,23 @@
 			return "";
 		},
 		render:function() {
-            var _model = this.model,
+            var _viewmodel = this.viewmodel,
             	hideSequence = this.getHideSequence(),
             	disabled = this.getDisabledText(),
             	readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
             
-            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_model.get('id'),text:_model.get('text'),checked:_model.get('checked'),sequence:_model.get('sequence'),hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
+            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_viewmodel.id,text:_viewmodel.text,checked:_viewmodel.checked,sequence:_viewmodel.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 			this.$el.html( template );
 			
 			return this;
 		},
-		milliseconds: function() { return this.model.get('id'); },
-		setText: function(newText) { this.model.set('text', newText); },
-		getText: function() { return this.model.get('text'); },
+		milliseconds: function() { return this.viewmodel.id; },
+		setText: function(newText) { this.viewmodel.text = newText; },
+		getText: function() { return this.viewmodel.text; },
 		setIsCorrectChangedHandler: function(func) { this.onIsCorrectChangedHandler = func;},
 		getIsCorrectChangedHandler: function() { return this.onIsCorrectChangedHandler;},
 		setSequenceTextFieldBlurHandler: function(func) { this.onSequenceTextFieldBlurHandler = func;},
 		getSequenceTextFieldBlurHandler: function() { return this.onSequenceTextFieldBlurHandler;}
-		
 	});
 
 	// this view represents the list of choices
@@ -442,11 +440,13 @@
 			this.ChoiceItemViewCollection = new Array();
 			
 			var currQuestion = model_factory.get('currentQuestion');
-			this.listenTo(currQuestion, 'reset', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			this.setStateOnInitialization();
+			
+			this.render();
 		},
 		setSequenceFieldsAreVisible: function (bool) {
 			var _el = this.$el.find(".sequenceDiv");
@@ -588,7 +588,7 @@
 			
 			var currQuestion = model_factory.get('currentQuestion', false);
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
-			this.listenTo(currQuestion, 'reset', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			var state = method_utility.getQuizkiObject({});
 			

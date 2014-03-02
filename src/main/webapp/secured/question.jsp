@@ -45,7 +45,9 @@
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
+
 			
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
@@ -73,12 +75,10 @@
 			    	var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv") });
 					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv") });
 					
-					bv_questionChoiceList.render();
-					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId(), getModelNameKey:"currentQuestion" });
 					
-					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
-					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset' });
+					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'resetQuestion' });
+					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'resetQuestion' });
 					
 					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
 					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());

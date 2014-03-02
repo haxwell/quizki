@@ -106,10 +106,10 @@ var Question = (function() {
 		this.initWithAJAXSource(obj);
 	};
 	
-	my.reset = function() {
+	my.resetQuestion = function() {
 		initializeFields();
 		
-		this.trigger('reset');
+		this.trigger('resetQuestion');
 	};
 	
 	my.setQuizkiCollection = function (key, quizkiCollection) {
@@ -149,8 +149,8 @@ var Question = (function() {
 				type_id:type_id,
 				difficulty_id:difficulty.getDifficultyId(),
 				user_id:user_id,
-				topics:method_utility.getCSVFromJSArray(topics, "text"),
-				references:method_utility.getCSVFromJSArray(references, "text"),
+				topics:topics, 
+				references:references,
 				choices:this.getChoicesAsJSONString()
 		};
 	};
@@ -253,7 +253,9 @@ var Question = (function() {
 	};
 		
 	my.addChoice = function(_text, _iscorrect, _sequence, throwEvent) {
-		choices.add({id:-1,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false});
+		millisecond_id = new Date().getMilliseconds();
+		
+		choices.add({id:millisecond_id,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false});
 
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
@@ -262,18 +264,18 @@ var Question = (function() {
 	};
 	
 	my.getChoice = function(_millisecondId) {
-		return choices.where({id:_millisecondId})[0];
+		return choices.where({id:_millisecondId*1})[0];
 	};
 		
 	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
-		choices.where({id:_millisecondId})[0].set(_attrToUpdate, _val);
+		choices.where({id:_millisecondId*1})[0].set(_attrToUpdate, _val);
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 	};
 		
 	my.removeChoice = function(_millisecondId, throwEvent) {
-		choices = _.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId;  });
+		choices = _.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId*1;  });
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

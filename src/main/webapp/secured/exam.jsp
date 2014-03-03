@@ -173,7 +173,7 @@
 									if (obj.examValidationWarnings != undefined) {
 										populateAlertDiv(obj.examValidationWarnings, 'alert-info');
 									} else if (obj.successes != undefined) {
-										alert("success! The Exam was saved!");
+										//alert("success! The Exam was saved!");
 										
 										window[prefix+"_resetFilters"]();
 										window[prefix+"_getEntities"]();
@@ -182,9 +182,11 @@
 										$('#id_examMessage').attr('value', '');
 	
 										populateAlertDiv(obj.successes, 'alert-success');
+										
+										clearNoMoreItemsToDisplay();
 									}
 									else {
-										alert("errors: " + obj.examValidationErrors[0]);
+										//alert("errors: " + obj.examValidationErrors[0]);
 										
 										populateAlertDiv(obj.examValidationErrors, 'alert-error');
 									}

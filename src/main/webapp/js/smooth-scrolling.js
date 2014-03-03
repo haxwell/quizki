@@ -258,7 +258,7 @@
 							var msg = "";
 							
 							if (parsedJSONObject.addlInfoCode == 0) {
-								msg = "You haven't created any questions!"; 
+								msg = "You haven't created anything to list here!"; 
 							} else if (parsedJSONObject.addlInfoCode == 1) {
 								msg = "Nothing matches that filter...";								
 							} else if (parsedJSONObject.addlInfoCode == 2) {

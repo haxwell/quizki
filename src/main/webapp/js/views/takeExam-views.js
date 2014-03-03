@@ -146,7 +146,7 @@
 
 				var millisecond_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
-				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
+				var v = $(event.target).find("div.switch-animate").hasClass('switch-on');
 				var oldAnswer = currQuestion.getChoice(millisecond_id).get('isselected');
 				
 				if (v != oldAnswer) {

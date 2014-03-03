@@ -305,7 +305,7 @@
 
 			var _viewmodel = this.viewmodel;
 			
-        	if (o != undefined && _viewmodel.checked == 'checked' && o.attributes.value == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
+        	if (o != undefined && _viewmodel.checked == 'checked' && o.get('value') == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
         		// this choice was correct, and you chose it.
         		rtn = 1;
         	} else if (o == undefined && _viewmodel.checked == 'checked') {
@@ -314,10 +314,12 @@
         	} else if (o != undefined && _viewmodel.checked !== 'checked') {
         		// this choice was chosen, but is incorrect.
         		rtn = 3;
-            } else if (cq.getTypeId() == "4" && o != undefined && _viewmodel.checked == 'checked' && o.attributes.value !== _viewmodel.sequence) {
+            } else if (cq.getTypeId() == "4" && o != undefined && _viewmodel.checked == 'checked' && o.get('value') !== _viewmodel.sequence) {
             	rtn = 4;
+            } else if (cq.getTypeId() == "3" && o != undefined && _viewmodel.checked == 'checked' && o.get('value') != _viewmodel.text) {
+            	rtn = 5;
             }
-			
+
 			return rtn;
 		},
 		setHideSwitchAndSequence:function() {
@@ -349,10 +351,12 @@
             	choiceCorrectStatusClass = 'correctButNotChosen';
             } else if (status == 3) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
-            } else if (status == 4) {
+            } else if (status == 4 || status == 5) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
-            	_model.set('comment', ' (You typed: ' + o.attributes.value + ')');
-            }
+            	_model.comment = ' (You typed: ' + o.get('value') + ')';
+            }// else if (status == 5) {
+            	// string
+            //}
 			
             var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.get('id'),text:_model.get('text'),comment:_model.comment,checked:_model.get('checked'),sequence:_model.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
             

@@ -278,7 +278,7 @@ var Question = (function() {
 	};
 		
 	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
-		choices.where({id:_millisecondId})[0].set(_attrToUpdate, _val);
+		choices.where({id:_millisecondId})[0].set(_attrToUpdate, _val+'');
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

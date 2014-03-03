@@ -516,14 +516,15 @@
 			var isCorrectChangedCallbackFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
-				var v = !($(event.target).find("input.checkbox").attr('checked') == 'checked');
-				currQuestion.updateChoice(millisecond_id, 'iscorrect', v, false);
+				var v = $(event.target).find("div.switch-animate").hasClass('switch-on');
+				
+				currQuestion.updateChoice(millisecond_id, 'iscorrect', v+'', false);
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val(), false);
+				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val()+'', false);
 			};
 			
 			var questionChoiceItemView = undefined;

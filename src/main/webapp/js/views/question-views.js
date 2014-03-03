@@ -396,7 +396,7 @@
 			
 			var hideSequence = "hidden";
 			
-			if (currQuestion.type_id == "4")
+			if (currQuestion.getTypeId() == "4")
 				hideSequence = "";
 
 			return hideSequence;
@@ -441,7 +441,7 @@
 			
 			var currQuestion = model_factory.get('currentQuestion');
 			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
-			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'choicesChanged', function(event) { /*this.setStateOnQuestionTypeChangedEvent(event);*/ this.render(); });
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			this.setStateOnInitialization();
@@ -608,9 +608,9 @@
 				state.val.checkBoxDisabled = "";
 		},
 		setStateOnInitialization: function () {
-			var currQuestion = model_factory.get('currentQuestion');
+			var type_id = model_factory.get('currentQuestion').getTypeId();
 			
-			this.setCheckBoxDisabled(currQuestion.type_id == "3" || currQuestion.type_id == "4");
+			this.setCheckBoxDisabled(type_id == "3" || type_id == "4");
 		},
 		setStateOnQuestionTypeChangedEvent: function(event) { 
 			if (event !== undefined && event.type_id !== undefined)

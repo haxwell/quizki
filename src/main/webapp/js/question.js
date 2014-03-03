@@ -263,9 +263,9 @@ var Question = (function() {
 	};
 		
 	my.addChoice = function(_text, _iscorrect, _sequence, throwEvent) {
-		millisecond_id = new Date().getMilliseconds();
+		millisecond_id = new Date().getMilliseconds()+'';
 		
-		choices.add({id:millisecond_id,text:_text,iscorrect:_iscorrect,sequence:_sequence,isselected:false});
+		choices.add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false'});
 
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

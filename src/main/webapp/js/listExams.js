@@ -58,6 +58,7 @@ $("#idExamsApplyFilterButton").click(function() {
 $("#idExamsClearFilterButton").click(function() {
 	if (true) { // TODO: set a variable for when the filters have been set, so we don't just call getExams() unnecessarily.
 		Exams_resetFilters();
+		clearNoMoreItemsToDisplayFlag();
 		getExams();
 	}
 });

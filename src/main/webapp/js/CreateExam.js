@@ -53,6 +53,7 @@ $("#idApplyFilterButton").click(function() {
 
 $("#idClearFilterButton").click(function() {
 	Exams_resetFilters();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 

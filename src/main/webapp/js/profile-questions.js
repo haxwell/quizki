@@ -55,6 +55,7 @@ $("#idApplyFilterButton").click(function() {
 
 $("#idClearFilterButton").click(function() {
 	Questions_resetFilters();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 

@@ -126,7 +126,7 @@ Quizki.DifficultyChooserView = Backbone.View.extend({
 			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 			});
 
-		this.listenTo(currQuestion, 'reset', function(event) { 
+		this.listenTo(currQuestion, 'resetQuestion', function(event) { 
 			var currQuestion = model_factory.get(this.getModelNameKey);
 			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 			});

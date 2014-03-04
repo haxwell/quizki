@@ -430,7 +430,7 @@ public class QuestionManager extends Manager {
 		queryString += "q.difficulty.id <= ?1";
 		
 		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += " AND q.text LIKE ?2 OR q.description LIKE ?2"; 
+			queryString += " AND UPPER(q.text) LIKE ?2 OR UPPER(q.description) LIKE ?2"; 
 		
 		if (includeOnlyUserCreatedEntities)
 			queryString += " AND q.user.id = ?3";
@@ -440,7 +440,7 @@ public class QuestionManager extends Manager {
 		query.setParameter(1, maxDifficulty);
 		
 		if (!StringUtil.isNullOrEmpty(filterText))
-			query.setParameter(2, "%" + filterText + "%");
+			query.setParameter(2, "%" + filterText.toUpperCase() + "%");
 		
 		if (includeOnlyUserCreatedEntities)
 			query.setParameter(3, Long.parseLong(user.getId()+""));

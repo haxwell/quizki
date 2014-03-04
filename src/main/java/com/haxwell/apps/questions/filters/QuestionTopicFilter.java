@@ -50,7 +50,7 @@ public class QuestionTopicFilter implements ShouldRemoveAnObjectCommand<Question
 		boolean rtn = true;
 		
 		if (topicFilterId == null && topicFilterText != null) {
-			rtn = t.getText().contains(topicFilterText);
+			rtn = t.getText().toUpperCase().contains(topicFilterText.toUpperCase());
 		}
 		else if (this.topicFilterId != null)
 			rtn = topicFilterId.equals(t.getId());

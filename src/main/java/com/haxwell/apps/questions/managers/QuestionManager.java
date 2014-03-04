@@ -425,21 +425,33 @@ public class QuestionManager extends Manager {
 		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
 		User user = (User)fc.get(FilterConstants.USER_ID_ENTITY);
 		
-		String queryString = "SELECT q FROM Question q WHERE ";
+		String queryString = "SELECT q FROM Question q"; 
+
+		boolean filterTextIsNullOrEmpty = StringUtil.isNullOrEmpty(filterText);
+		if (!filterTextIsNullOrEmpty || maxDifficulty > 0 || includeOnlyUserCreatedEntities)
+			queryString += " WHERE "; 
 		
-		queryString += "q.difficulty.id <= ?1";
+		if (maxDifficulty > 0) 
+			queryString += "q.difficulty.id = ?1 ";
 		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += " AND UPPER(q.text) LIKE ?2 OR UPPER(q.description) LIKE ?2"; 
+		if (maxDifficulty > 0 && !filterTextIsNullOrEmpty)
+			queryString += " AND ";
+		
+		if (!filterTextIsNullOrEmpty)
+			queryString += " UPPER(q.text) LIKE ?2 OR UPPER(q.description) LIKE ?2"; 
+		
+		if (!filterTextIsNullOrEmpty && includeOnlyUserCreatedEntities)
+			queryString += " AND ";
 		
 		if (includeOnlyUserCreatedEntities)
-			queryString += " AND q.user.id = ?3";
+			queryString += "q.user.id = ?3";
 		
 		Query query = em.createQuery(queryString, Question.class);
 		
-		query.setParameter(1, maxDifficulty);
+		if (maxDifficulty > 0) 
+			query.setParameter(1, maxDifficulty);
 		
-		if (!StringUtil.isNullOrEmpty(filterText))
+		if (!filterTextIsNullOrEmpty)
 			query.setParameter(2, "%" + filterText.toUpperCase() + "%");
 		
 		if (includeOnlyUserCreatedEntities)

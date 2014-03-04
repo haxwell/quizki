@@ -243,15 +243,35 @@
 			this.isOkayToMoveForward = false;
 
 			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render(); });
+			this.listenTo(event_intermediary, 'nowInExamReviewMode', function(event) { this.render(); });
 			
 			this.render();
 		},
 		events: {
+			"click #firstBtn": "firstBtnClicked",
 			"click #prevBtn": "prevBtnClicked",
-			"click #nextBtn": "nextBtnClicked"
+			"click #nextBtn": "nextBtnClicked",
+			"click #lastBtn": "lastBtnClicked",
+			"keypress #jumpToIndex_Input": "jumpToIndex"
 		},
+		firstBtnClicked: function() {
+			ExamEngine.firstQuestion();
+		},
+		lastBtnClicked: function() {
+			ExamEngine.lastQuestion();
+		},		
 		prevBtnClicked: function() {
 			ExamEngine.prevQuestion();
+		},
+		jumpToIndex: function(event) {
+			if (event.keyCode != 13) return;
+
+			var $textField = $('#jumpToIndex_Input');
+			var textFieldVal = $textField.val();
+
+			// if the text field value is a number
+			if (!isNaN(parseFloat(textFieldVal)) && isFinite(textFieldVal))
+				ExamEngine.setQuestionByIndex(textFieldVal-1);
 		},
 		nextBtnClicked: function() {
 			var q = ExamEngine.nextQuestion();
@@ -264,6 +284,7 @@
 					      buttons: [{
 					        text : "< Wait!! Let me review!", 
 					        click : function() {
+					        	event_intermediary.throwEvent('nowInExamReviewMode');
 					        	$( this ).dialog( "close" );
 					        }},
 					        {
@@ -306,7 +327,9 @@
 		render:function () {
 			// eventually, we'll need to check if the exam is completed, and display another set of buttons..
 			//  but for now.. this one will do..
-			var template = view_utility.executeTemplate('/templates/ExamInProgressNavigationButtonsView.html', {disabled:""});
+			var _hidden = ExamEngine.getAllQuestionsHaveBeenAnswered() ? "" : "hidden";
+			
+			var template = view_utility.executeTemplate('/templates/ExamInProgressNavigationButtonsView.html', {disabled:"", hidden:_hidden});
 			this.$el.html( template );
 		}
 	});

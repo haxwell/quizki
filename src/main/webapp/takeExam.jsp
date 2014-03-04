@@ -74,6 +74,7 @@
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("examHistoryQuestionIndexList", function() { return '${sessionScope.examHistoryQuestionIndexList}'; });
 			    	model_constructor_factory.put("answersMap", function() { return new KeyValueMap(); });
+			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 			    	
 					ExamEngine.initialize();
 			    

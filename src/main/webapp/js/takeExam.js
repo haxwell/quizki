@@ -58,7 +58,8 @@ var ExamEngine = (function() {
 		index = -1,
 		totalNumberOfQuestions = 0,
 		lastReturnedQuestion = null,
-		isOkayToMoveForward = false; 
+		isOkayToMoveForward = false,
+		allQuestionsHaveBeenAnswered = false;
 	
 	function getQuestionByItsId(id) {
 		var str = questionToJSON_map.get(id);
@@ -113,7 +114,7 @@ var ExamEngine = (function() {
 			isOkayToMoveForward = true; 
 		});
 
-		var rtn = this.getFirstQuestion(); 
+		var rtn = this.firstQuestion(); 
 		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
 		this.trigger('examEngineSetNewCurrentQuestion');
 	};
@@ -124,7 +125,15 @@ var ExamEngine = (function() {
 	
 	my.getTotalQuestionCount = function() {
 		return totalNumberOfQuestions;
-	}
+	};
+	
+	my.setAllQuestionsHaveBeenAnswered = function(bool) {
+		allQuestionsHaveBeenAnswered = bool;
+	};
+	
+	my.getAllQuestionsHaveBeenAnswered = function() {
+		return allQuestionsHaveBeenAnswered;
+	};
 	
 	my.nextQuestion = function() {
 		if (isOkayToMoveForward == false) {
@@ -138,6 +147,7 @@ var ExamEngine = (function() {
 			return this.setQuestionByIndex(++index);
 		}
 		else {
+			this.setAllQuestionsHaveBeenAnswered(true);
 			return null; 	// there is no next question
 		}
 	};
@@ -156,29 +166,31 @@ var ExamEngine = (function() {
 	};
 	
 	my.setQuestionByIndex = function(idx) {
-		index = idx;
-
-		cacheCurrentQuestionAsJSON();
-		var rtn = getQuestionByItsIndex(index);
+		rtn = undefined;
 		
-		$("#idCurrentQuestionAsJson").val(rtn.toJSON());
-		model_factory.put("currentQuestion", rtn);
-		this.trigger('examEngineSetNewCurrentQuestion');
-		
-		lastReturnedQuestion = rtn;
-		isOkayToMoveForward = lastReturnedQuestion.hasBeenAnswered();
+		if (idx >= 0 && idx < totalNumberOfQuestions) {
+			index = idx;
+	
+			cacheCurrentQuestionAsJSON();
+			rtn = getQuestionByItsIndex(index);
+			
+			$("#idCurrentQuestionAsJson").val(rtn.toJSON());
+			model_factory.put("currentQuestion", rtn);
+			this.trigger('examEngineSetNewCurrentQuestion');
+			
+			lastReturnedQuestion = rtn;
+			isOkayToMoveForward = lastReturnedQuestion.hasBeenAnswered();
+		}
 		
 		return rtn;
 	};
-	
-	my.getFirstQuestion = function() {
-		cacheCurrentQuestionAsJSON();
-		return getQuestionByItsIndex(0);
+
+	my.firstQuestion = function() {
+		return this.setQuestionByIndex(0);
 	};
-	
-	my.getLastQuestion = function() {
-		cacheCurrentQuestionAsJSON();
-		return getQuestionByItsIndex(listQuestionIds.length - 1);
+
+	my.lastQuestion = function() {
+		return this.setQuestionByIndex(totalNumberOfQuestions - 1);
 	};
 	
 	my.getQuestionsAsJsonString = function() {

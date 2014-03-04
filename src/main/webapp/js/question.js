@@ -296,7 +296,7 @@ var Question = (function() {
 		
 		if (type_id == 1 || type_id == 2) {
 			rtn = _.some(choices.models, function(choice) {
-				return choice.get('isselected') == true;
+				return choice.get('isselected') == "true";
 			});
 		} else if (type_id == 3) {
 			rtn = _.some(choices.models, function(choice) {

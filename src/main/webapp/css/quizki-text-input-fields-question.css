@@ -37,3 +37,6 @@ input[type="color"],
   -webkit-backface-visibility: hidden;
 }
 
+input.hidden {
+  display: none;
+}

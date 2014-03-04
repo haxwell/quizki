@@ -117,8 +117,27 @@
 			<div class="content">
 			
 				<div id="divHeaderText">..</div>
-
+				<br/>
 				<table>
+					<tr>
+						<td>
+						</td>
+						<td>
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							All Topics / Search Topics
+						</td>
+						<td>
+							Max. Question Difficulty
+						</td>
+						<td>
+							Max. Number of Questions
+						</td>
+					</tr>
 					<tr>
 						<td>
 							<div id="divAllTopicsListFilterView">..</div>

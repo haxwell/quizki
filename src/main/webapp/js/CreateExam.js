@@ -48,6 +48,7 @@ $("#rangeOfQuestionsFilter").change(function() {
 
 $("#idApplyFilterButton").click(function() {
 	//setClonedHeaderInTheGlobalVariables();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 

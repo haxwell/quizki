@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import net.minidev.json.JSONObject;
+
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.entities.AbstractEntity;
@@ -70,6 +72,12 @@ public class ExamManager extends Manager {
 		em.getTransaction().commit();
 		
 		return rtn.getId();
+	}
+	
+	public static void deleteExam(JSONObject obj) {
+		String key = (String)obj.get("exam_id");
+		
+		deleteExam(key);
 	}
 	
 	public static void deleteExam(String str)

@@ -61,6 +61,7 @@
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.stacktable.js"></script> ]]>
 			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/quizki_custom_application.js"></script> ]]>
 			
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 			
 		</jsp:text>

@@ -124,47 +124,6 @@ function Exams_convertToHTMLString(obj, rowNum) {
 	return rtn;
 }
 
-//function setExamsButtonClickHandlersForRow(row) {
-//	
-//	if (row != undefined) {
-//		row.find('.question_delete_button').click(function() {
-//			var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions());
-//	
-//			// These are used in creating the object which is passed back to the server
-//			//  identifying the name of the last pressed button (hint, its the delete
-//			//  button that just got clicked) and its value, from which we get the 
-//			//  question ID on the server side.. and then the question entity, etc, etc.
-//			setLastPressedButtonName($(this), "nameOfLastPressedButton");
-//			setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-//	
-//			dlg.dialog('open');	
-//			
-//			return false;
-//		});
-//	
-//		row.find('.question_edit_button').click(function() { 
-//
-//			// These are used in creating the object which is passed back to the server
-//			//  identifying the name of the last pressed button (hint, its the 
-//			//  button that just got clicked) and its value, from which we get the 
-//			//  question ID on the server side.. and then the question entity, etc, etc.
-//			setLastPressedButtonName($(this), "nameOfLastPressedButton");
-//			setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-//			
-//			var buttonName = $(this).attr("name");
-//			var arr = buttonName.split('_');
-//			var id = arr[1];
-//			
-//			var url="/secured/question.jsp?questionId=" + id;
-//			
-//			// redirect to question editing page
-//			window.location.href = url;
-//		});				    
-//	}
-//	else
-//		alert("The row sent to setQuestionsButtonclickedHandlersForRow was undefined!");
-//}
-
 function Exams_setDeleteEntityDataObjectDefinition() {
 	var str = '{"fields": [{"name":"nameOfLastPressedButton","id":"#nameOfLastPressedButton"},{"name":"valueOfLastPressedButton","id":"#valueOfLastPressedButton"}]}';
 	
@@ -179,12 +138,6 @@ function Exams_resetFilters() {
 	$("#examContainsFilter").attr("value", "");
 	$("#examTopicContainsFilter").attr("value", "");
 
-//	$("#questionTypeFilter > option[selected='selected']").removeAttr('selected');
-//	$("#questionTypeFilter > option[value='0']").attr('selected', 'selected');
-//	$("#questionTypeFilter > span.filter-option").html($("#questionTypeFilter > option[value='0']").html());
-//	$("button#questionTypeFilter ~ ul > li.selected").removeClass('selected');
-//	$("button#questionTypeFilter ~ ul > li[rel='0']").addClass('selected');
-
 	$("#examDifficultyFilter > option[selected='selected']").removeAttr('selected');
 	$("#examDifficultyFilter > option[value='0']").attr('selected', 'selected');
 	$("#examDifficultyFilter > span.filter-option").html($("#difficultyFilter > option[value='0']").html());
@@ -195,33 +148,59 @@ function Exams_resetFilters() {
 function setExamsButtonClickHandlersForRow(row) {
 	
 	row.find('.exam_delete_button').click(function() {
-		var dlg2 = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("profileExamForm"));
+		// get the id of this row
+		var buttonName = $(this).attr("name");
+		var arr = buttonName.split('_');
+		var id = arr[1];
+		
+		// pop up dialog, confirm deletion
+		var dlg2 = $('#dialogText').dialog({ 
+			autoOpen: false, resizable: false, modal: true,
+		      buttons: [{
+		        text : "No! Don't do it!", 
+		        click : function() {
+		        	$( this ).dialog( "close" );
+		        }},
+		        {
+		        text : "DELETE IT!",
+		        click : function() {
+		        	
+		    		var json = '';
 
-		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+		    		json += JSONUtility.startJSONString(json);
 
-			dlg2.dialog("open");
-			return false;
+		    		json += JSONUtility.getJSON('exam_id', ''+id);
+		    		
+		    		json = JSONUtility.endJSONString(json);
+		    		
+		    		var data_obj = { data : json };
+
+		    		// pass it to exam-delete.jsp
+		        	makeAJAXCall_andWaitForTheResults('/ajax/exam-delete.jsp', data_obj, function(data, status) {
+		        		// TODO: Explicitly handle success and failure cases
+		        		//window.location.href = '/beginExam.jsp';					        		
+		        	});
+
+		        	$( this ).dialog( "close" );
+		        	
+		    		// refresh, call Exams_postDeleteEntityMethod()
+		    		Exams_postDeleteEntityMethod();
+		        }}]});
+	
+			dlg2.dialog('open');
 		});
 
 	row.find('.exam_edit_button').click(function() { 
-		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
+		// just do a window.href and forward to /exam.jsp?examId = idOfThisRow
 		
-		document.getElementById("profileExamForm").submit();
-	});
+		var buttonName = $(this).attr("name");
+		var arr = buttonName.split('_');
+		var id = arr[1];
+		
+		var url="/secured/exam.jsp?examId=" + id;
+		
+		// redirect to question editing page
+		window.location.href = url;
 
-//	row.find('.exam_take_button').click(function () {
-//		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-//		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-//		
-//		document.getElementById("profileExamForm").submit();
-//	});
-//		
-//	row.find('.exam_detail_button').click(function () {
-//		setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-//		setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-//		
-//		document.getElementById("profileExamForm").submit();
-//	});
+	});
 }

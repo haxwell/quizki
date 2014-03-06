@@ -14,11 +14,13 @@ public class DifficultyConstants {
 	public static final int INTERMEDIATE = 2;
 	public static final int WELL_VERSED = 3;
 	public static final int GURU = 4;
+	public static final int ALL_DIFFICULTIES = 0;
 	
 	public static final String JUNIOR_STR = "Junior";
 	public static final String INTERMEDIATE_STR = "intermediate";
 	public static final String WELL_VERSED_STR = "wellversed";
 	public static final String GURU_STR = "guru";
+	public static final String ALL_DIFFICULTIES_STR = "all";
 	
 	protected static Map<Integer, String> map1;
 	protected static Map<String, Integer> map2;

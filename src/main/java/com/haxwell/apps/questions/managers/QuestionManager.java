@@ -578,7 +578,7 @@ public class QuestionManager extends Manager {
 			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);
 		}
 
-		rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions));
+		rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", (selectedQuestions == null ? "" : CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions)));
 		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);
 		
 		return rtn;
@@ -725,9 +725,10 @@ public class QuestionManager extends Manager {
 			arr.add(new QuestionFilter(filter));
 		}
 		
-		filter = fc.get(FilterConstants.DIFFICULTY_FILTER) != null ? fc.get(FilterConstants.DIFFICULTY_FILTER).toString() : "";
+		filter = fc.get(FilterConstants.DIFFICULTY_FILTER).toString();
+		filter = filter != null ? filter.toString() : "";
 		
-		if (!StringUtil.isNullOrEmpty(filter)) {
+		if (!StringUtil.isNullOrEmpty(filter) && !filter.equals(DifficultyConstants.ALL_DIFFICULTIES+"")) {
 			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
 		}
 		

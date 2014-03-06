@@ -129,6 +129,10 @@
 				<script type="text/javascript">
 					
 					$(document).ready(function() {
+						var setSelectedInDropdown = '${sessionScope.onlySelectedQuestionsShouldBeShown}';
+						if (setSelectedInDropdown.length > 0)
+							$("#rangeOfQuestionsFilter").val("2");
+						
 						setDataObjectDefinitions();
 						displayMoreRows(addCheckboxToRow);
 						
@@ -352,8 +356,10 @@
 					// called by smoothScrolling::displayMoreRows()
 					//  obj is a JSON object based on data from the last AJAX call to getMoreRows()
 					function oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(obj) {
-						if (obj.selectedEntityIDsAsCSV != undefined)
+						if (obj.selectedEntityIDsAsCSV != undefined && obj.selectedEntityIDsAsCSV != '')
 							selectedEntityIDsArray = obj.selectedEntityIDsAsCSV.split(',');
+						else
+							selectedEntityIDsArray = undefined;
 					}
 					
 					// TODO: name this function better.. it is called for each row, and does more than add a checkbox
@@ -365,6 +371,8 @@
 						// from the checkbox on the row, get the name attribute (selectQuestionChkbox_qId)
 						// get the id from the name attribute
 						
+						row.find('label.checkbox').removeClass('checked');
+
 						if (selectedEntityIDsArray != undefined) {
 							var name = row.find('input.selectQuestionChkbox').attr('name');
 			 				var arr = name.split('_');

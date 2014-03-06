@@ -4,6 +4,7 @@ $("#containsFilter").change(function() {
 
 $("#searchQuestionsBtn").click(function() {
 	//setClonedHeaderInTheGlobalVariables();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 
@@ -13,11 +14,13 @@ $("#topicContainsFilter").change(function() {
 
 $("#searchTopicsBtn").click(function() {
 	//setClonedHeaderInTheGlobalVariables();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 
 $("#questionTypeFilter").change(function() {
 	//setClonedHeaderInTheGlobalVariables();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 
 	// the point here is to move the focus elsewhere than this component.
@@ -28,6 +31,7 @@ $("#questionTypeFilter").change(function() {
 
 $("#difficultyFilter").change(function() {
 	//setClonedHeaderInTheGlobalVariables();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 
 	// the point here is to move the focus elsewhere than this component.
@@ -38,6 +42,7 @@ $("#difficultyFilter").change(function() {
 
 $("#rangeOfQuestionsFilter").change(function() {
 	//setClonedHeaderInTheGlobalVariables();
+	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 
 	// the point here is to move the focus elsewhere than this component.

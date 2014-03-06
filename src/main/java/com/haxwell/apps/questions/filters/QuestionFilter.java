@@ -14,12 +14,13 @@ public class QuestionFilter implements ShouldRemoveAnObjectCommand<Question> {
 	
 	public boolean shouldRemove(Question q) {
 		boolean rtn = false;
-
+		String upperCaseFilterText = filterText.toUpperCase();
+		
 		if (!StringUtil.isNullOrEmpty(q.getTextWithoutHTML())) {
-			rtn = !q.getTextWithoutHTML().contains(filterText); 
+			rtn = !q.getTextWithoutHTML().toUpperCase().contains(upperCaseFilterText); 
 		}
 		else {
-			rtn = !q.getDescription().contains(filterText);
+			rtn = !q.getDescription().toUpperCase().contains(upperCaseFilterText);
 		}
 
 		return rtn;

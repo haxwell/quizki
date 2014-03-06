@@ -208,6 +208,12 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
+	<bean id="ResetOnlySelectedQuestionsShouldBeShownOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
+		<property name="attr" value="onlySelectedQuestionsShouldBeShown"/>
+		<property name="event" value="indexPage"/>
+		<property name="handler" ref="setSessionAttributeToNullHandler"/>
+	</bean>
+	
 
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: questionWasPersisted -->
@@ -318,11 +324,10 @@
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: listOfExamQuestionsSetInSession -->
 	<!--  **==**==****====***==*-===****=== -->	
-	<bean id="ResetOnlySelectedQuestionsShouldBeShownOnListOfExamQuestionsSetInSession" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="onlySelectedQuestionsShouldBeShown"/>
-		<property name="event" value="listOfExamQuestionsSetInSession"/>
-		<property name="handler" ref="setSessionAttributeToNullHandler"/>
-	</bean>
+
+		<!--  None Defined -->
+	<!--  **==**==****====***==*-===****=== -->
+
 	
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: listOfProfileQuestionsSetInSession -->
@@ -387,6 +392,7 @@
 				<ref bean="ResetInEditingModeOnIndexPageDisplay"/>
 				<ref bean="ResetDoNotInitializeQuestionsToBeDisplayedOnIndexPageDisplay"/>				
 				<ref bean="ResetListOfQuestionsToBeDisplayedHasBeenFilteredOnIndexPageDisplay"/>
+				<ref bean="ResetOnlySelectedQuestionsShouldBeShownOnIndexPageDisplay"/>
 		
 				<ref bean="ResetExamInProgressOnQuestionWasPersisted"/>
 				<ref bean="ResetCurrentExamOnQuestionWasPersisted"/>
@@ -407,8 +413,6 @@
 				<ref bean="ResetListOfExamsToBeDisplayedOnEditExamBefore"/>
 				<ref bean="ResetExamGenerationIsInProgressOnEditExamBefore"/>
 
-				<ref bean="ResetOnlySelectedQuestionsShouldBeShownOnListOfExamQuestionsSetInSession"/>
-				
 				<ref bean="ResetDoNotInitializeQuestionsToBeDisplayedOnListOfExamQuestionsSetInSession"/>
 				
 				<ref bean="ResetShouldAllowQuestionEditingOnListOfQuestionsSetInSession"/>

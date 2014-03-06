@@ -179,15 +179,16 @@
 									} else if (obj.successes != undefined) {
 										//alert("success! The Exam was saved!");
 										
+										clearNoMoreItemsToDisplayFlag();
 										window[prefix+"_resetFilters"]();
 										window[prefix+"_getEntities"]();
 										
-										$('#id_examTitle').attr('value', '');
-										$('#id_examMessage').attr('value', '');
+										var v = $("#" + getPrefix() + "-header-div-prefix").val();
+										
+										$(v).find("#id_examTitle").attr('value', '');
+										$(v).find("#id_examMessage").attr('value', '');
 	
 										populateAlertDiv(obj.successes, 'alert-success');
-										
-										clearNoMoreItemsToDisplay();
 									}
 									else {
 										//alert("errors: " + obj.examValidationErrors[0]);
@@ -439,22 +440,13 @@
 						//disableHeaderFilterFields();
 					}
 					
+					function onScroll_beforeClonedHeaderShows($obj) {
+						addHandlerToSaveChangesBtn($obj.find('.saveChangesBtn'));
+					}
+					
 					function disableHeaderFilterFields() {
-						var v = $("#header-fixed > div > div#idAvailableQuestionsTableHeader > div > div#examAvailableQuestionTableHeaderJSPDiv > table > thead > tr.filter-row > td"); 
-						
-						v.find("div.btn-group > #rangeOfQuestionsFilter").attr("disabled", true);
-						
-						v.find("div.input-append > #containsFilter").attr("disabled", true);
-						v.find("div.input-append > #searchQuestionsBtn").attr("disabled", true);
-
-						v.find("div.input-append > #topicContainsFilter").attr("disabled", true);
-						v.find("div.input-append > #searchTopicsBtn").attr("disabled", true);
-						
-						v.find("div#idDifficultyFilterDiv > div.btn-group > #difficultyFilter").attr("disabled", true);
-						v.find("div#idQuestionTypeFilterDiv > div.btn-group > #questionTypeFilter").attr("disabled", true);
-						
-						v.find("div.input-append > #containsFilter").attr("placeholder", "");
-						v.find("div.input-append > #topicContainsFilter").attr("placeholder", "");						
+						// disable the checkbox
+						$("#header-fixed > div > div#idAvailableQuestionsTableHeader > div > div#examAvailableQuestionTableHeaderJSPDiv").find(":checkbox").attr("disabled", true);
 					}
 					
 					

@@ -61,8 +61,10 @@
 					
 					    if (offset >= headerOffset && $headDOMElementInClonedHeader.is(":hidden")) {
 					    	var $fixedHeader = attachClonedHeaderToItsDOMElement();
+					    	onScroll_beforeClonedHeaderShows($fixedHeader);
 					    	$fixedHeader.show();
 					    	disableHeaderFilterFields();
+					    	
 					        // save the id of the now visible header...
 					        $("#" + getPrefix() + "-header-div-prefix").val(getClonedHeaderId());
 					    }
@@ -230,7 +232,7 @@
 						if (qArr != undefined) {
 							clearTableStatusRow();
 							
-							var numRows = $(entityTableId + " > tbody > tr").length
+							var numRows = $(entityTableId + " > tbody > tr").length;
 							
 							for (var i=0; i<qArr.length; i++) {
 								rowNum = i + numRows;

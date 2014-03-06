@@ -212,22 +212,13 @@
 					function getHeaderOffset() {
 						return $("#tabbableDiv").offset().top + $("#tabsUl").height();
 					}
+					
+					function onScroll_beforeClonedHeaderShows($obj) {
+					
+					}
 
 					function disableHeaderFilterFields() {
-						var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
-					
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > #containsFilter").attr("disabled", true);
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > #searchQuestionsBtn").attr("disabled", true);
-
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > #topicContainsFilter").attr("disabled", true);
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > #searchTopicsBtn").attr("disabled", true);
-
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > div > #difficultyFilter").attr("disabled", true);
 						
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > div > #questionTypeFilter").attr("disabled", true);
-						
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > #topicContainsFilter").attr("placeholder", "");
-						$headDOMElementInClonedHeader.find("thead > tr > td > div > #containsFilter").attr("placeholder", "");
 					}
 					
 					function setDataObjectDefinitions() {

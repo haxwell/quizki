@@ -333,8 +333,11 @@
 						var prefix = getPrefix();
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");
 						
-						$(entityTableId + " tbody tr:last(.table-status-row)").remove();
-						$(entityTableId + " tbody tr:last(.table-status-row)").remove();
+						var $el = $(entityTableId + " tbody tr:last(.table-status-row)");
+						if (!$el.hasClass("filter-row")) $el.remove();
+
+						$el = $(entityTableId + " tbody tr:last(.table-status-row)");
+						if (!$el.hasClass("filter-row")) $el.remove();
 					}
 					
 					function setNoMoreItemsToDisplayFlag() {

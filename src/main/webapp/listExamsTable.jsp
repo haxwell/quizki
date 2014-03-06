@@ -14,6 +14,8 @@
 				<th style="width: 70px;"><!-- Votes  --></th>
 				<th></th>
 			</tr>
+		</thead>
+		<tbody>
 			<tr class="filter-row">
 				<td style="width:85px;padding-right:0px;">
 					<button type="submit" class="btn btn-secondary btn-small" id="idExamsApplyFilterButton" name="applyFilterButton" title="Apply the filter." value="Apply Filter Button"><i class="icon-magic"></i></button>
@@ -59,8 +61,6 @@
 				<td></td>
 				<td></td>
 			</tr>
-		</thead>
-		<tbody>
 		</tbody>
 	</table>
 				

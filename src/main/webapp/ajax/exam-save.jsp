@@ -45,7 +45,7 @@ if (exam != null) {
 	}
 }
 else {
-	rtn = "{\"examValidationWarnings\":[\"There's nothing to save!\"]}";
+	rtn = "{\"examValidationWarnings\":[\"There's nothing to save! Try selecting some questions!\"]}";
 }
 
 log.log(Level.SEVERE, "exam-save.jsp is going to return: " + rtn);

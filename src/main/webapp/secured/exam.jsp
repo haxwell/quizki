@@ -42,6 +42,15 @@
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content" style="padding:20px 0;">
+
+      <c:choose>
+	      <c:when test="${empty sessionScope.currentUserEntity}">
+	      	<br/><br/>
+			Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning</a>.
+	      </c:when>
+      <c:otherwise>
+
+
 			<div id="belowTheBarPageHeader" class="fillBackgroundColor"> 
 				<div id="idAlertDiv" class="alert hidden">.</div>
 				<div id="Exams-Enity-Manipulation-Page-Header-Div" class="row">
@@ -90,8 +99,11 @@
 			<div id="examAvailableQuestionTableRowsJSPDiv" style="margin-left:0px;" class="span12">
 				<jsp:include page="exam-AvailableQuestions.jsp"></jsp:include>
 			</div>
+
+		</c:otherwise>
+		</c:choose>		
+
 		</div>		
-		
 	</div>
 	
 	<input style="display:none;" id="Exams-offset" type="text" name="offset"/>

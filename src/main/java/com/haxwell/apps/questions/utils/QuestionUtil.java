@@ -288,7 +288,17 @@ public class QuestionUtil {
 			Choice c = new Choice();
 			
 			c.setText((String)o.get("text"));
-			c.setSequence(Integer.parseInt((String)o.get("sequence")));
+			
+			String seq = (String)o.get("sequence");
+			Integer num = -1;
+			try {
+				num = Integer.parseInt(seq);
+			}
+			catch (NumberFormatException nfe) {
+				
+			}
+			
+			c.setSequence(num);
 			
 			c.setIscorrect("true".equals((String)(o.get("iscorrect"))));
 			

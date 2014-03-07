@@ -54,7 +54,7 @@ public class SequenceQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		for (Choice c : choices)
 		{
 			String userSuppliedValue = mapOfFieldNamesToValues.get(this.question.getId() + "," + c.getId());
-			rtn &= userSuppliedValue.equals(c.getSequence()+"");
+			rtn &= (userSuppliedValue != null && userSuppliedValue.equals(c.getSequence()+""));
 		}
 		
 		return rtn;

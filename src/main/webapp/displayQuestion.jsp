@@ -150,6 +150,7 @@
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
+			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:true };} );
 			    		
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
@@ -175,8 +176,38 @@
 					
 					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
 					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
+
+					var afFunc = undefined;
 					
-			    	var bv_header = new Quizki.QuestionHeaderButtonView({ el: $("#divQuestionHeader"), showEditBtn: (!_inExamContext && ${shouldAllowQuestionEditing}), showBackBtn: (_inExamContext) });
+					if (_inExamContext) {
+						afFunc = function () {
+							var acm = model_factory.get("answerCorrectnessModel");
+							var msgArr = new Array();
+
+							if (acm.overallAnsweredCorrectly) {
+								msgArr.push('You answered this question correctly.');
+							}
+							else {
+								msgArr.push('You missed this question!');
+	
+								if (acm.correctAndChosen > 0) {
+									msgArr.push('You made ' + acm.correctAndChosen + ' correct choice' + (acm.correctAndChosen == 1 ? '.' : 's.') );
+								}
+								
+								if (acm.incorrectAndChosen > 0) {
+									msgArr.push(' You made ' + acm.incorrectAndChosen + ' incorrect choice' + (acm.incorrectAndChosen == 1 ? '.' : 's.') );
+								}
+
+								if (acm.correctButNotChosen > 0) {
+									msgArr.push(' There ' + (acm.correctButNotChosen < 2 ? 'was ' : 'were ') + acm.correctButNotChosen + ' correct choice' + (acm.correctButNotChosen == 1 ? ' ' : 's ') + 'that you did not choose.');
+								}
+							}
+							
+							populateAlertDiv(msgArr, acm.overallAnsweredCorrectly ? "alert-success" : "alert-error");
+						}
+					};
+					
+			    	var bv_header = new Quizki.QuestionHeaderButtonView({ el: $("#divQuestionHeader"), showEditBtn: (!_inExamContext && ${shouldAllowQuestionEditing}), showBackBtn: (_inExamContext), afterDisplayFunction:afFunc });
 			    });
 			    
 				// this same code is in displayQuestion.jsp.. extract it somewhere
@@ -199,10 +230,28 @@
 			    }
 			    
 			    function getEntityId() {
-			    	// this field is set as a hidden field. Its value comes from the Request 
 			    	return $("#idEntityIdField").val();
 			    }
+			    
+				function populateAlertDiv(msgsArr, alertClassName) {
+					var msgs = "";
 					
+					for (var i=0; i<msgsArr.length; i++) {
+						msgs += msgsArr[i] + '<br/>';
+					}
+					
+					var $idAlertDiv = $('div.container').find('#idAlertDiv'); 
+											
+					$idAlertDiv.html('');
+					$idAlertDiv.html(msgs);
+					$idAlertDiv.addClass(alertClassName);
+					$idAlertDiv.removeClass('hidden');
+				}
+				
+				function clearAlertDiv() {
+					$('div.container').find('#idAlertDiv').addClass('hidden');
+				}
+			    
 				</script>
 			]]>
 		</jsp:text>

@@ -135,6 +135,9 @@
 			this.showEditBtn = arguments[0].showEditBtn;
 			this.showBackBtn = arguments[0].showBackBtn;
 			this.render();
+			
+			if (arguments[0].afterDisplayFunction != undefined)
+				arguments[0].afterDisplayFunction();
 		},
 		events: {
 			"click #btnEdit":"editQuestion",
@@ -339,24 +342,37 @@
 				mostRecentExamAnswers = model_factory.get("answersToTheMostRecentExam"),
         		o = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_model.id}),
 				status = this.getChoiceCorrectlyChosenStatus(o, cq),
-            	choiceCorrectStatusClass = undefined;
+            	choiceCorrectStatusClass = undefined,
+            	answerCorrectnessModel = model_factory.get("answerCorrectnessModel");
 
 			this.setHideSwitchAndSequence();
 
 			_model.comment = '';
 			
+			// TODO: make answerCorrectnessModel an object with methods to handle setting the state, rather than setting
+			//  the individual elements here..
+			
             if (status == 1) {
             	choiceCorrectStatusClass = 'correctAndChosen';
+            	answerCorrectnessModel.correctAndChosen++;
             } else if (status == 2) {
             	choiceCorrectStatusClass = 'correctButNotChosen';
+            	answerCorrectnessModel.correctButNotChosen++;
+            	answerCorrectnessModel.overallAnsweredCorrectly = false;
             } else if (status == 3) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
+            	answerCorrectnessModel.incorrectAndChosen++;
+            	answerCorrectnessModel.overallAnsweredCorrectly = false;
             } else if (status == 4 || status == 5) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
             	_model.comment = ' (You typed: ' + o.get('value') + ')';
+            	answerCorrectnessModel.incorrectAndChosen++;
+            	answerCorrectnessModel.overallAnsweredCorrectly = false;
             }// else if (status == 5) {
             	// string
             //}
+            
+            answerCorrectnessModel.totalChoicesCount++;
 			
             var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.get('id'),text:_model.get('text'),comment:_model.comment,checked:_model.get('checked'),sequence:_model.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
             
@@ -548,6 +564,7 @@
 		},
 		render:function() {
 			this.ChoiceItemViewCollection = new Array();
+			model_factory.destroy("answerCorrectnessModel");
 			
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<ul class='choiceItemList span6' id='listOfChoices'></ul>" )() );

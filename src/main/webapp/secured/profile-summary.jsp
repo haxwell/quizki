@@ -75,7 +75,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			You do not have any notifications waiting.
+			<!-- You do not have any notifications waiting.  -->
 		</c:otherwise>
 	</c:choose>
 	<br/>

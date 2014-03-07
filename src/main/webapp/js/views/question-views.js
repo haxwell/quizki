@@ -636,7 +636,11 @@
 		},
 		setStateOnQuestionTypeChangedEvent: function(event) { 
 			if (event !== undefined && event.type_id !== undefined)
-				this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4"); 
+				this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4");
+			else {
+				var typeId = model_factory.get('currentQuestion').getTypeId();
+				this.setCheckBoxDisabled(typeId == "3" || typeId == "4");
+			}
 		},
 		render: function () {
 			var state = model_factory.get('EnterNewChoiceViewState');

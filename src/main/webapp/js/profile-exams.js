@@ -51,7 +51,7 @@ $("#idExamsClearFilterButton").click(function() {
 
 function getExams() {
 	setRowsOffsetToZero();
-	cleanTable();
+	Exams_cleanTable();
 	displayMoreRows(setExamsButtonClickHandlersForRow); // when we are inside of profile-exams, we call displayMoreRows this way, passing the method that should be called for each row created as this execution of display more rows executes.
 }
 
@@ -64,9 +64,8 @@ function Exams_getJSONFromServerSuppliedData(parsedJSONObject) {
 	return parsedJSONObject.exam;
 }
 
-function cleanTable() {
+function Exams_cleanTable() {
 	$("#examEntityTable tbody tr:not(.filter-row)").remove();
-	$("#examEntityTable tbody tr:not(.table-status-row)").remove();
     
     clearNoMoreItemsToDisplayFlag();    
 }

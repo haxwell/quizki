@@ -69,7 +69,7 @@ function Exams_getJSONFromServerSuppliedData(parsedJSONObject) {
 
 function getQuestions() {
 	setRowsOffsetToZero();
-	cleanTable();
+	Exams_cleanTable();
 	displayMoreRows(addCheckboxToRow);
 }
 
@@ -83,8 +83,9 @@ function Exams_getEntities() {
 	getQuestions();
 }
 
-function cleanTable() {
+function Exams_cleanTable() {
     $("#examEntityTableRows tbody tr:not(.filter-row)").remove();
+    clearNoMoreItemsToDisplayFlag();
 }
 
 function Exams_getNoItemsFoundHTMLString(string) {

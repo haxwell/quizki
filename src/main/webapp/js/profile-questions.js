@@ -61,7 +61,7 @@ $("#idClearFilterButton").click(function() {
 
 function getQuestions() {
 	setRowsOffsetToZero();
-	cleanTable();
+	Questions_cleanTable();
 	displayMoreRows(setQuestionsButtonClickHandlersForRow); // when we are inside of profile-questions, we call displayMoreRows this way, passing the method that should be called for each row created as this execution of display more rows executes.
 }
 
@@ -74,9 +74,8 @@ function Questions_getJSONFromServerSuppliedData(parsedJSONObject) {
 	return parsedJSONObject.question;
 }
 
-function cleanTable() {
+function Questions_cleanTable() {
 	$("#questionEntityTable tbody tr:not(.filter-row)").remove();
-	$("#questionEntityTable tbody tr:not(.table-status-row)").remove();
     
     clearNoMoreItemsToDisplayFlag();    
 }

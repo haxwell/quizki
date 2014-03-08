@@ -69,6 +69,30 @@
 
 			<![CDATA[
 			    $(document).ready(function() {
+
+					var answers = '${sessionScope.answersToTheMostRecentExam}';
+					
+					if (answers.length > 0) {
+						var dlg2 = $('#examAlreadyCompletedDialogText').dialog({
+							autoOpen: false, resizable: false, modal: true,
+						      buttons: [{
+						        text : "&lt; Go HOME", 
+						        click : function() {
+						        	$( this ).dialog( "close" );
+						        	window.href.url = "/index.jsp";
+						        }},
+						        {
+						        text : "Exam Report Card &gt;",
+						        click : function() {
+						        	$( this ).dialog( "close" );
+									window.history.go(+1);					        		
+						        } 
+						      }]
+						});
+					
+						dlg2.dialog('open');
+					}
+						
 					event_intermediary.initialize();
 
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
@@ -99,14 +123,12 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="content">
 
-
     <c:choose>
 	    <c:when test="${empty currentExam}">
 	      	<br/><br/>
 			Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning.</a>
 	    </c:when>
 	    <c:otherwise>
-	
 			<div id="idAlertDiv" class="alert hidden">.</div>
 	
 			<div id="divQuestionHeaderWithQuitButtons" class="row">
@@ -143,6 +165,7 @@
 	<input style="display:none;" id="idExamHistoryQuestionIndexList" type="text" value="${sessionScope.examHistoryQuestionIndexList}"/>
 	
 	<div style="display:none;" id="dialogText">You're at the end of the exam!</div>
+	<div style="display:none;" id="examAlreadyCompletedDialogText">You've already completed this exam!</div>
 	
 	<div style="display:none;" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
 	<div style="display:none;" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>

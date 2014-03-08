@@ -329,22 +329,25 @@
 						
 						var headerID = getVisibleHeaderID();
 						var isSelectAllChecked = $(headerID).find("#select-all-checkbox").attr("checked") == 'checked';
-						var allEntitiesAreSelected = getAllEntitiesAreSelected();
+						var allEntitiesAreSelected = (getAllEntitiesAreSelected()+'' == 'true');
 						
 						syncSelectAllCheckboxes(isSelectAllChecked);
 						
+						// build a list of the names (and therefore, IDs) of each question row
 						$(".selectQuestionChkbox").each(function() {
 							arr += ($(this).attr("name") + ",");
 						});
 						
+						// tell the exam object in the session to select/deselect all the rows in the list
+						//  as necessary
 						var data_url = "/ajax/exam-questionSelectAllClicked.jsp";
 						var data_obj = { 
 								chkboxnames: arr,
 								isSelectAll: (isSelectAllChecked && !allEntitiesAreSelected)
 							};
 							
+						// callback function.. for each table row, set/clear class 'selectedTableRow' 
 						var returnFunction = function () {
-								// for each table row, set/clear class 'selectedTableRow'
 								$("#examEntityTableRows > tbody > tr").each(function() {
 									if (isSelectAllChecked && !$(this).hasClass('selectedTableRow')) {
 										$(this).addClass('selectedTableRow');

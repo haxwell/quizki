@@ -285,7 +285,7 @@ var Question = (function() {
 	};
 		
 	my.removeChoice = function(_millisecondId, throwEvent) {
-		choices = _.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId;  });
+		choices.reset(_.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId; }));
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

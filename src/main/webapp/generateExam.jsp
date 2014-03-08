@@ -98,11 +98,11 @@
 					var bv_arrowView = new Quizki.ArrowView({ el: $("#divArrowView") });
 					
 					//var bv_matchingExamsListFilterView = new Quizki.MatchingExamsFilterView({ el: $("#divMatchingExamsFilterView") });
-					var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
+					//var bv_matchingExamsListView = new Quizki.MatchingExamsView({ el: $("#divMatchingExamsView") });
 					
 					var bv_maxQuestionsView = new Quizki.MaxQuestionsView({ el: $("#divMaxQuestionsView") });
 					var bv_takeGeneratedExamBtnView = new Quizki.TakeGeneratedExamButtonView({ el: $("#takeGeneratedExamBtnView") });
-					var bv_takeSelectedExamBtnView = new Quizki.TakeSelectedExamButtonView({ el: $("#takeSelectedExamBtnView") });
+					//var bv_takeSelectedExamBtnView = new Quizki.TakeSelectedExamButtonView({ el: $("#takeSelectedExamBtnView") });
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:1, getModelNameKey:"difficultyObj" });
 			    });
@@ -166,8 +166,8 @@
 					<td>
 						<!--  <div id="divMatchingExamsFilterView">..</div>  -->
 						
-						<div id="divMatchingExamsView" style="margin-left:20px;">..</div>
-						<div id="takeSelectedExamBtnView">..</div>
+						<!--  <div id="divMatchingExamsView" style="margin-left:20px;">..</div> -->
+						<!--  <div id="takeSelectedExamBtnView">..</div> -->
 					</td>
 					</tr>
 				</table>

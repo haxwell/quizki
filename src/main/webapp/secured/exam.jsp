@@ -454,8 +454,11 @@
 					
 					function onScroll_beforeClonedHeaderShows($obj) {
 						addHandlerToSaveChangesBtn($obj.find('.saveChangesBtn'));
+
+						$obj.find("#id_examTitle").change(syncExamTitleFields);
+						$obj.find("#id_examMessage").change(syncExamMessageFields);
 					}
-					
+
 					function disableHeaderFilterFields() {
 						// disable the checkbox
 						$("#header-fixed > div > div#idAvailableQuestionsTableHeader > div > div#examAvailableQuestionTableHeaderJSPDiv").find(":checkbox").attr("disabled", true);

@@ -98,14 +98,13 @@
 					
 					function getHeadDOMElementInClonedHeader() {
 						// see is there a function defined with the name getPrefix()+_getHeadDOMElementInOriginalHeader()
-						//  if so, call it, if not, return $(getOrigHeaderId()) 
+						//  if so, call it, if not, return $(getClonedHeaderId()) 
 						var entity_level_function = window[getPrefix()+"_getHeadDOMElementInClonedHeader"];
 						
 						if (entity_level_function != undefined)
 							return entity_level_function();
 						else
 							return $(getClonedHeaderId());
-
 					}
 
 					// Think of this as a pointer to a pointer.. this dynamically constructed method call, think calling a runtime discovered
@@ -365,8 +364,11 @@
 												
 						$idAlertDiv.html('');
 						$idAlertDiv.html(msgs);
-						$idAlertDiv.addClass(alertClassName);
 						$idAlertDiv.removeClass('hidden');
+						$idAlertDiv.removeClass('alert-info');
+						$idAlertDiv.removeClass('alert-success');
+						$idAlertDiv.removeClass('alert-error');
+						$idAlertDiv.addClass(alertClassName);
 					}
 					
 					function clearAlertDiv() {

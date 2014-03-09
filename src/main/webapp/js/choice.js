@@ -6,6 +6,7 @@ var Choice = Backbone.Model.extend({
 		iscorrect : 'false',
 		isselected : 'false',
 		sequence : '0',
+		selectedSequence : '-1',
 		string : ''
 	},
 	initialize : function() {

@@ -117,8 +117,8 @@
 			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
-			var _sequence = this.model.sequence == 0 ? "" : this.model.sequence;
-			this.$el.html(view_utility.executeTemplate('/templates/ExamSequenceQuestionChoiceItemView.html', {id:this.millisecondId,sequence:_sequence,text:this.model.text}));
+			var _selectedSequence = this.model.selectedSequence == -1 ? "" : this.model.selectedSequence;
+			this.$el.html(view_utility.executeTemplate('/templates/ExamSequenceQuestionChoiceItemView.html', {id:this.millisecondId,sequence:_selectedSequence,text:this.model.text}));
 			return this;
 		}
 	});
@@ -165,11 +165,11 @@
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var millisecond_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				var oldAnswer = currQuestion.getChoice(millisecond_id).get('sequence');
+				var oldAnswer = currQuestion.getChoice(millisecond_id).get('selectedSequence');
 				var newAnswer = $(event.target).val();
 				
 				if (newAnswer != oldAnswer) {
-					currQuestion.updateChoice(millisecond_id, 'sequence', newAnswer);
+					currQuestion.updateChoice(millisecond_id, 'selectedSequence', newAnswer);
 					
 					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
 					var answers = model_factory.get("answersMap");

@@ -33,7 +33,7 @@
 <br/>
 <div class="mainContentArea">
 <br/>
-<div class="center"><a href="getQuestionsTestPage.jsp">getQuestionsTestPage</a></div><br/>
+<!--  div class="center"><a href="getQuestionsTestPage.jsp">getQuestionsTestPage</a></div><br/  -->
 <div class="center"><b>Quizki collects questions and answers, allowing you to test yourself with practice exams.</b></div><br/>
 <hr style="margin-right:40%; margin-left:40%;"/>
 

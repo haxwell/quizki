@@ -337,17 +337,17 @@
 			}
 		},
 		render:function() {
-			var _model = this.model,
+			var _viewmodel = this.viewmodel,
     			cq = model_factory.get('currentQuestion'),
 				mostRecentExamAnswers = model_factory.get("answersToTheMostRecentExam"),
-        		o = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_model.id}),
+        		o = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_viewmodel.id}),
 				status = this.getChoiceCorrectlyChosenStatus(o, cq),
             	choiceCorrectStatusClass = undefined,
             	answerCorrectnessModel = model_factory.get("answerCorrectnessModel");
 
 			this.setHideSwitchAndSequence();
 
-			_model.comment = '';
+			_viewmodel.comment = '';
 			
 			// TODO: make answerCorrectnessModel an object with methods to handle setting the state, rather than setting
 			//  the individual elements here..
@@ -365,7 +365,7 @@
             	answerCorrectnessModel.overallAnsweredCorrectly = false;
             } else if (status == 4 || status == 5) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
-            	_model.comment = ' (You typed: ' + o.get('value') + ')';
+            	_viewmodel.comment = ' (You typed: ' + o.get('value') + ')';
             	answerCorrectnessModel.incorrectAndChosen++;
             	answerCorrectnessModel.overallAnsweredCorrectly = false;
             }// else if (status == 5) {
@@ -374,7 +374,7 @@
             
             answerCorrectnessModel.totalChoicesCount++;
 			
-            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_model.get('id'),text:_model.get('text'),comment:_model.comment,checked:_model.get('checked'),sequence:_model.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
+            var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_viewmodel.id,text:_viewmodel.text,comment:_viewmodel.comment,checked:_viewmodel.checked,sequence:_viewmodel.sequence,hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});
             
 			this.$el.html( template );
 			

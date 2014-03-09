@@ -185,7 +185,7 @@
 							var msgArr = new Array();
 
 							if (acm.overallAnsweredCorrectly) {
-								msgArr.push('You answered this question correctly.');
+								msgArr.push('Great! You answered this question correctly!');
 							}
 							else {
 								msgArr.push('You missed this question!');

@@ -17,6 +17,7 @@ import javax.persistence.Query;
 import net.minidev.json.JSONObject;
 
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Exam;
@@ -687,7 +688,7 @@ public class ExamManager extends Manager {
 		filter = fc.get(FilterConstants.DIFFICULTY_FILTER) != null ? fc.get(FilterConstants.DIFFICULTY_FILTER).toString() : "";
 		
 		if (!StringUtil.isNullOrEmpty(filter)) {
-			arr.add(new DifficultyFilter(Integer.parseInt(filter), DifficultyFilter.DIFFICULTY_IS_EQUAL));
+			arr.add(new DifficultyFilter(Integer.parseInt(filter), (filter.equals(DifficultyConstants.ALL_DIFFICULTIES+"") ? DifficultyFilter.DIFFICULTY_IS_GREATER_THAN : DifficultyFilter.DIFFICULTY_IS_EQUAL)));
 		}
 		
 		ListFilterer lf = new ListFilterer();

@@ -46,7 +46,7 @@ String difficultyFilterValue = request.getParameter(FilterConstants.DIFFICULTY_F
 
 log.log(Level.SEVERE, "difficultyFilterValue " + difficultyFilterValue);
 
-if (difficultyFilterValue.equals("0") || StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = DifficultyConstants.GURU+"";
+if (StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = DifficultyConstants.GURU+"";
 
 String roef = request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER);
 

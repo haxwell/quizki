@@ -427,6 +427,16 @@ public class QuestionManager extends Manager {
 		
 		String queryString = "SELECT q FROM Question q"; 
 
+		/**
+		 * Need a piece of code which will take a condition, and then the string to be added to the query if that condition is true.
+		 * It should be able to tell that it previously added something to the query, and then add ' AND ' before it adds the next
+		 * string from the next condition that is true.
+		 * 
+		 * The conditions and the Strings should be returned from functions. So, we have a class which pairs a condition, and a string.
+		 * We have a list of those. For each item in the list, was the previous condition added? If so, add and 'AND '. now, is this 
+		 * condition true? if so add the string to the stringbuffer.. 
+		 */
+		
 		boolean filterTextIsNullOrEmpty = StringUtil.isNullOrEmpty(filterText);
 		if (!filterTextIsNullOrEmpty || maxDifficulty > 0 || includeOnlyUserCreatedEntities)
 			queryString += " WHERE "; 
@@ -440,7 +450,7 @@ public class QuestionManager extends Manager {
 		if (!filterTextIsNullOrEmpty)
 			queryString += " UPPER(q.text) LIKE ?2 OR UPPER(q.description) LIKE ?2"; 
 		
-		if (!filterTextIsNullOrEmpty && includeOnlyUserCreatedEntities)
+		if ((!filterTextIsNullOrEmpty || maxDifficulty > 0) && includeOnlyUserCreatedEntities)
 			queryString += " AND ";
 		
 		if (includeOnlyUserCreatedEntities)

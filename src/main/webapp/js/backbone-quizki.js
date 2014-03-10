@@ -328,6 +328,8 @@ var JSONUtility = (function() {
 		for (var key in keys) {
 			var value = map.get(key);
 			
+			value = value.replace("'", "&quot;");
+			
 			rtn = this.startJSONString(rtn);
 			rtn += '"' + keyFieldName + '": "' + key + '", ';
 			rtn += '"' + valueFieldName + '": "' + value + '"';

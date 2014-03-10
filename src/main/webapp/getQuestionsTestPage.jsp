@@ -22,14 +22,31 @@
 							
 							$.post("/getQuestions.jsp",
 							{
-								containsFilter: $("#idContainsFilter").attr("value"),
-								topicContainsFilter: $("#idTopicContainsFilter").attr("value"),
-								questionTypeFilter: $("#idQuestionTypeFilter").attr("value"),
-								difficultyFilter: $("#idDifficultyFilter").attr("value"),
-								authorFilter: $("#idAuthorFilter").attr("value"),
-								rangeOfEntitiesFilter: $("idRangeOfEntitiesFilter").attr("value"),
-								maxEntityCountFilter: $("#idMaxQuestionCountFilter").attr("value"),
-								offsetFilter: $("#idOffsetFilter").attr("value")
+								containsFilter: $("#idContainsFilter").val(),
+								topicContainsFilter: $("#idTopicContainsFilter").val(),
+								questionTypeFilter: $("#idQuestionTypeFilter").val(),
+								difficultyFilter: $("#idDifficultyFilter").val(),
+								authorFilter: $("#idAuthorFilter").val(),
+								rangeOfEntitiesFilter: $("idRangeOfEntitiesFilter").val(),
+								maxEntityCountFilter: $("#idMaxQuestionCountFilter").val(),
+								offsetFilter: $("#idOffsetFilter").val()
+							},
+							function(data,status){
+								//alert("Data: " + data + "\nStatus: " + status);
+								
+								if (status == 'success') {
+									$('#resultsTextarea').val('');
+									$('#resultsTextarea').val(data);									
+								}
+							});
+						});
+
+						$("#getSingleQuestionBtn").click(function(){
+							//alert("btn pushed!");
+							
+							$.post("/ajax/getSingleQuestion.jsp",
+							{
+								entityIdFilter : $("#idQuestionIdFilter").val()
 							},
 							function(data,status){
 								//alert("Data: " + data + "\nStatus: " + status);
@@ -50,6 +67,9 @@
 <body>
 	<jsp:include page="header.jsp"></jsp:include>	
 	
+	<br/><br/>
+	Question ID: <input id="idQuestionIdFilter" type="text" name="questionIdFilter" value=""/>
+	<input id="getSingleQuestionBtn" type="submit" name="button" value="Get Single Question"/>
 	<br/><br/>
 	Question Contains: <input id="idContainsFilter" type="text" name="containsFilter" value="animal"/>
 	Topic Contains: <input type="text" name="topicContainsFilter" id="idTopicContainsFilter" />

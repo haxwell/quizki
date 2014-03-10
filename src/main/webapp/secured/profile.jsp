@@ -210,7 +210,7 @@
 					}
 					
 					function getHeaderOffset() {
-						return $("#tabbableDiv").offset().top + $("#tabsUl").height();
+						return $("#tabbableDiv").offset().top + $("#tabsUl").height() + $("#questionEntityTable > thead").height();
 					}
 					
 					function onScroll_beforeClonedHeaderShows($obj) {

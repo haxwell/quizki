@@ -184,8 +184,8 @@ public class QuestionUtil {
 		question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
 		question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
 		question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
-		question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
-		question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
+		question.setTopics(TopicUtil.getSetFromJsonString((String)request.getParameter("topics")));
+		question.setReferences(ReferenceUtil.getSetFromJsonString((String)request.getParameter("references")));
 		
 		return question;
 	}

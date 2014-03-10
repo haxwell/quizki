@@ -263,8 +263,6 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="content">
 
-		<div id="idAlertDiv" class="alert hidden">.</div>
-
 		<div id="divQuestionHeader" class="row">
 		..
 		</div>
@@ -302,6 +300,8 @@
 			</div> 
 
 	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+	
+			<div id="idAlertDiv" class="alert hidden">.</div>
 
 			<div id="questionTypeView">..</div>
 

@@ -47,8 +47,15 @@ if (user != null)
 
 String entityId = request.getParameter(FilterConstants.ENTITY_ID_FILTER);
 
+log.log(Level.SEVERE, "ENTITY ID FILTER = " + entityId);
+
 fc.add(FilterConstants.ENTITY_ID_FILTER, entityId);
+
+log.log(Level.SEVERE, "------ " + (String)fc.get(FilterConstants.ENTITY_ID_FILTER));
+
 fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, 1);
+fc.add(FilterConstants.DIFFICULTY_FILTER, 0);
+fc.add(FilterConstants.QUESTION_TYPE_FILTER, 0);
 fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, 0);
 fc.add(FilterConstants.OFFSET_FILTER, 0);
 

@@ -214,7 +214,11 @@
 					}
 					
 					function onScroll_beforeClonedHeaderShows($obj) {
-					
+						// temp code used to set the background of the cloned header to aid in figuring out why
+						//  the header appears in the items table when scrolling up in profile-questions..
+						$obj.removeClass("fillBackgroundColor");
+						$obj.removeClass("table");
+						$obj.addClass("table2");
 					}
 
 					function disableHeaderFilterFields() {

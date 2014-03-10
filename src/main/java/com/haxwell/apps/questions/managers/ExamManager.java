@@ -687,7 +687,7 @@ public class ExamManager extends Manager {
 		filter = fc.get(FilterConstants.DIFFICULTY_FILTER) != null ? fc.get(FilterConstants.DIFFICULTY_FILTER).toString() : "";
 		
 		if (!StringUtil.isNullOrEmpty(filter)) {
-			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
+			arr.add(new DifficultyFilter(Integer.parseInt(filter), DifficultyFilter.DIFFICULTY_IS_EQUAL));
 		}
 		
 		ListFilterer lf = new ListFilterer();

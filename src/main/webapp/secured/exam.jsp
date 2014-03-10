@@ -439,20 +439,6 @@
 						setAllEntitiesAreSelected(false);					           
 					}
 					
-					function smoothScrolling_afterClonedHeaderSetInTheGlobalVariables() {
-						var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
-						
-						$headDOMElementInClonedHeader.find("tr.filter-row").remove();
-						
-						addHandlerToSelectAllCheckbox($headDOMElementInClonedHeader.find('#select-all-checkbox'));
-						addHandlerToSaveChangesBtn($headDOMElementInClonedHeader.find('.saveChangesBtn'));
-						
-						$headDOMElementInClonedHeader.find("#id_examTitle").change(syncExamTitleFields);
-						$headDOMElementInClonedHeader.find("#id_examMessage").change(syncExamMessageFields);
-						
-						//disableHeaderFilterFields();
-					}
-					
 					function onScroll_beforeClonedHeaderShows($obj) {
 						addHandlerToSaveChangesBtn($obj.find('.saveChangesBtn'));
 

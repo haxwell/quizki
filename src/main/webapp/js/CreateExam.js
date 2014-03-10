@@ -1,4 +1,12 @@
 
+function Exams_getHeadDOMElementInOriginalHeader() {
+	return $("#belowTheBarPageHeader");
+}
+
+function Exams_getHeadDOMElementInClonedHeader() {
+	return $("div#header-fixed");
+}
+
 $("#containsFilter").change(function() {
 	// do nothing	
 });

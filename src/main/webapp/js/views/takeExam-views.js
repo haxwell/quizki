@@ -146,7 +146,7 @@
 
 				var millisecond_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
-				var v = $(event.target).find("div.switch-animate").hasClass('switch-on');
+				var v = $(event.target).find("div.switch-animate").hasClass('switch-on') + '';
 				var oldAnswer = currQuestion.getChoice(millisecond_id).get('isselected');
 				
 				if (v != oldAnswer) {
@@ -156,7 +156,9 @@
 					var answers = model_factory.get("answersMap");
 
 					answers.destroy(key);
-					answers.put(key, currQuestion.getChoice(millisecond_id).get('text'));
+					
+					if (v == 'true')
+						answers.put(key, currQuestion.getChoice(millisecond_id).get('text'));
 					
 					event_intermediary.throwEvent('choicesChanged');
 				}

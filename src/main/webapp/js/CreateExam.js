@@ -1,25 +1,23 @@
+
 $("#containsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
+	// do nothing	
 });
 
 $("#searchQuestionsBtn").click(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 
 $("#topicContainsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
+	// do nothing
 });
 
 $("#searchTopicsBtn").click(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });
 
 $("#questionTypeFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 
@@ -30,7 +28,6 @@ $("#questionTypeFilter").change(function() {
 });
 
 $("#difficultyFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 
@@ -41,7 +38,6 @@ $("#difficultyFilter").change(function() {
 });
 
 $("#rangeOfQuestionsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 
@@ -52,7 +48,6 @@ $("#rangeOfQuestionsFilter").change(function() {
 });
 
 $("#idApplyFilterButton").click(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
 });

@@ -21,15 +21,12 @@
 	//
 
 
-					var functionCalledForEachRowByDisplayMoreRows = undefined;
-
 					//
 					// Called when browser document loads. It then calls setDataObjectDefinitions() defined
 					//  in the current page.
 					//
 					$(document).ready(function() {
 						setDataObjectDefinitions();
-						//setClonedHeaderInTheGlobalVariables();						
 					});
 					
 					//

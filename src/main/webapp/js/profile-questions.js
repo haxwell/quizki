@@ -11,25 +11,22 @@ function Questions_getHeadDOMElementInClonedHeader() {
 }
 
 $("#containsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
+	// do nothing
 });
 
 $("#searchQuestionsBtn").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#topicContainsFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
+	// do nothing
 });
 
 $("#searchTopicsBtn").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 
 $("#questionTypeFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 	
 	// the point here is to move the focus elsewhere than this component.
@@ -39,7 +36,6 @@ $("#questionTypeFilter").change(function() {
 });
 
 $("#difficultyFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 	
 	// the point here is to move the focus elsewhere than this component.
@@ -49,7 +45,6 @@ $("#difficultyFilter").change(function() {
 });
 
 $("#idApplyFilterButton").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getQuestions();
 });
 

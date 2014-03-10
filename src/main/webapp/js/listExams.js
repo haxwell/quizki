@@ -13,25 +13,22 @@ function Exams_getHeadDOMElementInClonedHeader() {
 }
 
 $("#examContainsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
+	// do nothing
 });
 
 $("#searchExamsBtn").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getExams();
 });
 
 $("#examTopicContainsFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
+	// do nothing
 });
 
 $("#examSearchTopicsBtn").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getExams();
 });
 
 $("#examDifficultyFilter").change(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getExams();
 	
 	// the point here is to move the focus elsewhere than this component.
@@ -41,7 +38,6 @@ $("#examDifficultyFilter").change(function() {
 });
 
 $("#rangeOfExamsFilter").change(function() {
-	//setClonedHeaderInTheGlobalVariables();
 	getExams();
 
 	// the point here is to move the focus elsewhere than this component.
@@ -51,7 +47,6 @@ $("#rangeOfExamsFilter").change(function() {
 });
 
 $("#idExamsApplyFilterButton").click(function() {
-//	setClonedHeaderInTheGlobalVariables();
 	getExams();
 });
 

@@ -363,8 +363,6 @@
 							};
 
 						makeAJAXCall_andDoNotWaitForTheResults(data_url, data_obj, returnFunction);
-						
-						//setClonedHeaderInTheGlobalVariables();
 					}
 					
 					var selectedEntityIDsArray = undefined;

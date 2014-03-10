@@ -21,7 +21,7 @@ KeyValueMap = function() {
 			},
 			destroy: function(id) {
 				// TODO: eradicate this method.. remove() is a better name, consistent with Quizki.Collection
-				arr[id] = undefined;
+				delete arr[id];
 				dirty = true;
 			},
 			remove: function(id) {

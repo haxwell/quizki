@@ -76,16 +76,14 @@
 						var dlg2 = $('#examAlreadyCompletedDialogText').dialog({
 							autoOpen: false, resizable: false, modal: true,
 						      buttons: [{
-						        text : "&lt; Go HOME", 
-						        click : function() {
-						        	$( this ).dialog( "close" );
-						        	window.href.url = "/index.jsp";
+							        text : "< Go HOME", 
+							        click : function() {
+							        	window.href.url = "/index.jsp";
 						        }},
 						        {
-						        text : "Exam Report Card &gt;",
-						        click : function() {
-						        	$( this ).dialog( "close" );
-									window.history.go(+1);					        		
+							        text : "Exam Report Card >",
+							        click : function() {
+										window.history.go(+1);					        		
 						        } 
 						      }]
 						});

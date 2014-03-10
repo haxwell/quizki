@@ -263,8 +263,13 @@ public class QuestionUtil {
 		if (StringUtil.isNullOrEmpty(str))
 			str = q.getDescription();
 		
+		int strLength = str.length();
+		
 		if (maxLength <= 0)
-			maxLength = str.length();
+			maxLength = strLength;
+		
+		if (maxLength > strLength)
+			maxLength = strLength;
 		
 		return str.substring(0, maxLength);
 	}

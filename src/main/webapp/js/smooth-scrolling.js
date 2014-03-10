@@ -51,7 +51,7 @@
 					//
 					$(window).scroll(function() {
 					    clearAlertDiv();
-					    
+
 					    var offset = $(this).scrollTop();
 					    var headerOffset = getHeaderOffset();
 					    var $headDOMElementInClonedHeader = getHeadDOMElementInClonedHeader();
@@ -149,7 +149,7 @@
 						var tab = e.target;
 						
 						// identify the tab, get its text, which serves as a prefix to the hidden fields for the current tab
-						var tabText = tab.innerText;
+						var tabText = tab.innerHTML;
 						
 						// write that prefix in the hidden prefix field
 						$("#prefix-to-current-view-hidden-fields").attr("value", tabText);

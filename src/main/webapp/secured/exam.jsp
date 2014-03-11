@@ -199,6 +199,9 @@
 										
 										$(v).find("#id_examTitle").attr('value', '');
 										$(v).find("#id_examMessage").attr('value', '');
+										
+										syncExamTitleFields();
+										syncExamMessageFields();
 	
 										populateAlertDiv(obj.successes, 'alert-success');
 									}

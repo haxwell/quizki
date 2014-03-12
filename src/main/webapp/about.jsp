@@ -108,7 +108,7 @@ Regardless whether you are showing only your questions, or 'all' questions, you 
 	<ul>
 	<li><b>Topic contains ...</b> - Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.</li>	
 	<li><b>Question contains ...</b> - Quizki will only show questions who's text or description contains the given string. So, if you enter 'bears' here, only questions with the word 'bears' in the text or the description will appear in the list.</li>	
-	<li><b>Include difficulties up to ...</b> - Quizki will only include questions that are LESS difficult than the value you select here. For instance, if you choose 'Intermediate' no questions which have a difficulty of 'Well Versed' or 'Guru' will appear.</li>
+	<li><b>Include difficulties up to ...</b> - Quizki will only include questions that are LESS difficult than the value you select here. For instance, if you choose 'Intermediate' no questions which have a difficulty of 'Expert' or 'Guru' will appear.</li>
 	</ul>
 
 This is the most detailed way of creating an exam. Once you select the questions you want, and hit Add Exam, the exam will be saved, and you can have Quizki present it to you at any time.<br/><br/>	

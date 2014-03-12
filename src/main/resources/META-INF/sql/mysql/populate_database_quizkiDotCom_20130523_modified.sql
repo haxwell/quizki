@@ -61,7 +61,7 @@ CREATE TABLE `difficulty` (
 
 LOCK TABLES `difficulty` WRITE;
 /*!40000 ALTER TABLE `difficulty` DISABLE KEYS */;
-INSERT INTO `difficulty` VALUES (1,'Junior'),(2,'Intermediate'),(3,'Well-versed'),(4,'Guru');
+INSERT INTO `difficulty` VALUES (1,'Junior'),(2,'Intermediate'),(3,'Expert'),(4,'Guru');
 /*!40000 ALTER TABLE `difficulty` ENABLE KEYS */;
 UNLOCK TABLES;
 

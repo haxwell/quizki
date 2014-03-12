@@ -304,26 +304,29 @@
 			this.viewmodel = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
 		},
 		getChoiceCorrectlyChosenStatus : function(o, cq) {
-			var rtn = -1;
+			var cccStatus = -1;
 
 			var _viewmodel = this.viewmodel;
 			
+			if (cq.getTypeId() == /* string question */ "3") 
+				return 5;
+			
         	if (o != undefined && _viewmodel.checked == 'checked' && o.get('value') == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
         		// this choice was correct, and you chose it.
-        		rtn = 1;
+        		cccStatus = 1;
         	} else if (o == undefined && _viewmodel.checked == 'checked') {
         		// this choice was correct, and you did not choose it.
-        		rtn = 2;
+        		cccStatus = 2;
         	} else if (o != undefined && _viewmodel.checked !== 'checked') {
         		// this choice was chosen, but is incorrect.
-        		rtn = 3;
+        		cccStatus = 3;
             } else if (cq.getTypeId() == "4" && o != undefined && _viewmodel.checked == 'checked' && o.get('value') !== _viewmodel.sequence) {
-            	rtn = 4;
-            } else if (cq.getTypeId() == "3" && o != undefined && _viewmodel.checked == 'checked' && o.get('value') != _viewmodel.text) {
-            	rtn = 5;
+            	cccStatus = 4;
+            } else if (cq.getTypeId() == "3" /*&& o != undefined && _viewmodel.checked == 'checked' && o.get('value') != _viewmodel.text*/) {
+            	cccStatus = 5;
             }
 
-			return rtn;
+			return cccStatus;
 		},
 		setHideSwitchAndSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -340,8 +343,8 @@
 			var _viewmodel = this.viewmodel,
     			cq = model_factory.get('currentQuestion'),
 				mostRecentExamAnswers = model_factory.get("answersToTheMostRecentExam"),
-        		o = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_viewmodel.id}),
-				status = this.getChoiceCorrectlyChosenStatus(o, cq),
+        		answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_viewmodel.id}),
+				cccStatus = this.getChoiceCorrectlyChosenStatus(answer, cq),
             	choiceCorrectStatusClass = undefined,
             	answerCorrectnessModel = model_factory.get("answerCorrectnessModel");
 
@@ -352,25 +355,36 @@
 			// TODO: make answerCorrectnessModel an object with methods to handle setting the state, rather than setting
 			//  the individual elements here..
 			
-            if (status == 1) {
+            if (cccStatus == 1) {
             	choiceCorrectStatusClass = 'correctAndChosen';
             	answerCorrectnessModel.correctAndChosen++;
-            } else if (status == 2) {
+            	answerCorrectnessModel.overallAnsweredCorrectly = true;
+            } else if (cccStatus == 2) {
             	choiceCorrectStatusClass = 'correctButNotChosen';
             	answerCorrectnessModel.correctButNotChosen++;
             	answerCorrectnessModel.overallAnsweredCorrectly = false;
-            } else if (status == 3) {
+            } else if (cccStatus == 3) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
             	answerCorrectnessModel.incorrectAndChosen++;
             	answerCorrectnessModel.overallAnsweredCorrectly = false;
-            } else if (status == 4 || status == 5) {
+            } else if (cccStatus == 4) {
             	choiceCorrectStatusClass = 'incorrectAndChosen';
-            	_viewmodel.comment = ' (You typed: ' + o.get('value') + ')';
+            	_viewmodel.comment = ' (You typed: ' + answer.get('value') + ')';
             	answerCorrectnessModel.incorrectAndChosen++;
             	answerCorrectnessModel.overallAnsweredCorrectly = false;
-            }// else if (status == 5) {
-            	// string
-            //}
+            } else if (cccStatus == 5) {
+            	if (answer != undefined) {
+            		answerCorrectnessModel.stringAnswer = answer.get('value');
+            	}
+
+            	if (!answerCorrectnessModel.overallAnsweredCorrectly) {
+        			var choiceModels = cq.getChoices().models;
+        			_.each(choiceModels, function(model) { 
+        				if (model.get('text') == answer.get('value')) 
+        					answerCorrectnessModel.overallAnsweredCorrectly = true; 
+        			});
+        		}
+            }
             
             answerCorrectnessModel.totalChoicesCount++;
 			
@@ -569,9 +583,27 @@
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<ul class='choiceItemList span6' id='listOfChoices'></ul>" )() );
 			
-			var choices = model_factory.get("currentQuestion").getChoices();
+			var cq = model_factory.get("currentQuestion");
+			var choices = cq.getChoices();
 			
 			_.each(choices.models, function(model) { this.renderElement(model); }, this);
+
+			// string questions need special processing to determine whether they are answered correctly. see Issue #107.
+			if (this.inExamContext && cq.getTypeId() == "3") {
+				var answerCorrectnessModel = model_factory.get('answerCorrectnessModel');
+				var answersMap = model_factory.get('answersMap');
+				
+				if (answersMap != undefined) {
+					_.each(choices.models, function(model) {
+						if (answerCorrectnessModel.overallAnsweredCorrectly == false) {
+							var answer = answersMap.get(cq.getId()+","+model.get('id'));
+							
+							answerCorrectnessModel.overallAnsweredCorrectly = (model.get('text') == answer);
+							answerCorrectnessModel.stringAnswer = (model.get('string'));
+						}
+					});
+				}
+			}
 			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');

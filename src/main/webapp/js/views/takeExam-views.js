@@ -190,7 +190,12 @@
 				var newAnswer = $(event.target).val();
 				
 				if (newAnswer != oldAnswer) {
-					currQuestion.updateChoice(millisecond_id, 'string', newAnswer);
+					var choices = currQuestion.getChoices();
+					
+					_.each(choices.models, function(model) { 
+						var cId = model.get('id');
+						currQuestion.updateChoice(cId, 'string', newAnswer);
+					});
 					
 					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
 					var answers = model_factory.get("answersMap");

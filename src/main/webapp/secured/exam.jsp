@@ -229,7 +229,7 @@
 						$('#Exams-last-time-checkbox-handler-called').attr('value', new Date().getTime());
 					}
 					
-					function handleCheckboxChangeFunction() {
+					function handleCheckboxChangeFunction(event) {
 						if (hasEnoughTimePassed()) {
 							rememberLastTimeCheckboxChangeHandlerCalled();
 							
@@ -248,9 +248,11 @@
 								
 								if (state == 'selected') {
 									$('#tableRow_' + rowid).addClass('selectedTableRow');
+									$('#tableRow_' + rowid + ' > td > label').addClass('checked')
 								}
 								else {
 									$('#tableRow_' + rowid).removeClass('selectedTableRow');
+									$('#tableRow_' + rowid + ' > td > label').removeClass('checked')
 									syncSelectAllCheckboxes(false);
 								}
 							});

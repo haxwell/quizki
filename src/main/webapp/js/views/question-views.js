@@ -358,7 +358,8 @@
             if (cccStatus == 1) {
             	choiceCorrectStatusClass = 'correctAndChosen';
             	answerCorrectnessModel.correctAndChosen++;
-            	answerCorrectnessModel.overallAnsweredCorrectly = true;
+            	if (answerCorrectnessModel.overallAnsweredCorrectly == undefined)
+            		answerCorrectnessModel.overallAnsweredCorrectly = true;
             } else if (cccStatus == 2) {
             	choiceCorrectStatusClass = 'correctButNotChosen';
             	answerCorrectnessModel.correctButNotChosen++;
@@ -375,15 +376,15 @@
             } else if (cccStatus == 5) {
             	if (answer != undefined) {
             		answerCorrectnessModel.stringAnswer = answer.get('value');
-            	}
 
-            	if (!answerCorrectnessModel.overallAnsweredCorrectly) {
-        			var choiceModels = cq.getChoices().models;
-        			_.each(choiceModels, function(model) { 
-        				if (model.get('text') == answer.get('value')) 
-        					answerCorrectnessModel.overallAnsweredCorrectly = true; 
-        			});
-        		}
+	            	if (answerCorrectnessModel.overallAnsweredCorrectly == undefined || !answerCorrectnessModel.overallAnsweredCorrectly) {
+	        			var choiceModels = cq.getChoices().models;
+	        			_.each(choiceModels, function(model) { 
+	        				if (model.get('text') == answer.get('value')) 
+	        					answerCorrectnessModel.overallAnsweredCorrectly = true; 
+	        			});
+	        		}
+            	}
             }
             
             answerCorrectnessModel.totalChoicesCount++;

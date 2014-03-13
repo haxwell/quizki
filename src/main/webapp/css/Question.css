@@ -191,7 +191,7 @@ div.correctAndChosen {
 
 div.correctButNotChosen {
 	font-weight:bold;
-	color:yellow;
+	color:#cc9900;
 }
 
 div.incorrectAndChosen {

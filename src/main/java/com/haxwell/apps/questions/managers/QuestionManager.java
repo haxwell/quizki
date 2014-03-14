@@ -2,8 +2,11 @@ package com.haxwell.apps.questions.managers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -12,15 +15,28 @@ import javax.persistence.Query;
 
 import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.entities.AbstractEntity;
+import com.haxwell.apps.questions.entities.Choice;
+import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Question;
+import com.haxwell.apps.questions.entities.QuestionType;
+import com.haxwell.apps.questions.entities.Reference;
+import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
-import com.haxwell.apps.questions.filters.QuestionTypeFilter;
+import com.haxwell.apps.questions.filters.DifficultyFilter;
+import com.haxwell.apps.questions.filters.QuestionFilter;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
+import com.haxwell.apps.questions.filters.QuestionTypeFilter;
+import com.haxwell.apps.questions.utils.CollectionUtil;
+import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
+import com.haxwell.apps.questions.utils.QuestionUtil;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -28,6 +44,20 @@ public class QuestionManager extends Manager {
 	
 	public static Logger log = Logger.getLogger(QuestionManager.class.getName());
 	
+	protected static QuestionManager instance = null;
+	
+	public static Manager getInstance() {
+		if (instance == null)
+			instance = new QuestionManager();
+		
+		return instance;
+	}
+	
+	@Override
+	public AbstractEntity getEntity(String entityId) {
+		return getQuestionById(entityId);
+	}
+
 	public static long persistQuestion(Question question) 
 	{
 		EntityManager em = emf.createEntityManager();
@@ -43,16 +73,17 @@ public class QuestionManager extends Manager {
 		return rtn.getId();
 	}
 	
-	public static void deleteQuestion(long userId, String questionId)
+	public static String deleteQuestion(long userId, String questionId)
 	{
-		deleteQuestion(userId, getQuestionById(questionId));
+		return deleteQuestion(userId, getQuestionById(questionId));
 	}
 	
-	public static void deleteQuestion(long userId, Question question)
+	public static String deleteQuestion(long userId, Question question)
 	{
 		EntityManager em = emf.createEntityManager();
 		
 		long questionId = question.getId();		
+		String rtn  = QuestionUtil.getDisplayString(question, Constants.MAX_QUESTION_TEXT_LENGTH);
 		
 		em.getTransaction().begin();
 		
@@ -186,6 +217,8 @@ public class QuestionManager extends Manager {
 		em.getTransaction().commit();
 		
 		em.close();
+		
+		return rtn;
 	}
 	
 	public static Question newQuestion()
@@ -382,46 +415,263 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	public static List<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
+	private static List<Question> getFilteredListOfQuestions(FilterCollection fc) {
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "SELECT q FROM Question q WHERE ";
+		String filterText = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER).toString();
+		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
+		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER).toString());
+		int questionType = Integer.parseInt(fc.get(FilterConstants.QUESTION_TYPE_FILTER).toString());
+		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
+		User user = (User)fc.get(FilterConstants.USER_ID_ENTITY);
 		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
+		String queryString = "SELECT q FROM Question q"; 
+
+		/**
+		 * Need a piece of code which will take a condition, and then the string to be added to the query if that condition is true.
+		 * It should be able to tell that it previously added something to the query, and then add ' AND ' before it adds the next
+		 * string from the next condition that is true.
+		 * 
+		 * The conditions and the Strings should be returned from functions. So, we have a class which pairs a condition, and a string.
+		 * We have a list of those. For each item in the list, was the previous condition added? If so, add and 'AND '. now, is this 
+		 * condition true? if so add the string to the stringbuffer.. 
+		 */
 		
-		queryString += "q.difficulty.id <= ?1";
+		boolean filterTextIsNullOrEmpty = StringUtil.isNullOrEmpty(filterText);
+		if (!filterTextIsNullOrEmpty || maxDifficulty > 0 || includeOnlyUserCreatedEntities)
+			queryString += " WHERE "; 
+		
+		if (maxDifficulty > 0) 
+			queryString += "q.difficulty.id = ?1 ";
+		
+		if (maxDifficulty > 0 && !filterTextIsNullOrEmpty)
+			queryString += " AND ";
+		
+		if (!filterTextIsNullOrEmpty)
+			queryString += " UPPER(q.text) LIKE ?2 OR UPPER(q.description) LIKE ?2"; 
+		
+		if ((!filterTextIsNullOrEmpty || maxDifficulty > 0) && includeOnlyUserCreatedEntities)
+			queryString += " AND ";
+		
+		if (includeOnlyUserCreatedEntities)
+			queryString += "q.user.id = ?3";
 		
 		Query query = em.createQuery(queryString, Question.class);
 		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			query.setParameter(2, "%" + filterText + "%");
+		if (maxDifficulty > 0) 
+			query.setParameter(1, maxDifficulty);
 		
-		query.setParameter(1, maxDifficulty);
+		if (!filterTextIsNullOrEmpty)
+			query.setParameter(2, "%" + filterText.toUpperCase() + "%");
+		
+		if (includeOnlyUserCreatedEntities)
+			query.setParameter(3, Long.parseLong(user.getId()+""));
 		
 		List<Question> rtn = (List<Question>)query.getResultList();
 
-		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+		// TODO: figure out a way to get the query to do this...
+		FilterCollection fc2 = new FilterCollection();
+		fc2.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+		fc2.add(FilterConstants.QUESTION_TYPE_FILTER, questionType+"");
 		
-		pd.setTotalItemCount(rtn.size());
+		//rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+		rtn = (List<Question>)filterList(fc2, rtn);
 		
-		List<Question> paginatedList = new ArrayList<Question>();
-		
-		int rtnSize = rtn.size();
-		
-		if (rtnSize > pd.getPageSize())
-		{
-			int pageSize = pd.getPageSize();
-			int pageNumber = pd.getPageNumber();
+		return rtn;
+	}
+	
+	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc, Set<Question> selectedQuestions) {
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER).toString());
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER).toString());
+
+		AJAXReturnData rtn = new AJAXReturnData();
+
+		if (fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.SELECTED_ITEMS+"")) {
+			rtn = handleTheSelectedQuestionsCase(fc, selectedQuestions, maxEntityCount, offset);
+		}
+		else {  // this is a request for questions from the db
+			String entityIdFilter = (String)fc.get(FilterConstants.ENTITY_ID_FILTER);
 			
-			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
-				paginatedList.add(rtn.get(i));
+			if (!StringUtil.isNullOrEmpty(entityIdFilter))
+				rtn = handleTheGetEntityByIdCase(fc, selectedQuestions);
+			else
+				rtn = handleTheOtherCases(fc, selectedQuestions, maxEntityCount, offset);
+		}
+		
+		return rtn;
+	}
+	
+	/**
+	 * 
+	 * @param fc
+	 * @param selectedQuestions a Set of questions, representing those selected on an exam. Now that I think about it, don't really
+	 * 			like this here. Another, separate method should be doing what the selectedQuestions section is. Other than that, why
+	 * 			should this method care about which questions are selected?
+	 * @return
+	 */
+	private static AJAXReturnData handleTheGetEntityByIdCase(FilterCollection fc, Set<Question> selectedQuestions) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		
+		long questionId = Long.parseLong(fc.get(FilterConstants.ENTITY_ID_FILTER)+"");
+		
+		Question q = getQuestionById(questionId);
+		
+		if (q == null)
+			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+		else {
+			ArrayList<Question> arr = new ArrayList<Question>();
+			arr.add(q);
+			
+			rtn.entities = arr; 
+			
+			if (selectedQuestions != null) {
+				Iterator<Question> iterator = selectedQuestions.iterator();
+				List<Question> listOfSelectedEntitiesMatchingFilter = new ArrayList<Question>();
+				
+				while (iterator.hasNext())
+				{
+					Question selectedQuestion = iterator.next();
+					if (selectedQuestion.getId() == q.getId())
+						listOfSelectedEntitiesMatchingFilter.add(q);
+				}
+				
+				rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(listOfSelectedEntitiesMatchingFilter));				
 			}
 		}
-		else
-			paginatedList = rtn;
+		
+		return rtn;
+	}
+	
+	/* Helper method for ::getAJAXReturnObject() */
+	private static AJAXReturnData handleTheSelectedQuestionsCase(FilterCollection fc, Set<Question> selectedQuestions, int maxEntityCount, int offset) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = null;
 
+		list = new ArrayList<Question>();
+		
+		if (selectedQuestions != null && selectedQuestions.size() > 0)
+		{
+			Iterator<Question> iterator = selectedQuestions.iterator();
+			
+			while (iterator.hasNext()) {
+				list.add(iterator.next());
+			}
+			
+			list = filterList(fc, list);
+
+			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
+			
+			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);			
+		}
+		else
+			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
+		
+		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);		
+		
+		return rtn;
+	}
+	
+	/* Helper method for ::getAJAXReturnObject() */
+	private static AJAXReturnData handleTheOtherCases(FilterCollection fc, Set<Question> selectedQuestions, int maxEntityCount, int offset) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = null;
+
+		list = getFilteredListOfQuestions(fc);
+		
+		if (list.size() == 0) {
+			if (getNumberOfQuestionsCreatedByUser( Long.parseLong((String)fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
+			else
+				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+		}
+		else {
+			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);
+		}
+
+		rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", (selectedQuestions == null ? "" : CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions)));
+		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);
+		
+		return rtn;
+	}
+	
+	public static AJAXReturnData getBlankQuestion() {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Question> list = new ArrayList<Question>();
+		
+		Question q = new Question();
+		
+		q.setDifficulty(new Difficulty(DifficultyConstants.JUNIOR));
+		q.setQuestionType(new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR));
+		q.setChoices(new HashSet<Choice>());
+		q.setTopics(new HashSet<Topic>());
+		q.setReferences(new HashSet<Reference>());
+		
+		User u = new User();
+		u.setId(-1);
+		
+		q.setUser(u);
+		
+		list.add(q);
+		
+		rtn.entities = list;
+		
+		return rtn;
+	}
+
+	public static List<Question> getQuestions(FilterCollection fc) {
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER).toString());
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER).toString());
+
+		List<Question> rtn = getFilteredListOfQuestions(fc);
+		
+		List<Question> paginatedList = CollectionUtil.pareListDownToSize(rtn, offset, maxEntityCount);
+		
 		return paginatedList;
+	}
+	
+	@Deprecated //with the advent of smooth scrolling, the pagination data object is no longer used
+	public static List<Question> getQuestionsThatContain(final String topicFilterText, final String filterText, final int maxDifficulty, final Integer questionType, PaginationData pd) {
+//		EntityManager em = emf.createEntityManager();
+//		
+//		String queryString = "SELECT q FROM Question q WHERE ";
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			queryString += "q.text LIKE ?2 OR q.description LIKE ?2 AND ";
+//		
+//		queryString += "q.difficulty.id <= ?1";
+//		
+//		Query query = em.createQuery(queryString, Question.class);
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			query.setParameter(2, "%" + filterText + "%");
+//		
+//		query.setParameter(1, maxDifficulty);
+//		
+//		List<Question> rtn = (List<Question>)query.getResultList();
+//
+//		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+//		
+//		pd.setTotalItemCount(rtn.size());
+//		
+//		List<Question> paginatedList = new ArrayList<Question>();
+//		
+//		int rtnSize = rtn.size();
+//		
+//		if (rtnSize > pd.getPageSize())
+//		{
+//			int pageSize = pd.getPageSize();
+//			int pageNumber = pd.getPageNumber();
+//			
+//			for (int i = pageSize * pageNumber; i < Math.min(rtnSize, ((pageSize * pageNumber) + pageSize)); i++) {
+//				paginatedList.add(rtn.get(i));
+//			}
+//		}
+//		else
+//			paginatedList = rtn;
+//
+//		return paginatedList;
+		
+		return null;
 	}
 	
 	public static List<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {
@@ -463,6 +713,41 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
+	// TODO: this should probably be in a util somewhere
+	private static List<Question> filterList(FilterCollection fc, List<Question> list) {
+		ArrayList<ShouldRemoveAnObjectCommand> arr = new ArrayList<ShouldRemoveAnObjectCommand>();
+		
+		String filter = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new QuestionTopicFilter(filter));
+		}
+		
+		filter = fc.get(FilterConstants.QUESTION_TYPE_FILTER).toString();
+		
+		if (!StringUtil.isNullOrEmpty(filter) && (!filter.equals(TypeConstants.ALL_TYPES+""))) {
+			arr.add(new QuestionTypeFilter(Integer.parseInt(filter)));
+		}
+		
+		filter = fc.get(FilterConstants.QUESTION_CONTAINS_FILTER) != null ? fc.get(FilterConstants.QUESTION_CONTAINS_FILTER).toString() : "";
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new QuestionFilter(filter));
+		}
+		
+		filter = fc.get(FilterConstants.DIFFICULTY_FILTER).toString();
+		filter = filter != null ? filter.toString() : "";
+		
+		if (!StringUtil.isNullOrEmpty(filter) && !filter.equals(DifficultyConstants.ALL_DIFFICULTIES+"")) {
+			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
+		}
+		
+		ListFilterer lf = new ListFilterer();
+		ArrayList al = new ArrayList(lf.process(list,arr));
+		
+		return al;
+	}
+	
 	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
 			final String topicFilterText, final Integer questionType,
 			List<Question> rtn) {

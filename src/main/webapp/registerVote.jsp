@@ -3,6 +3,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.AbstractEntity"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.VoteUtil"/>	
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -16,22 +17,8 @@
 
 <jsp:scriptlet>
 
-String voteDirection = request.getParameter("voteDirection");
-String entityKey = request.getParameter("entityKey");
-User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-
 java.io.PrintWriter writer = response.getWriter();
-
-AbstractEntity entity = (AbstractEntity)request.getSession().getAttribute(entityKey);
-
-if (entity != null) {
-	if (voteDirection.equals("down"))
-		VoteManager.voteDown(user, entity);
-	else if (voteDirection.equals("up"))
-		VoteManager.voteUp(user, entity);
-}
-
-writer.print(voteDirection + " " + entityKey + " ");
+writer.print(VoteUtil.registerVote(request.getParameter("voteDirection"), request.getParameter("entityType"), request.getParameter("entityId"), (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY)));
 
 </jsp:scriptlet>
 	

@@ -1,0 +1,201 @@
+
+.entityAttributeHeaderName {
+	font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
+	text-transform: uppercase;
+	font-size: 0.85em;	
+}
+
+.btn.submitAnswer {
+  font-size: 16.996px;
+  /* 17px */
+
+  line-height: 20px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  padding-top: 8px;
+}
+
+#enterNewChoiceContainerDiv {
+	position:relative;
+}
+
+#submitNewChoiceBtn {
+	position:relative;
+	top:-5px;
+}
+
+.view {
+	position:relative;
+	top:7px;
+}
+
+.choiceItemList {
+	list-style-type:none;
+}
+
+.editing .edit {
+	display:block;
+}
+
+.editing .view {
+	display:none;
+}
+
+.hideForEditing.edit {
+	display:none;
+}
+
+.destroyBtn {
+	position:relative;
+	top:-10px;
+	display:none;
+}
+
+li:hover .destroyBtn {
+	display:inline;
+}
+
+li.readOnly:hover .destroyBtn {
+	display:none;
+}
+
+li.editing:hover .destroyBtn {
+	display:none;
+}
+
+button.choice_delete_button {
+	position:absolute;
+	right: 1px;
+}
+
+input.edit {
+	position:relative;
+	top:4px;
+	margin-bottom:3px;
+}
+
+input.textInputField {
+	border: 1px solid #bdc3c7;
+	background-color:white;
+}
+
+.well {
+	border: 1px solid #bdc3c7;
+	border-radius:0px;
+	background-color:white;
+}
+
+button.difficultyBtn.btn-primary {
+	border: 1px solid #bdc3c7;
+	background-color:white;
+}
+
+button.submitAnswer {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+/* 663 in flat-ui.css */
+.btn-group > .btn:first-of-type {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.btn-group > .btn:last-of-type {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+select {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+div.switch-square div.destroyBtn {
+	position:relative;
+}
+
+i.greenText {
+	position:absolute;
+	top:-0.5px;
+	left: 18px;
+}
+
+i.redText {
+	position:absolute;
+	top:0px;
+	left: 18px;
+}
+
+.choice_delete_button {
+	position:absolute;
+	right:1px;
+	top:9px;
+}
+
+.btn.btn-small {
+	line-height:17px;
+}
+
+ul#listOfChoices {
+	margin: 0 0 0 0;
+}
+
+li.choiceItem {
+	margin: 0 0 0 0;
+}
+
+[id*="switch"] {
+	margin: 0 0 0 0;
+}
+
+.sequenceDiv {
+	display:inline;
+}
+
+.sequenceDiv.hidden {
+	display:none;
+}
+
+.sequenceTextField {
+	position: relative;
+	
+	width: 5%;
+	top: 5px;
+	padding: 4px;
+	margin-left: 4px;
+	height: 17px;
+}
+
+.choiceTextDiv {
+	width:75%;
+	display:inline-block;
+}
+
+div.uppercase {
+	text-transform:uppercase;
+}
+
+div.bold {
+	font-weight:bold;
+}
+
+div.correctAndChosen {
+	font-weight:bold;
+	color:green;
+}
+
+div.correctButNotChosen {
+	font-weight:bold;
+	color:#cc9900;
+}
+
+div.incorrectAndChosen {
+	font-weight:bold;
+	font-style:italic;
+	color:red;
+}

@@ -16,7 +16,7 @@ import com.haxwell.apps.questions.servlets.actions.SetListOfUserNotificationsInS
 /**
  * Servlet implementation class ProfileSummaryServlet
  */
-@WebServlet("/secured/ProfileSummaryServlet")
+//@ WebServlet("/secured/ProfileSummaryServlet")
 public class ProfileSummaryServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
        

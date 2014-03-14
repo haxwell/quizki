@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IExam;
 
 
@@ -24,7 +26,7 @@ import com.haxwell.apps.questions.interfaces.IExam;
  */
 @Entity
 @Table(name="exam")
-public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, Serializable {
+public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,6 +36,9 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	private String title;
 	
 	private String message;
+	
+	@Column(name="ENTITY_STATUS")
+	private long entityStatus = EntityStatusConstants.ACTIVATED;	
 
 	//bi-directional many-to-one association to User
     @ManyToOne
@@ -56,7 +61,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     private Set<Topic> examTopics;
 	
 	@Transient
-	private String difficulty;
+	private Difficulty difficulty;
 
     public Exam() {
     }
@@ -101,6 +106,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.questions.add(q);
 	}
 	
+	// NOTE, we use a set because it cannot contain duplicates...
 	public Set<Question> getQuestions() {
 		if (this.questions == null)
 			this.questions = new HashSet<Question>();
@@ -110,6 +116,14 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 
 	public void setQuestions(Set<Question> questions) {
 		this.questions = questions;
+	}
+	
+	public long getEntityStatus() {
+		return this.entityStatus;
+	}
+	
+	public void setEntityStatus(long es) {
+		this.entityStatus = es;
 	}
 	
 	public int getNumberOfQuestions()
@@ -130,12 +144,12 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	}
 	
 	@Transient
-	public String getDifficulty() {
+	public Difficulty getDifficulty() {
 		return difficulty;
 	}
 
 	@Transient
-	public void setDifficulty(String difficulty) {
+	public void setDifficulty(Difficulty difficulty) {
 		this.difficulty = difficulty;
 	}
 
@@ -160,4 +174,25 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		return sb.toString();
 	}
 
+    public String toJSON() {
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(getJSONOpening());
+    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
+    	sb.append(getJSON("title", getText() + "", APPEND_COMMA));
+    	sb.append(getJSON("message", getMessage() + "", APPEND_COMMA));
+    	sb.append(getJSON("owningUserId", getUser().getId() + "", APPEND_COMMA));
+    	sb.append(getJSON("topics", getTopics().iterator(), APPEND_COMMA));
+
+    	Difficulty diff = getDifficulty();
+    	String diffId = (diff == null) ? "-1" : diff.getId()+"";
+    	String diffText = (diff == null) ? "undefined" : diff.getText();
+    	
+		sb.append(getJSON("difficulty", diffId, APPEND_COMMA));
+    	sb.append(getJSON("difficulty_text", diffText, APPEND_COMMA));
+    	sb.append(getJSON("entityStatus", getEntityStatus() + ""));
+    	sb.append(getJSONClosing());
+    	
+    	return sb.toString();
+    }
 }

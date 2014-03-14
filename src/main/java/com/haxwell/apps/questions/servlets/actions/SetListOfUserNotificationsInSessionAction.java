@@ -22,9 +22,10 @@ public class SetListOfUserNotificationsInSessionAction implements
 
 		User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 		
-		Collection<Notification> coll = NotificationManager.getAllNotificationsForUser(user.getId());
-		
-		session.setAttribute(Constants.LIST_OF_NOTIFICATIONS_TO_BE_DISPLAYED, coll);
+		if (user != null) {
+			Collection<Notification> coll = NotificationManager.getAllNotificationsForUser(user.getId());
+			session.setAttribute(Constants.LIST_OF_NOTIFICATIONS_TO_BE_DISPLAYED, coll);
+		}
 
 		return 0;
 	}

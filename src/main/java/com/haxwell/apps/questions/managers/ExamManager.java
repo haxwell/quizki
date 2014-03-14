@@ -14,19 +14,47 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import net.minidev.json.JSONObject;
+
+import com.haxwell.apps.questions.constants.Constants;
+import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.FilterConstants;
+import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.ExamFeedback;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.filters.DifficultyFilter;
+import com.haxwell.apps.questions.filters.ExamFilter;
+import com.haxwell.apps.questions.filters.ExamTopicFilter;
+import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.ExamHistory;
+import com.haxwell.apps.questions.utils.ExamUtil;
+import com.haxwell.apps.questions.utils.FilterCollection;
+import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
 import com.haxwell.apps.questions.utils.PaginationDataUtil;
+import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 public class ExamManager extends Manager {
 
 	public static Logger log = Logger.getLogger(ExamManager.class.getName());
+	
+	protected static ExamManager instance = null;
+	
+	public static Manager getInstance() {
+		if (instance == null)
+			instance = new ExamManager();
+		
+		return instance;
+	}
+	
+	@Override
+	public AbstractEntity getEntity(String entityId) {
+		return getExam(Long.parseLong(entityId));
+	}
 	
 	public static Exam newExam()
 	{
@@ -45,6 +73,12 @@ public class ExamManager extends Manager {
 		em.getTransaction().commit();
 		
 		return rtn.getId();
+	}
+	
+	public static void deleteExam(JSONObject obj) {
+		String key = (String)obj.get("exam_id");
+		
+		deleteExam(key);
 	}
 	
 	public static void deleteExam(String str)
@@ -152,7 +186,6 @@ public class ExamManager extends Manager {
 	public static boolean removeQuestions(Exam exam, String csvID)
 	{
 		StringTokenizer tokenizer = new StringTokenizer(csvID, ",");
-		boolean rtn = true;
 		
 		Set<Integer> set = new HashSet<Integer>();
 		
@@ -205,9 +238,11 @@ public class ExamManager extends Manager {
 			 */
 			
 			rtn = (Exam)query.getSingleResult();
-			
-			em.close();
+
+			setTopicsAttribute(rtn);
 		}
+
+		em.close();
 		
 		return rtn;
 	}
@@ -229,10 +264,10 @@ public class ExamManager extends Manager {
 		return set.iterator().next();
 	}
 	
-	public static ExamHistory initializeExamHistory(Exam e)
-	{
-		return new ExamHistory(e);
-	}
+//	public static ExamHistory initializeExamHistory(Exam e)
+//	{
+//		return new ExamHistory(e);
+//	}
 	
 	public static int getNumberOfQuestionsAnsweredCorrectly(ExamHistory eh)
 	{
@@ -438,6 +473,9 @@ public class ExamManager extends Manager {
 		
 		em.close();
 		
+		if (rtn.size() == 0)
+			rtn = null;
+		
 		return rtn;
 	}
 	
@@ -446,8 +484,266 @@ public class ExamManager extends Manager {
 	}
 
 	public static void setTopicsAttribute(Collection<Exam> coll) {
-		for (Exam e : coll) {
-			e.setTopics(getAllQuestionTopics(e));
+		for (Exam e : coll) setTopicsAttribute(e);
+	}
+	
+	public static void setTopicsAttribute(Exam e) {
+		e.setTopics(getAllQuestionTopics(e));
+	}
+	
+	public static List<Long> getExamsWhichContain(Question q) {
+		EntityManager em = emf.createEntityManager();
+
+		String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id = ?1";
+		
+		Query query = em.createNativeQuery(queryString);
+		query.setParameter(1, q.getId());
+		
+		List<Long> rtn = query.getResultList();
+		
+		em.close();
+		
+		if (rtn.size() == 0)
+			rtn = null;
+		
+		return rtn;
+	}
+
+	public static List<Long> getExamsWhichContain(List<Topic> topics) {
+		List<Long> rtn = null;
+
+		if (topics != null && topics.size() > 0) {
+			
+			EntityManager em = emf.createEntityManager();
+			
+			// I did have this using ?1 as a parameter marker which was replaced with the value from a call to CollectionUtil.getCSVofIDsFromListofEntities(topics),
+			// but when I did that, I wasn't getting any results in my test case. To reproduce, replace the CollectionUtil.getCSVofIDsFromListofEntities(topics) with ?1
+			// and then add a line saying query.setParameter(1, CollectionUtil.getCSVofIDsFromListofEntities(topics)), and have the parameter value be "2,1".
+			// messed around with it for a while, changing to named parameters (ie :topicIdList), but couldn't figure exactly what was wrong.. maybe one day I'll have time
+			String queryString = "SELECT exam_id FROM exam_question eq WHERE eq.question_id IN (SELECT question_id FROM question_topic WHERE topic_id in (" + CollectionUtil.getCSVofIDsFromListofEntities(topics) + "))";
+			
+			Query query = em.createNativeQuery(queryString);
+			
+			rtn = query.getResultList();
+			
+			em.close();
+			
+			if (rtn.size() == 0)
+				rtn = null;
 		}
+		
+		return rtn;
+	}
+	
+	public static List<Exam> getExamsById(List<Long> list) {
+		List<Exam> rtn = null;
+		
+		if (list != null) {
+			rtn = new ArrayList<Exam>();
+			
+			Set<Long> set = new HashSet<Long>();
+			
+			for (Long l : list) {
+				if (!set.contains(l))
+				{
+					set.add(l);
+					rtn.add(getExam(l));
+				}
+			}
+		}
+		
+		return rtn;
+	}
+	
+	public static AJAXReturnData getAJAXReturnObject(FilterCollection fc) {
+		int maxEntityCount = Integer.parseInt(fc.get(FilterConstants.MAX_ENTITY_COUNT_FILTER).toString());
+		int offset = Integer.parseInt(fc.get(FilterConstants.OFFSET_FILTER).toString());
+
+		AJAXReturnData rtn = null;
+
+		if (fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.SELECTED_ITEMS+"")) {
+			rtn = handleTheSelectedExamsCase(fc, null, maxEntityCount, offset);
+		}
+		else {  // this is a request for questions from the db
+			String entityIdFilter = (String)fc.get(FilterConstants.ENTITY_ID_FILTER);
+			
+			if (!StringUtil.isNullOrEmpty(entityIdFilter))
+				rtn = handleTheGetEntityByIdCase(fc, null);
+			else
+				rtn = handleTheOtherCases(fc, null, maxEntityCount, offset);
+		}
+		
+		return rtn == null ? new AJAXReturnData() : rtn;
+	}
+
+	/* Helper method for ::getAJAXReturnObject() */
+	private static AJAXReturnData handleTheSelectedExamsCase(FilterCollection fc, Set selectedExams, int maxEntityCount, int offset) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List list = null;
+
+		list = new ArrayList();
+		
+		if (selectedExams != null && selectedExams.size() > 0)
+		{
+			Iterator iterator = selectedExams.iterator();
+			
+			while (iterator.hasNext()) {
+				list.add(iterator.next());
+			}
+			
+			list = filterList(fc, list);
+
+			rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(list));
+			
+			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);			
+		}
+		else
+			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_SELECTED_ITEMS;
+		
+		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);		
+		
+		return rtn;
+	}
+
+	/**
+	 * 
+	 * @param fc
+	 * @param selectedQuestions a Set of questions, representing those selected on an exam. Now that I think about it, don't really
+	 * 			like this here. Another, separate method should be doing what the selectedQuestions section is. Other than that, why
+	 * 			should this method care about which questions are selected?
+	 * @return
+	 */
+	private static AJAXReturnData handleTheGetEntityByIdCase(FilterCollection fc, Set<Question> selectedQuestions) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		
+		long examId = Long.parseLong(fc.get(FilterConstants.ENTITY_ID_FILTER)+"");
+		
+		Exam e = getExam(examId);
+		
+		if (e == null)
+			rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+		else {
+			ArrayList<Exam> arr = new ArrayList<Exam>();
+			arr.add(e);
+			
+			rtn.entities = arr; 
+			
+			if (selectedQuestions != null) {
+				Iterator<Question> iterator = selectedQuestions.iterator();
+				List<Exam> listOfSelectedEntitiesMatchingFilter = new ArrayList<Exam>();
+				
+				while (iterator.hasNext())
+				{
+					Question selectedQuestion = iterator.next();
+					if (selectedQuestion.getId() == e.getId())
+						listOfSelectedEntitiesMatchingFilter.add(e);
+				}
+				
+				rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", CollectionUtil.getCSVofIDsFromListofEntities(listOfSelectedEntitiesMatchingFilter));				
+			}
+		}
+		
+		return rtn;
+	}
+	
+	/* Helper method for ::getAJAXReturnObject() */
+	private static AJAXReturnData handleTheOtherCases(FilterCollection fc, Set<Question> selectedQuestions, int maxEntityCount, int offset) {
+		AJAXReturnData rtn = new AJAXReturnData();
+		List<Exam> list = null;
+
+		list = getFilteredListOfExams(fc);
+		
+		if (list.size() == 0) {
+			if (getNumberOfExamsCreatedByUser( Long.parseLong((String)fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
+			else
+				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+		}
+		else {
+			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);
+		}
+
+		rtn.addKeyValuePairToJSON("selectedEntityIDsAsCSV", (selectedQuestions == null ? "" : CollectionUtil.getCSVofIDsFromListofEntities(selectedQuestions)));
+		rtn.entities = CollectionUtil.pareListDownToSize(list, offset, maxEntityCount);
+		
+		return rtn;
+	}
+	
+	// TODO: this should probably be in a util somewhere
+	private static List filterList(FilterCollection fc, List list) {
+		ArrayList<ShouldRemoveAnObjectCommand> arr = new ArrayList<ShouldRemoveAnObjectCommand>();
+		
+		String filter = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new ExamTopicFilter(filter));
+		}
+		
+		filter = fc.get(FilterConstants.EXAM_CONTAINS_FILTER) != null ? fc.get(FilterConstants.EXAM_CONTAINS_FILTER).toString() : "";
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new ExamFilter(filter));
+		}
+		
+		filter = fc.get(FilterConstants.DIFFICULTY_FILTER) != null ? fc.get(FilterConstants.DIFFICULTY_FILTER).toString() : "";
+		
+		if (!StringUtil.isNullOrEmpty(filter)) {
+			arr.add(new DifficultyFilter(Integer.parseInt(filter), (filter.equals(DifficultyConstants.ALL_DIFFICULTIES+"") ? DifficultyFilter.DIFFICULTY_IS_GREATER_THAN : DifficultyFilter.DIFFICULTY_IS_EQUAL)));
+		}
+		
+		ListFilterer lf = new ListFilterer();
+		ArrayList al = new ArrayList(lf.process(list,arr));
+		
+		return al;
+	}
+	
+	private static List<Exam> getFilteredListOfExams(FilterCollection fc) {
+		EntityManager em = emf.createEntityManager();
+		
+		String filterText = fc.get(FilterConstants.EXAM_CONTAINS_FILTER).toString();
+		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
+		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER).toString());
+		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
+		User user = (User)fc.get(FilterConstants.USER_ID_ENTITY);
+		
+		String queryString = "SELECT e FROM Exam e";
+		
+		boolean filterTextIsNullOrEmpty = StringUtil.isNullOrEmpty(filterText);
+		if (!filterTextIsNullOrEmpty || includeOnlyUserCreatedEntities)
+			queryString += " WHERE ";
+		
+		if (!filterTextIsNullOrEmpty)
+			queryString += "e.title LIKE ?1";
+		
+		if (!filterTextIsNullOrEmpty && includeOnlyUserCreatedEntities)
+			queryString += " AND ";
+		
+		if (includeOnlyUserCreatedEntities)
+			queryString += "e.user.id = ?2";
+		
+		Query query = em.createQuery(queryString, Exam.class);
+		
+		if (!filterTextIsNullOrEmpty)
+			query.setParameter(1, "%" + filterText + "%");
+		
+		if (includeOnlyUserCreatedEntities)
+			query.setParameter(2, Long.parseLong(user.getId()+""));
+		
+		List<Exam> rtn = (List<Exam>)query.getResultList();
+
+		// TODO: Pretty sure this is going to cause a major performance hit.. should we just remove the ability to filter on difficulty for exams, or is there some caching we can do? 
+		for (Exam e : rtn) {
+			e.setDifficulty(ExamUtil.getExamDifficulty(e));
+			e.setTopics(ExamUtil.getExamTopics(e));
+		}
+		
+		// TODO: figure out a way to get the query to do this...
+		FilterCollection fc2 = new FilterCollection();
+		fc2.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+		fc2.add(FilterConstants.DIFFICULTY_FILTER, maxDifficulty);
+
+		rtn = (List<Exam>)filterList(fc2, rtn);
+		
+		return rtn;
 	}
 }

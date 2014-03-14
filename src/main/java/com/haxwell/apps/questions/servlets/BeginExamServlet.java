@@ -14,7 +14,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 /**
  * Servlet implementation class BeginExamServlet
  */
-@WebServlet("/BeginExamServlet")
+//@ WebServlet("/BeginExamServlet")
 public class BeginExamServlet extends AbstractHttpServlet {
 	
 	Logger log = Logger.getLogger(BeginExamServlet.class.getName());
@@ -40,10 +40,9 @@ public class BeginExamServlet extends AbstractHttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		log.log(java.util.logging.Level.SEVERE, "FINALLY! In BeginExamServlet!!!");
+		log.log(java.util.logging.Level.FINE, "In BeginExamServlet...");
 		
 		String fwdPage = "/takeExam.jsp"; //"/takeExam?examId=5";
-		
 		
 		String examId = request.getParameter("examId");
 		String topicId = request.getParameter("topicId");

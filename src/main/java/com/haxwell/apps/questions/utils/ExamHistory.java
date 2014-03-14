@@ -242,7 +242,7 @@ public class ExamHistory implements Iterable<ExamHistory.AnsweredQuestion> {
 	public class AnsweredQuestion
 	{
 		public Question question;
-		public Map<String, String> answers;
+		public Map<String, String> answers; /* Map of String to FieldName, see QuestionUtil.getFieldnameForChoice */
 		public Map<String, Object> metadata;
 		public boolean isCorrect = false;
 		

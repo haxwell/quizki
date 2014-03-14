@@ -6,51 +6,34 @@
     </jsp:text>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Home Page - Quizki</title>
-		
-		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
-		
-		<jsp:text>
-			
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery.cookie.js" type="text/javascript"></script> ]]>
-		
-			<![CDATA[
-				<script type="text/javascript">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-   					//$(document).ready(function() {
-					//	var currentSessionCookieVal = $.cookie('quizki.currentSessionCookie'); 
-					//
-					//	if (currentSessionCookieVal == null)
-					//		$("#welcomeToQuizki-dialog").dialog({modal:true,width:530,title:"Welcome to Quizki!"}).dialog();
-					//});
+		<title>Home Page - Quizki</title>
+		
+		<!-- link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" /  -->
+		<link href="pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+		<!-- link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/  -->
 
-					// Handler for the modal dialog CLOSING
-				    //$(document).ready(function(){
-					//	$('div#welcomeToQuizki-dialog').bind('dialogclose', function(event) {
-					//	    //var v = $.cookie('quizki.userHasBeenHereBefore');
-					//	    //$.cookie('quizki.userHasBeenHereBefore', v+1, { expires: 30 });
+		<!-- link href="css/quizki.css" rel="stylesheet" type="text/css"/  -->
+		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/>		
+		<link href="css/index.css" rel="stylesheet" type="text/css"/>
 
-					//	    $.cookie('quizki.currentSessionCookie', 0); // create cookie for current session
-					//	});
- 				    //});
-				    
-				</script>
-			]]>
-		</jsp:text>
+		<link href="images/favicon.ico" rel="shortcut icon"/>
 		
 </head>
 <body>
 
-<jsp:include page="header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
+
 
 <br/>
 <div class="mainContentArea">
-<h1 class="center quizkiTitle">Quizki</h1>
 <br/>
+<div class="center"><a href="getQuestionsTestPage.jsp">getQuestionsTestPage</a></div><br/>
 <div class="center"><b>Quizki collects questions and answers, allowing you to test yourself with practice exams.</b></div><br/>
 <hr style="margin-right:40%; margin-left:40%;"/>
 
@@ -146,16 +129,14 @@
      	You are logged in. <a class="greyLink" href="logout.jsp" id="logout">logout</a>
      </c:otherwise>
     </c:choose>
-    
+
+<br/><br/>
 </div>    
 
 </div> <!-- mainContentArea -->
 
-<div class="hidden" id="welcomeToQuizki-dialog" title="quizki"> Quizki allows you to test yourself!<br/><br/>
-You create questions and answers in Quizki. Later, Quizki can ask you the questions, and you can see which you answered correctly, and which ones you missed.<br/><br/>
-BONUS! You can test yourself using questions that others have created!<br/><br/>
-Don't be shy! Click around! You won't break it! (but if you do.. <a href="mailto:johnathan@quizki.com">email me</a>!)<br/> </div>
-
+</div>
+</div>
 </body>
 </html>
 </jsp:root>

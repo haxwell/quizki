@@ -15,7 +15,7 @@ public class DifficultyUtil {
 			return 1;
 		if (parameter.toLowerCase().equals(DifficultyConstants.INTERMEDIATE_STR.toLowerCase()))
 			return 2;
-		if (parameter.toLowerCase().equals(DifficultyConstants.WELL_VERSED_STR.toLowerCase()))
+		if (parameter.toLowerCase().equals(DifficultyConstants.EXPERT_STR.toLowerCase()))
 			return 3;
 		if (parameter.toLowerCase().equals(DifficultyConstants.GURU_STR.toLowerCase()))
 			return 4;
@@ -26,7 +26,7 @@ public class DifficultyUtil {
 	public static String convertToString(int i) {
 		if (i == DifficultyConstants.JUNIOR) return DifficultyConstants.JUNIOR_STR;
 		if (i == DifficultyConstants.INTERMEDIATE) return DifficultyConstants.INTERMEDIATE_STR;
-		if (i == DifficultyConstants.WELL_VERSED) return DifficultyConstants.WELL_VERSED_STR;
+		if (i == DifficultyConstants.EXPERT) return DifficultyConstants.EXPERT_STR;
 		if (i == DifficultyConstants.GURU) return DifficultyConstants.GURU_STR;
 		
 		return null;
@@ -40,8 +40,8 @@ public class DifficultyUtil {
 		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
 			return "Intermediate";
 		
-		if (str.toLowerCase().equals(DifficultyConstants.WELL_VERSED_STR.toLowerCase()))
-			return "Well-versed";
+		if (str.toLowerCase().equals(DifficultyConstants.EXPERT_STR.toLowerCase()))
+			return "Expert";
 		
 		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
 			return "Guru";
@@ -67,5 +67,11 @@ public class DifficultyUtil {
 		d.setText(convertToString(i));
 		
 		return d;
+	}
+	
+	public static Difficulty getDifficulty(String iint) {
+		if (iint == null) iint = DifficultyConstants.JUNIOR+"";
+		
+		return getDifficulty(Integer.parseInt(iint));
 	}
 }

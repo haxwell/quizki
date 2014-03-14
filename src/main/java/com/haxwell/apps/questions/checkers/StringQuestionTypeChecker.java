@@ -36,16 +36,16 @@ public class StringQuestionTypeChecker extends AbstractQuestionTypeChecker {
 	}
 	
 	@Override
-	public boolean questionIsCorrect(Map<String, String> mapOfFieldNamesToValues)
+	public boolean questionIsCorrect(Map<String, String> mapOfQAndCIDsToValues)
 	{
 		List<Choice> choices = QuestionUtil.getChoiceList(this.question);
 		
 		boolean rtn = false;
 		
-		if (mapOfFieldNamesToValues.size() > 1)
+		if (mapOfQAndCIDsToValues.size() > 1)
 			throw new IllegalArgumentException("For Questions of type String, there should only be one answer supplied when taking the exam.");
 
-		String answer = mapOfFieldNamesToValues.values().iterator().next().toLowerCase();
+		String answer = mapOfQAndCIDsToValues.values().iterator().next().toLowerCase();
 		
 		for (Choice c : choices)
 		{

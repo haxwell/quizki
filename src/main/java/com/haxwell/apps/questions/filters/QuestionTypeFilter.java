@@ -5,7 +5,7 @@ import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.TypeUtil;
 
 public class QuestionTypeFilter implements ShouldRemoveAnObjectCommand<Question> {
-	private int filterQuestionType;
+	private long filterQuestionType;
 	
 	public QuestionTypeFilter(int filter) {
 		this.filterQuestionType = filter;
@@ -14,7 +14,7 @@ public class QuestionTypeFilter implements ShouldRemoveAnObjectCommand<Question>
 	public boolean shouldRemove(Question q) {
 		boolean rtn = false;
 
-		if (TypeUtil.convertToInt(q.getQuestionType()) != filterQuestionType)
+		if (TypeUtil.convertToLong(q.getQuestionType()) != filterQuestionType)
 			rtn = true;
 
 		return rtn;

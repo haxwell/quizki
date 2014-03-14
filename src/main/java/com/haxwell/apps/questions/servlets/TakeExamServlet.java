@@ -27,7 +27,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 /**
  * Servlet implementation class ExamServlet
  */
-@WebServlet("/TakeExamServlet")
+//@ WebServlet("/TakeExamServlet")
 public class TakeExamServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 135739L;
 	private Logger log = Logger.getLogger(TakeExamServlet.class.getName());
@@ -107,14 +107,14 @@ public class TakeExamServlet extends AbstractHttpServlet {
 				request.getSession().setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
 			}
 		}
-		else if (button.equals("< PREV") || button.equals("Go Back!"))
+		else if (button.equals("< PREV") || button.equals("Review Answers"))
 		{
 			log.log(Level.FINER, "***** IN PREV method ********");
 			
 			handleAfterQuestionDisplayedTasks(request, examHistory);
 			handleBeforeQuestionDisplayedTasks(request, examHistory, examHistory.getPrevQuestion());
 		}
-		else if (button.equals("GRADE IT!"))
+		else if (button.equals("Grade Exam"))
 		{
 			int correct = ExamManager.getNumberOfQuestionsAnsweredCorrectly(examHistory);
 			int total = examHistory.getTotalNumberOfQuestions();

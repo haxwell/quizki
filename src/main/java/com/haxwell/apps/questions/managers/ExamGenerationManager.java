@@ -11,8 +11,11 @@ import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
-import com.haxwell.apps.questions.utils.PaginationData;
+import com.haxwell.apps.questions.filters.DifficultyFilter;
+import com.haxwell.apps.questions.filters.QuestionTopicFilter;
+import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
+import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 public class ExamGenerationManager {
@@ -25,21 +28,27 @@ public class ExamGenerationManager {
 		log.log(Level.FINER, numberOfQuestions + " questions, topics = [" + StringUtil.getToStringOfEach(topicIDsToInclude) + "],[" + StringUtil.getToStringOfEach(topicIDsToExclude) + "], " + (requireMatchingDifficultyId ? "The Only " : "Matching ") + "Difficulty ID = " + filterDifficultyId);
 		
 		Exam exam = new Exam();
-		ArrayList<Question> mainColl = new ArrayList<Question>();
+		ArrayList<Question> mainColl = new ArrayList<>();
 		
 		Collection<Question> coll = null; 
 		
 		if (topicIDsToInclude == null || topicIDsToInclude.size() == 0)
 		{
-			coll = QuestionManager.getAllQuestions();
-
-			for (Question q : coll)
-				mainColl.add(q);
+			throw new IllegalArgumentException("No topics found. Topics are required in order to generate an exam.");
 		}
 		else
 		{
+			List<ShouldRemoveAnObjectCommand> filters = new ArrayList<>();
+			
+			filters.add(new DifficultyFilter(filterDifficultyId, (requireMatchingDifficultyId ? DifficultyFilter.DIFFICULTY_IS_EQUAL : DifficultyFilter.DIFFICULTY_IS_GREATER_THAN)));
+			filters.add(new QuestionTopicFilter(topicIDsToExclude));
+			
+			ListFilterer listFilterer = new ListFilterer<>();
+
 			for (Long i : topicIDsToInclude) {
-				coll = QuestionManager.getQuestionsByTopic(i, new PaginationData());
+				coll = QuestionManager.getQuestionsByTopic(i, null);
+				
+				coll = listFilterer.process(coll, filters);
 
 				for (Question q : coll)
 					mainColl.add(q);
@@ -54,50 +63,9 @@ public class ExamGenerationManager {
 		// Until we get enough questions on the exam....
 		while (exam.getQuestions().size() < numberOfQuestions && indexToRandomListOfIndexes > 0)
 		{
-			boolean questionPassesTheFilters = true;
-			
 			// get a random question from the list
 			Question question = mainColl.get(list.get(--indexToRandomListOfIndexes));
-			
-			// get the Topics from that question
-			Set<Topic> questionTopics = question.getTopics();
-			
-			// for each topic on this random question
-			if (topicIDsToExclude.size() > 0)
-				for (Topic topic : questionTopics) {
-					// if a topic ID on this question matches the list of those topic IDs to exclude,
-					if (topicIDsToExclude.contains(topic.getId()))
-					{
-						questionPassesTheFilters = false;
-						log.log(Level.FINER, "Excluded a question " + question.getId() + " because of TOPIC: " + topic.getId() + " " + topic.getText());
-					}
-				}
-			
-			if (questionPassesTheFilters)
-			{
-				Difficulty difficulty = question.getDifficulty();
-				
-				// if the difficulty is higher than requested..
-				if (difficulty.getId() > filterDifficultyId)
-				{
-					questionPassesTheFilters = false;
-					log.log(Level.FINER, "Excluded a question " + question.getId() + " because of DIFFICULTY: " + difficulty.getId() + " " + difficulty.getText());
-				}
-				
-				// if the difficulty is not the exact level requested..
-				if (requireMatchingDifficultyId && difficulty.getId() != filterDifficultyId) {
-					questionPassesTheFilters = false;
-					log.log(Level.FINER, "Excluded a question " + question.getId() + " because of DIFFICULTY (not a match): " + difficulty.getId() + " " + difficulty.getText());
-				}
-					
-			}
-			
-			if (questionPassesTheFilters)
-			{
-				log.log(Level.FINER, "GenerateExam: Adding question " + indexToRandomListOfIndexes + " " + question);
-				exam.addQuestion(question);
-			}
-				
+			exam.addQuestion(question);
 		}
 		
 		exam.setTitle("Generated Exam #403b");

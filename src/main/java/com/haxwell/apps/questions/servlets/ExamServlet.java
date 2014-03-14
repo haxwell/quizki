@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EventConstants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
@@ -30,6 +31,7 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction;
 import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.DifficultyUtil;
+import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.FilterUtil;
 import com.haxwell.apps.questions.utils.ListFilterer;
 import com.haxwell.apps.questions.utils.PaginationData;
@@ -41,9 +43,23 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 /**
  * Servlet implementation class ExamServlet
  */
-@WebServlet("/secured/ExamServlet")
+//@ WebServlet("/secured/ExamServlet")
 public class ExamServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
+    
+	/**
+	 * 
+	 * THIS CLASS CAN BE REMOVED! Everything is being done by AJAX now..
+	 * 
+	 */
+
+	
+	/**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ExamServlet() {
+        super();
+    }
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -288,89 +304,77 @@ public class ExamServlet extends AbstractHttpServlet {
 	}
 
 	// TODO: These following two methods can be combined..
-	private void handleFilterButtonPress(HttpServletRequest request,
-			PaginationData pd) {
-		String filterText = request.getParameter("containsFilter");
-		String topicFilterText = request.getParameter("topicContainsFilter");
-		int questionType = TypeUtil.convertToInt(request
-				.getParameter("questionTypeFilter"));
-		int maxDifficulty = DifficultyUtil.convertToInt(request
-				.getParameter("difficultyFilter"));
-
-		String mineOrAllOrSelected = request
-				.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS_OR_SELECTED_ITEMS);
-
-		List<Question> coll = null;
-
-		if (mineOrAllOrSelected.equals(Constants.MY_ITEMS_STR)) {
-			User user = (User) request.getSession().getAttribute(
-					Constants.CURRENT_USER_ENTITY);
-
-			if (user != null)
-				coll = QuestionManager
-						.getQuestionsCreatedByAGivenUserThatContain(
-								user.getId(), topicFilterText, filterText,
-								maxDifficulty, questionType, pd);
-		} else if (mineOrAllOrSelected.equals(Constants.ALL_ITEMS_STR)) {
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText,
-					filterText, maxDifficulty, questionType, pd);
-		} else if (mineOrAllOrSelected.equals(Constants.SELECTED_ITEMS_STR)) {
-			final Exam exam = getExamBean(request);
-			Set<Question> selectedQuestions = exam.getQuestions();
-			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
-
-			pd.setPageNumber(PaginationData.FIRST_PAGE);
-
-			String quantity = getIdAppendedToRequestParameter(request,
-					"quantity");
-
-			if (quantity != null) {
-				pd.setPageSize(Integer.parseInt(quantity));
-			}
-
-			coll = QuestionManager.getQuestionsById(csvList, null);
-
-			coll = filterCollectionWithAllCategories(filterText,
-					topicFilterText, questionType, maxDifficulty, coll);
-
-			pd.setTotalItemCount(coll.size());
-
-			coll = (List<Question>) PaginationDataUtil.reduceListSize(pd, coll);
-		}
-
-		if (coll != null) {
-			saveExamSelectedQuestionIdsInSession(request);
-		}
-
-		// store the filter we just used
-		request.getSession().setAttribute(
-				Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-		request.getSession()
-				.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
-		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT,
-				topicFilterText);
-		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY,
-				maxDifficulty);
-		request.getSession().setAttribute(
-				Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED,
-				FilterUtil.convertToInt(mineOrAllOrSelected));
-		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE,
-				questionType);
-		request.getSession().setAttribute(
-				Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
-
-		/*
-		 * This event is thrown because when this list is set, the
-		 * 'shouldAllowEditing' attribute should be cleared. We can't depend on
-		 * the AttributeListener, because it only activates handlers to be
-		 * called when some other event happens. The event is now, and we need
-		 * the handlers to do their thing, now.
-		 */
-		EventDispatcher
-				.getInstance()
-				.fireEvent(
-						request,
-						EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
+	private void handleFilterButtonPress(HttpServletRequest request, PaginationData pd) {
+//		String filterText = request.getParameter("containsFilter");
+//		String topicFilterText = request.getParameter("topicContainsFilter");
+//		int questionType = TypeUtil.convertToInt(request.getParameter("questionTypeFilter"));
+//		int maxDifficulty = DifficultyUtil.convertToInt(request.getParameter("difficultyFilter"));
+//		
+//		String mineOrAllOrSelected = request.getParameter(Constants.SHOW_ONLY_MY_ITEMS_OR_ALL_ITEMS_OR_SELECTED_ITEMS);
+//		
+//		FilterCollection fc = new FilterCollection();
+//		fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, filterText);
+//		fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, topicFilterText);
+//		fc.add(FilterConstants.QUESTION_TYPE_FILTER, questionType + "");
+//		fc.add(FilterConstants.DIFFICULTY_FILTER, maxDifficulty + "");
+//
+//		List<Question> coll = null;
+//		
+//		if (mineOrAllOrSelected.equals(Constants.MY_ITEMS_STR)) 
+//		{
+//			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+//			
+//			if (user != null)
+//				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
+//		}
+//		else if (mineOrAllOrSelected.equals(Constants.ALL_ITEMS_STR))
+//		{
+//			//coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+//			coll = QuestionManager.getQuestions(fc);
+//		}
+//		else if (mineOrAllOrSelected.equals(Constants.SELECTED_ITEMS_STR))
+//		{
+//			final Exam exam = getExamBean(request);
+//			Set<Question> selectedQuestions = exam.getQuestions();
+//			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
+//			
+//			pd.setPageNumber(PaginationData.FIRST_PAGE);
+//			
+//			String quantity = getIdAppendedToRequestParameter(request, "quantity");
+//			
+//			if (quantity != null) {
+//				pd.setPageSize(Integer.parseInt(quantity));
+//			}
+//			
+//			coll = QuestionManager.getQuestionsById(csvList, null);
+//			
+//			coll = filterCollectionWithAllCategories(filterText,
+//					topicFilterText, questionType, maxDifficulty, coll);
+//
+//			pd.setTotalItemCount(coll.size());
+//			
+//			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll);
+//		}
+//
+//		if (coll != null) {
+//			saveExamSelectedQuestionIdsInSession(request);
+//		}
+//		
+//		// store the filter we just used
+//		request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+//		request.getSession().setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+//		request.getSession().setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+//		request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+//		request.getSession().setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, FilterUtil.convertToInt(mineOrAllOrSelected));
+//		request.getSession().setAttribute(Constants.MRU_FILTER_QUESTION_TYPE, questionType);
+//		request.getSession().setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
+//		
+//		/*
+//		 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.
+//		 * We can't depend on the AttributeListener, because it only activates handlers to be called when some other event
+//		 * happens. The event is now, and we need the handlers to do their thing, now.
+//		 */
+//		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 
 	private void saveExamSelectedQuestionIdsInSession(HttpServletRequest request) {
@@ -381,102 +385,88 @@ public class ExamServlet extends AbstractHttpServlet {
 				selectedQuestionIds);
 	}
 
-	private void refreshListOfQuestionsToBeDisplayed(
-			HttpServletRequest request, PaginationData pd) {
-		String filterText = (String) request.getSession().getAttribute(
-				Constants.MRU_FILTER_TEXT);
-		String topicFilterText = (String) request.getSession().getAttribute(
-				Constants.MRU_FILTER_TOPIC_TEXT);
-		int mineOrAllOrSelected = ((Integer) request.getSession().getAttribute(
-				Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED)).intValue();
-		Object o = request.getSession().getAttribute(
-				Constants.MRU_FILTER_DIFFICULTY);
-		int questionType = (Integer) request.getSession().getAttribute(
-				Constants.MRU_FILTER_QUESTION_TYPE);
-		int maxDifficulty = DifficultyConstants.GURU;
-
-		HttpSession session = request.getSession();
-
-		if (o != null)
-			maxDifficulty = Integer.parseInt(o.toString());
-
-		List<Question> coll = null;
-
-		if (mineOrAllOrSelected == Constants.MY_ITEMS) {
-			User user = (User) request.getSession().getAttribute(
-					Constants.CURRENT_USER_ENTITY);
-
-			if (user != null)
-				coll = QuestionManager
-						.getQuestionsCreatedByAGivenUserThatContain(
-								user.getId(), topicFilterText, filterText,
-								maxDifficulty, questionType, pd);
-		} else if (mineOrAllOrSelected == Constants.ALL_ITEMS) {
-			coll = QuestionManager.getQuestionsThatContain(topicFilterText,
-					filterText, maxDifficulty, questionType, pd);
-		} else if (mineOrAllOrSelected == Constants.SELECTED_ITEMS) {
-			final Exam exam = getExamBean(request);
-			Set<Question> selectedQuestions = exam.getQuestions();
-			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
-
-			// pd.setPageNumber(PaginationData.FIRST_PAGE);
-
-			coll = QuestionManager.getQuestionsById(csvList, null);
-
-			coll = filterCollectionWithAllCategories(filterText,
-					topicFilterText, questionType, maxDifficulty, coll);
-
-			pd.setTotalItemCount(coll.size());
-
-			coll = (List<Question>) PaginationDataUtil.reduceListSize(pd, coll);
-		}
-
-		if (coll != null) {
-			saveExamSelectedQuestionIdsInSession(request);
-		}
-
-		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
-		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
-		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
-		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
-		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED,
-				mineOrAllOrSelected);
-		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY,
-				pd.getPageSize());
-
-		/*
-		 * This event is thrown because when this list is set, the
-		 * 'shouldAllowEditing' attribute should be cleared. We can't depend on
-		 * the AttributeListener, because it only activates handlers to be
-		 * called when some other event happens. The event is now, and we need
-		 * the handlers to do their thing, now.
-		 */
-		EventDispatcher
-				.getInstance()
-				.fireEvent(
-						request,
-						EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
+	private void refreshListOfQuestionsToBeDisplayed(HttpServletRequest request, PaginationData pd) {
+//		String filterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TEXT);
+//		String topicFilterText = (String)request.getSession().getAttribute(Constants.MRU_FILTER_TOPIC_TEXT);
+//		int mineOrAllOrSelected = ((Integer)request.getSession().getAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED)).intValue();
+//		Object o = request.getSession().getAttribute(Constants.MRU_FILTER_DIFFICULTY);
+//		int questionType = (Integer)request.getSession().getAttribute(Constants.MRU_FILTER_QUESTION_TYPE);
+//		int maxDifficulty = DifficultyConstants.GURU;
+//
+//		HttpSession session = request.getSession();
+//		
+//		if (o != null)
+//			maxDifficulty = Integer.parseInt(o.toString());
+//
+//		List<Question> coll = null;
+//		
+//		if (mineOrAllOrSelected == Constants.MY_ITEMS) 
+//		{
+//			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+//			
+//			if (user != null)
+//				coll = QuestionManager.getQuestionsCreatedByAGivenUserThatContain(user.getId(), topicFilterText, filterText, maxDifficulty, questionType, pd);
+//		}
+//		else if (mineOrAllOrSelected == Constants.ALL_ITEMS)
+//		{
+//			coll = QuestionManager.getQuestionsThatContain(topicFilterText, filterText, maxDifficulty, questionType, pd);
+//		}
+//		else if (mineOrAllOrSelected == Constants.SELECTED_ITEMS)
+//		{
+//			final Exam exam = getExamBean(request);
+//			Set<Question> selectedQuestions = exam.getQuestions();
+//			String csvList = StringUtil.getCSVFromCollection(selectedQuestions);
+//			
+//			//pd.setPageNumber(PaginationData.FIRST_PAGE);
+//			
+//			coll = QuestionManager.getQuestionsById(csvList, null);
+//			
+//			coll = filterCollectionWithAllCategories(filterText,
+//					topicFilterText, questionType, maxDifficulty, coll);
+//
+//			pd.setTotalItemCount(coll.size());			
+//			
+//			coll = (List<Question>)PaginationDataUtil.reduceListSize(pd, coll);
+//		}
+//
+//		if (coll != null) {
+//			saveExamSelectedQuestionIdsInSession(request);
+//		}
+//		
+//		session.setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, coll);
+//		session.setAttribute(Constants.MRU_FILTER_TEXT, filterText);
+//		session.setAttribute(Constants.MRU_FILTER_TOPIC_TEXT, topicFilterText);
+//		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, maxDifficulty);
+//		session.setAttribute(Constants.MRU_FILTER_MINE_OR_ALL_OR_SELECTED, mineOrAllOrSelected);
+//		session.setAttribute(Constants.MRU_FILTER_PAGINATION_QUANTITY, pd.getPageSize());
+//		
+//		/*
+//		 * This event is thrown because when this list is set, the 'shouldAllowEditing' attribute should be cleared.
+//		 * We can't depend on the AttributeListener, because it only activates handlers to be called when some other event
+//		 * happens. The event is now, and we need the handlers to do their thing, now.
+//		 */
+//		EventDispatcher.getInstance().fireEvent(request, EventConstants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED_SET_IN_SESSION);
 	}
 
-	private List<Question> filterCollectionWithAllCategories(String filterText,
-			String topicFilterText, int questionType, int maxDifficulty,
-			List<Question> coll) {
-		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
-
-		if (!StringUtil.isNullOrEmpty(filterText))
-			arr.add(new QuestionFilter(filterText));
-
-		if (!StringUtil.isNullOrEmpty(topicFilterText))
-			arr.add(new QuestionTopicFilter(topicFilterText));
-
-		if (questionType != TypeConstants.ALL_TYPES)
-			arr.add(new QuestionTypeFilter(questionType));
-
-		arr.add(new DifficultyFilter(maxDifficulty));
-
-		coll = new ListFilterer<Question>().process(coll, arr);
-		return coll;
-	}
+//	private List<Question> filterCollectionWithAllCategories(
+//			String filterText, String topicFilterText, int questionType,
+//			int maxDifficulty, List<Question> coll) {
+//		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();			
+//
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			arr.add(new QuestionFilter(filterText));
+//		
+//		if (!StringUtil.isNullOrEmpty(topicFilterText))
+//			arr.add(new QuestionTopicFilter(topicFilterText));
+//
+//		if (questionType != TypeConstants.ALL_TYPES )
+//			arr.add(new QuestionTypeFilter(questionType));
+//		
+//		arr.add(new DifficultyFilter(maxDifficulty));
+//
+//		coll = new ListFilterer<Question>().process(coll, arr);
+//		return coll;
+//	}
 
 	private void setExamTitleAndMessageFromFormParameter(
 			HttpServletRequest request, Exam examObj) {

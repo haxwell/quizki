@@ -27,6 +27,15 @@ public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
     public Difficulty(String str) {
     	this.text = str;
     }
+    
+    public Difficulty(long id) {
+    	this.id = id;
+    }
+    
+    public Difficulty(String str, long id) {
+    	this.text = str;
+    	this.id = id;
+    }
 
     public long getId() {
 		return this.id;

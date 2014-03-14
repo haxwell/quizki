@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 
 
@@ -25,7 +27,7 @@ import com.haxwell.apps.questions.interfaces.IQuestion;
  */
 @Entity
 @Table(name="question")
-public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, Serializable {
+public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,6 +35,9 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	private long id;
 	private String description;
 	private String text;
+	
+	@Column(name="ENTITY_STATUS")
+	private long entityStatus = EntityStatusConstants.ACTIVATED;	
 
 	//uni-directional many-to-one association to Difficulty
     @ManyToOne()
@@ -138,6 +143,14 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		this.questionType = questionType;
 	}
 	
+	public long getEntityStatus() {
+		return this.entityStatus;
+	}
+	
+	public void setEntityStatus(long es) {
+		this.entityStatus = es;
+	}
+	
 	@Override
 	public User getUser() {
 		return this.user;
@@ -186,6 +199,34 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	}
 	
 	@Override
+	public String toJSON() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(getJSONOpening());
+		sb.append(getJSON("id", getId() + "", APPEND_COMMA));
+		sb.append(getJSON("description", getDescription(), APPEND_COMMA));
+		sb.append(getJSON("text", getText(), APPEND_COMMA));
+		sb.append(getJSON("textWithoutHTML", getTextWithoutHTML(), APPEND_COMMA));
+		Difficulty diff = getDifficulty();
+		sb.append(getJSON("difficulty_id", diff.getId()+"", APPEND_COMMA));
+		sb.append(getJSON("difficulty_text", diff.getText(), APPEND_COMMA));
+		sb.append(getJSON("type_id", getQuestionType().getId()+"", APPEND_COMMA));
+		sb.append(getJSON("type_text", getQuestionType().getText(), APPEND_COMMA));
+
+		sb.append(getJSON("choices", choices.iterator(), APPEND_COMMA));
+		sb.append(getJSON("topics", topics.iterator(), APPEND_COMMA));
+		sb.append(getJSON("references", references.iterator(), APPEND_COMMA));
+		sb.append(getJSON("entityStatus", getEntityStatus() + "", APPEND_COMMA));
+		
+		sb.append(getJSON("user_id", getUser().getId()+"", APPEND_COMMA));
+		sb.append(getJSON("user_name", getUser().getUsername()));
+		
+		sb.append(getJSONClosing());
+		
+		return sb.toString();
+	}
+	
+	@Override
 	public int hashCode() {
 		return this.text.hashCode() + (int)this.id; // TODO: Find a better way
 	}
@@ -231,4 +272,6 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		
 		return sb.toString();
 	}
+	
+	
 }

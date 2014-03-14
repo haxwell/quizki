@@ -28,13 +28,6 @@ public class InitializeNewExamInSessionAction implements AbstractServletAction {
 			HttpServletRequest req = ((HttpServletRequest)request);
 
 			Exam exam = ExamManager.newExam();
-
-			// TODO: need some way of throwing an object up in the air saying "Hey! Just created this!"
-			//  so that anyone who cares can set attributes on it. JMS message, or some other event listening/handler
-			
-			//  ..because I'm pretty sure I don't like doing this here..
-//			User user = (User)req.getSession().getAttribute("currentUserEntity");
-//			exam.setUser(user);
 			
 			EventDispatcher.getInstance().fireEvent(req, EventConstants.NEW_EXAM_CREATED, exam);
 			

@@ -2,3 +2,7 @@ th {
 	border: 1px solid black;
 }
 
+table.displayExam {
+	width:100%;
+}
+

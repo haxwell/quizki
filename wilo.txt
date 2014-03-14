@@ -1,0 +1,33 @@
+Where I Left Off
+----------------
+
+In the take exam UI, I need radio switch and checkbox functionality to work as appropriate.. To that end, I'd created the TakeExamChoiceItemFactory.getFinalizeViewCollectionFunction()
+to provide a question type appropriate function to set whatever attributes are necessary. But I don't think its working, and I don't really
+understand the .bootstrapSwitch function.. so I need to study that, understand what its doing. It previously was working, at least from a UI if not functionality perspective, by
+just calling bootstrapSwitch(), but now, using the example for radio buttons from the bootstrapswitch website, its not working.. and that example doesn't use the empty parameter call
+to bootstrapSwitch(). But i was, and it was working.. why is that? so i need to understand the bootstrapSwitch() function.
+
+in short, I left off just about to review the source for bootstrapSwitch() in bootstrap-switch.js. Also, I updated the JavaScript Development Tools in Eclipse. Not sure I'm making the
+best use of that.
+
+also, its workin in create question.. so chceck there.
+
+
+--------
+2/13/14
+
+so, I had been trying to get radio button behavior working in Take Exam.. presently it works like a checkbox, each field being independent of
+the other.. but that turned out to be more difficult than I thought, probably involving an upgrade of bootstrap-switch and flatUI to make that
+happen. And thats just too much to do now. So I reverted those changes, and moved on to Generate Exam.
+
+I read my notes on the 2TB drive about Generate Exam, and got the image from elance.. the views for generate exam are not populating yet, and
+I next need to complete them, and get the views to display. 
+
+--------
+
+2/22/14
+
+GenerateExam works now.. its not pretty, but it works.. Since then I have worked on Display Question, so that it now displays the answers that
+the user chose in their most recent exam, and it also works without an exam context.
+
+When I left, I was looking into the event system again. Its not clearing the current exam when you go to the index page for some reason.

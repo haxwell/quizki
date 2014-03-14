@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
@@ -52,12 +54,12 @@ public class StringUtil {
 		return rtn.toString();
 	}
 
-	public static String getCSVString(List<Long> list) {
+	public static String getCSVString(List list) {
 		if (list == null) return "";
 		
 		StringBuffer sb = new StringBuffer();
-		Iterator<Long> iterator = list.iterator();
-		
+		Iterator iterator = list.iterator();
+
 		while (iterator.hasNext())
 		{
 			sb.append(iterator.next());
@@ -106,6 +108,52 @@ public class StringUtil {
 		}
 		
 		return list;
+	}
+	
+	public static String getShortURL(String fullUrl) {
+		int index = fullUrl.indexOf("/", "http://".length());
+		return fullUrl.substring(index + 1);
+	}
+	
+	public static boolean isEmptyJSON(String str) {
+		String s = str.replaceAll(" ", "");
+		
+		return s.equals("{}");
+	}
+	
+	public static String toJSON(Map<String, List<String>> map) {
+		Set<String> set = map.keySet();
+		
+		// { "errors":[{"val":"fdafdsafdsa,fdsafdsafdsa,3v3v"}],"successes":[{"val":"dffads"}] }
+		
+		String rtn = "{";
+		Iterator<String> keyIterator = set.iterator();
+		
+		while (keyIterator.hasNext()) {
+			String key = keyIterator.next();
+			
+			List<String> list = map.get(key);
+			
+			rtn += " \"" + key + "\":[";
+
+			String csv = getCSVString(list);
+			String str = "";
+			
+			str = "{";
+			
+			str += "\"val\":";
+			str += "\"" + csv + "\"";
+			str += "}]";
+	
+			rtn += str;
+			
+			if (keyIterator.hasNext())
+				rtn += ",";
+		}
+		
+		rtn += " }";
+		
+		return rtn;
 	}
 	
 //	/**

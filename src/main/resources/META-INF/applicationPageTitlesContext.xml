@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- A collection of beans which provide a string to display as the page title in header.jsp -->
+
+	<bean id="index.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/index.jsp"/>
+		<property name="title" value="Home"/>
+	</bean>
+
+	<bean id="login.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/login.jsp"/>
+		<property name="title" value="Login"/>
+	</bean>
+
+	<bean id="register.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/register.jsp"/>
+		<property name="title" value="Register New User"/>
+	</bean>
+
+	<bean id="beginExam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/beginExam.jsp"/>
+		<property name="title" value="Begin Exam"/>
+	</bean>
+
+	<bean id="examWillBeGraded.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/examWillBeGraded.jsp"/>
+		<property name="title" value=""/>
+	</bean>
+
+	<bean id="examReportCard.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/examReportCard.jsp"/>
+		<property name="title" value="Exam Report Card"/>
+	</bean>
+
+	<bean id="displayExam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/displayExam.jsp"/>
+		<property name="title" value="Display Exam"/>
+	</bean>
+
+	<bean id="displayQuestion.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/displayQuestion.jsp"/>
+		<property name="title" value="Display Question"/>
+	</bean>
+	
+	<bean id="generateExam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/generateExam.jsp"/>
+		<property name="title" value="Generate Exam"/>
+	</bean>
+	
+	<bean id="listExams.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/listExams.jsp"/>
+		<property name="title" value="Search For An Exam"/>
+	</bean>
+	
+	<bean id="takeExam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/takeExam.jsp"/>
+		<property name="title" value="Take Exam"/>
+	</bean>
+	
+
+	<!-- TODO: need some way of returning a page title depending on state.. when creating exam, it should say Create Exam.. when editing, it should say Edit Exam -->
+	<bean id="secured/exam.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/secured/exam.jsp"/>
+		<property name="title" value="Create / Edit Exam"/>
+	</bean>
+
+	<bean id="secured/question.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/secured/question.jsp"/>
+		<property name="title" value="Create / Edit Question"/>
+	</bean>
+
+	<bean id="secured/profile.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/secured/profile.jsp"/>
+		<property name="title" value="Profile"/>
+	</bean>
+
+	<bean id="secured/admin-profile.jsp" class="com.haxwell.apps.questions.utils.URLMappedToPageTitleBean">
+		<property name="shortPageUrl" value="/secured/admin-profile.jsp"/>
+		<property name="title" value="Admin Profile"/>
+	</bean>
+
+
+
+</beans>

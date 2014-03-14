@@ -23,27 +23,27 @@
 		</c:otherwise>
 	</c:choose>
 	<br/><br/>
-	<c:choose>
-		<c:when test="${not empty sessionScope.questionVoteCounts}">
+	<!--  c:choose>
+		<!--  c:when test="${not empty sessionScope.questionVoteCounts}">
 			Your questions have received ${sessionScope.questionVoteCounts.positiveCount} positive votes, and ${sessionScope.questionVoteCounts.negativeCount} negative votes. 
-		</c:when>
-		<c:otherwise>
-			<c:if test="${sessionScope.numberOfQuestionsUserContributed > 0}">
+		<!--  c:when>
+		<!--  c:otherwise>
+			<!--  c:if test="${sessionScope.numberOfQuestionsUserContributed > 0}">
 				Your questions have not received any votes.
-			</c:if>
-		</c:otherwise>
-	</c:choose>
+			<!--  c:if>
+		<!--  c:otherwise>
+	<!--  c:choose>
 	<br/><br/>
-	<c:choose>
-		<c:when test="${not empty sessionScope.examVoteCounts}">
+	<!--  c:choose>
+		<!--  c:when test="${not empty sessionScope.examVoteCounts}">
 			Your exams have received ${sessionScope.examVoteCounts.positiveCount} positive votes, and ${sessionScope.examVoteCounts.negativeCount} negative votes. 
-		</c:when>
-		<c:otherwise>
-			<c:if test="${sessionScope.numberOfExamsUserContributed > 0}">
+		<!--  c:when>
+		<!--  c:otherwise>
+			<!--  c:if test="${sessionScope.numberOfExamsUserContributed > 0}">
 				Your exams have not received any votes.
-			</c:if>
-		</c:otherwise>
-	</c:choose>
+			<!--  c:if>
+		<!--  c:otherwise>
+	<!--  c:choose -->
 	<br/><br/>
 	<c:choose>
 		<c:when test="${not empty sessionScope.listOfNotificationsToBeDisplayed}">
@@ -75,7 +75,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			You do not have any notifications waiting.
+			<!-- You do not have any notifications waiting.  -->
 		</c:otherwise>
 	</c:choose>
 	<br/>

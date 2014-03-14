@@ -46,6 +46,16 @@
     <dispatcher>ERROR</dispatcher>
   </filter-mapping>
   <filter>
+    <filter-name>AutoAuthenticateUserFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.AutoAuthenticateUserFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AutoAuthenticateUserFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
     <filter-name>IsUserAuthenticatedFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.UserIsAuthenticatedFilter</filter-class>
   </filter>
@@ -55,6 +65,18 @@
     <url-pattern>/secured/exam.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>SetPageTitlesInContextFilter</filter-name>
+    <filter-class>com.haxwell.apps.questions.servlets.filters.SetPageTitlesInContextFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SetPageTitlesInContextFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>FireIndexPageReachedEventFilter</filter-name>
@@ -427,6 +449,13 @@
   	<servlet-name>ExamReportCardServlet</servlet-name>
   	<url-pattern>/secured/ExamReportCardServlet</url-pattern>
   </servlet-mapping>
--->
+
+<!--  MIME settings -->
+
+	<mime-mapping>
+    <extension>woff</extension>
+    <mime-type>application/font-woff</mime-type>
+  </mime-mapping>
+
 </web-app>
 

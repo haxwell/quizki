@@ -14,7 +14,7 @@ import com.haxwell.apps.questions.managers.UserManager
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/RegisterUserServlet")
+//@ WebServlet("/RegisterUserServlet")
 public class RegisterUserServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L
        

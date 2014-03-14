@@ -120,19 +120,19 @@ public class ChoiceManager extends Manager {
 		boolean addedErrorRegardingMultipleCorrectChoicesNeeded = false;
 
 		if (questionTypeId == TypeConstants.SINGLE && correctChoiceCount > 1)
-			errors.add("The question type is set to Single, but there is more than one correct choice.");
+			errors.add("The question type is set to Single but there is more than one correct choice.");
 		
 		if (questionTypeId == TypeConstants.MULTIPLE && choicesSet.size() >= 2 && correctChoiceCount < 2)
 		{
-			errors.add("The question type is set to Multiple, but there are not multiple correct choices.");
+			errors.add("The question type is set to Multiple but there are not multiple correct choices.");
 			addedErrorRegardingMultipleCorrectChoicesNeeded = true;
 		}
 		
 		if (questionTypeId == TypeConstants.STRING && choicesSet.size() != correctChoiceCount)
-			errors.add("The question type is set to String, but there is an incorrect choice. All choices must be correct.");
+			errors.add("The question type is set to String but there is an incorrect choice. All choices must be correct.");
 
 		if (questionTypeId == TypeConstants.SEQUENCE && choicesSet.size() != correctChoiceCount)
-			errors.add("The question type is set to Sequence, but there is an incorrect choice. All choices must be correct.");
+			errors.add("The question type is set to Sequence but there is an incorrect choice. All choices must be correct.");
 		
 		if (correctChoiceCount == 0 && addedErrorRegardingMultipleCorrectChoicesNeeded == false)
 			errors.add("At least one of the choices must be correct.");

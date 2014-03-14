@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.utils.TopicUtil;
 
 public class TopicManager extends Manager {
 
@@ -187,4 +188,9 @@ public class TopicManager extends Manager {
 		topics.remove(t);
 	}
 
+	public static List<Topic> fromJSON(String json) {
+		List<Topic> rtn = TopicUtil.getListFromJsonString(json);
+		
+		return rtn;
+	}
 }

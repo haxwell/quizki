@@ -7,26 +7,52 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Take Exam - ${currentExam.title}</title>
-		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		
-		<jsp:text>
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="js/choiceFunctions.js" type="text/javascript" ></script> ]]>
-			<![CDATA[
-			<script type="text/javascript">
-				tinyMCE.init({
-				        theme : "advanced",
-				        mode : "textareas",
-				        plugins : "autoresize",
-				        readonly : 1,
-						content_css : "css/custom_content.css"
-				});
-			</script>
-			]]>
+		<title>Take Exam - ${currentExam.title}</title>
 
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-switch.css" rel="stylesheet" type="text/css"/>		
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
+		<!-- link href="../css/takeExam.css" rel="stylesheet" type="text/css"/  -->
+
+		<link rel="shortcut icon" href="images/favicon.ico" />
+				
+		<jsp:text>
+			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
+						
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
+			
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
+			
+			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/takeExam.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/views/takeExam-views.js" type="text/javascript" ></script> ]]>
+			
 
 			<![CDATA[
 				<script type="text/javascript">
@@ -41,112 +67,114 @@
 				</c:otherwise>
 			</c:choose>
 
-			<c:choose>
-				<c:when test="${not empty sessionScope.listOfPreviouslySuppliedAnswers}">
-					<![CDATA[ var previouslySuppliedAnswers = ${listOfPreviouslySuppliedAnswers}; ]]>
-				</c:when>
-				<c:otherwise>
-					<![CDATA[ var previouslySuppliedAnswers = undefined; ]]>
-				</c:otherwise>
-			</c:choose>
+			<![CDATA[
+			    $(document).ready(function() {
+
+					var answers = '${sessionScope.answersToTheMostRecentExam}';
+					
+					if (answers.length > 0) {
+						var dlg2 = $('#examAlreadyCompletedDialogText').dialog({
+							autoOpen: false, resizable: false, modal: true,
+						      buttons: [{
+							        text : "< Go HOME", 
+							        click : function() {
+							        	window.href.url = "/index.jsp";
+						        }},
+						        {
+							        text : "Exam Report Card >",
+							        click : function() {
+										window.history.go(+1);					        		
+						        } 
+						      }]
+						});
+					
+						dlg2.dialog('open');
+					}
+						
+					event_intermediary.initialize();
+
+			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
+			    	model_constructor_factory.put("examHistoryQuestionIndexList", function() { return '${sessionScope.examHistoryQuestionIndexList}'; });
+			    	model_constructor_factory.put("answersMap", function() { return new KeyValueMap(); });
+			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
+			    	
+					ExamEngine.initialize();
+			    
+			    	var bv_header = new Quizki.QuitThisExamView({ el: $("#divQuestionHeaderWithQuitButtons") });
+
+					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'examEngineSetNewCurrentQuestion' });
+					
+					var bv_choiceListView = new Quizki.ExamChoiceListView({ el: $("#divQuestionChoices") });
+					
+					var bv_navigationButtons = new Quizki.ExamNavigationButtons({ el: $("#divExamNavigationButtons") });
+			    });
+			]]>
 
 			<![CDATA[
-					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var fieldValues = ${listOfCurrentQuestionsChoicesValues};
-					var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion};
-
-					$(document).ready(function() {
-						
-						$('div.choices').html('');
-
-						if (${currentQuestion.questionType.id} == 1)
-						{
-							addChoiceInputsForThisQuestionType('#radioButtonExample');
-						}
-						else if (${currentQuestion.questionType.id} == 2)
-						{
-							addChoiceInputsForThisQuestionType('#checkboxExample');
-						}
-						else if (${currentQuestion.questionType.id} == 3)
-						{
-							addChoiceInputsForStringQuestionType();
-						}
-						else if (${currentQuestion.questionType.id} == 4)
-						{
-							addChoiceInputsForSequenceQuestionType();
-						}
-					});
-
 				</script>
 			]]>
 		</jsp:text>
 	</head>
 <body>
 
-<jsp:include page="header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
 
-      <c:choose>
-      <c:when test="${empty currentExam}">
-      	<br/><br/>
-		Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning.</a>
-      </c:when>
-      <c:otherwise>
-
-      <c:if test="${not empty requestScope.validationErrors}">
-      	<br/>
-      	<c:forEach var="str" items="${validationErrors}">
-      		<span class="redText">${str}</span><br/>
-      	</c:forEach>
-      </c:if>
-
-	<form action="/TakeExamServlet" method="post">
-		<br/>
-		<div class="examTitle">${currentExam.title}  -- Question ${currentQuestionNumber} of ${totalNumberOfQuestionsInCurrentExam}</div>  
-		<br/>
-		<c:if test="${not empty currentQuestion.description}">
-			<br/>
-			<div class="questionDescription">${currentQuestion.description}</div>  
-			<br/>
-		</c:if>			
-		<textarea name="questionText" cols="50" rows="15">${currentQuestion.text}</textarea>
-		<br/>
-		<div style="float:right;">Submitted by: ${currentQuestion.user.username}</div>
-		<hr/>
-		<br/>
-		<div class="choices">.</div> 
+    <c:choose>
+	    <c:when test="${empty currentExam}">
+	      	<br/><br/>
+			Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning.</a>
+	    </c:when>
+	    <c:otherwise>
+			<div id="idAlertDiv" class="alert hidden">.</div>
 	
-	
-		<br/><br/>
-		<c:if test="${currentExamHistory.allQuestionsHaveBeenAnswered==true}">
-		<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-		</c:if>
-
-		<input type="submit" value="&lt; PREV" name="button"/>
-
-		<c:if test="${currentExamHistory.allQuestionsHaveBeenAnswered==true}">
-		<input type="text" name="jumpToNumber" size="3" maxlength="3" autocomplete="off"/><input type="submit" value="Go To #" name="button"/>
-		</c:if>
-
-		<input type="submit" value="NEXT &gt;" name="button"/>
+			<div id="divQuestionHeaderWithQuitButtons" class="row">
+			..
+			</div>
 		
-		<c:if test="${currentExamHistory.allQuestionsHaveBeenAnswered==true}">
-		<input type="submit" value="LAST &gt;&gt;" name="button"/>
-		</c:if>
-		<br/><br/>
+			<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+			
+			<div >
+				<div id="divTextarea">
+				..
+				</div>
+				
+				<div class="row">
+					<div class="span3">
+						<h1 class="questionPageSectionHeader">Answer</h1>
+					</div>
+				</div> 
 		
-	</form>
-	
-	<br/><br/>
-	<a href="/index.jsp">Quit this exam.</a>
-	
-	</c:otherwise>
+				<div id="divQuestionChoices">
+				..
+				</div>		
+		
+				<br/>
+				<div id="divExamNavigationButtons">
+				..
+				</div>
+			</div>
+		</c:otherwise>
 	</c:choose>
 	
-	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
-	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
-	<div class="hidden" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="stringAnswer" value="??5" autocomplete="off"/></div></div>
-	<div class="hidden" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" value="??5" size="2" maxlength="2" autocomplete="off"/> ??1</div></div>
+	<input style="display:none;" id="idCurrentQuestionAsJson" type="text" value="${sessionScope.currentQuestionAsJson}"/>
 	
+	<input style="display:none;" id="idExamHistoryQuestionIndexList" type="text" value="${sessionScope.examHistoryQuestionIndexList}"/>
+	
+	<div style="display:none;" id="dialogText">You're at the end of the exam!</div>
+	<div style="display:none;" id="examAlreadyCompletedDialogText">You've already completed this exam!</div>
+	
+	<div style="display:none;" id="radioButtonExample"><div class="??3 ??4"><input type="radio" name="group1" value="??2" selected=""/>??1</div></div>	
+	<div style="display:none;" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" name="??2" value="??2" selected=""/>??1</div></div>
+	<div style="display:none;" id="textboxExample"><div class="??3 ??4">Enter your answer:<br/><input type="text" name="stringAnswer" value="??5" autocomplete="off"/></div></div>
+	<div style="display:none;" id="sequenceExample"><div class="??3 ??4"><input type="text" name="??2" value="??5" size="2" maxlength="2" autocomplete="off"/> ??1</div></div>
+
+</div>
+</div>	
+
+<br/><br/>
+
 </body>
 </html>
 </jsp:root>

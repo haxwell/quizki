@@ -1,0 +1,42 @@
+
+/* 1729 */
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  border: 2px solid #bdc3c7;
+  background-color: #f5f5f5;
+  color: #414151;
+  font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
+  font-size: 15px;
+  padding: 3px 5px;
+  text-indent: 5px;
+  -webkit-appearance: none;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition: border .25s linear, color .25s linear;
+  -moz-transition: border .25s linear, color .25s linear;
+  -o-transition: border .25s linear, color .25s linear;
+  transition: border .25s linear, color .25s linear;
+  -webkit-backface-visibility: hidden;
+}
+
+input.hidden {
+  display: none;
+}

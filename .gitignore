@@ -1,3 +1,4 @@
 target
 build.bat
 setenv.bat
+*.xml

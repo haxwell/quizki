@@ -1,0 +1,34 @@
+div.well {
+	padding:1px;
+	margin-bottom:2px;
+}
+
+div.well > ul {
+	margin-left:1px;
+	margin-bottom:2px;
+}
+
+div.wellAttribute {
+	display:inline;
+	padding:4px;
+}
+
+div.well:hover button.well_add_button {
+	visibility:visible;
+}
+
+div.well.readOnly:hover button.well_add_button {
+	visibility:hidden;
+}
+
+button.btn.well_add_button {
+	visibility:hidden;
+}
+
+input.entryField.edit {
+	width:85%;
+}
+
+.entryField.edit.well {
+	display:none;
+}

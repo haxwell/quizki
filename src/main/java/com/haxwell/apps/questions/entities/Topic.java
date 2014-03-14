@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.minidev.json.JSONObject;
+
 import com.haxwell.apps.questions.interfaces.ITopic;
 
 
@@ -17,7 +19,7 @@ import com.haxwell.apps.questions.interfaces.ITopic;
  */
 @Entity
 @Table(name="topic")
-public class Topic implements ITopic, EntityWithAnIntegerIDBehavior, Serializable {
+public class Topic extends AbstractEntity implements ITopic, EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -29,7 +31,11 @@ public class Topic implements ITopic, EntityWithAnIntegerIDBehavior, Serializabl
     public Topic() {
     }
 
-    public Topic(String str) {
+	public String getEntityDescription()  {
+		return "topic";
+	}
+	
+   public Topic(String str) {
     	this.text = str;
     }
 
@@ -75,4 +81,23 @@ public class Topic implements ITopic, EntityWithAnIntegerIDBehavior, Serializabl
 	{
 		return "id: " + this.id + " |text: " + this.text;
 	}
+	
+    public String toJSON() {
+    	StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(getJSONOpening());
+    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
+    	sb.append(getJSON("text", getText()));
+    	
+    	sb.append(getJSONClosing());
+    	
+    	return sb.toString();
+    }
+    
+    public Topic fromJSON(JSONObject obj) {
+    	this.setId(Long.parseLong(obj.get("id")+""));
+    	this.setText(obj.get("text")+"");
+    	
+    	return this;
+    }
 }

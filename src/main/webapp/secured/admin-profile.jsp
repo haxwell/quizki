@@ -7,14 +7,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 		<title>Admin Profile - Quizki</title>
-		<link href="../css/custom-theme/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/questions.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/profile.css" rel="stylesheet" type="text/css"/>
-				
+
+		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/displayExam.css" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
+
+
 		<jsp:text>
-			<![CDATA[ <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[<script type="text/javascript">]]>
 			<c:choose>
@@ -173,7 +179,10 @@
 	</head>
 <body>
 
-<jsp:include page="../header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="../header.jsp"></jsp:include>
+		<div class="content">
+
 
 	<br/>
 
@@ -184,7 +193,7 @@
       </c:when>
       <c:otherwise>
 
-	<div id="tabs" class="mainContentArea">
+	<div id="tabs">
 	  <ul>
 	    <li><a href="#tabs-1">Summary</a></li>
 	    <li><a href="#tabs-2">Questions</a></li>
@@ -264,7 +273,10 @@
 	
 	<br/>
 	
-	<div class="hidden" id="dialogText">Are you SURE you want to delete?</div>  
+	<div style="display:none;" id="dialogText">Are you SURE you want to delete?</div>  
+
+</div>
+</div>
 
 </body>
 </html>

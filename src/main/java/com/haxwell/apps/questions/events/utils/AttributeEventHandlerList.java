@@ -8,6 +8,24 @@ import java.util.logging.Logger;
 
 import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
 
+/**
+ * Maintains a map of attributes names to a list of all the possible event handlers for that attribute. Also maintains a map of
+ * the event names and all the handlers which are activated for it when an attribute is set in the session, so that when that event happens
+ * the handlers can be called.
+ * 
+ * So you have an attribute X, and a list of handlers for Event 1, Event 2, Event 3. The handlers describe the event name and the method
+ * to be called when that named event happens. This makes up the first map.
+ * 
+ * When X is set in the session, the name of the handlers associated with it in the first list (each in turn) is mapped to a list of 
+ * handlers to be called when that event happens. So that list could contain a handler which deals with attribute X, attribute Y and
+ * attribute RX493-A. When the event happens, each of those attribute handlers would be called.
+ * 
+ * So we're building 1) a list of attributes to events, and 2) events to handlers. When an attribute is set each event associated with it
+ * gets their own list, and we add the attribute's handler to that list. In this way, when the event happens, all the handlers for the 
+ * various attributes that have been set in the meanwhile can be called.
+ * 
+ * @author jjames
+ */
 public class AttributeEventHandlerList {
 
 	HashMap<String, List<AttributeEventHandlerBean>> /*attr to list of handlers*/ attrToRegisteredAEHLBeanMap = new HashMap<String, List<AttributeEventHandlerBean>>();
@@ -36,25 +54,25 @@ public class AttributeEventHandlerList {
 			log.log(Level.FINER, "Activating '" + attribute + "'....");
 			
 			for (AttributeEventHandlerBean bean : aehlBeanlist) {
-				List<IAttributeEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.event);
+				List<IAttributeEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.eventName);
 				boolean listChanged = false;
 				
 				if (list == null) {
 					list = new ArrayList<IAttributeEventHandler>();
 					listChanged = true;
-					log.log(Level.FINER, "The event '"+ bean.event+"' has no active handlers.");
+					log.log(Level.FINER, "The event '"+ bean.eventName+"' has no active handlers.");
 				}
 				
 				if (!list.contains(bean.handler)) {
 					list.add(bean.handler);
 					listChanged = true;
-					log.log(Level.FINER, "Activated handler for the event (" + bean.event + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
+					log.log(Level.FINER, "Activated handler for the event (" + bean.eventName + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
 				}
 				else
-					log.log(Level.FINER, "The list of handlers for the event " + bean.event + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");
+					log.log(Level.FINER, "The list of handlers for the event " + bean.eventName + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");
 					
 				if (listChanged)
-					eventNameToActiveIEventHandlerMap.put(bean.event, list);
+					eventNameToActiveIEventHandlerMap.put(bean.eventName, list);
 			}
 		}
 		else {

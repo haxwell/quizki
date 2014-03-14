@@ -2,9 +2,17 @@ package com.haxwell.apps.questions.events.utils;
 
 import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
 
+/**
+ * Spring bean which describes 
+ * 		1. an attribute being set in the session,
+ * 		2. an event upon which that attribute is to be handled somehow
+ * 		3. a handler, a bit of code called when the event happens. 
+ * 
+ * @author jjames
+ */
 public class AttributeEventHandlerBean {
 	String attr;
-	String event;
+	String eventName;
 	IAttributeEventHandler handler;
 	
 	public AttributeEventHandlerBean() { }
@@ -18,11 +26,11 @@ public class AttributeEventHandlerBean {
 	}
 
 	public String getEvent() {
-		return event;
+		return eventName;
 	}
 
 	public void setEvent(String event) {
-		this.event = event;
+		this.eventName = event;
 	}
 
 	public IAttributeEventHandler getHandler() {
@@ -36,6 +44,6 @@ public class AttributeEventHandlerBean {
 	}
 	
 	public String toString() {
-		return "attr: " + attr + " |event: " + event + " |handler: " + handler.getClass().toString();
+		return "attr: " + attr + " |event: " + eventName + " |handler: " + handler.getClass().toString();
 	}
 }

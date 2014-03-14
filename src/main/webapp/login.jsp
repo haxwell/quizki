@@ -2,20 +2,32 @@
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
-        <![CDATA[ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> ]]>
+        <![CDATA[ <!DOCTYPE html> ]]>
     </jsp:text>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<!--html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">-->
+	<html lang="en">
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
 		<title>Login - Quizki</title>
-		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
-	</head>
+
+		<link href="pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+
+		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+
+		<link href="images/favicon.ico" rel="shortcut icon"/>
+
+</head>
 <body>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
 
-<jsp:include page="header.jsp"></jsp:include>
-
-	<h1>Login</h1>
 	<br/><br/>
 
       <c:if test="${not empty requestScope.validationErrors}">
@@ -35,12 +47,13 @@
 		Password: <input type="password" name="password"/>
 		<br/><br/>
 		
-		<input type="submit" value="Log In" name="button" />
+		<div class="span2">
+			<button class="btn btn-block" type="submit" name="button" value="Log In">Log In</button>
+		</div>		
 	</form>
 
-	<br/><br/>
-	<a href="/index.jsp">home</a>
-	
+</div> <!-- content -->
+</div> <!-- container -->	
 </body>
 </html>
 </jsp:root>

@@ -1,4 +1,6 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:directive.page import="java.util.logging.Logger"/>
+	<jsp:directive.page import="java.util.logging.Level"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.QuestionManager"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.ExamManager"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.Question"/>
@@ -6,6 +8,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.servlets.actions.InitializeNewExamInSessionAction"/>
+	
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -19,6 +22,8 @@
 
 <jsp:scriptlet>
 
+java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
+
 Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
 
 if (exam == null) {
@@ -27,10 +32,12 @@ if (exam == null) {
 }
 
 String id = (String)request.getParameter("chkboxname");
+log.log(Level.SEVERE, "chkboxname: " + id);
 
 id = id.substring(id.indexOf('_')+1);
 
 String rowId = (String)request.getParameter("rowid");
+log.log(Level.SEVERE, "chkbox rowId: " + rowId);
 
 rowId = rowId.substring(rowId.indexOf('_')+1);
 
@@ -46,6 +53,9 @@ else {
 	ExamManager.addQuestion(exam, q);
 	state = "selected";
 }
+
+log.log(Level.SEVERE, "returning: " + state);
+log.log(Level.SEVERE, "exam has " + exam.getNumberOfQuestions() + " questions.");
 
 java.io.PrintWriter writer = response.getWriter();
 writer.print(rowId+"!"+state+"!");

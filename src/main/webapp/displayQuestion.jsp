@@ -10,88 +10,91 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 		<title>Display Question - Quizki</title>
-		<link href="css/smoothness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="css/questions.css" rel="stylesheet" type="text/css"/>
+
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-switch.css" rel="stylesheet" type="text/css"/>		
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
+		
+		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="js/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="js/displayQuestion.js" type="text/javascript" ></script> ]]>			
-			<![CDATA[
-				<script type="text/javascript">
-					tinyMCE.init({
-					        theme : "advanced",
-					        mode : "textareas",
-					        plugins : "autoresize",
-					        readonly : 1,
-							content_css : "css/custom_content.css"
-					});
-				</script>
-			]]>
+			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
+						
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
 			
-			<![CDATA[ <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script> ]]>			
+			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
+
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
+
+			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+
+			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			
+			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
+
 			<![CDATA[
 			<script type="text/javascript">
-					$(document).ready(function(){
-						$("#btnThumbsUp").click(function(){
-							//alert("btn pushed!");
-							$.post("/registerVote.jsp",
-							{
-								voteDirection: "up",
-								entityKey: "displayQuestion"
-							},
-							function(data,status){
-								//alert("Data: " + data + "\nStatus: " + status);
-								
-								if (status == 'success') {
-									$('#divVotingButtons').html('Your vote has been saved!');
-								}
-							});
-						});
-					});					
+//					$(document).ready(function(){
+//						$("#btnThumbsUp").click(function(){
+//							//alert("btn pushed!");
+//							$.post("/registerVote.jsp",
+//							{
+//								voteDirection: "up",
+//								entityType: "question",
+//								entityId: ${displayQuestion.id}
+//							},
+//							function(data,status){
+//								//alert("Data: " + data + "\nStatus: " + status);
+//								
+//								if (status == 'success') {
+//									$('#divVotingButtons').html('Your vote has been saved!');
+//								}
+//							});
+//						});
+//					});					
 
-					$(document).ready(function(){
-						$("#btnThumbsDown").click(function(){
-							//alert("btn pushed!");
-							$.post("/registerVote.jsp",
-							{
-								voteDirection: "down",
-								entityKey: "displayQuestion"
-							},
-							function(data,status){
-								//alert("Data: " + data + "\nStatus: " + status);
-								
-								if (status == 'success') {
-									$('#divVotingButtons').html('Your vote has been saved!');
-								}
-							});
-						});
-					});					
+//					$(document).ready(function(){
+//						$("#btnThumbsDown").click(function(){
+//						//alert("btn pushed!");
+//							$.post("/registerVote.jsp",
+//							{
+//								voteDirection: "down",
+//								entityType: "question",
+//								entityId: ${displayQuestion.id}
+//							},
+//							function(data,status){
+//								//alert("Data: " + data + "\nStatus: " + status);
+//								
+//								if (status == 'success') {
+//									$('#divVotingButtons').html('Your vote has been saved!');
+//								}
+//							});
+//						});
+//					});					
 		    </script> ]]>			
 
-			<![CDATA[
-			<script type="text/javascript">
-			
-//		$(function() {
-	//	   $( document ).tooltip();
-		// });
-		 
-    $( "#open-event" ).tooltip({
-      show: null,
-      position: {
-        my: "left top",
-        at: "left bottom"
-      },
-      open: function( event, ui ) {
-        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
-      }
-    });
-    </script> ]]>
-			
 			<![CDATA[
 				<script type="text/javascript">
 			]]>
@@ -142,29 +145,121 @@
 			<![CDATA[
 				<script type="text/javascript">
 
-					var fieldNames = ${listOfFieldNamesForTheCurrentQuestionsChoices};
-					var fieldValues = ${listOfCurrentQuestionsChoicesValuesForDisplayQuestion}; 
-					var isCorrectList = ${listSayingWhichChoicesAreCorrect};
-					var examHistoryIsPresent = ${booleanExamHistoryIsPresent};
-	
-
-					$(document).ready(function() {
-						$('div.choices').html('');
-		
-						if (${displayQuestion.questionType.id} == 1) {
-							addChoiceInputsForThisQuestionType('#radioButtonExample');
-						}
-						else if (${displayQuestion.questionType.id} == 2) {
-							addChoiceInputsForThisQuestionType('#checkboxExample');
-						}
-						else if (${displayQuestion.questionType.id} == 3) {
-							displayStringTypeQuestionChoices('#textExample');
-						}
-						else if (${displayQuestion.questionType.id} == 4) {
-							displaySequenceTypeQuestionChoices('#sequenceExample');
-						}
-					});
+			    $(document).ready(function() {
+			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
+			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
+			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
+			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
+			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, stringAnswer:undefined };} );
+			    		
+			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
+			    	var currentQuestion = model_factory.get("currentQuestion");
+			    	
+			    	var _inExamContext = (model_factory.get("answersToTheMostRecentExam") !== undefined);
+			    	
+		    		questionChoiceCollection.addArray(currentQuestion.getChoices());
+			    	
+			    	var bv_questionCreatedByView = new Quizki.CreatedByView({ el: $("#divCreatedBy") });
+			    	
+			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true });
+			    	
+			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), readOnly: true });
+			    	//var bv_enterNewChoiceView = new Quizki.EnterNewChoiceView({ el: $("#enterNewChoiceContainerDiv"), readOnly: true });
+					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: _inExamContext });
 					
+					bv_questionChoiceList.render();
+					
+					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId(), readOnly: true});
+					
+					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset', readOnly: true });
+					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'reset', readOnly: true });
+					
+					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
+					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
+
+					var afFunc = undefined;
+					
+					if (_inExamContext) {
+						afFunc = function () {
+							var acm = model_factory.get("answerCorrectnessModel");
+							var msgArr = new Array();
+
+							if (acm.overallAnsweredCorrectly) {
+								msgArr.push('Great! You answered this question correctly!');
+
+								if (acm.stringAnswer != undefined) {
+									msgArr.push(' You typed <b>' + acm.stringAnswer + '</b> .');
+								}
+							}
+							else {
+								msgArr.push('You missed this question!');
+	
+								if (acm.correctAndChosen > 0) {
+									msgArr.push('You made ' + acm.correctAndChosen + ' correct choice' + (acm.correctAndChosen == 1 ? '.' : 's.') );
+								}
+								
+								if (acm.incorrectAndChosen > 0) {
+									msgArr.push(' You made ' + acm.incorrectAndChosen + ' incorrect choice' + (acm.incorrectAndChosen == 1 ? '.' : 's.') );
+								}
+
+								if (acm.correctButNotChosen > 0) {
+									msgArr.push(' There ' + (acm.correctButNotChosen < 2 ? 'was ' : 'were ') + acm.correctButNotChosen + ' correct choice' + (acm.correctButNotChosen == 1 ? ' ' : 's ') + 'that you did not choose.');
+								}
+								
+								if (acm.stringAnswer != undefined) {
+									msgArr.push(' You typed <b>' + acm.stringAnswer + '</b> .');
+								}
+							}
+							
+							populateAlertDiv(msgArr, acm.overallAnsweredCorrectly ? "alert-success" : "alert-error");
+						}
+					};
+					
+			    	var bv_header = new Quizki.QuestionHeaderButtonView({ el: $("#divQuestionHeader"), showEditBtn: (!_inExamContext && ${shouldAllowQuestionEditing}), showBackBtn: (_inExamContext), afterDisplayFunction:afFunc });
+			    });
+			    
+				// this same code is in displayQuestion.jsp.. extract it somewhere
+			    function addCSVItemsToWell(view, jsonListOfItems) {
+					var items = '';
+					var arr = new Array();
+				    var collection = model_factory.get(view.getModelKey());
+				    						
+					if (jsonListOfItems.length > 0) {
+						items = _.pluck(jQuery.parseJSON(jsonListOfItems), 'text');
+			    
+						for (var i=0; i<items.length; i++) {
+							arr.push(items[i]);
+						}
+				    	
+				    	arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
+			    	}
+
+			    	collection.addArray(arr);
+			    }
+			    
+			    function getEntityId() {
+			    	return $("#idEntityIdField").val();
+			    }
+			    
+				function populateAlertDiv(msgsArr, alertClassName) {
+					var msgs = "";
+					
+					for (var i=0; i<msgsArr.length; i++) {
+						msgs += msgsArr[i] + '<br/>';
+					}
+					
+					var $idAlertDiv = $('div.container').find('#idAlertDiv'); 
+											
+					$idAlertDiv.html('');
+					$idAlertDiv.html(msgs);
+					$idAlertDiv.addClass(alertClassName);
+					$idAlertDiv.removeClass('hidden');
+				}
+				
+				function clearAlertDiv() {
+					$('div.container').find('#idAlertDiv').addClass('hidden');
+				}
+			    
 				</script>
 			]]>
 		</jsp:text>
@@ -172,111 +267,69 @@
 	</head>
 <body>
 
-<jsp:include page="header.jsp"></jsp:include>
+	<div class="container">
+		<jsp:include page="header.jsp"></jsp:include>
+		<div class="content">
+
+		<div id="divQuestionHeader" class="row">
+		..
+		</div>
+
+		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+
+		<div id="divCreatedBy">..</div>
+
+		<div >
+			<div id="divTextarea">
+			..
+			</div>
+			
+			<table class="span12" style="margin-left:0px">
+				<tr>
+					<td style="width:25%; vertical-align:top;">
+						<div class="entityAttributeHeaderName">Difficulty <br/></div>
+						<div id="difficultyChooserElement"></div>
+					</td>
+					<td style="width:33%; vertical-align:top;">
+						<div class="entityAttributeHeaderName">Topics<br/> </div>
+						<div id="topicsWell"></div>
+					</td>
+					<td style="width:41%; vertical-align:top;">
+						<div class="entityAttributeHeaderName">References<br/> </div>
+						<div id="referencesWell"></div>
+					</td>
+				</tr>
+			</table>
+
+			<div class="row">
+				<div class="span3">
+					<h1 class="questionPageSectionHeader">Answer</h1>
+				</div>
+			</div> 
+
+	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+	
+			<div id="idAlertDiv" class="alert hidden">.</div>
+
+			<div id="questionTypeView">..</div>
+
+			<div id="choiceListDiv">
+				..
+			</div>
+		</div>
 
 	<br/>
-	<h1 style="display:inline">Display Question  </h1>
 
-	<c:if test="${(sessionScope.shouldAllowQuestionEditing==true)}">
-		<a href="/secured/question.jsp?questionId=${displayQuestion.id}">  (edit it)</a>
-	</c:if>
-	
-	<c:if test="${(booleanExamHistoryIsPresent==true)}">
-		<div style="display:inline">  <a href="javascript:history.go(-1)">  (Go Back to ${textToDisplayForPrevPage})</a></div>
-	</c:if>
+	<div>
+		<input style="display:none;" id="idEntityIdField" type="text" name="entityIdField" value="${sessionScope.entityIdFilter}"/>
+	</div>
 
-		<br/><br/>
-		Creator: ${displayQuestion.user.username}<br/>
-	<c:choose>
-	<c:when test="${not empty displayQuestion.description}">
-		Description: ${displayQuestion.description}<br/>
-	</c:when>
-	</c:choose>
-		<br/>
-		Text: <textarea name="questionText" cols="50" rows="15">${displayQuestion.text}</textarea><br/>  
-		Difficulty: ${displayQuestion.difficulty.text} <br/>
-		Type: ${displayQuestion.questionType.text}  <br/>
-		<hr/>
-		<br/>
-		Answers --<br/>
+</div>
+</div>
 
-		<div class="choices" style="margin-left:25px">.</div>
-
-		<hr/>
-		<br/>
-		Topics --<br/>
-		<div style="margin-left:25px">
-			<table style="width:100%">
-							<c:set var="rowNum" value="0"/>
-							<c:forEach var="topic" items="${displayQuestion.topics}">
-								<c:set var="rowNum" value="${rowNum + 1}" />
-								<c:choose><c:when test="${rowNum % 2 == 0}">
-								<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-								</c:when>
-								<c:otherwise>
-								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-								</c:otherwise></c:choose>
-					
-									<td>
-										${topic.text}
-									</td>
-									<jsp:text><![CDATA[</tr>]]></jsp:text>				
-							</c:forEach>
-			</table>
-		</div>
-		<hr/>
-		<br/>
-		References --<br/>
-		<div style="margin-left:25px">
-			<table style="width:100%">
-							<c:set var="rowNum" value="0"/>
-							<c:forEach var="reference" items="${displayQuestion.references}">
-								<c:set var="rowNum" value="${rowNum + 1}" />
-								<c:choose><c:when test="${rowNum % 2 == 0}">
-								<jsp:text><![CDATA[<tr style="width:100%">]]></jsp:text>
-								</c:when>
-								<c:otherwise>
-								<jsp:text><![CDATA[<tr class="rowHighlight" style="width:100%">]]></jsp:text>
-								</c:otherwise></c:choose>
-					
-									<td>
-										${reference.text}
-									</td>
-									<jsp:text><![CDATA[</tr>]]></jsp:text>				
-							</c:forEach>
-			</table>
-		</div>
-		<br/>
-		
-		<hr/>
-		<br/>
-		<c:if test="${not empty sessionScope.currentUserEntity}">
-			Vote --<br/>
-			<div id="divVotingButtons" style="margin-left:25px">
-
-				<c:choose>
-					<c:when test="${qfn:userHasVotedForThisEntity(sessionScope.currentUserEntity, sessionScope.displayQuestion)}">
-						You have already voted on this question. You can change your vote.					
-					</c:when>
-					<c:otherwise>
-						Vote for this question
-					</c:otherwise>
-				</c:choose>
-				
-				<input type="submit" id="btnThumbsUp" value="Thumbs Up" name="button"/> or <input type="submit" id="btnThumbsDown" value="Thumbs Down" name="button"/> 
-			</div>
-		</c:if>			
-
-		
-		
-		<br/><br/>
-	<a href="/index.jsp">home</a> -- <a href="javascript:history.go(-1)">Go Back to ${textToDisplayForPrevPage}</a>
-	
-	<div class="hidden" id="radioButtonExample"><div class="??3 ??4"><input type="radio" disabled="disabled" name="group1" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>	
-	<div class="hidden" id="checkboxExample"><div class="??3 ??4"><input type="checkbox" disabled="disabled" name="??2" value="??2" selected="" /><div style="display:inline" title="??tooltip">??1</div></div></div>
-	<div class="hidden" id="textExample"><div class="??4">??1<br/></div></div>
-	<div class="hidden" id="youTypedExample"><br/>You typed: <div class="??4">??1<br/></div></div>
-	<div class="hidden" id="sequenceExample"><div class="??4">??SEQ - ??1<br/></div></div>
+<br/>
+<br/>
+<br/>
 
 </body>
 </html>

@@ -17,11 +17,14 @@ import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
+import com.haxwell.apps.questions.entities.ExamFeedback;
+import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.managers.ExamManager;
-import com.haxwell.apps.questions.utils.ExamHistory;
+import com.haxwell.apps.questions.utils.CollectionUtil;
 import com.haxwell.apps.questions.utils.ExamUtil;
 
 /**
@@ -52,6 +55,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 			{
 				log.log(java.util.logging.Level.FINER, "Exam is not in progress, so proceeding to initialize session exam variables.");
 				
+				// 1. Get an exam object
 				Exam exam = null;
 				Object examIdRequestParameter = req.getParameter("examId");
 				
@@ -64,7 +68,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 						List<Long> list = new ArrayList<Long>();
 						list.add(Long.parseLong(topicIdRequestParameter.toString()));
 						
-						exam = ExamGenerationManager.generateExam(10, list, new ArrayList<Long>(), DifficultyConstants.INTERMEDIATE, false);
+						exam = ExamGenerationManager.generateExam(3, list, new ArrayList<Long>(), DifficultyConstants.INTERMEDIATE, false);
 					}
 					else if (session.getAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN) != null)
 					{
@@ -77,32 +81,43 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					exam = ExamManager.getExam(examId);
 				}
 				
+				// 2. Set session attributes based on the exam object we just got..
 				if (exam != null) {
-					ExamHistory examHistory = ExamManager.initializeExamHistory(exam);
+//					ExamHistory examHistory = ExamManager.initializeExamHistory(exam);
 					
-					String examDifficulty = new ExamUtil().getExamDifficultyAsString(exam);
+//					String examDifficulty = new ExamUtil().getExamDifficultyAsString(exam);
+//					exam.setDifficulty(examDifficulty);
+					Difficulty examDifficulty = new ExamUtil().getExamDifficulty(exam);
 					exam.setDifficulty(examDifficulty);
 					
-					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);
-					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, examHistory);
+//					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);
+//					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, examHistory);
 					
 					session.setAttribute(Constants.CURRENT_EXAM, null);
 					session.setAttribute(Constants.CURRENT_EXAM, exam);
 		
-					setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
-					setCurrentQuestion(req, Constants.CURRENT_QUESTION, examHistory.getNextQuestion());
+//					Question currentQuestion = examHistory.getNextQuestion();
 					
-					int qn = examHistory.getCurrentQuestionNumber();
-					if (qn == 0) qn = 1;
+//					setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
+//					setCurrentQuestion(req, Constants.CURRENT_QUESTION, currentQuestion);
 					
-					session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, qn);
-					session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, new Integer(examHistory.getTotalPotentialQuestions()));
+//					int qn = examHistory.getCurrentQuestionNumber();
+//					if (qn == 0) qn = 1;
 					
-					List<String> list = new ArrayList<String>();
+//					session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, qn);
 					
-					list.add("");list.add("");list.add("");
 					
-					session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
+					List<Question> questionList = ExamManager.getQuestionList(exam);
+					session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, questionList.size());
+					
+//					session.setAttribute(Constants.EXAM_HISTORY_QUESTION_INDEX_LIST, examHistory.getQuestionIDListAsCSV());
+					session.setAttribute(Constants.EXAM_HISTORY_QUESTION_INDEX_LIST, CollectionUtil.getCSVofIDsFromListofEntities(questionList));
+					
+//					List<String> list = new ArrayList<String>();
+//					
+//					list.add("");list.add("");list.add("");
+//					
+//					session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
 					
 					session.setAttribute(Constants.EXAM_IN_PROGRESS, true);
 					
@@ -111,7 +126,12 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 					
 					if (user != null) {
-						session.setAttribute(Constants.FEEDBACK_FOR_CURRENT_USER_AND_EXAM, ExamManager.getFeedback(user.getId(), exam.getId()));
+						List<ExamFeedback> feedbackList = ExamManager.getFeedback(user.getId(), exam.getId());
+						
+						if (feedbackList != null) {
+							ExamFeedback feedback = feedbackList.get(0);
+							session.setAttribute(Constants.FEEDBACK_FOR_CURRENT_USER_AND_EXAM, feedback.getComment());
+						}
 					}
 					
 					log.log(java.util.logging.Level.FINER, "Exam is NOW in progress, session exam variables initialized.");				

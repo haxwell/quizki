@@ -6,6 +6,7 @@ public class Constants {
 	
 	public static final String CURRENT_EXAM = "currentExam";
 	public static final String CURRENT_QUESTION = "currentQuestion";
+	public static final String CURRENT_QUESTION_AS_JSON = "currentQuestionAsJson";
 	public static final String CURRENT_QUESTION_KEY = "currentQuestionKey";
 	public static final String DISPLAY_QUESTION = "displayQuestion";
 	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
@@ -17,6 +18,7 @@ public class Constants {
 	public static final String LIST_OF_VALUES_OF_CHOICES = "listOfCurrentQuestionsChoicesValues";
 	public static final String LIST_OF_VALUES_OF_CHOICES_FOR_DISPLAY_QUESTION = "listOfCurrentQuestionsChoicesValuesForDisplayQuestion";
 	
+	public static final String EXAM_HISTORY_QUESTION_INDEX_LIST = "examHistoryQuestionIndexList";
 	public static final String CURRENT_QUESTION_NUMBER = "currentQuestionNumber";
 	public static final String TOTAL_POTENTIAL_QUESTIONS = "totalNumberOfQuestionsInCurrentExam";
 	public static final String EXAM_IN_PROGRESS = "examInProgress";
@@ -79,8 +81,8 @@ public class Constants {
 
 	///
 	public static final Integer MY_ITEMS = 1;
-	public static final Integer ALL_ITEMS = 2;
-	public static final Integer SELECTED_ITEMS = 3;
+	public static final Integer ALL_ITEMS = 0;
+	public static final Integer SELECTED_ITEMS = 2;
 	public static final String MY_ITEMS_STR = "mine";
 	public static final String ALL_ITEMS_STR = "all";
 	public static final String SELECTED_ITEMS_STR = "selected";
@@ -126,4 +128,13 @@ public class Constants {
 
 	public static final String VOTE_DATA_FOR_LIST_OF_QUESTIONS_TO_BE_DISPLAYED = "voteDataForListOfQuestionsToBeDisplayed";
 
+	public static final String PAGE_TITLE = "pageTitle";
+
+	public static final String APPLICATION_PAGE_TITLES_CONTEXT = "applicationPageTitlesContext";
+
+	public static final String SELECTED_ENTITY_IDS_AS_CSV = "selectedEntityIDs_AsCSV";
+
+	public static final String IN_PRODUCTION_MODE = "ThisShitsLiveMan!";
+	
+	public static final String ANSWERS_TO_THE_MOST_RECENT_EXAM = "answersToTheMostRecentExam";
 }

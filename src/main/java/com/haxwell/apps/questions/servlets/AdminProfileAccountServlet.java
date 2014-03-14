@@ -26,7 +26,7 @@ import com.haxwell.apps.questions.utils.TypeUtil;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/secured/AdminProfileAccountServlet")
+//@ WebServlet("/secured/AdminProfileAccountServlet")
 public class AdminProfileAccountServlet extends AbstractHttpServlet {
 	private static final long serialVersionUID = 1L;
        

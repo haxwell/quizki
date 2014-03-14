@@ -5,6 +5,11 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Sets the given attribute to null in the session.
+ * 
+ * @author jjames
+ */
 public class SetSessionAttributeToNullHandler implements IAttributeEventHandler {
 	
 	Logger log = Logger.getLogger(SetSessionAttributeToNullHandler.class.getName());

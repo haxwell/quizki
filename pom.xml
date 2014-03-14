@@ -49,6 +49,13 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
 	<dependencies>
+
+		<dependency>
+		    <groupId>net.minidev</groupId>
+		    <artifactId>json-smart</artifactId>
+		    <version>2.0-RC2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-antrun-plugin</artifactId>
@@ -185,56 +192,6 @@
 	        </plugin>
 	      </plugins>
 	    </pluginManagement>
-      	<plugins>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <configuration>
-                            <target>
-                                <mkdir dir="${basedir}/src/main/groovy"/>
-                                <taskdef name="groovyc"
-                                    classname="org.codehaus.groovy.ant.Groovyc">
-                                    <classpath refid="maven.compile.classpath"/>
-                                </taskdef>
-                                <mkdir dir="${project.build.outputDirectory}"/>
-                                <groovyc destdir="${project.build.outputDirectory}"
-                                    srcdir="${basedir}/src/main/groovy/" listfiles="true">
-                                    <classpath refid="maven.compile.classpath"/>
-                                </groovyc>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <configuration>
-                            <target>
-                                <mkdir dir="${basedir}/src/test/groovy"/>
-                                <taskdef name="groovyc"
-                                    classname="org.codehaus.groovy.ant.Groovyc">
-                                    <classpath refid="maven.test.classpath"/>
-                                </taskdef>
-                                <mkdir dir="${project.build.testOutputDirectory}"/>
-                                <groovyc destdir="${project.build.testOutputDirectory}"
-                                    srcdir="${basedir}/src/test/groovy/" listfiles="true">
-                                    <classpath refid="maven.test.classpath"/>
-                                </groovyc>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-           </plugins>
           </build>
 	<profiles>
 		<profile>

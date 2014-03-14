@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -66,6 +67,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 					List<Long> selectedQuestionIds = CollectionUtil.getListOfIds(questionSet);
 					
 					session.setAttribute(Constants.CURRENT_EXAM_SELECTED_QUESTION_IDS, selectedQuestionIds);
+					session.setAttribute(Constants.SELECTED_ENTITY_IDS_AS_CSV, CollectionUtil.getCSV(selectedQuestionIds));
 					session.setAttribute(Constants.ONLY_SELECTED_QUESTIONS_SHOULD_BE_SHOWN, Boolean.TRUE);
 					
 					if (selectedQuestionIds.size() > 0) {

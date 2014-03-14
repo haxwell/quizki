@@ -392,7 +392,7 @@ you can use the generic selector below, but it's slower:
 body {
   color: #414151;
   font-family: "wf_SegoeUISemilight", "wf_SegoeUI", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe", "Segoe WP", Arial, Helvetica, Sans-Serif;
-  font-size: 15px;
+  font-size: 100%;
   line-height: 1.34;
   background-color: #e7ebed;
   background-image: url('../images/header-bg.png');
@@ -2646,6 +2646,33 @@ textarea[class*="span"] {
   transition: border .25s linear, color .25s linear, background-color .25s linear;
   -webkit-backface-visibility: hidden;
 }
+
+.input-append .add-on.short,
+.input-prepend .add-on.short {
+	padding: 4px 5px;
+	height: 18px;
+}
+
+.input-append .add-on.red,
+.input-prepend .add-on.red {
+	color: red;
+}
+
+.input-append .add-on.green,
+.input-prepend .add-on.green {
+	color: green;
+}
+
+.input-append .add-on.true,
+.input-prepend .add-on.true {
+	color: green;
+}
+
+.input-append .add-on.false,
+.input-prepend .add-on.false {
+	color: red;
+}
+
 .input-append .add-on,
 .input-prepend .add-on,
 .input-append .btn,
@@ -5715,350 +5742,7 @@ input.search-query {
     margin: 9px 0;
   }
 }
-/* ============================================================
- * bootstrapSwitch v1.3 by Larentis Mattia @spiritualGuru
- * http://www.larentis.eu/switch/
- * ============================================================
- * Licensed under the Apache License, Version 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- * ============================================================ */
-.has-switch {
-  border-radius: 30px;
-  display: inline-block;
-  cursor: pointer;
-  line-height: 1.34;
-  overflow: hidden;
-  position: relative;
-  text-align: left;
-  width: 80px;
-  -webkit-mask: url('../images/switch/mask.png') 0 0 no-repeat;
-  mask: url('../images/switch/mask.png') 0 0 no-repeat;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-.has-switch.deactivate {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  cursor: default !important;
-}
-.has-switch.deactivate label,
-.has-switch.deactivate span {
-  cursor: default !important;
-}
-.has-switch > div {
-  width: 162%;
-  position: relative;
-  top: 0;
-}
-.has-switch > div.switch-animate {
-  -webkit-transition: left 0.25s ease-out;
-  -moz-transition: left 0.25s ease-out;
-  -o-transition: left 0.25s ease-out;
-  transition: left 0.25s ease-out;
-  -webkit-backface-visibility: hidden;
-}
-.has-switch > div.switch-off {
-  left: -63%;
-}
-.has-switch > div.switch-off label {
-  background-color: #878791;
-  border-color: #bdc3c7;
-  -webkit-box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5);
-  -moz-box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5);
-  box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5);
-}
-.has-switch > div.switch-on {
-  left: 0%;
-}
-.has-switch > div.switch-on label {
-  background-color: #1abc9c;
-}
-.has-switch input[type=checkbox] {
-  display: none;
-}
-.has-switch span {
-  cursor: pointer;
-  font-size: 16.064999999999998px;
-  font-weight: 700;
-  float: left;
-  height: 29px;
-  line-height: 19px;
-  margin: 0;
-  padding-bottom: 6px;
-  padding-top: 5px;
-  position: relative;
-  text-align: center;
-  width: 50%;
-  z-index: 1;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transition: 0.25s ease-out;
-  -moz-transition: 0.25s ease-out;
-  -o-transition: 0.25s ease-out;
-  transition: 0.25s ease-out;
-  -webkit-backface-visibility: hidden;
-}
-.has-switch span.switch-left {
-  border-radius: 30px 0 0 30px;
-  background-color: #414151;
-  color: #1abc9c;
-  border-left: 1px solid transparent;
-}
-.has-switch span.switch-right {
-  border-radius: 0 30px 30px 0;
-  background-color: #bdc3c7;
-  color: #ffffff;
-  text-indent: 7px;
-}
-.has-switch span.switch-right [class*="fui-"] {
-  text-indent: 0;
-}
-.has-switch label {
-  border: 4px solid #414151;
-  border-radius: 50%;
-  float: left;
-  height: 21px;
-  margin: 0 -15px 0 -14px;
-  padding: 0;
-  position: relative;
-  vertical-align: middle;
-  width: 21px;
-  z-index: 100;
-  -webkit-transition: 0.25s ease-out;
-  -moz-transition: 0.25s ease-out;
-  -o-transition: 0.25s ease-out;
-  transition: 0.25s ease-out;
-  -webkit-backface-visibility: hidden;
-}
-.switch-square {
-  border-radius: 6px;
-  -webkit-mask: url('../images/switch/mask.png') 0 0 no-repeat;
-  mask: url('../images/switch/mask.png') 0 0 no-repeat;
-}
-.switch-square > div.switch-off label {
-  border-color: #878791;
-  border-radius: 6px 0 0 6px;
-}
-.switch-square span.switch-left {
-  border-radius: 6px 0 0 6px;
-}
-.switch-square span.switch-left [class*="fui-"] {
-  text-indent: -10px;
-}
-.switch-square span.switch-right {
-  border-radius: 0 6px 6px 0;
-}
-.switch-square span.switch-right [class*="fui-"] {
-  text-indent: 5px;
-}
-.switch-square label {
-  border-radius: 0 6px 6px 0;
-  border-color: #1abc9c;
-}
-.last-col {
-  overflow: hidden;
-}
-.ptn,
-.pvn,
-.pan {
-  padding-top: 0;
-}
-.ptx,
-.pvx,
-.pax {
-  padding-top: 3px;
-}
-.pts,
-.pvs,
-.pas {
-  padding-top: 5px;
-}
-.ptm,
-.pvm,
-.pam {
-  padding-top: 10px;
-}
-.ptl,
-.pvl,
-.pal {
-  padding-top: 20px;
-}
-.prn,
-.phn,
-.pan {
-  padding-right: 0;
-}
-.prx,
-.phx,
-.pax {
-  padding-right: 3px;
-}
-.prs,
-.phs,
-.pas {
-  padding-right: 5px;
-}
-.prm,
-.phm,
-.pam {
-  padding-right: 10px;
-}
-.prl,
-.phl,
-.pal {
-  padding-right: 20px;
-}
-.pbn,
-.pvn,
-.pan {
-  padding-bottom: 0;
-}
-.pbx,
-.pvx,
-.pax {
-  padding-bottom: 3px;
-}
-.pbs,
-.pvs,
-.pas {
-  padding-bottom: 5px;
-}
-.pbm,
-.pvm,
-.pam {
-  padding-bottom: 10px;
-}
-.pbl,
-.pvl,
-.pal {
-  padding-bottom: 20px;
-}
-.pln,
-.phn,
-.pan {
-  padding-left: 0;
-}
-.plx,
-.phx,
-.pax {
-  padding-left: 3px;
-}
-.pls,
-.phs,
-.pas {
-  padding-left: 5px;
-}
-.plm,
-.phm,
-.pam {
-  padding-left: 10px;
-}
-.pll,
-.phl,
-.pal {
-  padding-left: 20px;
-}
-.mtn,
-.mvn,
-.man {
-  margin-top: 0px;
-}
-.mtx,
-.mvx,
-.max {
-  margin-top: 3px;
-}
-.mts,
-.mvs,
-.mas {
-  margin-top: 5px;
-}
-.mtm,
-.mvm,
-.mam {
-  margin-top: 10px;
-}
-.mtl,
-.mvl,
-.mal {
-  margin-top: 20px;
-}
-.mrn,
-.mhn,
-.man {
-  margin-right: 0px;
-}
-.mrx,
-.mhx,
-.max {
-  margin-right: 3px;
-}
-.mrs,
-.mhs,
-.mas {
-  margin-right: 5px;
-}
-.mrm,
-.mhm,
-.mam {
-  margin-right: 10px;
-}
-.mrl,
-.mhl,
-.mal {
-  margin-right: 20px;
-}
-.mbn,
-.mvn,
-.man {
-  margin-bottom: 0px;
-}
-.mbx,
-.mvx,
-.max {
-  margin-bottom: 3px;
-}
-.mbs,
-.mvs,
-.mas {
-  margin-bottom: 5px;
-}
-.mbm,
-.mvm,
-.mam {
-  margin-bottom: 10px;
-}
-.mbl,
-.mvl,
-.mal {
-  margin-bottom: 20px;
-}
-.mln,
-.mhn,
-.man {
-  margin-left: 0px;
-}
-.mlx,
-.mhx,
-.max {
-  margin-left: 3px;
-}
-.mls,
-.mhs,
-.mas {
-  margin-left: 5px;
-}
-.mlm,
-.mhm,
-.mam {
-  margin-left: 10px;
-}
-.mll,
-.mhl,
-.mal {
-  margin-left: 20px;
+
+.examReportCardDetailLine {
+	line-height:160%;
 }

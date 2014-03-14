@@ -1,0 +1,18 @@
+
+			<div>
+				<div id="switch<%- id %>" class="inline span1 switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
+					<input class="checkbox" type="checkbox" <%- checked %> <%- disabled %> />
+				</div>
+				<div class="<%- hideSequence %> sequenceDiv">
+					<input class="sequenceTextField" type="text" value="<%- sequence %>" />
+				</div>
+				<div class="choiceTextDiv">
+					<div id="_choiceText<%- id %>" class="inline span4 view">
+					<%- text %>
+					</div>
+					<input class="edit hideForEditing" type="text" value="<%- text %>" />
+				</div>
+				<div id="choiceBtnDiv" class="destroyBtn">
+					<button type="submit" class="btn btn-secondary btn-small choice_delete_button" id="choice_delete_button_ROWNUM" name="choiceButton_OBJID" value="Delete Choice"><i class="icon-remove"></i></button>						
+				</div>
+			</div>

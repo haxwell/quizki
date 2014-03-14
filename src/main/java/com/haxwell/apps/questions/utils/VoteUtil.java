@@ -7,9 +7,24 @@ import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.entities.Vote;
 import com.haxwell.apps.questions.factories.EntityTypeFactory;
+import com.haxwell.apps.questions.factories.ManagerFactory;
 import com.haxwell.apps.questions.managers.VoteManager;
 
 public class VoteUtil {
+
+	public static String registerVote(String voteDirection, String entityType, String entityId, User user) {
+		AbstractEntity entity = ManagerFactory.getManager(entityType).getEntity(entityId);
+		
+		if (entity != null) {
+			if (voteDirection.equals("down"))
+				VoteManager.voteDown(user, entity);
+			else if (voteDirection.equals("up"))
+				VoteManager.voteUp(user, entity);
+		}
+		
+		//writer.print(voteDirection + " " + entityKey + " ");
+		return voteDirection + " vote registered successfully!";
+	}
 
 	public static boolean userHasVotedForThisEntity(User u, AbstractEntity e) {
 		return VoteManager.getVote(u, e) != null;

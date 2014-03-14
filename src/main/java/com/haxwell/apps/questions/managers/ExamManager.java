@@ -704,7 +704,6 @@ public class ExamManager extends Manager {
 		String topicFilterText = fc.get(FilterConstants.TOPIC_CONTAINS_FILTER).toString();
 		int maxDifficulty = Integer.parseInt(fc.get(FilterConstants.DIFFICULTY_FILTER).toString());
 		boolean includeOnlyUserCreatedEntities = fc.get(FilterConstants.RANGE_OF_ENTITIES_FILTER).equals(Constants.MY_ITEMS.toString());
-		User user = (User)fc.get(FilterConstants.USER_ID_ENTITY);
 		
 		String queryString = "SELECT e FROM Exam e";
 		
@@ -726,8 +725,10 @@ public class ExamManager extends Manager {
 		if (!filterTextIsNullOrEmpty)
 			query.setParameter(1, "%" + filterText + "%");
 		
-		if (includeOnlyUserCreatedEntities)
+		if (includeOnlyUserCreatedEntities) {
+			User user = (User)fc.get(FilterConstants.USER_ID_ENTITY);
 			query.setParameter(2, Long.parseLong(user.getId()+""));
+		}
 		
 		List<Exam> rtn = (List<Exam>)query.getResultList();
 

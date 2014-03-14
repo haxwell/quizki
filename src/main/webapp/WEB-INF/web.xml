@@ -46,16 +46,6 @@
     <dispatcher>ERROR</dispatcher>
   </filter-mapping>
   <filter>
-    <filter-name>AutoAuthenticateUserFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.AutoAuthenticateUserFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>AutoAuthenticateUserFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
     <filter-name>IsUserAuthenticatedFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.UserIsAuthenticatedFilter</filter-class>
   </filter>

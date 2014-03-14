@@ -287,7 +287,7 @@
 	</listener>
 	
 <!-- SERVLET DEFINITIONS -->
-<!--
+
   <servlet>
   	<servlet-name>LoginServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.LoginServlet</servlet-class>
@@ -449,6 +449,7 @@
   	<servlet-name>ExamReportCardServlet</servlet-name>
   	<url-pattern>/secured/ExamReportCardServlet</url-pattern>
   </servlet-mapping>
+
 
 <!--  MIME settings -->
 

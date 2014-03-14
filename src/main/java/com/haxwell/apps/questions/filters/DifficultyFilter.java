@@ -8,6 +8,7 @@ import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 public class DifficultyFilter implements ShouldRemoveAnObjectCommand<EntityWithADifficultyObjectBehavior> {
 	public static final long DIFFICULTY_IS_EQUAL = 2334l;
 	public static final long DIFFICULTY_IS_GREATER_THAN = 8338l;
+	public static final long DIFFICULTY_IS_LESS_THAN = 6990l;
 	
 	private long criteria = DIFFICULTY_IS_GREATER_THAN;
 	private long difficulty;
@@ -24,7 +25,9 @@ public class DifficultyFilter implements ShouldRemoveAnObjectCommand<EntityWithA
 	public boolean shouldRemove(EntityWithADifficultyObjectBehavior e) {
 		boolean rtn = false;
 
-		if (this.criteria == DIFFICULTY_IS_GREATER_THAN && DifficultyUtil.convertToInt(e.getDifficulty()) < this.difficulty)
+		if (this.criteria == DIFFICULTY_IS_GREATER_THAN && DifficultyUtil.convertToInt(e.getDifficulty()) > this.difficulty)
+			rtn = true;
+		else if (this.criteria == DIFFICULTY_IS_LESS_THAN && DifficultyUtil.convertToInt(e.getDifficulty()) < this.difficulty)
 			rtn = true;
 		else if (this.criteria == DIFFICULTY_IS_EQUAL && DifficultyUtil.convertToInt(e.getDifficulty()) != this.difficulty)
 			rtn = true;

@@ -10,7 +10,6 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
 import com.haxwell.apps.questions.entities.Reference;
-import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.managers.ReferenceManager;
 
 public class ReferenceUtil {

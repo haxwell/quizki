@@ -27,6 +27,7 @@
   <!.. ..> that surrounds them.
 -->
 <!--
+<<<<<<< HEAD
   <role rolename="tomcat"/>
   <role rolename="role1"/>
 -->
@@ -40,6 +41,16 @@
 <!-- <user name="tomcat" password="password" roles="manager" /> -->
 
 <!--
+=======
+If you wish to use the Manager Application to deploy and undeploy applications in a running Tomcat installation, you MUST add the "manager-gui" role to at least one username in your selected Realm implementation. This is because the manager web application itself uses a security constraint that requires role "manager-gui" to access ANY request URI within the HTML interface of that application.
+
+For security reasons, no username in the default Realm (i.e. using conf/tomcat-users.xml is assigned the "manager-gui" role. Therefore, no one will be able to utilize the features of this application until the Tomcat administrator specifically assigns this role to one or more users.
+-->
+
+<!--
+  <role rolename="tomcat"/>
+  <role rolename="role1"/>
+>>>>>>> ffad9d078a27d0cdef8176294a0508b427bf0f59
   <user username="tomcat" password="tomcat" roles="tomcat"/>
   <user username="both" password="tomcat" roles="tomcat,role1"/>
   <user username="role1" password="tomcat" roles="role1"/>

@@ -1,1 +1,30 @@
-../main/resources/META-INF/persistence.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="quizki-pu">
+		<class>com.haxwell.apps.questions.entities.Choice</class>
+		<class>com.haxwell.apps.questions.entities.Difficulty</class>
+		<class>com.haxwell.apps.questions.entities.Exam</class>
+		<class>com.haxwell.apps.questions.entities.Question</class>
+		<class>com.haxwell.apps.questions.entities.QuestionType</class>
+		<class>com.haxwell.apps.questions.entities.Reference</class>
+		<class>com.haxwell.apps.questions.entities.Topic</class>
+		<class>com.haxwell.apps.questions.entities.User</class>
+		<class>com.haxwell.apps.questions.entities.UserRole</class>
+		<class>com.haxwell.apps.questions.entities.Notification</class>	
+		<class>com.haxwell.apps.questions.entities.Vote</class>
+		<class>com.haxwell.apps.questions.entities.EntityType</class>
+		<class>com.haxwell.apps.questions.entities.ExamFeedback</class>
+	
+	
+		<properties>
+			<property name="javax.persistence.jdbc.password" value="quizki"/>
+			<property name="javax.persistence.jdbc.user" value="quizki"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.7.125.130:3306/quizki_db"/>
+			<property name="javax.persistence.logging.level" value="INFO"/>
+			
+			<property name="eclipselink.jpa.uppercase-column-names" value="true"/>
+		</properties>
+
+	</persistence-unit>
+</persistence>

@@ -20,7 +20,7 @@
 			<property name="javax.persistence.jdbc.password" value="quizki"/>
 			<property name="javax.persistence.jdbc.user" value="quizki"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.4.86.1:3306/quizki_db"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.7.125.130:3306/quizki_db"/>
 			<property name="javax.persistence.logging.level" value="INFO"/>
 			
 			<property name="eclipselink.jpa.uppercase-column-names" value="true"/>

@@ -380,11 +380,11 @@ var getFunctionToRetrieveCurrentQuestion = function() {
 	return rtn;
 };
 
-var getSingleQuestionByEntityId = function(entityId) {
+var getSingleQuestionByEntityId = function(entityId, func) {
 	var data_url = "/ajax/getSingleQuestion.jsp";
 	var data_obj = { entityIdFilter : entityId }; 
 
-	var rtn = getQuestionByAJAXCall(data_url, data_obj);
+	var rtn = getQuestionByAJAXCall(data_url, data_obj, func);
 	
 	return rtn;
 };
@@ -398,7 +398,7 @@ var getBlankQuestionFromServer = function() {
 	return rtn;
 };
 
-var getQuestionByAJAXCall = function(data_url, data_obj) {
+var getQuestionByAJAXCall = function(data_url, data_obj, func) {
 	var rtn = new Question();
 	
 	makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
@@ -413,6 +413,9 @@ var getQuestionByAJAXCall = function(data_url, data_obj) {
 		var parsedJSONObject = jQuery.parseJSON(jsonExport);
 		
 		rtn.initWithAJAXSource(parsedJSONObject.question[0]);
+		
+		if (func !== undefined)
+			func(rtn);
 	});
 	
 	return rtn;

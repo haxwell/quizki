@@ -1,0 +1,17 @@
+Quizki deployment guide
+-----------------------
+
+Ensure there is a remote added for git for production and staging
+ git remote add quizkistaging ssh://53251221e0b8cd963f000108@quizkistaging1-quizki.rhcloud.com/~/git/quizkistaging1.git/
+ git remote add quizkiprod ssh://b18cc03486ab440a8bb764bf4f6d94b3@quizki-quizki.rhcloud.com/~/git/quizki.git/
+
+
+To Push to Production:
+ git push quizkiprod master:master
+
+To push to Staging:
+ git push quizkistaging staging:master
+
+
+Until Issue #109 is addressed, you will need to ensure that persistence.xml and shiro.ini have correct jdbc urls.. You can check the value by ssh'ing to the server and running 'echo $OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT'
+

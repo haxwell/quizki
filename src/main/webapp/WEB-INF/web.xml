@@ -297,51 +297,6 @@
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>ExamServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ExamServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ExamServlet</servlet-name>
-  	<url-pattern>/secured/ExamServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-  	<servlet-name>GenerateExamServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.GenerateExamServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>GenerateExamServlet</servlet-name>
-  	<url-pattern>/GenerateExamServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-  	<servlet-name>ListExamsServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ListExamsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ListExamsServlet</servlet-name>
-  	<url-pattern>/ListExamsServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-  	<servlet-name>ListQuestionsServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ListQuestionsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ListQuestionsServlet</servlet-name>
-  	<url-pattern>/ListQuestionsServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-  	<servlet-name>TakeExamServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.TakeExamServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>TakeExamServlet</servlet-name>
-  	<url-pattern>/TakeExamServlet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
   	<servlet-name>RegisterUserServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.RegisterUserServlet</servlet-class>
   </servlet>
@@ -350,24 +305,6 @@
   	<url-pattern>/RegisterUserServlet</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-  	<servlet-name>QuestionServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.QuestionServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>QuestionServlet</servlet-name>
-  	<url-pattern>/secured/QuestionServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-  	<servlet-name>ProfileQuestionsServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileQuestionsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ProfileQuestionsServlet</servlet-name>
-  	<url-pattern>/secured/ProfileQuestionsServlet</url-pattern>
-  </servlet-mapping>
-
   <servlet>
   	<servlet-name>ProfileExamsServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.ProfileExamsServlet</servlet-class>
@@ -430,16 +367,6 @@
   	<servlet-name>AdminProfileSummaryServlet</servlet-name>
   	<url-pattern>/secured/AdminProfileSummaryServlet</url-pattern>
   </servlet-mapping>
-
-  <servlet>
-  	<servlet-name>ExamReportCardServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ExamReportCardServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ExamReportCardServlet</servlet-name>
-  	<url-pattern>/secured/ExamReportCardServlet</url-pattern>
-  </servlet-mapping>
-
 
 <!--  MIME settings -->
 

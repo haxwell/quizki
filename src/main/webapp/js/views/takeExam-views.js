@@ -332,8 +332,6 @@
 			}
 		},
 		render:function () {
-			// eventually, we'll need to check if the exam is completed, and display another set of buttons..
-			//  but for now.. this one will do..
 			var _hidden = ExamEngine.getAllQuestionsHaveBeenAnswered() ? "" : "hidden";
 			
 			var template = view_utility.executeTemplate('/templates/ExamInProgressNavigationButtonsView.html', {disabled:"", hidden:_hidden});

@@ -141,9 +141,7 @@ var ExamEngine = (function() {
 		}
 
 		if (index + 1 < totalNumberOfQuestions) {
-			// get question by that index from listQuestionsAsJsonStrings
 			isOkayToMoveForward = false;
-
 			return this.setQuestionByIndex(++index);
 		}
 		else {

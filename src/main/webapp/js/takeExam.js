@@ -1,25 +1,74 @@
 var TakeExamChoiceItemFactory = (function() {
 	var my = {};
 	
+	function getArrayOfRandomNumbers(maxIndex) {
+		var indexesFoundArr = new Array();
+		var rtn = new Array();
+		var y = maxIndex;
+		
+		for (var i=0; i < maxIndex; i++)
+			indexesFoundArr[i] = i;
+		
+		for (var x=0; x < y; ) {
+			var v = Math.floor((Math.random()*indexesFoundArr.length)+1) - 1;
+			
+			rtn[x++] = indexesFoundArr[v];
+			indexesFoundArr.splice(v, 1);
+		}
+		
+		return rtn;
+	}
+	
+	function getOrderingOfChoicesCollection() {
+		var coll = model_factory.get("orderingOfChoicesCollection");
+		
+		if (coll == undefined) {
+			coll = new Backbone.Collection([], { model: OrderingOfChoicesModel });
+			model_factory.put("orderingOfChoicesCollection", coll);
+		}
+		
+		return coll;
+	}
+	
 	// there are views for each type of choice that could be displayed with a question.
 	// this returns a Collection of views appropriate for the currentQuestion
 	my.getViewsForCurrentQuestion = function() {
 		var rtn = new Quizki.Collection();
 		var currentQuestion = model_factory.get("currentQuestion");
 		var type = currentQuestion.getTypeId();
-		var choices = currentQuestion.getChoices(); // Quizki.Collection of choices
+		var choices = currentQuestion.getChoices(); // Backbone.Collection of choices
+		
+		var orderingOfChoicesColl = getOrderingOfChoicesCollection();
+		
+		var orderingOfChoicesModel = orderingOfChoicesColl.findWhere({questionId:currentQuestion.getId()});
+		
+		if (orderingOfChoicesModel == undefined) {
+			orderingOfChoicesModel = new OrderingOfChoicesModel();
+			orderingOfChoicesModel.set('questionId', currentQuestion.getId());
+			orderingOfChoicesModel.set('ordering', getArrayOfRandomNumbers(currentQuestion.getChoices().size()));
+			
+			orderingOfChoicesColl.add(orderingOfChoicesModel);
+		}
+		
+		var ordering = orderingOfChoicesModel.get('ordering');
 		
 		if (type == 1) {
-			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamSingleQuestionChoiceItemView(model)); }, this);
+			for (var x=0; x < ordering.length; x++) {
+				rtn.put( new Quizki.ExamSingleQuestionChoiceItemView(choices.at(ordering[x])));
+			}
 		}
 		else if (type == 2) {
-			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamMultipleQuestionChoiceItemView(model)); }, this);
+			for (var x=0; x < ordering.length; x++) {
+				rtn.put( new Quizki.ExamMultipleQuestionChoiceItemView(choices.at(ordering[x])));
+			}
 		}
 		else if (type == 3) {
 			rtn.put( new Quizki.ExamStringQuestionChoiceItemView( choices.at(0) )); 
 		}
 		else if (type == 4) {
-			_.each(choices.models, function(model) { rtn.put( new Quizki.ExamSequenceQuestionChoiceItemView(model)); }, this);
+			for (var x=0; x < ordering.length; x++) {
+				rtn.put( new Quizki.ExamSequenceQuestionChoiceItemView(choices.at(ordering[x])));
+			}
 		}
 		
 		return rtn;
@@ -215,4 +264,16 @@ var ExamEngine = (function() {
 	return my;
 	
 }());
+
+
+// 
+var OrderingOfChoicesModel = Backbone.Model.extend({
+	defaults: {
+		questionId : -1,
+		ordering : []
+	},
+	initialize : function() {
+		
+	}
+});
 

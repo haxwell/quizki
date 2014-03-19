@@ -43,7 +43,6 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String fwdPage = "/register.jsp";		
 
 		ArrayList<String> errors = new ArrayList<String>();
 		ArrayList<String> successes = new ArrayList<String>();		
@@ -54,15 +53,27 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");
-        ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
+        ReCaptchaResponse reCaptchaResponse = null;
+        
+        try {
+        	reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, challenge, uresponse);
+        }
+        catch (Exception e) {
+        	errors.add("Caught Exception trying to verify the Captcha. Sorry about that.");
+        }
 
-        if (reCaptchaResponse.isValid()) {
-            if (UserManager.getUser(username) != null)
-    			errors.add("The username '" + username + "' already exists....");
-    	}
-        else
-        {
-        	errors.add("The text you entered for the CAPTCHA was wrong....");
+        if (reCaptchaResponse != null) {
+	        if (reCaptchaResponse.isValid()) {
+	            if (username.length() < 5)
+	            	errors.add("The username '" + username + "' is too short. It must be at least 5 characters long.");
+	            
+	        	if (errors.size() == 0 && UserManager.getUser(username) != null)
+	    			errors.add("The username '" + username + "' already exists....");
+	    	}
+	        else
+	        {
+	        	errors.add("The text you entered for the CAPTCHA was wrong....");
+	        }
         }
         
         if (password.length() < 6)
@@ -70,14 +81,18 @@ public class RegisterUserServlet extends AbstractHttpServlet {
         	errors.add("The password must be at least 6 characters.");
         }
         	
-		if (errors.size() == 0)	{
+		String fwdPage = null;        
+        if (errors.size() == 0)	{
 			UserManager.createUser(username, password);
-			successes.add("User " + username + " created.");
+			successes.add("User <b>" + username + "</b> created.");
 
 			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
+			fwdPage = "/login.jsp";
 		}
-		else
+		else {
 			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
+			fwdPage = "/register.jsp";
+		}
         
 		forwardToJSP(request, response, fwdPage);
 	}

@@ -30,6 +30,13 @@
 
 	<br/><br/>
 
+      <c:if test="${not empty requestScope.successes}">
+      	<c:forEach var="str" items="${requestScope.successes}">
+      		<span class="greenText">${str}</span><br/>	
+      	</c:forEach>
+      	<br/>
+      </c:if>
+
       <c:if test="${not empty requestScope.validationErrors}">
       	<c:forEach var="str" items="${validationErrors}">
       		<span class="redText">${str}</span><br/>
@@ -37,7 +44,7 @@
       	<br/>
       </c:if>
 
-	When you log in, Quizki can tell which questions and exams are yours!<br/><br/>
+	When you log in, Quizki can keep track of the questions and exams you create!<br/><br/>
 
 	If you're not yet a user, <a href="register.jsp">click here</a>!<br/><br/>
 

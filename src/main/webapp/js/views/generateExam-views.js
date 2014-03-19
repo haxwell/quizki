@@ -3,11 +3,17 @@
 		initialize:function() {
 			this.render();
 
+			console.log('allTopicsListView initialize() -- about to store a constructor function..');
+			
 			model_constructor_factory.put("stagedSelectedListOfTopics", function() { return new Backbone.Collection([], { model: Topic }); });
+			
+			console.log('allTopicsListView initialize() -- about to do the listenTos..');
 			
 			this.listenTo(model_factory.get('currentListOfTopics'), 'add', function(event) { this.render(); });
 			this.listenTo(model_factory.get('currentListOfTopics'), 'remove', function(event) { this.render(); });
 			this.listenTo(model_factory.get('currentListOfTopics'), 'reset', function(event) { this.render(); });
+			
+			console.log('allTopicsListView initialize() complete');
 		},
 		renderElement: function(model) {
 			var listOfTopics = this.$el.find("#listOfTopics");
@@ -348,25 +354,29 @@
 			return this;
 		},
 		takeGeneratedExam : function() {
-			// TODO: I'd like to have something else create this data object, though I don't know what else would need to other
-			//   than this view.. still, it seems it should not be done here.
-			var json = '';
-
-			json += JSONUtility.startJSONString(json);
-
-			json += JSONUtility.getJSON('difficulty_id', ''+model_factory.get("difficultyObj").getDifficultyId());
-			json += JSONUtility.getJSON('numberOfQuestions', ''+model_factory.get("numberOfQuestions").val);
-			json += JSONUtility.getJSONForBackboneCollection('selectedListOfTopics', model_factory.get("selectedListOfTopics"));
-			json += JSONUtility.getJSONForBackboneCollection('excludedListOfTopics', new Backbone.Collection([], { model: Topic }), false);
+			var selectedListOfTopics = model_factory.get("selectedListOfTopics");
 			
-			json = JSONUtility.endJSONString(json);
-			
-			var data_obj = { data : json };
-
-        	makeAJAXCall_andWaitForTheResults('/ajax/exam-generate.jsp', data_obj, function(data, status) {
-        		// TODO: Explicitly handle success and failure cases
-        		window.location.href = '/beginExam.jsp';					        		
-        	});
+			if (selectedListOfTopics != undefined && selectedListOfTopics.size() > 0 ) {
+				// TODO: I'd like to have something else create this data object, though I don't know what else would need to other
+				//   than this view.. still, it seems it should not be done here.
+				var json = '';
+	
+				json += JSONUtility.startJSONString(json);
+	
+				json += JSONUtility.getJSON('difficulty_id', ''+model_factory.get("difficultyObj").getDifficultyId());
+				json += JSONUtility.getJSON('numberOfQuestions', ''+model_factory.get("numberOfQuestions").val);
+				json += JSONUtility.getJSONForBackboneCollection('selectedListOfTopics', selectedListOfTopics);
+				json += JSONUtility.getJSONForBackboneCollection('excludedListOfTopics', new Backbone.Collection([], { model: Topic }), false);
+				
+				json = JSONUtility.endJSONString(json);
+				
+				var data_obj = { data : json };
+	
+	        	makeAJAXCall_andWaitForTheResults('/ajax/exam-generate.jsp', data_obj, function(data, status) {
+	        		// TODO: Explicitly handle success and failure cases
+	        		window.location.href = '/beginExam.jsp';					        		
+	        	});
+			}
 		}
 	});
 	

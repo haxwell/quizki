@@ -90,12 +90,10 @@ var model_factory = (function(){
 				return arr[id] != undefined;
 			},
 			put: function(id, model) {
-				// todo: perhaps an event when this happens?
 				arr[id] = model;
 			},
 			destroy: function(id) {
 				arr[id] = undefined;
-				arr["stringModel"+id] = undefined;
 			}
 		};
 	}());

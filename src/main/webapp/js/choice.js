@@ -7,7 +7,7 @@ var Choice = Backbone.Model.extend({
 		isselected : 'false',
 		sequence : '0',
 		selectedSequence : '-1',
-		string : ''
+		phrase : ''
 	},
 	initialize : function() {
 		

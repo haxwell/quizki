@@ -308,7 +308,7 @@
 
 			var _viewmodel = this.viewmodel;
 			
-			if (cq.getTypeId() == /* string question */ "3") 
+			if (cq.getTypeId() == /* phrase question */ "3") 
 				return 5;
 			
         	if (o != undefined && _viewmodel.checked == 'checked' && o.get('value') == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
@@ -322,7 +322,7 @@
         		cccStatus = 3;
             } else if (cq.getTypeId() == "4" && o != undefined && _viewmodel.checked == 'checked' && o.get('value') !== _viewmodel.sequence) {
             	cccStatus = 4;
-            } else if (cq.getTypeId() == "3" /*&& o != undefined && _viewmodel.checked == 'checked' && o.get('value') != _viewmodel.text*/) {
+            } else if (cq.getTypeId() == "3") {
             	cccStatus = 5;
             }
 
@@ -375,7 +375,7 @@
             	answerCorrectnessModel.overallAnsweredCorrectly = false;
             } else if (cccStatus == 5) {
             	if (answer != undefined) {
-            		answerCorrectnessModel.stringAnswer = answer.get('value');
+            		answerCorrectnessModel.phraseAnswer = answer.get('value');
 
 	            	if (answerCorrectnessModel.overallAnsweredCorrectly == undefined || !answerCorrectnessModel.overallAnsweredCorrectly) {
 	        			var choiceModels = cq.getChoices().models;
@@ -589,7 +589,7 @@
 			
 			_.each(choices.models, function(model) { this.renderElement(model); }, this);
 
-			// string questions need special processing to determine whether they are answered correctly. see Issue #107.
+			// phrase questions need special processing to determine whether they are answered correctly. see Issue #107.
 			if (this.inExamContext && cq.getTypeId() == "3") {
 				var answerCorrectnessModel = model_factory.get('answerCorrectnessModel');
 				var answersMap = model_factory.get('answersMap');
@@ -600,7 +600,7 @@
 							var answer = answersMap.get(cq.getId()+","+model.get('id'));
 							
 							answerCorrectnessModel.overallAnsweredCorrectly = (model.get('text') == answer);
-							answerCorrectnessModel.stringAnswer = (model.get('string'));
+							answerCorrectnessModel.phraseAnswer = (model.get('phrase'));
 						}
 					});
 				}

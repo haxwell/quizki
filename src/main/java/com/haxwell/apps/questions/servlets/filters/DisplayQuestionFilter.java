@@ -77,7 +77,7 @@ public class DisplayQuestionFilter extends AbstractFilter {
 				AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
 				
 				// Special handling for String questions
-				if (qtID == TypeConstants.STRING) {
+				if (qtID == TypeConstants.PHRASE) {
 					String userSuppliedAnswer = aq.answers.values().iterator().next();
 					req.getSession().setAttribute("userSuppliedAnswerToStringQuestion", "\"" + userSuppliedAnswer + "\"");					
 				}

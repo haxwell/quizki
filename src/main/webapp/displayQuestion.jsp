@@ -150,7 +150,7 @@
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
-			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, stringAnswer:undefined };} );
+			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, phraseAnswer:undefined };} );
 			    		
 			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
@@ -187,8 +187,8 @@
 							if (acm.overallAnsweredCorrectly) {
 								msgArr.push('Great! You answered this question correctly!');
 
-								if (acm.stringAnswer != undefined) {
-									msgArr.push(' You typed <b>' + acm.stringAnswer + '</b> .');
+								if (acm.phraseAnswer != undefined) {
+									msgArr.push(' You typed <b>' + acm.phraseAnswer + '</b> .');
 								}
 							}
 							else {
@@ -206,8 +206,8 @@
 									msgArr.push(' There ' + (acm.correctButNotChosen < 2 ? 'was ' : 'were ') + acm.correctButNotChosen + ' correct choice' + (acm.correctButNotChosen == 1 ? ' ' : 's ') + 'that you did not choose.');
 								}
 								
-								if (acm.stringAnswer != undefined) {
-									msgArr.push(' You typed <b>' + acm.stringAnswer + '</b> .');
+								if (acm.phraseAnswer != undefined) {
+									msgArr.push(' You typed <b>' + acm.phraseAnswer + '</b> .');
 								}
 							}
 							

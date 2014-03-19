@@ -11,7 +11,7 @@ public class ExamHistoryPostProcessorFactory {
 		AbstractExamHistoryPostProcessor rtn = new QuestionWithRandomChoiceIndexesExamHistoryPostProcessor();
 		
 		// STRING has only one input field, so random-ness does not apply.. it needs its own processor..
-		if (q.getQuestionType().getId() == TypeConstants.STRING)
+		if (q.getQuestionType().getId() == TypeConstants.PHRASE)
 			rtn = new StringExamHistoryPostProcessor();
 		
 		return rtn;

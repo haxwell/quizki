@@ -80,7 +80,7 @@
 		}
 	});
 	
-	Quizki.ExamStringQuestionChoiceItemView = Backbone.View.extend({
+	Quizki.ExamPhraseQuestionChoiceItemView = Backbone.View.extend({
 		initialize:function() {
 			this.model = arguments[0].attributes;
 			this.millisecondId = arguments[0].attributes.id;
@@ -96,7 +96,7 @@
 			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
-			this.$el.html(view_utility.executeTemplate('/templates/ExamStringQuestionChoiceItemView.html', {id:this.millisecondId,answer:this.model.string}));
+			this.$el.html(view_utility.executeTemplate('/templates/ExamPhraseQuestionChoiceItemView.html', {id:this.millisecondId,answer:this.model.phrase}));
 			return this;
 		}
 	});
@@ -183,10 +183,10 @@
 				}
 			};
 
-			var onStringTextFieldBlurFunc = function(event,data) {
-				var millisecond_id = event.target.id.replace('stringTextField','');
+			var onPhraseTextFieldBlurFunc = function(event,data) {
+				var millisecond_id = event.target.id.replace('phraseTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				var oldAnswer = currQuestion.getChoice(millisecond_id).get('string');
+				var oldAnswer = currQuestion.getChoice(millisecond_id).get('phrase');
 				var newAnswer = $(event.target).val();
 				
 				if (newAnswer != oldAnswer) {
@@ -194,7 +194,7 @@
 					
 					_.each(choices.models, function(model) { 
 						var cId = model.get('id');
-						currQuestion.updateChoice(cId, 'string', newAnswer);
+						currQuestion.updateChoice(cId, 'phrase', newAnswer);
 					});
 					
 					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
@@ -211,7 +211,7 @@
 			
 			childChoiceView.val.setEventHandler("iscorrectchanged", isCorrectChangedCallbackFunc);
 			childChoiceView.val.setEventHandler("onsequencetextfieldblur", onSequenceTextFieldBlurFunc);
-			childChoiceView.val.setEventHandler("onstringtextfieldblur", onStringTextFieldBlurFunc);
+			childChoiceView.val.setEventHandler("onphrasetextfieldblur", onPhraseTextFieldBlurFunc);
 			
 			var obj = {millisecondId:childChoiceView.val.millisecondId, view:childChoiceView.val};
 			
@@ -237,7 +237,7 @@
 			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#switch" + model.view.millisecondId).on('switch-change', model.view.getEventHandler("iscorrectchanged"));
 				$("#sequenceTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
-				$("#stringTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onstringtextfieldblur"));
+				$("#phraseTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onphrasetextfieldblur"));
 			});
 
 			return this;

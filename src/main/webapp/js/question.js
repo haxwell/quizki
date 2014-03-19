@@ -300,7 +300,7 @@ var Question = (function() {
 			});
 		} else if (type_id == 3) {
 			rtn = _.some(choices.models, function(choice) {
-				return choice.get('string') != '';
+				return choice.get('phrase') != '';
 			});
 		} else if (type_id == 4) {
 			rtn = _.every(choices.models, function(choice) {
@@ -327,7 +327,7 @@ var QuestionTypes = (function() {
 		else if (intKey == 2)
 			return "Multiple";
 		else if (intKey == 3)
-			return "String";
+			return "Phrase";
 		else if (intKey == 4)
 			return "Sequence";
 		

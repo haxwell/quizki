@@ -105,7 +105,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == 1);
 		
-		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.STRING).iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.PHRASE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -216,7 +216,7 @@ public class ExamHistoryTest {
 		
 		assertTrue(coll.size() == 1);
 		
-		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.STRING).iterator();
+		Iterator<String> iterator = AnsweredQuestionFieldnameCollectionReturner.getFieldnameCollection(answersMap, TypeConstants.PHRASE).iterator();
 		
 		while (iterator.hasNext())
 			assertTrue(coll.contains(iterator.next()));
@@ -337,7 +337,7 @@ public class ExamHistoryTest {
 		question.setChoices(getSetOfChoices_StringQuestionThreeChoicesAllAreCorrect());
 		question.setTopics(getSetOfTopics());
 		question.setText("this is a STRING test question " + index);
-		question.setQuestionType(new QuestionType(TypeConstants.STRING));
+		question.setQuestionType(new QuestionType(TypeConstants.PHRASE));
 		
 		return question;
 	}
@@ -432,7 +432,7 @@ public class ExamHistoryTest {
 	 */
 	private Map<String, String> getMapWithCorrectAnswerToStringQuestion(Question q)
 	{
-		if (q.getQuestionType().getId() != TypeConstants.STRING)
+		if (q.getQuestionType().getId() != TypeConstants.PHRASE)
 			throw new IllegalArgumentException();
 		
 		Map<String, String> answers = new HashMap<String, String>();

@@ -62,7 +62,7 @@ public class PopulateFieldNamesForChoicesFilter extends AbstractFilter {
 				
 				session.setAttribute(Constants.LIST_OF_FIELD_NAMES_OF_CHOICES, choiceFieldNamesJSArray.toString());
 				
-				if (currentQuestion.getQuestionType().getId() != TypeConstants.STRING)
+				if (currentQuestion.getQuestionType().getId() != TypeConstants.PHRASE)
 					session.setAttribute(Constants.LIST_OF_VALUES_OF_CHOICES, choiceFieldValues.toString());
 				else 
 					session.setAttribute(Constants.LIST_OF_VALUES_OF_CHOICES, "null");

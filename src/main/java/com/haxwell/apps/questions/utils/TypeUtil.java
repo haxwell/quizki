@@ -15,8 +15,8 @@ public class TypeUtil {
 			return TypeConstants.SINGLE;
 		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.MULTIPLE_STR)))
 			return TypeConstants.MULTIPLE;
-		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.STRING_STR)))
-			return TypeConstants.STRING;
+		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.PHRASE_STR)))
+			return TypeConstants.PHRASE;
 		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SEQUENCE_STR)))
 			return TypeConstants.SEQUENCE;
 		
@@ -26,8 +26,8 @@ public class TypeUtil {
 	public static String convertToString(long l) {
 		if (l == TypeConstants.SINGLE)
 			return TypeConstants.SINGLE_STR;
-		if (l == TypeConstants.STRING)
-			return TypeConstants.STRING_STR;
+		if (l == TypeConstants.PHRASE)
+			return TypeConstants.PHRASE_STR;
 		if (l == TypeConstants.MULTIPLE)
 			return TypeConstants.MULTIPLE_STR;
 		if (l == TypeConstants.SEQUENCE)

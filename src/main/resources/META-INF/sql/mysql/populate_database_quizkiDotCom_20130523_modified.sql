@@ -377,7 +377,7 @@ CREATE TABLE `question_type` (
 
 LOCK TABLES `question_type` WRITE;
 /*!40000 ALTER TABLE `question_type` DISABLE KEYS */;
-INSERT INTO `question_type` VALUES (1,'Single'),(2,'Multiple'),(3,'String'),(4,'Sequence');
+INSERT INTO `question_type` VALUES (1,'Single'),(2,'Multiple'),(3,'Phrase'),(4,'Sequence');
 /*!40000 ALTER TABLE `question_type` ENABLE KEYS */;
 UNLOCK TABLES;
 

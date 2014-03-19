@@ -21,7 +21,7 @@ public class QuestionTypeCheckerFactory {
 			return new SingleQuestionTypeChecker(q);
 		else if (qtId == TypeConstants.MULTIPLE)
 			return new MultiQuestionTypeChecker(q);
-		else if (qtId == TypeConstants.STRING)
+		else if (qtId == TypeConstants.PHRASE)
 			return new StringQuestionTypeChecker(q);
 		else if (qtId == TypeConstants.SEQUENCE)
 			return new SequenceQuestionTypeChecker(q);

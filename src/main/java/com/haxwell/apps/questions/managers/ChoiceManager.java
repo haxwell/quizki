@@ -76,7 +76,7 @@ public class ChoiceManager extends Manager {
 		List<String> errors = new ArrayList<String>();
 		
 		long questionTypeId = question.getQuestionType().getId();
-		if (questionTypeId != TypeConstants.STRING && choicesSet.size() < 2)
+		if (questionTypeId != TypeConstants.PHRASE && choicesSet.size() < 2)
 			errors.add("There must be at least two choices."); 
 		
 		Set<String> choiceTextsSet = new HashSet<String>();
@@ -128,7 +128,7 @@ public class ChoiceManager extends Manager {
 			addedErrorRegardingMultipleCorrectChoicesNeeded = true;
 		}
 		
-		if (questionTypeId == TypeConstants.STRING && choicesSet.size() != correctChoiceCount)
+		if (questionTypeId == TypeConstants.PHRASE && choicesSet.size() != correctChoiceCount)
 			errors.add("The question type is set to String but there is an incorrect choice. All choices must be correct.");
 
 		if (questionTypeId == TypeConstants.SEQUENCE && choicesSet.size() != correctChoiceCount)

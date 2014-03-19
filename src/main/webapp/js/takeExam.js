@@ -63,7 +63,7 @@ var TakeExamChoiceItemFactory = (function() {
 			}
 		}
 		else if (type == 3) {
-			rtn.put( new Quizki.ExamStringQuestionChoiceItemView( choices.at(0) )); 
+			rtn.put( new Quizki.ExamPhraseQuestionChoiceItemView( choices.at(0) )); 
 		}
 		else if (type == 4) {
 			for (var x=0; x < ordering.length; x++) {

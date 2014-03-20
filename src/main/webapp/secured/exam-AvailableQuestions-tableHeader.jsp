@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://quizki.com/tld/qfn" prefix="qfn"%>
 
-<!--form id="examAvailableQuestionsForm" action="/secured/ExamServlet"-->
 	<table class="table table-striped" style="margin-bottom:0px;" id="examEntityTableHeader">
 		<thead>
 			<tr>
@@ -19,5 +18,3 @@
 			</tr>
 		</thead>
 	</table>
-
-<!--/form-->

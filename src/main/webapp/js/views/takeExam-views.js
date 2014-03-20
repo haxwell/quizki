@@ -206,12 +206,21 @@
 					event_intermediary.throwEvent('choicesChanged');
 				}
 			};
+			
+			var onPhraseTextFieldKeypressFunc = function(event,data) {
+				if (event.keyCode != 13) return;
+				
+				onPhraseTextFieldBlurFunc(event,data);
+				
+				nextBtnClicked();
+			};
 
 			ul.append( childChoiceView.val.render().$el.html() );
 			
 			childChoiceView.val.setEventHandler("iscorrectchanged", isCorrectChangedCallbackFunc);
 			childChoiceView.val.setEventHandler("onsequencetextfieldblur", onSequenceTextFieldBlurFunc);
 			childChoiceView.val.setEventHandler("onphrasetextfieldblur", onPhraseTextFieldBlurFunc);
+			childChoiceView.val.setEventHandler("onphrasetextfieldkeypress", onPhraseTextFieldKeypressFunc);
 			
 			var obj = {millisecondId:childChoiceView.val.millisecondId, view:childChoiceView.val};
 			
@@ -238,6 +247,7 @@
 				$("#switch" + model.view.millisecondId).on('switch-change', model.view.getEventHandler("iscorrectchanged"));
 				$("#sequenceTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
 				$("#phraseTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onphrasetextfieldblur"));
+				$("#phraseTextField" + model.view.millisecondId).on('keypress', model.view.getEventHandler("onphrasetextfieldkeypress"));
 			});
 
 			return this;
@@ -281,56 +291,7 @@
 				ExamEngine.setQuestionByIndex(textFieldVal-1);
 		},
 		nextBtnClicked: function() {
-			var q = ExamEngine.nextQuestion();
-			
-			if (q == null) {
-				// there are no more questions, pop a dialog telling
-				//  the user they are at the end.
-				var dlg = $('#dialogText').dialog({ 
-						autoOpen: false, resizable: false, modal: true,
-					    dialogClass:'dialog_stylee', width:500,  
-						buttons: [{
-					        text : "< Wait!! Let me review!", 
-					        click : function() {
-					        	event_intermediary.throwEvent('nowInExamReviewMode');
-					        	$( this ).dialog( "close" );
-					        }},
-					        {
-					        text : "GRADE IT!",
-					        click : function() {
-					        	$( this ).dialog( "close" );
-					        	
-					        	// make ajax call
-					        	var v = ExamEngine.getQuestionsAsJsonString();
-					        	var answersAsJson = JSONUtility.getJSONForKeyValueMap(
-					        			model_factory.get("answersMap"), 
-					        			"answers", "fieldId", "value", 
-					        			{
-					        				getFieldName:function() {return "question_id";}, 
-					        				processKeyValue:function(key,value) {return key.substring(0, key.indexOf(','));} 
-					        			});
-					        	
-					        	var data_obj = { questions_json:v, answers_json:answersAsJson };
-					        	
-					        	makeAJAXCall_andWaitForTheResults('/ajax/exam-grade.jsp', data_obj, function(data, status) {
-					        		
-									var index = data.indexOf("<!DOCTYPE");
-									var jsonExport = data;
-									
-									if (index != -1) {
-										jsonExport = data.substring(0, index);
-									}
-									
-									var parsedJSONObject = jQuery.parseJSON(jsonExport);
-					        		
-					        		window.location.href = '/examReportCard.jsp';					        		
-					        	});
-					        } 
-					      }]
-				});
-				
-				dlg.dialog('open');
-			}
+			nextBtnClicked();
 		},
 		render:function () {
 			var _hidden = ExamEngine.getAllQuestionsHaveBeenAnswered() ? "" : "hidden";

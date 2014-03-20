@@ -11,16 +11,25 @@
 
 		<title>Admin Profile - Quizki</title>
 
-		<link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/displayExam.css" rel="stylesheet" type="text/css" />
-		<link rel="shortcut icon" href="../images/favicon.ico" />
+		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
+		
+		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+		
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet"/>
 
+		<link href="../css/quizki-sitewide.css" rel="stylesheet" />
+		
+		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-checkbox-radio-btn.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-select-dropdowns.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-tables.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
+		
+		<link href="../css/profile.css" rel="stylesheet" type="text/css" />
+		
+		<link href="../images/favicon.ico" rel="shortcut icon"  />
 
-		<jsp:text>
-			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[<script type="text/javascript">]]>
 			<c:choose>
@@ -36,65 +45,65 @@
 			</c:choose>
 			<![CDATA[</script>]]>
 
+		<jsp:text>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery-1.8.3.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.ui.touch-punch.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap.min.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap-select.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/bootstrap-switch.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/flatui-checkbox.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/flatui-radio.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.tagsinput.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.placeholder.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/jquery.stacktable.js"></script> ]]>
+			<![CDATA[ <script type="text/javascript" src="../pkgs/Flat-UI-master/js/quizki_custom_application.js"></script> ]]>
+			
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+			
+		</jsp:text>
+
 			<![CDATA[
 			<script type="text/javascript">
-			
-					$(function() {
-						$( "#tabs" ).tabs();
-					   
-						if (tabIndex !== undefined)
-					   		$( "#tabs" ).tabs("option","active", tabIndex);
-					});			
-			
-					//$(function() {
-					//   $( document ).tooltip();
-					// });
-					 
-				    $( "#open-event" ).tooltip({
-				      show: null,
-				      position: {
-				        my: "left top",
-				        at: "left bottom"
-				      },
-				      open: function( event, ui ) {
-				        ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "slow" );
-				      }
-				    });
-				
-					function setDisplayDimensionsAccordingToCurrentWindowHeight() {
-						// set the height of the content area according to the browser height
-						var bottomBufferHeight = 90;
-						var questionsBufferHeight = 97;
-						var windowHeight = $(window).height();
-						
-						$('#tabs').height(windowHeight - bottomBufferHeight);
-						$('#questions').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-						$('#exams').height(windowHeight - bottomBufferHeight - questionsBufferHeight);
-					}
-
-					$(document).ready(function(){
-				 		setDisplayDimensionsAccordingToCurrentWindowHeight();
-					});
-				 
-					$(document).ready(function(){
-					     $(window).resize(function() {
-					 		setDisplayDimensionsAccordingToCurrentWindowHeight();
-						});
-					});
 
 					function getDeleteConfirmationDialogOptions(profileFormName) {
 						var options = { 
 								autoOpen: false, resizable: false, modal: true,
-							      buttons: {
-							        "Delete this item": function() {
-							          document.getElementById(profileFormName).submit();
-							        },
-							        Cancel: function() {
-							          $( this ).dialog( "close" );
-							        }
-							      }
+							      buttons: [{
+							        text : "Delete this item", 
+							        click : function() {
+										var prefix = getPrefix();
+										var url = $("#"+prefix+"-delete-entity-url").attr("value");
+										
+										window[prefix+"_setDeleteEntityDataObjectDefinition"]();
+										
+										var data_obj = getDataObjectForAJAX(prefix + "-delete-entity-dataObjectDefinition");
+										
+										makeAJAXCall_andWaitForTheResults(url, data_obj, function (data,status) {
+											window[prefix+"_postDeleteEntityMethod"]();
+											
+											// get from data the text of the question 
+											var text = data;
+											
+											// display it in alert div
+											var str = 'Your question has been deleted! ( "' + text + '" )';
+											var obj = { arr : [str] };
+											populateAlertDiv(obj.arr, 'alert-info');
+										});
+										
+										
+										
+										$( this ).dialog( "close" );
+							        } },
+							        {
+							        text : "Cancel",
+							        click : function() {
+							        	$( this ).dialog( "close" );
+							        } 
+							      }]
 						};
-						
+
 						return options;
 					}
 
@@ -107,84 +116,19 @@
 						var buttonValue = obj.attr("value");
 						$('#' + fieldId).attr("value", buttonValue);
 					}
-
-					$(document).ready(function() { 
-						var num = 1;
-	
-			            $('.questionButtonDiv').each(function() {
-	
-			              		$('#delete_button_' + num).click(function() {
-									var dlg = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("adminProfileQuestionForm"));
-
-									setLastPressedButtonName($(this), "nameOfLastPressedButton");
-									setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-		
-			              			dlg.dialog("open");
-			              			return false;
-			              		});
-			              		
-								$('#edit_button_' + num).click(function() { 
-									setLastPressedButtonName($(this), "nameOfLastPressedButton");
-									setLastPressedButtonValue($(this), "valueOfLastPressedButton");
-									
-									document.getElementById("adminProfileQuestionForm").submit();
-								});				    
-			              		
-			              		num = num + 1;
-			              });
-	
-						num = 1;
-			              
-			          	$('.examButtonDiv').each(function() {
-			              		$('#exam_delete_button_' + num).click(function() {
-									var dlg2 = $('#dialogText').dialog(getDeleteConfirmationDialogOptions("adminProfileExamForm"));
-
-									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-	
-			              			dlg2.dialog("open");
-			              			return false;
-			              		});
-			              		
-								$('#exam_edit_button_' + num).click(function() { 
-									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-									
-									document.getElementById("adminProfileExamForm").submit();
-								});
-								
-								$('#exam_take_button_' + num).click(function () {
-									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-									
-									document.getElementById("adminProfileExamForm").submit();
-								});
-			              		
-								$('#exam_detail_button_' + num).click(function () {
-									setLastPressedButtonName($(this), "exam_nameOfLastPressedButton");
-									setLastPressedButtonValue($(this), "exam_valueOfLastPressedButton");
-									
-									document.getElementById("adminProfileExamForm").submit();
-								});
-			              		
-			              		num = num + 1;
-			          	});
-		              });
-
+					
 		     </script>
 				]]>			
 
-		</jsp:text>
-				
 	</head>
 <body>
 
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 		<div class="content">
-
-
-	<br/>
+		<div id="belowTheBarPageHeader" class="fillBackgroundColor">
+			<br/>
+			<div id="idAlertDiv" class="alert hidden">.</div>
 
       <c:choose>
       <c:when test="${empty sessionScope.currentUserEntity || !qfn:isAdministrator(sessionScope.currentUserEntity)}">
@@ -193,91 +137,115 @@
       </c:when>
       <c:otherwise>
 
-	<div id="tabs">
-	  <ul>
-	    <li><a href="#tabs-1">Summary</a></li>
-	    <li><a href="#tabs-2">Questions</a></li>
-	    <li><a href="#tabs-3">Exams</a></li>
-	    <li><a href="#tabs-4">Account Status</a></li>
-	  </ul>
-	  <div id="tabs-1">
-	    <jsp:include page="admin-profile-summary.jsp"></jsp:include>
-	  </div>
-	  <div id="tabs-2">
-	    	<div id="questions" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="admin-profile-questions.jsp"></jsp:include></div>
-	    	<br/>
-		<form id="adminProfileQuestionNavigationForm" action="/secured/AdminProfileQuestionsServlet">
-		<div id="paginationDiv" class="center">
-			<c:choose>
-			<c:when test="${sessionScope.questionPaginationData.totalItemCount > 0}">
-			Showing questions ${sessionScope.questionPaginationData.beginIndex} - ${sessionScope.questionPaginationData.endIndex} of ${sessionScope.questionPaginationData.totalItemCount}
-			</c:when>
-			<c:otherwise>
-			No questions to show!
-			</c:otherwise>
-			</c:choose> 
-			<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-			<input type="submit" value="&lt; PREV" name="button"/>
-			<input type="submit" value="NEXT &gt;" name="button"/>
-			<input type="submit" value="LAST &gt;&gt;" name="button"/>
-			- Max. List Size 
-			<select name="quantity">
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-			<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-			</select>
-			<input type="submit" value="REFRESH" name="button"/>
-		</div>
-		</form>
-	
-	  </div>
-	  <div id="tabs-3">
-	    	<div id="exams" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="admin-profile-exams.jsp"></jsp:include></div>
-	    	<br/>
-			<form id="adminProfileExamNavigationForm" action="/secured/AdminProfileExamsServlet">
-			<div id="paginationDiv" class="center">
-				<c:choose>
-				<c:when test="${sessionScope.examPaginationData.totalItemCount > 0}">
-				Showing exams ${sessionScope.examPaginationData.beginIndex} - ${sessionScope.examPaginationData.endIndex} of ${sessionScope.examPaginationData.totalItemCount}
-				</c:when>
-				<c:otherwise>
-				No exams to show!
-				</c:otherwise>
-				</c:choose> 
-				<input type="submit" value="&lt;&lt; FIRST" name="button"/>
-				<input type="submit" value="&lt; PREV" name="button"/>
-				<input type="submit" value="NEXT &gt;" name="button"/>
-				<input type="submit" value="LAST &gt;&gt;" name="button"/>
-				- Max. List Size 
-				<select name="quantity">
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 10}"><option value="quantity_10" selected="selected">10</option></c:when><c:otherwise><option value="quantity_10" >10</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 25}"><option value="quantity_25" selected="selected">25</option></c:when><c:otherwise><option value="quantity_25" >25</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 50}"><option value="quantity_50" selected="selected">50</option></c:when><c:otherwise><option value="quantity_50" >50</option></c:otherwise></c:choose>
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 75}"><option value="quantity_75" selected="selected">75</option></c:when><c:otherwise><option value="quantity_75" >75</option></c:otherwise></c:choose>					
-				<c:choose><c:when test="${mruFilterPaginationQuantity == 100}"><option value="quantity_100" selected="selected">100</option></c:when><c:otherwise><option value="quantity_100" >100</option></c:otherwise></c:choose>
-				</select>
-				<input type="submit" value="REFRESH" name="button"/>
+			<div id="tabbableDiv" class="tabbable">
+			  <ul class="nav nav-tabs" id="tabsUl">
+			    <li class="active"><a href="#tabs-1" data-toggle="tab">Summary</a></li>
+			    <li><a href="#tabs-2" data-toggle="tab">Questions</a></li>
+			    <li><a href="#tabs-3" data-toggle="tab">Exams</a></li>
+			    <li><a href="#tabs-4" data-toggle="tab">Account Status</a></li>
+			  </ul>
+			  <div class="tab-content">
+				  <div class="tab-pane active" id="tabs-1">
+				    <jsp:include page="admin-profile-summary.jsp"></jsp:include>
+				  </div>
+				  <div class="tab-pane" id="tabs-2">
+		    		<jsp:include page="admin-profile-questions.jsp"></jsp:include>
+				  </div>
+				  <div class="tab-pane" id="tabs-3">
+				    <jsp:include page="admin-profile-exams.jsp"></jsp:include>
+				  </div>
+				  <div class="tab-pane" id	="tabs-4">
+				    	<div id="account" class="listOfQuestions" style="overflow:auto;"><jsp:include page="admin-profile-account.jsp"></jsp:include></div>
+				  </div>
+			  </div>
 			</div>
-			</form>
 	
-	  </div>
-	  <div id="tabs-4">
-	    	<div id="account" class="listOfQuestions" style="overflow:auto; height:95%; width:98%"><jsp:include page="admin-profile-account.jsp"></jsp:include></div>
-	  </div>
-	</div>
-	
-	</c:otherwise>
+		</c:otherwise>
 	</c:choose>
 	
 	<br/>
 	
 	<div style="display:none;" id="dialogText">Are you SURE you want to delete?</div>  
 
+	<input style="display:none;" id="field_0" type="text" name="field_0" value="0"/>
+	
+	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
+	
+	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Questions-delete-entity-url" type="text" name="question-delete-entity-url" value="/ajax/profile-deleteQuestion.jsp"/>
+	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
+	<input style="display:none;" id="Questions-header-div-prefix" type="text" name="Questions-header-div-prefix" value="#belowTheBarPageHeader"/>
+	<input style="display:none;" id="Questions-offset" type="text" name="question-offset"/>
+	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getExams.jsp"/>
+	<input style="display:none;" id="Exams-delete-entity-url" type="text" name="exam-delete-entity-url" value="/ajax/profile-deleteExam.jsp"/>
+	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
+	<input style="display:none;" id="Exams-header-div-prefix" type="text" name="Exams-header-div-prefix" value="#belowTheBarPageHeader"/>
+	<input style="display:none;" id="Exams-offset" type="text" name="exam-offset"/>
+	<!-- input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value=""/  -->
+	
+	
+	<input style="display:none;" id="Exams-NoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
+	<input style="display:none;" id="Questions-NoMoreItemsToDisplayFlag" type="text" name="noMoreItemsToDisplayFlag"/>
+	
+	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
+	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
+	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
+</div>
 </div>
 </div>
 
+			<![CDATA[
+			<script type="text/javascript">
+			
+					function getOrigHeaderId() {
+						return "#belowTheBarPageHeader";
+					}
+					
+					function getClonedHeaderId() {
+						return "div#header-fixed"
+					}
+					
+					function getHeaderOffset() {
+						return $("#tabbableDiv").offset().top + $("#tabsUl").height() + $("#questionEntityTable > thead").height();
+					}
+					
+					function onScroll_beforeClonedHeaderShows($obj) {
+						// temp code used to set the background of the cloned header to aid in figuring out why
+						//  the header appears in the items table when scrolling up in profile-questions..
+						
+						//$obj.removeClass("fillBackgroundColor");
+						//$obj.removeClass("table");
+						//$obj.addClass("table2");
+					}
+
+					function disableHeaderFilterFields() {
+						
+					}
+					
+					function setDataObjectDefinitions() {
+						// define a JSON string which has the name of the attribute to be sent to the server, along with the ID of the field from which the value sent to the server
+						//   should be pulled from. Later we iterate over each element and build the data object sent to the server when getExams() or getQuestions() or whatever
+						//   is called.
+					
+						var str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#containsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#topicContainsFilter\"},{\"name\":\"questionTypeFilter\",\"id\":\"#questionTypeFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#difficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_0\"},{\"name\":\"offsetFilter\",\"id\":\"#Questions-offset\"}]}";
+						$('#Questions-data-object-definition').attr("value",str);
+
+						str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#examContainsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#examTopicContainsFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#examDifficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_0\"},{\"name\":\"offsetFilter\",\"id\":\"#Exams-offset\"}]}";
+						$('#Exams-data-object-definition').attr("value",str);						
+					}
+					
+					function oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(obj) {
+						// called from smooth-scrolling.js::displayMoreRows()
+						// do nothing
+					}					
+					
+			</script>
+			]]>
+			
+
+			<![CDATA[ <script src="../js/smooth-scrolling.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/profile-exams.js" type="text/javascript"></script> ]]>			
 </body>
 </html>
 </jsp:root>

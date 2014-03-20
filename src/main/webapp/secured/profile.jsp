@@ -11,9 +11,6 @@
 
 		<title>Profile - Quizki</title>
 
-		<!--  link href="../pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" /  -->
-		<!--  link href="../css/quizki.css" rel="stylesheet" /  -->
-
 		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet" />
 		

@@ -49,7 +49,7 @@
 							<option value="0">All</option>
 							<option value="1">Junior</option>
 							<option value="2">Intermediate</option>
-							<option value="3">Expert</option>
+							<option value="3">Senior</option>
 							<option value="4">Guru</option>
 						</select>
 					</div>

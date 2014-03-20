@@ -45,7 +45,7 @@
 						<select name="difficultyFilter" title="Do not include any questions more difficult than.." style="width:100%;">
 							<c:choose><c:when test="${mruFilterDifficulty == 1}"><option value="junior" selected="selected">Junior</option></c:when><c:otherwise><option value="junior" >Junior</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterDifficulty == 2}"><option value="intermediate" selected="selected">Intermediate</option></c:when><c:otherwise><option value="intermediate" >Intermediate</option></c:otherwise></c:choose>
-							<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="expert" selected="selected">Expert</option></c:when><c:otherwise><option value="expert" >Expert</option></c:otherwise></c:choose>
+							<c:choose><c:when test="${mruFilterDifficulty == 3}"><option value="senior" selected="selected">Senior</option></c:when><c:otherwise><option value="senior" >Senior</option></c:otherwise></c:choose>
 							<c:choose><c:when test="${mruFilterDifficulty == 4}"><option value="guru" selected="selected">Guru</option></c:when><c:otherwise><option value="guru">Guru</option></c:otherwise></c:choose>
 						</select>
 					</td>

@@ -47,7 +47,7 @@
 								<option value="0">All</option>
 								<option value="1">Single</option>
 								<option value="2">Multiple</option>
-								<option value="3">String</option>
+								<option value="3">Phrase</option>
 								<option value="4">Sequence</option>
 							</select>
 						</div>

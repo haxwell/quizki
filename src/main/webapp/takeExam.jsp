@@ -23,6 +23,7 @@
 		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-dialogs.css" rel="stylesheet" type="text/css"/>
 		
 		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
 		<!-- link href="../css/takeExam.css" rel="stylesheet" type="text/css"/  -->
@@ -75,10 +76,11 @@
 					if (answers.length > 0) {
 						var dlg2 = $('#examAlreadyCompletedDialogText').dialog({
 							autoOpen: false, resizable: false, modal: true,
+							dialogClass:'dialog_stylee', width:500,
 						      buttons: [{
 							        text : "< Go HOME", 
 							        click : function() {
-							        	window.href.url = "/index.jsp";
+							        	window.location.href = "/index.jsp";
 						        }},
 						        {
 							        text : "Exam Report Card >",

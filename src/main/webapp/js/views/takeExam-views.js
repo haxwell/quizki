@@ -288,7 +288,8 @@
 				//  the user they are at the end.
 				var dlg = $('#dialogText').dialog({ 
 						autoOpen: false, resizable: false, modal: true,
-					      buttons: [{
+					    dialogClass:'dialog_stylee', width:500,  
+						buttons: [{
 					        text : "< Wait!! Let me review!", 
 					        click : function() {
 					        	event_intermediary.throwEvent('nowInExamReviewMode');

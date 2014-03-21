@@ -3,6 +3,10 @@
   font-size: 15px;
 }
 
+.tooSmallForScrollbars {
+	overflow:hidden;
+}
+
 .fixedTable {
 	width: 940px; /* == .span12 */
 	margin-left: 0px;

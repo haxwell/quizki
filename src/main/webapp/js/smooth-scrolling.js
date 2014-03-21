@@ -249,6 +249,7 @@
 							}
 							
 							appendTableStatusRow(msg, entityTableId, prefix);
+							unhideTableScrollbars(entityTableId);
 						}
 						else {
 							clearTableStatusRow();
@@ -264,6 +265,8 @@
 							}
 							
 							appendTableStatusRow(msg, entityTableId, prefix);
+							hideTableScrollbars(entityTableId);
+							
 							setNoMoreItemsToDisplayFlag();
 						}
 					}
@@ -327,6 +330,14 @@
 						$(entityTableId + " > tbody:last").append(html);
 					}
 					
+					function hideTableScrollbars(entityTableId) {
+						$(entityTableId).addClass("tooSmallForScrollbars");
+					}
+					
+					function unhideTableScrollbars(entityTableId) {
+						$(entityTableId).removeClass("tooSmallForScrollbars");
+					}
+
 					function clearTableStatusRow() {
 						var prefix = getPrefix();
 						var entityTableId = $("#"+prefix+"-entity-table-id").attr("value");

@@ -79,7 +79,8 @@
 					model_constructor_factory.put("matchingExamsMustContainAllTopics", function() { return { val:false }; });
 					model_constructor_factory.put("numberOfQuestions", function() { return { val:5 }; });
 					model_constructor_factory.put("difficultyObj", function() { return new Difficulty().initialize(); });
-					
+					model_constructor_factory.put("userObj", function() { return { isLoggedIn:${not empty sessionScope.currentUserEntity} }; });					
+
 					FilteredTopicListGetter.get(false, '', model_factory.get("currentListOfTopics"));
 					
 					MatchingExamsListGetter.listenFor(
@@ -91,6 +92,8 @@
 					);
 					
 					var bv_headerTextForGenerateExam = new Quizki.HeaderTextForGenerateExam({ el: $("#divHeaderText") });
+					
+					var bv_optionsView = new Quizki.GenerateExamOptions({ el: $("#divOptionsView") });
 					
 					var bv_allTopicsListView = new Quizki.AllTopicsListView({ el: $("#divAllTopicsListView") });
 					var bv_allTopicsListFilterView = new Quizki.AllTopicsListFilterView({ el: $("#divAllTopicsListFilterView") });
@@ -118,41 +121,12 @@
 			
 				<div id="divHeaderText">..</div>
 				<br/>
-				<table>
-					<tr>
-						<td>
-						</td>
-						<td>
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							All Topics / Search Topics
-						</td>
-						<td>
-							Max. Question Difficulty
-						</td>
-						<td>
-							Max. Number of Questions
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<div id="divAllTopicsListFilterView">..</div>
-						</td>
-						<td>
-							<div id="difficultyChooserElement" style="margin-bottom:6px;">..</div>
-						</td>
-						<td>
-							<div id="divMaxQuestionsView">..</div>
-						</td>
-					</tr>
-				</table>
 				
 				<table>
 					<tr>
+					<td>
+						<div id="divOptionsView">..</div>
+					</td>
 					<td style="vertical-align:top;">
 						<div id="divAllTopicsListView">..</div>
 					</td>

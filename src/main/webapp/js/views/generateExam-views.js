@@ -86,6 +86,49 @@
 		}
 	});
 	
+	Quizki.GenerateExamOptions = Backbone.View.extend({
+		initialize:function() {
+			this.render();
+		},
+		render: function() {
+			var _disabled = (model_factory.get('userObj').isLoggedIn ? '' : 'disabled');
+
+			this.$el.html(view_utility.executeTemplate('/templates/GenerateExamOptionsDiv.html', { disabled : _disabled }));
+
+			return this;
+		},
+		events : {
+			"change #rangeOfTopicsSelectBox" : "setRangeOfTopicsFilter",
+			"change #maxQuestionDifficultySelectBox" : "setMaxQuestionDifficultyFilter",
+			"change #spinner" : "setMaxNumberOfQuestions",
+			"keypress #topicContainsFilter" : "filterTopics"
+		},
+		setRangeOfTopicsFilter : function (event) {
+			var text = $('#topicContainsFilter').val();
+			var eventVal = $('#rangeOfTopicsSelectBox').val();
+			
+			var MINE = '1';
+			
+			FilteredTopicListGetter.get(eventVal == MINE, text, model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
+		},
+		filterTopics : function (event) {
+			if (event.keyCode != 13) return;
+			var eventVal = $('#rangeOfTopicsSelectBox').val();
+			
+			var MINE = '1';
+			FilteredTopicListGetter.get(eventVal == MINE, $('#topicContainsFilter').val(), model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
+		},
+		setMaxQuestionDifficultyFilter : function() {
+			var v = $('#maxQuestionDifficultySelectBox').val();
+			
+			model_factory.get("difficultyObj").setDifficultyId(v);
+		},
+		setMaxNumberOfQuestions : function () {
+			model_factory.get("numberOfQuestions").val = $('#spinner').val();
+		}
+	});
+	
+	// TODO: Delete
 	Quizki.AllTopicsListFilterView = Backbone.View.extend({
 		initialize:function() {
 			this.render();
@@ -291,16 +334,7 @@
 		}
 	});
 	
-	Quizki.OptionsForGenerateExamView = Backbone.View.extend({
-		initialize:function() {
-			this.model = arguments[0].attributes;
-		},
-		render: function(model) {
-			this.$el.html(view_utility.executeTemplate('/templates/optionsForGenerateExamView.html', { }));
-			return this;
-		}
-	});
-	
+	// TODO: Delete
 	Quizki.MaxQuestionsView = Backbone.View.extend({
 		initialize:function() {
 			this.showEditBtn = arguments[0].showEditBtn;

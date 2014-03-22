@@ -27,6 +27,9 @@ User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTIT
 String filterByUserId = request.getParameter("filterByUserId");
 String containsFilter = request.getParameter("containsFilter");
 
+log.log(Level.SEVERE, filterByUserId + "\n\n");
+log.log(Level.SEVERE, containsFilter + "\n\n");
+
 String rtn = "";
 
 if (filterByUserId.equals("true")) {

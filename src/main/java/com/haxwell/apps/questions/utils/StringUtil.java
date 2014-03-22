@@ -121,6 +121,26 @@ public class StringUtil {
 		return s.equals("{}");
 	}
 	
+	public static String toJSON(String key, List<String> values) {
+
+		// "errors":[{"val":"fdafdsafdsa,fdsafdsafdsa,3v3v"}]
+		
+		String rtn = " \"" + key + "\":[";
+
+		String csv = getCSVString(values);
+		String str = "";
+		
+		str = "{";
+		
+		str += "\"val\":";
+		str += "\"" + csv + "\"";
+		str += "}]";
+
+		rtn += str;
+		
+		return rtn;
+	}
+	
 	public static String toJSON(Map<String, List<String>> map) {
 		Set<String> set = map.keySet();
 		
@@ -132,20 +152,7 @@ public class StringUtil {
 		while (keyIterator.hasNext()) {
 			String key = keyIterator.next();
 			
-			List<String> list = map.get(key);
-			
-			rtn += " \"" + key + "\":[";
-
-			String csv = getCSVString(list);
-			String str = "";
-			
-			str = "{";
-			
-			str += "\"val\":";
-			str += "\"" + csv + "\"";
-			str += "}]";
-	
-			rtn += str;
+			rtn += toJSON(key, map.get(key));
 			
 			if (keyIterator.hasNext())
 				rtn += ",";

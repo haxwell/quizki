@@ -66,6 +66,64 @@
 			<![CDATA[
 			<script type="text/javascript">
 
+				function hideAlertDiv() {
+					var $alertDiv = $("#idAlertDiv"); 
+						
+					$alertDiv.html('');
+					$alertDiv.addClass('hidden');
+				}	
+
+				function changePasswordBtnClick() {
+					var data_url = "/ajax/user-changePassword.jsp"; 
+					var data_obj = getDataObjectForAJAX("User-changePassword-dataObjectDefinition");
+
+					makeAJAXCall_andWaitForTheResults(data_url, data_obj, function (data,status) {
+						
+						// see question-views line 77
+						var index = data.indexOf("<!DOCTYPE");
+						var jsonExport = data;
+						
+						if (index != -1) {
+							jsonExport = data.substring(0, index);
+						}
+						
+						var parsedJSONObject = jQuery.parseJSON(jsonExport);
+						var arr = undefined;
+						var alertClass = undefined;
+						
+						if (parsedJSONObject.errors != undefined) {
+							arr = parsedJSONObject.errors[0].val.split(',');
+							alertClass = 'alert-error';
+						} else {
+							arr = parsedJSONObject.successes[0].val.split(',');
+							alertClass = 'alert-success';
+							
+							//model_factory.get('currentQuestion').resetQuestion();
+						}
+						
+						var msgs = "";
+						
+						for (var i=0; i<arr.length; i++) {
+							msgs += arr[i] + '<br/>';
+						}
+		
+						var $alertDiv = $("#idAlertDiv"); 
+						
+						$alertDiv.html('');
+						$alertDiv.html(msgs);
+						$alertDiv.removeClass('alert-success');
+						$alertDiv.removeClass('alert-error');
+						$alertDiv.addClass(alertClass);
+						$alertDiv.removeClass('hidden');
+					});
+				}
+
+		     </script>
+			]]>			
+
+			<![CDATA[
+			<script type="text/javascript">
+
 					function getDeleteConfirmationDialogOptions(profileFormName) {
 						var options = { 
 								autoOpen: false, resizable: false, modal: true,
@@ -190,6 +248,7 @@
 	
 	<input style="display:none;" id="Questions-data-object-definition" type="text" name="Questions-data-object-definition" value=""/>
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
+	<input style="display:none;" id="User-changePassword-dataObjectDefinition" type="text" name="User-changePassword-dataObjectDefinition" value=""/>
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
 </div>
 </div>
@@ -197,7 +256,18 @@
 
 			<![CDATA[
 			<script type="text/javascript">
-			
+
+					$('a[data-toggle="tab"]').on('shown', function(e) {
+						hideAlertDiv();
+
+						var prefix = $("#prefix-to-current-view-hidden-fields").attr("value");
+						prefix = prefix.replace(' ', '_');
+						
+						var func = window[prefix+"_onTabShown"];
+						
+						if (func != undefined) func(); 
+					});
+
 					function getOrigHeaderId() {
 						return "#belowTheBarPageHeader";
 					}
@@ -232,7 +302,10 @@
 						$('#Questions-data-object-definition').attr("value",str);
 
 						str = "{\"fields\": [{\"name\":\"containsFilter\",\"id\":\"#examContainsFilter\"},{\"name\":\"topicContainsFilter\",\"id\":\"#examTopicContainsFilter\"},{\"name\":\"difficultyFilter\",\"id\":\"#examDifficultyFilter\"},{\"name\":\"maxEntityCountFilter\",\"id\":\"#maxEntityCountFilter\"},{\"name\":\"rangeOfEntitiesFilter\",\"id\":\"#field_1\"},{\"name\":\"offsetFilter\",\"id\":\"#Exams-offset\"}]}";
-						$('#Exams-data-object-definition').attr("value",str);						
+						$('#Exams-data-object-definition').attr("value",str);
+						
+						str = "{\"fields\": [{\"name\":\"newPassword\",\"id\":\"#idNewPassword\"},{\"name\":\"confirmPassword\",\"id\":\"#idConfirmPassword\"}]}";
+						$('#User-changePassword-dataObjectDefinition').attr("value",str);
 					}
 					
 					function oneTimeSetupForMethodsCalledByTheFunctionCalledForEachRow(obj) {
@@ -246,7 +319,8 @@
 
 			<![CDATA[ <script src="../js/smooth-scrolling.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/profile-questions.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/profile-exams.js" type="text/javascript"></script> ]]>			
+			<![CDATA[ <script src="../js/profile-exams.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/profile-account_status.js" type="text/javascript"></script> ]]>						
 </body>
 </html>
 </jsp:root>

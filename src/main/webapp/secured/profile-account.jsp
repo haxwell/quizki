@@ -17,14 +17,13 @@
       	<br/>      	
       </c:if>
 
-	<form  action="/secured/ProfileAccountServlet" method="post">
-		New Password: <input type="password" name="newPassword"/>
+		New Password: <input id="idNewPassword" type="password" name="newPassword"/>
 		<br/><br/>
-		Confirm Password: <input type="password" name="confirmPassword"/>
+		Confirm Password: <input id="idConfirmPassword" type="password" name="confirmPassword"/>
 		<br/><br/>
 		
-		<input type="submit" value="Change Password" name="button" />
-	</form>
+		<input type="submit" value="Change Password" name="button" onclick="changePasswordBtnClick()"/>
+
 	<br/><br/>
 
 </div>

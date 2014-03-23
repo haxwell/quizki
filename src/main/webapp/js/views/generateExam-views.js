@@ -91,9 +91,9 @@
 			this.render();
 		},
 		render: function() {
-			var _disabled = (model_factory.get('userObj').isLoggedIn ? '' : 'disabled');
+			var _hideRangeOfTopicsSelectBox = (model_factory.get('userObj').isLoggedIn ? '' : 'hidden');
 
-			this.$el.html(view_utility.executeTemplate('/templates/GenerateExamOptionsDiv.html', { disabled : _disabled }));
+			this.$el.html(view_utility.executeTemplate('/templates/GenerateExamOptionsDiv.html', { hideRangeOfTopicsSelectBox : _hideRangeOfTopicsSelectBox }));
 
 			return this;
 		},

@@ -1,12 +1,20 @@
-			<div class="span3">
-				Range of Topics<br/>
-				<select name="type" id="rangeOfTopicsSelectBox" <%- disabled %> >
-					<option value="0">All</option>
-					<option value="1">Mine</option>
-				</select>
-				<br/>
+			<div class="span3" style="margin-right:20px;">
+				<div class="<%- hideRangeOfTopicsSelectBox %>">
+					Range of Topics<br/>
+					<select name="type" id="rangeOfTopicsSelectBox" >
+						<option value="0">All</option>
+						<option value="1">Mine</option>
+					</select>
+					<br/>
+				</div>
 				Search Topics<br/>
-				<input class="span3" type="text" id="topicContainsFilter" placeholder="Search Topic List..." style="margin-top:5px; margin-left:5px; margin-right:5px;"/>
+				<div class="span3">
+					<input class="span2" type="text" id="topicContainsFilter" placeholder="Search Topic List..."/>
+					<div class="span1">
+						<button type="submit" class="btn" id="idApplyFilterButton" name="applyFilterButton" title="Apply the filter." value="Apply Filter Button"><i class="icon-magic"></i></button>
+						<button type="submit" class="btn" id="idClearFilterButton" name="clearFilterButton" title="Reset the filter." value="Clear Filter Button"><i class="icon-remove"></i></button>
+					</div>
+				</div>
 				<br/>
 				Max. Question Difficulty<br/>
 				<select name="type" id="maxQuestionDifficultySelectBox">

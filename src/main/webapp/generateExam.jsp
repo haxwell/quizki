@@ -19,11 +19,9 @@
 		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
 		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-switch.css" rel="stylesheet" type="text/css"/>		
-		<link href="../css/quizki-text-input-fields.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki-text-input-fields-question.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-header-elements.css" rel="stylesheet" type="text/css"/>
-		<link href="../css/quizki-attribute-wells.css" rel="stylesheet" type="text/css"/>
 		<link href="../css/quizki-select-multiselect-generateExam.css" rel="stylesheet" type="text/css"/>
+		<link href="../css/quizki-text-input-fields-generateExam.css" rel="stylesheet" type="text/css"/>
 		
 		<link href="../css/Question.css" rel="stylesheet" type="text/css"/>
 
@@ -124,7 +122,7 @@
 				
 				<table>
 					<tr>
-					<td>
+					<td style="vertical-align:top;">
 						<div id="divOptionsView">..</div>
 					</td>
 					<td style="vertical-align:top;">

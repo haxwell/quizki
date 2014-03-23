@@ -246,7 +246,9 @@
 				
 				var entryText = $(event.target).html();
 				
-				this.backboneModel.reject(function(item) { entryText === item.get('text'); });
+				var newColl = _.reject(this.backboneModel.models, function(item) { return entryText === item.get('text'); });
+				this.backboneModel.reset(newColl);
+				model_factory.put(viewKey + "AttrWellBackboneCollection", this.backboneModel);
 				
 				this.render();
 			}

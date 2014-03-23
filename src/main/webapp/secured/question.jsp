@@ -47,10 +47,10 @@
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
-
+			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/reference.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[
 			
@@ -61,14 +61,9 @@
 				};
 				
 			    $(document).ready(function() {
-			    	model_constructor_factory.put("questionChoiceCollection", function() { return new Quizki.Collection(); });
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    		
-			    	var questionChoiceCollection = model_factory.get("questionChoiceCollection" );
 			    	var currentQuestion = model_factory.get("currentQuestion");
-			    	
-		    		questionChoiceCollection.addArray(currentQuestion.getChoices());
-			    	
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
 			    	
 			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView") });
@@ -77,24 +72,44 @@
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId(), getModelNameKey:"currentQuestion" });
 					
-					var bv_topicsWell = new Quizki.QuestionAttributeWellView({el:$("#topicsWell"), viewKey:'topics', modelToListenTo:'currentQuestion', modelEventToListenFor:'resetQuestion' });
-					var bv_referencesWell = new Quizki.QuestionAttributeWellView({el:$("#referencesWell"), viewKey:'references', modelToListenTo:'currentQuestion', modelEventToListenFor:'resetQuestion' });
+					var bv_topicsWell = new Quizki.QuestionAttributeWellView(
+						{
+							el:$("#topicsWell"), 
+							viewKey:'topics', 
+							modelToListenTo:'currentQuestion', 
+							modelEventToListenFor:'resetQuestion', 
+							backboneFunc:function() { return model_factory.get('currentQuestion').getTopics(); }, 
+							modelConstructorFunc:function() { return new Topic(); }, 
+							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setTopics(coll); }
+						});
+						
+					var bv_referencesWell = new Quizki.QuestionAttributeWellView(
+						{
+							el:$("#referencesWell"), 
+							viewKey:'references', 
+							modelToListenTo:'currentQuestion', 
+							modelEventToListenFor:'resetQuestion', 
+							backboneFunc:function() { return model_factory.get('currentQuestion').getReferences(); },
+							modelConstructorFunc:function() { return new Reference(); }, 
+							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setReferences(coll); }
+						});
+
 					
-					addCSVItemsToWell(bv_topicsWell, currentQuestion.getTopics());
-					addCSVItemsToWell(bv_referencesWell, currentQuestion.getReferences());
-					
+					bv_topicsWell.render();
+					bv_referencesWell.render();
+
 			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });					
 			    });
 			    
 				// this same code is in displayQuestion.jsp.. extract it somewhere
-			    function addCSVItemsToWell(view, jsonListOfItems) {
+			    function addCSVItemsToWell(view, backboneListOfItems) {
 					var items = '';
 					var arr = new Array();
 				    var collection = model_factory.get(view.getModelKey());
 				    						
-					if (jsonListOfItems.length > 0) {
-						items = _.pluck(jQuery.parseJSON(jsonListOfItems), 'text');
-			    
+					if (backboneListOfItems.length > 0) {
+						items = backboneListOfItems.pluck('text');
+
 						for (var i=0; i<items.length; i++) {
 							arr.push(items[i]);
 						}

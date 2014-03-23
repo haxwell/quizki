@@ -2,18 +2,18 @@ var TakeExamChoiceItemFactory = (function() {
 	var my = {};
 	
 	function getArrayOfRandomNumbers(maxIndex) {
-		var indexesFoundArr = new Array();
+		var indexesArr = new Array();
 		var rtn = new Array();
 		var y = maxIndex;
 		
 		for (var i=0; i < maxIndex; i++)
-			indexesFoundArr[i] = i;
+			indexesArr[i] = i;
 		
 		for (var x=0; x < y; ) {
-			var v = Math.floor((Math.random()*indexesFoundArr.length)+1) - 1;
+			var v = Math.floor((Math.random()*indexesArr.length)+1) - 1;
 			
-			rtn[x++] = indexesFoundArr[v];
-			indexesFoundArr.splice(v, 1);
+			rtn[x++] = indexesArr[v];
+			indexesArr.splice(v, 1);
 		}
 		
 		return rtn;
@@ -33,7 +33,7 @@ var TakeExamChoiceItemFactory = (function() {
 	// there are views for each type of choice that could be displayed with a question.
 	// this returns a Collection of views appropriate for the currentQuestion
 	my.getViewsForCurrentQuestion = function() {
-		var rtn = new Quizki.Collection();
+		var rtn = new Array();
 		var currentQuestion = model_factory.get("currentQuestion");
 		var type = currentQuestion.getTypeId();
 		var choices = currentQuestion.getChoices(); // Backbone.Collection of choices
@@ -54,20 +54,20 @@ var TakeExamChoiceItemFactory = (function() {
 		
 		if (type == 1) {
 			for (var x=0; x < ordering.length; x++) {
-				rtn.put( new Quizki.ExamSingleQuestionChoiceItemView(choices.at(ordering[x])));
+				rtn.push( new Quizki.ExamSingleQuestionChoiceItemView(choices.at(ordering[x])));
 			}
 		}
 		else if (type == 2) {
 			for (var x=0; x < ordering.length; x++) {
-				rtn.put( new Quizki.ExamMultipleQuestionChoiceItemView(choices.at(ordering[x])));
+				rtn.push( new Quizki.ExamMultipleQuestionChoiceItemView(choices.at(ordering[x])));
 			}
 		}
 		else if (type == 3) {
-			rtn.put( new Quizki.ExamPhraseQuestionChoiceItemView( choices.at(0) )); 
+			rtn.push( new Quizki.ExamPhraseQuestionChoiceItemView( choices.at(0) )); 
 		}
 		else if (type == 4) {
 			for (var x=0; x < ordering.length; x++) {
-				rtn.put( new Quizki.ExamSequenceQuestionChoiceItemView(choices.at(ordering[x])));
+				rtn.push( new Quizki.ExamSequenceQuestionChoiceItemView(choices.at(ordering[x])));
 			}
 		}
 		

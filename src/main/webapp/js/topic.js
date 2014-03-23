@@ -1,5 +1,6 @@
 
 var Topic = Backbone.Model.extend({
+	idAttribute:"text",
 	defaults: { 
 		id:'-1',
 		text:''

@@ -65,8 +65,8 @@ var Question = (function() {
 	var text = "";
 	var description = "";
 	var type_id = 1;
-	var topics = "";
-	var references = "";
+	var topics = undefined; /* will be a Backbone.Collection */
+	var references = undefined; /* will be a Backbone.Collection */
 	var choices = undefined; /* will be a Backbone.Collection */
 	
 	var difficulty = undefined; /* will be a Difficulty object */
@@ -75,7 +75,9 @@ var Question = (function() {
 	function initializeFields() {
 		id = -1; user_id = -1; user_name = '';
 		text = ''; description = ''; type_id = 1; difficulty = new Difficulty().initialize();
-		topics = ''; references = ''; choices = new Backbone.Collection([], {model : Choice});
+		topics = new Backbone.Collection([], {model: Topic}); 
+		references = new Backbone.Collection([], {model: Reference}); 
+		choices = new Backbone.Collection([], {model : Choice});
 	};
 	
 	my.initialize = function() {
@@ -91,14 +93,8 @@ var Question = (function() {
 		
 		difficulty.setDifficultyId(source.difficulty_id);
 		
-		topics = JSON.stringify(source.topics);
-		references = JSON.stringify(source.references);
-		
-		if (topics == '[]')
-			topics = '';
-		
-		if (references == '[]')
-			references = '';
+		topics.add(source.topics);
+		references.add(source.references);
 		
 		choices = new Backbone.Collection([], {model:Choice});
 		choices.add(source.choices);
@@ -118,14 +114,6 @@ var Question = (function() {
 		this.trigger('resetQuestion');
 	};
 	
-	my.setQuizkiCollection = function (key, quizkiCollection) {
-		if (key == "topics")
-			topics = method_utility.getCSVFromCollection(quizkiCollection, "text");
-		
-		if (key == "references")
-			references = method_utility.getCSVFromCollection(quizkiCollection, "text");
-	};
-	
 	my.toJSON = function() {
 		var rtn = '';
 
@@ -138,9 +126,9 @@ var Question = (function() {
 		rtn += JSONUtility.getJSON('difficulty_id', difficulty.getDifficultyId()+'');
 		rtn += JSONUtility.getJSON('user_id', user_id+'');
 		rtn += JSONUtility.getJSON('user_name', user_name);
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', topics);
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', references);
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', this.getChoicesAsJSONString(), false);
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', JSON.stringify(topics.toJSON()));
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', JSON.stringify(references.toJSON()));
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(choices.toJSON()), false);
 		
 		rtn = JSONUtility.endJSONString(rtn);
 		
@@ -155,9 +143,9 @@ var Question = (function() {
 				type_id:type_id,
 				difficulty_id:difficulty.getDifficultyId(),
 				user_id:user_id,
-				topics:topics, 
-				references:references,
-				choices:this.getChoicesAsJSONString()
+				topics:JSON.stringify(topics.toJSON()), 
+				references:JSON.stringify(references.toJSON()),
+				choices:JSON.stringify(choices.toJSON())
 		};
 	};
 	
@@ -235,13 +223,19 @@ var Question = (function() {
 	};
 	
 	my.setTopics = function(val, throwEvent) {
-		var _from = topics;
-		var _to = val;
+		var arr = val.split(',');
 		
-		topics = val;
+		for (str in arr) {
+			if (topics.findWhere({text:str}) == undefined) {
+				var topic = new Topic();
+				topic.set('id', '-1');
+				topic.set('text', str);
+				topics.add(topic);
+			}
+		}
 		
 		if (throwEvent !== false)
-			this.trigger('topicsChanged', {topics:{from:_from,to:_to}});			
+			this.trigger('topicsChanged', { });			
 	};
 	
 	my.getReferences = function() {
@@ -249,13 +243,17 @@ var Question = (function() {
 	};
 		
 	my.setReferences = function(val, throwEvent) {
-		var _from = references;
-		var _to = val;
+		var arr = val.split(',');
 		
-		references = val;
+		for (str in arr) {
+			var reference = new Reference();
+			reference.set('id', '-1');
+			reference.set('text', str);
+			references.add(reference);
+		}
 		
 		if (throwEvent !== false)
-			this.trigger('referencesChanged', {references:{from:_from,to:_to}});			
+			this.trigger('referencesChanged', { });			
 	};
 		
 	my.getChoices = function() {
@@ -311,10 +309,6 @@ var Question = (function() {
 		return rtn;
 	};
 		
-	my.getChoicesAsJSONString = function() {
-		return JSON.stringify(choices.toJSON());
-	};
-	
 	return my;
 });
 

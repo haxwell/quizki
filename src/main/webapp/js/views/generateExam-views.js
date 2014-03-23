@@ -101,7 +101,9 @@
 			"change #rangeOfTopicsSelectBox" : "setRangeOfTopicsFilter",
 			"change #maxQuestionDifficultySelectBox" : "setMaxQuestionDifficultyFilter",
 			"change #spinner" : "setMaxNumberOfQuestions",
-			"keypress #topicContainsFilter" : "filterTopics"
+			"keypress #topicContainsFilter" : "topicContainsFilterKeypress",
+			"click #idApplyFilterButton" : "filterTopics",
+			"click #idClearFilterButton" : "clearTopicContainsFilter"
 		},
 		setRangeOfTopicsFilter : function (event) {
 			var text = $('#topicContainsFilter').val();
@@ -111,12 +113,18 @@
 			
 			FilteredTopicListGetter.get(eventVal == MINE, text, model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
 		},
+		topicContainsFilterKeypress: function(event) {
+			if (event.keyCode == 13) this.filterTopics(event);
+		},
 		filterTopics : function (event) {
-			if (event.keyCode != 13) return;
-			var eventVal = $('#rangeOfTopicsSelectBox').val();
+			var rangeOfTopics = $('#rangeOfTopicsSelectBox').val();
 			
 			var MINE = '1';
-			FilteredTopicListGetter.get(eventVal == MINE, $('#topicContainsFilter').val(), model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
+			FilteredTopicListGetter.get(rangeOfTopics == MINE, $('#topicContainsFilter').val(), model_factory.get("currentListOfTopics"), model_factory.get("selectedListOfTopics"));
+		},
+		clearTopicContainsFilter : function(event) {
+			$('#topicContainsFilter').val('');
+			this.filterTopics();
 		},
 		setMaxQuestionDifficultyFilter : function() {
 			var v = $('#maxQuestionDifficultySelectBox').val();

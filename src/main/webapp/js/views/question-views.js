@@ -166,13 +166,11 @@
 			this.id = Math.floor(Math.random() * 9999) + 1;
 			var viewKey = arguments[0].viewKey;
 			
-			// TODO: remove on destroy
-			model_constructor_factory.put(viewKey + "AttrWellCollection", function() { return new Quizki.Collection({modelKeyFunction:function() {return "text"; }}); });
-			model_constructor_factory.put(this.id + "ViewKey",function() {return ("" + viewKey); }); 
+			model_constructor_factory.put(this.id + "ViewKey",function() {return ("" + viewKey); });
+			model_constructor_factory.put(viewKey + "AttrWellBackboneCollection", arguments[0].backboneFunc);
 			
-			this.model = model_factory.get(	viewKey + "AttrWellCollection");
-			
-			this.listenTo(this.model, 'somethingChanged', this.render);
+			this.backboneModel = model_factory.get( viewKey + "AttrWellBackboneCollection");
+			this.modelConstructorFunc = arguments[0].modelConstructorFunc;
 			
 			this.modelToListenTo = arguments[0].modelToListenTo;
 			this.modelEventToListenFor = arguments[0].modelEventToListenFor;
@@ -180,8 +178,7 @@
 			if (this.modelToListenTo != undefined) {
 				var modelToListenTo = model_factory.get(this.modelToListenTo);
 				this.listenTo(modelToListenTo, this.modelEventToListenFor, function() { 
-					var model = model_factory.get( this.getModelKey());
-					model.reset();
+					model_factory.get( this.getBackboneModelKey() ).reset();
 				});
 			}
 			
@@ -193,10 +190,10 @@
 			"keypress .edit.well":"pressEnterToSaveNewEntries",
 			"dblclick span.label":"removeEntry",				
 		},
-		getModelKey: function() {
+		getBackboneModelKey: function() {
 			var viewKey = model_factory.get( this.id + "ViewKey" );
 			
-			return (viewKey + "AttrWellCollection");
+			return (viewKey + "AttrWellBackboneCollection");
 		},
 		toggleNewEntryField:function(event){
 			var $elements = $('#textFieldDiv'+this.id+' > .entryField'); 
@@ -228,39 +225,37 @@
 			$elements.removeClass('editing');
 			
 			var viewKey = model_factory.get( this.id + "ViewKey" );
-			
-			this.model = model_factory.get(	viewKey + "AttrWellCollection");
-			
+
 			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
-			arr = method_utility.giveAttributeNamesToElementsOfAnArray("text",arr);
+
+			this.backboneModel = model_factory.get( viewKey + "AttrWellBackboneCollection");
+			for (var x=0; x < arr.length; x++) {
+				var mdl = this.modelConstructorFunc();
+				mdl.set('text', arr[x]);
+				
+				this.backboneModel.add(mdl);
+			}
 			
-			this.model.addArray(arr, true);
-			
-			var modelToListenTo = model_factory.get(this.modelToListenTo);
-			modelToListenTo.setQuizkiCollection(model_factory.get( this.id + "ViewKey" ), this.model);
+			this.render();
 		},
 		removeEntry:function(event) {
 			if (this.readOnly == undefined) {
 				var viewKey = model_factory.get( this.id + "ViewKey" );
 				
-				this.model = model_factory.get(	viewKey + "AttrWellCollection");
+				this.backboneModel = model_factory.get( viewKey + "AttrWellBackboneCollection" );
 				
 				var entryText = $(event.target).html();
 				
-				this.model.models = _.reject(this.model.models, function(item) { 
-					return item.attributes.val !== undefined 
-							&& item.attributes.val.text 
-							&& entryText === item.attributes.val.text; 
-					});
+				this.backboneModel.reject(function(item) { entryText === item.get('text'); });
 				
 				this.render();
 			}
 		},
 		renderElement:function(model) {
-			if (model.attributes.val != undefined) {
+			if (model.get('text') != undefined) {
 				var ul = this.$el.find("#wellItemList"+this.id);
 				
-				ul.append( view_utility.executeTemplate('/templates/QuestionAttributeWellItemView.html', {text:model.attributes.val.text}));
+				ul.append( view_utility.executeTemplate('/templates/QuestionAttributeWellItemView.html', { text:model.get('text') }) );
 			}
 		},
 		render:function() {
@@ -269,10 +264,10 @@
 			
 			this.$el.html(view_utility.executeTemplate('/templates/QuestionAttributeWellView.html', {id:_id, readOnly:readOnlyAttr}));
 			
-			this.viewKey = model_factory.get(_id + "ViewKey");
-			this.model = model_factory.get(	this.viewKey + "AttrWellCollection");
+			var viewKey = model_factory.get(_id + "ViewKey");
+			this.backboneModel = model_factory.get( viewKey + "AttrWellBackboneCollection" );
 			
-			_.each(this.model.models, function(model) { this.renderElement(model); }, this);
+			_.each(this.backboneModel.models, function(model) { this.renderElement(model); }, this);
 			
 			var currHtml = this.$el.html();
 			currHtml += view_utility.executeTemplate('/templates/AttributeWellViewInputField.html',{id:_id});

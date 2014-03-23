@@ -49,6 +49,8 @@
 
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/reference.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/takeExam.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>

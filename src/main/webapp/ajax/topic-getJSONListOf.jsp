@@ -22,8 +22,6 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-
 String filterByUserId = request.getParameter("filterByUserId");
 String containsFilter = request.getParameter("containsFilter");
 
@@ -33,6 +31,7 @@ log.log(Level.SEVERE, containsFilter + "\n\n");
 String rtn = "";
 
 if (filterByUserId.equals("true")) {
+	User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 	rtn = TopicUtil.getJSONOfAllTopicsForQuestionsCreatedByAGivenUserThatContain(user.getId(), containsFilter); 
 }
 else {

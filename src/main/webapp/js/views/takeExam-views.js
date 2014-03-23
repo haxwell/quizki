@@ -215,14 +215,14 @@
 				nextBtnClicked();
 			};
 
-			ul.append( childChoiceView.val.render().$el.html() );
+			ul.append( childChoiceView.render().$el.html() );
 			
-			childChoiceView.val.setEventHandler("iscorrectchanged", isCorrectChangedCallbackFunc);
-			childChoiceView.val.setEventHandler("onsequencetextfieldblur", onSequenceTextFieldBlurFunc);
-			childChoiceView.val.setEventHandler("onphrasetextfieldblur", onPhraseTextFieldBlurFunc);
-			childChoiceView.val.setEventHandler("onphrasetextfieldkeypress", onPhraseTextFieldKeypressFunc);
+			childChoiceView.setEventHandler("iscorrectchanged", isCorrectChangedCallbackFunc);
+			childChoiceView.setEventHandler("onsequencetextfieldblur", onSequenceTextFieldBlurFunc);
+			childChoiceView.setEventHandler("onphrasetextfieldblur", onPhraseTextFieldBlurFunc);
+			childChoiceView.setEventHandler("onphrasetextfieldkeypress", onPhraseTextFieldKeypressFunc);
 			
-			var obj = {millisecondId:childChoiceView.val.millisecondId, view:childChoiceView.val};
+			var obj = {millisecondId:childChoiceView.millisecondId, view:childChoiceView};
 			
 			this.ChoiceItemViewCollection.push(obj);
 		},
@@ -234,7 +234,7 @@
 			
 			var views = TakeExamChoiceItemFactory.getViewsForCurrentQuestion();
 			
-			_.each(views.models, function(view) { this.renderElement(view.attributes); }, this);
+			_.each(views, function(view) { this.renderElement(view); }, this);
 			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');

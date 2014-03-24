@@ -67,7 +67,7 @@
 		<br/><br/>
 		
 		<jsp:scriptlet>
-			ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LdhFt0SAAAAAL2P83cVVXFInUNdpRbJobjstezT", "6LdhFt0SAAAAAHYNTH8dOf7Yb3edDb7K51y5yQ9T", false);
+			ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LcZhfASAAAAAO91hVTAX_p8PhGwealGfmmKHma8", "6LcZhfASAAAAAC5oKnOSx7dxaQhDIS_Nz5vxuwFg", false);
 			out.print(c.createRecaptchaHtml(null, null));
 		</jsp:scriptlet>
         <br/>

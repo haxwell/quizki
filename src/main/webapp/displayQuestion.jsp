@@ -98,53 +98,6 @@
 
 			<![CDATA[
 				<script type="text/javascript">
-			]]>
-
-			// depending on how this page was called, these variables may or may not be present.. so rather than get 
-			//  exceptions reporting their absence or malformedness, they are defined as undefined if not present.
-			
-			<c:choose><c:when test="${not empty sessionScope.userSuppliedAnswerToStringQuestion}">
-				<![CDATA[ var userSuppliedAnswerWhenQuestionIsOfTypeString = ${userSuppliedAnswerToStringQuestion}; ]]>
-			</c:when>
-			<c:otherwise>
-				<![CDATA[ var userSuppliedAnswerWhenQuestionIsOfTypeString = undefined; ]]>
-			</c:otherwise>
-			</c:choose>
-			<c:choose><c:when test="${not empty sessionScope.listOfSequenceNumbersTheUserChose}">
-				<![CDATA[ var sequenceNumbersTheUserChose = ${listOfSequenceNumbersTheUserChose}; ]]>
-			</c:when>
-			<c:otherwise>
-				<![CDATA[ var sequenceNumbersTheUserChose = undefined; ]]>
-			</c:otherwise>
-			</c:choose>
-			<c:choose><c:when test="${not empty sessionScope.listOfSequenceNumbersForChoices}">
-				<![CDATA[ var fieldSequenceNumbers = ${listOfSequenceNumbersForChoices}; ]]>
-			</c:when>
-			<c:otherwise>
-				<![CDATA[ var fieldSequenceNumbers = undefined; ]]>
-			</c:otherwise>
-			</c:choose>
-			<c:choose><c:when test="${not empty sessionScope.listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion}">
-				<![CDATA[ var selected = ${listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion}; ]]>
-			</c:when>
-			<c:otherwise>
-				<![CDATA[ var selected = undefined; ]]>
-			</c:otherwise>
-			</c:choose>
-			<c:choose><c:when test="${not empty sessionScope.listOfIndexesToChoiceListBySequenceNumber}">
-				<![CDATA[ var indexesBySequenceNumber = ${listOfIndexesToChoiceListBySequenceNumber}; ]]>
-			</c:when>
-			<c:otherwise>
-				<![CDATA[ var indexesBySequenceNumber = undefined; ]]>
-			</c:otherwise>
-			</c:choose>
-
-			<![CDATA[
-				</script>
-			]]>
-			
-			<![CDATA[
-				<script type="text/javascript">
 
 			    $(document).ready(function() {
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
@@ -250,9 +203,9 @@
 			    	collection.addArray(arr);
 			    }
 			    
-			    function getEntityId() {
-			    	return $("#idEntityIdField").val();
-			    }
+			    //function getEntityId() {
+			    //	return $("#idEntityIdField").val();
+			    //}
 			    
 				function populateAlertDiv(msgsArr, alertClassName) {
 					var msgs = "";

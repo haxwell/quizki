@@ -238,17 +238,6 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
-    <filter-name>PopulateFieldNamesForChoicesFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.PopulateFieldNamesForChoicesFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>PopulateFieldNamesForChoicesFilter</filter-name>
-    <url-pattern>/takeExam.jsp</url-pattern>
-    <url-pattern>/displayQuestion.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
   <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.AddRandomIndexToChoiceArrayFilter</filter-class>
   </filter>

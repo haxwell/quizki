@@ -32,53 +32,6 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 public class QuestionUtil {
 
 	/**
-	 * @deprecated
-	 * @param q
-	 * @param c
-	 * @return
-	 */
-	public static String getFieldnameForChoice(Question q, Choice c)
-	{
-		return "field_" + "question" + q.getId() + "choice" + c.getId();
-	}
-	
-	/**
-	 * @deprecated
-	 * @param q
-	 * @return
-	 */
-	public static List<String> getFieldnamesForChoices(Question q)
-	{
-		List<Choice> choices = getChoiceList(q);
-		
-		LinkedList<String> list = new LinkedList<String>();
-		
-		for (Choice c: choices)	{
-			list.add(getFieldnameForChoice(q, c));
-		}
-		
-		return list;
-	}
-	
-	/**
-	 * @deprecated
-	 * @param q
-	 * @return
-	 */
-	public static Collection<String> getFieldnamesForCorrectChoices(Question q) {
-		List<Choice> choices = getChoiceList(q);
-		
-		LinkedList<String> list = new LinkedList<String>();
-		
-		for (Choice c: choices)	{
-			if (c.getIsCorrect() > 0)
-				list.add(getFieldnameForChoice(q, c));
-		}
-		
-		return list;
-	}
-	
-	/**
 	 * Lists of choices are always ordered by ID. A question could have 20 choices, and
 	 * in any list of items related to those 20 choices, the first item in the list relates
 	 * to the choice with the highest ID. The second item, the second highest ID, etc.
@@ -183,80 +136,11 @@ public class QuestionUtil {
 		question.setDescription((String)request.getParameter("description"));
 		question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
 		question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
-		question.setChoices(QuestionUtil.getSetFromAjaxDefinition(request.getParameter("choices"), nextSequenceNumber));
-
-		// Topics are being sent from the client as JSON.. For some reason, though I fixed this in 825, I reverted that fix in 837.
-		// adding this as a sanity check.. if by May 1, 2014 all seems to be well, this can be deleted.
-		//		question.setTopics(TopicUtil.getSetFromCSV((String)request.getParameter("topics")));
-		//		question.setReferences(ReferenceUtil.getSetFromCSV((String)request.getParameter("references")));
-
+		question.setChoices(QuestionUtil.getSetFromJsonString(request.getParameter("choices"), nextSequenceNumber));
 		question.setTopics(TopicUtil.getSetFromJsonString((String)request.getParameter("topics")));
 		question.setReferences(ReferenceUtil.getSetFromJsonString((String)request.getParameter("references")));
 		
 		return question;
-	}
-	
-	/**
-	 * Returns a map of the fieldnames to the values chosen for each.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static Map<String, String> getChosenAnswers(HttpServletRequest request)
-	{
-		Logger log = Logger.getLogger(QuestionUtil.class.getName());
-		ExamHistory eh = (ExamHistory)request.getSession().getAttribute(Constants.CURRENT_EXAM_HISTORY);
-		AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(eh.getMostRecentlyUsedQuestion());
-		
-		// take the list of field names from this question, check for that parameter in the request,
-		List<String> fieldNames = checker.getKeysToPossibleUserSelectedAttributesInTheRequest(); 
-		
-		Map<String, String> map = new HashMap<String, String>(); // map fieldnames to the values chosen for them
-		
-		// now that we have the list of potentially chosen names, which are in the request? which were actually chosen?
-		for (String fieldName: fieldNames)
-		{
-			String str = request.getParameter(fieldName);
-			
-			//  add the value of this chosen Choice to the list..
-			if (str != null)
-				map.put(fieldName, str);
-		}
-		
-		log.log(Level.FINER, "Chosen answers: " + StringUtil.getToStringOfEach(map.values()));
-
-		return map;
-	}
-	
-	/**
-	 * Given a collection of fieldnames, and a question, returns an array of equal size to the number of choices on the question.
-	 * For each element in the resulting array, the word 'true' appears if the corresponding element in the question's list of choices 
-	 * appears in the list of fieldnames.
-	 * 
-	 * @param fieldnamesChosenAsAnswersToGivenQuestion
-	 * @param fieldnamesForChoices
-	 * @return
-	 */
-	public static List<String> getUIArray_FieldWasSelected(
-			Collection<String> fieldnamesChosenAsAnswersToGivenQuestion,
-			Question question) {
-		
-		if (question == null || fieldnamesChosenAsAnswersToGivenQuestion == null) 
-			return new ArrayList<String>();
-		
-		List<String> rtn = QuestionUtil.getFieldnamesForChoices(question);
-		
-		for (int i = 0; i < rtn.size(); i++)
-		{
-				String str = rtn.get(i);
-				
-				if (fieldnamesChosenAsAnswersToGivenQuestion.contains(str))
-					rtn.set(i, "'true'");
-				else
-					rtn.set(i, "");
-		}
-
-		return rtn;
 	}
 	
 	public static String getDisplayString(Question q) {
@@ -280,8 +164,7 @@ public class QuestionUtil {
 		return str.substring(0, maxLength);
 	}
 	
-	// TODO: rename this to getSetFromJsonString() or something more accurate
-	public static Set<Choice> getSetFromAjaxDefinition(String str, long newChoiceIndexBegin) {
+	public static Set<Choice> getSetFromJsonString(String str, long newChoiceIndexBegin) {
 		Set<Choice> rtn = new HashSet<Choice>();
 		
 		JSONArray arr = null;
@@ -341,7 +224,7 @@ public class QuestionUtil {
 			q.setDifficulty(DifficultyUtil.getDifficulty(o.get("difficulty_id").toString()));
 			q.setQuestionType(TypeUtil.getObjectFromStringTypeId(o.get("type_id").toString()));
 			
-			q.setChoices(getSetFromAjaxDefinition(o.get("choices").toString(), -1));
+			q.setChoices(getSetFromJsonString(o.get("choices").toString(), -1));
 			q.setTopics(TopicUtil.getSetFromJsonString(o.get("topics").toString()));
 			q.setReferences(ReferenceUtil.getSetFromJsonString(o.get("references").toString()));
 			
@@ -376,17 +259,5 @@ public class QuestionUtil {
 		}
 		
 		return rtn;
-	}
-	
-	public static List<Choice> getCorrectChoices(Question q) {
-		Set<Choice> choices = q.getChoices();
-		List<Choice> list = new ArrayList<Choice>(); 
-		
-		for (Choice choice : choices) {
-			if (choice.getIscorrect() > 0)
-				list.add(choice);
-		}
-		
-		return list;
 	}
 }

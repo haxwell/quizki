@@ -123,12 +123,6 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
-	<bean id="ResetUserSuppliedAnswerToStringQuestionOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="userSuppliedAnswerToStringQuestion"/>
-		<property name="event" value="indexPage"/>
-		<property name="handler" ref="setSessionAttributeToNullHandler"/>
-	</bean>
-	
 	<bean id="ResetShouldQuestionsBeDisplayedOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
 		<property name="attr" value="shouldQuestionsBeDisplayed"/>
 		<property name="event" value="indexPage"/>
@@ -260,12 +254,6 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
-	<bean id="ResetListOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestionOnQuestionWasPersisted" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion"/>
-		<property name="event" value="questionWasPersisted"/>
-		<property name="handler" ref="setSessionAttributeToNullHandler"/>
-	</bean>
-	
 
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: examWasPersisted -->
@@ -379,7 +367,6 @@
 				<ref bean="ResetListOfExamsToBeDisplayedOnIndexPageDisplay"/>
 				<ref bean="ResetExamGenerationIsInProgressOnIndexPageDisplay"/>
 				<ref bean="ResetExamInProgressOnIndexPageDisplay"/>
-				<ref bean="ResetUserSuppliedAnswerToStringQuestionOnIndexPageDisplay"/>
 				<ref bean="ResetShouldQuestionsBeDisplayedOnIndexPageDisplay"/>
 				<ref bean="ResetShouldAllowQuestionEditingOnIndexPageDisplay"/>
 				<ref bean="ResetAllowGeneratedExamToBeTakenOnIndexPageDisplay"/>
@@ -401,7 +388,6 @@
 				<ref bean="ResetCurrentExamHistoryOnQuestionWasPersisted"/>
 				<ref bean="ResetCurrentQuestionNumberOnQuestionWasPersisted"/>
 				<ref bean="ResetTotalPotentialQuestionsOnQuestionWasPersisted"/>
-				<ref bean="ResetListOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestionOnQuestionWasPersisted"/>		
 		
 				<ref bean="ResetInEditingModeOnExamWasPersisted"/>
 				<ref bean="ResetExamGenerationIsInProgressOnExamWasPersisted"/>

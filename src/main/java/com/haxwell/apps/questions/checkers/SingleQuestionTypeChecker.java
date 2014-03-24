@@ -1,6 +1,5 @@
 package com.haxwell.apps.questions.checkers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,15 +13,6 @@ public class SingleQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		this.question = q;
 	}
 	
-	@Override
-	public List<String> getKeysToPossibleUserSelectedAttributesInTheRequest() {
-		ArrayList<String> list = new ArrayList<String>();
-		
-		list.add("group1");
-		
-		return list;
-	}
-
 	/**
 	 * Returns true if the map of field names contains (as a value) the field name of the choice on the given question that has 
 	 * indicated that it is CORRECT.

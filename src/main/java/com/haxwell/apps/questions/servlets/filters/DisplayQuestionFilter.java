@@ -1,8 +1,6 @@
 package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,15 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
-import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.QuestionManager;
-import com.haxwell.apps.questions.utils.ExamHistory;
-import com.haxwell.apps.questions.utils.ExamHistory.AnsweredQuestion;
-import com.haxwell.apps.questions.utils.QuestionUtil;
-import com.haxwell.apps.questions.utils.StringUtil;
 
 /**
  * Puts the things that DisplayQuestions.jsp needs in the session
@@ -49,57 +41,12 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			HttpServletRequest req = ((HttpServletRequest)request);
 			Question question = QuestionManager.getQuestionById(req.getParameter("questionId"));
 			
-			setCurrentQuestion(req, Constants.DISPLAY_QUESTION, question);
+//			setCurrentQuestion(req, Constants.DISPLAY_QUESTION, question);
 			
 			req.getSession().setAttribute(FilterConstants.ENTITY_ID_FILTER, question.getId());
 			
 			User u = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-			
 			req.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, QuestionManager.userCanEditThisQuestion(question, u));
-			
-			ExamHistory examHistory = (ExamHistory)req.getSession().getAttribute(Constants.CURRENT_EXAM_HISTORY);
-			
-			List<String> list = new ArrayList<String>();
-			req.getSession().setAttribute("booleanExamHistoryIsPresent", examHistory != null);
-
-			List<Choice> questionChoiceList = QuestionUtil.getChoiceList(question);			
-			
-			if (examHistory == null)
-			{
-				list = getListOfFieldnamesThatAreCorrectForCurrentQuestion(question);
-				req.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
-			}
-			else { // examHistory != null
-				list = getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(examHistory, question);
-				req.getSession().setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);				
-				
-				long qtID = question.getQuestionType().getId();
-				AnsweredQuestion aq = examHistory.getUserSuppliedAnswers(question);
-				
-				// Special handling for String questions
-				if (qtID == TypeConstants.PHRASE) {
-					String userSuppliedAnswer = aq.answers.values().iterator().next();
-					req.getSession().setAttribute("userSuppliedAnswerToStringQuestion", "\"" + userSuppliedAnswer + "\"");					
-				}
-				
-				if (qtID == TypeConstants.SEQUENCE) {
-					StringBuffer chosenSequenceNumbers = new StringBuffer(StringUtil.startJavascriptArray());
-					
-					for (Choice c : questionChoiceList)
-					{
-						String fieldname = QuestionUtil.getFieldnameForChoice(question, c);
-						String chosenSeqNumForChoice = aq.answers.get(fieldname);
-						
-						StringUtil.addToJavascriptArray(chosenSequenceNumbers, chosenSeqNumForChoice);
-					}
-
-					StringUtil.closeJavascriptArray(chosenSequenceNumbers);
-					
-					req.getSession().setAttribute(Constants.LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE, chosenSequenceNumbers.toString());
-				}
-			}
-
-			handleSequenceTypeQuestions(req, questionChoiceList, question);
 		}
 
 		// pass the request along the filter chain
@@ -107,36 +54,4 @@ public class DisplayQuestionFilter extends AbstractFilter {
 		
 		log.log(Level.FINE, "Leaving DisplayQuestionFilter");
 	}
-
-	private void handleSequenceTypeQuestions(HttpServletRequest req, List<Choice> questionChoiceList, Question question)
-	{
-		if (question != null && question.getQuestionType().getId() == TypeConstants.SEQUENCE) {
-			
-			////////////////////
-			StringBuffer sb = new StringBuffer(StringUtil.startJavascriptArray());
-			List<Choice> listBySequenceNumber = QuestionUtil.getChoiceListBySequenceNumber(question);
-			
-			for (Choice c: listBySequenceNumber)
-			{
-				int index = questionChoiceList.indexOf(c);
-				
-				StringUtil.addToJavascriptArray(sb, index+"");
-			}
-			
-			StringUtil.closeJavascriptArray(sb);
-			
-			req.getSession().setAttribute(Constants.LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER, sb.toString());
-		}
-	}
-	
-	private List<String> getlistOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion(ExamHistory eh, Question q)
-	{
-		return QuestionUtil.getUIArray_FieldWasSelected(eh.getFieldnamesSelectedAsAnswersForQuestion(q), q);
-	}
-	
-	private List<String> getListOfFieldnamesThatAreCorrectForCurrentQuestion(Question q)
-	{
-		return QuestionUtil.getUIArray_FieldWasSelected(QuestionUtil.getFieldnamesForCorrectChoices(q), q);
-	}
-
 }

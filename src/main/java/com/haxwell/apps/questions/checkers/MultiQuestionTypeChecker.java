@@ -13,11 +13,6 @@ public class MultiQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		this.question = q;
 	}
 	
-	@Override
-	public List<String> getKeysToPossibleUserSelectedAttributesInTheRequest() {
-		return QuestionUtil.getFieldnamesForChoices(question);
-	}
-
 	/**
 	 * Returns true if the list of selected field names matches the choices on the given question that have 
 	 * indicated they are CORRECT.

@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
@@ -29,7 +28,6 @@ import com.haxwell.apps.questions.filters.DifficultyFilter;
 import com.haxwell.apps.questions.filters.ExamFilter;
 import com.haxwell.apps.questions.filters.ExamTopicFilter;
 import com.haxwell.apps.questions.utils.CollectionUtil;
-import com.haxwell.apps.questions.utils.ExamHistory;
 import com.haxwell.apps.questions.utils.ExamUtil;
 import com.haxwell.apps.questions.utils.FilterCollection;
 import com.haxwell.apps.questions.utils.ListFilterer;
@@ -263,33 +261,6 @@ public class ExamManager extends Manager {
 		
 		return set.iterator().next();
 	}
-	
-//	public static ExamHistory initializeExamHistory(Exam e)
-//	{
-//		return new ExamHistory(e);
-//	}
-	
-	public static int getNumberOfQuestionsAnsweredCorrectly(ExamHistory eh)
-	{
-		Iterator iterator = eh.iterator();
-		int rtn = 0;
-		
-		int counter = 0;
-		
-		log.log(Level.FINER, "in getNumberOfQuestionsAnsweredCorrectly");
-		
-		while (iterator.hasNext())
-		{
-			ExamHistory.AnsweredQuestion aq = (ExamHistory.AnsweredQuestion)iterator.next();
-			log.log(Level.FINER, counter++ + " aq is " + ((aq == null) ? "NULL" : " NOT NULL"));			
-			
-			if (aq.isCorrect == true)
-				rtn++;
-		}
-		
-		return rtn;
-	}
-
 	
 	// TODO: Create a standard getAll() method for Managers in general
 	public static Collection<Exam> getAllQuestions() {

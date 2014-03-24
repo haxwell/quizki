@@ -9,7 +9,7 @@ public class Constants {
 	public static final String CURRENT_QUESTION_AS_JSON = "currentQuestionAsJson";
 	public static final String CURRENT_QUESTION_KEY = "currentQuestionKey";
 	public static final String DISPLAY_QUESTION = "displayQuestion";
-	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
+//	public static final String CURRENT_EXAM_HISTORY = "currentExamHistory";
 	public static final String CURRENT_EXAM_SELECTED_QUESTION_IDS = "exam_selectedQuestionIds";
 	
 	public static final String IN_EDITING_MODE = "inEditingMode";
@@ -62,7 +62,7 @@ public class Constants {
 	public static final String NEXT_SEQUENCE_NUMBER = "nextSequenceNumber";
 
 	public static final String LIST_OF_SEQUENCE_NUMBERS_FOR_CHOICES = "listOfSequenceNumbersForChoices";
-	public static final String LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE = "listOfSequenceNumbersTheUserChose";
+//	public static final String LIST_OF_SEQUENCE_NUMBERS_THE_USER_CHOSE = "listOfSequenceNumbersTheUserChose";
 	public static final String LIST_OF_PREVIOUSLY_SUPPLIED_ANSWERS = "listOfPreviouslySuppliedAnswers";
 
 	public static final String SHOULD_QUESTIONS_BE_DISPLAYED = "shouldQuestionsBeDisplayed";
@@ -77,7 +77,7 @@ public class Constants {
 	public static final String LIST_OF_RANDOM_CHOICE_INDEXES = "listOfRandomChoiceIndexes";
 	public static final String STRING_QUESTION_TYPE_FIELDNAME = "stringAnswer";
 
-	public static final String LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER = "listOfIndexesToChoiceListBySequenceNumber";
+//	public static final String LIST_OF_INDEXES_TO_CHOICE_LIST_BY_SEQUENCE_NUMBER = "listOfIndexesToChoiceListBySequenceNumber";
 
 	///
 	public static final Integer MY_ITEMS = 1;

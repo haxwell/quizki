@@ -1,38 +1,17 @@
 package com.haxwell.apps.questions.checkers;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionUtil;
-import com.haxwell.apps.questions.utils.StringUtil;
 
+// TODO: Rename to PhraseQuestionTypeChecker
 public class StringQuestionTypeChecker extends AbstractQuestionTypeChecker {
 
 	public StringQuestionTypeChecker(Question q) {
 		this.question = q;
-	}
-	
-	public boolean questionHasBeenAnswered(Map<String, String> mapOfFieldNamesToValues)
-	{
-		boolean rtn = false;
-		Collection<String> coll = mapOfFieldNamesToValues.values();
-		
-		rtn = (!StringUtil.isNullOrEmpty(coll.iterator().next()));
-		
-		return rtn;
-	}
-	
-	@Override
-	public List<String> getKeysToPossibleUserSelectedAttributesInTheRequest() {
-		ArrayList<String> list = new ArrayList<String>();
-		
-		list.add("stringAnswer");
-		
-		return list;
 	}
 	
 	@Override

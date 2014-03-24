@@ -39,6 +39,9 @@ request.getSession().setAttribute("mostRecentExamResults", data);
 // for now thats too much work.. Going to incur some technical debt, and pass in an object similar to
 // what it was getting before the UI redesign.. this is of course a HACK and should be removed as soon
 // as possible.
+//
+// To do it correctly, ExamReportCard.jsp should be using Backbone Views, etc. As it is now, it is just using 
+// JSP HTML.
 
 String ercdJSON = data.getStateAsJSONString();
 JSONObject jObj = (JSONObject)JSONValue.parse(ercdJSON);

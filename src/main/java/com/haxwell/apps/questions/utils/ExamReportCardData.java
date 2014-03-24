@@ -38,17 +38,6 @@ public class ExamReportCardData {
 	}
 	
 	public String getStateAsJSONString() {
-		// WILO: This last little section, needs to be in a new implementation of ExamHistory. We need
-		//  that class now on the server side to take a question and the answers associated with it, 
-		//  one at a time, and keep track of whether it was answered correctly, and the incorrect
-		//  question ids. It should expose an iterator which returns AnsweredQuestion objects like
-		//  examReportCard.jsp would expect (for now). It should return the JSON returned from this method
-		//  as its state.
-		
-		// might want to create this as the class ExamReportCardData, and use it, and remove ExamHistory
-		//  server side as appropriate.
-		
-		// to be decided.. write an object to the session with the number correct, number total, and a collection of the QA pairs
 		JSONObject jObj = new JSONObject();
 		
 		jObj.put("numberCorrect", arr.size() - incorrect.size());

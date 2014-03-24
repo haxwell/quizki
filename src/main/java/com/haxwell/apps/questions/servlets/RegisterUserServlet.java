@@ -49,7 +49,7 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 
         String remoteAddr = request.getRemoteAddr();
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-        reCaptcha.setPrivateKey("6LdhFt0SAAAAAHYNTH8dOf7Yb3edDb7K51y5yQ9T");
+        reCaptcha.setPrivateKey("6LcZhfASAAAAAC5oKnOSx7dxaQhDIS_Nz5vxuwFg");
 
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");

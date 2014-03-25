@@ -53,9 +53,9 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		
 		var currentQuestion = model_factory.get("currentQuestion");
 
-		var questionHasDescription = (currentQuestion.getDescription().length > 0); 
-		var hidden = ((questionHasDescription) ? "" : "hidden");
-		var rows = (questionHasDescription ? "8" : "11");
+		var showDescriptionField = (currentQuestion.getDescription().length > 0) || currentQuestion.getId() == '-1';
+		var hidden = ((showDescriptionField) ? "" : "hidden");
+		var rows = (showDescriptionField ? "8" : "11");
 		
 		var disabledText = this.readOnly == undefined ? "" : "disabled";
 		

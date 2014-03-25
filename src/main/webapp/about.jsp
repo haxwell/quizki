@@ -45,11 +45,9 @@ Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>
 The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of any page. You can cancel anything you are doing in Quizki, by going to the home page.
 <br/><br/>
 
-The home page is centered around three general groups of actions that you can do in Quizki. 
-<br/>
-<ul><li>You can take from Quizki. These actions relate to exams.</li>
-<li>You can give to Quizki. These actions relate to questions.</li>
-<li>You can browse Quizki, looking through the full lists of either the questions or exams stored in Quizki.</li>
+In general, there a two types of actions you can do in Quizki...
+<ul><li>You can take an Exam from Quizki.</li>
+<li>You can add a Question or Exam to Quizki.</li>
 </ul>
 <br/><br/><br/>
 
@@ -72,7 +70,7 @@ Questions are made up of<br/>
 		<ul>			
 			<li><i>Single</i> - Given a list of possible answers, a SINGLE answer is correct.</li>
 			<li><i>Multiple</i> - Given a list of posisble answers, MULTIPLE answers must be selected in order to answer the question correctly.</li>
-			<li><i>String</i> - The question must be answered by typing a short STRING of characters, for instance 'Denver' or 'The War of the Roses'.</li>
+			<li><i>Phrase</i> - The question must be answered by typing a short phrase, for instance 'Denver' or 'The War of the Roses'.</li>
 			<li><i>Sequence</i> - Given a list of possible answers, the user must indicate the correct SEQUENCE they should be in, in order to answer the question correctly.</li>
 		</ul>
 	</li>

@@ -45,7 +45,7 @@ public class MostRecentlyRequestedPageFilter extends AbstractFilter {
 	private boolean thisRequestShouldBeSaved(String url) {
 		String lowercaseurl = url.toLowerCase();
 		
-		return lowercaseurl.endsWith(".jsp") && !lowercaseurl.contains("login") && !lowercaseurl.contains("/ajax/"); 
+		return lowercaseurl.endsWith(".jsp") && !lowercaseurl.contains("login") && !lowercaseurl.contains("register.jsp") && !lowercaseurl.contains("/ajax/"); 
 	}
 
 }

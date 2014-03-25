@@ -295,15 +295,6 @@
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>ProfileAccountServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileAccountServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ProfileAccountServlet</servlet-name>
-  	<url-pattern>/secured/ProfileAccountServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
   	<servlet-name>ProfileSummaryServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.ProfileSummaryServlet</servlet-class>
   </servlet>

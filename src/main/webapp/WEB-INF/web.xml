@@ -295,15 +295,6 @@
   </servlet-mapping>
   
   <servlet>
-  	<servlet-name>ProfileExamsServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.ProfileExamsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>ProfileExamsServlet</servlet-name>
-  	<url-pattern>/secured/ProfileExamsServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
   	<servlet-name>ProfileAccountServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.ProfileAccountServlet</servlet-class>
   </servlet>
@@ -328,15 +319,6 @@
   <servlet-mapping>
   	<servlet-name>AdminProfileQuestionsServlet</servlet-name>
   	<url-pattern>/secured/AdminProfileQuestionsServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-  	<servlet-name>AdminProfileExamsServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileExamsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>AdminProfileExamsServlet</servlet-name>
-  	<url-pattern>/secured/AdminProfileExamsServlet</url-pattern>
   </servlet-mapping>
 
   <servlet>

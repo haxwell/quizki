@@ -313,15 +313,6 @@
   </servlet-mapping>
 
   <servlet>
-  	<servlet-name>AdminProfileQuestionsServlet</servlet-name>
-  	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileQuestionsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>AdminProfileQuestionsServlet</servlet-name>
-  	<url-pattern>/secured/AdminProfileQuestionsServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
   	<servlet-name>AdminProfileAccountServlet</servlet-name>
   	<servlet-class>com.haxwell.apps.questions.servlets.AdminProfileAccountServlet</servlet-class>
   </servlet>

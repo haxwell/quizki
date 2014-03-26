@@ -196,12 +196,6 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
-	<bean id="ResetListOfQuestionsToBeDisplayedHasBeenFilteredOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="listOfQuestionsToBeDisplayedHasBeenFiltered"/>
-		<property name="event" value="indexPage"/>
-		<property name="handler" ref="setSessionAttributeToNullHandler"/>
-	</bean>
-	
 	<bean id="ResetOnlySelectedQuestionsShouldBeShownOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
 		<property name="attr" value="onlySelectedQuestionsShouldBeShown"/>
 		<property name="event" value="indexPage"/>
@@ -378,7 +372,6 @@
 				<ref bean="ResetTabIndexOnIndexPageDisplay"/>
 				<ref bean="ResetInEditingModeOnIndexPageDisplay"/>
 				<ref bean="ResetDoNotInitializeQuestionsToBeDisplayedOnIndexPageDisplay"/>				
-				<ref bean="ResetListOfQuestionsToBeDisplayedHasBeenFilteredOnIndexPageDisplay"/>
 				<ref bean="ResetOnlySelectedQuestionsShouldBeShownOnIndexPageDisplay"/>
 		
 				<ref bean="ResetExamInProgressOnQuestionWasPersisted"/>

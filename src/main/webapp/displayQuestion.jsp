@@ -121,6 +121,7 @@
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView(
 						{
 							el:$("#topicsWell"), 
+							readOnly: true,
 							viewKey:'topics', 
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
@@ -131,7 +132,8 @@
 						
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView(
 						{
-							el:$("#referencesWell"), 
+							el:$("#referencesWell"),
+							readOnly: true,
 							viewKey:'references', 
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 

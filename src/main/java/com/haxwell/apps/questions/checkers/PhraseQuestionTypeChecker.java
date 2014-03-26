@@ -7,10 +7,9 @@ import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionUtil;
 
-// TODO: Rename to PhraseQuestionTypeChecker
-public class StringQuestionTypeChecker extends AbstractQuestionTypeChecker {
+public class PhraseQuestionTypeChecker extends AbstractQuestionTypeChecker {
 
-	public StringQuestionTypeChecker(Question q) {
+	public PhraseQuestionTypeChecker(Question q) {
 		this.question = q;
 	}
 	
@@ -22,7 +21,7 @@ public class StringQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		boolean rtn = false;
 		
 		if (mapOfQAndCIDsToValues.size() > 1)
-			throw new IllegalArgumentException("For Questions of type String, there should only be one answer supplied when taking the exam.");
+			throw new IllegalArgumentException("For Questions of type Phrase, there should only be one answer supplied when taking the exam.");
 
 		String answer = mapOfQAndCIDsToValues.values().iterator().next().toLowerCase();
 		

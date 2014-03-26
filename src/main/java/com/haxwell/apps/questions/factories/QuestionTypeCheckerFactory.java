@@ -4,7 +4,7 @@ import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.MultiQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SequenceQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SingleQuestionTypeChecker;
-import com.haxwell.apps.questions.checkers.StringQuestionTypeChecker;
+import com.haxwell.apps.questions.checkers.PhraseQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.QuestionType;
@@ -22,7 +22,7 @@ public class QuestionTypeCheckerFactory {
 		else if (qtId == TypeConstants.MULTIPLE)
 			return new MultiQuestionTypeChecker(q);
 		else if (qtId == TypeConstants.PHRASE)
-			return new StringQuestionTypeChecker(q);
+			return new PhraseQuestionTypeChecker(q);
 		else if (qtId == TypeConstants.SEQUENCE)
 			return new SequenceQuestionTypeChecker(q);
 		

@@ -228,7 +228,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	
 	@Override
 	public int hashCode() {
-		return this.text.hashCode() + (int)this.id; // TODO: Find a better way
+		return this.text.hashCode() + (int)this.id;
 	}
 	
 	@Override

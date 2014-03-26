@@ -120,22 +120,6 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 	
-	// TODO: Can this method be removed? Can whatever is using it, use Topic objects instead?
-	public static Set<String> getAllQuestionTopicsAsStrings(Exam exam)
-	{
-		Set<String> rtn = new HashSet<String>();
-		
-		for (Question q : exam.getQuestions())
-		{
-			for (Topic t: q.getTopics())
-			{
-				rtn.add(t.getText());
-			}
-		}
-		
-		return rtn;
-	}
-	
 	public static void addQuestion(Exam exam, Question question)
 	{
 		Set<Question> set = exam.getQuestions();

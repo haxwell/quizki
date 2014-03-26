@@ -48,7 +48,7 @@
 		This exam's difficulty is ${sessionScope.currentExam.difficulty.text}. It has questions covering<br/><br/>
 		
 			<c:forEach var="topicText" items="${fa_listofexamtopics}">
-				-- ${topicText}<br/>
+				-- ${topicText.text}<br/>
 			</c:forEach>
 		<br/><br/>
 		There are ${totalNumberOfQuestionsInCurrentExam} questions in this exam!<br/><br/><br/>

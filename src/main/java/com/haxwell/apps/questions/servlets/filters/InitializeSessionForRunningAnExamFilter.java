@@ -121,7 +121,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 					
 					session.setAttribute(Constants.EXAM_IN_PROGRESS, true);
 					
-					session.setAttribute(Constants.QUESTION_TOPICS, ExamManager.getAllQuestionTopicsAsStrings(exam));
+					session.setAttribute(Constants.QUESTION_TOPICS, ExamManager.getAllQuestionTopics(exam));
 					
 					User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 					

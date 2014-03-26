@@ -17,7 +17,7 @@ import com.haxwell.apps.questions.events.utils.ObjectEventHandlerList;
 
 /**
  * HOW EVENTS WORK IN QUIZKI:
- * 	We discover something that needs to be done, when something else happens. So, we define a handler to do that thing.
+ * 	So, something needs to be done when something else happens. We define a handler to do that thing.
  * 	The handler is a type of IEventHandler. Define the handler as a bean in Spring. That handler is associated with an
  * 	actual event in another bean. This bean, is an AttributeEventHandlerBean, and it is also defined in Spring. The 
  * 	something that needs to be done, at press time, is resetting an attribute in the session to null, once an event 
@@ -34,7 +34,7 @@ import com.haxwell.apps.questions.events.utils.ObjectEventHandlerList;
  *   
  *   The AEHL sets the AEHBean in a map with the key as the attribute, and the bean itself as the value. The beans are
  *   only collected here, but if the event were to happen, no handlers would be called. To make the handlers active,
- *   an HttpSessionAttributeListener is used. This listener catches each setting of an attributer on the session. It
+ *   an HttpSessionAttributeListener is used. This listener catches each setting of an attribute on the session. It
  *   notices the Attribute being set, and calls the AEHL to say, activate the events associated with this attribute.
  *   At that point, the AEHL gets the list of handlers associated with attribute, and adds each of those handlers to
  *   a list of handlers associated with the event name.
@@ -52,7 +52,7 @@ public class EventDispatcher {
 
 	Logger log = Logger.getLogger(EventDispatcher.class.getName());
 	
-	protected static EventDispatcher instance; /* TODO: Replace this with the cool enum way of doing Singletons */
+	protected static EventDispatcher instance;
 	
 	protected EventDispatcher() { }
 	

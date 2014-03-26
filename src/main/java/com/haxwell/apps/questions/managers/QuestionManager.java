@@ -713,7 +713,6 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 
-	// TODO: this should probably be in a util somewhere
 	private static List<Question> filterList(FilterCollection fc, List<Question> list) {
 		ArrayList<ShouldRemoveAnObjectCommand> arr = new ArrayList<ShouldRemoveAnObjectCommand>();
 		

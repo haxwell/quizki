@@ -624,7 +624,6 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 	
-	// TODO: this should probably be in a util somewhere
 	private static List filterList(FilterCollection fc, List list) {
 		ArrayList<ShouldRemoveAnObjectCommand> arr = new ArrayList<ShouldRemoveAnObjectCommand>();
 		

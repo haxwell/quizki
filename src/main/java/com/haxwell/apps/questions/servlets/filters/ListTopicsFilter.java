@@ -35,40 +35,22 @@ public class ListTopicsFilter extends AbstractFilter {
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			
-			if (req.getSession().getAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS) == null) {
+			Collection<Topic> coll; 
+			
+			User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 
-				Collection<Topic> coll; 
-				
-				User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-
-				if (user != null)
-					coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUser(user.getId());
-				else
-					coll = TopicManager.getAllTopics();
-				
-				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
-				
-				Collection<Topic> coll2 = TopicManager.getAllTopicsWithMoreThanXXQuestions(3);
-				
-				req.getSession().setAttribute(Constants.LIST_OF_MAJOR_TOPICS, coll2);
-				
-				if (coll.size() > 0)
-				{
-					int random = RandomIntegerUtil.getRandomInteger(coll.size());
-				
-					Iterator<Topic> iterator = coll.iterator();
-					Topic randomTopic = null;
-					for (int i = 0; i < random; i++)
-						randomTopic = iterator.next();
-					
-					req.getSession().setAttribute("randomTopic", randomTopic);
-				}
-				
-				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_INCLUDED, new ArrayList<Topic>());			
-				req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_EXCLUDED, new ArrayList<Topic>());
-				
-				req.getSession().setAttribute(Constants.TOTAL_NUMBER_OF_TOPICS, TopicManager.getTotalNumberOfTopics());
-			}
+			if (user != null)
+				coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUser(user.getId());
+			else
+				coll = TopicManager.getAllTopics();
+			
+			req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
+			
+			Collection<Topic> coll2 = TopicManager.getAllTopicsWithMoreThanXXQuestions(3);
+			
+			req.getSession().setAttribute(Constants.LIST_OF_MAJOR_TOPICS, coll2);
+			
+			req.getSession().setAttribute(Constants.TOTAL_NUMBER_OF_TOPICS, TopicManager.getTotalNumberOfTopics());
 		}
 		
 		// pass the request along the filter chain

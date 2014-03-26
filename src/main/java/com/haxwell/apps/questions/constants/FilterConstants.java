@@ -2,7 +2,6 @@ package com.haxwell.apps.questions.constants;
 
 public class FilterConstants {
 
-	// TODO: Make these two unique.. will need to update JSPs, probably servlets
 	public static final String QUESTION_CONTAINS_FILTER = "containsFilter";
 	public static final String EXAM_CONTAINS_FILTER = "containsFilter";
 

@@ -2,7 +2,9 @@ package com.haxwell.apps.questions.events.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +30,7 @@ import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
  */
 public class AttributeEventHandlerList {
 
-	HashMap<String, List<AttributeEventHandlerBean>> /*attr to list of handlers*/ attrToRegisteredAEHLBeanMap = new HashMap<String, List<AttributeEventHandlerBean>>();
+	HashMap<String, Set<AttributeEventHandlerBean>> /*attr to list of handlers*/ attrToRegisteredAEHLBeanMap = new HashMap<String, Set<AttributeEventHandlerBean>>();
 	HashMap<String, List<IAttributeEventHandler>> /*event to list of handlers*/ eventNameToActiveIEventHandlerMap = new HashMap<String, List<IAttributeEventHandler>>();
 
 	Logger log = Logger.getLogger(AttributeEventHandlerList.class.getName());
@@ -48,12 +50,12 @@ public class AttributeEventHandlerList {
 	}
 
 	public void activateHandlers(String attribute) {
-		List<AttributeEventHandlerBean> aehlBeanlist = attrToRegisteredAEHLBeanMap.get(attribute);
+		Set<AttributeEventHandlerBean> aehlBeanSet = attrToRegisteredAEHLBeanMap.get(attribute);
 
-		if (aehlBeanlist != null) {
+		if (aehlBeanSet != null) {
 			log.log(Level.FINER, "Activating '" + attribute + "'....");
 			
-			for (AttributeEventHandlerBean bean : aehlBeanlist) {
+			for (AttributeEventHandlerBean bean : aehlBeanSet) {
 				List<IAttributeEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.eventName);
 				boolean listChanged = false;
 				
@@ -91,15 +93,14 @@ public class AttributeEventHandlerList {
 		return rtn;
 	}
 	
-	private void addItemToMap(HashMap<String, List<AttributeEventHandlerBean>> map, String key, AttributeEventHandlerBean item) {
-		List<AttributeEventHandlerBean> list = map.get(key);
+	private void addItemToMap(HashMap<String, Set<AttributeEventHandlerBean>> map, String key, AttributeEventHandlerBean item) {
+		Set<AttributeEventHandlerBean> set = map.get(key);
 		
-		if (list == null)
-			list = new ArrayList<AttributeEventHandlerBean>();
+		if (set == null)
+			set = new HashSet<AttributeEventHandlerBean>();
 		
-		// TODO add some checking so duplicates aren't added.. 
-		list.add(item);
+		set.add(item);
 		
-		map.put(key, list);
+		map.put(key, set);
 	}
 }

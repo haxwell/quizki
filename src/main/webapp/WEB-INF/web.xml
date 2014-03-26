@@ -233,7 +233,6 @@
   <filter-mapping>
     <filter-name>ListTopicsFilter</filter-name>
     <url-pattern>/index.jsp</url-pattern>
-    <url-pattern>/generateExam.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

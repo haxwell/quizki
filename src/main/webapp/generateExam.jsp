@@ -51,8 +51,6 @@
 			<![CDATA[ <script src="../js/generateExam.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/generateExam-views.js" type="text/javascript" ></script> ]]>
 
-			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>			
-
 			<![CDATA[
 			
 			<script type="text/javascript">

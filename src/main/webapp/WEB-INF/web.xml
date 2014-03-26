@@ -186,16 +186,6 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
-    <filter-name>ListProfileQuestionsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListProfileQuestionsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListProfileQuestionsFilter</filter-name>
-    <url-pattern>/secured/profile.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
     <filter-name>ListAdminExamsFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.ListAdminExamsFilter</filter-class>
   </filter>

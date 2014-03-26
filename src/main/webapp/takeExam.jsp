@@ -45,7 +45,6 @@
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../js/collections/question-collections.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>

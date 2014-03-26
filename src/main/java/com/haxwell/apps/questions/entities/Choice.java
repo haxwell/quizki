@@ -100,7 +100,7 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 	@Override
 	public int hashCode() 
 	{
-		return this.text.hashCode() + (int)this.id; // TODO: Find a better way
+		return this.text.hashCode() + (int)this.id;
 	}
 
 	@Override

@@ -2,26 +2,17 @@ package com.haxwell.apps.questions.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
-import com.haxwell.apps.questions.managers.QuestionManager;
 import com.haxwell.apps.questions.managers.UserManager;
-import com.haxwell.apps.questions.servlets.actions.InitializeListOfProfileQuestionsInSessionAction;
-import com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction;
-import com.haxwell.apps.questions.utils.DifficultyUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
-import com.haxwell.apps.questions.utils.TypeUtil;
 
 /**
  * Servlet implementation class LoginServlet

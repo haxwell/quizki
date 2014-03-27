@@ -145,16 +145,6 @@
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
-    <filter-name>InitializeSessionForGeneratingAnExamFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.InitializeSessionForGeneratingAnExamFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>InitializeSessionForGeneratingAnExamFilter</filter-name>
-    <url-pattern>/generateExam.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
     <filter-name>InitializeSessionForCreatingAQuestionFilter</filter-name>
     <filter-class>com.haxwell.apps.questions.servlets.filters.InitializeSessionForCreatingAQuestionFilter</filter-class>
   </filter>
@@ -172,37 +162,6 @@
     <filter-name>InitializeSessionForRunningAnExamFilter</filter-name>
     <url-pattern>/beginExam.jsp</url-pattern>
     <url-pattern>/takeExam.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
-    <filter-name>ListAdminQuestionsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListAdminQuestionsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListAdminQuestionsFilter</filter-name>
-    <url-pattern>/secured/admin-profile.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
-    <filter-name>ListAdminExamsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListAdminExamsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListAdminExamsFilter</filter-name>
-    <url-pattern>/secured/admin-profile.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
-  <filter>
-    <filter-name>ListExamsFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.ListExamsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>ListExamsFilter</filter-name>
-    <url-pattern>/listExams.jsp</url-pattern>
-    <url-pattern>/secured/profile.jsp</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>

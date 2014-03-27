@@ -31,12 +31,8 @@ if (!StringUtil.isNullOrEmpty(id)) {
 			User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 			
 			String rtn = QuestionManager.deleteQuestion(user.getId(), id);
-			request.getSession().setAttribute(Constants.LIST_OF_QUESTIONS_TO_BE_DISPLAYED, null);
 			
-			//new InitializeListOfProfileQuestionsInSessionAction().doAction(request, response);
 			new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
-			
-			//request.getSession().setAttribute(Constants.MRU_FILTER_DIFFICULTY, DifficultyConstants.GURU);
 			
 			writer.print(rtn);
 		}

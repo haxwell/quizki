@@ -54,11 +54,8 @@ public class ExamGenerationUtil {
 		}
 		
 		session.setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Generate Exam");
-		session.setAttribute(Constants.MRU_FILTER_DIFFICULTY, difficultyId);
 		
 		session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);
-
-		//session.setAttribute(Constants.EXAM_GENERATION_IS_IN_PROGRESS, null);
 		
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_GENERATED);
 	}

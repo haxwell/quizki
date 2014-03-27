@@ -4,7 +4,6 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.ExamManager"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.events.EventDispatcher"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.EventConstants"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.servlets.actions.InitializeListOfExamsInSessionAction"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.servlets.actions.SetUserContributedQuestionAndExamCountInSessionAction"/>
 	<jsp:directive.page import="net.minidev.json.JSONObject"/>
 	<jsp:directive.page import="net.minidev.json.JSONValue"/>
@@ -35,7 +34,6 @@ EventDispatcher.getInstance().fireEvent(request, EventConstants.DELETE_EXAM_BEFO
 JSONObject jObj = (JSONObject)JSONValue.parse(json);
 ExamManager.deleteExam(jObj);
 
-new InitializeListOfExamsInSessionAction().doAction(request, response);
 new SetUserContributedQuestionAndExamCountInSessionAction().doAction(request, response);
 
 // return empty success msg, or detailed error msg as appropriate.. the javascript should then forward to beginExam.jsp

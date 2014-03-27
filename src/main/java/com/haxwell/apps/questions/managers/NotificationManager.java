@@ -107,8 +107,6 @@ public class NotificationManager extends Manager {
 			updateNotification(notification);
 	}
 	
-	// TODO: I'm thinking this is more relevant in another class..
-	//  TODO: the following two classes are good candidates for Groovy closures..
 	private static AbstractEntity getAbstractEntity(long entityId, int entityTypeId) 
 	{
 		AbstractEntity e = null;

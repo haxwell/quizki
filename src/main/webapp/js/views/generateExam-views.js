@@ -22,6 +22,7 @@
 			listOfTopics.append( topicItem.render().$el.html() );
 		},
 		render:function() {
+			console.log('rendering AllTopicsListView...');
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<select multiple class='span3 mainSelectBox' id='listOfTopics' style='height:160px;'></select>" )() );
 			

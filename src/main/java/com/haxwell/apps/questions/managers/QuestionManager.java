@@ -675,42 +675,43 @@ public class QuestionManager extends Manager {
 	}
 	
 	public static List<Question> getQuestionsCreatedByAGivenUserThatContain(long userId, final String topicFilterText, String filterText, Integer maxDifficulty, final Integer questionType, PaginationData pd) {
-		EntityManager em = emf.createEntityManager();
-		
-		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
-		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += "((q.text LIKE ?2 AND q.description =\"\") OR q.description LIKE ?2) AND ";
-		
-		queryString += "q.difficulty.id <= ?3";
-		
-		Query query = em.createQuery(queryString, Question.class);
-		
-		query.setParameter(1, userId);
-		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			query.setParameter(2, "%" + filterText + "%");
-		
-		query.setParameter(3, maxDifficulty);
-		
-		//
-		// Get query results
-		List<Question> rtn = (List<Question>)query.getResultList();
-		
-		pd.setTotalItemCount(rtn.size());
+//		EntityManager em = emf.createEntityManager();
+//		
+//		String queryString = "SELECT q FROM Question q, User u WHERE q.user.id = u.id AND u.id = ?1 AND ";
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			queryString += "((q.text LIKE ?2 AND q.description =\"\") OR q.description LIKE ?2) AND ";
+//		
+//		queryString += "q.difficulty.id <= ?3";
+//		
+//		Query query = em.createQuery(queryString, Question.class);
+//		
+//		query.setParameter(1, userId);
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			query.setParameter(2, "%" + filterText + "%");
+//		
+//		query.setParameter(3, maxDifficulty);
+//		
+//		//
+//		// Get query results
+//		List<Question> rtn = (List<Question>)query.getResultList();
+//		
+//		pd.setTotalItemCount(rtn.size());
+//
+//		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
+//		
+//		int rtnSize = rtn.size();
+//		
+//		if (pd.getPageNumber() > pd.getMaxPageNumber())
+//			pd.setPageNumber(pd.getMaxPageNumber());
+//		
+//		if (rtnSize > pd.getPageSize()) {
+//			rtn = (List<Question>)PaginationDataUtil.reduceListSize(pd, rtn);
+//		}
 
-		rtn = (List<Question>)filterQuestionListByTopicAndQuestionType(topicFilterText, questionType, rtn);
-		
-		int rtnSize = rtn.size();
-		
-		if (pd.getPageNumber() > pd.getMaxPageNumber())
-			pd.setPageNumber(pd.getMaxPageNumber());
-		
-		if (rtnSize > pd.getPageSize()) {
-			rtn = (List<Question>)PaginationDataUtil.reduceListSize(pd, rtn);
-		}
-
-		return rtn;
+		//return rtn;
+		return null;
 	}
 
 	private static List<Question> filterList(FilterCollection fc, List<Question> list) {
@@ -747,19 +748,19 @@ public class QuestionManager extends Manager {
 		return al;
 	}
 	
-	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
-			final String topicFilterText, final Integer questionType,
-			List<Question> rtn) {
-		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
-		
-		if (!StringUtil.isNullOrEmpty(topicFilterText))
-			arr.add(new QuestionTopicFilter(topicFilterText));
-
-		if (questionType != null && questionType != TypeConstants.ALL_TYPES )
-			arr.add(new QuestionTypeFilter(questionType));
-
-		return new ListFilterer<Question>().process(rtn, arr);
-	}
+//	private static Collection<Question> filterQuestionListByTopicAndQuestionType(
+//			final String topicFilterText, final Integer questionType,
+//			List<Question> rtn) {
+//		ArrayList<ShouldRemoveAnObjectCommand<Question>> arr = new ArrayList<ShouldRemoveAnObjectCommand<Question>>();
+//		
+//		if (!StringUtil.isNullOrEmpty(topicFilterText))
+//			arr.add(new QuestionTopicFilter(topicFilterText));
+//
+//		if (questionType != null && questionType != TypeConstants.ALL_TYPES )
+//			arr.add(new QuestionTypeFilter(questionType));
+//
+//		return new ListFilterer<Question>().process(rtn, arr);
+//	}
 	
 	public static List<String> validate(Question questionObj) {
 		List<String> errors = new ArrayList<String>();

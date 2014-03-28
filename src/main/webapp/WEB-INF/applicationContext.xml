@@ -9,8 +9,6 @@
 	<!--  **==**==****====***==*-===****=== -->
 	<bean id="setSessionAttributeToNullHandler" class="com.haxwell.apps.questions.events.handlers.SetSessionAttributeToNullHandler" scope="prototype"/>
 	<bean id="setSessionAttributeToZeroHandler" class="com.haxwell.apps.questions.events.handlers.SetSessionAttributeToZeroHandler" scope="prototype"/>
-	<bean id="setNewPaginationDataObjectInSession" class="com.haxwell.apps.questions.events.handlers.SetNewPaginationDataObjectInSessionHandler" scope="prototype"/>	
-	
 
 	<!--  **==**==****====***==*-===****=== -->
 	<!-- EVENT: indexPage -->
@@ -25,18 +23,6 @@
 		<property name="attr" value="answersToTheMostRecentExam"/>
 		<property name="event" value="indexPage"/>
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
-	</bean>
-	
-	<bean id="ResetExamPaginationDataOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="examPaginationData"/>
-		<property name="event" value="indexPage"/>
-		<property name="handler" ref="setNewPaginationDataObjectInSession"/>
-	</bean>
-	
-	<bean id="ResetQuestionPaginationDataOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="questionPaginationData"/>
-		<property name="event" value="indexPage"/>
-		<property name="handler" ref="setNewPaginationDataObjectInSession"/>
 	</bean>
 	
 	<bean id="ResetNextSequenceNumberToZeroOnIndexPageDisplay" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
@@ -207,8 +193,6 @@
 			<list>
 				<ref bean="ResetEntityIdFilterOnIndexPageDisplay"/>
 				<ref bean="ResetAnswersToTheMostRecentExamOnIndexPageDisplay"/>
-				<ref bean="ResetQuestionPaginationDataOnIndexPageDisplay"/>
-				<ref bean="ResetExamPaginationDataOnIndexPageDisplay"/>
 				<ref bean="ResetNextSequenceNumberToZeroOnIndexPageDisplay"/>
 				<ref bean="ResetDoNotAttrOnIndexPageDisplay"/>
 				<ref bean="ResetCurrentExamOnIndexPageDisplay"/>

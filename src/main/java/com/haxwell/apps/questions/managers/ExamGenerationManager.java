@@ -46,7 +46,7 @@ public class ExamGenerationManager {
 			ListFilterer listFilterer = new ListFilterer<>();
 
 			for (Long i : topicIDsToInclude) {
-				coll = QuestionManager.getQuestionsByTopic(i, null);
+				coll = QuestionManager.getQuestionsByTopic(i);
 				
 				coll = listFilterer.process(coll, filters);
 

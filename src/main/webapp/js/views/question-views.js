@@ -179,6 +179,7 @@
 				var modelToListenTo = model_factory.get(this.modelToListenTo);
 				this.listenTo(modelToListenTo, this.modelEventToListenFor, function() { 
 					model_factory.get( this.getBackboneModelKey() ).reset();
+					this.render();
 				});
 			}
 			

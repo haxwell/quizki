@@ -112,10 +112,6 @@
 	</head>
 <body>
 
-	<jsp:scriptlet>      
-	request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "List All Questions");
-	</jsp:scriptlet>
-
 	<input style="display:none;" id="Exams-offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 

@@ -86,7 +86,6 @@ public class QuestionUtil {
 
 			request.setAttribute(Constants.CURRENT_QUESTION, null);
 			
-			request.getSession().setAttribute(Constants.TEXT_TO_DISPLAY_FOR_PREV_PAGE, "Edit Question");
 			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
 			
 			EventDispatcher.getInstance().fireEvent(request, EventConstants.QUESTION_WAS_PERSISTED);

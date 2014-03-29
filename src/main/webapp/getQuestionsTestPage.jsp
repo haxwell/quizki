@@ -19,8 +19,8 @@
 					$(document).ready(function(){
 						$("#getQuestionsBtn").click(function(){
 							//alert("btn pushed!");
-							
-							$.post("/getQuestions.jsp",
+
+							$.post("/ajax/question-getFilteredList.jsp",
 							{
 								containsFilter: $("#idContainsFilter").val(),
 								topicContainsFilter: $("#idTopicContainsFilter").val(),

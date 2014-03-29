@@ -230,7 +230,7 @@
 	
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
-	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Questions-view-data-url" type="text" name="question-view-data-url" value="/ajax/question-getFilteredList.jsp"/>
 	<input style="display:none;" id="Questions-delete-entity-url" type="text" name="question-delete-entity-url" value="/ajax/profile-deleteQuestion.jsp"/>
 	<input style="display:none;" id="Questions-entity-table-id" type="text" name="Questions-entity-table-id" value="#questionEntityTable"/>
 	<input style="display:none;" id="Questions-header-div-prefix" type="text" name="Questions-header-div-prefix" value="#belowTheBarPageHeader"/>

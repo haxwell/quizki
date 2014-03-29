@@ -110,7 +110,7 @@
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 	
 	<input style="display:none;" id="prefix-to-current-view-hidden-fields" type="text" name="prefix-to-current-view-hidden-fields" value="Exams"/>
-	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getQuestions.jsp"/>
+	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/ajax/question-getFilteredList.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTableRows"/>
 	<input style="display:none;" id="Exams-data-object-definition" type="text" name="Exams-data-object-definition" value=""/>
 	<input style="display:none;" id="Exams-persist-entity-dataObjectDefinition" name="Exams-persist-entity-dataObjectDefinition" value=""/>

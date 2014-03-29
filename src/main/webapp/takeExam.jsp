@@ -60,15 +60,6 @@
 				<script type="text/javascript">
 			]]>
 
-			<c:choose>
-				<c:when test="${not empty sessionScope.listOfRandomChoiceIndexes}">
-					<![CDATA[ var randomChoiceIndexes = ${listOfRandomChoiceIndexes}; ]]>
-				</c:when>
-				<c:otherwise>
-					<![CDATA[ var randomChoiceIndexes = undefined; ]]>
-				</c:otherwise>
-			</c:choose>
-
 			<![CDATA[
 			    $(document).ready(function() {
 

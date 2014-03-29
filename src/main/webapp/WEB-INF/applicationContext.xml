@@ -178,15 +178,6 @@
 		<property name="handler" ref="setSessionAttributeToNullHandler"/>
 	</bean>
 	
-	<!--  **==**==****====***==*-===****=== -->
-	<!-- EVENT: randomIndexesAddedToChoiceArray -->
-	<!--  **==**==****====***==*-===****=== -->	
-	<bean id="ResetShouldGenerateNewRandomChoiceIndexesOnRandomIndexesAddedToChoiceArray" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerBean">
-		<property name="attr" value="shouldGenerateNewRandomChoiceIndexes"/>
-		<property name="event" value="randomIndexesAddedToChoiceArray"/>
-		<property name="handler" ref="setSessionAttributeToNullHandler"/>
-	</bean>
-	
 
 	<bean id="attributeEventHandlerList" class="com.haxwell.apps.questions.events.utils.AttributeEventHandlerList">
 		<property name="attributeEventHandlerList">
@@ -220,7 +211,6 @@
 				<ref bean="ResetInEditingModeOnExamWasPersisted"/>
 				<ref bean="ResetCurrentExamOnExamWasPersisted"/>
 
-				<ref bean="ResetShouldGenerateNewRandomChoiceIndexesOnRandomIndexesAddedToChoiceArray"/>
 			</list>
 		</property>
 	</bean>

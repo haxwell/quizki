@@ -115,7 +115,7 @@
 	<input style="display:none;" id="Exams-offset" type="text" name="offset"/>
 	<input style="display:none;" id="maxEntityCountFilter" type="text" name="mcf"/>
 
-	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/getExams.jsp"/>
+	<input style="display:none;" id="Exams-view-data-url" type="text" name="exam-view-data-url" value="/ajax/exam-getFilteredList.jsp"/>
 	<input style="display:none;" id="Exams-delete-entity-url" type="text" name="exam-delete-entity-url" value="/ajax/profile-deleteExam.jsp"/>
 	<input style="display:none;" id="Exams-entity-table-id" type="text" name="Exams-entity-table-id" value="#examEntityTable"/>
 	<input style="display:none;" id="Exams-header-div-prefix" type="text" name="Exams-header-div-prefix" value="#belowTheBarPageHeader"/>

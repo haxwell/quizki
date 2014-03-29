@@ -22,10 +22,18 @@
 					<button type="submit" class="btn btn-secondary btn-small" id="idExamsClearFilterButton" name="clearFilterButton" title="Reset the filter." value="Clear Filter Button"><i class="icon-remove"></i></button>
 				</td>
 				<td>
-					<select id="rangeOfExamsFilter" name="small" class="span1">
-						<option value="0">All</option>
-						<option value="1">Mine</option>
-					</select>
+					<c:choose>
+						<c:when test="${not empty sessionScope.currentUserEntity}">
+							<select id="rangeOfExamsFilter" name="small" class="span1">
+								<option value="0">All</option>
+								<option value="1">Mine</option>
+							</select>
+						</c:when>
+						<c:otherwise>
+							<!-- add a hidden field for the dataObjectDefinition to refer to, since our original field is not displayed as there is no user logged in -->
+							<input style="display:none;" id="rangeOfExamsFilter" type="text" value="0"/>
+						</c:otherwise>
+					</c:choose>
 					<div class="input-append">
 						<input id="examContainsFilter" type="text" class="flat small"
 							placeholder="Search by exam name..." style="width: 96px;">

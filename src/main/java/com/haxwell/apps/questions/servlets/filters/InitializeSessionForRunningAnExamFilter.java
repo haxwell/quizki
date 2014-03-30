@@ -83,41 +83,16 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 				
 				// 2. Set session attributes based on the exam object we just got..
 				if (exam != null) {
-//					ExamHistory examHistory = ExamManager.initializeExamHistory(exam);
-					
-//					String examDifficulty = new ExamUtil().getExamDifficultyAsString(exam);
-//					exam.setDifficulty(examDifficulty);
 					Difficulty examDifficulty = new ExamUtil().getExamDifficulty(exam);
 					exam.setDifficulty(examDifficulty);
-					
-//					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, null);
-//					session.setAttribute(Constants.CURRENT_EXAM_HISTORY, examHistory);
 					
 					session.setAttribute(Constants.CURRENT_EXAM, null);
 					session.setAttribute(Constants.CURRENT_EXAM, exam);
 		
-//					Question currentQuestion = examHistory.getNextQuestion();
-					
-//					setCurrentQuestion(req, Constants.CURRENT_QUESTION, null);
-//					setCurrentQuestion(req, Constants.CURRENT_QUESTION, currentQuestion);
-					
-//					int qn = examHistory.getCurrentQuestionNumber();
-//					if (qn == 0) qn = 1;
-					
-//					session.setAttribute(Constants.CURRENT_QUESTION_NUMBER, qn);
-					
-					
 					List<Question> questionList = ExamManager.getQuestionList(exam);
 					session.setAttribute(Constants.TOTAL_POTENTIAL_QUESTIONS, questionList.size());
 					
-//					session.setAttribute(Constants.EXAM_HISTORY_QUESTION_INDEX_LIST, examHistory.getQuestionIDListAsCSV());
-					session.setAttribute(Constants.EXAM_HISTORY_QUESTION_INDEX_LIST, CollectionUtil.getCSVofIDsFromListofEntities(questionList));
-					
-//					List<String> list = new ArrayList<String>();
-//					
-//					list.add("");list.add("");list.add("");
-//					
-//					session.setAttribute("listOfFieldnamesUserInteractedWithAsAnswersOnCurrentQuestion", list);
+					session.setAttribute(Constants.CURRENT_EXAM_QUESTION_IDS_SORTED, CollectionUtil.getCSVofIDsFromListofEntities(questionList));
 					
 					session.setAttribute(Constants.EXAM_IN_PROGRESS, true);
 					

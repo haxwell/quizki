@@ -151,16 +151,6 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
-  <filter>
-  <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
-    <filter-class>com.haxwell.apps.questions.servlets.filters.AddRandomIndexToChoiceArrayFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>AddRandomIndexToChoiceArrayFilter</filter-name>
-    <url-pattern>/takeExam.jsp</url-pattern>
-    <dispatcher>REQUEST</dispatcher>
-    <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
   
 <!-- SPRING APPLICATION CONTEXT CREATING LISTENER -->
 

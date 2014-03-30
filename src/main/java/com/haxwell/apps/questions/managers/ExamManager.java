@@ -229,19 +229,13 @@ public class ExamManager extends Manager {
 
 	public static List<Question> getQuestionList(Exam exam)
 	{
-		Set<Question> choices = exam.getQuestions();
+		Set<Question> questions = exam.getQuestions();
 		
-		ArrayList<Question> list = new ArrayList<Question>(choices);
+		ArrayList<Question> list = new ArrayList<Question>(questions);
 		
 		Collections.sort(list, Manager.ID_COMPARATOR);
 		
 		return list;
-	}
-	
-	public static Question getQuestion(Exam exam, int i) {
-		Set<Question> set = exam.getQuestions();
-		
-		return set.iterator().next();
 	}
 	
 	// TODO: Create a standard getAll() method for Managers in general
@@ -293,46 +287,46 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
-	public static List<Exam> getAllExamsWithTitlesThatContain(String filterText) {
-		EntityManager em = emf.createEntityManager();
-		
-		Query query = em.createQuery("SELECT e FROM Exam e WHERE e.title LIKE ?1", Exam.class);		
-		
-		query.setParameter(1, "%" + filterText + "%");;
-		
-		List<Exam> rtn = query.getResultList();
-		
-		em.close();
-		
-		int rtnSize = rtn.size();
+//	public static List<Exam> getAllExamsWithTitlesThatContain(String filterText) {
+//		EntityManager em = emf.createEntityManager();
+//		
+//		Query query = em.createQuery("SELECT e FROM Exam e WHERE e.title LIKE ?1", Exam.class);		
+//		
+//		query.setParameter(1, "%" + filterText + "%");;
+//		
+//		List<Exam> rtn = query.getResultList();
+//		
+//		em.close();
+//		
+//		int rtnSize = rtn.size();
+//
+//		return rtn;
+//	}
 
-		return rtn;
-	}
-
-	public static List<Exam> getAllExamsCreatedByAGivenUserWithTitlesThatContain(long id, String filterText) {
-		EntityManager em = emf.createEntityManager();
-		
-		Query query;
-		String queryString = "SELECT e FROM Exam e, User u WHERE e.user.id = u.id AND u.id = ?1";
-		
-		if (!StringUtil.isNullOrEmpty(filterText))
-			queryString += " AND e.title LIKE ?2";
-		
-		query = em.createQuery(queryString, Exam.class);
-		
-		query.setParameter(1, id);
-
-		if (!StringUtil.isNullOrEmpty(filterText))
-			query.setParameter(2, "%" + filterText + "%");
-
-		List<Exam> rtn = query.getResultList();
-		
-		int rtnSize = rtn.size();
-
-		em.close();
-		
-		return rtn;
-	}
+//	public static List<Exam> getAllExamsCreatedByAGivenUserWithTitlesThatContain(long id, String filterText) {
+//		EntityManager em = emf.createEntityManager();
+//		
+//		Query query;
+//		String queryString = "SELECT e FROM Exam e, User u WHERE e.user.id = u.id AND u.id = ?1";
+//		
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			queryString += " AND e.title LIKE ?2";
+//		
+//		query = em.createQuery(queryString, Exam.class);
+//		
+//		query.setParameter(1, id);
+//
+//		if (!StringUtil.isNullOrEmpty(filterText))
+//			query.setParameter(2, "%" + filterText + "%");
+//
+//		List<Exam> rtn = query.getResultList();
+//		
+//		int rtnSize = rtn.size();
+//
+//		em.close();
+//		
+//		return rtn;
+//	}
 	
 	public static long getNumberOfExamsInTotal() {
 		EntityManager em = emf.createEntityManager();
@@ -398,13 +392,13 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 	
-	public static void deleteQuestionFromExam(Exam e, Question q) {
-		e.getQuestions().remove(q);
-	}
+//	public static void deleteQuestionFromExam(Exam e, Question q) {
+//		e.getQuestions().remove(q);
+//	}
 
-	public static void setTopicsAttribute(Collection<Exam> coll) {
-		for (Exam e : coll) setTopicsAttribute(e);
-	}
+//	public static void setTopicsAttribute(Collection<Exam> coll) {
+//		for (Exam e : coll) setTopicsAttribute(e);
+//	}
 	
 	public static void setTopicsAttribute(Exam e) {
 		e.setTopics(getAllQuestionTopics(e));

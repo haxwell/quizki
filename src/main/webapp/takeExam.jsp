@@ -88,7 +88,7 @@
 					event_intermediary.initialize();
 
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
-			    	model_constructor_factory.put("examHistoryQuestionIndexList", function() { return '${sessionScope.examHistoryQuestionIndexList}'; });
+			    	model_constructor_factory.put("currentExamQuestionIdsSortedByTheirID", function() { return '${sessionScope.currentExamQuestionIdsSortedByTheirID}'; });
 			    	model_constructor_factory.put("answersMap", function() { return new KeyValueMap(); });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 			    	
@@ -154,7 +154,7 @@
 	
 	<input style="display:none;" id="idCurrentQuestionAsJson" type="text" value="${sessionScope.currentQuestionAsJson}"/>
 	
-	<input style="display:none;" id="idExamHistoryQuestionIndexList" type="text" value="${sessionScope.examHistoryQuestionIndexList}"/>
+	<input style="display:none;" id="idCurrentExamQuestionIdsSortedByTheirID" type="text" value="${sessionScope.currentExamQuestionIdsSortedByTheirID}"/>
 	
 	<div style="display:none;" id="dialogText">You're at the end of the exam!</div>
 	<div style="display:none;" id="examAlreadyCompletedDialogText">You've already completed this exam!</div>

@@ -146,8 +146,8 @@ var ExamEngine = (function() {
 	my.initialize = function() {
 		_.extend(this, Backbone.Events);
 		
-		// take the CSV string from the examHistoryquestionIndex model,
-		var csv = model_factory.get("examHistoryQuestionIndexList");
+		// take the CSV string from the session model,
+		var csv = model_factory.get("currentExamQuestionIdsSortedByTheirID");
 		
 		//  initialize the array
 		listQuestionIds = csv.split(',');

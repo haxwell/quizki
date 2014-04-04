@@ -80,7 +80,7 @@
 		</div>
 	</jsp:text>
 		
-	You got <span class="greenText"><strong>${numberOfQuestionsAnsweredCorrectly}</strong></span> questions correct and <span class="redText"><strong>${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}</strong></span> incorrect out of a total of <strong>${totalNumberOfQuestions}</strong>. Following are the details of the exam. You can click on a question for more information.
+	You got <span class="greenText"><strong>${numberOfQuestionsAnsweredCorrectly}</strong></span> questions correct and <span class="redText"><strong>${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}</strong></span> incorrect out of a total of <strong>${totalNumberOfQuestions}</strong>. <br/><br/>Following are the details of the exam. You can click on a question for more information.
 	
 	<br/><br/>
 	<c:forEach var="answeredQuestion" items="${mostRecentExamResults.iterator}">

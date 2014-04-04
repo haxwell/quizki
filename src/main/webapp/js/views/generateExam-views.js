@@ -26,10 +26,13 @@
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<select multiple class='span3 mainSelectBox' id='listOfTopics' style='height:160px;'></select>" )() );
 			
+			console.log('getting currentListOfTopics model from model_factory...');
 			var topics = model_factory.get("currentListOfTopics");
 			
+			console.log('calling render for each of the ' + topics.size() + ' models...');
 			_.each(topics.models, function(model) { this.renderElement(model); }, this);
 			
+			console.log('finished rendering topic models');
 			return this;
 		},
 		events: {

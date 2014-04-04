@@ -21,6 +21,36 @@
 		<link href="css/index.css" rel="stylesheet" type="text/css"/>
 
 		<link href="images/favicon.ico" rel="shortcut icon"/>
+
+<style> 
+div.box
+{
+border:2px solid #a1a1a1;
+padding:10px 40px; 
+background:#dddddd;
+border-radius:25px;
+height:100%;
+}
+
+div.base
+{
+ width: auto;
+ min-width: 200px;
+ padding: 0px;
+ display:table;
+ height:100%;
+}
+
+.base-row {
+ Display: table-row;
+ height:100%;
+ }
+.base li {
+ display: table-cell;
+ width: 33%;
+ }
+ 
+</style>
 		
 </head>
 <body>
@@ -37,81 +67,92 @@
 <div class="center"><b>Quizki collects questions and answers, allowing you to test yourself with practice exams.</b></div><br/>
 <hr style="margin-right:40%; margin-left:40%;"/>
 
-<div class="center">TAKE a practice exam on...</div><br/>
-<div class="center"> 
-
-	<c:set var="topicCount" value="${fn:length(fa_listofmajortopics)}" scope="page"/>
-	<c:set var="counter" value="0" scope="page"/>
-	<c:set var="columnCounter" value="0" scope="page"/>
-	<c:set var="maxColumns" value="3" scope="page"/>
-	<c:set var="newRowNeeded" value="true" scope="page"/>
-	<c:set var="closingNewRowNeeded" value="false" scope="page"/>
-	
-	<table class="center">
-		<c:forEach var="topic" items="${fa_listofmajortopics}">
-			<c:if test="${newRowNeeded}">
-				<jsp:text><![CDATA[<tr>]]></jsp:text>
-				<c:set var="newRowNeeded" value="false" scope="page"/>
-				<c:set var="closingNewRowNeeded" value="true" scope="page"/>
-			</c:if>
-			
-			<c:if test="${counter + 1 >= topicCount}">
-				<c:if test="${columnCounter == 0}">
-					<jsp:text><![CDATA[<td style="padding:3px"></td>]]></jsp:text>
-					<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
-				</c:if>				
-			</c:if>
-			
-			<td style="padding:3px"><a class="greyLink" id="autoExamLink_${counter}" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
-			<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
-			<c:set var="counter" value="${counter + 1}" scope="page"/>
-			
-			<c:if test="${columnCounter >= maxColumns}">
-				<jsp:text><![CDATA[</tr>]]></jsp:text>
+<div class="base center">
+	<ul class="base-row">
+		<li >
+			<div class="box"> Take an exam on..
+				<c:set var="topicCount" value="${fn:length(fa_listofmajortopics)}" scope="page"/>
+				<c:set var="counter" value="0" scope="page"/>
+				<c:set var="columnCounter" value="0" scope="page"/>
+				<c:set var="maxColumns" value="1" scope="page"/>
 				<c:set var="newRowNeeded" value="true" scope="page"/>
 				<c:set var="closingNewRowNeeded" value="false" scope="page"/>
-				<c:set var="columnCounter" value="0" scope="page"/>
-			</c:if>
-		</c:forEach>
-		
-		<c:if test="${closingNewRowNeeded}">
-			<jsp:text><![CDATA[</tr>]]></jsp:text>
-			<c:set var="closingNewRowNeeded" value="false" scope="page"/>
-		</c:if>
-	</table>
+				
+				<table class="center" >
+					<c:forEach var="topic" items="${fa_listofmajortopics}">
+						<c:if test="${newRowNeeded}">
+							<jsp:text><![CDATA[<tr>]]></jsp:text>
+							<c:set var="newRowNeeded" value="false" scope="page"/>
+							<c:set var="closingNewRowNeeded" value="true" scope="page"/>
+						</c:if>
+						
+						<td style="padding:3px"><a class="greyLink" id="autoExamLink_${counter}" href="beginExam.jsp?topicId=${topic.id}">${topic.text} </a></td>
+						<c:set var="columnCounter" value="${columnCounter + 1}" scope="page"/>
+						<c:set var="counter" value="${counter + 1}" scope="page"/>
+						
+						<c:if test="${columnCounter >= maxColumns}">
+							<jsp:text><![CDATA[</tr>]]></jsp:text>
+							<c:set var="newRowNeeded" value="true" scope="page"/>
+							<c:set var="closingNewRowNeeded" value="false" scope="page"/>
+							<c:set var="columnCounter" value="0" scope="page"/>
+						</c:if>
+					</c:forEach>
+					
+					<c:if test="${closingNewRowNeeded}">
+						<jsp:text><![CDATA[</tr>]]></jsp:text>
+						<c:set var="closingNewRowNeeded" value="false" scope="page"/>
+					</c:if>
+				</table>
+			
+			</div>
+		</li>
+		<li >
+			<div class="box"><div> <a class="greyLink" href="generateExam.jsp">Generate an Exam on-the-fly</a></div></div>
+		</li>
+		<li >
+			<div class="box"> <a class="greyLink" href="listExams.jsp">Search through all Exams</a></div>
+		</li>
+	</ul>	
+</div>	
 
 	<br/>
-	<c:if test="${not empty totalNumberOfTopics}">
-		Or one of ${totalNumberOfTopics - topicCount} <a class="greyLink" href="generateExam.jsp">other topics</a>.. 
-	</c:if>
-		<br/><br/>Or you can take <a class="greyLink" href="listExams.jsp">an exam created by another user</a>..
-	
-	<br/><br/>
-</div>			
 
 <hr style="margin-right:40%; margin-left:40%;"/>
 
 <br/>
 <div class="center">CREATE your own unique..</div><br/>
 
-	<table class="center">
-		<tr>
-			<td style="text-align:left; width:33%;"><a class="greyLink" id="createQuestionLink" href="secured/question.jsp">Question</a></td>
-			<td style="width:33%;"></td>
-			<td style="text-align:right; width:33%;"><a class="greyLink" id="createExamLink" href="secured/exam.jsp">Exam</a></td>
-		</tr>
-	</table>
+<div class="base center">
+	<ul class="base-row">
+		<li >
+			<div class="box"> <a class="greyLink" id="createQuestionLink" href="secured/question.jsp">Question</a></div>
+		</li>
+		<li></li>
+		<li >
+			<div class="box"> <a class="greyLink" id="createExamLink" href="secured/exam.jsp">Exam</a></div>
+		</li>
+	</ul>
+</div>
 
 <br/>
 <hr style="margin-right:40%; margin-left:40%;"/>
 
 	    <c:choose>
 	    	<c:when test="${not empty sessionScope.currentUserEntity}">
+
 				<br/>
 				<div class="center">VIEW</div>
 				<br/>
-				<div class="center"><a class="greyLink" href="secured/profile.jsp">your profile</a></div>
-				<br/>
+				
+				<div class="base center">
+					<ul class="base-row">
+						<li></li>
+						<li >
+							<div class="box"> <a class="greyLink" href="secured/profile.jsp">your profile</a> </div>
+						</li>
+						<li></li>
+					</ul>
+				</div>
 
 				<hr style="margin-right:40%; margin-left:40%;"/>
 

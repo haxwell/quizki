@@ -1,0 +1,106 @@
+I. Quizki
+	- Welcome to the intro video
+	- Quizki born of need, studying cert, questions at end of each chapter, but not enough
+	- The thought occurs.. program which will allow me to enter questions, choose answers, play it back and tell me if I got it correct.
+	- So, lets get into it, and I will show you how Quizki does that
+	- If you're in a hurry and just want to see what Quizki is about, you can click on one of the random topics we have listed to take a quick exam and experience quizki for yourself.
+	- if you have some time let me start with explaining the Home page.
+		- First, to get back to this page, and therefore cancel whatever it is you are doing, click the big blue Quizki button. no matter where you are in the application, it will bring you here to the home page.
+		- On this page, the links in this section have to do with taking an exam. 
+		- These, are for creating content of your own, questions and exams respectively, and adding it to quizki.
+		- If you're logged in, you'll see a profile button here where you can manage the content you created. You can also get to that from your name in the upper right corner.
+
+	- Okay, now lets move on to the concept of Questions
+II. Questions
+	- You can create a question w/ one of four types
+		-single
+		-multiple
+		-phrase
+		-sequence
+	- These describe the form you expect the question to be answered in.
+	- Question text
+	- Topics
+	- Difficulty
+	- References
+
+	http://en.wikipedia.org/wiki/Bear
+	- Say we are studying bears and we want to be sure we remember some facts about them. Lets create some questions.
+	- As we get started, one thing to make note of is that perhaps the hardest thing to get used to in Quizki is taking a statement of fact, and rephrasing it into a question. But Quizki also helps us learn here, because putting things into your own words will help you to reinforce the concept in your mind.
+	- so, what we'll do is create four questions, one for each question type, and then I'll show you how to play them back in an exam!
+
+
+	- The first question type is a Single question. this is a multiple choice question in which you must choose a single answer to get it correct.
+		- Singles are great for true/false questions, but lets do something a bit more interesting.
+		- Say you want to remmeber that bears are biologically classified in the Ursidae family.
+		- You could create a question... (type text) with the choices ursidae, bearidae, ursa, and carnivora. Set a topic of bears, save, and there you go; your first question..
+
+	- Lets create a multiple question now. Multiples are multiple choice questions in which more than one choice must be selected in order to answer correctly.
+	- Lets add a question about where bears sleep.. we can add a choice for caves, one for burrows, one for trees, and another for open fields. We set caves and burrows to correct, add a topic of bears, and there's our next question.
+
+	- Next, lets explore the Phrase question. in this type to answer correctly, you must type a short phrase.
+	- Lets do the question "The giant panda feeds almost entirely on __________.", and supply an answer of 'bamboo'.
+
+	- A sequence question requires you to put things in order. These are good for reinforcing your memory on when one thing happens before another, either in time, or scale, numerically, things like that.
+	- Lets add a question on the Morphology of bears, putting in order the answers Kodiak, Polar, and Sun.
+
+
+III. Exams
+	- Now that we have some questions, we can have Quizki play them back to us in the form of an exam.
+	- There are two ways we can do this. Either Quizki creates the exam for us, or we do it manually.
+		- the difference is that if we do it manually, we can save the exam, for ourselves and others in the future. The same questions will be played back each time.
+		- The quizki generated exams are not saved, and are only for you, and only for this moment in time. So each time you take one, it could potentially be different questions than last time.
+	- Lets take a look at both approaches.
+
+	- To have quizki create an exam for you, click on the middle option here on the home page..
+	- On this page, you have a few options available to help customize the exam quizki creates for you.
+		- Most importantly, you need to tell Quizki what topics the exam should cover. This middle list, is a list of all the topics that have at least one question attached to them in Quizki.
+		- You can select 'Mine' from the Range of Topics dropdown in order to wittle the list down to only Topics for questions that you have created.
+		- You can also search for specific topics, using the Search Topics text field. When you enter a value, you can click the magic wand button to execute your search, or the X button to clear your search.
+		- Max Question Difficulty tells Quizki how hard you want the exam to be. Quizki looks at this value, and compares it to questions it is considering adding to the exam. So only questions with difficulties that match this value or are easier than this value, will be included on the exam. So, since this field is set to Junior only questions with a Junior difficulty will be included. Right now, thats all of our questions, because we did not change the difficulty. But this becomes useful later, when you have say forty or four hundred questions, rather than four. In that case you'd be able to use this value to have Quizki give you an exam with very difficult questions, or only sorta difficult, as you may choose at the moment.
+		- Number of Questions is the last option.. This is the maximum number of questions you want on the exam. Quizki will try to put this many on the exam, but if you (or somebody else) hasn't created that many in Quizki, it will put as many as it can find that match your other criteria.
+		
+		- So, from this middle list, now that we've filtered it down to what we want, we select our Topic, and move it over to the far right list. If we wanted, we could add as many topics as we like, creating a wide and varied exam, but for now we will only choose Bears.
+		- When we're done, we click Take Generated Exam, and Quizki lets us know that we're about to begin an exam.
+
+	- But before we begin taking an exam, lets look at how we can create our own exams first. We click on the blue quizki button to take us back to the home page.
+
+	--
+	- From here, we click on Exam..
+
+	- This page looks quite different from the Generate Exam page.
+	- The main difference is that in this page, we are presented with a list of allll the questions in Quizki, and we specifically choose the ones we want to have on our exam. We can also select a title, and an optional message to be displayed each time the Exam is taken by anyone.
+	- Since this list could potentially be showing you many many questions, its important you be able to filter out the ones you are not interested in. You can do that with the filter buttons here. 
+		- Suppose you knew the question you were looking for had the word 'animal' in it. You could type animal here, press the magic wand, and get a list of all questions which had the word animal in the question text.
+		- Same with Topics, we can search for all questions which have a topic that matches what we type in. Lets try Bear. We see we get our questions, and look, there was one that we didn't create, but another user created. We can include that in our exam too, if we like!
+		- Suppose we only wanted to see Phrase type questions. We can filter all the rest out by choosing Phrase from the Type filter.
+		- Same applies for Difficulty. If we only want to see Intermediate difficulty questions, we can just select that from the Difficulty filter.
+		- Of course, you can use all of these filters in combination with each other as well. Play with it!
+		- You can clear any filter you set by clicking the X button.
+
+	- So lets create an Exam based on the questions we created earlier. The fastest way to get only those questions, is to filter by Topic, so we'll search for all questions with a topic of Bear.
+	- Now that we have our questions, we can select them one by one, or we can click the Select All button here.
+	- We add a title as well. We could add a message, but I will leave that for you to play with on your own later.
+	- When we click Add Exam, our exam is saved, and the screen is reset so that we can create another exam if we like. But lets try taking our exam now, instead.
+
+IIII. Taking An Exam
+	- We click on the blue Quizki button to get back to the Home page.
+	- Here, we click on Search through all Exams
+	- This screen should like a bit familiar, even if it has less items in it. For now. you can still filter the list by selecting a difficulty, or typing in a topic, or text for the exam name.
+	- You may also notice too, this dropdown here, in which you can select to show only exams you've created, or all exams in quizki.
+	- Same as the other screens, you can use these filters one by one, or in combination.
+	- But there are not many exams in Quizki right now, so we can see ours right away. If we click on the title, we can begin taking our exam!
+
+	* Begin Exam
+	- This is the begin Exam page. Anytime we're getting ready to start an exam, we'll begin the exam here.
+	- this page tells us what topics the exam is going to cover, how difficult it is, and how many questions we should expect.
+	- To begin the exam, we click here.
+
+	* Taking the Exam
+	- Each question is presented to us here, one by one. To make things a little more challenging, the order of the questions, and the order of their choices is random. So you may take an exam many times, but each time the order of the questions should be different. If there are enough choices on a question, you should notice the order of its choices are different as well.
+	- But lets go through, and give an answer to each question.
+	- When we're through answering questions, we are given the opportunity to go back and review our answers, making changes if we'd like, or we can have Quizki tell us which ones we got correct, and which we missed!
+	- Lets grade the exam.
+	
+	* Exam Report Card
+	- Well, we can see that we got a few right, and some wrong. If we click on a question, we can get more detail.
+	

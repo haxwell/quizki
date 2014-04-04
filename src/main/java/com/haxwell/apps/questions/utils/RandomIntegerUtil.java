@@ -21,17 +21,17 @@ public class RandomIntegerUtil {
 		Random randomGenerator = new Random();
 		List<Integer> rtn = new ArrayList<Integer>();
 		
-		for (int i = 0; i < listSize; i++)
-		{
-			int rand; 
+		List<Integer> seedList = new ArrayList<Integer>();
+		
+		for (int i = 0; i < listSize; i++) 
+			seedList.add(i, i);
+		
+		int counter = seedList.size();
+		while (counter > 0) {
+			int rand = randomGenerator.nextInt(seedList.size());
 			
-			do {
-			
-				rand = randomGenerator.nextInt(listSize);
-				
-			} while (rtn.contains(rand));
-			
-			rtn.add(rand);
+			rtn.add(seedList.remove(rand));
+			counter--;
 		}
 		
 		log.log(Level.FINEST, "Just created random list of " + listSize + " numbers.. ");

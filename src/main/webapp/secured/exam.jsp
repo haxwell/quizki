@@ -439,7 +439,7 @@
 						return rtn;
 					}
 					
-					function Exams_postUserHasScrolledAndRowsHaveBeenDisplayed() {
+					function Exams_postRowsHaveBeenDisplayed() {
 						syncSelectAllCheckboxes(false);
 						setAllEntitiesAreSelected(false);					           
 					}

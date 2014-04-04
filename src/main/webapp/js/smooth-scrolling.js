@@ -37,11 +37,6 @@
 					        if (isNoMoreItemsToDisplayFlagSet() == false && smoothScrollingEnabledOnCurrentTab()) {
 					           //alert("Hit the bottom!");
 					        	displayMoreRows(getFunctionCalledForEachRowByDisplayMoreRows(getPrefix()));
-					        	
-					        	var entity_level_function = window[getPrefix()+"_postUserHasScrolledAndRowsHaveBeenDisplayed"];
-					        	
-					        	if (entity_level_function != undefined)
-					        		entity_level_function();
 					        }
 				        }
 					});
@@ -250,6 +245,11 @@
 							
 							appendTableStatusRow(msg, entityTableId, prefix);
 							unhideTableScrollbars(entityTableId);
+							
+				        	var entity_level_function = window[getPrefix()+"_postRowsHaveBeenDisplayed"];
+				        	
+				        	if (entity_level_function != undefined)
+				        		entity_level_function();
 						}
 						else {
 							clearTableStatusRow();

@@ -3,7 +3,7 @@ package com.haxwell.apps.questions.servlets.filters;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -48,7 +48,16 @@ public class ListTopicsFilter extends AbstractFilter {
 			
 			Collection<Topic> coll2 = TopicManager.getAllTopicsWithMoreThanXXQuestions(3);
 			
-			req.getSession().setAttribute(Constants.LIST_OF_MAJOR_TOPICS, coll2);
+			List<Integer> randomIndexes = RandomIntegerUtil.getRandomListOfNumbers(coll2.size());
+			List<Topic> listOfMajorTopics = new ArrayList<Topic>(coll2);
+
+			int count = listOfMajorTopics.size();
+			while (count-- > 5) {
+				int idx = randomIndexes.remove(0);
+				listOfMajorTopics.remove(Math.min(idx, listOfMajorTopics.size()-1));
+			}
+			
+			req.getSession().setAttribute(Constants.LIST_OF_MAJOR_TOPICS, listOfMajorTopics);
 			
 			req.getSession().setAttribute(Constants.TOTAL_NUMBER_OF_TOPICS, TopicManager.getTotalNumberOfTopics());
 		}

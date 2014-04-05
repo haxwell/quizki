@@ -1,18 +1,23 @@
 I. Quizki
 	- Welcome to the intro video
-	- Quizki born of need, studying cert, questions at end of each chapter, but not enough
-	- The thought occurs.. program which will allow me to enter questions, choose answers, play it back and tell me if I got it correct.
+	- Like any good invention, Quizki was born out of necessity. I was reading a book to help me study for a certification. At the end of each chapter, there were questions. The reader was supposed to answer those questions, to confirm they understood what was iin the chapter they just read. But there were not enough questions for me. I needed more!
+	- So, the thought occurs, I need a program which will allow me to enter questions and answers of my own, and play them back to me, and tell me if I got them correct.
 	- So, lets get into it, and I will show you how Quizki does that
-	- If you're in a hurry and just want to see what Quizki is about, you can click on one of the random topics we have listed to take a quick exam and experience quizki for yourself.
-	- if you have some time let me start with explaining the Home page.
+	- If you're in a hurry and just want to see what Quizki is about, you can click on one of the random topics listed on the home page, to take a quick exam and experience quizki for yourself.
+	- But, I'm betting you do have some time, so let me start with explaining the Home page.
 		- First, to get back to this page, and therefore cancel whatever it is you are doing, click the big blue Quizki button. no matter where you are in the application, it will bring you here to the home page.
-		- On this page, the links in this section have to do with taking an exam. 
-		- These, are for creating content of your own, questions and exams respectively, and adding it to quizki.
-		- If you're logged in, you'll see a profile button here where you can manage the content you created. You can also get to that from your name in the upper right corner.
+		- In this top section, these links all have to do with taking an exam. 
+			- Like I said, you can take an exam on a random topic
+			- Or you can create an exam on the fly
+			- Or you can search through all the exams quizki has stored.
+		- These, in the next section, are for creating your own content, your own questions and exams, and adding them to quizki.
+		- If you're logged in, you'll see a profile button here where you can manage the content you've created. You can also get to that from your name in the upper right corner.
 
-	- Okay, now lets move on to the concept of Questions
+	- Okay, now lets move on to the concept of Questions. We will create some of our own questions by clicking on the Question link from the home page.
+
+----
 II. Questions
-	- You can create a question w/ one of four types
+	- You can create a question w/ one of four types. You change your question type here, in this dropbox. Your options are:
 		-single
 		-multiple
 		-phrase
@@ -104,3 +109,9 @@ IIII. Taking An Exam
 	* Exam Report Card
 	- Well, we can see that we got a few right, and some wrong. If we click on a question, we can get more detail.
 	
+	-- (go over a correct question being displayed, and an incorrect question)
+
+	
+And thats it! Once you've finished taking the exam, you just go back the home page, and start over again. Quizki doesn't keep track of how you've done on your exams. Thats for you to guage as you continue to test yourself. If you feel you're not getting a topic, study! and then add another question about it! And take the exam again. Quizki grows as you enter questions. Each question you add makes it more useful, for you, and anyone who comes after you studying the same thing.
+
+On a final note, remember your Profile page. From here, you can see which questions and exams you've created, you can edit them, and you can delete them!

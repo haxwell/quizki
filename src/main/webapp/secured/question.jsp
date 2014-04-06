@@ -79,7 +79,6 @@
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getTopics(); }, 
-							modelConstructorFunc:function() { return new Topic(); }, 
 							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setTopics(coll); }
 						});
 						
@@ -90,7 +89,6 @@
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getReferences(); },
-							modelConstructorFunc:function() { return new Reference(); }, 
 							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setReferences(coll); }
 						});
 

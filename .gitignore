@@ -1,6 +1,6 @@
 target
 build.bat
 setenv.bat
-persistence.xml
-shiro.ini
-
+src/META-INF
+src/main/resources/META-INF/persistence.xml
+src/main/webapp/WEB-INF/shiro.ini

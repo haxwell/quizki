@@ -33,20 +33,32 @@ II. Questions
 	- As we get started, one thing to make note of is that perhaps the hardest thing to get used to in Quizki is taking a statement of fact, and rephrasing it into a question. But Quizki also helps us learn here, because putting things into your own words will help you to reinforce the concept in your mind.
 	- so, what we'll do is create four questions, one for each question type, and then I'll show you how to play them back in an exam!
 
-
+	====== 1
 	- The first question type is a Single question. this is a multiple choice question in which you must choose a single answer to get it correct.
 		- Singles are great for true/false questions, but lets do something a bit more interesting.
-		- Say you want to remmeber that bears are biologically classified in the Ursidae family.
+		- Say you want to remember that bears are biologically classified in the Ursidae family.
 		- You could create a question... (type text) with the choices ursidae, bearidae, ursa, and carnivora. Set a topic of bears, save, and there you go; your first question..
 
+	====== 2
 	- Lets create a multiple question now. Multiples are multiple choice questions in which more than one choice must be selected in order to answer correctly.
-	- Lets add a question about where bears sleep.. we can add a choice for caves, one for burrows, one for trees, and another for open fields. We set caves and burrows to correct, add a topic of bears, and there's our next question.
+	- Lets add a question about where bears sleep.. 
+		we can add a choice for caves, 
+						one for burrows, 
+						one for trees, 
+						and another for open fields. 
+		
+		We set caves and burrows to correct, add a topic of bears, and there's our next question.
 
+	====== 3
 	- Next, lets explore the Phrase question. in this type to answer correctly, you must type a short phrase.
 	- Lets do the question "The giant panda feeds almost entirely on __________.", and supply an answer of 'bamboo'.
 
+	====== 4
 	- A sequence question requires you to put things in order. These are good for reinforcing your memory on when one thing happens before another, either in time, or scale, numerically, things like that.
-	- Lets add a question on the Morphology of bears, putting in order the answers Kodiak, Polar, and Sun.
+	- Lets add a question on the Morphology of bears, putting in order the answers 
+			Kodiak, 
+			Polar, 
+			and Sun.
 
 
 III. Exams

@@ -1,4 +1,6 @@
 target
 build.bat
 setenv.bat
-*.xml
+persistence.xml
+shiro.ini
+

@@ -28,7 +28,7 @@
 		},
 		render: function() {
 			var currentQuestion = model_factory.get("currentQuestion");
-			var optionId = currentQuestion.getTypeId();// || -1;
+			var optionId = currentQuestion.getTypeId();
 			
 			if (this.readOnly == undefined) {
 				this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView.html', {}));
@@ -298,10 +298,10 @@
 
 			var _viewmodel = this.viewmodel;
 			
-			if (cq.getTypeId() == /* phrase question */ "3") 
+			if (cq.getTypeId() == QUESTION_TYPE_PHRASE) 
 				return 5;
 			
-        	if (o != undefined && _viewmodel.checked == 'checked' && o.get('value') == (cq.getTypeId() == "4" ? _viewmodel.sequence : _viewmodel.text)) {
+        	if (o != undefined && _viewmodel.checked == 'checked' && o.get('value') == (cq.getTypeId() == QUESTION_TYPE_SEQUENCE ? _viewmodel.sequence : _viewmodel.text)) {
         		// this choice was correct, and you chose it.
         		cccStatus = 1;
         	} else if (o == undefined && _viewmodel.checked == 'checked') {
@@ -310,11 +310,11 @@
         	} else if (o != undefined && _viewmodel.checked !== 'checked') {
         		// this choice was chosen, but is incorrect.
         		cccStatus = 3;
-            } else if (cq.getTypeId() == "4" && o != undefined && _viewmodel.checked == 'checked' && o.get('value') !== _viewmodel.sequence) {
+            } else if (cq.getTypeId() == QUESTION_TYPE_SEQUENCE && o != undefined && _viewmodel.checked == 'checked' && o.get('value') !== _viewmodel.sequence) {
             	cccStatus = 4;
-            } else if (cq.getTypeId() == "3") {
+            } /* else if (cq.getTypeId() == QUESTION_TYPE_PHRASE) {
             	cccStatus = 5;
-            }
+            } */
 
 			return cccStatus;
 		},
@@ -485,20 +485,21 @@
 		},
 		choiceItemSwitchesShouldBeDisabled : function() {
 			var typeId = model_factory.get('currentQuestion').getTypeId();
-			return (typeId == "3" || typeId == "4") || this.readOnly !== undefined;
+			return (typeId == QUESTION_TYPE_PHRASE || typeId == QUESTION_TYPE_SEQUENCE || typeId == QUESTION_TYPE_SET) || this.readOnly !== undefined;
 		},
 		setStateOnInitialization: function () {
 			var typeId = model_factory.get('currentQuestion').getTypeId();
-			this.setSequenceFieldsAreVisible(typeId == "3" || typeId == "4");
+			this.setSequenceFieldsAreVisible(typeId == QUESTION_TYPE_PHRASE || typeId == QUESTION_TYPE_SEQUENCE || typeId == QUESTION_TYPE_SET);
 		},
 		setStateOnQuestionTypeChangedEvent: function(event) {
 			var rtn = undefined;
 
 			if (event !== undefined && event.type_id !== undefined) {
-				if (event.type_id.to == "3" || event.type_id.to == "4") {
+				// if the event was to change TO 'phrase' or 'sequence'....
+				if (event.type_id.to == QUESTION_TYPE_PHRASE || event.type_id.to == QUESTION_TYPE_SEQUENCE || event.type_id.to == QUESTION_TYPE_SET) {
 					rtn = true;
 				}
-				else if (rtn == undefined && (event.type_id.from == "3" || event.type_id.from == "4")) {
+				else if (rtn == undefined && (event.type_id.to == QUESTION_TYPE_PHRASE || event.type_id.to == QUESTION_TYPE_SEQUENCE || event.type_id.to == QUESTION_TYPE_SET)) {
 					rtn = false;
 				}
 			}
@@ -580,7 +581,7 @@
 			_.each(choices.models, function(model) { this.renderElement(model); }, this);
 
 			// phrase questions need special processing to determine whether they are answered correctly. see Issue #107.
-			if (this.inExamContext && cq.getTypeId() == "3") {
+			if (this.inExamContext && cq.getTypeId() == QUESTION_TYPE_PHRASE) {
 				var answerCorrectnessModel = model_factory.get('answerCorrectnessModel');
 				var answersMap = model_factory.get('answersMap');
 				
@@ -655,14 +656,14 @@
 		setStateOnInitialization: function () {
 			var type_id = model_factory.get('currentQuestion').getTypeId();
 			
-			this.setCheckBoxDisabled(type_id == "3" || type_id == "4");
+			this.setCheckBoxDisabled(type_id == QUESTION_TYPE_PHRASE || type_id == QUESTION_TYPE_SEQUENCE || type_id == QUESTION_TYPE_SET);
 		},
 		setStateOnQuestionTypeChangedEvent: function(event) { 
 			if (event !== undefined && event.type_id !== undefined)
-				this.setCheckBoxDisabled(event.type_id.to == "3" || event.type_id.to == "4");
+				this.setCheckBoxDisabled(event.type_id.to == QUESTION_TYPE_PHRASE || event.type_id.to == QUESTION_TYPE_SEQUENCE || event.type_id.to == QUESTION_TYPE_SET);
 			else {
-				var typeId = model_factory.get('currentQuestion').getTypeId();
-				this.setCheckBoxDisabled(typeId == "3" || typeId == "4");
+				var type_id = model_factory.get('currentQuestion').getTypeId();
+				this.setCheckBoxDisabled(type_id == QUESTION_TYPE_PHRASE || type_id == QUESTION_TYPE_SEQUENCE || type_id == QUESTION_TYPE_SET);
 			}
 		},
 		render: function () {

@@ -312,6 +312,12 @@ var Question = (function() {
 	return my;
 });
 
+var QUESTION_TYPE_SINGLE = "1";
+var QUESTION_TYPE_MULTIPLE = "2";
+var QUESTION_TYPE_PHRASE = "3";
+var QUESTION_TYPE_SEQUENCE = "4";
+var QUESTION_TYPE_SET = "5";
+
 var QuestionTypes = (function() {
 	var my = {};
 
@@ -324,6 +330,8 @@ var QuestionTypes = (function() {
 			return "Phrase";
 		else if (intKey == 4)
 			return "Sequence";
+		else if (intKey == 5)
+			return "Set";
 		
 		return "ERROR!!";
 	};

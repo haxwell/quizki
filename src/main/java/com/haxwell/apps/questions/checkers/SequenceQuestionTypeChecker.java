@@ -1,13 +1,11 @@
 package com.haxwell.apps.questions.checkers;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionUtil;
-import com.haxwell.apps.questions.utils.StringUtil;
 
 public class SequenceQuestionTypeChecker extends AbstractQuestionTypeChecker {
 

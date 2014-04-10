@@ -103,7 +103,10 @@
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
-			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, phraseAnswer:undefined };} );
+
+					var setAnswersModel = Backbone.Model.extend({ defaults: {choiceId:-1, answer:''} });
+
+			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, phraseAnswer:undefined, setAnswers:new Backbone.Collection([], {model:setAnswersModel}) };} );
 			    		
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
@@ -126,7 +129,7 @@
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getTopics(); }, 
-							modelConstructorFunc:function() { return new Topic(); }, 
+							//modelConstructorFunc:function() { return new Topic(); }, 
 							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setTopics(coll); }
 						});
 						
@@ -138,7 +141,7 @@
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getReferences(); },
-							modelConstructorFunc:function() { return new Reference(); }, 
+							//modelConstructorFunc:function() { return new Reference(); }, 
 							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setReferences(coll); }
 						});
 

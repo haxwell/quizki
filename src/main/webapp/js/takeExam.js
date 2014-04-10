@@ -43,31 +43,40 @@ var TakeExamChoiceItemFactory = (function() {
 		var orderingOfChoicesModel = orderingOfChoicesColl.findWhere({questionId:currentQuestion.getId()});
 		
 		if (orderingOfChoicesModel == undefined) {
-			orderingOfChoicesModel = new OrderingOfChoicesModel();
-			orderingOfChoicesModel.set('questionId', currentQuestion.getId());
-			orderingOfChoicesModel.set('ordering', getArrayOfRandomNumbers(currentQuestion.getChoices().size()));
+			orderingOfChoicesModel = new OrderingOfChoicesModel({
+				questionId:currentQuestion.getId(), 
+				ordering:getArrayOfRandomNumbers(currentQuestion.getChoices().size())
+			});
 			
 			orderingOfChoicesColl.add(orderingOfChoicesModel);
 		}
 		
 		var ordering = orderingOfChoicesModel.get('ordering');
 		
-		if (type == 1) {
+		if (type == QUESTION_TYPE_SINGLE) {
 			for (var x=0; x < ordering.length; x++) {
 				rtn.push( new Quizki.ExamSingleQuestionChoiceItemView(choices.at(ordering[x])));
 			}
 		}
-		else if (type == 2) {
+		else if (type == QUESTION_TYPE_MULTIPLE) {
 			for (var x=0; x < ordering.length; x++) {
 				rtn.push( new Quizki.ExamMultipleQuestionChoiceItemView(choices.at(ordering[x])));
 			}
 		}
-		else if (type == 3) {
+		else if (type == QUESTION_TYPE_PHRASE) {
 			rtn.push( new Quizki.ExamPhraseQuestionChoiceItemView( choices.at(0) )); 
 		}
-		else if (type == 4) {
+		else if (type == QUESTION_TYPE_SEQUENCE) {
 			for (var x=0; x < ordering.length; x++) {
 				rtn.push( new Quizki.ExamSequenceQuestionChoiceItemView(choices.at(ordering[x])));
+			}
+		}
+		else if (type == QUESTION_TYPE_SET) {
+			for (var x=0; x < ordering.length; x++) {
+				var choice = choices.at(ordering[x]);
+				var choiceIsToBeAnswered = currentQuestion.getChoiceIdsToBeAnswered().indexOf(choice.get('id')) > -1;
+				
+				rtn.push( new Quizki.ExamSetQuestionChoiceItemView(choice, choiceIsToBeAnswered) );
 			}
 		}
 		
@@ -265,6 +274,8 @@ var ExamEngine = (function() {
 	
 }());
 
+// this function abstracted out so that it can be called from multiple places,
+//  independent of the ExamNavigationButtons view (which has the Next button)
 var nextBtnClicked = function() {
 	var q = ExamEngine.nextQuestion();
 	

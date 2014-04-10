@@ -7,6 +7,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.Exam"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.QuestionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.FilterCollection"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
@@ -36,34 +37,35 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-FilterCollection fc = new FilterCollection();
+//FilterCollection fc = new FilterCollection();
 
-User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+//User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
 
-fc.add(FilterConstants.USER_ID_ENTITY, user);
+//fc.add(FilterConstants.USER_ID_ENTITY, user);
 
-if (user != null)
-	fc.add(FilterConstants.USER_ID_FILTER, user.getId() + "");
+//if (user != null)
+	//fc.add(FilterConstants.USER_ID_FILTER, user.getId() + "");
 
-String entityId = request.getParameter(FilterConstants.ENTITY_ID_FILTER);
+//String entityId = request.getParameter(FilterConstants.ENTITY_ID_FILTER);
 
-log.log(Level.SEVERE, "ENTITY ID FILTER = " + entityId);
+//log.log(Level.SEVERE, "ENTITY ID FILTER = " + entityId);
 
-fc.add(FilterConstants.ENTITY_ID_FILTER, entityId);
+//fc.add(FilterConstants.ENTITY_ID_FILTER, entityId);
 
-log.log(Level.SEVERE, "------ " + (String)fc.get(FilterConstants.ENTITY_ID_FILTER));
+//log.log(Level.SEVERE, "------ " + (String)fc.get(FilterConstants.ENTITY_ID_FILTER));
 
-fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, 1);
-fc.add(FilterConstants.DIFFICULTY_FILTER, 0);
-fc.add(FilterConstants.QUESTION_TYPE_FILTER, 0);
-fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, 0);
-fc.add(FilterConstants.OFFSET_FILTER, 0);
+//fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, 1);
+//fc.add(FilterConstants.DIFFICULTY_FILTER, 0);
+//fc.add(FilterConstants.QUESTION_TYPE_FILTER, 0);
+//fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, 0);
+//fc.add(FilterConstants.OFFSET_FILTER, 0);
 
-log.log(Level.SEVERE, fc.toString() + "\n\n");
+//log.log(Level.SEVERE, fc.toString() + "\n\n");
 
-AJAXReturnData rtnData = null;
+//AJAXReturnData rtnData = null;
 
-rtnData = QuestionManager.getAJAXReturnObject(fc, null);
+//rtnData = QuestionManager.getAJAXReturnObject(fc, null);
+AJAXReturnData rtnData = QuestionUtil.getFilteredList(request);
 
 writer.print(rtnData.toJSON());
 

@@ -19,6 +19,8 @@ public class TypeUtil {
 			return TypeConstants.PHRASE;
 		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SEQUENCE_STR)))
 			return TypeConstants.SEQUENCE;
+		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SET_STR)))
+			return TypeConstants.SET;
 		
 		return TypeConstants.ALL_TYPES;
 	}
@@ -32,6 +34,8 @@ public class TypeUtil {
 			return TypeConstants.MULTIPLE_STR;
 		if (l == TypeConstants.SEQUENCE)
 			return TypeConstants.SEQUENCE_STR;
+		if (l == TypeConstants.SET)
+			return TypeConstants.SET_STR;
 		
 		return TypeConstants.ALL_TYPES_STR;
 	}

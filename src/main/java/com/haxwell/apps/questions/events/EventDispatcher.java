@@ -10,9 +10,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
-import com.haxwell.apps.questions.events.handlers.IEventHandler;
+import com.haxwell.apps.questions.events.handlers.IDynamicAttributeEventHandler;
 import com.haxwell.apps.questions.events.handlers.IObjectEventHandler;
 import com.haxwell.apps.questions.events.utils.AttributeEventHandlerList;
+import com.haxwell.apps.questions.events.utils.DynamicAttributeEventHandlerBean;
+import com.haxwell.apps.questions.events.utils.DynamicAttributeEventHandlerList;
 import com.haxwell.apps.questions.events.utils.ObjectEventHandlerList;
 
 /**
@@ -64,6 +66,11 @@ public class EventDispatcher {
 	}
 
 	public void fireEvent(HttpServletRequest req, String eventName) {
+		handleAttributeEventHandlerList(req, eventName);
+		handleDynamicEventHandlerList(req, eventName);
+	}
+	
+	private void handleAttributeEventHandlerList(HttpServletRequest req, String eventName) {
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
 		AttributeEventHandlerList aehl = (AttributeEventHandlerList)ctx.getBean("attributeEventHandlerList");
 		
@@ -81,6 +88,23 @@ public class EventDispatcher {
 		}
 		else
 			log.log(Level.FINER, "No active event handlers found associated with '" + eventName + "'");
+	}
+	
+	private void handleDynamicEventHandlerList(HttpServletRequest req, String eventName) {
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
+		DynamicAttributeEventHandlerList daehl = (DynamicAttributeEventHandlerList)ctx.getBean("dynamicAttributeEventHandlerList");
+		
+		List<DynamicAttributeEventHandlerBean> list = daehl.getBeansByEventName(eventName);
+		
+		if (list != null) {
+			for (DynamicAttributeEventHandlerBean bean : list) {
+				
+				IDynamicAttributeEventHandler handler = bean.getEventHandler();
+				handler.execute(bean.getAttribute_endsWith(), req.getSession());
+			}
+		}
+		else
+			log.log(Level.FINER, "(dynamic) No active event handlers found associated with '" + eventName + "'");
 	}
 	
 	public void fireEvent(HttpServletRequest req, String eventName, Object o) {

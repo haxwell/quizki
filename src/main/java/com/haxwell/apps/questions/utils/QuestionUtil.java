@@ -1,7 +1,6 @@
 package com.haxwell.apps.questions.utils;
 
-import java.util.ArrayList;	
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,8 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,14 +15,19 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
-import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.EventConstants;
+import com.haxwell.apps.questions.constants.FilterConstants;
+import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.dynamifiers.AbstractDynamifier;
+import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Choice;
+import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.events.EventDispatcher;
-import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
+import com.haxwell.apps.questions.factories.DynamifierFactory;
+import com.haxwell.apps.questions.managers.AJAXReturnData;
 import com.haxwell.apps.questions.managers.Manager;
 import com.haxwell.apps.questions.managers.QuestionManager;
 
@@ -134,6 +136,64 @@ public class QuestionUtil {
 		question.setReferences(ReferenceUtil.getSetFromJsonString((String)request.getParameter("references")));
 		
 		return question;
+	}
+	
+	public static AJAXReturnData getFilteredList(HttpServletRequest request) {
+		FilterCollection fc = new FilterCollection();
+
+		User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+
+		fc.add(FilterConstants.USER_ID_ENTITY, user);
+
+		if (user != null)
+			fc.add(FilterConstants.USER_ID_FILTER, user.getId() + "");
+
+		String entityId = request.getParameter(FilterConstants.ENTITY_ID_FILTER);
+		if (StringUtil.isNullOrEmpty(entityId)) entityId = "";
+		
+		String difficultyFilterValue = request.getParameter(FilterConstants.DIFFICULTY_FILTER);
+		if (StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = "0";
+
+		String qtf = request.getParameter(FilterConstants.QUESTION_TYPE_FILTER);
+		if (StringUtil.isNullOrEmpty(qtf)) qtf = TypeConstants.ALL_TYPES + "";
+
+		String roef = request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER);
+		if (StringUtil.isNullOrEmpty(roef)) roef = Constants.ALL_ITEMS + "";
+		
+		String maxEntityCount = request.getParameter(FilterConstants.MAX_ENTITY_COUNT_FILTER);
+		if (StringUtil.isNullOrEmpty(maxEntityCount)) maxEntityCount = "1";
+		
+		String offset = request.getParameter(FilterConstants.OFFSET_FILTER);
+		if (StringUtil.isNullOrEmpty(offset)) offset = "0";
+
+		fc.add(FilterConstants.ENTITY_ID_FILTER, entityId);
+		fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, request.getParameter(FilterConstants.QUESTION_CONTAINS_FILTER));
+		fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, request.getParameter(FilterConstants.TOPIC_CONTAINS_FILTER));
+		fc.add(FilterConstants.QUESTION_TYPE_FILTER, qtf);
+		fc.add(FilterConstants.DIFFICULTY_FILTER, difficultyFilterValue);
+		fc.add(FilterConstants.AUTHOR_FILTER, request.getParameter(FilterConstants.AUTHOR_FILTER));
+		fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, maxEntityCount);
+		fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, roef);
+		fc.add(FilterConstants.OFFSET_FILTER, offset);
+
+		AJAXReturnData rtnData = null;
+
+		Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
+
+		Set selectedQuestions = (exam == null ? new HashSet() : exam.getQuestions());
+
+		// TODO: Remove this selectedQuestions functionality to its own space.. See TODO within..
+		rtnData = QuestionManager.getAJAXReturnObject(fc, selectedQuestions);
+
+		if (rtnData.getDynamificationStatus() == AJAXReturnData.DynamificationStatus.NEEDED)
+			for (AbstractEntity ae : rtnData.entities) {
+				AbstractDynamifier ad = DynamifierFactory.getDynamifier(ae);
+				
+				if (ad != null) 
+					ad.dynamify(ae, request);
+			}
+
+		return rtnData;
 	}
 	
 	public static String getDisplayString(Question q) {

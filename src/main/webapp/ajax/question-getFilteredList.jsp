@@ -8,6 +8,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.Exam"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>	
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.QuestionUtil"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.FilterCollection"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.DifficultyConstants"/>
@@ -33,48 +34,7 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-FilterCollection fc = new FilterCollection();
-
-User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-
-fc.add(FilterConstants.USER_ID_ENTITY, user);
-
-if (user != null)
-	fc.add(FilterConstants.USER_ID_FILTER, user.getId() + "");
-
-String difficultyFilterValue = request.getParameter(FilterConstants.DIFFICULTY_FILTER);
-
-log.log(Level.SEVERE, "difficultyFilterValue " + difficultyFilterValue);
-
-if (StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = "0";
-
-String qtf = request.getParameter(FilterConstants.QUESTION_TYPE_FILTER);
-
-if (StringUtil.isNullOrEmpty(qtf)) qtf = TypeConstants.ALL_TYPES + "";
-
-String roef = request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER);
-
-if (StringUtil.isNullOrEmpty(roef)) roef = Constants.ALL_ITEMS + "";
-
-log.log(Level.SEVERE, "FilterConstants.OFFSET_FILTER " + FilterConstants.OFFSET_FILTER);
-log.log(Level.SEVERE, "offset value " + request.getParameter(FilterConstants.OFFSET_FILTER));
-
-fc.add(FilterConstants.QUESTION_CONTAINS_FILTER, request.getParameter(FilterConstants.QUESTION_CONTAINS_FILTER));
-fc.add(FilterConstants.TOPIC_CONTAINS_FILTER, request.getParameter(FilterConstants.TOPIC_CONTAINS_FILTER));
-fc.add(FilterConstants.QUESTION_TYPE_FILTER, qtf);
-fc.add(FilterConstants.DIFFICULTY_FILTER, difficultyFilterValue);
-fc.add(FilterConstants.AUTHOR_FILTER, request.getParameter(FilterConstants.AUTHOR_FILTER));
-fc.add(FilterConstants.MAX_ENTITY_COUNT_FILTER, request.getParameter(FilterConstants.MAX_ENTITY_COUNT_FILTER));
-fc.add(FilterConstants.RANGE_OF_ENTITIES_FILTER, roef);
-fc.add(FilterConstants.OFFSET_FILTER, request.getParameter(FilterConstants.OFFSET_FILTER));
-
-AJAXReturnData rtnData = null;
-
-Exam exam = (Exam)request.getSession().getAttribute(Constants.CURRENT_EXAM);
-
-Set selectedQuestions = (exam == null ? new HashSet() : exam.getQuestions());
-
-rtnData = QuestionManager.getAJAXReturnObject(fc, selectedQuestions);
+AJAXReturnData rtnData = QuestionUtil.getFilteredList(request);
 
 writer.print(rtnData.toJSON());
 

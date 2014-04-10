@@ -236,5 +236,30 @@
 			</list>
 		</property>
 	</bean>
+	
+	
+	<!-- -=-=-=-=-=-=-=-=-=-=-= -->
+	<!-- DYNAMIC ATTRIBUTE EVENTS / HANDLERS -->
+	<!-- -=-=-=-=-=-=-=-=-=-=-= -->
+	
+	<bean id="RemoveDynamicAttributesFromSessionHandler" class="com.haxwell.apps.questions.events.handlers.RemoveDynamicAttributesFromSessionHandler"/>
+	
+	<bean id="SetQuestionTypeSetDynamificationInSessionHandler" class="com.haxwell.apps.questions.events.handlers.SetQuestionTypeSetDynamificationInSessionHandler"/>
   
+	<bean id="QuestionTypeSetDynamification" class="com.haxwell.apps.questions.events.utils.DynamicAttributeEventHandlerBean">
+		<property name="event" value="indexPage"/>
+		<property name="eventHandler" ref="RemoveDynamicAttributesFromSessionHandler"/>
+		<property name="attribute_endsWith" value="_QuestionTypeSetDynamification"/>
+		<property name="attribute_endsWith_handler" ref="SetQuestionTypeSetDynamificationInSessionHandler"/>
+	</bean>
+	
+	<bean id="dynamicAttributeEventHandlerList" class="com.haxwell.apps.questions.events.utils.DynamicAttributeEventHandlerList">
+		<property name="dynamicAttributeEventHandlerList">
+			<list>
+				<ref bean="QuestionTypeSetDynamification"/>
+			</list>
+		</property>
+	</bean>
+	
+
 </beans>

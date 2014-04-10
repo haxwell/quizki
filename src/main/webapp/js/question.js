@@ -1,4 +1,39 @@
 
+var CHOICE_IS_CORRECT_AND_CHOSEN = 1;
+var CHOICE_IS_CORRECT_BUT_NOT_CHOSEN = 2;
+var CHOICE_IS_INCORRECT_AND_CHOSEN = 3;
+var CHOICE_IS_INCORRECT_AND_SEQUENCE = 4;
+var CHOICE_IS_PHRASE_AND_WE_CANT_TELL_YET = 5;
+var CHOICE_IS_SET = 6;
+var CHOICE_IS_INDETERMINEDLY_ANSWERED = -1;
+
+var QUESTION_TYPE_SINGLE = 1;
+var QUESTION_TYPE_MULTIPLE = 2;
+var QUESTION_TYPE_PHRASE = 3;
+var QUESTION_TYPE_SEQUENCE = 4;
+var QUESTION_TYPE_SET = 5;
+
+var QuestionTypes = (function() {
+	var my = {};
+
+	my.getString = function(intKey) {
+		if (intKey == 1)
+			return "Single";
+		else if (intKey == 2)
+			return "Multiple";
+		else if (intKey == 3)
+			return "Phrase";
+		else if (intKey == 4)
+			return "Sequence";
+		else if (intKey == 5)
+			return "Set";
+		
+		return "ERROR!!";
+	};
+	
+	return my;
+}());
+
 // TODO: this should be moved to a common area.. question.js should not need to be included solely because, for instance, DifficultyChooserView is included.
 var Difficulty = (function() {
 	var my = {};
@@ -68,8 +103,9 @@ var Question = (function() {
 	var topics = undefined; /* will be a Backbone.Collection */
 	var references = undefined; /* will be a Backbone.Collection */
 	var choices = undefined; /* will be a Backbone.Collection */
-	
 	var difficulty = undefined; /* will be a Difficulty object */
+	
+	var choiceIdsToBeAnswered = undefined; /* will be an array, used when this is a Set question */
 	
 	// private method
 	function initializeFields() {
@@ -98,6 +134,10 @@ var Question = (function() {
 		
 		choices = new Backbone.Collection([], {model:Choice});
 		choices.add(source.choices);
+		
+		if (source.choiceIdsToBeAnswered !== undefined) {
+			choiceIdsToBeAnswered = source.choiceIdsToBeAnswered.split(',');
+		}
 		
 		_.extend(this, Backbone.Events);
 	};
@@ -128,6 +168,11 @@ var Question = (function() {
 		rtn += JSONUtility.getJSON('user_name', user_name);
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', JSON.stringify(topics.toJSON()));
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', JSON.stringify(references.toJSON()));
+		
+		if (choiceIdsToBeAnswered !== undefined) {
+			rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choiceIdsToBeAnswered', '"' + choiceIdsToBeAnswered.join(',') + '"');
+		}
+
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(choices.toJSON()), false);
 		
 		rtn = JSONUtility.endJSONString(rtn);
@@ -289,20 +334,33 @@ var Question = (function() {
 			this.trigger('choicesChanged', {choices:{val:""}});
 	};
 	
+	my.getChoiceIdsToBeAnswered = function() {
+		return choiceIdsToBeAnswered;
+	};
+	
 	my.hasBeenAnswered = function() {
 		var rtn = false;
 		
-		if (type_id == 1 || type_id == 2) {
+		if (type_id == QUESTION_TYPE_SINGLE || type_id == QUESTION_TYPE_MULTIPLE) {
 			rtn = _.some(choices.models, function(choice) {
 				return choice.get('isselected') == "true";
 			});
-		} else if (type_id == 3) {
+		} else if (type_id == QUESTION_TYPE_PHRASE) {
 			rtn = _.some(choices.models, function(choice) {
 				return choice.get('phrase') != '';
 			});
-		} else if (type_id == 4) {
+		} else if (type_id == QUESTION_TYPE_SEQUENCE) {
 			rtn = _.every(choices.models, function(choice) {
 				return choice.get('sequence') != 0;
+			});
+		} else if (type_id == QUESTION_TYPE_SET) {
+			rtn = _.every(choiceIdsToBeAnswered, function(choiceId) {
+				var choice = choices.findWhere({id:choiceId});
+				
+				if (choice !== undefined)
+					return choice.get('phrase') != '';
+				else
+					return false;
 			});
 		}
 		
@@ -312,32 +370,6 @@ var Question = (function() {
 	return my;
 });
 
-var QUESTION_TYPE_SINGLE = "1";
-var QUESTION_TYPE_MULTIPLE = "2";
-var QUESTION_TYPE_PHRASE = "3";
-var QUESTION_TYPE_SEQUENCE = "4";
-var QUESTION_TYPE_SET = "5";
-
-var QuestionTypes = (function() {
-	var my = {};
-
-	my.getString = function(intKey) {
-		if (intKey == 1)
-			return "Single";
-		else if (intKey == 2)
-			return "Multiple";
-		else if (intKey == 3)
-			return "Phrase";
-		else if (intKey == 4)
-			return "Sequence";
-		else if (intKey == 5)
-			return "Set";
-		
-		return "ERROR!!";
-	};
-	
-	return my;
-}());
 
 //  since this is a declaration of a function, how do you say this function needs a function passed in, when 
 //  all you are doing is passing the variable (representing the function's) name? for instance if I'm passing

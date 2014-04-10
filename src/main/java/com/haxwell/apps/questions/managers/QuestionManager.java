@@ -481,7 +481,11 @@ public class QuestionManager extends Manager {
 			ArrayList<Question> arr = new ArrayList<Question>();
 			arr.add(q);
 			
-			rtn.entities = arr; 
+			rtn.entities = arr;
+			
+			// a more robust solution will be necessary when a new question type is added.. but for the sake of expediency
+			if (q.getQuestionType().getId() == TypeConstants.SET)
+				rtn.setDynamificationStatus(AJAXReturnData.DynamificationStatus.NEEDED);
 			
 			if (selectedQuestions != null) {
 				Iterator<Question> iterator = selectedQuestions.iterator();

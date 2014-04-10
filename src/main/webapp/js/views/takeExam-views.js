@@ -123,6 +123,32 @@
 		}
 	});
 
+	Quizki.ExamSetQuestionChoiceItemView = Backbone.View.extend({
+		initialize:function() {
+			this.model = arguments[0].attributes;
+			this.millisecondId = arguments[0].attributes.id;
+			this.choiceIsToBeAnswered = arguments[1];
+			
+			this.eventHandlerMap = new KeyValueMap();
+
+			this.render();
+		},
+		setEventHandler:function(key, func) {
+			this.eventHandlerMap.put(key, func);
+		},
+		getEventHandler:function(key) {
+			return this.eventHandlerMap.get(key);
+		},
+		render:function() {
+			if (this.choiceIsToBeAnswered)
+				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionNotShowingChoiceItemView.html', {id:this.millisecondId,answer:this.model.phrase}));
+			else
+				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingChoiceItemView.html', {id:this.millisecondId,text:this.model.text}));
+			
+			return this;
+		}
+	});
+	
 	// this view represents the list of choices
 	Quizki.ExamChoiceListView = Backbone.View.extend({
 		tagName:'ul',

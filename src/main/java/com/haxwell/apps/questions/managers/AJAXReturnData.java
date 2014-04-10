@@ -21,7 +21,17 @@ public class AJAXReturnData {
 	public int additionalItemCount = -1;
 	public int additionalInfoCode = -1;
 	
+	public enum DynamificationStatus { NOT_NEEDED, NEEDED, COMPLETED };
+	protected DynamificationStatus ds = DynamificationStatus.NOT_NEEDED;
 	protected Map<String, String> jsonStringMap = new HashMap<String, String>();
+	
+	public void setDynamificationStatus(DynamificationStatus ds) {
+		this.ds = ds;
+	}
+	
+	public DynamificationStatus getDynamificationStatus() {
+		return ds;
+	}
 	
 	public void addKeyValuePairToJSON(String key, String value) {
 		jsonStringMap.put(key, value);

@@ -40,6 +40,7 @@
 							<option value="2">Multiple</option>
 							<option value="3">Phrase</option>
 							<option value="4">Sequence</option>
+							<option value="5">Set</option>
 						</select>
 					</div>
 				</td>

@@ -265,56 +265,6 @@ var JSONUtility = (function() {
 	// Inspired by ExamEngine.. it keeps a list of questions as json strings, in the order they appear.
 	//  this is to put those in an overall json string.
 	//
-	// TODO: Remove this, it doesn't seem to be used at present..
-	my.getJSONForQuizkiCollection = function(name, quizkiCollectionOfJSONStrings, indexFunction) {
-		if (indexFunction === undefined) 
-			indexFunction = function(index) { return index; };
-		
-		var rtn = this.startJSONArray(name);
-		
-		rtn += '[';
-		
-		for (var x=0; x<quizkiCollectionOfJSONStrings.size(); x++) {
-			var jsonstr = quizkiCollectionOfJSONStrings.at(indexFunction(x));
-			
-			rtn += jsonstr;
-			
-			if (x+1 < quizkiCollectionOfJSONStrings.size())
-				rtn += ', ';
-		}
-		
-		rtn += ']';
-		
-		rtn = this.endJSONArray(rtn);
-		
-		return rtn;
-	};
-	
-	// TODO: Remove this.. it doesn't seem to be used at present...
-	my.getJSONForAnArray = function(name, arrayOfJSONStrings, indexFunction) {
-		if (indexFunction === undefined) 
-			indexFunction = function(index) { return index; };
-		
-		var rtn = this.startJSONArray(name);
-		
-		rtn += '[';
-		
-		for (var x=0; x<quizkiCollectionOfJSONStrings.length; x++) {
-			var jsonstr = quizkiCollectionOfJSONStrings.at(indexFunction(x));
-			
-			rtn += jsonstr;
-			
-			if (x+1 < quizkiCollectionOfJSONStrings.length)
-				rtn += ', ';
-		}
-		
-		rtn += ']';
-		
-		rtn = this.endJSONArray(rtn);
-		
-		return rtn;
-	};
-	
 	my.getJSONForKeyValueMap = function(map, overallName, keyFieldName, valueFieldName, customFunc) {
 		var rtn = this.startJSONArray(overallName);
 		

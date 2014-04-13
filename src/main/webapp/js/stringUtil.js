@@ -71,7 +71,7 @@ var getTextOfGivenFieldForSetQuestion = function(fieldId, text) {
 	return rtn;
 };
 
-var removeAllOccurrances = function(pattern, str) {
+var removeAllOccurrences = function(pattern, str) {
 	while (str.indexOf(pattern) > -1)
 		str = str.replace(pattern, '');
 	

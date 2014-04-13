@@ -106,9 +106,7 @@
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 
-					var setAnswersModel = Backbone.Model.extend({ defaults: {answerId:-1, answer:''} });
-
-			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, phraseAnswer:undefined, setAnswers:new Backbone.Collection([], {model:setAnswersModel}) };} );
+			    	model_constructor_factory.put("answerCorrectnessModel", function() { return new answerCorrectnessModel(); } );
 			    		
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
@@ -157,34 +155,37 @@
 							var acm = model_factory.get("answerCorrectnessModel");
 							var msgArr = new Array();
 
-							if (acm.overallAnsweredCorrectly) {
+							if (acm.get('overallAnsweredCorrectly') == true) {
 								msgArr.push('Great! You answered this question correctly!');
 
-								if (acm.phraseAnswer != undefined) {
-									msgArr.push(' You typed <b>' + acm.phraseAnswer + '</b> .');
+								if (acm.get('phraseAnswer') != undefined) {
+									msgArr.push(' You typed <b>' + acm.get('phraseAnswer') + '</b> .');
 								}
 							}
 							else {
 								msgArr.push('You missed this question!');
 	
-								if (acm.correctAndChosen > 0) {
-									msgArr.push('You made ' + acm.correctAndChosen + ' correct choice' + (acm.correctAndChosen == 1 ? '.' : 's.') );
+								if (acm.get('correctAndChosen') > 0) {
+									var count = acm.get('correctAndChosen');
+									msgArr.push('You made ' + count + ' correct choice' + (count == 1 ? '.' : 's.') );
 								}
 								
-								if (acm.incorrectAndChosen > 0) {
-									msgArr.push(' You made ' + acm.incorrectAndChosen + ' incorrect choice' + (acm.incorrectAndChosen == 1 ? '.' : 's.') );
+								if (acm.get('incorrectAndChosen') > 0) {
+									var count = acm.get('incorrectAndChosen');
+									msgArr.push(' You made ' + count + ' incorrect choice' + (count == 1 ? '.' : 's.') );
 								}
 
-								if (acm.correctButNotChosen > 0) {
-									msgArr.push(' There ' + (acm.correctButNotChosen < 2 ? 'was ' : 'were ') + acm.correctButNotChosen + ' correct choice' + (acm.correctButNotChosen == 1 ? ' ' : 's ') + 'that you did not choose.');
+								if (acm.get('correctButNotChosen') > 0) {
+									var count = acm.get('correctButNotChosen');
+									msgArr.push(' There ' + (count < 2 ? 'was ' : 'were ') + count + ' correct choice' + (count == 1 ? ' ' : 's ') + 'that you did not choose.');
 								}
 								
-								if (acm.phraseAnswer != undefined) {
-									msgArr.push(' You typed <b>' + acm.phraseAnswer + '</b> .');
+								if (acm.get('phraseAnswer') != undefined) {
+									msgArr.push(' You typed <b>' + acm.get('phraseAnswer') + '</b> .');
 								}
 							}
 							
-							populateAlertDiv(msgArr, acm.overallAnsweredCorrectly ? "alert-success" : "alert-error");
+							populateAlertDiv(msgArr, acm.get('overallAnsweredCorrectly') ? "alert-success" : "alert-error");
 						}
 					};
 					

@@ -4,7 +4,7 @@ var CHOICE_IS_CORRECT_BUT_NOT_CHOSEN = 2;
 var CHOICE_IS_INCORRECT_AND_CHOSEN = 3;
 var CHOICE_IS_INCORRECT_AND_SEQUENCE = 4;
 var CHOICE_IS_PHRASE_AND_WE_CANT_TELL_YET = 5;
-var CHOICE_IS_SET = 6;
+var CHOICE_IS_FROM_QUESTION_TYPE_SET = 6;
 var CHOICE_IS_INDETERMINEDLY_ANSWERED = -1;
 
 var QUESTION_TYPE_SINGLE = 1;
@@ -86,6 +86,157 @@ var Difficulty = (function() {
 		return  {
 			difficulty_id:difficulty_id,
 		};
+	};
+	
+	return my;
+});
+
+var ChosenChoicesQuestionChoiceItemViewModel = Backbone.Model.extend({
+	defaults : {
+		text:'',
+		checked:'',
+		sequence:'',
+		id:'',
+		millisecond_id:''
+	}
+});
+
+var answerCorrectnessModel = Backbone.Model.extend({
+	defaults : { 
+		correctAndChosen:0, 
+		correctButNotChosen:0, 
+		incorrectAndChosen:0, 
+		totalChoicesCount:0, 
+		overallAnsweredCorrectly:undefined, 
+		phraseAnswer:undefined,
+		cssClass:''
+	},
+	isAnsweredCorrectly : function() {
+		return (overallAnsweredCorrectly == true);
+	},
+	incrementCorrectAndChosen : function() {
+		this.set('correctAndChosen', this.get('correctAndChosen') + 1);
+		this.set('totalChoicesCount', this.get('totalChoicesCount') + 1);
+		this.set('cssClass', 'correctAndChosen');
+    	
+		if (this.get('overallAnsweredCorrectly') == undefined)
+    		this.set('overallAnsweredCorrectly', true);
+	},
+	incrementCorrectButNotChosen : function () {
+		this.set('correctButNotChosen', this.get('correctButNotChosen') + 1);
+		this.set('totalChoiceCount', this.get('totalChoiceCount') + 1);
+		this.set('cssClass', 'correctButNotChosen');
+    	
+   		this.set('overallAnsweredCorrectly', false);
+	},
+	incrementIncorrectAndChosen : function () {
+		this.set('incorrectAndChosen', this.get('incorrectAndChosen') + 1);
+		this.set('totalChoiceCount', this.get('totalChoiceCount') + 1);
+		this.set('cssClass', 'incorrectAndChosen');
+    	
+   		this.set('overallAnsweredCorrectly', false);
+	}
+});
+
+var ChosenChoicesQuestionChoiceItemViewHelper = (function () {
+	var my = {};
+
+	my.processAnswerCorrectnessForThisChoice = function(_viewmodel) {
+
+		var cq = model_factory.get('currentQuestion');
+		var mostRecentExamAnswers = model_factory.get("answersToTheMostRecentExam");
+		var answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_viewmodel.get('id')});
+		var cccStatus = this.getChoiceCorrectlyChosenStatus(answer, cq, _viewmodel);
+		var answerCorrectnessModel = model_factory.get("answerCorrectnessModel");
+		
+		if (cccStatus == CHOICE_IS_CORRECT_AND_CHOSEN) {
+			answerCorrectnessModel.incrementCorrectAndChosen();
+			
+        } else if (cccStatus == CHOICE_IS_CORRECT_BUT_NOT_CHOSEN) {
+			answerCorrectnessModel.incrementCorrectButNotChosen();
+
+        } else if (cccStatus == CHOICE_IS_INCORRECT_AND_CHOSEN) {
+			answerCorrectnessModel.incrementIncorrectAndChosen();
+        	
+        } else if (cccStatus == CHOICE_IS_INCORRECT_AND_SEQUENCE) {
+			answerCorrectnessModel.incrementIncorrectAndChosen(); 
+        	_viewmodel.comment = ' (You typed: ' + answer.get('value') + ')';
+
+        } else if (cccStatus == CHOICE_IS_PHRASE_AND_WE_CANT_TELL_YET) {
+        	if (answer != undefined) { // if an answer was supplied for this choice...
+        		answerCorrectnessModel.set('phraseAnswer', answer.get('value'));
+
+            	if (answerCorrectnessModel.isAnsweredCorrectly() == false) {
+        			_.each(cq.getChoices().models, function(model) { 
+        				if (model.get('text') == answer.get('value')) 
+        					answerCorrectnessModel.overallAnsweredCorrectly = true; 
+        			});
+        		}
+        	}
+        } else if (cccStatus == CHOICE_IS_FROM_QUESTION_TYPE_SET) {
+        	
+			var fieldId = undefined;
+			
+			var choicesToBeAnsweredArray = cq.getChoiceIdsToBeAnswered();
+			_.each(choicesToBeAnsweredArray.split(','), function(model) { 
+				var v = model.split(';'); 
+				if (v.length === 2) {
+					fieldId = v[1];
+				}
+			});
+
+        	if (fieldId != undefined) {
+        		answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_viewmodel.get('id')+','+fieldId});
+        	}
+			
+        	if (answer != undefined) { // if an answer was supplied for this choice...
+    			
+        		var selectedChoices = _.filter(cq.getChoices().models, function(model) { 
+        				return choicesToBeAnsweredArray.indexOf(model.get('id')) > -1; 
+        			});
+
+        		_.each(selectedChoices, function(model) { 
+					var fieldText = getTextOfGivenFieldForSetQuestion(fieldId, model.get('text'));
+    				var answeredCorrectly = (fieldText == answer.get('value'));
+					
+					if (answeredCorrectly) {
+						answerCorrectnessModel.incrementCorrectAndChosen();
+						answerCorrectnessModel.set('phraseAnswer', answer.get('value'));
+					}
+					else {
+						answerCorrectnessModel.incrementIncorrectAndChosen();
+						_viewmodel.set('comment', ' (You typed: ' + answer.get('value') + ', instead of: ' + fieldText + ')');
+					}
+        		});
+        	}
+        	
+			var v = removeAllOccurrences('[[', _viewmodel.get('text'));
+			v = removeAllOccurrences(']]', v);
+
+			_viewmodel.set('text', v);
+        }
+	};
+	
+	my.getChoiceCorrectlyChosenStatus = function(answer, cq, _viewmodel) {
+		var cccStatus = CHOICE_IS_INDETERMINEDLY_ANSWERED;
+
+		if (cq.getTypeId() == QUESTION_TYPE_PHRASE) 
+			return CHOICE_IS_PHRASE_AND_WE_CANT_TELL_YET;
+		
+		if (cq.getTypeId() == QUESTION_TYPE_SET)
+			return CHOICE_IS_FROM_QUESTION_TYPE_SET;
+		
+    	if (answer != undefined && _viewmodel.get('checked') == 'checked' && answer.get('value') == (cq.getTypeId() == QUESTION_TYPE_SEQUENCE ? _viewmodel.get('sequence') : _viewmodel.get('text') )) {
+    		cccStatus = CHOICE_IS_CORRECT_AND_CHOSEN;
+    	} else if (answer == undefined && _viewmodel.get('checked') == 'checked') {
+    		cccStatus = CHOICE_IS_CORRECT_BUT_NOT_CHOSEN;
+    	} else if (answer != undefined && _viewmodel.get('checked') !== 'checked') {
+    		cccStatus = CHOICE_IS_INCORRECT_AND_CHOSEN;
+        } else if (answer != undefined && cq.getTypeId() == QUESTION_TYPE_SEQUENCE &&  _viewmodel.get('checked') == 'checked' && answer.get('value') !== _viewmodel.get('sequence')) {
+        	cccStatus = CHOICE_IS_INCORRECT_AND_SEQUENCE;
+        } 
+
+		return cccStatus;
 	};
 	
 	return my;

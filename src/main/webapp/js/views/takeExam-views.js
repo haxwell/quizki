@@ -143,8 +143,8 @@
 			if (this.fieldNumber == undefined) {
 				var _text = this.model.text;
 				
-				_text = removeAllOccurrances('[[', _text);
-				_text = removeAllOccurrances(']]', _text);
+				_text = removeAllOccurrences('[[', _text);
+				_text = removeAllOccurrences(']]', _text);
 				
 				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingChoiceItemView.html', {id:this.millisecondId,text:_text}));	
 			}
@@ -156,10 +156,10 @@
 					_text = new Array(); _text.push(''); _text.push(''); // no beforeTheField and afterTheField, so put placeholders in.. the effect is that only the text input field shows.
 				}
 				else {
-					_text[0] = removeAllOccurrances('[[', _text[0]);
-					_text[0] = removeAllOccurrances(']]', _text[0]);
-					_text[1] = removeAllOccurrances('[[', _text[1]);
-					_text[1] = removeAllOccurrances(']]', _text[1]);
+					_text[0] = removeAllOccurrences('[[', _text[0]);
+					_text[0] = removeAllOccurrences(']]', _text[0]);
+					_text[1] = removeAllOccurrences('[[', _text[1]);
+					_text[1] = removeAllOccurrences(']]', _text[1]);
 				}
 				
 				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingTextFieldItemView.html', {id:this.millisecondId,answer:_answer,textBegin:_text[0],textEnd:_text[1]}));

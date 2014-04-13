@@ -5,7 +5,7 @@ var Quizki = {
 };
 
 
-// TODO: see how much of this can be replaced by _.pluck(list, propertyName)
+// TODO: see how much of this can be replaced by _.pluck(list, propertyName) and the KeyValuePair model
 KeyValueMap = function() {
 	var arr = {};
 	var count = 0;
@@ -225,6 +225,25 @@ var JSONUtility = (function() {
 	
 	my.endJSONArray = function(str) {
 		return this.endJSONString(str);
+	};
+	
+	
+	my.getJSONForArray = function(fieldName, array, appendComma) {
+		var rtn = '"' + fieldName + '" : [';
+		
+		for (var v=0; v < array.length; v++) {
+			rtn += '"' + array[v] + '"';
+			
+			if (v+1 < array.length)
+				rtn += ',';
+		}
+		
+		rtn += ']';
+		
+		if (appendComma !== false)
+			rtn += ', ';
+		
+		return rtn;
 	};
 	
 	my.getJSON = function(fieldName, valueToAdd, appendComma) {

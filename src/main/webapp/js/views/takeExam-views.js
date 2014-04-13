@@ -127,7 +127,7 @@
 		initialize:function() {
 			this.model = arguments[0].attributes;
 			this.millisecondId = arguments[0].attributes.id;
-			this.choiceIsToBeAnswered = arguments[1];
+			this.fieldNumber = arguments[1];
 			
 			this.eventHandlerMap = new KeyValueMap();
 
@@ -140,10 +140,30 @@
 			return this.eventHandlerMap.get(key);
 		},
 		render:function() {
-			if (this.choiceIsToBeAnswered)
-				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionNotShowingChoiceItemView.html', {id:this.millisecondId,answer:this.model.phrase}));
-			else
-				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingChoiceItemView.html', {id:this.millisecondId,text:this.model.text}));
+			if (this.fieldNumber == undefined) {
+				var _text = this.model.text;
+				
+				_text = removeAllOccurrances('[[', _text);
+				_text = removeAllOccurrances(']]', _text);
+				
+				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingChoiceItemView.html', {id:this.millisecondId,text:_text}));	
+			}
+			else {
+				var _text = getBeginningAndEndingTextForSetQuestion(this.fieldNumber, this.model.text);
+				var _answer = this.model.phrase;
+				
+				if (_text == undefined) {
+					_text = new Array(); _text.push(''); _text.push(''); // no beforeTheField and afterTheField, so put placeholders in.. the effect is that only the text input field shows.
+				}
+				else {
+					_text[0] = removeAllOccurrances('[[', _text[0]);
+					_text[0] = removeAllOccurrances(']]', _text[0]);
+					_text[1] = removeAllOccurrances('[[', _text[1]);
+					_text[1] = removeAllOccurrances(']]', _text[1]);
+				}
+				
+				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingTextFieldItemView.html', {id:this.millisecondId,answer:_answer,textBegin:_text[0],textEnd:_text[1]}));
+			}
 			
 			return this;
 		}
@@ -223,8 +243,25 @@
 						currQuestion.updateChoice(cId, 'phrase', newAnswer);
 					});
 					
-					var key = currQuestion.getId() + "," + currQuestion.getChoice(millisecond_id).id;
-					var answers = model_factory.get("answersMap");
+					var choice = currQuestion.getChoice(millisecond_id);
+					
+					// TODO: Question should be able to use the get('id') format as well.. but its not.. look into that.
+					var key = currQuestion.getId() + ',' + choice.get('id');
+					
+					// TODO: Rather than this hacky IF statement, need to create a AnswerMapKeyGeneratorFactory.
+					//  we'd pass the current question, the event, and get back the key to be used in the answer map.
+					if (currQuestion.getTypeId() == QUESTION_TYPE_SET) {
+						var fieldId = undefined;
+						_.each(currQuestion.getChoiceIdsToBeAnswered().split(','), function(model) { 
+							if (model.indexOf(choice.get('id') + ';') > -1) 
+								fieldId = model.split(';')[1]; 
+						});
+
+						if (fieldId != undefined)
+							key += "," + fieldId;
+					}
+					
+					var answers = model_factory.get('answersMap');
 					
 					answers.destroy(key);
 					answers.put(key, newAnswer);
@@ -274,6 +311,7 @@
 				$("#sequenceTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
 				$("#phraseTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onphrasetextfieldblur"));
 				$("#phraseTextField" + model.view.millisecondId).on('keypress', model.view.getEventHandler("onphrasetextfieldkeypress"));
+				$("#phraseTextField" + model.view.millisecondId).on('blur', model.view.getEventHandler("onphrasetextfieldblur_setquestion"));
 			});
 
 			return this;

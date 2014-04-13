@@ -74,9 +74,14 @@ var TakeExamChoiceItemFactory = (function() {
 		else if (type == QUESTION_TYPE_SET) {
 			for (var x=0; x < ordering.length; x++) {
 				var choice = choices.at(ordering[x]);
-				var choiceIsToBeAnswered = currentQuestion.getChoiceIdsToBeAnswered().indexOf(choice.get('id')) > -1;
+				var data = undefined;
+				var arr = currentQuestion.getChoiceIdsToBeAnswered().split(',');
+				_.forEach(arr, function(model) { 
+					if (model.indexOf(choice.get('id') + ';') > -1) 
+						data = model.substring(model.indexOf(';') + 1); 
+				});
 				
-				rtn.push( new Quizki.ExamSetQuestionChoiceItemView(choice, choiceIsToBeAnswered) );
+				rtn.push( new Quizki.ExamSetQuestionChoiceItemView(choice, data) );
 			}
 		}
 		

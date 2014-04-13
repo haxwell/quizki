@@ -45,6 +45,7 @@
 
 			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 
+			<![CDATA[ <script src="../js/stringUtil.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
@@ -52,6 +53,7 @@
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/reference.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/keyValuePair.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 
@@ -104,7 +106,7 @@
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 
-					var setAnswersModel = Backbone.Model.extend({ defaults: {choiceId:-1, answer:''} });
+					var setAnswersModel = Backbone.Model.extend({ defaults: {answerId:-1, answer:''} });
 
 			    	model_constructor_factory.put("answerCorrectnessModel", function() { return { correctAndChosen:0, correctButNotChosen:0, incorrectAndChosen:0, totalChoicesCount:0, overallAnsweredCorrectly:undefined, phraseAnswer:undefined, setAnswers:new Backbone.Collection([], {model:setAnswersModel}) };} );
 			    		

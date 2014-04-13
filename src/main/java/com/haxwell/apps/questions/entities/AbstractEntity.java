@@ -44,6 +44,34 @@ public class AbstractEntity implements Comparable {
 		return null;
 	}
 	
+
+	protected String getDynamicDataAsJSON() {
+		
+		Set<String> keys = dynamicData.keySet();
+		StringBuffer sb = new StringBuffer();
+		
+		if (keys.size() > 0) {
+			for (String key : keys) 
+				sb.append(getJSON(key, dynamicData.get(key).toString(), APPEND_COMMA));
+		
+			sb.append("\"dynamicDataFieldNames\" : [");
+			
+			boolean b = false;
+			for (String key : keys) {
+				if (b)
+					sb.append(",");
+				
+				sb.append("\"" + key + "\"");
+				
+				b = true;
+			}
+			
+			sb.append("]");
+		}
+
+		return sb.toString();
+	}
+	
 	protected String getJSON(String fieldName, String value) {
 		return getJSON(fieldName, value, false);
 	}

@@ -49,6 +49,7 @@
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/reference.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/keyValuePair.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 			

@@ -281,6 +281,14 @@ public class QuestionUtil {
 			q.setTopics(TopicUtil.getSetFromJsonString(o.get("topics").toString()));
 			q.setReferences(ReferenceUtil.getSetFromJsonString(o.get("references").toString()));
 			
+			JSONArray dynarr = (JSONArray)o.get("dynamicDataFieldNames");
+			
+			for (int x=0; x < dynarr.size(); x++) {
+				String dynFieldName = (String)dynarr.get(x);
+				
+				q.setDynamicData(dynFieldName, o.get(dynFieldName));
+			}
+			
 			ll.add(q);
 		}
 		

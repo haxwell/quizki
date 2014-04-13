@@ -10,6 +10,7 @@ import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 public class SetQuestionDynamifier extends AbstractDynamifier {
 
@@ -33,12 +34,31 @@ public class SetQuestionDynamifier extends AbstractDynamifier {
 				while (randomIndex-- >= 0 && iterator.hasNext()) c = iterator.next();
 				
 				// For now, we're only doing one value, but I can see in the future that there will be multiple values..
-				csv = c.getId() + "";
+				int fieldNum = getDynamifiedTextFieldNumber(c);
+				
+				csv = c.getId() + ";" + fieldNum;
 				
 				session.setAttribute(q.getId() + "_QuestionTypeSetDynamification", csv);				
 			}
 			
 			q.setDynamicData("choiceIdsToBeAnswered", csv);
 		}		
+	}
+
+	private int getDynamifiedTextFieldNumber(Choice c) {
+		int rtn = -1;
+		String text = c.getText();
+		
+		int occurrances = StringUtil.getNumberOfOccurrances("[[", text);
+		
+		if (occurrances > 0 && StringUtil.getNumberOfOccurrances("]]", text) == occurrances) {
+			if (occurrances ==  1) {
+				rtn = 1;
+			} else {
+				rtn = RandomIntegerUtil.getRandomInteger(occurrances) + 1;
+			}
+		}
+		
+		return rtn;
 	}
 }

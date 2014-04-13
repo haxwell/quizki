@@ -328,11 +328,11 @@ public class QuestionManager extends Manager {
 		return rtn;
 	}
 	
-	public static boolean isAnsweredCorrectly(Question question, Map<String, String> answers)
-	{
-		AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(question);
-		return checker.questionIsCorrect(answers);
-	}
+//	public static boolean isAnsweredCorrectly(Question question, Map<String, String> answers)
+//	{
+//		AbstractQuestionTypeChecker checker = QuestionTypeCheckerFactory.getChecker(question);
+//		return checker.questionIsCorrect(answers);
+//	}
 
 	public static long getNumberOfQuestionsInTotal() {
 		EntityManager em = emf.createEntityManager();

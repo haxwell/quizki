@@ -114,6 +114,7 @@ var Question = (function() {
 		topics = new Backbone.Collection([], {model: Topic}); 
 		references = new Backbone.Collection([], {model: Reference}); 
 		choices = new Backbone.Collection([], {model : Choice});
+		dynamicData = new Backbone.Collection([], {model : KeyValuePair});
 	};
 	
 	my.initialize = function() {
@@ -135,9 +136,7 @@ var Question = (function() {
 		choices = new Backbone.Collection([], {model:Choice});
 		choices.add(source.choices);
 		
-		if (source.choiceIdsToBeAnswered !== undefined) {
-			choiceIdsToBeAnswered = source.choiceIdsToBeAnswered.split(',');
-		}
+		_.forEach(source.dynamicDataFieldNames, function(model) { var obj = {key:model, value:source[model]}; dynamicData.add(obj); });
 		
 		_.extend(this, Backbone.Events);
 	};
@@ -172,7 +171,12 @@ var Question = (function() {
 		if (choiceIdsToBeAnswered !== undefined) {
 			rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choiceIdsToBeAnswered', '"' + choiceIdsToBeAnswered.join(',') + '"');
 		}
-
+		
+		var dynamicKeys = dynamicData.pluck('key');
+		rtn += JSONUtility.getJSONForArray('dynamicDataFieldNames', dynamicKeys);
+		
+		_.each(dynamicKeys, function(model) { rtn += JSONUtility.getJSON(model, dynamicData.get(model).get('value')); });
+		
 		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(choices.toJSON()), false);
 		
 		rtn = JSONUtility.endJSONString(rtn);
@@ -335,7 +339,10 @@ var Question = (function() {
 	};
 	
 	my.getChoiceIdsToBeAnswered = function() {
-		return choiceIdsToBeAnswered;
+		// TODO: This should be returned via Backbone, using a style like q.get('choiceIdsToBeAnswered').. need to get model
+		//  definitions of a question correctly working in order to do that
+		
+		return dynamicData.findWhere({key:'choiceIdsToBeAnswered'}).get('value');
 	};
 	
 	my.hasBeenAnswered = function() {

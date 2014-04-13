@@ -218,9 +218,9 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		sb.append(getJSON("references", references.iterator(), APPEND_COMMA));
 		sb.append(getJSON("entityStatus", getEntityStatus() + "", APPEND_COMMA));
 
-		Set<String> keys = dynamicData.keySet();
-		for (String str : keys) 
-			sb.append(getJSON(str, dynamicData.get(str).toString(), APPEND_COMMA));
+		String str = getDynamicDataAsJSON();
+		sb.append(str);
+		if (str.length() > 0) sb.append(",");
 		
 		sb.append(getJSON("user_id", getUser().getId()+"", APPEND_COMMA));
 		sb.append(getJSON("user_name", getUser().getUsername()));
@@ -276,6 +276,4 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		
 		return sb.toString();
 	}
-	
-	
 }

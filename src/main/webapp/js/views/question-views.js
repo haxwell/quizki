@@ -378,17 +378,32 @@
 	        		}
             	}
             } else if (cccStatus == CHOICE_IS_SET) {
-            	if (answer != undefined) { // if an answer was supplied for this choice...
-            		answerCorrectnessModel.setAnswers.add({choiceId:answer.get('fieldId'), answer:answer.get('value')});
+            	
+    			var fieldId = undefined;
+    			
+    			var choicesToBeAnsweredArray = cq.getChoiceIdsToBeAnswered();
+    			_.each(choicesToBeAnsweredArray.split(','), function(model) { 
+    				var v = model.split(';'); 
+    				if (v.length === 2) {
+    					fieldId = v[1];
+    				}
+    			});
 
-        			var choicesToBeAnsweredArray = cq.getChoiceIdsToBeAnswered();
+            	if (fieldId != undefined) {
+            		answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+_viewmodel.id+','+fieldId});
+            	}
+    			
+            	if (answer != undefined) { // if an answer was supplied for this choice...
+            		answerCorrectnessModel.setAnswers.add({answerId:answer.get('fieldId'), answer:answer.get('value')});
+        			
             		var selectedChoices = _.filter(cq.getChoices().models, function(model) { return choicesToBeAnsweredArray.indexOf(model.get('id')) > -1; });
 
             		_.each(selectedChoices, function(model) { 
-        				var answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+model.get('id')}); 
+//        				var answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId()+','+model.get('id')}); 
         				
-        				if (answer != undefined) {
-        					var answeredCorrectly = (model.get('text') == answer.get('value'));
+//        				if (answer != undefined) {
+        					var fieldText = getTextOfGivenFieldForSetQuestion(fieldId, model.get('text'));
+            				var answeredCorrectly = (fieldText == answer.get('value'));
         					answerCorrectnessModel.overallAnsweredCorrectly = answeredCorrectly;
         					
         					if (answeredCorrectly) {
@@ -397,14 +412,17 @@
         					}
         					else {
         						answerCorrectnessModel.incorrectAndChosen++;
-        						_viewmodel.comment = ' (You typed: ' + answer.get('value') + ')';
+        						_viewmodel.comment = ' (You typed: ' + answer.get('value') + ', instead of: ' + fieldText + ')';
         						choiceCorrectStatusClass = 'incorrectAndChosen';
         					}
-        				}
+//        				}
             		});
             	}
+            	
+    			_viewmodel.text = removeAllOccurrances('[[', _viewmodel.text);
+    			_viewmodel.text = removeAllOccurrances(']]', _viewmodel.text);
             }
-            
+
             answerCorrectnessModel.totalChoicesCount++;
 			
             var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_viewmodel.id,text:_viewmodel.text,comment:_viewmodel.comment,checked:_viewmodel.checked,sequence:_viewmodel.sequence,hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:choiceCorrectStatusClass});

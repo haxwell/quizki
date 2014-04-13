@@ -7,6 +7,7 @@ import java.util.Set;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionUtil;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 public class SetQuestionTypeChecker extends AbstractQuestionTypeChecker {
 
@@ -25,8 +26,12 @@ public class SetQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		for (Choice c : choices)
 		{
 			long choiceId = c.getId();
-			if (selectedChoiceIds.contains(choiceId+"")) {
-				rtn &= mapOfFieldNamesToValues.get(this.question.getId() + "," + choiceId).equals(c.getText());
+			String dynamicData = (String)this.question.getDynamicData("choiceIdsToBeAnswered");
+			String fieldNum = StringUtil.getField(2, ";", ";", dynamicData);
+
+			if (selectedChoiceIds.contains(choiceId+","+fieldNum)) {
+				String text = StringUtil.getField(Integer.parseInt(fieldNum), "[[", "]]", c.getText());
+				rtn &= mapOfFieldNamesToValues.get(this.question.getId() + "," + choiceId + "," + fieldNum).equals(text);
 			}
 		}
 		

@@ -29,8 +29,13 @@ public abstract class AbstractQuestionTypeChecker {
 		Set<String> keys = mapOfFieldNamesToValues.keySet();
 		
 		for (String compoundKey : keys) {
-			String key = compoundKey.substring(compoundKey.indexOf(',')+1);
+			// the compound key, at present looks like 'questionId,choiceId' or 'questionId,choiceId,fieldId'
+			// we get the begin and end indexes to handle both cases.
+			int beginIndex = compoundKey.indexOf(',')+1;
+			int endIndex = compoundKey.indexOf(',', beginIndex);
 			
+			String key = compoundKey.substring(compoundKey.indexOf(',')+1, Math.max(endIndex, compoundKey.length()));
+						
 			mapOfChoiceIdsToValues.put(key, mapOfFieldNamesToValues.get(compoundKey));
 		}
 		

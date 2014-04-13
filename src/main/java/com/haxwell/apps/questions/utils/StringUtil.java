@@ -12,6 +12,41 @@ import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
 public class StringUtil {
 
+	public static String getField(int fieldNumber, String beginningFieldMarker, String endingFieldMarker, String str) {
+		// 67
+		// 67;9;2
+		int beginIndex = -1;
+		int endIndex = -1;
+		int counter = (beginningFieldMarker.equals(endingFieldMarker) ? 1 : 0);
+		
+		for ( ; counter < fieldNumber; counter++) {
+			beginIndex = str.indexOf(beginningFieldMarker, beginIndex+1);
+		}
+		
+		if (beginIndex != -1) {
+			endIndex = str.indexOf(endingFieldMarker, beginIndex+1);
+		}
+		
+		String rtn = str;
+		if (beginIndex > -1) {
+			rtn = str.substring(beginIndex+beginningFieldMarker.length(), (endIndex == -1 ? str.length() : endIndex));
+		}
+		
+		return rtn;
+	}
+	
+	public static int getNumberOfOccurrances(String pattern, String str) {
+		int index = str.indexOf(pattern);
+		int count = 0;
+		
+		while (index > -1) {
+			count++;
+			index = str.indexOf(pattern, index+1);
+		}
+		
+		return count;
+	}
+	
 	public static boolean isNullOrEmpty(String str)
 	{
 		return str == null ? true : (str.length() <= 0);

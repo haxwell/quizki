@@ -112,7 +112,7 @@ var answerCorrectnessModel = Backbone.Model.extend({
 		cssClass:''
 	},
 	isAnsweredCorrectly : function() {
-		return (overallAnsweredCorrectly == true);
+		return (this.get('overallAnsweredCorrectly') == true);
 	},
 	incrementCorrectAndChosen : function() {
 		this.set('correctAndChosen', this.get('correctAndChosen') + 1);
@@ -169,7 +169,7 @@ var ChosenChoicesQuestionChoiceItemViewHelper = (function () {
             	if (answerCorrectnessModel.isAnsweredCorrectly() == false) {
         			_.each(cq.getChoices().models, function(model) { 
         				if (model.get('text') == answer.get('value')) 
-        					answerCorrectnessModel.overallAnsweredCorrectly = true; 
+        					answerCorrectnessModel.set('overallAnsweredCorrectly', true); 
         			});
         		}
         	}

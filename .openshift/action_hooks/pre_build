@@ -1,5 +1,10 @@
 #!/bin/bash
-# This is a simple build script and will be executed on your CI system if 
+# This is a simple script and will be executed on your CI system if 
 # available.  Otherwise it will execute while your application is stopped
-# before the deploy step.  This script gets executed directly, so it
+# before the build step.  This script gets executed directly, so it
 # could be python, php, ruby, etc.
+
+echo " == Custom Quizki Build Step --> Updating files with MYSQL DB url references to refer to this specific environment"
+cd ~ 
+find . -name "persistence.xml" -print | xargs sed -i 's/localhost:3306/'"$OPENSHIFT_MYSQL_DB_HOST"':'"$OPENSHIFT_MYSQL_DB_PORT"'/g'
+find . -name "shiro.ini" -print | xargs sed -i 's/=localhost/='"$OPENSHIFT_MYSQL_DB_HOST"'/g'

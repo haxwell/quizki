@@ -5,16 +5,54 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
+import com.haxwell.apps.questions.constants.AutocompletionConstants;
 import com.haxwell.apps.questions.entities.Reference;
+import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.managers.AutocompletionManager;
 import com.haxwell.apps.questions.managers.ReferenceManager;
 
 public class ReferenceUtil {
 	
 	public static Logger log = Logger.getLogger(ReferenceUtil.class.getName());
+
+	public static void persistReferencesForAutocompletion(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("currentUserEntity");
+
+		String userId = (String)request.getParameter("user_id");
+		Long user_id = Long.parseLong((userId == null || userId.equals("-1")) ? user.getId()+"" : userId);
+
+		String text = (String)request.getParameter("referencesEntries");
+		
+		// remove the brackets at the beginning and end.. 
+		if (text != null) {
+			text = text.substring(1, text.length() - 1);
+			AutocompletionManager.write(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, "\""));
+		}
+		
+		text = (String)request.getParameter("referencesDeletedEntries");
+		
+		if (text != null) {
+			text = text.substring(1, text.length() - 1);
+			AutocompletionManager.delete(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, "\""));
+		}
+	}
+
+	public static String getAutocompleteHistoryForReferences(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("currentUserEntity");
+
+		String userId = (String)request.getParameter("user_id");
+		Long user_id = Long.parseLong(userId == null ? user.getId()+"" : userId);
+
+		String rtn = AutocompletionManager.get(user_id, AutocompletionConstants.REFERENCES);
+		
+		return rtn;
+	}
 
 	public static Set<Reference> getSetFromCSV(String csv) {
 

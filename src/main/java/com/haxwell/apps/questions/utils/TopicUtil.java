@@ -5,40 +5,66 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
+import com.haxwell.apps.questions.constants.AutocompletionConstants;
 import com.haxwell.apps.questions.entities.Topic;
+import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.managers.AutocompletionManager;
 import com.haxwell.apps.questions.managers.TopicManager;
 
 public class TopicUtil {
 	
 	public static Logger log = Logger.getLogger(TopicUtil.class.getName());
 
-	public static Set<Topic> getSetFromCSV(String csv) {
+	public static void persistTopicsForAutocompletion(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("currentUserEntity");
 
-		StringTokenizer tokenizer = new StringTokenizer(csv, ",");
-		Set<Topic> topics = new HashSet<Topic>();
+		String userId = (String)request.getParameter("user_id");
+		Long user_id = Long.parseLong((userId == null || userId.equals("-1")) ? user.getId()+"" : userId);
+
+		String text = (String)request.getParameter("topicsEntries");
 		
-		while (tokenizer.hasMoreTokens())
-		{
-			String token = tokenizer.nextToken().trim();
-			Topic topic = TopicManager.getTopic(token);
-			
-			if (topic == null)
-				topic = new Topic(token);
-
-			if (!topics.contains(topic))
-				topics.add(topic);
+		// remove the brackets at the beginning and end.. 
+		if (text != null) {
+			text = text.substring(1, text.length() - 1);
+			AutocompletionManager.write(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, "\""));
 		}
 		
-		return topics;
+		text = (String)request.getParameter("topicsDeletedEntries");
+		if (text != null) {
+			text = text.substring(1, text.length() - 1);
+			AutocompletionManager.delete(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, "\""));
+		}
+	}
+
+	public static String getAutocompleteHistoryForTopics(HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("currentUserEntity");
+
+		String userId = (String)request.getParameter("user_id");
+		Long user_id = Long.parseLong(userId == null ? user.getId()+"" : userId);
+
+		String rtn = AutocompletionManager.get(user_id, AutocompletionConstants.TOPICS);
+		
+		return rtn;
 	}
 	
+	// Takes a string like "topicA,topicB,topicC" and returns a collection of the three Topic objects which match
+	public static Collection<Topic> getTopicsFromCSV(String csv) {
+
+		Set<String> topics = CollectionUtil.getSetFromCSV(csv);
+		Collection<Topic> coll = TopicManager.getTopics(topics);
+		
+		return coll;
+	}
+	
+	// Using a JSON string as a base, creates instances of Topic to match, returning them in a List.
 	public static List<Topic> getListFromJsonString(String str) {
 		List<Topic> rtn = new ArrayList<Topic>();
 		

@@ -1,12 +1,11 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.page import="java.util.logging.Logger"/>
 	<jsp:directive.page import="java.util.logging.Level"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.managers.ExamManager"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.managers.TopicManager"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.TopicUtil"/>
-	<jsp:directive.page import="net.minidev.json.JSONObject"/>
-	<jsp:directive.page import="net.minidev.json.JSONValue"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.managers.QuestionManager"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.managers.AutocompletionManager"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.managers.AJAXReturnData"/>
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -24,14 +23,7 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-// get the json from the client
-String tJson = request.getParameter("topics_json");
-
-log.log(Level.SEVERE, tJson + "\n\n");
-
-String strr = CollectionUtil.toJSON(ExamManager.getExamsById(ExamManager.getExamsWhichContain(TopicUtil.getListFromJsonString(tJson))));
-
-writer.print(strr);
+writer.print(TopicUtil.getAutocompleteHistoryForTopics(request));
 
 </jsp:scriptlet>
 	

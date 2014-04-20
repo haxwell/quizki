@@ -38,11 +38,13 @@
 			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/complete.ly/complete.ly.1.0.1.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/autocomplete.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
@@ -62,7 +64,18 @@
 				};
 				
 			    $(document).ready(function() {
+			    	var topicsViewKey = 'topics';
+			    	var referencesViewKey = 'references';
+			    	
+			    	event_intermediary.initialize();
+			    	
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
+			    	model_constructor_factory.put("topicsAutocompleteHistory", function() {
+			    		return getAutocompleteHistoryForEnvironment(topicsViewKey);
+			    	});
+			    	model_constructor_factory.put("referencesAutocompleteHistory", function() {
+			    		return getAutocompleteHistoryForEnvironment(referencesViewKey);
+			    	});
 			    		
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea") });
@@ -73,10 +86,11 @@
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId(), getModelNameKey:"currentQuestion" });
 					
+					
 					var bv_topicsWell = new Quizki.QuestionAttributeWellView(
 						{
 							el:$("#topicsWell"), 
-							viewKey:'topics', 
+							viewKey:topicsViewKey, 
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getTopics(); }, 
@@ -86,7 +100,7 @@
 					var bv_referencesWell = new Quizki.QuestionAttributeWellView(
 						{
 							el:$("#referencesWell"), 
-							viewKey:'references', 
+							viewKey:referencesViewKey, 
 							modelToListenTo:'currentQuestion', 
 							modelEventToListenFor:'resetQuestion', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getReferences(); },
@@ -97,7 +111,25 @@
 					bv_topicsWell.render();
 					bv_referencesWell.render();
 
-			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons") });					
+					var func = function () {
+						var rtn = model_factory.get("currentQuestion").getDataObject();
+
+						var topicsEntries = model_factory.get(topicsViewKey + "Entries").pluck('value');
+						rtn.topicsEntries = JSON.stringify(topicsEntries);
+						
+						var referencesEntries = model_factory.get(referencesViewKey + "Entries").pluck('value');
+						rtn.referencesEntries = JSON.stringify(referencesEntries);
+						
+						var deletedEntries = model_factory.get(topicsViewKey + "DeletedEntries").pluck('value');
+						rtn.topicsDeletedEntries = JSON.stringify(deletedEntries);
+						
+						deletedEntries = model_factory.get(referencesViewKey + "DeletedEntries").pluck('value');
+						rtn.referencesDeletedEntries = JSON.stringify(deletedEntries);						
+						
+						return rtn;
+					};
+					
+			    	var bv_header = new Quizki.SaveButtonView({ el: $("#divQuestionHeaderWithSaveButtons"), getDataObjectFunc:func});
 			    });
 			    
 				// this same code is in displayQuestion.jsp.. extract it somewhere

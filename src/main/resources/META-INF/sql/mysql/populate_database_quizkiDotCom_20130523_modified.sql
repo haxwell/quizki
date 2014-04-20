@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `autocomplete_history`
+--
+
+DROP TABLE IF EXISTS `autocomplete_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `autocomplete_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `environment_id` bigint(20) NOT NULL,
+  `text` varchar(128) NOT NULL,
+  PRIMARY KEY (`user_id`,`environment_id`,`text`),
+  KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `autocomplete_history`
+--
+
+LOCK TABLES `autocomplete_history` WRITE;
+/*!40000 ALTER TABLE `autocomplete_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `autocomplete_history` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
 -- Table structure for table `choice`
 --
 

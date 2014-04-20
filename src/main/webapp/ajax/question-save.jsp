@@ -6,11 +6,9 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.entities.Question"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.EventConstants"/>	
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.DifficultyUtil"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.ReferenceUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.TopicUtil"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.TypeUtil"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.ReferenceUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.QuestionUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.events.EventDispatcher"/>
 	<jsp:directive.page import="java.util.List"/>
@@ -36,9 +34,13 @@ java.io.PrintWriter writer = response.getWriter();
 // need to get the text data from the javascript, and convert it to a real Question object
 String jsonRtn = StringUtil.toJSON(QuestionUtil.persistQuestionBasedOnHttpServletRequest(request));
 
-log.log(Level.SEVERE, jsonRtn);
+// only persist topics and references if there are no validation errors from the persist question operation
+if (!jsonRtn.contains("\"errors\"")) {
+	TopicUtil.persistTopicsForAutocompletion(request);
+	ReferenceUtil.persistReferencesForAutocompletion(request);
+}
 
-//(rtn > -1) ? writer.print("") : writer.print("");
+log.log(Level.SEVERE, jsonRtn);
 
 writer.print(jsonRtn);
 

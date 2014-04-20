@@ -2,9 +2,12 @@ package com.haxwell.apps.questions.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
@@ -43,6 +46,19 @@ public class CollectionUtil {
 		}
 		
 		return sb.toString();
+	}
+	
+	// TODO: Allow the user to pass the class of the type of collection they want.. rather than just returning HashSet.. perhaps they 
+	//  want to allow duplicates.
+	public static Set<String> getSetFromCSV(String csv) {
+		StringTokenizer tokenizer = new StringTokenizer(csv);
+		
+		Set<String> rtn = new HashSet<>();
+		
+		while (tokenizer.hasMoreTokens()) 
+			rtn.add(tokenizer.nextToken());
+		
+		return rtn;
 	}
 	
 	public static List<Long> getListOfIds(Collection<? extends EntityWithAnIntegerIDBehavior> list)

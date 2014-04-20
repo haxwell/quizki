@@ -2,11 +2,9 @@ package com.haxwell.apps.questions.utils;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
@@ -35,6 +33,52 @@ public class StringUtil {
 		return rtn;
 	}
 	
+	public static class FieldIterator implements Iterator<String> {
+
+		private String beginningFieldMarker = null;
+		private String endingFieldMarker = null;
+		private String source = null;
+		private int beginIndex = -1;
+		private int endIndex = -1;
+		private boolean beginAndEndIndexesHaveBeenSet = false;
+		
+		public FieldIterator(String source, String beginningFieldMarker) {	
+			this.source = source;
+			this.beginningFieldMarker = beginningFieldMarker;
+			this.endingFieldMarker = beginningFieldMarker;
+		}
+		
+		public FieldIterator(String source, String beginningFieldMarker, String endingFieldMarker) {	
+			this.source = source;
+			this.beginningFieldMarker = beginningFieldMarker;
+			this.endingFieldMarker = endingFieldMarker;
+		}
+		
+		private void setBeginAndEndIndex() {
+			beginIndex = source.indexOf(beginningFieldMarker, endIndex + 1);
+			if (beginIndex != -1) endIndex = source.indexOf(endingFieldMarker, beginIndex + 1);
+			else endIndex = -1;
+			beginAndEndIndexesHaveBeenSet = true;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			if (!beginAndEndIndexesHaveBeenSet) setBeginAndEndIndex();
+			return endIndex != -1;
+		}
+
+		@Override
+		public String next() {
+			if (!beginAndEndIndexesHaveBeenSet) setBeginAndEndIndex();
+			String rtn = source.substring(beginIndex, endIndex + 1);
+			beginAndEndIndexesHaveBeenSet = false;
+			return rtn;
+		}
+
+		@Override
+		public void remove() { /* do nothing */ }
+	}
+	
 	public static int getNumberOfOccurrances(String pattern, String str) {
 		int index = str.indexOf(pattern);
 		int count = 0;
@@ -56,8 +100,13 @@ public class StringUtil {
 	{
 		return "[";
 	}
-	
+
 	public static void addToJavascriptArray(StringBuffer sb, String val)
+	{
+		addToJavascriptArray(sb, val, true);
+	}
+	
+	public static void addToJavascriptArray(StringBuffer sb, String val, boolean wrapInQuotes)
 	{
 		if (sb.length() > 0)
 		{
@@ -67,7 +116,11 @@ public class StringUtil {
 				sb.append(',');
 		}
 		
-		sb.append("\"" + val + "\""); 
+		if (wrapInQuotes)
+			sb.append("\"" + val + "\"");
+		else
+			sb.append(val);
+		
 	}
 
 	public static void closeJavascriptArray(StringBuffer sb) {
@@ -132,18 +185,18 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	public static List<Long> getListOfLongsFromCSV(String topicsToInclude) {
-		LinkedList<Long> list = new LinkedList<Long>();
-		
-		StringTokenizer tokenizer = new StringTokenizer(topicsToInclude, ",");
-		
-		while (tokenizer.hasMoreTokens())
-		{
-			list.add(Long.parseLong(tokenizer.nextToken()));
-		}
-		
-		return list;
-	}
+//	public static List<Long> getListOfLongsFromCSV(String topicsToInclude) {
+//		LinkedList<Long> list = new LinkedList<Long>();
+//		
+//		StringTokenizer tokenizer = new StringTokenizer(topicsToInclude, ",");
+//		
+//		while (tokenizer.hasMoreTokens())
+//		{
+//			list.add(Long.parseLong(tokenizer.nextToken()));
+//		}
+//		
+//		return list;
+//	}
 	
 	public static String getShortURL(String fullUrl) {
 		int index = fullUrl.indexOf("/", "http://".length());

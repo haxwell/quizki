@@ -56,6 +56,7 @@
 	Quizki.SaveButtonView = Backbone.View.extend({
 		initialize:function() {
 			this.readOnly = arguments[0].readOnly;
+			this.getDataObjectFunc = arguments[0].getDataObjectFunc;
 			
 			this.render();
 		},
@@ -70,7 +71,7 @@
 		},
 		saveQuestion: function() {
 			var data_url = "/ajax/question-save.jsp";
-			var data_obj = model_factory.get("currentQuestion").getDataObject();
+			var data_obj = this.getDataObjectFunc();
 			
 			// do the ajax call
 			makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) { 
@@ -161,6 +162,7 @@
 
 	Quizki.QuestionAttributeWellView = Backbone.View.extend({
 		initialize:function() {
+			this.template = undefined;
 			this.readOnly = arguments[0].readOnly;
 			
 			this.id = Math.floor(Math.random() * 9999) + 1;
@@ -177,17 +179,32 @@
 			if (this.modelToListenTo != undefined) {
 				var modelToListenTo = model_factory.get(this.modelToListenTo);
 				this.listenTo(modelToListenTo, this.modelEventToListenFor, function() { 
+					var viewKey = model_factory.get(this.id + "ViewKey");
+					
 					model_factory.destroy( this.getBackboneModelKey() );
+					model_factory.destroy(viewKey + "AutocompleteHistory");
+					model_factory.destroy(viewKey + "AutocompleteField");
+					
+					model_factory.destroy(viewKey + "Entries");
+					model_factory.destroy(viewKey + "DeletedEntries");
+					model_factory.put(viewKey + "Entries", new Backbone.Collection([], {model: KeyValuePair}));
+					model_factory.put(viewKey + "DeletedEntries", new Backbone.Collection([], {model: KeyValuePair}));
+					
 					this.render();
 				});
 			}
+
+			// this is what the user typed during this session, to be sent to the server
+			model_factory.put(viewKey + "Entries", new Backbone.Collection([], {model: KeyValuePair}));
 			
-			this.template = undefined;
+			// these are items the user pressed delete on, in the autocomplete dropdown box
+			model_factory.put(viewKey + "DeletedEntries", new Backbone.Collection([], {model: KeyValuePair}));
+			
+			this.listenTo(event_intermediary, 'escapeKeyPressedInAutocompleteField', function(event) { this.renderAutocompleteField(false); });
 		},
 		events: {
 			"click .well_add_button":"toggleNewEntryField",
-			"click button.entryField":"saveNewEntries",
-			"keypress .edit.well":"pressEnterToSaveNewEntries",
+			"keypress .completelyField":"pressEnterToSaveNewEntries",
 			"dblclick span.label":"removeEntry",				
 		},
 		getBackboneModelKey: function() {
@@ -196,22 +213,17 @@
 			return (viewKey + "AttrWellBackboneCollection");
 		},
 		toggleNewEntryField:function(event){
-			var $elements = $('#textFieldDiv'+this.id+' > .entryField'); 
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			var field = $("#completelyField_" + viewKey);
 			
-			if ($elements.length > 0) {
-				
-				if ($elements.is(':visible')) {
-					$elements.hide();
-				}
-				else {
-					$elements.slideDown("slow");
-					$('#textFieldDiv'+this.id+' > input.entryField').focus();
-				}
-			} 
-			else {
-				$elements = $('#textFieldDiv'+this.id+' > .editing');
-				$elements.hide();
-			}
+			var makeVisible = undefined;
+			
+			if (field.children().length == 0)
+				makeVisible = true;
+			else 
+				makeVisible = !field.is(':visible'); 
+			
+			this.renderAutocompleteField( makeVisible );
 		},
 		pressEnterToSaveNewEntries : function(event) {
 			if (event.keyCode != 13) return;
@@ -219,18 +231,24 @@
 			this.saveNewEntries(event);
 		},
 		saveNewEntries:function(model) {
-			var $elements = $('#textFieldDiv'+this.id+' > .editing');
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			var autocompleteField = model_factory.get(viewKey + "AutocompleteField");
 			
-			$elements.addClass('hideForEditing');
-			$elements.removeClass('editing');
+			var text = autocompleteField.getText();
+			var arr = text.split(',');
 			
-			var arr = $('#textFieldDiv'+this.id+' > input.edit').val().split(',');
+			autocompleteField.setText('');
+			
+			this.toggleNewEntryField();
 			
 			var backboneModel = model_factory.get( this.getBackboneModelKey() );
 			for (var x=0; x < arr.length; x++) {
 				backboneModel.add({text:arr[x]});
 			}
 
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			model_factory.get(viewKey + "Entries").add({key:text, value:text});
+			
 			this.render();
 		},
 		removeEntry:function(event) {
@@ -254,6 +272,38 @@
 				ul.append( view_utility.executeTemplate('/templates/QuestionAttributeWellItemView.html', { text:modelText }) );
 			}
 		},
+		renderAutocompleteField: function(makeVisible) {
+			var viewKey = model_factory.get( this.id + "ViewKey" );
+			var autocompleteField = model_factory.get(viewKey + "AutocompleteField");
+			
+			if (makeVisible) {
+				if (autocompleteField == undefined) {
+					autocompleteField = completely(document.getElementById('completelyField_' + viewKey), { 
+						onKeyPress:function(e) { 
+							if (e.keyCode == 27) { event_intermediary.throwEvent("escapeKeyPressedInAutocompleteField"); e.keyCode = undefined; } 
+						},
+						onDeleteKeyPress:function(text, index) {
+							var coll = model_factory.get(viewKey + "DeletedEntries");
+							coll.add({key:text, value:text});
+						}
+					});
+					
+					autocompleteField.options = model_factory.get(viewKey + 'AutocompleteHistory');
+					autocompleteField.repaint(); 
+					autocompleteField.input.focus();
+					
+					model_factory.put(viewKey + "AutocompleteField", autocompleteField);
+				}
+				else {
+					$("#completelyField_" + viewKey).show();
+					autocompleteField.repaint();
+					autocompleteField.input.focus();
+				}
+			}
+			else {
+				$("#completelyField_" + viewKey).hide();
+			}
+		},
 		render:function() {
 			var readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
 			var _id = this.id;
@@ -264,8 +314,12 @@
 			
 			_.each(backboneModel.models, function(model) { this.renderElement(model); }, this);
 			
+			var _viewKey = model_factory.get( this.id + "ViewKey" );
+			
+			model_factory.destroy(_viewKey + "AutocompleteField");
+			
 			var currHtml = this.$el.html();
-			currHtml += view_utility.executeTemplate('/templates/AttributeWellViewInputField.html',{id:_id});
+			currHtml += view_utility.executeTemplate('/templates/AttributeWellViewInputField.html',{id:_id, viewKey:_viewKey});
 			
 			this.$el.html(currHtml);
 			
@@ -405,7 +459,7 @@
 			
 			var currQuestion = model_factory.get('currentQuestion');
 			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
-			this.listenTo(currQuestion, 'choicesChanged', function(event) { /*this.setStateOnQuestionTypeChangedEvent(event);*/ this.render(); });
+			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.render(); });
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			
 			this.setStateOnInitialization();
@@ -621,7 +675,7 @@
 			"click button": "btnClicked",
 			"keypress #enterAnswerTextField" : "updateOnEnter"
 		},
-		btnClicked: function (event) { //alert("submit button clicked!"); 
+		btnClicked: function (event) { 
 			var $textField = $('#enterAnswerTextField');
 			var textFieldVal = $textField.val();
 			

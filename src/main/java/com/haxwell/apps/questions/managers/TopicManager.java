@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.entities.Topic;
-import com.haxwell.apps.questions.utils.TopicUtil;
 
 public class TopicManager extends Manager {
 
@@ -66,6 +65,35 @@ public class TopicManager extends Manager {
 		em.close();
 
 		return (list.size() > 0 ? list.get(0) : null);
+	}
+	
+	public static Collection<Topic> getTopics(Set<String> topicTexts) {
+		EntityManager em = emf.createEntityManager();
+		
+		String queryStr = "SELECT * FROM topic ";
+		
+		if (topicTexts.size() > 0) {
+			
+			queryStr += "WHERE ";
+			
+			boolean b = false;
+			for (String t : topicTexts) {
+				if (b)
+					queryStr += " OR ";
+				
+				queryStr += "text = '" + t + "'";
+				
+				b = true;
+			}
+		}
+
+		Query query = em.createNativeQuery(queryStr, Topic.class);
+		
+		List<Topic> list = (List<Topic>)query.getResultList();
+		
+		em.close();
+
+		return list;
 	}
 	
 	public static Collection<Topic> getAllTopicsForQuestionsCreatedByAGivenUser(long userId)
@@ -188,9 +216,9 @@ public class TopicManager extends Manager {
 		topics.remove(t);
 	}
 
-	public static List<Topic> fromJSON(String json) {
-		List<Topic> rtn = TopicUtil.getListFromJsonString(json);
-		
-		return rtn;
-	}
+//	public static List<Topic> fromJSON(String json) {
+//		List<Topic> rtn = TopicUtil.getListFromJsonString(json);
+//		
+//		return rtn;
+//	}
 }

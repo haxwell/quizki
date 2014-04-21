@@ -567,10 +567,17 @@ public class ExamManager extends Manager {
 		list = getFilteredListOfExams(fc);
 		
 		if (list.size() == 0) {
-			if (getNumberOfExamsCreatedByUser( Long.parseLong((String)fc.get(FilterConstants.USER_ID_FILTER))) == 0)
+			String userIdFilter = (String)fc.get(FilterConstants.USER_ID_FILTER);
+			
+			if (!StringUtil.isNullOrEmpty(userIdFilter)) {
+				if (getNumberOfExamsCreatedByUser( Long.parseLong(userIdFilter) ) == 0)
+					rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
+				else
+					rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+			}
+			else {
 				rtn.additionalInfoCode = Manager.ADDL_INFO_USER_HAS_CREATED_NO_ENTITIES;
-			else
-				rtn.additionalInfoCode = Manager.ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER;
+			}
 		}
 		else {
 			rtn.additionalItemCount = Math.max((list.size() - offset - maxEntityCount), 0);

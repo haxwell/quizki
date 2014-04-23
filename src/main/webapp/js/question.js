@@ -422,38 +422,42 @@ var Question = (function() {
 		return topics;
 	};
 	
+	// deprecated! -- you should get the collection you want to update, and add the models yourself
+	//  Backbone will take care of the rest. If you're interested in events, listen to the collection itself.
 	my.setTopics = function(val, throwEvent) {
-		var arr = val.split(',');
-		
-		for (str in arr) {
-			if (topics.findWhere({text:str}) == undefined) {
-				var topic = new Topic();
-				topic.set('id', '-1');
-				topic.set('text', str);
-				topics.add(topic);
-			}
-		}
-		
-		if (throwEvent !== false)
-			this.trigger('topicsChanged', { });			
+//		var arr = val.split(',');
+//		
+//		for (str in arr) {
+//			if (topics.findWhere({text:str}) == undefined) {
+//				var topic = new Topic();
+//				topic.set('id', '-1');
+//				topic.set('text', str);
+//				topics.add(topic);
+//			}
+//		}
+//		
+//		if (throwEvent !== false)
+//			this.trigger('topicsChanged', { });			
 	};
 	
 	my.getReferences = function() {
 		return references;
 	};
 		
+	// deprecated! -- you should get the collection you want to update, and add the models yourself
+	//  Backbone will take care of the rest. If you're interested in events, listen to the collection itself.
 	my.setReferences = function(val, throwEvent) {
-		var arr = val.split(',');
-		
-		for (str in arr) {
-			var reference = new Reference();
-			reference.set('id', '-1');
-			reference.set('text', str);
-			references.add(reference);
-		}
-		
-		if (throwEvent !== false)
-			this.trigger('referencesChanged', { });			
+//		var arr = val.split(',');
+//		
+//		for (str in arr) {
+//			var reference = new Reference();
+//			reference.set('id', '-1');
+//			reference.set('text', str);
+//			references.add(reference);
+//		}
+//		
+//		if (throwEvent !== false)
+//			this.trigger('referencesChanged', { });			
 	};
 		
 	my.getChoices = function() {

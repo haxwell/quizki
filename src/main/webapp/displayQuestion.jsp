@@ -102,6 +102,8 @@
 				<script type="text/javascript">
 
 			    $(document).ready(function() {
+			    	event_intermediary.initialize();
+			    
 			    	model_constructor_factory.put("currentQuestion", getFunctionToRetrieveCurrentQuestion);
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
@@ -245,6 +247,13 @@
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="content">
 
+		<c:choose>
+		    <c:when test="${empty shouldAllowQuestionEditing}">
+		      	<br/><br/>
+				Oops! Something went wrong! You should <a href="/index.jsp">go back to the beginning.</a>
+		    </c:when>
+			<c:otherwise>
+
 		<div id="divQuestionHeader" class="row">
 		..
 		</div>
@@ -297,8 +306,12 @@
 	<div>
 		<input style="display:none;" id="idEntityIdField" type="text" name="entityIdField" value="${sessionScope.entityIdFilter}"/>
 	</div>
+		</c:otherwise>
+	</c:choose>
 
 </div>
+
+
 </div>
 
 <br/>

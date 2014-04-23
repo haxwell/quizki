@@ -54,20 +54,20 @@ public class ChoiceManager extends Manager {
 		return choice;
 	}
 	
-	public static void persistChoices(IQuestion question) {
-		EntityManager em = emf.createEntityManager();
-
-		Set<Choice> choices = question.getChoices();
-		
-		em.getTransaction().begin();
-		
-		for (IChoice choice : choices) 
-		{
-			em.persist(choice);
-		}
-		
-		em.getTransaction().commit();
-	}
+//	public static void persistChoices(IQuestion question) {
+//		EntityManager em = emf.createEntityManager();
+//
+//		Set<Choice> choices = question.getChoices();
+//		
+//		em.getTransaction().begin();
+//		
+//		for (IChoice choice : choices) 
+//		{
+//			em.persist(choice);
+//		}
+//		
+//		em.getTransaction().commit();
+//	}
 	
 	public static List<String> validate(Question question)
 	{

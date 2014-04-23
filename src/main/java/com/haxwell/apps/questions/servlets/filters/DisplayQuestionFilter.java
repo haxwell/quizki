@@ -43,10 +43,12 @@ public class DisplayQuestionFilter extends AbstractFilter {
 			
 //			setCurrentQuestion(req, Constants.DISPLAY_QUESTION, question);
 			
-			req.getSession().setAttribute(FilterConstants.ENTITY_ID_FILTER, question.getId());
-			
-			User u = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-			req.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, QuestionManager.userCanEditThisQuestion(question, u));
+			if (question != null) {
+				req.getSession().setAttribute(FilterConstants.ENTITY_ID_FILTER, question.getId());
+
+				User u = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+				req.getSession().setAttribute(Constants.SHOULD_ALLOW_QUESTION_EDITING, QuestionManager.userCanEditThisQuestion(question, u));
+			}
 		}
 
 		// pass the request along the filter chain

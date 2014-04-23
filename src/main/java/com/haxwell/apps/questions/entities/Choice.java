@@ -49,7 +49,6 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
     	this.sequence = sequence;
     }
     
-    @Transient
     public long getId() {
 		return this.id;
 	}

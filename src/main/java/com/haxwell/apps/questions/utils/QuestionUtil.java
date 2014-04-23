@@ -79,7 +79,14 @@ public class QuestionUtil {
 				question.setUser(user);
 			}
 			
-			long qid = QuestionManager.persistQuestion(question);
+			long qid = Long.MIN_VALUE;
+			if (question.getId() == -1) {
+				qid = QuestionManager.persistQuestion(question);
+			}
+			else {
+				qid = QuestionManager.mergeQuestion(question);				
+			}
+			
 			List<String> successes = new ArrayList<String>();
 			
 			successes.add("Question was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a>");

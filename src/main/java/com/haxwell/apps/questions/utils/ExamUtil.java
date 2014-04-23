@@ -160,7 +160,11 @@ public class ExamUtil {
 		String jsonErrors = ValidationUtil.validate(e);
 		
 		if (StringUtil.isEmptyJSON(jsonErrors)) {
-			ExamManager.persistExam(e);
+			if (e.getId() == -1) 
+				ExamManager.persistExam(e);
+			else
+				ExamManager.mergeExam(e);
+			
 			rtn = "{\"successes\":[\"Exam '" + e.getTitle() + "' was successfully saved!\"]}";
 		}
 		else {

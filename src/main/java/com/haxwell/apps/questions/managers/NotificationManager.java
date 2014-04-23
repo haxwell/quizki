@@ -195,11 +195,11 @@ public class NotificationManager extends Manager {
 
 		em.getTransaction().begin();
 		
-		Notification rtn = em.merge(notification);
+		em.persist(notification);
 		
 		em.getTransaction().commit();
 		
-		return rtn.getId();
+		return notification.getId();
 	}
 	
 	public static Collection<Notification> getAllNotificationsForUser(long userId)

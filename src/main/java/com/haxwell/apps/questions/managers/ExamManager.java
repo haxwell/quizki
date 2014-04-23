@@ -64,6 +64,19 @@ public class ExamManager extends Manager {
 
 		em.getTransaction().begin();
 		
+		em.persist(exam);
+		
+		em.getTransaction().commit();
+		
+		return exam.getId();
+	}
+
+	public static long mergeExam(Exam exam) 
+	{
+		EntityManager em = emf.createEntityManager();
+
+		em.getTransaction().begin();
+		
 		Exam rtn = em.merge(exam);
 		
 		em.getTransaction().commit();

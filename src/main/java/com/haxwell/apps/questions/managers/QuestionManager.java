@@ -5,15 +5,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.haxwell.apps.questions.checkers.AbstractQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.FilterConstants;
@@ -26,7 +25,6 @@ import com.haxwell.apps.questions.entities.QuestionType;
 import com.haxwell.apps.questions.entities.Reference;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
-import com.haxwell.apps.questions.factories.QuestionTypeCheckerFactory;
 import com.haxwell.apps.questions.filters.DifficultyFilter;
 import com.haxwell.apps.questions.filters.QuestionFilter;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
@@ -61,6 +59,25 @@ public class QuestionManager extends Manager {
 		EntityManager em = emf.createEntityManager();
 
 		em.getTransaction().begin();
+		
+		log.log(Level.SEVERE, "\n\n" + question.toJSON());
+		
+		em.persist(question);
+		
+		em.getTransaction().commit();
+		
+		em.close();
+		
+		return question.getId(); //rtn.getId();
+	}
+	
+	public static long mergeQuestion(Question question) 
+	{
+		EntityManager em = emf.createEntityManager();
+
+		em.getTransaction().begin();
+		
+		log.log(Level.SEVERE, "\n\n" + question.toJSON());
 		
 		Question rtn = em.merge(question);
 		

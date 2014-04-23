@@ -156,10 +156,10 @@
 					_text = new Array(); _text.push(''); _text.push(''); // no beforeTheField and afterTheField, so put placeholders in.. the effect is that only the text input field shows.
 				}
 				else {
-					_text[0] = removeAllOccurrences('[[', _text[0]);
-					_text[0] = removeAllOccurrences(']]', _text[0]);
-					_text[1] = removeAllOccurrences('[[', _text[1]);
-					_text[1] = removeAllOccurrences(']]', _text[1]);
+					for (var i=0; i < _text.length; i++) {
+						_text[i] = removeAllOccurrences('[[', _text[i]);
+						_text[i] = removeAllOccurrences(']]', _text[i]);
+					}
 				}
 				
 				this.$el.html(view_utility.executeTemplate('/templates/ExamSetQuestionShowingTextFieldItemView.html', {id:this.millisecondId,answer:_answer,textBegin:_text[0],textEnd:_text[1]}));
@@ -293,7 +293,7 @@
 			this.ChoiceItemViewCollection = new Array();
 			
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
-			this.$el.html( _.template( "<ul class='choiceItemList span6' id='listOfChoices'></ul>" )() );
+			this.$el.html( _.template( "<ul class='choiceItemList span8' id='listOfChoices'></ul>" )() );
 			
 			var views = TakeExamChoiceItemFactory.getViewsForCurrentQuestion();
 			

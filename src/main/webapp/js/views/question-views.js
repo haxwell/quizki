@@ -243,7 +243,7 @@
 			
 			var backboneModel = model_factory.get( this.getBackboneModelKey() );
 			for (var x=0; x < arr.length; x++) {
-				backboneModel.add({text:arr[x]});
+				if (arr[x].length > 0) backboneModel.add({text:arr[x]});
 			}
 
 			var viewKey = model_factory.get( this.id + "ViewKey" );
@@ -367,11 +367,11 @@
 			var answerCorrectnessModel = model_factory.get('answerCorrectnessModel');
 			answerCorrectnessModel.set('cssClass', '');
 			
+			
 			this.setHideSwitchAndSequence();
 
             // call the helper, and get the values needed
 			this.helper.processAnswerCorrectnessForThisChoice(_viewmodel);
-			
 			var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_viewmodel.get('id'),text:_viewmodel.get('text'),comment:_viewmodel.get('comment'),checked:_viewmodel.get('checked'),sequence:_viewmodel.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:answerCorrectnessModel.get('cssClass')});
             
 			this.$el.html( template );

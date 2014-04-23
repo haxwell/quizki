@@ -42,33 +42,39 @@ var getBeginningAndEndingTextForSetQuestion = function(fieldId, text) {
 	return rtn;
 };
 
-var getTextOfGivenFieldForSetQuestion = function(fieldId, text) {
-	var openingMarkerIndex = -1;
-	var counter = 0;
-	var b = true;
+var getTextOfGivenFieldForSetQuestion = function(fieldId, textFromWhichToExtractTheGivenField) {
 	
-	while (counter < fieldId && b) {
-		
-		openingMarkerIndex = text.indexOf('[[', openingMarkerIndex + 1);
-		
-		b = openingMarkerIndex > -1;
-		
-		if (b) {
-			counter++;
+	if (fieldId == -1) {
+		return textFromWhichToExtractTheGivenField;
+	}
+	else {
+		var openingMarkerIndex = -1;
+		var counter = 0;
+		var b = true;
+
+		while (counter < fieldId && b) {
+			
+			openingMarkerIndex = textFromWhichToExtractTheGivenField.indexOf('[[', openingMarkerIndex + 1);
+			
+			b = openingMarkerIndex > -1;
+			
+			if (b) {
+				counter++;
+			}
 		}
+		
+		var closingMarkerIndex = -1;
+		if (openingMarkerIndex > -1) {
+			closingMarkerIndex = textFromWhichToExtractTheGivenField.indexOf(']]', openingMarkerIndex);
+		}
+		
+		var rtn = undefined;
+		if (openingMarkerIndex > -1 && closingMarkerIndex > -1) {
+			rtn = textFromWhichToExtractTheGivenField.substring(openingMarkerIndex + 2, closingMarkerIndex);
+		}
+		
+		return rtn;
 	}
-	
-	var closingMarkerIndex = -1;
-	if (openingMarkerIndex > -1) {
-		closingMarkerIndex = text.indexOf(']]', openingMarkerIndex);
-	}
-	
-	var rtn = undefined;
-	if (openingMarkerIndex > -1 && closingMarkerIndex > -1) {
-		rtn = text.substring(openingMarkerIndex + 2, closingMarkerIndex);
-	}
-	
-	return rtn;
 };
 
 var removeAllOccurrences = function(pattern, str) {

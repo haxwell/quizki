@@ -235,7 +235,7 @@
 			var autocompleteField = model_factory.get(viewKey + "AutocompleteField");
 			
 			var text = autocompleteField.getText();
-			var arr = text.split('`');
+			var arr = text.split('|');
 			
 			autocompleteField.setText('');
 			
@@ -682,7 +682,7 @@
 			if (textFieldVal == undefined || textFieldVal == '')
 				return;
 			
-			var tokens = textFieldVal.split('`');
+			var tokens = textFieldVal.split('|');
 			
 			for (var i=0; i<tokens.length; i++) {
 				this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");

@@ -70,7 +70,7 @@ public class AutocompletionManager extends Manager {
 			String str = (String)iterator.next();
 			
 			if (str.contains(",")) {
-				StringTokenizer tokenizer = new StringTokenizer(str,",");
+				StringTokenizer tokenizer = new StringTokenizer(str,"|");
 				
 				while (tokenizer.hasMoreTokens()) {
 					String token = tokenizer.nextToken();

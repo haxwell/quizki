@@ -162,6 +162,12 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+<!-- SERVLETCONTEXT LISTENER == used for custom, one-time application initialization and destruction -->
+
+	<listener>
+		<listener-class>com.haxwell.apps.questions.events.listeners.AppServletContextListener</listener-class>
+	</listener>
 	
 <!-- QUIZKI LISTENERS -->
 

@@ -14,8 +14,7 @@ public class ReloadLoggingPropertiesRunnable implements Runnable {
 		try {
 			LogManager.getLogManager().readConfiguration();
 			
-			//log.log(Level.FINEST, "Reloaded logging configuration.");
-			System.out.println("Reloaded logging configuration");
+			log.log(Level.FINEST, "Reloaded logging configuration.");
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}

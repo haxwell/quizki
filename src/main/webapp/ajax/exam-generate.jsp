@@ -1,6 +1,6 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
-	<jsp:directive.page import="java.util.logging.Logger"/>
-	<jsp:directive.page import="java.util.logging.Level"/>
+	<jsp:directive.page import="org.apache.logging.log4j.LogManager"/>
+	<jsp:directive.page import="org.apache.logging.log4j.Logger"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.ExamGenerationUtil"/>
 	<jsp:directive.page import="net.minidev.json.JSONObject"/>
 	<jsp:directive.page import="net.minidev.json.JSONValue"/>
@@ -17,14 +17,14 @@
 
 <jsp:scriptlet>
 
-java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
+Logger log = LogManager.getLogger();
 
 java.io.PrintWriter writer = response.getWriter();
 
 // get the json from the client
 String json = request.getParameter("data");
 
-log.log(Level.SEVERE, json + "\n\n");
+log.debug(json + "\n\n");
 
 ExamGenerationUtil.generateExam(request, json);
 

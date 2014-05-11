@@ -1,11 +1,9 @@
 package com.haxwell.apps.questions.servlets.filters;
 
-import java.io.IOException;
+import java.io.IOException;	
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,6 +13,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
@@ -33,16 +34,16 @@ import com.haxwell.apps.questions.utils.UserUtil;
 @WebFilter("/InitializeSessionForCreatingAnExamFilter")
 public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 
-    public InitializeSessionForCreatingAnExamFilter() { /* do nothing */ }
+	private static Logger log = LogManager.getLogger();
+	
+	public InitializeSessionForCreatingAnExamFilter() { /* do nothing */ }
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		Logger log = Logger.getLogger(InitializeSessionForCreatingAnExamFilter.class.getName());
-		
-		log.log(Level.FINE, "beginning InitializeSessionForCreatingAnExamFilter...");
+		log.entry();
 
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = ((HttpServletRequest)request);
@@ -72,7 +73,7 @@ public class InitializeSessionForCreatingAnExamFilter extends AbstractFilter {
 			}
 		}
 		
-		log.log(Level.FINE, "ending InitializeSessionForCreatingAExamFilter...");
+		log.exit();
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

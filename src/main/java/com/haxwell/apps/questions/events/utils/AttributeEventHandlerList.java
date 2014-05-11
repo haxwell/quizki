@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.events.handlers.IAttributeEventHandler;
 
@@ -33,14 +34,14 @@ public class AttributeEventHandlerList {
 	HashMap<String, Set<AttributeEventHandlerBean>> /*attr to list of handlers*/ attrToRegisteredAEHLBeanMap = new HashMap<String, Set<AttributeEventHandlerBean>>();
 	HashMap<String, List<IAttributeEventHandler>> /*event to list of handlers*/ eventNameToActiveIEventHandlerMap = new HashMap<String, List<IAttributeEventHandler>>();
 
-	Logger log = Logger.getLogger(AttributeEventHandlerList.class.getName());
+	private static Logger log = LogManager.getLogger();
 	
 	public AttributeEventHandlerList() { }
 
 	public void setAttributeEventHandlerItem(AttributeEventHandlerBean item) {
 		addItemToMap(attrToRegisteredAEHLBeanMap, item.attr, item);
 		
-		log.log(Level.FINER, "Added: " + item.toString());
+		log.trace("Added: " + item.toString());
 	}
 	
 	public void setAttributeEventHandlerList(List<AttributeEventHandlerBean> list)
@@ -53,7 +54,7 @@ public class AttributeEventHandlerList {
 		Set<AttributeEventHandlerBean> aehlBeanSet = attrToRegisteredAEHLBeanMap.get(attribute);
 
 		if (aehlBeanSet != null) {
-			log.log(Level.FINER, "Activating '" + attribute + "'....");
+			log.trace("Activating '" + attribute + "'....");
 			
 			for (AttributeEventHandlerBean bean : aehlBeanSet) {
 				List<IAttributeEventHandler> list = eventNameToActiveIEventHandlerMap.get(bean.eventName);
@@ -62,23 +63,23 @@ public class AttributeEventHandlerList {
 				if (list == null) {
 					list = new ArrayList<IAttributeEventHandler>();
 					listChanged = true;
-					log.log(Level.FINER, "The event '"+ bean.eventName+"' has no active handlers.");
+					log.trace("The event '"+ bean.eventName+"' has no active handlers.");
 				}
 				
 				if (!list.contains(bean.handler)) {
 					list.add(bean.handler);
 					listChanged = true;
-					log.log(Level.FINER, "Activated handler for the event (" + bean.eventName + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
+					log.trace("Activated handler for the event (" + bean.eventName + ") and attr '" + attribute + "' (type: '" + bean.handler.getClass().toString() + "')");
 				}
 				else
-					log.log(Level.FINER, "The list of handlers for the event " + bean.eventName + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");
+					log.trace("The list of handlers for the event " + bean.eventName + " already has a handler associated with the attribute '" + attribute + "' (" + bean.handler.toString() + ")");
 					
 				if (listChanged)
 					eventNameToActiveIEventHandlerMap.put(bean.eventName, list);
 			}
 		}
 		else {
-			log.log(Level.FINER, "No beans registered for '" + attribute + "'. Nothing to activate!");
+			log.trace("No beans registered for '" + attribute + "'. Nothing to activate!");
 		}
 	}
 	

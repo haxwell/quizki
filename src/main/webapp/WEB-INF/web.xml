@@ -6,9 +6,10 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
   
-  <listener>
-    <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
-  </listener>
+	<listener>
+		<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+	</listener>
+	
   <filter>
     <filter-name>ShiroFilter</filter-name>
     <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
@@ -163,12 +164,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-<!-- SERVLETCONTEXT LISTENER == used for custom, one-time application initialization and destruction -->
-
-	<listener>
-		<listener-class>com.haxwell.apps.questions.events.listeners.AppServletContextListener</listener-class>
-	</listener>
-	
 <!-- QUIZKI LISTENERS -->
 
 	<listener>

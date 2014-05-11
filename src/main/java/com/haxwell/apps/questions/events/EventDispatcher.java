@@ -1,11 +1,11 @@
 package com.haxwell.apps.questions.events;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -52,7 +52,7 @@ import com.haxwell.apps.questions.events.utils.ObjectEventHandlerList;
  */
 public class EventDispatcher {
 
-	Logger log = Logger.getLogger(EventDispatcher.class.getName());
+	private static Logger log = LogManager.getLogger();
 	
 	protected static EventDispatcher instance;
 	
@@ -76,18 +76,18 @@ public class EventDispatcher {
 		
 		List<IAttributeEventHandler> list = aehl.getEventHandlerList(eventName);
 		
-		log.log(Level.FINER, "EventDisptacher: called to fire the event (" + eventName + ")");
+		log.trace("EventDisptacher: called to fire the event (" + eventName + ")");
 		
 		if (list != null) {
 			for (IAttributeEventHandler handler : list) {
 				
-				log.log(Level.FINER, "EventDispatcher: calling the handler (" + handler.toString() + ")");
+				log.trace("EventDispatcher: calling the handler (" + handler.toString() + ")");
 				
 				handler.execute(req);
 			}
 		}
 		else
-			log.log(Level.FINER, "No active event handlers found associated with '" + eventName + "'");
+			log.trace("No active event handlers found associated with '" + eventName + "'");
 	}
 	
 	private void handleDynamicEventHandlerList(HttpServletRequest req, String eventName) {
@@ -104,7 +104,7 @@ public class EventDispatcher {
 			}
 		}
 		else
-			log.log(Level.FINER, "(dynamic) No active event handlers found associated with '" + eventName + "'");
+			log.trace("(dynamic) No active event handlers found associated with '" + eventName + "'");
 	}
 	
 	public void fireEvent(HttpServletRequest req, String eventName, Object o) {
@@ -113,18 +113,18 @@ public class EventDispatcher {
 		
 		List<IObjectEventHandler> list = oehl.getEventHandlerList(eventName);
 		
-		log.log(Level.FINER, "EventDisptacher: called to fire the event (" + eventName + ")");
+		log.trace("EventDisptacher: called to fire the event (" + eventName + ")");
 		
 		if (list != null) {
 			for (IObjectEventHandler handler : list) {
 				
-				log.log(Level.FINER, "EventDispatcher: calling the handler (" + handler.toString() + ")");
+				log.trace("EventDispatcher: calling the handler (" + handler.toString() + ")");
 				
 				handler.execute(req, o);
 			}
 		}
 		else
-			log.log(Level.FINER, "No event handlers found associated with '" + eventName + "'");
+			log.trace("No event handlers found associated with '" + eventName + "'");
 	}
 	
 }

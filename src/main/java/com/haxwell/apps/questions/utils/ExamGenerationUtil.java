@@ -1,11 +1,13 @@
 package com.haxwell.apps.questions.utils;
 
-import java.util.ArrayList;
+import java.util.ArrayList;	
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -18,9 +20,11 @@ import com.haxwell.apps.questions.events.EventDispatcher;
 import com.haxwell.apps.questions.managers.ExamGenerationManager;
 
 public class ExamGenerationUtil {
-	public static Logger log = Logger.getLogger(ExamGenerationUtil.class.getName());
+	private static Logger log = LogManager.getLogger();
 
 	public static void generateExam(HttpServletRequest request, String json) {
+		log.entry();
+		
 		HttpSession session = request.getSession();
 		
 		JSONValue jValue= new JSONValue();
@@ -56,5 +60,7 @@ public class ExamGenerationUtil {
 		session.setAttribute(Constants.SHOULD_QUESTIONS_BE_DISPLAYED, Boolean.FALSE);
 		
 		EventDispatcher.getInstance().fireEvent(request, EventConstants.EXAM_WAS_GENERATED);
+		
+		log.exit();
 	}
 }

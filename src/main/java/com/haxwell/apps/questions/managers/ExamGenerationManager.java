@@ -3,14 +3,12 @@ package com.haxwell.apps.questions.managers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.haxwell.apps.questions.entities.Difficulty;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
-import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.filters.DifficultyFilter;
 import com.haxwell.apps.questions.filters.QuestionTopicFilter;
 import com.haxwell.apps.questions.utils.ListFilterer;
@@ -20,12 +18,12 @@ import com.haxwell.apps.questions.utils.StringUtil;
 
 public class ExamGenerationManager {
 
-	public static Logger log = Logger.getLogger(ExamGenerationManager.class.getName());
+	private static Logger log = LogManager.getLogger();
 	
 	public static Exam generateExam(long numberOfQuestions, List<Long> topicIDsToInclude, List<Long> topicIDsToExclude, long filterDifficultyId, boolean requireMatchingDifficultyId)
 	{
-		log.log(Level.FINER, "GenerateExam() called");
-		log.log(Level.FINER, numberOfQuestions + " questions, topics = [" + StringUtil.getToStringOfEach(topicIDsToInclude) + "],[" + StringUtil.getToStringOfEach(topicIDsToExclude) + "], " + (requireMatchingDifficultyId ? "The Only " : "Matching ") + "Difficulty ID = " + filterDifficultyId);
+		log.entry();
+		log.debug(numberOfQuestions + " questions, topics = [" + StringUtil.getToStringOfEach(topicIDsToInclude) + "],[" + StringUtil.getToStringOfEach(topicIDsToExclude) + "], " + (requireMatchingDifficultyId ? "The Only " : "Matching ") + "Difficulty ID = " + filterDifficultyId);
 		
 		Exam exam = new Exam();
 		ArrayList<Question> mainColl = new ArrayList<>();
@@ -70,6 +68,6 @@ public class ExamGenerationManager {
 		
 		exam.setTitle("Generated Exam #403b");
 		
-		return exam;
+		return log.exit(exam);
 	}
 }

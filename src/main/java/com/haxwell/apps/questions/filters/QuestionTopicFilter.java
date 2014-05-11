@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.Topic;
-import com.haxwell.apps.questions.managers.ExamGenerationManager;
 import com.haxwell.apps.questions.utils.ShouldRemoveAnObjectCommand;
 
 public class QuestionTopicFilter implements ShouldRemoveAnObjectCommand<Question> {

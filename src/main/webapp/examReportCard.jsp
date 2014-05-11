@@ -3,7 +3,7 @@
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
-        <![CDATA[ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> ]]>
+        <![CDATA[ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> ]]>
     </jsp:text>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
@@ -68,7 +68,6 @@
 	
 <br/><br/><br/>
 	
-	<jsp:text>
 		<div class="input-prepend">
 			<span class="add-on short green"><![CDATA[<i class="icon-ok"></i>]]></span>
 			<input class="span1" type="text" value="${numberOfQuestionsAnsweredCorrectly}" size="2" disabled="disabled"/>
@@ -78,7 +77,6 @@
 			<span class="add-on short red"><![CDATA[<i class="icon-remove"></i>]]></span>
 			<input class="span1" type="text" value="${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}" size="2" disabled="disabled"/>
 		</div>
-	</jsp:text>
 		
 	You got <span class="greenText"><strong>${numberOfQuestionsAnsweredCorrectly}</strong></span> questions correct and <span class="redText"><strong>${totalNumberOfQuestions - numberOfQuestionsAnsweredCorrectly}</strong></span> incorrect out of a total of <strong>${totalNumberOfQuestions}</strong>. <br/><br/>Following are the details of the exam. You can click on a question for more information.
 	

@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,13 +67,19 @@ public class LoginServlet extends AbstractHttpServlet {
 			request.setAttribute(Constants.VALIDATION_ERRORS, errors);
 		}
 		else {
+			log.log(Level.FINER, "..creating the UsernamePasswordToken");
+
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			
+			log.log(Level.FINER, "..calling SecurityUtils.getSubject()");
 			
 			Subject currentUser = SecurityUtils.getSubject(); // Each time we need the Shiro subject, we get it this way..
 			
+			log.log(Level.FINER, "..getting Session from the request");
+			
 			HttpSession session = request.getSession();
 
-			log.log(Level.FINER, "..SecurityUtils.getSubject() completed. (" + currentUser.toString() + ")");
+			log.log(Level.FINER, "..got the Subject from Shiro. ('" + currentUser.toString() + "')");
 			
 			try {
 				log.log(Level.FINER, "..about to get user object for [" + username + "]");

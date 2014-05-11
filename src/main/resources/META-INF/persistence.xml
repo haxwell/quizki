@@ -20,7 +20,7 @@
 			<property name="javax.persistence.jdbc.password" value="quizki"/>
 			<property name="javax.persistence.jdbc.user" value="quizki"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/quizki_db"/>
+			<property name="javax.persistence.jdbc.url" value=""/> <!-- HEY YOU! create an system property named 'QUIZKI_JDBC_URL' and put the desired value for this param in it. That way, we don't have to change this file when we deploy to a different environment. -->
 			<property name="javax.persistence.logging.level" value="INFO"/>
 			
 			<property name="eclipselink.jpa.uppercase-column-names" value="true"/>

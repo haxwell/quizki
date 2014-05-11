@@ -1,6 +1,9 @@
 package com.haxwell.apps.questions.managers;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,9 +22,27 @@ public class Manager {
 	public static final int ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER = 1;
 	public static final int ADDL_INFO_NO_SELECTED_ITEMS = 2;
 	
+	public static Logger log = Logger.getLogger(Manager.class.getName());
+	
 	//TODO: what are the consequences of having this be static? Would it be better to just create an instance when necessary?
 	static {
-		emf = Persistence.createEntityManagerFactory(Constants.QUIZKI_PERSISTENCE_UNIT);
+		emf = Persistence.createEntityManagerFactory(Constants.QUIZKI_PERSISTENCE_UNIT, getEntityManagerFactoryEnvironmentalOverrides());
+	}
+	
+	private static Map<String, Object> getEntityManagerFactoryEnvironmentalOverrides() {
+		Map<String, Object> overrides = new HashMap<>();
+
+		String jdbc_url = System.getProperty("QUIZKI_JDBC_URL");
+
+		if (jdbc_url == null) {
+			Exception e = new Exception("Could not find a value for QUIZKI_JDBC_URL in System.getProperty(). ERROR! Will not be able to connect to a database!!");
+			e.printStackTrace();
+		}
+		else {
+			overrides.put("javax.persistence.jdbc.url", jdbc_url);
+		}
+		
+		return overrides;
 	}
 	
 	public static Manager getInstance() {

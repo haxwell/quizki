@@ -244,7 +244,6 @@ public class QuestionManager extends Manager {
 	public static Collection<Question> getQuestionsByTopic(long topicId)
 	{
 		EntityManager em = emf.createEntityManager();
-		boolean b = em.isOpen();
 
 		Query query = em.createNativeQuery("SELECT qt.question_id FROM question_topic qt WHERE qt.topic_id = ?1");
 		
@@ -253,6 +252,8 @@ public class QuestionManager extends Manager {
 		List<Long> list = (List<Long>)query.getResultList();
 		
 		Collection<Question> coll = getQuestionsById(StringUtil.getCSVString(list));
+		
+		em.close();
 		
 		return coll;
 	}

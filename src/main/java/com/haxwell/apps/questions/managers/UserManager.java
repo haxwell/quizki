@@ -7,31 +7,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.entities.UserRole;
 
 public class UserManager extends Manager {
-
-	static EntityManager em;
-	
-	//TODO: what are the consequences of having this be static? Would it be better to just create an instance when necessary?
-	static {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory(Constants.QUIZKI_PERSISTENCE_UNIT);
-		em = emf.createEntityManager();
-	}
 
 	private static final Logger log = Logger.getLogger(UserManager.class.getName());
 	
 	public static User getUser(String username)
 	{
 		log.log(Level.FINE, "..beginning UserManager::getUser(" + username + ")");
+
+		EntityManager em = emf.createEntityManager();
 		
-		boolean b = em.isOpen();
 		Query query = em.createNativeQuery("SELECT * FROM users WHERE username = ?1", User.class);
 		
 		query.setParameter(1, username);
@@ -39,8 +29,10 @@ public class UserManager extends Manager {
 		List<User> list = (List<User>)query.getResultList();
 		
 		User rtn = (list.size() > 0 ? list.get(0) : null);
+
+		em.close();
 		
-		log.log(Level.FINE, "Returning from getUser().. no errors() ");
+		log.log(Level.FINE, "Returning from getUser().. no errors.. ");
 
 		return rtn;
 	}
@@ -71,6 +63,8 @@ public class UserManager extends Manager {
 		em.persist(user);
 		
 		em.getTransaction().commit();
+		
+		em.close();
 		
 		log.log(Level.FINE, "Returning from createUser().. no errors() ");
 	}

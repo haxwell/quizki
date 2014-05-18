@@ -10,16 +10,20 @@ function Questions_getHeadDOMElementInClonedHeader() {
 	return $("#header-fixed");
 }
 
-$("#containsFilter").change(function() {
-	// do nothing
+$("#containsFilter").keypress(function(event) {
+	if (event.which == 13) {
+		getQuestions();
+	}
 });
 
 $("#searchQuestionsBtn").click(function() {
 	getQuestions();
 });
 
-$("#topicContainsFilter").change(function() {
-	// do nothing
+$("#topicContainsFilter").keypress(function() {
+	if (event.which == 13) {
+		getQuestions();
+	}
 });
 
 $("#searchTopicsBtn").click(function() {

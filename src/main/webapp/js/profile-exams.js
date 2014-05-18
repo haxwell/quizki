@@ -8,16 +8,20 @@ function Exams_getHeadDOMElementInClonedHeader() {
 	return $("#exam-header-fixed");
 }
 
-$("#examContainsFilter").change(function() {
-	// do nothing
+$("#examContainsFilter").keypress(function(event) {
+	if (event.which == 13) {
+		getExams();
+	}
 });
 
 $("#searchExamsBtn").click(function() {
 	getExams();
 });
 
-$("#examTopicContainsFilter").change(function() {
-	// do nothing
+$("#examTopicContainsFilter").keypress(function(event) {
+	if (event.which == 13) {
+		getExams();
+	}
 });
 
 $("#examSearchTopicsBtn").click(function() {

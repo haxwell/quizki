@@ -7,27 +7,28 @@ function Exams_getHeadDOMElementInClonedHeader() {
 	return $("div#header-fixed");
 }
 
-$("#containsFilter").change(function() {
-	// do nothing	
+$("#containsFilter").keypress(function( event ) {
+	if (event.which == 13) {
+		applyFilter();
+	}
 });
 
 $("#searchQuestionsBtn").click(function() {
-	clearNoMoreItemsToDisplayFlag();
-	getQuestions();
+	applyFilter();
 });
 
 $("#topicContainsFilter").change(function() {
-	// do nothing
+	if (event.which == 13) {
+		applyFilter();
+	}
 });
 
 $("#searchTopicsBtn").click(function() {
-	clearNoMoreItemsToDisplayFlag();
-	getQuestions();
+	applyFilter();
 });
 
 $("#questionTypeFilter").change(function() {
-	clearNoMoreItemsToDisplayFlag();
-	getQuestions();
+	applyFilter();
 
 	// the point here is to move the focus elsewhere than this component.
 	//  This is because when it maintains focus, it is not hidden when the 
@@ -36,8 +37,7 @@ $("#questionTypeFilter").change(function() {
 });
 
 $("#difficultyFilter").change(function() {
-	clearNoMoreItemsToDisplayFlag();
-	getQuestions();
+	applyFilter();
 
 	// the point here is to move the focus elsewhere than this component.
 	//  This is because when it maintains focus, it is not hidden when the 
@@ -46,8 +46,7 @@ $("#difficultyFilter").change(function() {
 });
 
 $("#rangeOfQuestionsFilter").change(function() {
-	clearNoMoreItemsToDisplayFlag();
-	getQuestions();
+	applyFilter();
 
 	// the point here is to move the focus elsewhere than this component.
 	//  This is because when it maintains focus, it is not hidden when the 
@@ -56,15 +55,18 @@ $("#rangeOfQuestionsFilter").change(function() {
 });
 
 $("#idApplyFilterButton").click(function() {
-	clearNoMoreItemsToDisplayFlag();
-	getQuestions();
+	applyFilter();
 });
 
 $("#idClearFilterButton").click(function() {
 	Exams_resetFilters();
+	applyFilter();
+});
+
+function applyFilter() {
 	clearNoMoreItemsToDisplayFlag();
 	getQuestions();
-});
+}
 
 function Exams_getJSONFromServerSuppliedData(parsedJSONObject) {
 	return parsedJSONObject.question;

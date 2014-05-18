@@ -16,7 +16,7 @@
 						<option value="2">Selected</option>
 					</select>
 					<div id="idContainsFilterDiv"  class="input-append" style="margin-left: 10px;">
-						<input id="containsFilter" type="text" class="flat small pull-right"
+						<input id="containsFilter" type="text" class="flat small"
 							placeholder="Search in questions..." style="width: 216px;">
 						<button type="submit" class="btn btn-secondary btn-small" id="searchQuestionsBtn">
 							<span class="fui-search"></span>

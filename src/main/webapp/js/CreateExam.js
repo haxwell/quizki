@@ -17,7 +17,7 @@ $("#searchQuestionsBtn").click(function() {
 	applyFilter();
 });
 
-$("#topicContainsFilter").change(function() {
+$("#topicContainsFilter").keypress(function() {
 	if (event.which == 13) {
 		applyFilter();
 	}

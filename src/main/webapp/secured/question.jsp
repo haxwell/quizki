@@ -170,17 +170,23 @@
 		<div id="idAlertDiv" class="alert hidden">.</div>
 
 		<div id="divQuestionHeaderWithSaveButtons" class="row">
-		..
 		</div>
 	
 		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
 
 	<c:choose>
-		<c:when test="${empty requestScope.doNotAllowEntityEditing}">
+		<c:when test="${empty sessionScope.currentQuestion}">
+			<br/>
+			There was an error loading this page. This entity cannot be edited! You should <a href="/index.jsp">go back to the beginning.</a><br/>
+		</c:when>
+		<c:when test="${not empty requestScope.doNotAllowEntityEditing}">
+			<br/>
+			There was an error loading this page. This entity cannot be edited! You should <a href="/index.jsp">go back to the beginning.</a><br/>
+		</c:when>
+		<c:otherwise>
 	
 		<div >
 			<div id="divTextarea">
-			..
 			</div>
 			
 			<table class="span12" style="margin-left:0px">
@@ -211,18 +217,12 @@
 			<div id="questionTypeView">..</div>
 						
 			<div id="enterNewChoiceContainerDiv">
-				..
 			</div>
 			
 			<div id="choiceListDiv">
-				..
 			</div>
 		</div>
 		
-		</c:when>
-		<c:otherwise>
-			<br/>
-			There was an error loading this page. This entity cannot be edited!<br/>
 		</c:otherwise>
 	</c:choose>
 	

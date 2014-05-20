@@ -1,7 +1,6 @@
 package com.haxwell.apps.questions.servlets.filters;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,6 +10,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.FilterConstants;
@@ -26,6 +28,8 @@ import com.haxwell.apps.questions.utils.UserUtil;
 @WebFilter("/InitializeSessionForCreatingAQuestionFilter")
 public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter {
 
+	private static Logger log = LogManager.getLogger();
+	
     public InitializeSessionForCreatingAQuestionFilter() { /* do nothing */ }
 
 	/**
@@ -33,7 +37,7 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		Logger log = Logger.getLogger(InitializeSessionForCreatingAQuestionFilter.class.getName());
+		log.entry();
 		
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = ((HttpServletRequest)request);
@@ -43,19 +47,27 @@ public class InitializeSessionForCreatingAQuestionFilter extends AbstractFilter 
 			
 			if (questionId != null) {
 				Question q = QuestionManager.getQuestionById(questionId);
-				User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
 				
-				if (user == null || ((q.getUser().getId() != user.getId()) && !UserUtil.isAdministrator(user))) {
-					request.setAttribute("doNotAllowEntityEditing", Boolean.TRUE);
+				session.setAttribute(Constants.CURRENT_QUESTION, q);
+				session.setAttribute(FilterConstants.ENTITY_ID_FILTER, questionId);
+				
+				if (q != null) {
+					User user = (User)session.getAttribute(Constants.CURRENT_USER_ENTITY);
+
+					if (user == null || ((q.getUser().getId() != user.getId()) && !UserUtil.isAdministrator(user))) {
+						request.setAttribute("doNotAllowEntityEditing", Boolean.TRUE);
+					}
+					else {
+						session.setAttribute(Constants.IN_EDITING_MODE, Boolean.TRUE);
+					}
 				}
 				else {
-					session.setAttribute(Constants.CURRENT_QUESTION, q);
-					session.setAttribute(Constants.IN_EDITING_MODE, Boolean.TRUE);
-					
-					session.setAttribute(FilterConstants.ENTITY_ID_FILTER, q.getId());
+					log.trace("QuestionId ["+ questionId + "] was requested.. That ID is invalid.");
 				}
 			}
 		}
+
+		log.exit();
 		
 		// pass the request along the filter chain
 		chain.doFilter(request, response);

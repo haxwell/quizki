@@ -11,6 +11,14 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.haxwell.apps.questions.events.handlers.IDynamicAttributeEventHandler;
 
+/**
+ * Called when an attribute is set in the session. It gets a list of all the strings defined in beans as the property 'attribute_endsWith'
+ * in applicationContext.xml. Then if the attribute to be set ends with one of those attribute_endsWith strings, it gets the list of
+ * handlers associated with it, and passes the attribute to each one. 
+ * 
+ * @author jjames
+ *
+ */
 public class DynamicAttributeSessionManager {
 
 	public static void handleAttributeSet(HttpSessionBindingEvent event) {

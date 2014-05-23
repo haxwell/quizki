@@ -12,6 +12,11 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 
+/**
+ * Sets the dynamic data on the question and the session.
+ * 
+ * @author jjames
+ */
 public class SetQuestionDynamifier extends AbstractDynamifier {
 
 	public void dynamify(AbstractEntity ae, HttpServletRequest request) {

@@ -5,6 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * This is a handler, called when an attribute is set in the session which matches an 'attribute_endsWith' string
+ * set in the bean's Spring definition. This class is responsible for adding the newly set attribute to a list of 
+ * strings stored in the session, and keyed by that 'attribute_endsWith' string. 
+ * 
+ * @author jjames
+ */
 public class SetQuestionTypeSetDynamificationInSessionHandler implements IDynamicAttributeEventHandler {
 
 	@Override

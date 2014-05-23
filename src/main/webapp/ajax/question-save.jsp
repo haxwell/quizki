@@ -1,19 +1,10 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.page import="org.apache.logging.log4j.LogManager"/>
 	<jsp:directive.page import="org.apache.logging.log4j.Logger"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.managers.QuestionManager"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.entities.User"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.entities.Question"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.constants.EventConstants"/>	
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.StringUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.TopicUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.ReferenceUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.QuestionUtil"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.events.EventDispatcher"/>
-	<jsp:directive.page import="java.util.List"/>
-	<jsp:directive.page import="java.util.Map"/>
-	<jsp:directive.page import="java.util.ArrayList"/>	
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
     <jsp:text>
@@ -29,6 +20,8 @@
 
 Logger log = LogManager.getLogger();
 
+log.entry();
+
 java.io.PrintWriter writer = response.getWriter();
 
 // need to get the text data from the javascript, and convert it to a real Question object
@@ -43,6 +36,8 @@ if (!jsonRtn.contains("\"errors\"")) {
 log.trace(jsonRtn);
 
 writer.print(jsonRtn);
+
+log.exit();
 
 </jsp:scriptlet>
 	

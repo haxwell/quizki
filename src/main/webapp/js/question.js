@@ -242,6 +242,81 @@ var ChosenChoicesQuestionChoiceItemViewHelper = (function () {
 	return my;
 });
 
+// TODO: change this name.. its used in more places than just after question text changes.
+var PostQuestionTextChangedEventFactory = (function () {
+	var my = {};
+	
+	my.getHandler = function(question) {
+		if (question.getTypeId() == QUESTION_TYPE_PHRASE) {
+			return function(question) {
+				var choices = question.getChoices();
+				choices.reset();
+				
+				var dynamicFields = getTextOfAllDynamicFields(question.getText());
+				for (var i=0; i < dynamicFields.length; i++) {
+					question.addChoice(dynamicFields[i], true, "0", "dynamicChoice", false);
+				}
+				
+				question.fireLastSuppressedEvent();
+				
+				ReadOnlyManager.throwEvent(question);
+			};
+		}
+		
+		return undefined;
+	};
+	
+	return my;
+}());
+
+// it takes a list of functions per question type, and when given a question, runs through the functions for that type,
+//  and returns true, saying yes be read only, only if all functions agree. If any say no, don't be, it returns false.
+var ReadOnlyManager = (function() {
+	var my = {};
+	
+	var handlers = {};
+	
+	my.addHandler = function(questionType, func) {
+		var coll = handlers[questionType];
+		
+		if (coll == undefined) {
+			coll = new Array();
+			handlers[questionType] = coll;
+		}
+		
+		coll.push(func);
+	};
+	
+	my.getReadOnlyRecommendation = function(question) {
+		var recc = false;
+		var index = 0;
+		
+		if (question != undefined) {
+			var coll = handlers[question.getTypeId()];
+
+			if (coll != undefined) {
+				do {
+					recc = coll[index++](question);
+	
+				} while (recc !== false && index < coll.length);
+			}
+		}
+		
+		return recc;
+	};
+	
+	my.throwEvent = function(question) {
+		if (this.getReadOnlyRecommendation(question)) {
+			event_intermediary.throwEvent("readOnlyApplied");	
+		}
+		else {
+			event_intermediary.throwEvent("readOnlyCleared");
+		}
+	};
+	
+	return my;
+}());
+
 var Question = (function() {
 	var my = {};
 	
@@ -255,6 +330,9 @@ var Question = (function() {
 	var references = undefined; /* will be a Backbone.Collection */
 	var choices = undefined; /* will be a Backbone.Collection */
 	var difficulty = undefined; /* will be a Difficulty object */
+	
+	var lastSuppressedEventName = undefined;
+	var lastSuppressedEventObject = undefined;
 	
 	var choiceIdsToBeAnswered = undefined; /* will be an array, used when this is a Set question */
 	
@@ -373,6 +451,8 @@ var Question = (function() {
 		
 		if (throwEvent !== false)
 			this.trigger('questionTextChanged', {text:{from:_from,to:_to}});			
+		else
+			this.saveSuppressedEvent('questionTextChanged', {text:{from:_from,to:_to}});
 	};
 	
 	my.getDescription = function() {
@@ -386,7 +466,9 @@ var Question = (function() {
 		description = val;
 		
 		if (throwEvent !== false)			
-			this.trigger('questionTextChanged', {description:{from:_from,to:_to}});			
+			this.trigger('questionTextChanged', {description:{from:_from,to:_to}});
+		else
+			this.saveSuppressedEvent('questionTextChanged', {description:{from:_from,to:_to}});
 	};
 
 	my.getTypeId = function() {
@@ -400,7 +482,9 @@ var Question = (function() {
 		type_id = val;
 		
 		if (throwEvent !== false)
-			this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});			
+			this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});
+		else
+			this.saveSuppressedEvent('questionTypeChanged', {type_id:{from:_from,to:_to}});
 	};
 		
 	my.getDifficulty = function() {
@@ -415,7 +499,9 @@ var Question = (function() {
 		var changesObject = difficulty.setDifficultyId(val, false);
 		
 		if (throwEvent !== false)
-			this.trigger('difficultyChanged', changesObject);			
+			this.trigger('difficultyChanged', changesObject);
+		else
+			this.saveSuppressedEvent('difficultyChanged', changesObject);
 	};
 	
 	my.getTopics = function() {
@@ -464,13 +550,17 @@ var Question = (function() {
 		return choices;
 	};
 		
-	my.addChoice = function(_text, _iscorrect, _sequence, throwEvent) {
+	my.addChoice = function(_text, _iscorrect, _sequence, _metadata, throwEvent) {
 		millisecond_id = new Date().getMilliseconds()+'';
 		
-		choices.add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false'});
+		choices.add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false',metadata:_metadata});
 
+		console.log("added choice: " + _text);
+		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
+		else
+			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
 		
 		return millisecond_id;
 	};
@@ -484,6 +574,9 @@ var Question = (function() {
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
+		else
+			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
+
 	};
 		
 	my.removeChoice = function(_millisecondId, throwEvent) {
@@ -491,6 +584,9 @@ var Question = (function() {
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
+		else
+			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
+
 	};
 	
 	my.getChoiceIdsToBeAnswered = function() {
@@ -527,6 +623,20 @@ var Question = (function() {
 		}
 		
 		return rtn;
+	};
+	
+	my.saveSuppressedEvent = function(name, object) {
+		lastSuppressedEventName = name;
+		lastSuppressedEventObject = object;
+	};
+	
+	my.fireLastSuppressedEvent = function() {
+		this.trigger(lastSuppressedEventName, lastSuppressedEventObject);
+	};
+	
+	my.clearSuppressedEvent = function() {
+		lastSuppressedEventName = undefined;
+		lastSuppressedEventObject = undefined;
 	};
 		
 	return my;

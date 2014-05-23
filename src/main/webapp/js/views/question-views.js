@@ -6,7 +6,14 @@
 			
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.render(); });
+			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { 
+				this.render(); 
+
+				var currentQuestion = model_factory.get("currentQuestion");
+				var func = PostQuestionTextChangedEventFactory.getHandler(currentQuestion);
+		        if (func != undefined)
+		        	func(currentQuestion);
+			});
 			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });			
 		},
 		events: {
@@ -28,21 +35,21 @@
 		},
 		render: function() {
 			var currentQuestion = model_factory.get("currentQuestion");
-			var optionId = currentQuestion.getTypeId();
-			
-			if (this.readOnly == undefined) {
+			var typeId = currentQuestion.getTypeId();
+
+			if (this.readOnly) {
+				var str = QuestionTypes.getString(typeId);
+				this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView-readOnly.html', {type:str}));
+			}
+			else {
 				this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView.html', {}));
 				
 				// iterate over each of the buttons, if it matches the model, set it as active
 				// otherwise remove the active attribute
 				_.each($("#questionTypeSelectBox").find("option"), function($item) { 
 					$item = $($item);
-					($item.val() == optionId) ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
+					($item.val() == typeId) ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
 				});
-			}
-			else {
-				var str = QuestionTypes.getString(optionId);
-				this.$el.html( view_utility.executeTemplate('/templates/QuestionTypeView-readOnly.html', {type:str}));
 			}
 			
 			// HACK.
@@ -461,6 +468,8 @@
 			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.render(); });
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(event_intermediary, 'readOnlyApplied', function(event) { this.setReadOnly(true); });
+			this.listenTo(event_intermediary, 'readOnlyCleared', function(event) { this.setReadOnly(false); });
 			
 			this.setStateOnInitialization();
 			
@@ -498,6 +507,10 @@
 			}
 			
 			this.setSequenceFieldsAreVisible(rtn || false);
+		},
+		setReadOnly: function(bool) {
+			this.readOnly = bool;
+			this.render();
 		},
 		events: {
 			"dblclick":"edit",
@@ -624,10 +637,14 @@
 	Quizki.EnterNewChoiceView = Backbone.View.extend({
 		initialize: function() {
 			this.$el = arguments[0].el;
+
+			this.readOnly = false;
 			
 			var currQuestion = model_factory.get('currentQuestion', false);
 			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(event_intermediary, 'readOnlyApplied', function(event) { this.setReadOnly(true); });
+			this.listenTo(event_intermediary, 'readOnlyCleared', function(event) { this.setReadOnly(false); });
 			
 			var state = method_utility.getQuizkiObject({});
 			
@@ -636,6 +653,10 @@
 			
 			this.setStateOnInitialization();
 			
+			this.render();
+		},
+		setReadOnly: function(bool) {
+			this.readOnly = bool;
 			this.render();
 		},
 		setCheckBoxDisabled: function(bool) {
@@ -658,11 +679,17 @@
 				var type_id = model_factory.get('currentQuestion').getTypeId();
 				this.setCheckBoxDisabled(type_id == QUESTION_TYPE_PHRASE || type_id == QUESTION_TYPE_SEQUENCE || type_id == QUESTION_TYPE_SET);
 			}
+			
+			var currentQuestion = model_factory.get("currentQuestion");
+			var func = ReadOnlyManager.throwEvent(currentQuestion);
+	        if (func != undefined)
+	        	func(currentQuestion);
 		},
 		render: function () {
 			var state = model_factory.get('EnterNewChoiceViewState');
+			var readOnlyAttr = this.readOnly == true ? "disabled" : "";
 			
-			var template = view_utility.executeTemplate('/templates/EnterNewChoiceView.html', {disabled:(state.val.checkBoxDisabled)});
+			var template = view_utility.executeTemplate('/templates/EnterNewChoiceView.html', {readOnly:readOnlyAttr ,disabled:(state.val.checkBoxDisabled)});
 			this.$el.html( template );
 			
 			//get the actual bootstrap slider ui component div

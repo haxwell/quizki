@@ -1,3 +1,8 @@
+//
+// TODO, refactor this, such that any usage of a method from here indicates 'stringUtil' as the source.
+// ie, stringUtil.getBeginningAndEnding......
+//
+
 // First, it [[analyzes]] the [[market environment]].
 // First, it analyzes the market environment.
 var getBeginningAndEndingTextForSetQuestion = function(fieldId, text) {
@@ -42,6 +47,42 @@ var getBeginningAndEndingTextForSetQuestion = function(fieldId, text) {
 	return rtn;
 };
 
+var getCountOfDynamicFields = function(text) {
+	var count = 0;
+	var bindex = -1;
+	var eindex = -1;
+	
+	do {
+		bindex = text.indexOf('[[', bindex+1);
+		
+		if (bindex != -1) {
+			eindex = text.indexOf(']]', bindex+1);
+			
+			if (eindex != -1) {
+				bindex = eindex;
+				count++;
+			}
+		}
+	} while (bindex != -1);
+	
+	return count;
+};
+
+var getTextOfAllDynamicFields = function(text) {
+
+	var count = getCountOfDynamicFields(text);
+	var rtn = new Array();
+	
+	for (var i = 0; i < count; i++) {
+		rtn.push(getTextOfGivenFieldForSetQuestion(i+1, text));
+	}
+	
+	console.log("returning with the text of " + rtn.length + " fields");
+	
+	return rtn;
+};
+
+// TODO: Rename to getTextOfGivenDynamicField
 var getTextOfGivenFieldForSetQuestion = function(fieldId, textFromWhichToExtractTheGivenField) {
 	
 	if (fieldId == -1) {

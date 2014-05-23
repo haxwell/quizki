@@ -45,6 +45,7 @@
 
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/autocomplete.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/stringUtil.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
@@ -61,6 +62,11 @@
 				function questionTinyMCEChangeHandler(inst) {
 			        var currentQuestion = model_factory.get("currentQuestion");
 			        currentQuestion.setText(inst.getBody().innerHTML, false);
+			        
+			        // do custom stuff
+			        var func = PostQuestionTextChangedEventFactory.getHandler(currentQuestion);
+			        if (func != undefined)
+			        	func(currentQuestion);
 				};
 				
 			    $(document).ready(function() {
@@ -75,6 +81,10 @@
 			    	});
 			    	model_constructor_factory.put("referencesAutocompleteHistory", function() {
 			    		return getAutocompleteHistoryForEnvironment(referencesViewKey);
+			    	});
+			    	
+			    	ReadOnlyManager.addHandler(QUESTION_TYPE_PHRASE, function(question) {
+				    	return getCountOfDynamicFields(question.getText()) > 0;
 			    	});
 			    		
 			    	var currentQuestion = model_factory.get("currentQuestion");
@@ -156,7 +166,6 @@
 			    	return $("#idEntityIdField").val();
 			    }
 			    
-			    
 			</script>]]>
 		</jsp:text>
 				
@@ -166,62 +175,64 @@
 	<div class="container">
 		<jsp:include page="../header.jsp"></jsp:include>
 
-		<div class="content">
-		<div id="idAlertDiv" class="alert hidden">.</div>
-
-		<div id="divQuestionHeaderWithSaveButtons" class="row">
-		</div>
-	
-		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
-
 	<c:choose>
-		<c:when test="${empty sessionScope.currentQuestion}">
-			<br/>
-			There was an error loading this page. This entity cannot be edited! You should <a href="/index.jsp">go back to the beginning.</a><br/>
-		</c:when>
 		<c:when test="${not empty requestScope.doNotAllowEntityEditing}">
 			<br/>
-			There was an error loading this page. This entity cannot be edited! You should <a href="/index.jsp">go back to the beginning.</a><br/>
+			2 There was an error loading this page. This entity cannot be edited! You should <a href="/index.jsp">go back to the beginning.</a><br/>
 		</c:when>
 		<c:otherwise>
+		
+			<div class="content">
+				<div id="idAlertDiv" class="alert hidden">.</div>
 	
-		<div >
-			<div id="divTextarea">
-			</div>
-			
-			<table class="span12" style="margin-left:0px">
-				<tr>
-					<td style="width:25%; vertical-align:top;">
-						<div class="entityAttributeHeaderName">Difficulty <br/></div>
-						<div id="difficultyChooserElement"></div>
-					</td>
-					<td style="width:33%; vertical-align:top;">
-						<div class="entityAttributeHeaderName">Topics<br/> </div>
-						<div id="topicsWell"></div>
-					</td>
-					<td style="width:41%; vertical-align:top;">
-						<div class="entityAttributeHeaderName">References<br/> </div>
-						<div id="referencesWell"></div>
-					</td>
-				</tr>
-			</table>
-
-			<div class="row">
-				<div class="span3">
-					<h1 class="questionPageSectionHeader">Answer</h1>
+				<div id="divQuestionHeaderWithSaveButtons" class="row">
+				..
 				</div>
-			</div> 
-
-	<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
-
-			<div id="questionTypeView">..</div>
-						
-			<div id="enterNewChoiceContainerDiv">
-			</div>
+		
+				<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+		
+				<div >
+					<div id="divTextarea">
+					..
+					</div>
+					
+					<table class="span12" style="margin-left:0px">
+						<tr>
+							<td style="width:25%; vertical-align:top;">
+								<div class="entityAttributeHeaderName">Difficulty <br/></div>
+								<div id="difficultyChooserElement"></div>
+							</td>
+							<td style="width:33%; vertical-align:top;">
+								<div class="entityAttributeHeaderName">Topics<br/> </div>
+								<div id="topicsWell"></div>
+							</td>
+							<td style="width:41%; vertical-align:top;">
+								<div class="entityAttributeHeaderName">References<br/> </div>
+								<div id="referencesWell"></div>
+							</td>
+						</tr>
+					</table>
+		
+					<div class="row">
+						<div class="span3">
+							<h1 class="questionPageSectionHeader">Answer</h1>
+						</div>
+					</div> 
+		
+					<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
+		
+					<div id="questionTypeView">..</div>
+								
+					<div id="enterNewChoiceContainerDiv">
+					..
+					</div>
+					
+					<div id="choiceListDiv">
+					..
+					</div>
+				</div>
 			
-			<div id="choiceListDiv">
-			</div>
-		</div>
+			</div> <!-- div: content -->
 		
 		</c:otherwise>
 	</c:choose>
@@ -232,8 +243,7 @@
 	</div>
 	
 </div>
-</div>
-
+	
 <br/>
 <br/>
 <br/>

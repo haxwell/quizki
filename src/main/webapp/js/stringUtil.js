@@ -119,6 +119,9 @@ var getTextOfGivenFieldForSetQuestion = function(fieldId, textFromWhichToExtract
 };
 
 var removeAllOccurrences = function(pattern, str) {
+	
+	// usage: _str = removeAllOccurrences(pattern, _str);
+	
 	while (str.indexOf(pattern) > -1)
 		str = str.replace(pattern, '');
 	

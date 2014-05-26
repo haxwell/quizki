@@ -75,7 +75,7 @@ var TakeExamChoiceItemFactory = (function() {
 			for (var x=0; x < ordering.length; x++) {
 				var choice = choices.at(ordering[x]);
 				var data = undefined;
-				var arr = currentQuestion.getChoiceIdsToBeAnswered().split(',');
+				var arr = currentQuestion.getChoiceIdsToBeAnswered(); 
 				_.forEach(arr, function(model) { 
 					if (model.indexOf(choice.get('id') + ';') > -1) 
 						data = model.substring(model.indexOf(';') + 1); 
@@ -137,8 +137,7 @@ var ExamEngine = (function() {
 		}
 		else {
 			// otherwise, use our cached version
-			rtn = new Question();
-			rtn.initWithJSONSource(str);
+			rtn = QuestionModelFactory.getQuestionModel_JSON(str);
 		}
 		
 		lastReturnedQuestion = rtn;

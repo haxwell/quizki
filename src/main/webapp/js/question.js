@@ -178,7 +178,7 @@ var ChosenChoicesQuestionChoiceItemViewHelper = (function () {
 			var fieldId = undefined;
 			
 			var choicesToBeAnsweredArray = cq.getChoiceIdsToBeAnswered();
-			_.each(choicesToBeAnsweredArray.split(','), function(model) { 
+			_.each(choicesToBeAnsweredArray, function(model) { 
 				var v = model.split(';'); 
 				if (v.length === 2) {
 					fieldId = v[1];
@@ -191,8 +191,9 @@ var ChosenChoicesQuestionChoiceItemViewHelper = (function () {
 			
         	if (answer != undefined) { // if an answer was supplied for this choice...
     			
+        		var choicesToBeAnsweredArrayAsString = choicesToBeAnsweredArray.join(','); 
         		var selectedChoices = _.filter(cq.getChoices().models, function(model) { 
-        				return choicesToBeAnsweredArray.indexOf(model.get('id')) > -1; 
+        				return choicesToBeAnsweredArrayAsString.indexOf(model.get('id')) > -1; 
         			});
 
         		_.each(selectedChoices, function(model) { 
@@ -317,329 +318,348 @@ var ReadOnlyManager = (function() {
 	return my;
 }());
 
-var Question = (function() {
+var QuestionModelFactory = (function() {
 	var my = {};
 	
-	var id = -1;
-	var user_id = -1;
-	var user_name = "";
-	var text = "";
-	var description = "";
-	var type_id = 1;
-	var topics = undefined; /* will be a Backbone.Collection */
-	var references = undefined; /* will be a Backbone.Collection */
-	var choices = undefined; /* will be a Backbone.Collection */
-	var difficulty = undefined; /* will be a Difficulty object */
-	
-	var lastSuppressedEventName = undefined;
-	var lastSuppressedEventObject = undefined;
-	
-	var choiceIdsToBeAnswered = undefined; /* will be an array, used when this is a Set question */
-	
-	// private method
-	function initializeFields() {
-		id = -1; user_id = -1; user_name = '';
-		text = ''; description = ''; type_id = 1; difficulty = new Difficulty().initialize();
-		topics = new Backbone.Collection([], {model: Topic}); 
-		references = new Backbone.Collection([], {model: Reference}); 
-		choices = new Backbone.Collection([], {model : Choice});
-		dynamicData = new Backbone.Collection([], {model : KeyValuePair});
+	my.getQuestionModel_JSON = function(jsonSource) {
+		var obj = JSON.parse(jsonSource);
+		return this.getQuestionModel_AJAX(obj);
 	};
 	
-	my.initialize = function() {
-		initializeFields();
+	my.getQuestionModel_AJAX = function(ajaxSource) {
+		var model = undefined;
+		
+		if (ajaxSource.type_id == QUESTION_TYPE_SINGLE) {
+			model = new SingleQuestionModel();
+		} else if (ajaxSource.type_id == QUESTION_TYPE_MULTIPLE) {
+			model = new MultipleQuestionModel();
+		} else if (ajaxSource.type_id == QUESTION_TYPE_SEQUENCE) {
+			model = new SequenceQuestionModel();
+		} else if (ajaxSource.type_id == QUESTION_TYPE_PHRASE) {
+			model = new PhraseQuestionModel();
+		} else if (ajaxSource.type_id == QUESTION_TYPE_SET) {
+			model = new SetQuestionModel();
+		} 
+		
+		if (model != undefined)
+			model.initWithAJAXSource(ajaxSource);
+		
+		return model;
+	};
+	
+	return my;
+}());
+
+var QuestionModel = Backbone.Model.extend({
+	defaults:{
+		id:-1,
+		user_id:-1,
+		user_name:'',
+		text:'',
+		description:'',
+		type_id:1,
+		topics: new Backbone.Collection([], {model: Topic}),
+		references:new Backbone.Collection([], {model: Reference}),
+		choices:new Backbone.Collection([], {model: Choice}),
+		difficulty:new Difficulty().initialize(),
+		lastSuppressedEventName:undefined,
+		lastSuppressedEventObject:undefined
+	},
+	initialize:function() {
 		_.extend(this, Backbone.Events);
-	};
-	
-	my.initWithAJAXSource = function(source) {
+		
+		this.typeSpecific_initialize();
+	},
+	initWithAJAXSource:function(source) {
 		this.initialize();
 		
-		id = source.id; user_id = source.user_id; user_name = source.user_name;
-		text = source.text;	description = source.description; type_id = source.type_id; 
+		this.set('id', source.id); this.set('user_id', source.user_id); this.set('user_name', source.user_name);
+		this.set('text', source.text); this.set('description', source.description); this.set('type_id', source.type_id); 
 		
-		difficulty.setDifficultyId(source.difficulty_id);
+		this.get('difficulty').setDifficultyId(source.difficulty_id);
 		
-		topics.add(source.topics);
-		references.add(source.references);
+		this.get('topics').reset(); this.get('topics').add(source.topics);
+		this.get('references').reset(); this.get('references').add(source.references);
 		
-		choices = new Backbone.Collection([], {model:Choice});
-		choices.add(source.choices);
+		this.get('choices').reset(); this.get('choices').add(source.choices);
 		
-		_.forEach(source.dynamicDataFieldNames, function(model) { var obj = {key:model, value:source[model]}; dynamicData.add(obj); });
-		
-		_.extend(this, Backbone.Events);
-	};
-	
-	my.initWithJSONSource = function(source) {
+		this.typeSpecific_initWithAJAXSource(source);
+	},
+	initWithJSONSource:function(source) {
 		var obj = JSON.parse(source);
-		
 		this.initWithAJAXSource(obj);
-	};
-	
-	my.resetQuestion = function() {
-		initializeFields();
-		
+	},
+	resetQuestion:function() {
+		this.set('id', -1); this.set('user_id', -1); this.set('user_name', ''); this.set('text', ''); this.set('description', ''); 
+		this.set('type_id', -1); 
+		this.set('topics', new Backbone.Collection([], {model: Topic}));
+		this.set('references', new Backbone.Collection([], {model: Reference}));
+		this.set('choices', new Backbone.Collection([], {model: Choice}));
+		this.set('difficulty', new Difficulty().initialize());
+		this.set('lastSuppressedEventName', undefined);
+		this.set('lastSuppressedEventObject', undefined);
+
 		this.trigger('resetQuestion');
-	};
-	
-	my.toJSON = function() {
+	},
+	toJSON:function() {
 		var rtn = '';
 
 		rtn += JSONUtility.startJSONString(rtn);
 		
-		rtn += JSONUtility.getJSON('id', id+'');
-		rtn += JSONUtility.getJSON('text', text);
-		rtn += JSONUtility.getJSON('description', description);
-		rtn += JSONUtility.getJSON('type_id', type_id+'');
-		rtn += JSONUtility.getJSON('difficulty_id', difficulty.getDifficultyId()+'');
-		rtn += JSONUtility.getJSON('user_id', user_id+'');
-		rtn += JSONUtility.getJSON('user_name', user_name);
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', JSON.stringify(topics.toJSON()));
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', JSON.stringify(references.toJSON()));
+		rtn += JSONUtility.getJSON('id', this.get('id')+'');
+		rtn += JSONUtility.getJSON('text', this.get('text'));
+		rtn += JSONUtility.getJSON('description', this.get('description'));
+		rtn += JSONUtility.getJSON('type_id', this.get('type_id')+'');
+		rtn += JSONUtility.getJSON('difficulty_id', this.get('difficulty').getDifficultyId()+'');
+		rtn += JSONUtility.getJSON('user_id', this.get('user_id')+'');
+		rtn += JSONUtility.getJSON('user_name', this.get('user_name'));
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('topics', JSON.stringify(this.get('topics').toJSON()));
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('references', JSON.stringify(this.get('references').toJSON()));
 		
-		if (choiceIdsToBeAnswered !== undefined) {
-			rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choiceIdsToBeAnswered', '"' + choiceIdsToBeAnswered.join(',') + '"');
-		}
+		rtn += this.getTypeSpecificToJSON();
 		
-		var dynamicKeys = dynamicData.pluck('key');
-		rtn += JSONUtility.getJSONForArray('dynamicDataFieldNames', dynamicKeys);
-		
-		_.each(dynamicKeys, function(model) { rtn += JSONUtility.getJSON(model, dynamicData.get(model).get('value')); });
-		
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(choices.toJSON()), false);
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(this.get('choices').toJSON()), false);
 		
 		rtn = JSONUtility.endJSONString(rtn);
 		
 		return rtn;
-	};
-	
-	my.getDataObject = function () {
+	},
+	getTypeSpecificToJSON: function() {
+		return '';
+	},
+	typeSpecific_initWithAJAXSource: function(source) {
+		return;
+	},
+	typeSpecific_initialize: function(source) {
+		return;
+	},
+	getDataObject:function() {
 		return  {
-				id:id,
-				text:text,
-				description:description,
-				type_id:type_id,
-				difficulty_id:difficulty.getDifficultyId(),
-				user_id:user_id,
-				topics:JSON.stringify(topics.toJSON()), 
-				references:JSON.stringify(references.toJSON()),
-				choices:JSON.stringify(choices.toJSON())
+			id:this.get('id'),
+			text:this.get('text'),
+			description:this.get('description'),
+			type_id:this.get('type_id'),
+			difficulty_id:this.get('difficulty').getDifficultyId(),
+			user_id:this.get('user_id'),
+			topics:JSON.stringify(this.get('topics').toJSON()), 
+			references:JSON.stringify(this.get('references').toJSON()),
+			choices:JSON.stringify(this.get('choices').toJSON())
 		};
-	};
-	
-	my.getId = function() {
-		return id;
-	};
-	
-	my.getUserId = function() {
-		return user_id;
-	};
-	
-	my.getUserName = function() {
-		return user_name;
-	};
-	
-	my.getText = function() {
-		return text;
-	};
-	
-	my.setText = function(val, throwEvent) {
-		var _from = text;
+	},
+	getId:function() {
+		return this.get('id');
+	},
+	getUserId:function() {
+		return this.get('user_id');
+	},
+	getUserName:function() {
+		return this.get('user_name');
+	},
+	getText:function() {
+		return this.get('text');
+	},
+	setText:function(val, throwEvent) {
+		var _from = this.get('text');
 		var _to = val;
 		
-		text = val;
+		this.set('text', val);
 		
 		if (throwEvent !== false)
 			this.trigger('questionTextChanged', {text:{from:_from,to:_to}});			
 		else
 			this.saveSuppressedEvent('questionTextChanged', {text:{from:_from,to:_to}});
-	};
-	
-	my.getDescription = function() {
-		return description;
-	};
-	
-	my.setDescription = function(val, throwEvent) {
-		var _from = description;
+	},
+	getDescription:function() {
+		return this.get('description');
+	},
+	setDescription:function(val, throwEvent) {
+		var _from = this.get('description');
 		var _to = val;
 		
-		description = val;
+		this.set('description', val);
 		
 		if (throwEvent !== false)			
 			this.trigger('questionTextChanged', {description:{from:_from,to:_to}});
 		else
 			this.saveSuppressedEvent('questionTextChanged', {description:{from:_from,to:_to}});
-	};
-
-	my.getTypeId = function() {
-		return type_id;
-	};
-		
-	my.setTypeId = function(val, throwEvent) {
-		var _from = type_id;
+	},
+	getTypeId:function() {
+		return this.get('type_id');
+	},
+	setTypeId:function(val, throwEvent) {
+		var _from = this.get('type_id');
 		var _to = val;
 		
-		type_id = val;
+		this.set('type_id', val);
 		
 		if (throwEvent !== false)
 			this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});
 		else
 			this.saveSuppressedEvent('questionTypeChanged', {type_id:{from:_from,to:_to}});
-	};
-		
-	my.getDifficulty = function() {
-		return difficulty;
-	};
-	
-	my.getDifficultyId = function () {
-		return difficulty.getDifficultyId();
-	};
-
-	my.setDifficultyId = function(val, throwEvent) {
-		var changesObject = difficulty.setDifficultyId(val, false);
+	},
+	getDifficulty:function() {
+		return this.get('difficulty');
+	},
+	getDifficultyId:function () {
+		return this.get('difficulty').getDifficultyId();
+	},
+	setDifficultyId:function(val, throwEvent) {
+		var changesObject = this.get('difficulty').setDifficultyId(val, false);
 		
 		if (throwEvent !== false)
 			this.trigger('difficultyChanged', changesObject);
 		else
 			this.saveSuppressedEvent('difficultyChanged', changesObject);
-	};
-	
-	my.getTopics = function() {
-		return topics;
-	};
-	
-	// deprecated! -- you should get the collection you want to update, and add the models yourself
-	//  Backbone will take care of the rest. If you're interested in events, listen to the collection itself.
-	my.setTopics = function(val, throwEvent) {
-//		var arr = val.split(',');
-//		
-//		for (str in arr) {
-//			if (topics.findWhere({text:str}) == undefined) {
-//				var topic = new Topic();
-//				topic.set('id', '-1');
-//				topic.set('text', str);
-//				topics.add(topic);
-//			}
-//		}
-//		
-//		if (throwEvent !== false)
-//			this.trigger('topicsChanged', { });			
-	};
-	
-	my.getReferences = function() {
-		return references;
-	};
+	},
+	getTopics:function() {
+		return this.get('topics');
+	},
+	getReferences:function() {
+		return this.get('references');
+	},
+	getChoices:function() {
+		return this.get('choices');
+	},
+	addChoice:function(_text, _iscorrect, _sequence, _metadata, throwEvent) {
+		var millisecond_id = new Date().getMilliseconds()+'';
 		
-	// deprecated! -- you should get the collection you want to update, and add the models yourself
-	//  Backbone will take care of the rest. If you're interested in events, listen to the collection itself.
-	my.setReferences = function(val, throwEvent) {
-//		var arr = val.split(',');
-//		
-//		for (str in arr) {
-//			var reference = new Reference();
-//			reference.set('id', '-1');
-//			reference.set('text', str);
-//			references.add(reference);
-//		}
-//		
-//		if (throwEvent !== false)
-//			this.trigger('referencesChanged', { });			
-	};
-		
-	my.getChoices = function() {
-		return choices;
-	};
-		
-	my.addChoice = function(_text, _iscorrect, _sequence, _metadata, throwEvent) {
-		millisecond_id = new Date().getMilliseconds()+'';
-		
-		choices.add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false',metadata:_metadata});
+		this.get('choices').add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false',metadata:_metadata});
 
-		console.log("added choice: " + _text);
-		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 		else
 			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
 		
 		return millisecond_id;
-	};
-	
-	my.getChoice = function(_millisecondId) {
-		return choices.where({id:_millisecondId})[0];
-	};
-		
-	my.updateChoice = function(_millisecondId, _attrToUpdate, _val, throwEvent) {
-		choices.where({id:_millisecondId})[0].set(_attrToUpdate, _val+'');
+	},
+	getChoice:function(_millisecondId) {
+		return this.get('choices').where({id:_millisecondId})[0];
+	},
+	updateChoice:function(_millisecondId, _attrToUpdate, _val, throwEvent) {
+		this.get('choices').where({id:_millisecondId})[0].set(_attrToUpdate, _val+'');
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 		else
 			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
-
-	};
-		
-	my.removeChoice = function(_millisecondId, throwEvent) {
-		choices.reset(_.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId; }));
+	},
+	removeChoice:function(_millisecondId, throwEvent) {
+		this.get('choices').reset(_.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId; }));
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 		else
 			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
-
-	};
-	
-	my.getChoiceIdsToBeAnswered = function() {
-		// TODO: This should be returned via Backbone, using a style like q.get('choiceIdsToBeAnswered').. need to get model
-		//  definitions of a question correctly working in order to do that
-		
-		return dynamicData.findWhere({key:'choiceIdsToBeAnswered'}).get('value');
-	};
-	
-	my.hasBeenAnswered = function() {
-		var rtn = false;
-		
-		if (type_id == QUESTION_TYPE_SINGLE || type_id == QUESTION_TYPE_MULTIPLE) {
-			rtn = _.some(choices.models, function(choice) {
-				return choice.get('isselected') == "true";
-			});
-		} else if (type_id == QUESTION_TYPE_PHRASE) {
-			rtn = _.some(choices.models, function(choice) {
-				return choice.get('phrase') != '';
-			});
-		} else if (type_id == QUESTION_TYPE_SEQUENCE) {
-			rtn = _.every(choices.models, function(choice) {
-				return choice.get('sequence') != 0;
-			});
-		} else if (type_id == QUESTION_TYPE_SET) {
-			rtn = _.every(choiceIdsToBeAnswered, function(choiceId) {
-				var choice = choices.findWhere({id:choiceId});
-				
-				if (choice !== undefined)
-					return choice.get('phrase') != '';
-				else
-					return false;
-			});
-		}
-		
-		return rtn;
-	};
-	
-	my.saveSuppressedEvent = function(name, object) {
+	},
+	hasBeenAnswered:function() {
+		// child objects define this method
+		return false;
+	},
+	saveSuppressedEvent:function(name, object) {
 		lastSuppressedEventName = name;
 		lastSuppressedEventObject = object;
-	};
-	
-	my.fireLastSuppressedEvent = function() {
+	},
+	fireLastSuppressedEvent:function() {
 		this.trigger(lastSuppressedEventName, lastSuppressedEventObject);
-	};
-	
-	my.clearSuppressedEvent = function() {
+	},
+	clearSuppressedEvent:function() {
 		lastSuppressedEventName = undefined;
 		lastSuppressedEventObject = undefined;
-	};
+	}
+});
+
+var SingleQuestionModel = QuestionModel.extend({
+	hasBeenAnswered:function() {
+		var rtn = _.some(this.get('choices').models, function(choice) {
+			return choice.get('isselected') == "true";
+		});
 		
-	return my;
+		return rtn;
+	}
+});
+
+var MultipleQuestionModel = QuestionModel.extend({
+	hasBeenAnswered:function() {
+		var rtn = _.some(this.get('choices').models, function(choice) {
+			return choice.get('isselected') == "true";
+		});
+		
+		return rtn;
+	}
+});
+
+var SequenceQuestionModel = QuestionModel.extend({
+	hasBeenAnswered:function() {
+		var rtn = _.every(this.get('choices').models, function(choice) {
+			return choice.get('sequence') != 0;
+		});
+		
+		return rtn;
+	}
+});
+
+var DynamicDataQuestionModel = QuestionModel.extend({
+	typeSpecific_initialize: function() {
+		this.set('dynamicData', new Backbone.Collection([], {model : KeyValuePair}));
+		
+		_.extend(this, Backbone.Events);
+	},
+	typeSpecific_initWithAJAXSource:function(source) {
+		var dyndata = this.get('dynamicData');
+		
+		_.forEach(source.dynamicDataFieldNames, function(model) { var obj = {key:model, value:source[model]}; dyndata.add(obj); });
+	},
+	initWithJSONSource:function(source) {
+		var obj = JSON.parse(source);
+		this.initWithAJAXSource(obj);
+	}
+});
+
+var SetQuestionModel = DynamicDataQuestionModel.extend({
+	getChoiceIdsToBeAnswered:function() {
+		var arr = new Array();
+		var ddModels = this.get('dynamicData').where({key:'choiceIdsToBeAnswered'});
+		
+		_.forEach(ddModels, function(model) { arr.push(model.get('value')); });
+		
+		return arr;
+	},
+	hasBeenAnswered:function() { 
+		var choicesColl = this.get('choices');
+		var rtn = _.every(this.getChoiceIdsToBeAnswered(), function(choiceId) {
+			var choice = choicesColl.findWhere({id:choiceId});
+			return ((choice !== undefined) && (choice.get('phrase') != ''));
+		});
+		
+		return rtn;
+	},
+	getTypeSpecificToJSON:function() {
+		var rtn = '';
+		
+		var cIds = this.getChoiceIdsToBeAnswered();
+		
+		if (cIds) {
+			rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choiceIdsToBeAnswered', '"' + cIds.join(',') + '"');
+		}
+		
+		var dynData = this.get('dynamicData');
+		var dynamicKeys = dynData.pluck('key');
+		rtn += JSONUtility.getJSONForArray('dynamicDataFieldNames', dynamicKeys);
+		
+		_.each(dynamicKeys, function(model) { rtn += JSONUtility.getJSON(model, dynData.get(model).get('value')); });
+		
+		return rtn;
+	}
+});
+
+var PhraseQuestionModel = DynamicDataQuestionModel.extend({
+	hasBeenAnswered:function() {
+		var rtn = _.some(this.get('choices').models, function(choice) {
+			return choice.get('phrase') != '';
+		});
+		
+		return rtn;
+	}
 });
 
 
@@ -662,13 +682,14 @@ var Question = (function() {
 //  the entity, likely passed in as a URL parameter.
 //
 var getFunctionToRetrieveCurrentQuestion = function() {
- 	var rtn = new Question(); 
+ 	var rtn = undefined; // = new Question(); 
 
 	var currentQuestionAsJson = $("#idCurrentQuestionAsJson").val();
 
 	// if somebody has already set a question in our special JSON field, lets use it!
 	if (currentQuestionAsJson != undefined && currentQuestionAsJson != "") {
-		rtn.initWithJSONSource(currentQuestionAsJson);
+		rtn = QuestionModelFactory.getQuestionModel_JSON(currentQuestionAsJson);
+//		rtn.initWithJSONSource(currentQuestionAsJson);
 		$("#idCurrentQuestionAsJson").val('');
 	}
 	else {
@@ -705,7 +726,7 @@ var getBlankQuestionFromServer = function() {
 };
 
 var getQuestionByAJAXCall = function(data_url, data_obj, func) {
-	var rtn = new Question();
+	var rtn = undefined;
 	
 	makeAJAXCall_andWaitForTheResults(data_url, data_obj, function(data,status) {
 		
@@ -718,7 +739,7 @@ var getQuestionByAJAXCall = function(data_url, data_obj, func) {
 		
 		var parsedJSONObject = jQuery.parseJSON(jsonExport);
 		
-		rtn.initWithAJAXSource(parsedJSONObject.question[0]);
+		rtn = QuestionModelFactory.getQuestionModel_AJAX(parsedJSONObject.question[0]);
 		
 		if (func !== undefined)
 			func(rtn);

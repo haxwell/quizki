@@ -252,7 +252,7 @@
 					//  we'd pass the current question, the event, and get back the key to be used in the answer map.
 					if (currQuestion.getTypeId() == QUESTION_TYPE_SET) {
 						var fieldId = undefined;
-						_.each(currQuestion.getChoiceIdsToBeAnswered().split(','), function(model) { 
+						_.each(currQuestion.getChoiceIdsToBeAnswered(), function(model) { 
 							if (model.indexOf(choice.get('id') + ';') > -1) 
 								fieldId = model.split(';')[1]; 
 						});

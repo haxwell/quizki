@@ -10,6 +10,15 @@ import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
 public class StringUtil {
 
+	/**
+	 * 
+	 * 
+	 * @param fieldNumber
+	 * @param beginningFieldMarker
+	 * @param endingFieldMarker
+	 * @param str
+	 * @return
+	 */
 	public static String getField(int fieldNumber, String beginningFieldMarker, String endingFieldMarker, String str) {
 		// 67
 		// 67;9;2
@@ -31,6 +40,27 @@ public class StringUtil {
 		}
 		
 		return rtn;
+	}
+	
+	public static int getCountOfDynamicFields(String text) {
+		int bindex = -1;
+		int eindex = -1;
+		int count = 0;
+		
+		do {
+			bindex = text.indexOf("[[", bindex+1);
+			
+			if (bindex != -1) {
+				eindex = text.indexOf("]]", bindex+1);
+				
+				if (eindex != -1) {
+					bindex = eindex;
+					count++;
+				}
+			}
+		} while (bindex != -1);
+		
+		return count;
 	}
 	
 	public static class FieldIterator implements Iterator<String> {

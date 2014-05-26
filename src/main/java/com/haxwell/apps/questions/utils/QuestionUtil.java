@@ -290,10 +290,12 @@ public class QuestionUtil {
 			
 			JSONArray dynarr = (JSONArray)o.get("dynamicDataFieldNames");
 			
-			for (int x=0; x < dynarr.size(); x++) {
-				String dynFieldName = (String)dynarr.get(x);
-				
-				q.setDynamicData(dynFieldName, o.get(dynFieldName));
+			if (dynarr != null) {
+				for (int x=0; x < dynarr.size(); x++) {
+					String dynFieldName = (String)dynarr.get(x);
+					
+					q.setDynamicData(dynFieldName, o.get(dynFieldName));
+				}
 			}
 			
 			ll.add(q);

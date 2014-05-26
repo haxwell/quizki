@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
  * 
  * @author jjames
  */
-public class SetQuestionTypeSetDynamificationInSessionHandler implements IDynamicAttributeEventHandler {
+public class SetDynamicAttributeInSessionHandler implements IDynamicAttributeEventHandler {
 
 	@Override
 	public void execute(String endsWithStr, HttpSession session) {

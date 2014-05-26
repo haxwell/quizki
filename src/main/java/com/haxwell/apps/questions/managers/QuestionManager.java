@@ -502,7 +502,7 @@ public class QuestionManager extends Manager {
 			rtn.entities = arr;
 			
 			// a more robust solution will be necessary when a new question type is added.. but for the sake of expediency
-			if (q.getQuestionType().getId() == TypeConstants.SET)
+			if (isDynamificationNeeded(q))
 				rtn.setDynamificationStatus(AJAXReturnData.DynamificationStatus.NEEDED);
 			
 			if (selectedQuestions != null) {
@@ -521,6 +521,16 @@ public class QuestionManager extends Manager {
 		}
 		
 		return rtn;
+	}
+	
+	private static boolean isDynamificationNeeded(Question q) {
+		if (q.getQuestionType().getId() == TypeConstants.SET)
+			return true;
+		
+		if (q.getQuestionType().getId() == TypeConstants.PHRASE && StringUtil.getCountOfDynamicFields(q.getText()) > 0)
+			return true;
+		
+		return false;
 	}
 	
 	/* Helper method for ::getAJAXReturnObject() */

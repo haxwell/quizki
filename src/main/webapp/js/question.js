@@ -168,8 +168,9 @@ var ChosenChoicesQuestionChoiceItemViewHelper = (function () {
 
             	if (answerCorrectnessModel.isAnsweredCorrectly() == false) {
         			_.each(cq.getChoices().models, function(model) { 
-        				if (model.get('text') == answer.get('value')) 
-        					answerCorrectnessModel.set('overallAnsweredCorrectly', true); 
+        				if (model.get('text') == answer.get('value')) { 
+        					answerCorrectnessModel.incrementCorrectAndChosen();
+        				}
         			});
         		}
         	}
@@ -521,7 +522,7 @@ var QuestionModel = Backbone.Model.extend({
 		return this.get('choices');
 	},
 	addChoice:function(_text, _iscorrect, _sequence, _metadata, throwEvent) {
-		var millisecond_id = new Date().getMilliseconds()+'';
+		var millisecond_id = (Math.floor(Math.random() * 9999) + 1) + '';
 		
 		this.get('choices').add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false',metadata:_metadata});
 
@@ -659,7 +660,36 @@ var PhraseQuestionModel = DynamicDataQuestionModel.extend({
 		});
 		
 		return rtn;
+	},
+	getText:function() {
+		var work = _.filter(this.get('dynamicData').models, function(model) { 
+			return model.get('key') == 'dynamicFieldToBeBlankedOut'; 
+		});
+		
+		var text = this.get('text');
+		if (work.length > 0) {
+			var textArr = getBeginningAndEndingTextForSetQuestion(work[0].get('value'), text);
+			
+			text = textArr[0] + "_______________" + textArr[1];
+			
+			text = removeAllOccurrences(']]', text);
+			text = removeAllOccurrences('[[', text);
+		}
+		
+		return text;
+	},
+	getTypeSpecificToJSON:function() {
+		var rtn = '';
+		
+		var dynData = this.get('dynamicData');
+		var dynamicKeys = dynData.pluck('key');
+		rtn += JSONUtility.getJSONForArray('dynamicDataFieldNames', dynamicKeys);
+		
+		_.each(dynamicKeys, function(model) { rtn += JSONUtility.getJSON(model, dynData.get(model).get('value')); });
+		
+		return rtn;
 	}
+	
 });
 
 

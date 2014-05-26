@@ -24,7 +24,7 @@ public class PhraseQuestionDynamifier extends AbstractDynamifier {
 				
 				int numfields = StringUtil.getCountOfDynamicFields(text);
 				
-				dynamification = RandomIntegerUtil.getRandomInteger(numfields)+"";				
+				dynamification = (RandomIntegerUtil.getRandomInteger(numfields)+1) + "";				
 				
 				session.setAttribute(q.getId() + "_QuestionTypePhraseDynamification", dynamification);				
 			}

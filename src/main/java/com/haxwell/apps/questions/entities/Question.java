@@ -114,8 +114,14 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	}
 
 	@Transient
+	// TODO: rename this.. its removing the dynamic field markers, as well as HTML.
 	public String getTextWithoutHTML() {
-		return this.text.replaceAll("\\<.*?>","");
+		String str = this.text.replaceAll("\\<.*?>","");
+		
+		str = str.replace("[[", "");
+		str = str.replace("]]", "");
+		
+		return str;
 	}
 	
 	@Override

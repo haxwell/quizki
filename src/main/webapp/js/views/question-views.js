@@ -342,6 +342,9 @@
 			
 			var text = this.model.get('text');
 			
+			text = removeAllOccurrences('[[', text);
+			text = removeAllOccurrences(']]', text);
+			
 			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
 			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
 			//  instead of a value. That should be cleaned up one day..
@@ -353,8 +356,6 @@
 			var id = this.model.get('id');
 			
 			this.viewmodel = new ChosenChoicesQuestionChoiceItemViewModel({text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id});
-			
-			this.helper = new ChosenChoicesQuestionChoiceItemViewHelper();
 		},
 		setHideSwitchAndSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -369,17 +370,14 @@
 		},
 		render:function() {
 			var _viewmodel = this.viewmodel;
-			_viewmodel.set('comment', '');
-			
-			var answerCorrectnessModel = model_factory.get('answerCorrectnessModel');
-			answerCorrectnessModel.set('cssClass', '');
-			
 			
 			this.setHideSwitchAndSequence();
 
-            // call the helper, and get the values needed
-			this.helper.processAnswerCorrectnessForThisChoice(_viewmodel);
-			var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_viewmodel.get('id'),text:_viewmodel.get('text'),comment:_viewmodel.get('comment'),checked:_viewmodel.get('checked'),sequence:_viewmodel.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:answerCorrectnessModel.get('cssClass')});
+			var cr = model_factory.get("correctnessResults");
+			var currQuestion = model_factory.get('currentQuestion');
+			var ccm = cr.findWhere({fieldId:currQuestion.getId() + ',' + _viewmodel.get('id')});
+			
+			var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_viewmodel.get('id'),text:_viewmodel.get('text'),comment:ccm.get('comment'),checked:_viewmodel.get('checked'),sequence:_viewmodel.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:ccm.get('cssClass')});
             
 			this.$el.html( template );
 			
@@ -576,7 +574,6 @@
 		},
 		render:function() {
 			this.ChoiceItemViewCollection = new Array();
-			model_factory.destroy("answerCorrectnessModel");
 			
 			//  TO UNDERSTAND: why does this return a function to be executed, rather than a string?
 			this.$el.html( _.template( "<ul class='choiceItemList span6' id='listOfChoices'></ul>" )() );
@@ -586,23 +583,6 @@
 			
 			_.each(choices.models, function(model) { this.renderElement(model); }, this);
 
-			// phrase questions need special processing to determine whether they are answered correctly. see Issue #107.
-			if (this.inExamContext && cq.getTypeId() == QUESTION_TYPE_PHRASE) {
-				var answerCorrectnessModel = model_factory.get('answerCorrectnessModel');
-				var answersMap = model_factory.get('answersMap');
-				
-				if (answersMap != undefined) {
-					_.each(choices.models, function(model) {
-						if (answerCorrectnessModel.overallAnsweredCorrectly == false) {
-							var answer = answersMap.get(cq.getId()+","+model.get('id'));
-							
-							answerCorrectnessModel.overallAnsweredCorrectly = (model.get('text') == answer);
-							answerCorrectnessModel.phraseAnswer = (model.get('phrase'));
-						}
-					});
-				}
-			}
-			
 			//get the actual bootstrap slider ui component div
 			var $slider = this.$el.find('.switch-square');
 			$slider.bootstrapSwitch();

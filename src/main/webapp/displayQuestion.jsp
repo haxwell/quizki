@@ -56,6 +56,8 @@
 			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
 			
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
+			
+			<![CDATA[ <script src="../js/question-checking.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[
 			<script type="text/javascript">
@@ -108,18 +110,22 @@
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 
-			    	model_constructor_factory.put("answerCorrectnessModel", function() { return new answerCorrectnessModel(); } );
+			    	//model_constructor_factory.put("answerCorrectnessModel", function() { return new answerCorrectnessModel(); } );
 			    		
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
 			    	var _inExamContext = (model_factory.get("answersToTheMostRecentExam") !== undefined);
+			    	
+			    	if (_inExamContext) {
+			    		IsAnsweredCorrectlyThingy.processQuestion();
+			    	}
 			    	
 			    	var bv_questionCreatedByView = new Quizki.CreatedByView({ el: $("#divCreatedBy") });
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true });
 			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), readOnly: true });
 					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: _inExamContext });
 					
-					bv_questionChoiceList.render();
+					//bv_questionChoiceList.render();
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId(), readOnly: true});
 					
@@ -154,40 +160,40 @@
 					
 					if (_inExamContext) {
 						afFunc = function () {
-							var acm = model_factory.get("answerCorrectnessModel");
+							var qcm = model_factory.get("questionCorrectnessModel");
 							var msgArr = new Array();
 
-							if (acm.get('overallAnsweredCorrectly') == true) {
+							if (qcm.get('answeredCorrectly') == true) {
 								msgArr.push('Great! You answered this question correctly!');
 
-								if (acm.get('phraseAnswer') != undefined) {
-									msgArr.push(' You typed <b>' + acm.get('phraseAnswer') + '</b> .');
+								if (qcm.get('givenAnswer') != undefined) {
+									msgArr.push(' You typed <b>' + qcm.get('givenAnswer') + '</b> .');
 								}
 							}
 							else {
 								msgArr.push('You missed this question!');
 	
-								if (acm.get('correctAndChosen') > 0) {
-									var count = acm.get('correctAndChosen');
+								if (qcm.get('correctAndChosen') > 0) {
+									var count = qcm.get('correctAndChosen');
 									msgArr.push('You made ' + count + ' correct choice' + (count == 1 ? '.' : 's.') );
 								}
 								
-								if (acm.get('incorrectAndChosen') > 0) {
-									var count = acm.get('incorrectAndChosen');
+								if (qcm.get('incorrectAndChosen') > 0) {
+									var count = qcm.get('incorrectAndChosen');
 									msgArr.push(' You made ' + count + ' incorrect choice' + (count == 1 ? '.' : 's.') );
 								}
 
-								if (acm.get('correctButNotChosen') > 0) {
-									var count = acm.get('correctButNotChosen');
+								if (qcm.get('correctButNotChosen') > 0) {
+									var count = qcm.get('correctButNotChosen');
 									msgArr.push(' There ' + (count < 2 ? 'was ' : 'were ') + count + ' correct choice' + (count == 1 ? ' ' : 's ') + 'that you did not choose.');
 								}
 								
-								if (acm.get('phraseAnswer') != undefined) {
-									msgArr.push(' You typed <b>' + acm.get('phraseAnswer') + '</b> .');
+								if (qcm.get('givenAnswer') != undefined) {
+									msgArr.push(' You typed <b>' + qcm.get('givenAnswer') + '</b> .');
 								}
 							}
 							
-							populateAlertDiv(msgArr, acm.get('overallAnsweredCorrectly') ? "alert-success" : "alert-error");
+							populateAlertDiv(msgArr, qcm.get('answeredCorrectly') ? "alert-success" : "alert-error");
 						}
 					};
 					

@@ -1,8 +1,6 @@
 package com.haxwell.apps.questions.servlets.filters;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;	
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,6 +10,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,8 +27,8 @@ import com.haxwell.apps.questions.utils.URLMappedToPageTitleBean;
 @WebFilter("/SetPageTitlesInContextFilter")
 public class SetPageTitlesInContextFilter extends AbstractFilter {
 
-    Logger log = Logger.getLogger(SetPageTitlesInContextFilter.class.getName());
-	
+	private static Logger log = LogManager.getLogger();
+    
 	public SetPageTitlesInContextFilter() { /* do nothing */ }
 
 	/**
@@ -41,7 +41,7 @@ public class SetPageTitlesInContextFilter extends AbstractFilter {
 			
 			String url = StringUtil.getShortURL(req.getRequestURL().toString());
 			
-			if (url.endsWith(".jsp"))
+			if (url.endsWith(".jsp") && !url.startsWith("ajax"))
 			{ 
 				ApplicationContext appContext = getPageTitlesAppContext(req);
 				String pageTitle = "";
@@ -51,7 +51,7 @@ public class SetPageTitlesInContextFilter extends AbstractFilter {
 					pageTitle = bean.getTitle();
 				}
 				catch (NoSuchBeanDefinitionException e) {
-					log.log(Level.INFO, "The page " + url + " does not have a bean which defines its title.");
+					log.info("The page " + url + " does not have a bean which defines its title.");
 				}
 				
 				req.getSession().setAttribute(Constants.PAGE_TITLE, pageTitle);				

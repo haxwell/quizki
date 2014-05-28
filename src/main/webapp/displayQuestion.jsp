@@ -110,8 +110,6 @@
 			    	model_constructor_factory.put("currentUserId", function() { return ${sessionScope.currentUserEntity.id}; });
 			    	model_constructor_factory.put("answersToTheMostRecentExam", function() { var ans = '${sessionScope.answersToTheMostRecentExam}'; if (ans.length > 0) return new Backbone.Collection(JSON.parse(ans).answers); else return undefined; });
 
-			    	//model_constructor_factory.put("answerCorrectnessModel", function() { return new answerCorrectnessModel(); } );
-			    		
 			    	var currentQuestion = model_factory.get("currentQuestion");
 			    	
 			    	var _inExamContext = (model_factory.get("answersToTheMostRecentExam") !== undefined);
@@ -124,8 +122,6 @@
 			    	var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true });
 			    	var bv_questionTypeView = new Quizki.QuestionTypeView({ el: $("#questionTypeView"), readOnly: true });
 					var bv_questionChoiceList = new Quizki.ChoiceListView({ el: $("#choiceListDiv"), readOnly: true, inExamContext: _inExamContext });
-					
-					//bv_questionChoiceList.render();
 					
 					var bv_difficultyChooser = new Quizki.DifficultyChooserView({ el: $("#difficultyChooserElement"), id:currentQuestion.getDifficultyId(), readOnly: true});
 					

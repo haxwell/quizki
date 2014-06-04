@@ -406,7 +406,8 @@ var QuestionModel = Backbone.Model.extend({
 			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
 	},
 	removeChoice:function(_millisecondId, throwEvent) {
-		this.get('choices').reset(_.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId; }));
+		var choices = this.get('choices');
+		choices.reset(_.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId; }));
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

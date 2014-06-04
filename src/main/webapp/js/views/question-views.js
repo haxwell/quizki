@@ -71,7 +71,7 @@
 			"click #btnSave":"saveQuestion"
 		},
 		render:function() {
-			var classAttributeHidden = this.readOnly == undefined ? "" : "hidden";
+			var classAttributeHidden = (this.readOnly == true) ? "hidden" : "";
 			
 			this.$el.html(view_utility.executeTemplate('/templates/QuestionHeaderWithSaveButtons.html', {hidden:classAttributeHidden}));			
 			return this;
@@ -259,7 +259,7 @@
 			this.render();
 		},
 		removeEntry:function(event) {
-			if (this.readOnly == undefined) {
+			if (this.readOnly != true) {
 				var backboneModel = model_factory.get( this.getBackboneModelKey() );
 				
 				var entryText = $(event.target).html();
@@ -312,7 +312,7 @@
 			}
 		},
 		render:function() {
-			var readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
+			var readOnlyAttr = (this.readOnly == true) ? "readOnly" : "";
 			var _id = this.id;
 			
 			this.$el.html(view_utility.executeTemplate('/templates/QuestionAttributeWellView.html', {id:_id, readOnly:readOnlyAttr}));
@@ -434,7 +434,7 @@
             var _viewmodel = this.viewmodel,
             	hideSequence = this.getHideSequence(),
             	disabled = this.getDisabledText(),
-            	readOnlyAttr = this.readOnly == undefined ? "" : "readOnly";
+            	readOnlyAttr = (this.readOnly == true) ? "readOnly" : "";
             
             var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_viewmodel.id,text:_viewmodel.text,checked:_viewmodel.checked,sequence:_viewmodel.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
 			this.$el.html( template );
@@ -485,7 +485,7 @@
 		},
 		choiceItemSwitchesShouldBeDisabled : function() {
 			var typeId = model_factory.get('currentQuestion').getTypeId();
-			return (typeId == QUESTION_TYPE_PHRASE || typeId == QUESTION_TYPE_SEQUENCE || typeId == QUESTION_TYPE_SET) || this.readOnly !== undefined;
+			return (typeId == QUESTION_TYPE_PHRASE || typeId == QUESTION_TYPE_SEQUENCE || typeId == QUESTION_TYPE_SET) || (this.readOnly == true);
 		},
 		setStateOnInitialization: function () {
 			var typeId = model_factory.get('currentQuestion').getTypeId();
@@ -505,6 +505,7 @@
 			}
 			
 			this.setSequenceFieldsAreVisible(rtn || false);
+			this.setReadOnly(ReadOnlyManager.getReadOnlyRecommendation(model_factory.get('currentQuestion')));
 		},
 		setReadOnly: function(bool) {
 			this.readOnly = bool;
@@ -517,7 +518,7 @@
 			"click .destroyBtn":"remove"
 		},
 		edit : function(event) {
-			if (this.readOnly == undefined) {
+			if (this.readOnly != true) {
 				var _el = this.$el.find("li:hover");
 				
 				_el.addClass('editing');
@@ -648,9 +649,12 @@
 				state.val.checkBoxDisabled = "";
 		},
 		setStateOnInitialization: function () {
-			var type_id = model_factory.get('currentQuestion').getTypeId();
+			var currentQuestion = model_factory.get('currentQuestion');
+			var type_id = currentQuestion.getTypeId();
 			
 			this.setCheckBoxDisabled(type_id == QUESTION_TYPE_PHRASE || type_id == QUESTION_TYPE_SEQUENCE || type_id == QUESTION_TYPE_SET);
+			
+			ReadOnlyManager.throwEvent(currentQuestion);
 		},
 		setStateOnQuestionTypeChangedEvent: function(event) { 
 			if (event !== undefined && event.type_id !== undefined)
@@ -661,9 +665,9 @@
 			}
 			
 			var currentQuestion = model_factory.get("currentQuestion");
-			var func = ReadOnlyManager.throwEvent(currentQuestion);
-	        if (func != undefined)
-	        	func(currentQuestion);
+			/*var func = */ ReadOnlyManager.throwEvent(currentQuestion);
+//	        if (func != undefined)
+//	        	func(currentQuestion);
 		},
 		render: function () {
 			var state = model_factory.get('EnterNewChoiceViewState');

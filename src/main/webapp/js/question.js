@@ -153,10 +153,12 @@ var ReadOnlyManager = (function() {
 		var index = 0;
 		
 		if (question != undefined) {
+			// get all the recommending handlers for this question type
 			var coll = handlers[question.getTypeId()];
 
 			if (coll != undefined) {
 				do {
+					// call each of the handlers, and see what they say
 					recc = coll[index++](question);
 	
 				} while (recc !== false && index < coll.length);
@@ -519,23 +521,6 @@ var PhraseQuestionModel = DynamicDataQuestionModel.extend({
 		});
 		
 		return rtn;
-	},
-	getText:function() {
-		var work = _.filter(this.get('dynamicData').models, function(model) { 
-			return model.get('key') == 'dynamicFieldToBeBlankedOut'; 
-		});
-		
-		var text = this.get('text');
-		if (work.length > 0) {
-			var textArr = getBeginningAndEndingTextForSetQuestion(work[0].get('value'), text);
-			
-			text = textArr[0] + "_______________" + textArr[1];
-			
-			text = removeAllOccurrences(']]', text);
-			text = removeAllOccurrences('[[', text);
-		}
-		
-		return text;
 	},
 	getTypeSpecificToJSON:function() {
 		var rtn = '';

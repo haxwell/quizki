@@ -86,6 +86,27 @@
 					
 						dlg2.dialog('open');
 					}
+					
+					var questionTextFormatterFunc = function(question) {
+						var text = question.get('text');
+						
+						if (question.getTypeId() == QUESTION_TYPE_PHRASE) {
+							var work = _.filter(question.get('dynamicData').models, function(model) { 
+								return model.get('key') == 'dynamicFieldToBeBlankedOut'; 
+							});
+							
+							if (work.length > 0) {
+								var textArr = getBeginningAndEndingTextForSetQuestion(work[0].get('value'), text);
+								
+								text = textArr[0] + "_______________" + textArr[1];
+								
+								text = removeAllOccurrences(']]', text);
+								text = removeAllOccurrences('[[', text);
+							}
+						}
+						
+						return text;
+					};
 						
 					event_intermediary.initialize();
 
@@ -98,7 +119,7 @@
 			    
 			    	var bv_header = new Quizki.QuitThisExamView({ el: $("#divQuestionHeaderWithQuitButtons") });
 
-					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'examEngineSetNewCurrentQuestion' });
+					var bv_questionAndTextView = new Quizki.QuestionTextAndDescriptionView({ el: $("#divTextarea"), readOnly: true, modelToListenTo:'ExamEngine', modelEventToListenFor:'examEngineSetNewCurrentQuestion', questionTextFormatter:questionTextFormatterFunc });
 					
 					var bv_choiceListView = new Quizki.ExamChoiceListView({ el: $("#divQuestionChoices") });
 					

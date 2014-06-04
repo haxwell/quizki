@@ -22,6 +22,8 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 	initialize:function() {
 		this.readOnly = arguments[0].readOnly;
 		
+		this.questionTextFormatter = arguments[0].questionTextFormatter;
+		
 		this.render();
 
 		var currQuestion = model_factory.get("currentQuestion");
@@ -59,7 +61,13 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		
 		var disabledText = this.readOnly == undefined ? "" : "disabled";
 		
-		this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:currentQuestion.getText(), description:currentQuestion.getDescription(), disabled:disabledText, hidden:hidden, rows:rows}));
+		var qText = '';
+		if (this.questionTextFormatter != undefined)
+			qText = this.questionTextFormatter(currentQuestion);
+		else
+			qText = currentQuestion.getText();
+		
+		this.$el.html( view_utility.executeTemplate('/templates/QuestionTextAndDescriptionView.html', {text:qText, description:currentQuestion.getDescription(), disabled:disabledText, hidden:hidden, rows:rows}));
 		
 		if (this.readOnly != undefined) {
 			tinyMCE.init({

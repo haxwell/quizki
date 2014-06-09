@@ -91,13 +91,19 @@ public class ReferenceUtil {
 			for (int i=0; i < arr.size(); i++) {
 				JSONObject o = (JSONObject)arr.get(i);
 				
-				Reference r = new Reference();
+				String text = (String)o.get("text");
 				
-				r.setText((String)o.get("text"));
+				Reference r = ReferenceManager.getReference(text);
 				
-				Long id = Long.parseLong((String)o.get("id"));
-				if (id != -1)
-					r.setId(id);
+				if (r == null) {
+					r = new Reference();
+					
+					r.setText(text);
+					
+					Long id = Long.parseLong((String)o.get("id"));
+					if (id != -1)
+						r.setId(id);
+				}
 				
 				rtn.add(r);
 			}

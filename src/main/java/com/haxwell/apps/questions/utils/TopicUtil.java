@@ -113,13 +113,18 @@ public class TopicUtil {
 		for (int i=0; i < arr.size(); i++) {
 			JSONObject o = (JSONObject)arr.get(i);
 			
-			Topic t = new Topic();
+			String text = (String)o.get("text");
 			
-			t.setText((String)o.get("text"));
-			
-			Long id = Long.parseLong((String)o.get("id"));
-			if (id != -1)
-				t.setId(id);
+			Topic t = TopicManager.getTopic(text);
+					
+			if (t == null){
+				t = new Topic();
+				t.setText(text);
+
+				Long id = Long.parseLong((String)o.get("id"));
+				if (id != -1)
+					t.setId(id);
+			}
 			
 			rtn.add(t);
 		}

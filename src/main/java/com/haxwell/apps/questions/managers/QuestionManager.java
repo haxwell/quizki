@@ -1,17 +1,18 @@
 package com.haxwell.apps.questions.managers;
 
-import java.util.ArrayList;
+import java.util.ArrayList;	
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.DifficultyConstants;
@@ -38,7 +39,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 
 public class QuestionManager extends Manager {
 	
-	public static Logger log = Logger.getLogger(QuestionManager.class.getName());
+	private static Logger log = LogManager.getLogger();
 	
 	protected static QuestionManager instance = null;
 	
@@ -60,7 +61,7 @@ public class QuestionManager extends Manager {
 
 		em.getTransaction().begin();
 		
-		log.log(Level.SEVERE, "\n\n" + question.toJSON());
+		log.debug("\n\n" + question.toJSON());
 		
 		em.persist(question);
 		
@@ -77,7 +78,7 @@ public class QuestionManager extends Manager {
 
 		em.getTransaction().begin();
 		
-		log.log(Level.SEVERE, "\n\n" + question.toJSON());
+		log.debug("\n\n" + question.toJSON());
 		
 		Question rtn = em.merge(question);
 		

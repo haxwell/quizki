@@ -1,9 +1,11 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -21,7 +23,10 @@ public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
 
 	private String text;
 
-    public Difficulty() {
+	@OneToMany(mappedBy="difficulty")
+	Set<Question> questions;
+	
+	public Difficulty() {
     }
     
     public Difficulty(String str) {

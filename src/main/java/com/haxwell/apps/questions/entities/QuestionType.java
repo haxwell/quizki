@@ -1,6 +1,8 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
 
 
@@ -18,7 +20,10 @@ public class QuestionType implements EntityWithAnIntegerIDBehavior, Serializable
 
 	private String text;
 
-    public QuestionType() {
+	@OneToMany(mappedBy="questionType")
+	Set<Question> questions;
+
+	public QuestionType() {
     }
     
     public QuestionType(long id) {

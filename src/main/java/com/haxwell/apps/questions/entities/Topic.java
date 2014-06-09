@@ -1,11 +1,14 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import net.minidev.json.JSONObject;
@@ -24,9 +27,13 @@ public class Topic extends AbstractEntity implements ITopic, EntityWithAnInteger
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private long id = -1;
 
+	@Column(nullable=false,unique=true)
 	private String text;
+	
+	@ManyToMany(mappedBy="topics")
+	Set<Question> questions;
 
     public Topic() {
     }

@@ -1,11 +1,13 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.haxwell.apps.questions.interfaces.ITopic;
@@ -26,7 +28,10 @@ public class Reference extends AbstractEntity implements EntityWithAnIntegerIDBe
 
 	private String text;
 
-    public Reference() {
+	@ManyToMany(mappedBy="references")
+	Set<Question> questions;
+	
+	public Reference() {
     }
 
     public Reference(String str) {

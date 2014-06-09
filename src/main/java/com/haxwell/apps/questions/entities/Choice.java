@@ -1,11 +1,13 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -32,7 +34,10 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 
 	private String text;
 
-    public Choice() {
+	@ManyToMany(mappedBy="choices")
+	Set<Question> questions;
+
+	public Choice() {
     }
     
     public Choice(long id, String text, boolean isCorrect) {

@@ -80,12 +80,31 @@ public class QuestionUtil {
 			}
 			
 			long qid = Long.MIN_VALUE;
-			if (question.getId() == -1) {
-				qid = QuestionManager.persistQuestion(question);
-			}
-			else {
+			
+			/**
+			 * This commented out code was there because I was having an issue where choice IDs were being corrupted when questions 
+			 * were saved. I thought to fix that by persisting new questions, and merging the old ones. Commit 68e4e5b describes that
+			 * situation. But afterwards, topics were being duplicated in the topic table, so each new question even though it used the
+			 * same topic, would create a new entry in the table, rather than not doing that, and allowing the count in question_topic
+			 * to increment. I fixed that by being more complete about the annotations I set on the associated classes of Question.
+			 * So I added @manyToMany on topics and references, and @OneToMany on difficulty and question type. Now, when I use just
+			 * merge() rather than persist(), it all seems to be working okay.
+			 * 
+			 * A note, I have read on stackoverflow, that merge() does more work than persist(), and that persist() should be used for
+			 * new entities. The problem I have, and am leaving for my future self, is that a Question itself can be new, but contain
+			 * topics and other entities that should be merged, not persisted. I don't know, or at least haven't thought about, how 
+			 * to break the persistence process up to make that happen. 
+			 * 
+			 * Anyway, I have left this commented out for history's sake, so that i can remember in the future. If it ever starts 
+			 * effin up again.
+			 */
+			
+//			if (question.getId() == -1) {
+//				qid = QuestionManager.persistQuestion(question);
+//			}
+//			else {
 				qid = QuestionManager.mergeQuestion(question);				
-			}
+//			}
 			
 			List<String> successes = new ArrayList<String>();
 			

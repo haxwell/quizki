@@ -253,7 +253,7 @@ var QuestionModel = Backbone.Model.extend({
 	},
 	resetQuestion:function() {
 		this.set('id', -1); this.set('user_id', -1); this.set('user_name', ''); this.set('text', ''); this.set('description', ''); 
-		this.set('type_id', -1); 
+		this.set('type_id', QUESTION_TYPE_SINGLE); 
 		this.set('topics', new Backbone.Collection([], {model: Topic}));
 		this.set('references', new Backbone.Collection([], {model: Reference}));
 		this.set('choices', new Backbone.Collection([], {model: Choice}));

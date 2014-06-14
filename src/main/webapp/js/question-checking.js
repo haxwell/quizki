@@ -87,9 +87,11 @@ var TypeSingleChoiceChecker = (function() {
 		_.each(cq.getChoices().models, function(choice) {
 			var answer = mostRecentExamAnswers.findWhere({fieldId:cq.getId() + ',' + choice.get('id')});
 			var ccm = new ChoiceCorrectnessModel({fieldId:cq.getId() + ',' + choice.get('id')});
-		
+			var choiceTextStringified = stringifyApostrophesAndQuotes(choice.get('text'));
+			var answerTextStringified = (answer === undefined) ? undefined : answer.get('value');
+			
 			// if an answer was supplied, and this choice says 'I am correct', and the supplied answer equals the text of this choice...
-			if (answer != undefined && (choice.get('iscorrect') == 'true' || choice.get('iscorrect') === true) && answer.get('value') == choice.get('text') ) {
+			if (answer != undefined && (choice.get('iscorrect') == 'true' || choice.get('iscorrect') === true) && answerTextStringified == choiceTextStringified ) {
 				ccm.set('correctnessStatus', CHOICE_IS_CORRECT_AND_CHOSEN);
 				ccm.set('cssClass', 'correctAndChosen');
 				

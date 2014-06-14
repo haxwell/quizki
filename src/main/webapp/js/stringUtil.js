@@ -121,9 +121,31 @@ var getTextOfGivenFieldForSetQuestion = function(fieldId, textFromWhichToExtract
 var removeAllOccurrences = function(pattern, str) {
 	
 	// usage: _str = removeAllOccurrences(pattern, _str);
+
+	var coll = new Backbone.Collection([], {model: KeyValuePair});
+	coll.add({key:pattern, value:''});
 	
-	while (str.indexOf(pattern) > -1)
-		str = str.replace(pattern, '');
+	return replaceAllOccurrences(coll, str);
+};
+
+var stringifyApostrophesAndQuotes = function(str) {
 	
-	return str;
+	var coll = new Backbone.Collection([], {model: KeyValuePair});
+	
+	coll.add({key:'"', value:"&quot;"});
+	coll.add({key:"'", value:"&apos;"});
+	
+	return replaceAllOccurrences(coll, str);
+};
+
+/*
+ * coll is a backbone collection of KeyValuePairs with key being the string to be replaced, and value being the replacement
+ * str is the string to work on
+ */
+var replaceAllOccurrences = function(coll, str) {
+	var rtn = str;
+	
+	_.each(coll.models, function(model) { while (rtn.indexOf(model.get('key')) > -1) rtn = rtn.replace(model.get('key'), model.get('value')); });
+
+	return rtn;
 };

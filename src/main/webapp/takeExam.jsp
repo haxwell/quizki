@@ -33,8 +33,6 @@
 		<jsp:text>
 			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
 						
-			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
-			
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
@@ -45,6 +43,8 @@
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/stringUtil.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
+			
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>

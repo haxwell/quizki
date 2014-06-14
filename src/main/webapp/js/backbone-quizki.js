@@ -294,12 +294,8 @@ var JSONUtility = (function() {
 		var count = 0;
 		for (var key in keys) {
 			var value = map.get(key);
-			
-			// TODO: replace this with call to stringUtil.stringifyApostrophesAndQuotes();
-			while (value.indexOf("'") > -1 || value.indexOf('"') > -1) {
-				value = value.replace("'", "&apos;");
-				value = value.replace('"', "&quot;");
-			}
+
+			value = stringifyApostrophesAndQuotes(value);
 			
 			rtn = this.startJSONString(rtn);
 			rtn += '"' + keyFieldName + '": "' + key + '", ';

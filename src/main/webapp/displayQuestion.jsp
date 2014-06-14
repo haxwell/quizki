@@ -43,9 +43,9 @@
 			<![CDATA[ <script src="../pkgs/underscore.js/underscore.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/backbone.js/backbone.js" type="text/javascript" ></script> ]]>
 
+			<![CDATA[ <script src="../js/stringUtil.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/backbone-quizki.js" type="text/javascript"></script> ]]>
 
-			<![CDATA[ <script src="../js/stringUtil.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../js/ajax/ajax-functions.js" type="text/javascript"></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>

@@ -249,12 +249,16 @@
 			this.toggleNewEntryField();
 			
 			var backboneModel = model_factory.get( this.getBackboneModelKey() );
+			var modelLength = backboneModel.length;
 			for (var x=0; x < arr.length; x++) {
-				if (arr[x].length > 0) backboneModel.add({text:arr[x]});
+				if (arr[x].length > 0) backboneModel.add({text:arr[x].trim()});
 			}
 
-			var viewKey = model_factory.get( this.id + "ViewKey" );
-			model_factory.get(viewKey + "AutocompleteEntries").add({key:text, value:text});
+			// if any items were added to the backbone model 
+			if (modelLength < backboneModel.length) {
+				var viewKey = model_factory.get( this.id + "ViewKey" );
+				model_factory.get(viewKey + "AutocompleteEntries").add({key:text, value:text});
+			}
 			
 			this.render();
 		},

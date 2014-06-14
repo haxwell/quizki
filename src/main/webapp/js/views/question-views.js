@@ -192,20 +192,20 @@
 					model_factory.destroy(viewKey + "AutocompleteHistory");
 					model_factory.destroy(viewKey + "AutocompleteField");
 					
-					model_factory.destroy(viewKey + "Entries");
-					model_factory.destroy(viewKey + "DeletedEntries");
-					model_factory.put(viewKey + "Entries", new Backbone.Collection([], {model: KeyValuePair}));
-					model_factory.put(viewKey + "DeletedEntries", new Backbone.Collection([], {model: KeyValuePair}));
+					model_factory.destroy(viewKey + "AutocompleteEntries");
+					model_factory.destroy(viewKey + "DeletedAutocompleteEntries");
+					model_factory.put(viewKey + "AutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
+					model_factory.put(viewKey + "DeletedAutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
 					
 					this.render();
 				});
 			}
 
 			// this is what the user typed during this session, to be sent to the server
-			model_factory.put(viewKey + "Entries", new Backbone.Collection([], {model: KeyValuePair}));
+			model_factory.put(viewKey + "AutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
 			
 			// these are items the user pressed delete on, in the autocomplete dropdown box
-			model_factory.put(viewKey + "DeletedEntries", new Backbone.Collection([], {model: KeyValuePair}));
+			model_factory.put(viewKey + "DeletedAutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
 			
 			this.listenTo(event_intermediary, 'escapeKeyPressedInAutocompleteField', function(event) { this.renderAutocompleteField(false); });
 		},
@@ -254,7 +254,7 @@
 			}
 
 			var viewKey = model_factory.get( this.id + "ViewKey" );
-			model_factory.get(viewKey + "Entries").add({key:text, value:text});
+			model_factory.get(viewKey + "AutocompleteEntries").add({key:text, value:text});
 			
 			this.render();
 		},
@@ -267,6 +267,10 @@
 				var newColl = _.reject(backboneModel.models, function(item) { return entryText === item.get('text'); });
 				backboneModel.reset(newColl);
 				model_factory.put(this.getBackboneModelKey(), backboneModel);
+
+				var viewKey = model_factory.get( this.id + "ViewKey" );
+//				model_factory.get(viewKey + "DeletedAutocompleteEntries").add({key:entryText, value:entryText});
+				model_factory.get(viewKey + "AutocompleteEntries").reset(newColl);
 				
 				this.render();
 			}
@@ -290,7 +294,7 @@
 							if (e.keyCode == 27) { event_intermediary.throwEvent("escapeKeyPressedInAutocompleteField"); e.keyCode = undefined; } 
 						},
 						onDeleteKeyPress:function(text, index) {
-							var coll = model_factory.get(viewKey + "DeletedEntries");
+							var coll = model_factory.get(viewKey + "DeletedAutocompleteEntries");
 							coll.add({key:text, value:text});
 						}
 					});

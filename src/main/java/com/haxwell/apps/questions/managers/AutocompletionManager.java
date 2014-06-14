@@ -21,7 +21,8 @@ public class AutocompletionManager extends Manager {
 		transaction.begin();
 		
 		while (fieldIterator.hasNext()) {
-			String queryStr = "INSERT IGNORE INTO autocomplete_history (user_id, environment_id, text) VALUES (" + userId + ", " + environmentId + ", '" + fieldIterator.next() + "')";
+			String text = fieldIterator.next();
+			String queryStr = "INSERT IGNORE INTO autocomplete_history (user_id, environment_id, text) VALUES (" + userId + ", " + environmentId + ", " + text + ")";
 			
 			Query query = em.createNativeQuery(queryStr);
 			
@@ -40,7 +41,8 @@ public class AutocompletionManager extends Manager {
 		transaction.begin();
 		
 		while (fieldIterator.hasNext()) {
-			String queryStr = "DELETE FROM autocomplete_history WHERE user_id = " + userId + " AND environment_id = " + environmentId + " AND text = '" + fieldIterator.next() + "'";
+			String text = fieldIterator.next();
+			String queryStr = "DELETE FROM autocomplete_history WHERE user_id = " + userId + " AND environment_id = " + environmentId + " AND text = " + text;
 			
 			Query query = em.createNativeQuery(queryStr);
 			
@@ -65,25 +67,25 @@ public class AutocompletionManager extends Manager {
 		//  and then put the overall string in the Set
 		Iterator iterator = list.iterator();
 		Set<String> set = new HashSet<>();
+		final String delimiter = "|";
+		
 		
 		while (iterator.hasNext()) {
 			String str = (String)iterator.next();
 			
-			if (str.contains(",")) {
-				StringTokenizer tokenizer = new StringTokenizer(str,"|");
+			if (str.contains(delimiter)) {
+				StringTokenizer tokenizer = new StringTokenizer(str, delimiter);
 				
 				while (tokenizer.hasMoreTokens()) {
 					String token = tokenizer.nextToken();
 					
-					if (token.charAt(0) != '\"')
-						token = "\"" + token;
-					
-					if (token.charAt(token.length()-1) != '\"')
-						token += "\"";
+					token = wrapInQuotes(token);
 					
 					set.add(token);
 				}
 			}
+
+			str = wrapInQuotes(str);
 			
 			set.add(str);
 		}
@@ -96,11 +98,20 @@ public class AutocompletionManager extends Manager {
 		sb.append(StringUtil.startJavascriptArray());
 		
 		while (setIterator.hasNext()) {
-			StringUtil.addToJavascriptArray(sb, setIterator.next(), DO_NOT_WRAP_IN_QUOTES);			
+			StringUtil.addToJavascriptArray(sb, setIterator.next(), DO_NOT_WRAP_IN_QUOTES);
 		}
 		
 		StringUtil.closeJavascriptArray(sb);
 		
 		return sb.toString();
+	}
+
+	private static String wrapInQuotes(String token) {
+		if (token.charAt(0) != '\"')
+			token = "\"" + token;
+		
+		if (token.charAt(token.length()-1) != '\"')
+			token += "\"";
+		return token;
 	}
 }

@@ -27,7 +27,7 @@ public class ReferenceUtil {
 		String userId = (String)request.getParameter("user_id");
 		Long user_id = Long.parseLong((userId == null || userId.equals("-1")) ? user.getId()+"" : userId);
 
-		String text = (String)request.getParameter("referencesEntries");
+		String text = (String)request.getParameter("referencesAutocompleteEntries");
 		
 		// remove the brackets at the beginning and end.. 
 		if (text != null) {
@@ -35,7 +35,7 @@ public class ReferenceUtil {
 			AutocompletionManager.write(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, "\""));
 		}
 		
-		text = (String)request.getParameter("referencesDeletedEntries");
+		text = (String)request.getParameter("referencesDeletedAutocompleteEntries");
 		
 		if (text != null) {
 			text = text.substring(1, text.length() - 1);

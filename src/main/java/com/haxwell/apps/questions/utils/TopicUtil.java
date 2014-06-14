@@ -29,7 +29,7 @@ public class TopicUtil {
 		String userId = (String)request.getParameter("user_id");
 		Long user_id = Long.parseLong((userId == null || userId.equals("-1")) ? user.getId()+"" : userId);
 
-		String text = (String)request.getParameter("topicsEntries");
+		String text = (String)request.getParameter("topicsAutocompleteEntries");
 		
 		// remove the brackets at the beginning and end.. 
 		if (text != null) {
@@ -37,7 +37,7 @@ public class TopicUtil {
 			AutocompletionManager.write(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, "\""));
 		}
 		
-		text = (String)request.getParameter("topicsDeletedEntries");
+		text = (String)request.getParameter("topicsDeletedAutocompleteEntries");
 		if (text != null) {
 			text = text.substring(1, text.length() - 1);
 			AutocompletionManager.delete(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, "\""));

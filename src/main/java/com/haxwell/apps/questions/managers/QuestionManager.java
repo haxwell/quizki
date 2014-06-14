@@ -675,9 +675,22 @@ public class QuestionManager extends Manager {
 		errors.addAll(ChoiceManager.validate(questionObj));
 		
 		String questionText = questionObj.getText();
+		Set<Topic> topics = questionObj.getTopics();
 		
-		if (questionObj.getTopics().size() < 1)
+		if (topics.size() < 1)
 			errors.add("Question must have at least one topic.");
+		
+		for (Topic t : topics) {
+			if (t.getText().indexOf("\"") != -1)
+				errors.add("Topics cannot have quotes in them. Why not try an apostrophe instead?");
+		}
+		
+		Set<Reference> references = questionObj.getReferences();
+		
+		for (Reference r : references) {
+			if (r.getText().indexOf("\"") != -1)
+				errors.add("References cannot have quotes in them. Why not try an apostrophe instead?");
+		}
 		
 		if (StringUtil.isNullOrEmpty(questionText))
 			errors.add("Question must have some text!");

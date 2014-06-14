@@ -124,17 +124,17 @@
 					var func = function () {
 						var rtn = model_factory.get("currentQuestion").getDataObject();
 
-						var topicsEntries = model_factory.get(topicsViewKey + "Entries").pluck('value');
-						rtn.topicsEntries = JSON.stringify(topicsEntries);
+						var topicsAutocompleteEntries = model_factory.get(topicsViewKey + "AutocompleteEntries").pluck('value');
+						rtn.topicsAutocompleteEntries = JSON.stringify(topicsAutocompleteEntries);
 						
-						var referencesEntries = model_factory.get(referencesViewKey + "Entries").pluck('value');
-						rtn.referencesEntries = JSON.stringify(referencesEntries);
+						var referencesAutocompleteEntries = model_factory.get(referencesViewKey + "AutocompleteEntries").pluck('value');
+						rtn.referencesAutocompleteEntries = JSON.stringify(referencesAutocompleteEntries);
 						
-						var deletedEntries = model_factory.get(topicsViewKey + "DeletedEntries").pluck('value');
-						rtn.topicsDeletedEntries = JSON.stringify(deletedEntries);
+						var deletedAutocompleteEntries = model_factory.get(topicsViewKey + "DeletedAutocompleteEntries").pluck('value');
+						rtn.topicsDeletedAutocompleteEntries = JSON.stringify(deletedAutocompleteEntries);
 						
-						deletedEntries = model_factory.get(referencesViewKey + "DeletedEntries").pluck('value');
-						rtn.referencesDeletedEntries = JSON.stringify(deletedEntries);						
+						deletedAutocompleteEntries = model_factory.get(referencesViewKey + "DeletedAutocompleteEntries").pluck('value');
+						rtn.referencesDeletedAutocompleteEntries = JSON.stringify(deletedAutocompleteEntries);						
 						
 						return rtn;
 					};

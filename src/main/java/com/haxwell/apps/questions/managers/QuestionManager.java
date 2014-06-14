@@ -419,6 +419,12 @@ public class QuestionManager extends Manager {
 		if (!filterTextIsNullOrEmpty || maxDifficulty > 0 || includeOnlyUserCreatedEntities)
 			queryString += " WHERE "; 
 		
+		if (includeOnlyUserCreatedEntities)
+			queryString += "q.user.id = ?3";
+
+		if (includeOnlyUserCreatedEntities && (maxDifficulty > 0 || !filterTextIsNullOrEmpty))
+			queryString += " AND ";
+		
 		if (maxDifficulty > 0) 
 			queryString += "q.difficulty.id = ?1 ";
 		
@@ -427,12 +433,6 @@ public class QuestionManager extends Manager {
 		
 		if (!filterTextIsNullOrEmpty)
 			queryString += " UPPER(q.text) LIKE ?2 OR UPPER(q.description) LIKE ?2"; 
-		
-		if ((!filterTextIsNullOrEmpty || maxDifficulty > 0) && includeOnlyUserCreatedEntities)
-			queryString += " AND ";
-		
-		if (includeOnlyUserCreatedEntities)
-			queryString += "q.user.id = ?3";
 		
 		Query query = em.createQuery(queryString, Question.class);
 		
@@ -443,7 +443,7 @@ public class QuestionManager extends Manager {
 			query.setParameter(2, "%" + filterText.toUpperCase() + "%");
 		
 		if (includeOnlyUserCreatedEntities)
-			query.setParameter(3, Long.parseLong(user.getId()+""));
+			query.setParameter(3, user.getId());
 		
 		List<Question> rtn = (List<Question>)query.getResultList();
 

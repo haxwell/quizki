@@ -420,8 +420,8 @@ DROP TABLE IF EXISTS `reference`;
 CREATE TABLE `reference` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `text` varchar(100) NOT NULL,
-  KEY (`id`)
-  PRIMARY KEY (`text`),
+  KEY (`id`),
+  PRIMARY KEY (`text`)
 ) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -445,8 +445,8 @@ DROP TABLE IF EXISTS `topic`;
 CREATE TABLE `topic` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `text` varchar(100) NOT NULL,
-  KEY (`id`)
-  PRIMARY KEY (`text`),
+  KEY (`id`),
+  PRIMARY KEY (`text`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

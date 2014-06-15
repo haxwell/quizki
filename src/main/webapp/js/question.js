@@ -13,6 +13,8 @@ var QUESTION_TYPE_PHRASE = 3;
 var QUESTION_TYPE_SEQUENCE = 4;
 var QUESTION_TYPE_SET = 5;
 
+var SEQUENCE_0 = "0";
+
 var QuestionTypes = (function() {
 	var my = {};
 
@@ -108,21 +110,31 @@ var PostQuestionTextChangedEventFactory = (function () {
 	my.getHandler = function(question) {
 		if (question.getTypeId() == QUESTION_TYPE_PHRASE) {
 			return function(question) {
-				var choices = question.getChoices();
-				choices.reset();
-				
 				var dynamicFields = getTextOfAllDynamicFields(question.getText());
-				for (var i=0; i < dynamicFields.length; i++) {
-					question.addChoice(dynamicFields[i], true, "0", "dynamicChoice", false);
+
+				// before processing the choices, check: are there dynamic fields in the text, 
+				//		or were there dynamic fields our last time through?
+				if (dynamicFields.length > 0 || question.getDynamicData('dynamicFieldsPresent') == true) {
+					var choices = question.getChoices();
+					choices.reset();
+					
+					question.setDynamicData("dynamicFieldsPresent", dynamicFields.length > 0);
+					
+					for (var i=0; i < dynamicFields.length; i++) {
+						question.addChoice(dynamicFields[i], true, SEQUENCE_0, "dynamicChoice", false);
+					}
+					
+					question.fireLastSuppressedEvent();
+					
+					ReadOnlyManager.throwEvent(question);
 				}
-				
-				question.fireLastSuppressedEvent();
-				
-				ReadOnlyManager.throwEvent(question);
+				else {
+					question.setDynamicData('dynamicFieldsPresent', false);
+				}
 			};
 		}
 		
-		return undefined;
+		return undefined; // no handler defined for the given question type
 	};
 	
 	return my;
@@ -236,7 +248,7 @@ var QuestionModel = Backbone.Model.extend({
 		this.initialize();
 		
 		this.set('id', source.id); this.set('user_id', source.user_id); this.set('user_name', source.user_name);
-		this.set('text', source.text); this.set('description', source.description); this.set('type_id', source.type_id); 
+		this.set('text', source.text); this.set('description', source.description); this.set('type_id', this.getTypeId()); 
 		
 		this.get('difficulty').setDifficultyId(source.difficulty_id);
 		
@@ -253,7 +265,7 @@ var QuestionModel = Backbone.Model.extend({
 	},
 	resetQuestion:function() {
 		this.set('id', -1); this.set('user_id', -1); this.set('user_name', ''); this.set('text', ''); this.set('description', ''); 
-		this.set('type_id', QUESTION_TYPE_SINGLE); 
+		this.set('type_id', this.getTypeId()); 
 		this.set('topics', new Backbone.Collection([], {model: Topic}));
 		this.set('references', new Backbone.Collection([], {model: Reference}));
 		this.set('choices', new Backbone.Collection([], {model: Choice}));
@@ -271,7 +283,7 @@ var QuestionModel = Backbone.Model.extend({
 		rtn += JSONUtility.getJSON('id', this.get('id')+'');
 		rtn += JSONUtility.getJSON('text', this.get('text'));
 		rtn += JSONUtility.getJSON('description', this.get('description'));
-		rtn += JSONUtility.getJSON('type_id', this.get('type_id')+'');
+		rtn += JSONUtility.getJSON('type_id', this.getTypeId()+'');
 		rtn += JSONUtility.getJSON('difficulty_id', this.get('difficulty').getDifficultyId()+'');
 		rtn += JSONUtility.getJSON('user_id', this.get('user_id')+'');
 		rtn += JSONUtility.getJSON('user_name', this.get('user_name'));
@@ -300,7 +312,7 @@ var QuestionModel = Backbone.Model.extend({
 			id:this.get('id'),
 			text:this.get('text'),
 			description:this.get('description'),
-			type_id:this.get('type_id'),
+			type_id:this.getTypeId(),
 			difficulty_id:this.get('difficulty').getDifficultyId(),
 			user_id:this.get('user_id'),
 			topics:JSON.stringify(this.get('topics').toJSON()), 
@@ -346,19 +358,19 @@ var QuestionModel = Backbone.Model.extend({
 			this.saveSuppressedEvent('questionTextChanged', {description:{from:_from,to:_to}});
 	},
 	getTypeId:function() {
-		return this.get('type_id');
+		return -1;
 	},
-	setTypeId:function(val, throwEvent) {
-		var _from = this.get('type_id');
-		var _to = val;
-		
-		this.set('type_id', val);
-		
-		if (throwEvent !== false)
-			this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});
-		else
-			this.saveSuppressedEvent('questionTypeChanged', {type_id:{from:_from,to:_to}});
-	},
+//	setTypeId:function(val, throwEvent) {
+//		var _from = this.get('type_id');
+//		var _to = val;
+//		
+//		this.set('type_id', val);
+//		
+//		if (throwEvent !== false)
+//			this.trigger('questionTypeChanged', {type_id:{from:_from,to:_to}});
+//		else
+//			this.saveSuppressedEvent('questionTypeChanged', {type_id:{from:_from,to:_to}});
+//	},
 	getDifficulty:function() {
 		return this.get('difficulty');
 	},
@@ -432,6 +444,9 @@ var QuestionModel = Backbone.Model.extend({
 });
 
 var SingleQuestionModel = QuestionModel.extend({
+	getTypeId:function() {
+		return QUESTION_TYPE_SINGLE;
+	},
 	hasBeenAnswered:function() {
 		var rtn = _.some(this.get('choices').models, function(choice) {
 			return choice.get('isselected') == "true";
@@ -442,6 +457,9 @@ var SingleQuestionModel = QuestionModel.extend({
 });
 
 var MultipleQuestionModel = QuestionModel.extend({
+	getTypeId:function() {
+		return QUESTION_TYPE_MULTIPLE;
+	},
 	hasBeenAnswered:function() {
 		var rtn = _.some(this.get('choices').models, function(choice) {
 			return choice.get('isselected') == "true";
@@ -452,6 +470,9 @@ var MultipleQuestionModel = QuestionModel.extend({
 });
 
 var SequenceQuestionModel = QuestionModel.extend({
+	getTypeId:function() {
+		return QUESTION_TYPE_SEQUENCE;
+	},
 	hasBeenAnswered:function() {
 		var rtn = _.every(this.get('choices').models, function(choice) {
 			return choice.get('sequence') != 0;
@@ -475,10 +496,27 @@ var DynamicDataQuestionModel = QuestionModel.extend({
 	initWithJSONSource:function(source) {
 		var obj = JSON.parse(source);
 		this.initWithAJAXSource(obj);
+	},
+	setDynamicData:function(key, value) {
+		var coll = this.get('dynamicData');
+		coll.reset(_.reject(coll.models, function(model) { return model.get('key') === key; }));
+		coll.add({key:key, value:value});
+	},
+	getDynamicData:function(key) {
+		var obj = this.get('dynamicData').findWhere({key:key});
+		var rtn = undefined;
+		
+		if (obj !== undefined)
+			rtn = obj.get('value');
+		
+		return rtn;
 	}
 });
 
 var SetQuestionModel = DynamicDataQuestionModel.extend({
+	getTypeId:function() {
+		return QUESTION_TYPE_SET;
+	},
 	getChoiceIdsToBeAnswered:function() {
 		var arr = new Array();
 		var ddModels = this.get('dynamicData').where({key:'choiceIdsToBeAnswered'});
@@ -516,6 +554,9 @@ var SetQuestionModel = DynamicDataQuestionModel.extend({
 });
 
 var PhraseQuestionModel = DynamicDataQuestionModel.extend({
+	getTypeId:function() {
+		return QUESTION_TYPE_PHRASE;
+	},
 	hasBeenAnswered:function() {
 		var rtn = _.some(this.get('choices').models, function(choice) {
 			return choice.get('phrase') != '';

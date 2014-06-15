@@ -6,7 +6,7 @@
 			
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { 
+			this.listenTo(event_intermediary, 'questionTypeChanged', function(event) { 
 				this.render(); 
 
 				var currentQuestion = model_factory.get("currentQuestion");
@@ -14,10 +14,15 @@
 		        if (func != undefined)
 		        	func(currentQuestion);
 			});
-			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });			
+			this.listenTo(event_intermediary, 'currentQuestion', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); });
+			
+			this.setCurrentQuestionListenTo(currQuestion);
 		},
 		events: {
 			"change select":"changed"
+		},
+		setCurrentQuestionListenTo:function(currQuestion) {
+			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });			
 		},
 		changed:function(event) {
 			// get the value from the html element
@@ -25,13 +30,17 @@
 			
 			// set it in the model
 			var currentQuestion = model_factory.get("currentQuestion");
-
 			var _from = currentQuestion.getTypeId();
 			var _to = val;
+
+			var obj = JSON.parse(currentQuestion.toJSON());
+			obj.type_id = _to;
 			
-			if (_from != _to) {
-				currentQuestion.setTypeId(_to);
-			}
+			var newCurrentQuestion = QuestionModelFactory.getQuestionModel_AJAX(obj);
+
+			model_factory.put("currentQuestion", newCurrentQuestion);
+			
+			event_intermediary.throwEvent("questionTypeChanged", {from:_from, to:_to});
 		},
 		render: function() {
 			var currentQuestion = model_factory.get("currentQuestion");
@@ -471,15 +480,21 @@
 			this.ChoiceItemViewCollection = new Array();
 			
 			var currQuestion = model_factory.get('currentQuestion');
-			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
-			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.render(); });
-			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.setCurrentQuestionListenTo(currQuestion);
+			
+			this.listenTo(event_intermediary, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(event_intermediary, 'readOnlyApplied', function(event) { this.setReadOnly(true); });
 			this.listenTo(event_intermediary, 'readOnlyCleared', function(event) { this.setReadOnly(false); });
+			
+			this.listenTo(event_intermediary, 'currentQuestion', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); });
 			
 			this.setStateOnInitialization();
 			
 			this.render();
+		},
+		setCurrentQuestionListenTo: function(currQuestion) {
+			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.render(); });
 		},
 		setSequenceFieldsAreVisible: function (bool) {
 			var _el = this.$el.find(".sequenceDiv");
@@ -630,10 +645,12 @@
 			this.readOnly = false;
 			
 			var currQuestion = model_factory.get('currentQuestion', false);
-			this.listenTo(currQuestion, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
-			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
+			this.listenTo(event_intermediary, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(event_intermediary, 'readOnlyApplied', function(event) { this.setReadOnly(true); });
 			this.listenTo(event_intermediary, 'readOnlyCleared', function(event) { this.setReadOnly(false); });
+			this.listenTo(event_intermediary, 'currentQuestion', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); });
+			
+			this.setCurrentQuestionListenTo(currQuestion);
 			
 			var state = method_utility.getQuizkiObject({});
 			
@@ -643,6 +660,9 @@
 			this.setStateOnInitialization();
 			
 			this.render();
+		},
+		setCurrentQuestionListenTo:function(currQuestion) {
+			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });			
 		},
 		setReadOnly: function(bool) {
 			this.readOnly = bool;

@@ -91,6 +91,7 @@ var model_factory = (function(){
 			},
 			put: function(id, model) {
 				arr[id] = model;
+				event_intermediary.throwEvent(id, model);
 			},
 			destroy: function(id) {
 				arr[id] = undefined;
@@ -117,8 +118,8 @@ var event_intermediary = (function(){
 		_.extend(this, Backbone.Events);
 	};
 	
-	my.throwEvent = function(event) {
-			this.trigger(event);
+	my.throwEvent = function(event, data) {
+			this.trigger(event, data);
 	};
 	
 	return my;

@@ -48,11 +48,11 @@
 			<![CDATA[ <script src="../js/autocomplete.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="../js/choice.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="../js/topic.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="../js/reference.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="../js/keyValuePair.js" type="text/javascript" ></script> ]]>
-			<![CDATA[ <script src="../js/question.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/models/choice.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/models/topic.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/models/reference.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/models/keyValuePair.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../js/models/question.js" type="text/javascript" ></script> ]]>
 						
 			<![CDATA[ <script src="../js/views/question-views.js" type="text/javascript" ></script> ]]>
 			

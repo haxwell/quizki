@@ -89,9 +89,11 @@ var model_factory = (function(){
 			contains: function(id) {
 				return arr[id] != undefined;
 			},
-			put: function(id, model) {
+			put: function(id, model, throwEvent) {
 				arr[id] = model;
-				event_intermediary.throwEvent(id, model);
+				
+				if (throwEvent !== false)
+					event_intermediary.throwEvent(id+'::put::model_factory', model);
 			},
 			destroy: function(id) {
 				arr[id] = undefined;
@@ -116,6 +118,8 @@ var event_intermediary = (function(){
 	
 	my.initialize = function() {
 		_.extend(this, Backbone.Events);
+		
+		model_factory.put('event_intermediary', this, false);
 	};
 	
 	my.throwEvent = function(event, data) {

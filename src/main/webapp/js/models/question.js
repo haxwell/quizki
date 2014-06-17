@@ -221,6 +221,27 @@ var QuestionModelFactory = (function() {
 		return model;
 	};
 	
+	my.getQuestionModel = function(questionType) {
+		var model = undefined;
+		
+		if (questionType == QUESTION_TYPE_SINGLE || questionType === undefined) {
+			model = new SingleQuestionModel();
+		} else if (questionType == QUESTION_TYPE_MULTIPLE) {
+			model = new MultipleQuestionModel();
+		} else if (questionType == QUESTION_TYPE_SEQUENCE) {
+			model = new SequenceQuestionModel();
+		} else if (questionType == QUESTION_TYPE_PHRASE) {
+			model = new PhraseQuestionModel();
+		} else if (questionType == QUESTION_TYPE_SET) {
+			model = new SetQuestionModel();
+		} 
+		
+		if (model != undefined)
+			model.initialize();
+		
+		return model;
+	};
+	
 	return my;
 }());
 
@@ -232,15 +253,20 @@ var QuestionModel = Backbone.Model.extend({
 		text:'',
 		description:'',
 		type_id:1,
-		topics: new Backbone.Collection([], {model: Topic}),
-		references:new Backbone.Collection([], {model: Reference}),
-		choices:new Backbone.Collection([], {model: Choice}),
-		difficulty:new Difficulty().initialize(),
+		topics: undefined,
+		references:undefined,
+		choices:undefined,
+		difficulty:undefined,
 		lastSuppressedEventName:undefined,
 		lastSuppressedEventObject:undefined
 	},
 	initialize:function() {
 		_.extend(this, Backbone.Events);
+		
+		this.set('topics', new Backbone.Collection([], {model: Topic}));
+		this.set('references', new Backbone.Collection([], {model: Reference}));
+		this.set('choices', new Backbone.Collection([], {model: Choice}));
+		this.set('difficulty', new Difficulty().initialize());
 		
 		this.typeSpecific_initialize();
 	},

@@ -6,7 +6,7 @@
 			
 			var currQuestion = model_factory.get("currentQuestion");
 			
-			this.listenTo(event_intermediary, 'questionTypeChanged', function(event) { 
+			this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(event) { 
 				this.render(); 
 
 				var currentQuestion = model_factory.get("currentQuestion");
@@ -14,15 +14,9 @@
 		        if (func != undefined)
 		        	func(currentQuestion);
 			});
-			this.listenTo(event_intermediary, 'currentQuestion', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); });
-			
-			this.setCurrentQuestionListenTo(currQuestion);
 		},
 		events: {
 			"change select":"changed"
-		},
-		setCurrentQuestionListenTo:function(currQuestion) {
-			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });			
 		},
 		changed:function(event) {
 			// get the value from the html element
@@ -57,7 +51,7 @@
 				// otherwise remove the active attribute
 				_.each($("#questionTypeSelectBox").find("option"), function($item) { 
 					$item = $($item);
-					($item.val() == typeId) ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
+					($item.val() == typeId+'') ? $item.attr('selected','selected') : $item.removeAttr('selected'); 
 				});
 			}
 			
@@ -109,7 +103,9 @@
 					arr = parsedJSONObject.successes[0].val.split(',');
 					alertClass = 'alert-success';
 					
-					model_factory.get('currentQuestion').resetQuestion();
+					var newCurrentQuestion = QuestionModelFactory.getQuestionModel();
+
+					model_factory.put("currentQuestion", newCurrentQuestion);
 				}
 				
 				var msgs = "";
@@ -482,18 +478,16 @@
 			var currQuestion = model_factory.get('currentQuestion');
 			this.setCurrentQuestionListenTo(currQuestion);
 			
-			this.listenTo(event_intermediary, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(event_intermediary, 'readOnlyApplied', function(event) { this.setReadOnly(true); });
 			this.listenTo(event_intermediary, 'readOnlyCleared', function(event) { this.setReadOnly(false); });
 			
-			this.listenTo(event_intermediary, 'currentQuestion', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); });
+			this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); this.render(); });
 			
 			this.setStateOnInitialization();
 			
 			this.render();
 		},
 		setCurrentQuestionListenTo: function(currQuestion) {
-			this.listenTo(currQuestion, 'resetQuestion', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(currQuestion, 'choicesChanged', function(event) { this.render(); });
 		},
 		setSequenceFieldsAreVisible: function (bool) {
@@ -645,10 +639,10 @@
 			this.readOnly = false;
 			
 			var currQuestion = model_factory.get('currentQuestion', false);
-			this.listenTo(event_intermediary, 'questionTypeChanged', function(event) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); });
 			this.listenTo(event_intermediary, 'readOnlyApplied', function(event) { this.setReadOnly(true); });
 			this.listenTo(event_intermediary, 'readOnlyCleared', function(event) { this.setReadOnly(false); });
-			this.listenTo(event_intermediary, 'currentQuestion', function(newQuestion) { this.setCurrentQuestionListenTo(newQuestion); });
+
+			this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(newQuestion) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); /*this.setCurrentQuestionListenTo(newQuestion);*/ });
 			
 			this.setCurrentQuestionListenTo(currQuestion);
 			
@@ -693,9 +687,7 @@
 			}
 			
 			var currentQuestion = model_factory.get("currentQuestion");
-			/*var func = */ ReadOnlyManager.throwEvent(currentQuestion);
-//	        if (func != undefined)
-//	        	func(currentQuestion);
+			ReadOnlyManager.throwEvent(currentQuestion);
 		},
 		render: function () {
 			var state = model_factory.get('EnterNewChoiceViewState');

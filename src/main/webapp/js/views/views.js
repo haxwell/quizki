@@ -26,10 +26,12 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		
 		this.render();
 
-		var currQuestion = model_factory.get("currentQuestion");
+//		var currQuestion = model_factory.get("currentQuestion");
 		
-		this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
-		this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });
+//		this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
+//		this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });
+		
+		this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(newQuestion) { this.render(); });
 		
 		// Set up custom listenTo's, for views that need something custom to happen when something else happens, but that doesn't apply
 		//  apply to all views which may use This view.
@@ -134,7 +136,7 @@ Quizki.DifficultyChooserView = Backbone.View.extend({
 			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 			});
 
-		this.listenTo(currQuestion, 'resetQuestion', function(event) { 
+		this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(event) { 
 			var currQuestion = model_factory.get(this.getModelNameKey);
 			this.buttonId = currQuestion.getDifficultyId(); this.render(); 
 			});

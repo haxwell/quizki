@@ -26,11 +26,6 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		
 		this.render();
 
-//		var currQuestion = model_factory.get("currentQuestion");
-		
-//		this.listenTo(currQuestion, 'questionTextChanged', function(event) { this.render(); });
-//		this.listenTo(currQuestion, 'resetQuestion', function(event) { this.render(); });
-		
 		this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(newQuestion) { this.render(); });
 		
 		// Set up custom listenTo's, for views that need something custom to happen when something else happens, but that doesn't apply
@@ -50,11 +45,6 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		"blur #id_questionDescription":"updateDescription"
 	},
 	render: function() {
-		// TODO: Research why this is necessary.. at least in displayQuestion, its causing a second, seemingly unnecessary call to the
-		//  server for a question. It seems this is for a refresh of the current question, but what about it needs to be refreshed? can
-		//  we check if that thing that needs to be refreshed is even dirty, before making the call to get the question over again?
-//		model_factory.destroy("currentQuestion");
-		
 		var currentQuestion = model_factory.get("currentQuestion");
 
 		var showDescriptionField = (currentQuestion.getDescription().length > 0) || currentQuestion.getId() == '-1';

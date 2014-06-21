@@ -15,7 +15,7 @@
 		<link href="pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
 		<link href="pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
 		<link href="pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="pkgs/jquery-ui/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.css" rel="stylesheet" type="text/css"/>
 
 		<link href="css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
 		<link href="css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
@@ -25,7 +25,7 @@
 
 		<jsp:text>
 			<![CDATA[ <script src="pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>			
+			<![CDATA[ <script src="pkgs/jquery-ui/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js" type="text/javascript"></script> ]]>			
 			
 			<![CDATA[
 			<script type="text/javascript">

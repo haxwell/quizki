@@ -12,7 +12,7 @@
 		<title>Login Failed - Quizki</title>
 		
 		<link href="pkgs/bootstrap/css/bootstrap.css" rel="stylesheet" />
-		<link href="pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="pkgs/jquery-ui/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.css" rel="stylesheet" type="text/css"/>
 		<link href="css/quizki.css" rel="stylesheet" type="text/css"/>
 		<link rel="shortcut icon" href="images/favicon.ico" />
 

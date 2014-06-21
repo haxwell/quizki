@@ -14,7 +14,7 @@
 		<link href="../pkgs/Flat-UI-master/bootstrap/css/bootstrap.css" rel="stylesheet"/>
 		<link href="../pkgs/Flat-UI-master/css/flat-ui.css" rel="stylesheet"/>
 		<link href="../pkgs/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-		<link href="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../pkgs/jquery-ui/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.css" rel="stylesheet" type="text/css"/>
 
 		<link href="../css/quizki-sitewide.css" rel="stylesheet" type="text/css"/> 
 		<link href="../css/quizki-buttons.css" rel="stylesheet" type="text/css"/>
@@ -34,7 +34,7 @@
 			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
 						
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>

@@ -63,27 +63,32 @@ Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 		
 		if (this.readOnly != undefined) {
 			tinyMCE.init({
-		        theme : "advanced",
+		        theme : "modern",
+		        menubar : false,
+		        statusbar : false,
+		        toolbar : false,
 		        mode : "textareas",
-		        plugins : "autoresize",
+		        plugins : "autoresize image charmap",
 		        readonly : 1,
 				content_css : "css/quizki_tinymce_custom_content.css"
 			});
 		} else {
 			tinyMCE.init({
-		        theme : "advanced",
+		        theme : "modern",
+		        menubar : false,
+		        statusbar : false,
+		        resize : "both",
 		        mode : "textareas",
-		        plugins : "autoresize",
+		        plugins : "autoresize image charmap",
 				content_css : "../css/quizki_tinymce_custom_content.css",
-				theme_advanced_font_sizes: "10px,12px,13px,14px,16px,18px,20px",
-				font_size_style_values : "10px,12px,13px,14px,16px,18px,20px",
-		        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyfull,|,formatselect",
-		        theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,image,|,hr,removeformat,visualaid,|,sub,sup,|,charmap",
-		        theme_advanced_buttons3 : "",
-				theme_advanced_path : false,
-				theme_advanced_statusbar_location : 0,
+		        toolbar : "undo redo | bold italic underline strikethrough | alignleft aligncenter alignjustify | formatselect" + 
+		                    " bullist numlist | outdent indent | image | hr removeformat | subscript superscript | charmap",
 				help_shortcut : "",
-		        onchange_callback : "questionTinyMCEChangeHandler"						
+			    setup: function(editor) {
+			        editor.on('blur', function(e) {
+			            questionTinyMCEBlurHandler(tinymce.activeEditor.getContent());
+			        });
+			    }				
 			});
 		}
 		

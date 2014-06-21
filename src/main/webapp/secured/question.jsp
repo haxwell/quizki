@@ -33,7 +33,7 @@
 						
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="../pkgs/tiny_mce/tiny_mce.js" type="text/javascript" ></script> ]]>
+			<![CDATA[ <script src="../pkgs/tiny_mce/tinymce.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/bootstrap-switch-master/js/bootstrapSwitch.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/complete.ly/complete.ly.1.0.1.js" type="text/javascript" ></script> ]]>
@@ -59,9 +59,9 @@
 			<![CDATA[
 			
 			<script type="text/javascript">
-				function questionTinyMCEChangeHandler(inst) {
+				function questionTinyMCEBlurHandler(text) {
 			        var currentQuestion = model_factory.get("currentQuestion");
-			        currentQuestion.setText(inst.getBody().innerHTML, false);
+			        currentQuestion.setText(text, false);
 			        
 			        // do custom stuff
 			        var func = PostQuestionTextChangedEventFactory.getHandler(currentQuestion);

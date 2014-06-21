@@ -24,7 +24,7 @@
 		<link href="images/favicon.ico" rel="shortcut icon"/>
 
 		<jsp:text>
-			<![CDATA[ <script src="pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>			
 			
 			<![CDATA[

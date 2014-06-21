@@ -34,7 +34,7 @@
 		<jsp:text>
 			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
 						
-			<![CDATA[ <script src="../pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="../pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/tiny_mce/tinymce.min.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../pkgs/Flat-UI-master/js/bootstrap.min.js" type="text/javascript" ></script> ]]>

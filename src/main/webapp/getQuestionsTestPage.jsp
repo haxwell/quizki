@@ -11,7 +11,7 @@
 		
 		<jsp:text>
 			
-			<![CDATA[ <script src="pkgs/jquery/jquery-1.10.1.min.js" type="text/javascript"></script> ]]>
+			<![CDATA[ <script src="pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
 		
 			<![CDATA[
 				<script type="text/javascript">

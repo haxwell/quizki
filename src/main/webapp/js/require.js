@@ -1,1 +1,0 @@
-../pkgs/require.js/require.js

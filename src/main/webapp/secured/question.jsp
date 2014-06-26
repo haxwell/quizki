@@ -29,7 +29,6 @@
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<jsp:text>
-			<![CDATA[ <script data-main="../js/quizki.js" src="../js/require.js"></script> ]]>
 						
 			<![CDATA[ <script src="../pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="../pkgs/jquery-ui/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js" type="text/javascript"></script> ]]>

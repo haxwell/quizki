@@ -1,12 +1,11 @@
 package com.haxwell.apps.questions.entities;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
 import org.junit.Test;
-
-import com.haxwell.apps.questions.entities.Choice;
 
 public class ChoiceTest {
 
@@ -97,7 +96,7 @@ public class ChoiceTest {
 	}
 	
 	@Test
-	public void testJSON() {
+	public void testJSONWithSequenceNumberSet() {
 		long choiceId = 1;
 		String text = "choiceText";
 		boolean isCorrect = true;
@@ -107,6 +106,33 @@ public class ChoiceTest {
 		
 		String json = sut1.toJSON();
 		
-		assertTrue(JSONValue.parse(json) != null);
+		JSONObject jobj = (JSONObject)JSONValue.parse(json);
+		
+		assertTrue(jobj != null);
+		
+		assertTrue(jobj.get("id").equals(choiceId+""));
+		assertTrue(jobj.get("iscorrect").equals(isCorrect+""));
+		assertTrue(jobj.get("text").equals(text));
+		assertTrue(jobj.get("sequence").equals(sequence+""));
+	}
+
+	@Test
+	public void testJSONWithoutSequenceNumberSet() {
+		long choiceId = 1;
+		String text = "choiceText";
+		boolean isCorrect = true;
+
+		Choice sut1 = new Choice(choiceId, text, isCorrect);
+		
+		String json = sut1.toJSON();
+		
+		JSONObject jobj = (JSONObject)JSONValue.parse(json);
+		
+		assertTrue(jobj != null);
+		
+		assertTrue(jobj.get("id").equals(choiceId+""));
+		assertTrue(jobj.get("iscorrect").equals(isCorrect+""));
+		assertTrue(jobj.get("text").equals(text));
+		assertTrue(jobj.get("sequence").equals("0"));
 	}
 }

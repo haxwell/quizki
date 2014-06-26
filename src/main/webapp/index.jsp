@@ -107,7 +107,7 @@ div.base
 			</div>
 		</li>
 		<li >
-			<div class="box"><div> <a class="greyLink" href="generateExam.jsp">Generate an Exam on-the-fly</a></div></div>
+			<div class="box"><div> <a id="generateExamLink" class="greyLink" href="generateExam.jsp">Generate an Exam on-the-fly</a></div></div>
 		</li>
 		<li >
 			<div class="box"> <a class="greyLink" href="listExams.jsp">Search through all Exams</a></div>

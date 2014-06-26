@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions;
 
-import org.junit.*;			
+import org.junit.*;	
+import static org.junit.Assert.assertEquals;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
@@ -22,28 +23,10 @@ public class QuizkiTest {
     	// assume we're already at home page
     	
     	assertAndClickOnLink("autoExamLink_0");
+    	assertTitleEquals("Begin Exam - Quizki");
     	
     	assertFormElementPresent("button"); // if the button is there, that means the page loaded normally
     }
-    
-    @Test
-    public void testMainLoginLink() {
-    	beginAtHomePageTest();
-
-    	assertAndClickOnLink("login");
-    	
-    	assertFormElementPresent("username");
-    	assertFormElementPresent("password");
-    	assertFormElementPresent("button");
-    	
-    	setTextField("username", "johnathan");
-    	setTextField("password", "password");
-    	
-    	submit();
-    	
-    	assertLinkPresent("logoutLink");
-    }
-
     
     @Test
     public void testHeaderLoginLink() {
@@ -55,12 +38,14 @@ public class QuizkiTest {
     	assertFormElementPresent("password");
     	assertFormElementPresent("button");
     	
+    	assertEquals(getElementAttributeByXPath("//button[@type='submit']", "value"), "Log In");
+    	
     	setTextField("username", "johnathan");
     	setTextField("password", "password");
     	
-    	submit();
+    	clickButton("loginButton");
     	
-    	assertLinkPresent("logoutLink");
+    	assertLinkPresent("headerLogoutLink");
     }
 
     /**
@@ -77,7 +62,7 @@ public class QuizkiTest {
     	
     	testBeginExamStartsNormallyFromAutoExam0LinkClick();
     	
-    	assertAndClickOnLink("homeLink");
+    	assertAndClickOnLink("quizkiHomePageLink");
     	
     	testBeginExamStartsNormallyFromAutoExam0LinkClick();
     }
@@ -97,7 +82,7 @@ public class QuizkiTest {
     	
     	testBeginExamStartsNormallyFromAutoExam0LinkClick();
 
-    	assertAndClickOnLink("homeLink");
+    	assertAndClickOnLink("quizkiHomePageLink");
     	assertAndClickOnLink("createExamLink");
     	
     	assertTextInElement("id_examTitle", "");
@@ -118,7 +103,7 @@ public class QuizkiTest {
     	
     	testBeginExamStartsNormallyFromAutoExam0LinkClick();
 
-    	assertAndClickOnLink("homeLink");
+    	assertAndClickOnLink("quizkiHomePageLink");
     	assertAndClickOnLink("createQuestionLink");
     	
     	assertTextInElement("id_questionText", "");
@@ -132,7 +117,6 @@ public class QuizkiTest {
 	
 	private void loginFromHomePage() {
 		beginAtHomePageTest();
-		testMainLoginLink();
+		testHeaderLoginLink();
 	}
-    
 }

@@ -18,6 +18,7 @@ var view_utility = (function() {
 	}; 
 }());
 
+// This view is shared between Create Question, and Display Question, and Take Exam.
 Quizki.QuestionTextAndDescriptionView = Backbone.View.extend({
 	initialize:function() {
 		this.readOnly = arguments[0].readOnly;

@@ -24,6 +24,13 @@ import com.haxwell.apps.questions.interfaces.IChoice;
 public class Choice extends AbstractEntity implements IChoice, EntityWithAnIntegerIDBehavior, EntityWithASequenceNumberBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final int CORRECT = 1;
+	public static final int NOT_CORRECT = 0;
+	
+	public static final int NO_SEQUENCE = 0;
+	
+	public static final int NO_ID = 0;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
@@ -72,6 +79,7 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 	}
 	
 	public void setIscorrect(int iscorrect) {
+		iscorrect = Math.min(iscorrect, 1);
 		this.iscorrect = iscorrect;
 	}
 
@@ -116,7 +124,7 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 		{
 			Choice that = (Choice)o;
 			
-			rtn = (this.id == that.id && this.text.equals(that.text));
+			rtn = (this.id == that.id && this.text.equals(that.text) && this.iscorrect == that.iscorrect && this.sequence == that.sequence);
 		}
 		
 		return rtn;

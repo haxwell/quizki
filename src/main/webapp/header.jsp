@@ -5,7 +5,7 @@
 <link href="/css/header.css" rel="stylesheet" type="text/css" />
 
 <div id="header" class="row header-row">
-	<div class="span3"><a href="/index.jsp"><img class="quizki_logo" src="/images/logo-light.png"></a></div>
+	<div class="span3"><a id="quizkiHomePageLink" href="/index.jsp"><img class="quizki_logo" src="/images/logo-light.png"></a></div>
 	<div class="span6 page-description">
 		<h1>${sessionScope.pageTitle}</h1>
 	</div>

@@ -55,7 +55,7 @@
 		<br/><br/>
 		
 		<div class="span2">
-			<button class="btn btn-block" type="submit" name="button" value="Log In">Log In</button>
+			<button class="btn btn-block" type="submit" id="loginButton" name="button" value="Log In">Log In</button>
 		</div>		
 	</form>
 

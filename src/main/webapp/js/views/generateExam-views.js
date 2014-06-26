@@ -95,6 +95,7 @@
 			this.render();
 			
 			$('#maxQuestionDifficultySelectBox').val('4'); // set the default MAX QUESTION DIFFICULTY to Guru.
+			this.setMaxQuestionDifficultyFilter();
 		},
 		render: function() {
 			var _hideRangeOfTopicsSelectBox = (model_factory.get('userObj').isLoggedIn ? '' : 'hidden');

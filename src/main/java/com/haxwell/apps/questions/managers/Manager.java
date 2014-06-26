@@ -1,13 +1,15 @@
 package com.haxwell.apps.questions.managers;
 
-import java.util.Comparator;
+import java.util.Comparator;	
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.AbstractEntity;
@@ -22,7 +24,7 @@ public class Manager {
 	public static final int ADDL_INFO_NO_ENTITIES_MATCHING_GIVEN_FILTER = 1;
 	public static final int ADDL_INFO_NO_SELECTED_ITEMS = 2;
 	
-	public static Logger log = Logger.getLogger(Manager.class.getName());
+	private static Logger log = LogManager.getLogger();
 	
 	//TODO: what are the consequences of having this be static? Would it be better to just create an instance when necessary?
 	static {
@@ -35,8 +37,8 @@ public class Manager {
 		String jdbc_url = System.getProperty("QUIZKI_JDBC_URL");
 
 		if (jdbc_url == null) {
-			Exception e = new Exception("Could not find a value for QUIZKI_JDBC_URL in System.getProperty(). ERROR! Will not be able to connect to a database!!");
-			e.printStackTrace();
+			Exception e = new Exception("**** !! Could not find a value for QUIZKI_JDBC_URL in System.getProperty(). ERROR! Will not be able to connect to a database!!");
+			log.error(e.getMessage());
 		}
 		else {
 			overrides.put("javax.persistence.jdbc.url", jdbc_url);

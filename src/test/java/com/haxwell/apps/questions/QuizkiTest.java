@@ -5,19 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
-public class QuizkiTest {
+public class QuizkiTest extends BaseJWebUnitTest {
 
-    @Before
-    public void prepare() {
-        setBaseUrl("http://localhost:8080/");
-    }
-
-    public void beginAtHomePageTest()
-    {
-        beginAt("index.jsp");
-        assertTitleEquals("Home Page - Quizki");
-    }
-    
     public void testBeginExamStartsNormallyFromAutoExam0LinkClick()
     {
     	// assume we're already at home page
@@ -110,11 +99,6 @@ public class QuizkiTest {
     	assertTextInElement("id_questionDescription", "");
     }
      
-	private void assertAndClickOnLink(String linkId) {
-		assertLinkPresent(linkId);
-    	clickLink(linkId);
-	}
-	
 	private void loginFromHomePage() {
 		beginAtHomePageTest();
 		testHeaderLoginLink();

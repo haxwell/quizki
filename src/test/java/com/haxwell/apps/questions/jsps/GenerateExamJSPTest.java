@@ -9,25 +9,7 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GenerateExamJSPTest {
-
-	@Before
-	public void prepare() {
-        setBaseUrl("http://localhost:8080/");
-    }
-	
-    // TODO: code also in quizkiTest.java
-	public void beginAtHomePageTest()
-    {
-        beginAt("index.jsp");
-        assertTitleEquals("Home Page - Quizki");
-    }
-	
-	// TODO: code also in quizkiTest.java
-	private void assertAndClickOnLink(String linkId) {
-		assertLinkPresent(linkId);
-    	clickLink(linkId);
-	}
+public class GenerateExamJSPTest extends BaseJWebUnitTest {
 
 	@Test
 	public void testGeneratingExam() {

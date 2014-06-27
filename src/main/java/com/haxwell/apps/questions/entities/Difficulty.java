@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.haxwell.apps.questions.utils.StringUtil;
+
 
 /**
  * The persistent class for the DIFFICULTY database table.
@@ -56,6 +58,19 @@ public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		boolean rtn = false;
+		
+		if (o instanceof Difficulty) {
+			Difficulty that = (Difficulty)o;
+			
+			rtn = this.id == that.id && StringUtil.equals(this.text, that.text);
+		}
+		
+		return rtn;
 	}
 
 }

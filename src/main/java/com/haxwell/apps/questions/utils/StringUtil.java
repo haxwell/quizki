@@ -121,6 +121,13 @@ public class StringUtil {
 		return count;
 	}
 	
+	public static boolean equals(Object str1, Object str2) {
+		if (str1 == null && str2 != null) return false;
+		if (str1 != null && str2 == null) return false;
+		
+		return str1.toString().equals(str2.toString());
+	}
+	
 	public static boolean isNullOrEmpty(String str)
 	{
 		return str == null ? true : (str.length() <= 0);

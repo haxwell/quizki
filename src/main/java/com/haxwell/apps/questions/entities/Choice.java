@@ -54,10 +54,24 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
     	this.sequence = 0;
     }
     
+    public Choice(long id, String text, int isCorrect) {
+    	this.id = id;
+    	this.text = text;
+    	this.iscorrect = isCorrect == CORRECT ? 1 : 0;
+    	this.sequence = 0;
+    }
+    
     public Choice(long id, String text, boolean isCorrect, int sequence) {
     	this.id = id;
     	this.text = text;
     	this.iscorrect = isCorrect ? 1 : 0;
+    	this.sequence = sequence;
+    }
+    
+    public Choice(long id, String text, int isCorrect, int sequence) {
+    	this.id = id;
+    	this.text = text;
+    	this.iscorrect = isCorrect == CORRECT ? 1 : 0;
     	this.sequence = sequence;
     }
     

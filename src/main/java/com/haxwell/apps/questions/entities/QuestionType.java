@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.haxwell.apps.questions.utils.StringUtil;
+
 
 /**
  * The persistent class for the QUESTION_TYPE database table.
@@ -58,6 +60,19 @@ public class QuestionType implements EntityWithAnIntegerIDBehavior, Serializable
 	public String toString()
 	{
 		return "id: " + id + " | type: " + text;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		boolean rtn = false;
+		
+		if (o instanceof QuestionType) {
+			QuestionType that = (QuestionType)o;
+			
+			rtn = this.id == that.id && StringUtil.equals(this.text, that.text);
+		}
+		
+		return rtn;
 	}
 
 }

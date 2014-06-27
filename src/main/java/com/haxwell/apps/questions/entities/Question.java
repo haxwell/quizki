@@ -91,9 +91,12 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		)
 	private Set<Reference> references;
 
+    public final static long DEFAULT_ID = -1;
+    public final static String DEFAULT_TEXT = "";
+    
     public Question() {
-    	id = -1;
-    	text = "";
+    	id = DEFAULT_ID;
+    	text = DEFAULT_TEXT;
     }
 
     @Override

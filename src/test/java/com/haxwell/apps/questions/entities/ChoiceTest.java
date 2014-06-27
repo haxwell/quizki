@@ -96,7 +96,7 @@ public class ChoiceTest {
 	}
 	
 	@Test
-	public void testJSONWithSequenceNumberSet() {
+	public void testToJSON_WithSequenceNumberSet() {
 		long choiceId = 1;
 		String text = "choiceText";
 		boolean isCorrect = true;
@@ -117,7 +117,7 @@ public class ChoiceTest {
 	}
 
 	@Test
-	public void testJSONWithoutSequenceNumberSet() {
+	public void testToJSON_WithoutSequenceNumberSet() {
 		long choiceId = 1;
 		String text = "choiceText";
 		boolean isCorrect = true;

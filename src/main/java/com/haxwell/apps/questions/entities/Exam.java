@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IExam;
 
@@ -164,6 +165,16 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	}
 	
 	@Override
+	public Object getDynamicData(String key) {
+		return null;
+	}
+	
+	@Override
+	public void setDynamicData(String key, Object o) {
+		// do nothing
+	}
+	
+	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
@@ -185,8 +196,8 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     	sb.append(getJSON("topics", getTopics().iterator(), APPEND_COMMA));
 
     	Difficulty diff = getDifficulty();
-    	String diffId = (diff == null) ? "-1" : diff.getId()+"";
-    	String diffText = (diff == null) ? "undefined" : diff.getText();
+    	String diffId = (diff == null) ? DifficultyConstants.UNDEFINED+"" : diff.getId()+"";
+    	String diffText = (diff == null) ? DifficultyConstants.UNDEFINED_STR : diff.getText();
     	
 		sb.append(getJSON("difficulty", diffId, APPEND_COMMA));
     	sb.append(getJSON("difficulty_text", diffText, APPEND_COMMA));

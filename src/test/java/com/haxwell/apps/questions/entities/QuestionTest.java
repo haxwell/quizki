@@ -2,7 +2,6 @@ package com.haxwell.apps.questions.entities;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import net.minidev.json.JSONArray;
@@ -15,6 +14,7 @@ import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.utils.StringUtil;
+import com.haxwell.apps.questions.utils.TestQuestionUtil;
 
 
 public class QuestionTest {
@@ -41,9 +41,9 @@ public class QuestionTest {
 		QuestionType qType = new QuestionType(TypeConstants.PHRASE_STR);
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1);
-		Set<Choice> choices = getSetOfChoices();
-		Set<Topic> topics = getSetOfTopics();
-		Set<Reference> refs = getSetOfReferences();
+		Set<Choice> choices = TestQuestionUtil.getSetOfChoices();
+		Set<Topic> topics = TestQuestionUtil.getSetOfTopics();
+		Set<Reference> refs = TestQuestionUtil.getSetOfReferences();
 		
 		sut.setId(id);
 		sut.setDescription(description);
@@ -100,9 +100,9 @@ public class QuestionTest {
 		QuestionType qType = new QuestionType(TypeConstants.PHRASE, TypeConstants.PHRASE_STR);
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1); user.setUsername("username");
-		Set<Choice> choices = getSetOfChoices();
-		Set<Topic> topics = getSetOfTopics();
-		Set<Reference> refs = getSetOfReferences();
+		Set<Choice> choices = TestQuestionUtil.getSetOfChoices();
+		Set<Topic> topics = TestQuestionUtil.getSetOfTopics();
+		Set<Reference> refs = TestQuestionUtil.getSetOfReferences();
 		
 		sut.setId(id);
 		sut.setDescription(description);
@@ -173,31 +173,4 @@ public class QuestionTest {
 		assertTrue(sut2.compareTo(sut1) == 1);
 	}
 	
-	private Set<Choice> getSetOfChoices() {
-		Set<Choice> set = new HashSet<>();
-		
-		set.add(new Choice(1L, "choice1", Choice.CORRECT));
-		set.add(new Choice(2L, "choice1", Choice.NOT_CORRECT));
-		set.add(new Choice(3L, "choice1", Choice.NOT_CORRECT));
-		
-		return set;
-	}
-	
-	private Set<Topic> getSetOfTopics() {
-		Set<Topic> set = new HashSet<>();
-		
-		set.add(new Topic("topic1"));
-		set.add(new Topic("topic2"));
-		
-		return set;
-	}
-
-	private Set<Reference> getSetOfReferences() {
-		Set<Reference> set = new HashSet<>();
-		
-		set.add(new Reference("reference1"));
-		set.add(new Reference("reference2"));
-		
-		return set;
-	}
 }

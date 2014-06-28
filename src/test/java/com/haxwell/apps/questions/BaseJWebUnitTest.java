@@ -9,7 +9,7 @@ import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
 import org.junit.Before;
 
 
-public class BaseJWebUnitTest {
+public abstract class BaseJWebUnitTest {
 
 	@Before
 	public void prepare() {

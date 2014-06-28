@@ -1,10 +1,12 @@
 package com.haxwell.apps.questions;
 
-import org.junit.*;	
-import static org.junit.Assert.assertEquals;
+import org.junit.*;		
+import org.junit.experimental.categories.Category;
 
+import static org.junit.Assert.assertEquals;
 import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 
+@Category(com.haxwell.apps.questions.testTypes.WebsiteTest.class)
 public class QuizkiTest extends BaseJWebUnitTest {
 
     public void testBeginExamStartsNormallyFromAutoExam0LinkClick()

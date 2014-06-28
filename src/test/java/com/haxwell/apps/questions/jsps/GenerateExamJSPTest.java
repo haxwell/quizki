@@ -1,9 +1,11 @@
 package com.haxwell.apps.questions.jsps;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.BaseJWebUnitTest;
 
+@Category(com.haxwell.apps.questions.testTypes.WebsiteTest.class)
 public class GenerateExamJSPTest extends BaseJWebUnitTest {
 
 	@Test

@@ -9,6 +9,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
@@ -16,7 +17,7 @@ import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TestQuestionUtil;
 
-
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class)
 public class QuestionTest {
 
 	@Test

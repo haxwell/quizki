@@ -8,10 +8,12 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
 
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class) // for now.. I think this may actually be a functional test
 public class ExamManagerTest {
 
 	private Exam exam;

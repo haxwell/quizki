@@ -3,10 +3,12 @@ package com.haxwell.apps.questions.entities;
 import static org.junit.Assert.assertTrue;	
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.entities.Difficulty;
 
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class)
 public class DifficultyTest {
 
 	@Test

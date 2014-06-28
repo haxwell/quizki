@@ -5,9 +5,11 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.utils.StringUtil;
 
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class)
 public class ReferenceTest {
 
 	@Test

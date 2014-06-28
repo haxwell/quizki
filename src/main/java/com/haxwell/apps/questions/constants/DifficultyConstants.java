@@ -10,12 +10,14 @@ import java.util.Map;
  */
 public class DifficultyConstants {
 
+	public static final int UNDEFINED = -1;
 	public static final int JUNIOR = 1;
 	public static final int INTERMEDIATE = 2;
 	public static final int SENIOR = 3;
 	public static final int GURU = 4;
 	public static final int ALL_DIFFICULTIES = 0;
 	
+	public static final String UNDEFINED_STR = "undefined";
 	public static final String JUNIOR_STR = "Junior";
 	public static final String INTERMEDIATE_STR = "intermediate";
 	public static final String SENIOR_STR = "senior";

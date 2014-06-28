@@ -1,4 +1,5 @@
 package com.haxwell.apps.questions;
+
 import static net.sourceforge.jwebunit.junit.JWebUnit.assertLinkPresent;
 import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
 import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;

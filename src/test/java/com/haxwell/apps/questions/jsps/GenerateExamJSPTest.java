@@ -1,13 +1,8 @@
 package com.haxwell.apps.questions.jsps;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertLinkPresent;
-import static net.sourceforge.jwebunit.junit.JWebUnit.assertTitleEquals;
-import static net.sourceforge.jwebunit.junit.JWebUnit.beginAt;
-import static net.sourceforge.jwebunit.junit.JWebUnit.clickLink;
-import static net.sourceforge.jwebunit.junit.JWebUnit.setBaseUrl;
-
-import org.junit.Before;
 import org.junit.Test;
+
+import com.haxwell.apps.questions.BaseJWebUnitTest;
 
 public class GenerateExamJSPTest extends BaseJWebUnitTest {
 

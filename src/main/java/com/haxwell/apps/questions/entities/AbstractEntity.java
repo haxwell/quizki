@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class AbstractEntity implements Comparable {
+public abstract class AbstractEntity implements Comparable {
 
 	protected final boolean APPEND_COMMA = true;
 	

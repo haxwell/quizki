@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -119,6 +120,12 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
 	}
 
 	public String getPrettyTime_stamp() {
-		return (new SimpleDateFormat("MMM d, yyyy hh:mm").format(getTime_stamp()));
+		Date time_stamp2 = getTime_stamp();
+		String rtn = null;
+		
+		if (time_stamp2 != null)
+			rtn = (new SimpleDateFormat("MMM d, yyyy hh:mm").format(time_stamp2));
+		
+		return rtn;
 	}
 }

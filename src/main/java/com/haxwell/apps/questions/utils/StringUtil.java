@@ -122,6 +122,8 @@ public class StringUtil {
 	}
 	
 	public static boolean equals(Object str1, Object str2) {
+		if (str1 == null && str2 == null) return true;
+		
 		if (str1 == null && str2 != null) return false;
 		if (str1 != null && str2 == null) return false;
 		

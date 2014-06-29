@@ -62,14 +62,14 @@ public class ExamFeedback implements EntityWithAnIntegerIDBehavior, Serializable
 		this.commentingUser = user;
 	}
 
-	public User getCommentingUserId() {
-		return this.commentingUser;
-	}
-
-	public void setCommentingUserId(User user) {
-		this.commentingUser = user;
-	}
-
+//	public User getCommentingUserId() {
+//		return this.commentingUser;
+//	}
+//
+//	public void setCommentingUserId(User user) {
+//		this.commentingUser = user;
+//	}
+//
 	public Exam getExam() {
 		return exam;
 	}
@@ -78,14 +78,14 @@ public class ExamFeedback implements EntityWithAnIntegerIDBehavior, Serializable
 		this.exam = exam;
 	}
 
-	public Exam getExamId() {
-		return exam;
-	}
-
-	public void setExamId(Exam exam) {
-		this.exam = exam;
-	}
-
+//	public Exam getExamId() {
+//		return exam;
+//	}
+//
+//	public void setExamId(Exam exam) {
+//		this.exam = exam;
+//	}
+//
 	public String getComment() {
 		return this.comment;
 	}

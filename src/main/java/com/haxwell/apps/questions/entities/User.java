@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.haxwell.apps.questions.utils.StringUtil;
+
 import java.util.Set;
 
 
@@ -110,4 +112,16 @@ public class User implements EntityWithAnIntegerIDBehavior, Serializable {
 		return sb.toString();
 	}
 	
+	public boolean equals(Object o) {
+		User that;
+		boolean rtn = false;
+		
+		if (o instanceof User) {
+			that = (User)o;
+			
+			rtn = this.id == that.id && StringUtil.equals(this.username, that.username);
+		}
+
+		return rtn;
+	}
 }

@@ -1,7 +1,10 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.haxwell.apps.questions.utils.StringUtil;
 
 
 /**
@@ -55,4 +58,16 @@ public class EntityType implements EntityWithAnIntegerIDBehavior, Serializable {
 		return "id: " + id + " | type: " + text;
 	}
 
+	public boolean equals(Object o) {
+		EntityType that;
+		boolean rtn = false;
+		
+		if (o instanceof EntityType) {
+			that = (EntityType)o;
+			
+			rtn = (this.id == that.id) && (StringUtil.equals(this.text, that.text));
+		}
+		
+		return rtn;
+	}
 }

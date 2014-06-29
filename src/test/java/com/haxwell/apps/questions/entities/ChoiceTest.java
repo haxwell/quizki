@@ -33,6 +33,33 @@ public class ChoiceTest {
 		assertTrue(sut.getText().equals(text));
 		assertTrue(sut.getIscorrect() == Choice.CORRECT);
 		assertTrue(sut.getSequence() == Choice.NO_SEQUENCE);
+		
+		sut = new Choice(choiceId, text, !isCorrect);
+		
+		assertTrue(sut.getId() == choiceId);
+		assertTrue(sut.getText().equals(text));
+		assertTrue(sut.getIscorrect() == Choice.NOT_CORRECT);
+		assertTrue(sut.getSequence() == Choice.NO_SEQUENCE);
+	}
+	
+	@Test
+	public void testObjectLongStringIntInt() {
+		long choiceId = 1;
+		String text = "choiceText";
+		
+		Choice sut = new Choice(choiceId, text, Choice.CORRECT, Choice.NO_SEQUENCE);
+		
+		assertTrue(sut.getId() == choiceId);
+		assertTrue(sut.getText().equals(text));
+		assertTrue(sut.getIscorrect() == Choice.CORRECT);
+		assertTrue(sut.getSequence() == Choice.NO_SEQUENCE);
+		
+		sut = new Choice(choiceId, text, Choice.NOT_CORRECT, Choice.NO_SEQUENCE);
+
+		assertTrue(sut.getId() == choiceId);
+		assertTrue(sut.getText().equals(text));
+		assertTrue(sut.getIscorrect() == Choice.NOT_CORRECT);
+		assertTrue(sut.getSequence() == Choice.NO_SEQUENCE);
 	}
 
 	@Test
@@ -70,9 +97,23 @@ public class ChoiceTest {
 		assertTrue(sut.getIscorrect() == Choice.NOT_CORRECT);
 		assertTrue(sut.getSequence() == (sequence + 1));
 		
-		sut.setIscorrect(Integer.MAX_VALUE -1);
-		
+		sut.setIscorrect(isCorrect);
 		assertTrue(sut.getIscorrect() == Choice.CORRECT);
+		
+		sut.setIscorrect(Integer.MAX_VALUE -1);
+		assertTrue(sut.getIscorrect() == Choice.CORRECT);
+		
+		sut.setIscorrect(Choice.CORRECT);
+		assertTrue(sut.getIsCorrect() == Choice.CORRECT);
+		
+		sut.setIscorrect(Choice.NOT_CORRECT);
+		assertTrue(sut.getIsCorrect() == Choice.NOT_CORRECT);
+		
+		sut.setIsCorrect(Choice.CORRECT);
+		assertTrue(sut.getIsCorrect() == Choice.CORRECT);
+
+		sut.setIsCorrect(Choice.NOT_CORRECT);
+		assertTrue(sut.getIsCorrect() == Choice.NOT_CORRECT);
 	}
 	
 	@Test
@@ -116,6 +157,9 @@ public class ChoiceTest {
 		assertTrue(jobj.get("iscorrect").equals(isCorrect+""));
 		assertTrue(jobj.get("text").equals(text));
 		assertTrue(jobj.get("sequence").equals(sequence+""));
+		
+		assertTrue(jobj.keySet().size() == 4);
+		assertTrue(jobj.values().size() == 4);
 	}
 
 	@Test
@@ -136,5 +180,8 @@ public class ChoiceTest {
 		assertTrue(jobj.get("iscorrect").equals(isCorrect+""));
 		assertTrue(jobj.get("text").equals(text));
 		assertTrue(jobj.get("sequence").equals("0"));
+
+		assertTrue(jobj.keySet().size() == 4);
+		assertTrue(jobj.values().size() == 4);
 	}
 }

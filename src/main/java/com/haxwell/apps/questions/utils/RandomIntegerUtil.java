@@ -11,11 +11,12 @@ public class RandomIntegerUtil {
 	public static Logger log = Logger.getLogger(RandomIntegerUtil.class.getName());
 	
 	/**
-	 * Returns a list of integers, each one a value from 0 to listSize. 
+	 * Returns a list of unique integers, each one a value from 0 to listSize. 
 	 * 
 	 * @param listSize
 	 * @return
 	 */
+	// TODO: Rename this to getRandomListOfUniqueIntegers.. or something with the word unique in it.
 	public static List<Integer> getRandomListOfNumbers(int listSize)
 	{
 		Random randomGenerator = new Random();
@@ -41,6 +42,6 @@ public class RandomIntegerUtil {
 	}
 
 	public static int getRandomInteger(int max) {
-		return new Random().nextInt(max); // TODO: Creatin objects like that is a problem waiting to happen...
+		return new Random().nextInt(max); 
 	}
 }

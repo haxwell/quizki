@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.utils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
@@ -14,6 +15,7 @@ import com.haxwell.apps.questions.entities.QuestionType;
 import com.haxwell.apps.questions.entities.Reference;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.entities.UserRole;
 
 public class TestQuestionUtil {
 
@@ -56,8 +58,14 @@ public class TestQuestionUtil {
 	public static Set<Question> getSetOfQuestions(int count) {
 		Set<Question> set = new HashSet<>();
 		
+		List<Integer> ids = RandomIntegerUtil.getRandomListOfNumbers(count);
+		
 		for (int i = 0; i < count; i++) {
-			set.add(getQuestion());
+			Question q = getQuestion();
+			
+			q.setId(ids.get(i));
+			
+			set.add(q);
 		}
 		
 		return set;
@@ -115,15 +123,38 @@ public class TestQuestionUtil {
 		return exam;
 	}
 	
-// YAGNI... yet.
-	//	public static Set<Question> getSetOfQuestions(int count) {
-//		Set<Question> set = new HashSet<>();
-//		
-//		for (int i = 0; i < count; i++) {
-//			set.add(getQuestion());
-//		}
-//		
-//		return set;
-//	}
+	public static Set<Exam> getSetOfExams(int count) {
+		Set<Exam> set = new HashSet<>();
+		
+		List<Integer> ids = RandomIntegerUtil.getRandomListOfNumbers(count);
+		
+		for (int i = 0; i<count; i++) {
+			Exam e = getExam();
+			
+			e.setId(ids.get(i));
+			
+			set.add(e);
+		}
+		
+		return set;
+	}
 	
+	public static Set<UserRole> getSetOfUserRoles(int count) {
+		Set<UserRole> set = new HashSet<>();
+		
+		List<Integer> ids = RandomIntegerUtil.getRandomListOfNumbers(count);
+		
+		for (int i=0; i<count; i++) {
+			UserRole ur = new UserRole();
+			
+			Integer id = ids.get(i);
+			
+			ur.setId(id);
+			ur.setText("userRole" + id);
+			
+			set.add(ur);
+		}
+		
+		return set;
+	}
 }

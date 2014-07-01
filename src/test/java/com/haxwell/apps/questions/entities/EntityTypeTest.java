@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.entities;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -53,5 +54,26 @@ public class EntityTypeTest {
 		
 		assertTrue(sut.getId() == 0);
 		assertTrue(StringUtil.equals(sut.getText(), text));
+	}
+	
+	@Test
+	public void testEquals() {
+		EntityType sut1 = new EntityType();
+		EntityType sut2 = new EntityType();
+		
+		assertTrue(sut1.equals(sut1));
+		assertTrue(sut1.equals(sut2));
+		
+		sut1.setId(1);
+		
+		assertFalse(sut1.equals(sut2));
+		
+		sut2.setId(1);
+		
+		assertTrue(sut1.equals(sut2));
+		
+		sut2.setText("text");
+		
+		assertFalse(sut1.equals(sut2));
 	}
 }

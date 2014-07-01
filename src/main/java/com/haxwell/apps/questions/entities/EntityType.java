@@ -60,9 +60,9 @@ public class EntityType implements EntityWithAnIntegerIDBehavior, Serializable {
 
 	public boolean equals(Object o) {
 		EntityType that;
-		boolean rtn = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof EntityType) {
+		if (!rtn && o instanceof EntityType) {
 			that = (EntityType)o;
 			
 			rtn = (this.id == that.id) && (StringUtil.equals(this.text, that.text));

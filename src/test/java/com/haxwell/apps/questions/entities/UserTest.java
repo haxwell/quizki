@@ -1,5 +1,6 @@
 package com.haxwell.apps.questions.entities;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -75,4 +76,26 @@ public class UserTest {
 			assertTrue(urset.contains(ur));
 		}
 	}
+	
+	@Test
+	public void testEquals() {
+		User sut1 = new User();
+		User sut2 = new User();
+		
+		assertTrue(sut1.equals(sut1));
+		assertTrue(sut1.equals(sut2));
+		
+		sut1.setId(1);
+		
+		assertFalse(sut1.equals(sut2));
+		
+		sut2.setId(1);
+		
+		assertTrue(sut1.equals(sut2));
+		
+		sut2.setUsername("username");
+		
+		assertFalse(sut1.equals(sut2));
+	}
+
 }

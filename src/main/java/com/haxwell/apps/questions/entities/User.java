@@ -114,9 +114,9 @@ public class User implements EntityWithAnIntegerIDBehavior, Serializable {
 	
 	public boolean equals(Object o) {
 		User that;
-		boolean rtn = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof User) {
+		if (!rtn && o instanceof User) {
 			that = (User)o;
 			
 			rtn = this.id == that.id && StringUtil.equals(this.username, that.username);

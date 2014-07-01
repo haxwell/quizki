@@ -12,8 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.haxwell.apps.questions.utils.StringUtil;
+
 /**
  * The persistent class for the VOTES database table.
+ *
+ * A vote is a per-user indicator of approval or disapproval of an AbstractEntity. A user can only have one vote
+ * per entity. They can change that vote as they wish. The vote can be either up or down, or neither, but not both.
  * 
  */
 @Entity
@@ -82,13 +87,18 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
 		return this.thumbsUp;
 	}
 
-	public void setThumbsUp(boolean b)
-	{
+	public void setThumbsUp(boolean b) {
 		this.thumbsUp = (b ? 1 : 0);
+		
+		if (thumbsDown == 1)
+			thumbsDown = 0;
 	}
 	
 	public void setThumbsUp(int val) {
-		this.thumbsUp = val;
+		val = Math.max(0, val);
+		val = Math.min(1, val);
+		
+		setThumbsUp(val == 1);
 	}
 	
 	@Transient
@@ -100,18 +110,35 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
 		return this.thumbsDown;
 	}
 
-	public void setThumbsDown(boolean b)
-	{
+	public void setThumbsDown(boolean b) {
 		this.thumbsDown = (b ? 1 : 0);
+		
+		if (thumbsUp == 1)
+			thumbsUp = 0;
 	}
 	
 	public void setThumbsDown(int val) {
-		this.thumbsDown = val;
+		val = Math.max(0, val);
+		val = Math.min(1, val);
+		
+		setThumbsDown(val == 1);
 	}
 
 	@Transient
 	public boolean isThumbsDown() {
-		return this.thumbsUp == 1;
+		return this.thumbsDown == 1;
 	}
-
+	
+	public boolean equals(Object o) {
+		Vote that;
+		boolean rtn = (this == o);
+		
+		if (!rtn && o instanceof Vote) {
+			that = (Vote)o;
+			
+			rtn = (this.id == that.id) && (this.thumbsDown == that.thumbsDown) && (this.thumbsUp == that.thumbsUp);
+		}
+		
+		return rtn;
+	}
 }

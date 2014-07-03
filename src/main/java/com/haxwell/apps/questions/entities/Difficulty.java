@@ -62,9 +62,9 @@ public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
 	
 	@Override
 	public boolean equals(Object o) {
-		boolean rtn = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof Difficulty) {
+		if (!rtn && o instanceof Difficulty) {
 			Difficulty that = (Difficulty)o;
 			
 			rtn = this.id == that.id && StringUtil.equals(this.text, that.text);

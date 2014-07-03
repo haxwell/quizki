@@ -132,9 +132,9 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 	@Override
 	public boolean equals(Object o)
 	{
-		boolean rtn = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof Choice)
+		if (!rtn && o instanceof Choice)
 		{
 			Choice that = (Choice)o;
 			

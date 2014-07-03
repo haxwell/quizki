@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 
 /**
@@ -246,12 +247,12 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	
 	@Override
 	public boolean equals(Object o) {
-		boolean rtn = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof Question) {
+		if (!rtn && o instanceof Question) {
 			Question that = (Question)o;
 			
-			rtn = (this.id == that.id && this.text.equals(that.text)); 
+			rtn = (this.id == that.id && StringUtil.equals(this.text, that.text)); 
 		}
 		
 		return rtn;

@@ -64,12 +64,12 @@ public class QuestionType implements EntityWithAnIntegerIDBehavior, Serializable
 	
 	@Override
 	public boolean equals(Object o) {
-		boolean rtn = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof QuestionType) {
+		if (!rtn && o instanceof QuestionType) {
 			QuestionType that = (QuestionType)o;
 			
-			rtn = this.id == that.id && StringUtil.equals(this.text, that.text);
+			rtn = this.id == that.id && StringUtil.equalsCaseInsensitive(this.text, that.text);
 		}
 		
 		return rtn;

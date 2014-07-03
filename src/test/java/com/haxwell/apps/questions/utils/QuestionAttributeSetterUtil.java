@@ -11,16 +11,16 @@ import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 
 /**
- * QuestionGeneratorUtil
+ * QuestionAttributeSetterUtil
  * 
- * This class creates a Question based on given parameters.
+ * This class sets attributes on a Question based on given parameters.
  * 
  * ==============
  * HOW IT WORKS
  * ==============
  * The class HandlerFactory() defines a map of parameters (keys) to handlers which can set that parameter on 
- * a question object. When the QuestionGeneratorUtil is called, a map of these parameters is passed in. For
- * each of the parameters, QGU calls the HandlerFactory with that key, and an object. The object is what should
+ * a question object. When the QuestionAttributeSetterUtil is called, a map of these parameters is passed in. For
+ * each of the parameters, QASU calls the HandlerFactory with that key, and an object. The object is what should
  * be set on the question. What that object is, of course, depends on the key. So for QuestionType, the object
  * is the numeric ID from TypeConstants and it is used to get the QuestionType object from TypeUtil, which is 
  * then set on the Question. 
@@ -41,7 +41,7 @@ import com.haxwell.apps.questions.entities.Question;
  * @author jjames
  *
  */
-public class QuestionGeneratorUtil {
+public class QuestionAttributeSetterUtil {
 
 	private static HandlerFactory handlerFactory = null;
 	
@@ -49,11 +49,7 @@ public class QuestionGeneratorUtil {
 		public Question set(Object o, Question q);
 	}
 
-	public static Question getQuestion(Map<String, Object> attributes) {
-		return getQuestion(attributes, new Question());
-	}
-	
-	public static Question getQuestion(Map<String, Object> attributes, Question q) {
+	public static Question setQuestionAttributes(Map<String, Object> attributes, Question q) {
 		if (handlerFactory == null)
 			handlerFactory = new HandlerFactory();
 		

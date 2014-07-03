@@ -18,7 +18,7 @@ import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.entities.UserRole;
 
 public class TestQuestionUtil {
-
+	
 	public static Question getQuestion() {
 		Question q = new Question();
 		
@@ -26,7 +26,7 @@ public class TestQuestionUtil {
 		String description = "description"+id;
 		String text = "<p>Some [[dynamic]] question text for question number " + id + "</p>";
 		Difficulty difficulty = new Difficulty(DifficultyConstants.GURU_STR, DifficultyConstants.GURU);
-		QuestionType qType = new QuestionType(TypeConstants.PHRASE, TypeConstants.PHRASE_STR);
+		QuestionType qType = new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR);
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1); user.setUsername("username");
 		Set<Choice> choices = getSetOfChoices();
@@ -75,8 +75,8 @@ public class TestQuestionUtil {
 		Set<Choice> set = new HashSet<>();
 		
 		set.add(new Choice(1L, "choice1", Choice.CORRECT));
-		set.add(new Choice(2L, "choice1", Choice.NOT_CORRECT));
-		set.add(new Choice(3L, "choice1", Choice.NOT_CORRECT));
+		set.add(new Choice(2L, "choice2", Choice.NOT_CORRECT));
+		set.add(new Choice(3L, "choice3", Choice.NOT_CORRECT));
 		
 		return set;
 	}

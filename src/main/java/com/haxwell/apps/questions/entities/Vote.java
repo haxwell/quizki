@@ -90,7 +90,7 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
 	public void setThumbsUp(boolean b) {
 		this.thumbsUp = (b ? 1 : 0);
 		
-		if (thumbsDown == 1)
+		if (b && thumbsDown == 1)
 			thumbsDown = 0;
 	}
 	
@@ -113,7 +113,7 @@ public class Vote implements EntityWithAnIntegerIDBehavior, Serializable {
 	public void setThumbsDown(boolean b) {
 		this.thumbsDown = (b ? 1 : 0);
 		
-		if (thumbsUp == 1)
+		if (b && thumbsUp == 1)
 			thumbsUp = 0;
 	}
 	

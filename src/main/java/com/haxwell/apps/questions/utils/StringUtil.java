@@ -130,6 +130,18 @@ public class StringUtil {
 		return str1.toString().equals(str2.toString());
 	}
 	
+	public static boolean equalsCaseInsensitive(Object str1, Object str2) {
+		if (str1 == null && str2 == null) return true;
+		
+		if (str1 == null && str2 != null) return false;
+		if (str1 != null && str2 == null) return false;
+		
+		String str1lowercase = str1.toString().toLowerCase();
+		String str2lowercase = str2.toString().toLowerCase();
+		
+		return str1lowercase.equals(str2lowercase);
+	}
+	
 	public static boolean isNullOrEmpty(String str)
 	{
 		return str == null ? true : (str.length() <= 0);

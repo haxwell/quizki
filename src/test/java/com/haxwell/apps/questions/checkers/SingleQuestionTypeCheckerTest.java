@@ -33,6 +33,7 @@ public class SingleQuestionTypeCheckerTest {
 		assertTrue(sut.questionIsCorrect(getMapRepresentingCorrectChoices(q)));
 		assertFalse(sut.questionIsCorrect(getMapRepresentingASingleIncorrectlyChosenChoice(q)));
 		assertFalse(sut.questionIsCorrect(getMapRepresentingACorrectChoiceAndAnIncorrectChoice(q)));
+		assertFalse(sut.questionIsCorrect(new HashMap<String, String>()));
 	}
 	
 	protected Map<String, String> getMapRepresentingCorrectChoices(Question q) {

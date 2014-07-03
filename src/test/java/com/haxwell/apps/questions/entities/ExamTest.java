@@ -65,6 +65,47 @@ public class ExamTest {
 	}
 	
 	@Test
+	public void testAddQuestion() {
+		Exam exam = new Exam();
+		
+		exam.addQuestion(TestQuestionUtil.getQuestion());
+		
+		assertTrue(exam.getQuestions() != null);
+		assertTrue(exam.getQuestions().size() == 1);
+		assertTrue(exam.getNumberOfQuestions() == 1);
+	}
+	
+	@Test
+	public void testAddQuestions2() {
+		Exam exam = new Exam();
+		
+		assertTrue(exam.getQuestions() != null);
+
+		exam.addQuestion(TestQuestionUtil.getQuestion());
+		
+		assertTrue(exam.getQuestions().size() == 1);
+		assertTrue(exam.getNumberOfQuestions() == 1);
+	}
+	
+	@Test
+	public void testGetQuestions() {
+		Exam exam = new Exam();
+		
+		assertTrue(exam.getQuestions() != null);
+		assertTrue(exam.getQuestions().size() == 0);
+		assertTrue(exam.getNumberOfQuestions() == 0);
+	}
+	
+	@Test
+	public void testNoDynamicData() {
+		Exam exam = new Exam();
+		
+		exam.setDynamicData("key", "value");
+		
+		assertTrue(exam.getDynamicData("key") == null);
+	}
+
+	@Test
 	public void testEntityDescription() {
 		Exam exam = new Exam();
 		
@@ -175,5 +216,18 @@ public class ExamTest {
 		assertTrue(StringUtil.equals(jobj.get("difficulty_text"), DifficultyConstants.UNDEFINED_STR));
 		
 		assertTrue(StringUtil.equals(jobj.get("entityStatus"), entityStatus));
+	}
+	
+	@Test
+	public void testToString() {
+		Exam sut = new Exam();
+		
+		sut.setId(1);
+		sut.setTitle("entity");
+		
+		assertTrue(sut.toString().contains("ID: "));
+		assertTrue(sut.toString().contains("1"));
+		assertTrue(sut.toString().contains("Title: "));
+		assertTrue(sut.toString().contains("entity"));
 	}
 }

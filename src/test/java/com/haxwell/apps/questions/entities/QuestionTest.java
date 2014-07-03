@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.entities;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.Set;
 
@@ -153,7 +154,21 @@ public class QuestionTest {
 	}
 	
 	@Test
-	public void testCompareMethod() {
+	public void testDefaultSetIsCreatedIfOneHasNotYetBeenSet() {
+		Question sut = new Question();
+		
+		assertTrue(sut.getChoices() != null);
+		assertTrue(sut.getChoices().size() == 0);
+		
+		assertTrue(sut.getTopics() != null);
+		assertTrue(sut.getTopics().size() == 0);
+		
+		assertTrue(sut.getReferences() != null);
+		assertTrue(sut.getReferences().size() == 0);
+	}
+	
+	@Test
+	public void testCompareMethod_basedOnText() {
 		Question sut1 = new Question();
 		Question sut2 = new Question();
 		
@@ -174,4 +189,58 @@ public class QuestionTest {
 		assertTrue(sut2.compareTo(sut1) == 1);
 	}
 	
+	@Test
+	public void testCompareMethod_basedOnID() {
+		Question sut1 = new Question();
+		Question sut2 = new Question();
+		
+		long id = Long.MAX_VALUE - 1;
+		String description = "description";
+		String text1 = "<p>1 This question text is the same.</p>";
+		String text2 = "<p>1 This question text is the same.</p>";
+		
+		sut1.setId(id);
+		sut1.setDescription(description);
+		sut1.setText(text1);
+
+		sut2.setId(id - 1);
+		sut2.setDescription(description);
+		sut2.setText(text2);
+		
+		assertTrue(sut1.compareTo(sut2) == -1);
+		assertTrue(sut2.compareTo(sut1) == 1);
+	}
+	
+	@Test
+	public void testEquals() {
+		Question sut1 = new Question();
+		Question sut2 = new Question();
+		
+		assertTrue(sut1.equals(sut1));
+		assertTrue(sut1.equals(sut2));
+		
+		sut1.setId(1);
+		
+		assertFalse(sut1.equals(sut2));
+		
+		sut2.setId(1);
+		
+		sut1.setText("text");
+		assertFalse(sut1.equals(sut2));
+		
+		sut2.setText("text");
+	}
+	
+	@Test
+	public void testToString() {
+		Question sut = new Question();
+		
+		sut.setId(1);
+		sut.setText("entity");
+		
+		assertTrue(sut.toString().contains("ID: "));
+		assertTrue(sut.toString().contains("1"));
+		assertTrue(sut.toString().contains("Text: "));
+		assertTrue(sut.toString().contains("entity"));
+	}
 }

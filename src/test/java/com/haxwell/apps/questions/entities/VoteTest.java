@@ -129,12 +129,38 @@ public class VoteTest {
 		// verify that the vote can't be in Up and Down state at same time.
 		sut.setThumbsDown(true);
 		sut.setThumbsUp(true);
-		
 		assertFalse(sut.isThumbsDown());
 		
 		sut.setThumbsDown(true);
-		
 		assertFalse(sut.isThumbsUp());
+	}
+
+	@Test
+	public void testSettingTheThumbsStateToFalseDoesntChangeTheOppositeState() {
+		Vote sut = new Vote();
+
+		// assert that this vote is neutral
+		assertTrue(sut.getThumbsDown() == 0);
+		assertTrue(sut.getThumbsUp() == 0);
+		
+		assertFalse(sut.isThumbsDown());
+		assertFalse(sut.isThumbsUp());
+		
+		sut.setThumbsUp(true);
+		sut.setThumbsDown(false);
+		assertTrue(sut.isThumbsUp());
+		assertFalse(sut.isThumbsDown()); // was already false for thumbs down, setting it again shouldn't change thumbs up state. 
+
+		sut.setThumbsUp(false);
+		assertFalse(sut.isThumbsDown());
+
+		sut.setThumbsUp(true);
+		assertTrue(sut.isThumbsUp());
+		assertFalse(sut.isThumbsDown());
+		
+		sut.setThumbsDown(true);
+		assertFalse(sut.isThumbsUp());
+		assertTrue(sut.isThumbsDown());
 	}
 	
 	@Test

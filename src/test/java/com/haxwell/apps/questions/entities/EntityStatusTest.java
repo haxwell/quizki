@@ -24,8 +24,10 @@ public class EntityStatusTest {
 		
 		sut.setEntityId(1);
 		sut.setEntityType(EntityStatusConstants.ACTIVATED);
+		sut.setStatus(1);
 		
 		assertTrue(sut.getEntityId() == 1 );
 		assertTrue(sut.getEntityType() == EntityStatusConstants.ACTIVATED);
+		assertTrue(sut.getStatus() == 1);
 	}
 }

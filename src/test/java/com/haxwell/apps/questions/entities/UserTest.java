@@ -96,6 +96,16 @@ public class UserTest {
 		sut2.setUsername("username");
 		
 		assertFalse(sut1.equals(sut2));
+		
+		assertFalse(sut1.equals("test"));
+	}
+	
+	@Test
+	public void testToString() {
+		User sut = new User();
+		
+		assertTrue(sut.toString().contains("ID: "));
+		assertTrue(sut.toString().contains("Username: "));
 	}
 
 }

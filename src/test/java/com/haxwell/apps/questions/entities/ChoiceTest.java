@@ -136,6 +136,7 @@ public class ChoiceTest {
 		assertFalse(sut1.equals(sut4));
 		assertFalse(sut1.equals(sut5));
 		assertFalse(sut1.equals(sut6));
+		assertFalse(sut1.equals("aString"));
 	}
 	
 	@Test
@@ -183,5 +184,21 @@ public class ChoiceTest {
 
 		assertTrue(jobj.keySet().size() == 4);
 		assertTrue(jobj.values().size() == 4);
+	}
+	
+	@Test
+	public void testToString() {
+		long choiceId = 1;
+		String text = "choiceText";
+		boolean isCorrect = true;
+
+		Choice sut1 = new Choice(choiceId, text, isCorrect);
+		
+		String toString = sut1.toString();
+		
+		assertTrue(toString.contains("id: "));
+		assertTrue(toString.contains("text: "));
+		assertTrue(toString.contains("isCorrect: "));
+		assertTrue(toString.contains("sequence: "));
 	}
 }

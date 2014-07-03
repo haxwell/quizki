@@ -2,6 +2,8 @@ package com.haxwell.apps.questions.entities;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -37,6 +39,7 @@ public class NotificationTest {
 		int numOfInstances = 5;
 		String text = "notificationText";
 		User user = new User(); user.setId(1); user.setUsername("username");
+		Date date = new Date(114, 6, 2, 18, 15, 15);
 		
 		sut.setId(id);
 		sut.setEntityId(entityId);
@@ -45,6 +48,7 @@ public class NotificationTest {
 		sut.setNumOfInstances(numOfInstances);
 		sut.setText(text);
 		sut.setUser(user);
+		sut.setTime_stamp(date);
 		
 		assertTrue(sut.getId() == id);
 		assertTrue(sut.getEntityId() == entityId);
@@ -53,5 +57,13 @@ public class NotificationTest {
 		assertTrue(sut.getNumOfInstances() == numOfInstances);
 		assertTrue(StringUtil.equals(sut.getText(), text));
 		assertTrue(sut.getUser().equals(user));
+		assertTrue(StringUtil.equals(sut.getPrettyTime_stamp(), "Jul 2, 2014 06:15"));
+	}
+	
+	@Test
+	public void testGetPrettyTime_stamp() {
+		Notification sut = new Notification();
+		
+		assertTrue(sut.getPrettyTime_stamp() == null);
 	}
 }

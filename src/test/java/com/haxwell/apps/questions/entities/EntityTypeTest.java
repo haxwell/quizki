@@ -3,6 +3,8 @@ package com.haxwell.apps.questions.entities;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import javax.validation.constraints.AssertTrue;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -75,5 +77,22 @@ public class EntityTypeTest {
 		sut2.setText("text");
 		
 		assertFalse(sut1.equals(sut2));
+		
+		assertFalse(sut1.equals("aString"));
+	}
+	
+	@Test
+	public void testToString() {
+		EntityType sut = new EntityType();
+		
+		long id = 1;
+		String text = "testText";
+		
+		sut = new EntityType(id, text);
+
+		String toString = sut.toString();
+		
+		assertTrue(toString.contains("id: "));
+		assertTrue(toString.contains("type: "));
 	}
 }

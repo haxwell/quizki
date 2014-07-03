@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.haxwell.apps.questions.interfaces.ITopic;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
+import com.haxwell.apps.questions.utils.StringUtil;
 
 
 /**
@@ -34,6 +37,10 @@ public class Reference extends AbstractEntity implements EntityWithAnIntegerIDBe
 	public Reference() {
     }
 
+	public String getEntityDescription()  {
+		return "reference";
+	}
+	
     public Reference(String str) {
     	this.text = str;
     }
@@ -63,16 +70,16 @@ public class Reference extends AbstractEntity implements EntityWithAnIntegerIDBe
 	@Override
 	public boolean equals(Object o)
 	{
-		boolean b = false;
+		boolean rtn = (this == o);
 		
-		if (o instanceof Reference)
+		if (!rtn && o instanceof Reference)
 		{
 			Reference that = (Reference)o;
 			
-			b = /*(this.id == that.id) && */(this.text.toLowerCase().equals(that.text.toLowerCase())); 
+			rtn = /*(this.id == that.id) && */(StringUtil.equalsCaseInsensitive(this.text, that.text)); 
 		}
 		
-		return b;
+		return rtn;
 	}
 
 	@Override
@@ -82,14 +89,11 @@ public class Reference extends AbstractEntity implements EntityWithAnIntegerIDBe
 	}
 	
     public String toJSON() {
-    	StringBuffer sb = new StringBuffer();
+    	JSONObject j = new JSONObject();
     	
-    	sb.append(getJSONOpening());
-    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
-    	sb.append(getJSON("text", getText()));
+    	j.put("id", getId());
+    	j.put("text", getText());
     	
-    	sb.append(getJSONClosing());
-    	
-    	return sb.toString();
+    	return j.toJSONString();
     }
 }

@@ -57,6 +57,10 @@ public class QuestionAttributeSetterUtil {
 			handlerFactory.executeHandler(FilterConstants.QUESTION_TYPE_FILTER, attributes.get(FilterConstants.QUESTION_TYPE_FILTER), q);
 		}
 		
+		if (attributes.containsKey(FilterConstants.ENTITY_ID_FILTER)) {
+			handlerFactory.executeHandler(FilterConstants.ENTITY_ID_FILTER, attributes.get(FilterConstants.ENTITY_ID_FILTER), q);
+		}
+		
 		return q;
 	}
 	
@@ -67,6 +71,7 @@ public class QuestionAttributeSetterUtil {
 			map = new HashMap<>();
 			
 			map.put(FilterConstants.QUESTION_TYPE_FILTER, QuestionType_HandlerFactory.class);
+			map.put(FilterConstants.ENTITY_ID_FILTER, QuestionIDHandler.class);
 		}
 		
 		Question executeHandler(String filterConstant, Object value, Question q) {
@@ -91,6 +96,23 @@ public class QuestionAttributeSetterUtil {
 	}
 	
 	//
+	// Question ID handler
+	//
+	private static class QuestionIDHandler implements Handler {
+		public QuestionIDHandler() {
+			
+		}
+		
+		public Question set(Object o, Question q) {
+			Long id = Long.parseLong(o.toString());
+			
+			q.setId(id);
+			
+			return q;
+		}
+	}
+	
+	//
 	// QuestionType Handlers
 	//
 	
@@ -103,6 +125,7 @@ public class QuestionAttributeSetterUtil {
 			
 			map.put(TypeConstants.SINGLE, QuestionType_Single_Handler.class);
 			map.put(TypeConstants.MULTIPLE, QuestionType_Multiple_Handler.class);
+			map.put(TypeConstants.SEQUENCE, QuestionType_Sequence_Handler.class);
 		}
 		
 		public Question set(Object o, Question q) {
@@ -166,6 +189,35 @@ public class QuestionAttributeSetterUtil {
 			choices.add(choice);
 			
 			choice = new Choice(3, "Choice 3", Choice.NOT_CORRECT, Choice.NO_SEQUENCE);
+			choices.add(choice);
+			
+			q.setChoices(choices);
+			
+			return q;
+		}
+	}
+	
+	private static class QuestionType_Sequence_Handler implements Handler {
+		@SuppressWarnings("unused")
+		public QuestionType_Sequence_Handler() {
+			// do nothing
+		}
+		
+		public Question set(Object o, Question q) {
+			q.setQuestionType(TypeUtil.getObjectFromStringTypeId(o.toString()));
+			
+			Set<Choice> choices = new HashSet<>();
+			
+			Choice choice = new Choice(1, "Choice 1", Choice.CORRECT, 1);
+			choices.add(choice);
+			
+			choice = new Choice(2, "Choice 2", Choice.CORRECT, 2);
+			choices.add(choice);
+			
+			choice = new Choice(3, "Choice 3", Choice.CORRECT, 3);
+			choices.add(choice);
+			
+			choice = new Choice(4, "Choice 4", Choice.CORRECT, 4);
 			choices.add(choice);
 			
 			q.setChoices(choices);

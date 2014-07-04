@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.utils;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,6 +54,10 @@ public class QuestionAttributeSetterUtil {
 		if (handlerFactory == null)
 			handlerFactory = new HandlerFactory();
 		
+		if (attributes.containsKey(FilterConstants.QUESTION_CONTAINS_FILTER)) {
+			handlerFactory.executeHandler(FilterConstants.QUESTION_CONTAINS_FILTER, attributes.get(FilterConstants.QUESTION_CONTAINS_FILTER), q);
+		}
+		
 		if (attributes.containsKey(FilterConstants.QUESTION_TYPE_FILTER)) {
 			handlerFactory.executeHandler(FilterConstants.QUESTION_TYPE_FILTER, attributes.get(FilterConstants.QUESTION_TYPE_FILTER), q);
 		}
@@ -72,6 +77,7 @@ public class QuestionAttributeSetterUtil {
 			
 			map.put(FilterConstants.QUESTION_TYPE_FILTER, QuestionType_HandlerFactory.class);
 			map.put(FilterConstants.ENTITY_ID_FILTER, QuestionIDHandler.class);
+			map.put(FilterConstants.QUESTION_CONTAINS_FILTER, QuestionTextHandler.class);
 		}
 		
 		Question executeHandler(String filterConstant, Object value, Question q) {
@@ -113,6 +119,21 @@ public class QuestionAttributeSetterUtil {
 	}
 	
 	//
+	// Question Text Handler
+	//
+	private static class QuestionTextHandler implements Handler {
+		public QuestionTextHandler() {
+			
+		}
+		
+		public Question set(Object o, Question q) {
+			q.setText(o.toString());
+			
+			return q;
+		}
+	}
+	
+	//
 	// QuestionType Handlers
 	//
 	
@@ -126,6 +147,8 @@ public class QuestionAttributeSetterUtil {
 			map.put(TypeConstants.SINGLE, QuestionType_Single_Handler.class);
 			map.put(TypeConstants.MULTIPLE, QuestionType_Multiple_Handler.class);
 			map.put(TypeConstants.SEQUENCE, QuestionType_Sequence_Handler.class);
+			map.put(TypeConstants.PHRASE, QuestionType_Phrase_Handler.class);
+			map.put(TypeConstants.SET, QuestionType_Set_Handler.class);
 		}
 		
 		public Question set(Object o, Question q) {
@@ -219,6 +242,62 @@ public class QuestionAttributeSetterUtil {
 			
 			choice = new Choice(4, "Choice 4", Choice.CORRECT, 4);
 			choices.add(choice);
+			
+			q.setChoices(choices);
+			
+			return q;
+		}
+	}
+	
+	private static class QuestionType_Phrase_Handler implements Handler {
+		@SuppressWarnings("unused")
+		public QuestionType_Phrase_Handler() {
+			
+		}
+		
+		public Question set(Object o, Question q) {
+			String text = q.getText();
+			
+			if (StringUtil.isNullOrEmpty(text))
+				throw new IllegalArgumentException("Question Text must be set before the Phrase question type can be set. This is because the Phrase_Handler needs to parse the text to determine if it is a dynamic or regular phrase question. Ideally, dynamic phrase questions should be their own type, but because technical debt.");
+			
+			q.setQuestionType(TypeUtil.getObjectFromStringTypeId(o.toString()));
+			
+			Set<Choice> choices = new HashSet<>();
+			
+			if (StringUtil.getCountOfDynamicFields(text) > 0) {
+				// there are choices defined in the question text, so create choices based on those strings, and set them on the question
+				Iterator<String> iterator = StringUtil.getDynamicFields(text);
+				int count = 0;
+				
+				while (iterator.hasNext()) {
+					String dynamicFieldText  = iterator.next();
+					
+					choices.add(new Choice(++count, dynamicFieldText, Choice.CORRECT, Choice.NO_SEQUENCE));
+				}
+			} else {
+				// there's no choices defined in the question text, so just put these on the question as working stand-in choices.
+				choices.add(new Choice(1, "Phrase 1", Choice.CORRECT, Choice.NO_SEQUENCE));
+				choices.add(new Choice(2, "Phrase 2", Choice.CORRECT, Choice.NO_SEQUENCE));
+			}
+			
+			q.setChoices(choices);
+			
+			return q;
+		}
+	}
+	
+	private static class QuestionType_Set_Handler implements Handler {
+		@SuppressWarnings("unused")
+		public QuestionType_Set_Handler() {
+			
+		}
+		
+		public Question set(Object o, Question q) {
+			Set<Choice> choices = new HashSet<>();
+			
+			choices.add(new Choice(1, "SetChoice 1", Choice.CORRECT, Choice.NO_SEQUENCE));
+			choices.add(new Choice(2, "A [[dynamic]] choice", Choice.CORRECT, Choice.NO_SEQUENCE));
 			
 			q.setChoices(choices);
 			

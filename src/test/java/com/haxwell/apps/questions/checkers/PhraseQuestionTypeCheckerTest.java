@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 import com.haxwell.apps.questions.constants.FilterConstants;
@@ -19,6 +20,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class) // think this may be a functional test
 public class PhraseQuestionTypeCheckerTest {
 
 	@Rule

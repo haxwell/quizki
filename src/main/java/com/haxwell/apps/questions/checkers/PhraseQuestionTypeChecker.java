@@ -20,6 +20,9 @@ public class PhraseQuestionTypeChecker extends AbstractQuestionTypeChecker {
 		
 		boolean rtn = false;
 		
+		if (mapOfQAndCIDsToValues == null || mapOfQAndCIDsToValues.size() == 0)
+			throw new IllegalArgumentException("Cannot pass a null or empty map to the PhraseQuestionTypeChecker");
+
 		if (mapOfQAndCIDsToValues.size() > 1)
 			throw new IllegalArgumentException("For Questions of type Phrase, there should only be one answer supplied when taking the exam.");
 

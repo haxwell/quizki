@@ -63,6 +63,10 @@ public class StringUtil {
 		return count;
 	}
 	
+	public static Iterator<String> getDynamicFields(String text) {
+		return new FieldIterator(text, "[[", "]]");
+	}
+	
 	public static class FieldIterator implements Iterator<String> {
 
 		private String beginningFieldMarker = null;
@@ -72,10 +76,10 @@ public class StringUtil {
 		private int endIndex = -1;
 		private boolean beginAndEndIndexesHaveBeenSet = false;
 		
-		public FieldIterator(String source, String beginningFieldMarker) {	
+		public FieldIterator(String source, String endingFieldMarker) {	
 			this.source = source;
-			this.beginningFieldMarker = beginningFieldMarker;
-			this.endingFieldMarker = beginningFieldMarker;
+			this.beginningFieldMarker = null;
+			this.endingFieldMarker = endingFieldMarker;
 		}
 		
 		public FieldIterator(String source, String beginningFieldMarker, String endingFieldMarker) {	
@@ -85,9 +89,43 @@ public class StringUtil {
 		}
 		
 		private void setBeginAndEndIndex() {
-			beginIndex = source.indexOf(beginningFieldMarker, endIndex + 1);
-			if (beginIndex != -1) endIndex = source.indexOf(endingFieldMarker, beginIndex + 1);
-			else endIndex = -1;
+			if (beginningFieldMarker == null) {
+
+				int prevEndIndex = endIndex;
+				boolean beginIndexHasMoved = false;
+				
+				endIndex = source.indexOf(endingFieldMarker, endIndex + 1);
+				
+				beginIndex = prevEndIndex; // + endingFieldMarker.length();
+				
+				if (endIndex > -1 && beginIndex == -1) {
+					beginIndex = 0;
+					beginIndexHasMoved = true;
+				}
+				
+				if (endIndex == -1 && beginIndex == -1) { // the endingFieldMarker is not in SOURCE
+					beginIndex = 0;
+					endIndex = source.length();
+				}
+				else {
+					if (!beginIndexHasMoved)
+						beginIndex += endingFieldMarker.length();
+				}
+			}
+			else {
+				// if this is a dual field marker, ie: [[ and ]], then the begin index is at the beginning 
+				//  of the first field marker
+				beginIndex = source.indexOf(beginningFieldMarker, endIndex + 1);
+
+				if (beginIndex == -1)
+					endIndex = -1;
+				
+				if (beginIndex > -1) {
+					beginIndex += beginningFieldMarker.length();
+					endIndex = source.indexOf(endingFieldMarker, beginIndex + 1);
+				}
+			}
+			
 			beginAndEndIndexesHaveBeenSet = true;
 		}
 		
@@ -99,9 +137,18 @@ public class StringUtil {
 
 		@Override
 		public String next() {
-			if (!beginAndEndIndexesHaveBeenSet) setBeginAndEndIndex();
-			String rtn = source.substring(beginIndex, endIndex + 1);
-			beginAndEndIndexesHaveBeenSet = false;
+			String rtn = null;
+			
+			if (endIndex > -1) {
+			
+				if (!beginAndEndIndexesHaveBeenSet) 
+					setBeginAndEndIndex();
+				
+				rtn = source.substring(beginIndex, endIndex);
+				
+				beginAndEndIndexesHaveBeenSet = false;
+			}
+
 			return rtn;
 		}
 

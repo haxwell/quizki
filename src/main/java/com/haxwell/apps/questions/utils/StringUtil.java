@@ -91,7 +91,7 @@ public class StringUtil {
 					beginIndexHasMoved = true;
 				}
 				
-				if (endIndex == -1 && beginIndex > -1 && !StringUtil.equals(source.substring(prevEndIndex), endingFieldMarker)) {
+				if (endIndex == -1 && beginIndex > -1 && remainingPortionOfSourceStringIsWorthyOfProcessing(prevEndIndex)) {
 					endIndex = source.length();
 				}
 				
@@ -119,6 +119,18 @@ public class StringUtil {
 			}
 			
 			beginAndEndIndexesHaveBeenSet = true;
+		}
+		
+		private boolean remainingPortionOfSourceStringIsWorthyOfProcessing(int index) {
+			boolean rtn = true;
+			
+			if (index > -1) {
+				String remainingPartOfSourceString = source.substring(index);
+				
+				rtn = (!StringUtil.isNullOrEmpty(remainingPartOfSourceString) && !StringUtil.equals(remainingPartOfSourceString, endingFieldMarker));
+			}
+			
+			return rtn;
 		}
 		
 		private boolean thereAreFieldsInTheSourceString() {

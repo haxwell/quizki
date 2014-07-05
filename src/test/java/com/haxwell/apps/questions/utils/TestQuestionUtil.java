@@ -58,7 +58,7 @@ public class TestQuestionUtil {
 	public static Set<Question> getSetOfQuestions(int count) {
 		Set<Question> set = new HashSet<>();
 		
-		List<Integer> ids = RandomIntegerUtil.getRandomListOfNumbers(count);
+		List<Integer> ids = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(count);
 		
 		for (int i = 0; i < count; i++) {
 			Question q = getQuestion();
@@ -126,7 +126,7 @@ public class TestQuestionUtil {
 	public static Set<Exam> getSetOfExams(int count) {
 		Set<Exam> set = new HashSet<>();
 		
-		List<Integer> ids = RandomIntegerUtil.getRandomListOfNumbers(count);
+		List<Integer> ids = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(count);
 		
 		for (int i = 0; i<count; i++) {
 			Exam e = getExam();
@@ -142,7 +142,7 @@ public class TestQuestionUtil {
 	public static Set<UserRole> getSetOfUserRoles(int count) {
 		Set<UserRole> set = new HashSet<>();
 		
-		List<Integer> ids = RandomIntegerUtil.getRandomListOfNumbers(count);
+		List<Integer> ids = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(count);
 		
 		for (int i=0; i<count; i++) {
 			UserRole ur = new UserRole();

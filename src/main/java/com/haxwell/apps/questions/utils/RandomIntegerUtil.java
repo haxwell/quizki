@@ -16,8 +16,7 @@ public class RandomIntegerUtil {
 	 * @param listSize
 	 * @return
 	 */
-	// TODO: Rename this to getRandomListOfUniqueIntegers.. or something with the word unique in it.
-	public static List<Integer> getRandomListOfNumbers(int listSize)
+	public static List<Integer> getRandomlyOrderedListOfUniqueIntegers(int listSize)
 	{
 		Random randomGenerator = new Random();
 		List<Integer> rtn = new ArrayList<Integer>();

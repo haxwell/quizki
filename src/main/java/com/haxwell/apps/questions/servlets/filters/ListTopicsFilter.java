@@ -48,7 +48,7 @@ public class ListTopicsFilter extends AbstractFilter {
 			
 			Collection<Topic> coll2 = TopicManager.getAllTopicsWithMoreThanXXQuestions(3);
 			
-			List<Integer> randomIndexes = RandomIntegerUtil.getRandomListOfNumbers(coll2.size());
+			List<Integer> randomIndexes = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(coll2.size());
 			List<Topic> listOfMajorTopics = new ArrayList<Topic>(coll2);
 
 			int count = listOfMajorTopics.size();

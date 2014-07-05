@@ -53,7 +53,7 @@ public class ExamGenerationManager {
 			}
 		}
 
-		List<Integer> list = RandomIntegerUtil.getRandomListOfNumbers(mainColl.size());
+		List<Integer> list = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(mainColl.size());
 
 		numberOfQuestions = Math.min(numberOfQuestions, mainColl.size());
 		int indexToRandomListOfIndexes = Math.max(list.size(), 1);

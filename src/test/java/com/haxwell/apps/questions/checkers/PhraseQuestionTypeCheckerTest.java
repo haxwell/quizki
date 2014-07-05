@@ -79,6 +79,45 @@ public class PhraseQuestionTypeCheckerTest {
 		sut.questionIsCorrect(new HashMap<String, String>());
 	}
 	
+	@Test
+	public void testQuestionIsCorrect_NullMapOfQAndCIdsToValues() {
+		Map<String, Object> attributes = new HashMap<>();
+		
+		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A [[Dynamic]] Phrase [[Question]]");
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
+		
+		Question q = new Question();
+		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
+
+		PhraseQuestionTypeChecker sut = new PhraseQuestionTypeChecker(q);
+		
+		exception.expect(IllegalArgumentException.class);
+		sut.questionIsCorrect(null);
+	}
+
+	@Test
+	public void testQuestionIsCorrect_MapOfQAndCIdsToValues_sizeGreaterThanOne() {
+		Map<String, String> map = new HashMap<>();
+		Map<String, Object> attributes = new HashMap<>();
+		
+		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A [[Dynamic]] Phrase [[Question]]");
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
+		
+		Question q = new Question();
+		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
+
+		PhraseQuestionTypeChecker sut = new PhraseQuestionTypeChecker(q);
+		
+		map.put("x", "x");
+		map.put("x1", "x1");
+		map.put("x2", "x2");
+		
+		exception.expect(IllegalArgumentException.class);
+		sut.questionIsCorrect(map);
+	}
+
 	public Map<String, String> getMapRepresentingTheFirstOfTwoChoicesGivenAsTheCorrectChoice(Question q) {
 		Map<String, String> map = new HashMap<>();
 		

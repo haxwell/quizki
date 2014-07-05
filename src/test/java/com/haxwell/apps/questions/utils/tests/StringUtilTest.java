@@ -6,9 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.Iterator;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.utils.StringUtil;
 
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class)
 public class StringUtilTest {
 
 	@Test

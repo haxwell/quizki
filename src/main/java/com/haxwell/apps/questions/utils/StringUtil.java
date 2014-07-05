@@ -10,38 +10,18 @@ import com.haxwell.apps.questions.entities.EntityWithAnIntegerIDBehavior;
 
 public class StringUtil {
 
-	/**
-	 * 
-	 * 
-	 * @param fieldNumber
-	 * @param beginningFieldMarker
-	 * @param endingFieldMarker
-	 * @param str
-	 * @return
-	 */
-	public static String getField(int fieldNumber, String beginningFieldMarker, String endingFieldMarker, String str) {
-		// 67
-		// 67;9;2
-		int beginIndex = -1;
-		int endIndex = -1;
-		int counter = (beginningFieldMarker.equals(endingFieldMarker) ? 1 : 0);
+	public static String getField(int index, String beginningFieldMarker, String endFieldMarker, String text) {
+		Iterator<String> iterator = new StringUtil.FieldIterator(text, beginningFieldMarker, endFieldMarker);
 		
-		for ( ; counter < fieldNumber; counter++) {
-			beginIndex = str.indexOf(beginningFieldMarker, beginIndex+1);
-		}
+		int count = 0;
+		String rtn = null;
 		
-		if (beginIndex != -1) {
-			endIndex = str.indexOf(endingFieldMarker, beginIndex+1);
-		}
-		
-		String rtn = str;
-		if (beginIndex > -1) {
-			rtn = str.substring(beginIndex+beginningFieldMarker.length(), (endIndex == -1 ? str.length() : endIndex));
-		}
+		while (count++ < index && iterator.hasNext())
+			rtn = iterator.next();
 		
 		return rtn;
 	}
-	
+
 	public static int getCountOfDynamicFields(String text) {
 		int bindex = -1;
 		int eindex = -1;
@@ -67,6 +47,10 @@ public class StringUtil {
 		return new FieldIterator(text, "[[", "]]");
 	}
 	
+	public static Iterator<String> getFields(String delimiter, String text) {
+		return new FieldIterator(text, delimiter);
+	}
+	
 	public static class FieldIterator implements Iterator<String> {
 
 		private String beginningFieldMarker = null;
@@ -86,6 +70,10 @@ public class StringUtil {
 			this.source = source;
 			this.beginningFieldMarker = beginningFieldMarker;
 			this.endingFieldMarker = endingFieldMarker;
+			
+			if (StringUtil.equals(beginningFieldMarker, endingFieldMarker)) {
+				this.beginningFieldMarker = null;
+			}
 		}
 		
 		private void setBeginAndEndIndex() {
@@ -101,6 +89,10 @@ public class StringUtil {
 				if (endIndex > -1 && beginIndex == -1) {
 					beginIndex = 0;
 					beginIndexHasMoved = true;
+				}
+				
+				if (endIndex == -1 && beginIndex > -1 && !StringUtil.equals(source.substring(prevEndIndex), endingFieldMarker)) {
+					endIndex = source.length();
 				}
 				
 				if (endIndex == -1 && beginIndex == -1) { // the endingFieldMarker is not in SOURCE
@@ -129,17 +121,31 @@ public class StringUtil {
 			beginAndEndIndexesHaveBeenSet = true;
 		}
 		
+		private boolean thereAreFieldsInTheSourceString() {
+			return (source != null && source.contains(endingFieldMarker));
+		}
+		
 		@Override
 		public boolean hasNext() {
-			if (!beginAndEndIndexesHaveBeenSet) setBeginAndEndIndex();
-			return endIndex != -1;
+			if (thereAreFieldsInTheSourceString()) {
+				if (!beginAndEndIndexesHaveBeenSet) setBeginAndEndIndex();
+				return endIndex != -1;
+			}
+			else {
+				return source != null;
+			}
 		}
 
 		@Override
 		public String next() {
 			String rtn = null;
 			
-			if (endIndex > -1) {
+			if (!thereAreFieldsInTheSourceString()) {
+				rtn = source;
+				source = null;
+				return rtn;
+			} 
+			else if (endIndex > -1) {
 			
 				if (!beginAndEndIndexesHaveBeenSet) 
 					setBeginAndEndIndex();

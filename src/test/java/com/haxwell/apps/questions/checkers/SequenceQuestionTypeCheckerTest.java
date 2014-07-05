@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
@@ -16,6 +17,7 @@ import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 
+@Category(com.haxwell.apps.questions.testTypes.UnitTests.class) // think this may be a functional test
 public class SequenceQuestionTypeCheckerTest {
 
 	@Test

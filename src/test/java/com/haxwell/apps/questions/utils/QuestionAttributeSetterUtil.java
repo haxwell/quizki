@@ -294,6 +294,8 @@ public class QuestionAttributeSetterUtil {
 		}
 		
 		public Question set(Object o, Question q) {
+			q.setQuestionType(TypeUtil.getObjectFromStringTypeId(o.toString()));
+			
 			Set<Choice> choices = new HashSet<>();
 			
 			choices.add(new Choice(1, "SetChoice 1", Choice.CORRECT, Choice.NO_SEQUENCE));

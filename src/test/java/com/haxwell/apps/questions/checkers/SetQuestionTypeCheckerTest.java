@@ -18,6 +18,7 @@ import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.factories.DynamifierFactory;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
+import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 @Category(com.haxwell.apps.questions.testTypes.UnitTests.class) // think this may be a functional test
@@ -28,6 +29,7 @@ public class SetQuestionTypeCheckerTest {
 		
 		// Generate the question object
 		Map<String, Object> attributes = new HashMap<>();
+		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
 		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SET);
 		
 		Question q = new Question();
@@ -43,8 +45,17 @@ public class SetQuestionTypeCheckerTest {
 		
 		// verify things are like we expect them to be
 		SetQuestionTypeChecker sut = new SetQuestionTypeChecker(q);
-		assertTrue(sut.questionIsCorrect(getMapRepresentingCorrectAnswerToDynamifiedChoice(q)));
-		assertFalse(sut.questionIsCorrect(getMapRepresentingIncorrectAnswerToDynamifiedChoice(q)));
+		assertTrue(sut != null);
+		
+		Map<String, String> map = getMapRepresentingCorrectAnswerToDynamifiedChoice(q);
+		assertTrue(map != null);
+		assertTrue(map.size() == 1);
+		assertTrue(sut.questionIsCorrect(map));
+		
+		map = getMapRepresentingIncorrectAnswerToDynamifiedChoice(q);
+		assertTrue(map != null);
+		assertTrue(map.size() == 1);
+		assertFalse(sut.questionIsCorrect(map));
 	}
 	
 	public Map<String, String> getMapRepresentingCorrectAnswerToDynamifiedChoice(Question q) {

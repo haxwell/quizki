@@ -30,16 +30,16 @@ public class ReferenceUtil {
 		String text = (String)request.getParameter("referencesAutocompleteEntries");
 		
 		// remove the brackets at the beginning and end.. 
-		if (text != null) {
+		if (text != null && !text.equals("[]")) {
 			text = text.substring(1, text.length() - 1);
-			AutocompletionManager.write(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, "\""));
+			AutocompletionManager.write(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, ","));
 		}
 		
 		text = (String)request.getParameter("referencesDeletedAutocompleteEntries");
 		
-		if (text != null) {
+		if (text != null && !text.equals("[]")) {
 			text = text.substring(1, text.length() - 1);
-			AutocompletionManager.delete(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, "\""));
+			AutocompletionManager.delete(user_id, AutocompletionConstants.REFERENCES, new StringUtil.FieldIterator(text, ","));
 		}
 	}
 

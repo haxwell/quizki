@@ -32,15 +32,15 @@ public class TopicUtil {
 		String text = (String)request.getParameter("topicsAutocompleteEntries");
 		
 		// remove the brackets at the beginning and end.. 
-		if (text != null) {
+		if (text != null && !text.equals("[]")) {
 			text = text.substring(1, text.length() - 1);
-			AutocompletionManager.write(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, "\""));
+			AutocompletionManager.write(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, ","));
 		}
 		
 		text = (String)request.getParameter("topicsDeletedAutocompleteEntries");
-		if (text != null) {
+		if (text != null && !text.equals("[]")) {
 			text = text.substring(1, text.length() - 1);
-			AutocompletionManager.delete(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, "\""));
+			AutocompletionManager.delete(user_id, AutocompletionConstants.TOPICS, new StringUtil.FieldIterator(text, ","));
 		}
 	}
 

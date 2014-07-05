@@ -54,9 +54,9 @@ public class SetQuestionDynamifier extends AbstractDynamifier {
 		int rtn = -1;
 		String text = c.getText();
 		
-		int occurrances = StringUtil.getNumberOfOccurrances("[[", text);
+		int occurrances = StringUtil.getCountOfDynamicFields(text);
 		
-		if (occurrances > 0 && StringUtil.getNumberOfOccurrances("]]", text) == occurrances) {
+		if (occurrances > 0) {
 			if (occurrances ==  1) {
 				rtn = 1;
 			} else {

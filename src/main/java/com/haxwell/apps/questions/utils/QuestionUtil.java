@@ -65,14 +65,15 @@ public class QuestionUtil {
 	/**
 	 * 
 	 */
-	public static Map<String, List<String>> persistQuestionBasedOnHttpServletRequest(HttpServletRequest request) {
+	public static JSONObject persistQuestionBasedOnHttpServletRequest(HttpServletRequest request) {
 		Question question = buildQuestionBasedOnHttpServletRequest(request);
 		
-		Map<String, List<String>> rtn = new HashMap<String, List<String>>();
+		String json = ValidationUtil.validate(question);
+		JSONObject jobj = (JSONObject)JSONValue.parse(json);
 		
-		List<String> errors = QuestionManager.validate(question);
+		JSONArray errorsArr = (JSONArray)jobj.get("questionValidationErrors"); // TODO: make hard-coded value a constant instead
 		
-		if (errors.size() == 0)
+		if (errorsArr == null)
 		{
 			if (question.getUser() == null) {
 				User user = (User)request.getSession().getAttribute("currentUserEntity");
@@ -110,8 +111,8 @@ public class QuestionUtil {
 			
 			successes.add("Question was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a>");
 			
-			rtn.put("successes", successes);			
-
+			jobj.put("successes", successes);
+			
 			request.setAttribute(Constants.CURRENT_QUESTION, null);
 			
 			request.setAttribute(Constants.SUCCESS_MESSAGES, successes);
@@ -120,10 +121,11 @@ public class QuestionUtil {
 		}
 		else
 		{
-			rtn.put("errors", errors);
+			Object o = jobj.remove("questionValidationErrors"); 
+			jobj.put("errors", o);
 		}
 
-		return rtn;
+		return jobj;
 	}
 	
 	/**

@@ -97,10 +97,10 @@
 				var alertClass = undefined;
 				
 				if (parsedJSONObject.errors != undefined) {
-					arr = parsedJSONObject.errors[0].val.split(',');
+					arr = parsedJSONObject.errors;
 					alertClass = 'alert-error';
 				} else {
-					arr = parsedJSONObject.successes[0].val.split(',');
+					arr = parsedJSONObject.successes;
 					alertClass = 'alert-success';
 					
 					var newCurrentQuestion = QuestionModelFactory.getQuestionModel();

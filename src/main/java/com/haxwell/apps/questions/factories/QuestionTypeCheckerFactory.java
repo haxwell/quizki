@@ -16,7 +16,7 @@ public class QuestionTypeCheckerFactory {
 	{
 		QuestionType qt = q.getQuestionType();
 		
-		long qtId = qt.getId();
+		long qtId = (qt != null ? qt.getId() : -1);
 		
 		if (qtId == TypeConstants.SINGLE)
 			return new SingleQuestionTypeChecker(q);

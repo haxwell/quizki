@@ -25,6 +25,11 @@ import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
 public class QuestionTypeCheckerFactoryTest {
 
 	@Test
+	public void testObjectDefaultConstructor() {
+		assertTrue(new QuestionTypeCheckerFactory() != null);
+	}
+	
+	@Test
 	public void testGetQuestionTypeChecker_forASingleQuestion() {
 		Map<String, Object> attributes = new HashMap<>();
 		

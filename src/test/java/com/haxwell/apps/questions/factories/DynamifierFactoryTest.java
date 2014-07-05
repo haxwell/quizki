@@ -24,6 +24,11 @@ import com.haxwell.apps.questions.utils.TestQuestionUtil;
 public class DynamifierFactoryTest {
 
 	@Test
+	public void testObjectDefaultConstructor() {
+		assertTrue(new DynamifierFactory() != null);
+	}
+	
+	@Test
 	public void testGetDynamifier_forASetQuestion() {
 		Map<String, Object> attributes = new HashMap<>();
 		

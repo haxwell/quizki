@@ -16,6 +16,11 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 public class ManagerFactoryTest {
 
 	@Test
+	public void testObjectDefaultConstructor() {
+		assertTrue(new ManagerFactory() != null);
+	}
+
+	@Test
 	public void testGetManager_Exam() {
 		Manager m = ManagerFactory.getManager(EntityTypeConstants.EXAM_STR);
 		

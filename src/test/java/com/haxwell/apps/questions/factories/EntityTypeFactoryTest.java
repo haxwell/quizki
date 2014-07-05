@@ -21,6 +21,11 @@ import com.haxwell.apps.questions.utils.TestQuestionUtil;
 public class EntityTypeFactoryTest {
 
 	@Test
+	public void testObjectDefaultConstructor() {
+		assertTrue(new EntityTypeFactory() != null);
+	}
+
+	@Test
 	public void testGetEntityTypeFor_Exam() {
 		Exam exam = TestQuestionUtil.getExam();
 		

@@ -10,7 +10,7 @@ import com.haxwell.apps.questions.utils.QuestionUtil;
 public class MultiQuestionTypeChecker extends AbstractQuestionTypeChecker {
 
 	public MultiQuestionTypeChecker(Question q) {
-		this.question = q;
+		super(q);
 	}
 	
 	/**

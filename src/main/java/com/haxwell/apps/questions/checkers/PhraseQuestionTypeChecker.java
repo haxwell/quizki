@@ -10,7 +10,7 @@ import com.haxwell.apps.questions.utils.QuestionUtil;
 public class PhraseQuestionTypeChecker extends AbstractQuestionTypeChecker {
 
 	public PhraseQuestionTypeChecker(Question q) {
-		this.question = q;
+		super(q);
 	}
 	
 	@Override

@@ -53,7 +53,49 @@ public class DynamifierFactoryTest {
 		assertNotEquals(null, ad);
 		assertTrue(ad instanceof PhraseQuestionDynamifier);
 	}
-	
+
+	@Test
+	public void testGetDynamifier_forASingleQuestion() {
+		Map<String, Object> attributes = new HashMap<>();
+		
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SINGLE);
+		
+		Question q = new Question();
+		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
+		
+		AbstractDynamifier ad = DynamifierFactory.getDynamifier(q);
+		
+		assertEquals(null, ad);
+	}
+
+	@Test
+	public void testGetDynamifier_forAMultipleQuestion() {
+		Map<String, Object> attributes = new HashMap<>();
+		
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.MULTIPLE);
+		
+		Question q = new Question();
+		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
+		
+		AbstractDynamifier ad = DynamifierFactory.getDynamifier(q);
+		
+		assertEquals(null, ad);
+	}
+
+	@Test
+	public void testGetDynamifier_forASequenceQuestion() {
+		Map<String, Object> attributes = new HashMap<>();
+		
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SEQUENCE);
+		
+		Question q = new Question();
+		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
+		
+		AbstractDynamifier ad = DynamifierFactory.getDynamifier(q);
+		
+		assertEquals(null, ad);
+	}
+
 	@Test
 	public void testGetDynamifier_forAnExam() {
 		Exam exam = TestQuestionUtil.getExam();

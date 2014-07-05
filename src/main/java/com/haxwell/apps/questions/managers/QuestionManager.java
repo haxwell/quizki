@@ -669,41 +669,6 @@ public class QuestionManager extends Manager {
 //		return new ListFilterer<Question>().process(rtn, arr);
 //	}
 	
-	public static List<String> validate(Question questionObj) {
-		List<String> errors = new ArrayList<String>();
-
-		errors.addAll(ChoiceManager.validate(questionObj));
-		
-		String questionText = questionObj.getText();
-		Set<Topic> topics = questionObj.getTopics();
-		
-		if (topics.size() < 1)
-			errors.add("Question must have at least one topic.");
-		
-		for (Topic t : topics) {
-			if (t.getText().indexOf("\"") != -1)
-				errors.add("Topics cannot have quotes in them. Why not try an apostrophe instead?");
-		}
-		
-		Set<Reference> references = questionObj.getReferences();
-		
-		for (Reference r : references) {
-			if (r.getText().indexOf("\"") != -1)
-				errors.add("References cannot have quotes in them. Why not try an apostrophe instead?");
-		}
-		
-		if (StringUtil.isNullOrEmpty(questionText))
-			errors.add("Question must have some text!");
-		
-		if (questionText != null && questionText.length() > Constants.MAX_QUESTION_TEXT_LENGTH)
-			errors.add("Question text cannot be longer than " + Constants.MAX_QUESTION_TEXT_LENGTH + " characters. Perhaps a seperate question is in order!");
-		
-		if (questionObj.getDescription() != null && questionObj.getDescription().length() > Constants.MAX_QUESTION_DESCRIPTION_LENGTH)
-			errors.add("Question description cannot be longer than " + Constants.MAX_QUESTION_DESCRIPTION_LENGTH + " characters.");
-		
-		return errors;
-	}
-	
 	public static boolean userCanEditThisQuestion(Question q, User u)
 	{
 		boolean rtn = false;

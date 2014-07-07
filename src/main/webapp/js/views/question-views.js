@@ -653,6 +653,8 @@
 			
 			this.setStateOnInitialization();
 			
+			this.initializeBtnClickedTextProcessors();
+			
 			this.render();
 		},
 		setCurrentQuestionListenTo:function(currQuestion) {
@@ -713,18 +715,104 @@
 			if (textFieldVal == undefined || textFieldVal == '')
 				return;
 			
-			var tokens = textFieldVal.split('|');
-			
-			for (var i=0; i<tokens.length; i++) {
-				this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
-			}
+//			var tokens = textFieldVal.split('|');
+//			
+//			for (var i=0; i<tokens.length; i++) {
+//				this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
+//			}
 
+			var collSize = this.processors.size();
+			var count = 0;
+			var textProcessed = false;
+			
+			while (count < collSize && !textProcessed) {
+				var func = this.processors.at(count).get('value');
+				
+				textProcessed = func(textFieldVal);
+				
+				count++;
+			}
+			
 			$textField.val('');
 		},
 		updateOnEnter : function (event) {
 			if (event.keyCode == 13) {
 				this.btnClicked();
 			}
+		},
+		initializeBtnClickedTextProcessors : function () {
+			var coll = new Backbone.Collection([], {model: KeyValuePair});
+			
+			coll.add({key:"TrueSingleQuestionWithMultipleTokens", value:function(textToProcess) {
+				// if the question is of type Single, and there are pipe dividers in the textToProcess, and
+				//  the isCorrect box is set to true, then divide the text up into tokens, and set the first
+				//  one to true, and the rest to false.
+				
+				var rtn = false;
+				
+				var cq = model_factory.get("currentQuestion");
+				var isCorrectBoxValue = ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0);
+				var tokens = textToProcess.split('|');
+				
+				if (cq.getTypeId() === QUESTION_TYPE_SINGLE && isCorrectBoxValue === true && tokens.length > 1) {
+
+					model_factory.get("currentQuestion").addChoice(tokens[0], true, "0");
+					
+					for (var i=1; i<tokens.length; i++) {
+						this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], false, "0");
+					}
+					
+					rtn = true;
+				}
+				
+				return rtn;
+			}});
+
+			coll.add({key:"trueFalse", value:function(textToProcess) {
+				
+				// if the question is of type Single, and the isCorrect box is set to True.. then if the text
+				//  is tf Create a True choice set to correct and a False choice set to not correct.
+				//  if the text is ft,
+				//  Create a False choice that is correct, and a True choice that is incorrect.
+				
+				var rtn = false;
+				var cq = model_factory.get("currentQuestion");
+				var isCorrectBoxValue = ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0);
+				
+				if (cq.getTypeId() === QUESTION_TYPE_SINGLE && isCorrectBoxValue === true) {
+					var textToProcess = textToProcess.toLowerCase();
+	
+					if (textToProcess === "tf") {
+						cq.addChoice("True", true, "0");
+						cq.addChoice("False", false, "0");
+						
+						rtn = true;
+					}
+					else if (textToProcess === "ft") {
+						cq.addChoice("True", false, "0");
+						cq.addChoice("False", true, "0");
+						
+						rtn = true;
+					}
+				}
+				
+				return rtn;
+			}});
+			
+			coll.add({key:"default", value:function(textToProcess) {
+				// split the text into tokens, and create choices for each, with the correctness set to the value in
+				//  the isCorrect box.
+				
+				var tokens = textToProcess.split('|');
+
+				for (var i=0; i<tokens.length; i++) {
+					this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
+				}
+				
+				return true;
+			}});
+			
+			this.processors = coll;
 		}
 	});
 	

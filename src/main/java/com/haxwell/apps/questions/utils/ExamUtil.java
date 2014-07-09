@@ -159,13 +159,15 @@ public class ExamUtil {
 		String rtn = "";
 		String jsonErrors = ValidationUtil.validate(e);
 		
+		long eid = e.getId();
+		
 		if (StringUtil.isEmptyJSON(jsonErrors)) {
-			if (e.getId() == -1) 
-				ExamManager.persistExam(e);
+			if (eid == -1) 
+				eid = ExamManager.persistExam(e);
 			else
-				ExamManager.mergeExam(e);
+				eid = ExamManager.mergeExam(e);
 			
-			rtn = "{\"successes\":[\"Exam '" + e.getTitle() + "' was successfully saved!\"]}";
+			rtn = "{\"successes\":[\"Exam '" + e.getTitle() + "' was successfully saved! <a href='/secured/exam.jsp?examId=" + eid + "'>(edit it)</a>  <a href='/beginExam.jsp?examId=" + eid + "'>(take it)</a> \"]}";
 		}
 		else {
 			rtn = jsonErrors;

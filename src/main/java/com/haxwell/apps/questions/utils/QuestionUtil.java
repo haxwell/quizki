@@ -109,7 +109,7 @@ public class QuestionUtil {
 			
 			List<String> successes = new ArrayList<String>();
 			
-			successes.add("Question was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a>");
+			successes.add("Question '" + StringUtil.getStringWithEllipsis(question.getTextWithoutHTML(), 25) + "' was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a>");
 			
 			jobj.put("successes", successes);
 			

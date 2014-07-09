@@ -106,4 +106,14 @@ public class StringUtilTest {
 		assertFalse(iterator.hasNext());
 		assertTrue(StringUtil.equals(iterator.next(), null));
 	}
+	
+	@Test
+	public void testGetStringWithEllipsis() {
+		String str = "This string should be shortened";
+		
+		String str2 = StringUtil.getStringWithEllipsis(str, 10);
+		
+		assertTrue(str2.length() == 10);
+		assertTrue(str2.endsWith("..."));
+	}
 }

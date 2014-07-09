@@ -456,4 +456,12 @@ public class StringUtil {
 	{
 		return str.replaceAll("\"", "");
 	}
+	
+	public static String getStringWithEllipsis(String str, int length) {
+		String ellipsis = "...";
+		
+		String shortened = str.substring(0, length - ellipsis.length());
+		
+		return shortened + ellipsis;
+	}
 }

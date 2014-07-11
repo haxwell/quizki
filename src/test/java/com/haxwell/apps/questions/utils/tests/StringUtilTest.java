@@ -108,12 +108,24 @@ public class StringUtilTest {
 	}
 	
 	@Test
-	public void testGetStringWithEllipsis() {
+	public void testGetStringWithEllipsis_initialStringLongerThan_TO_BE_shortenedLength() {
 		String str = "This string should be shortened";
 		
 		String str2 = StringUtil.getStringWithEllipsis(str, 10);
 		
+		assertFalse(str2.equals(str));
 		assertTrue(str2.length() == 10);
 		assertTrue(str2.endsWith("..."));
+	}
+	
+	@Test
+	public void testGetStringWithEllipsis_initialStringShorterThan_TO_BE_shortenedLength() {
+		String str = "testing!";
+		
+		String str2 = StringUtil.getStringWithEllipsis(str, 25);
+		
+		assertTrue(str2.equals(str));
+		assertFalse(str2.length() == 25);
+		assertFalse(str2.endsWith("..."));
 	}
 }

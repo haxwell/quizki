@@ -122,6 +122,18 @@
 				$alertDiv.removeClass('alert-error');
 				$alertDiv.addClass(alertClass);
 				$alertDiv.removeClass('hidden');
+				
+			    $("#createDupeQuestionLink").click(function(e) {
+			    	var q = getSingleQuestionByEntityId(parsedJSONObject.newQuestionId);
+			    	
+			    	q.setId(-1);
+			    	
+			    	model_factory.put("currentQuestion", q);
+			    	
+			    	$alertDiv.addClass('hidden');
+			    	
+			    	e.preventDefault(); 
+			    });
 			});
 		}
 	});

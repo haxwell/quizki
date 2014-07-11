@@ -349,6 +349,17 @@ var QuestionModel = Backbone.Model.extend({
 	getId:function() {
 		return this.get('id');
 	},
+	setId:function(val, throwEvent) {
+		var _from = this.get('id');
+		var _to = val;
+		
+		this.set('id', val);
+		
+		if (throwEvent !== false)
+			this.trigger('questionIDChanged', {text:{from:_from,to:_to}});			
+		else
+			this.saveSuppressedEvent('questionIDChanged', {text:{from:_from,to:_to}});
+	},
 	getUserId:function() {
 		return this.get('user_id');
 	},

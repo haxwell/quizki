@@ -458,6 +458,9 @@ public class StringUtil {
 	}
 	
 	public static String getStringWithEllipsis(String str, int length) {
+		if (str.length() <= length)
+			return str;
+		
 		String ellipsis = "...";
 		
 		String shortened = str.substring(0, length - ellipsis.length());

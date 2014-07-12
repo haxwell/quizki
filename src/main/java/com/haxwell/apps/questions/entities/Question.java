@@ -215,7 +215,9 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		JSONObject j = new JSONObject();
 		
 		j.put("id", getId() + "");
-		j.put("description", getDescription());
+		
+		String description = getDescription();
+		j.put("description", description == null ? "" : description);
 		j.put("text", getText());
 		j.put("textWithoutHTML", getTextWithoutHTML());
 		Difficulty diff = getDifficulty();
@@ -223,12 +225,14 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		j.put("difficulty_text", diff.getText());
 		j.put("type_id", getQuestionType().getId()+"");
 		j.put("type_text", getQuestionType().getText());
-		j.put("choices", choices.toArray());
-		j.put("topics", topics.toArray());
-		j.put("references",  references.toArray());
+		j.put("choices", choices == null ? "" : choices.toArray());
+		j.put("topics", topics == null ? "" : topics.toArray());
+		j.put("references",  references == null ? "" : references.toArray());
 		j.put("entityStatus", entityStatus);
-		j.put("user_id", getUser().getId()+"");
-		j.put("user_name", getUser().getUsername());
+		
+		User user = getUser();
+		j.put("user_id", user == null ? "-1" : user.getId()+"");
+		j.put("user_name", user == null ? "" : user.getUsername());
 		
 		addDynamicDataToJSONObject(j);
 

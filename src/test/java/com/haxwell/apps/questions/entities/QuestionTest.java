@@ -3,6 +3,8 @@ package com.haxwell.apps.questions.entities;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import net.minidev.json.JSONArray;
@@ -14,7 +16,10 @@ import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
+import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
+import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TestQuestionUtil;
 
@@ -151,6 +156,26 @@ public class QuestionTest {
 		
 		assertTrue(StringUtil.equals(jobj.get(dynamicDataKey1), dynamicDataValue1));
 		assertTrue(StringUtil.equals(jobj.get(dynamicDataKey2), dynamicDataValue2));
+	}
+	
+	@Test
+	public void testToJSON_defaults() {
+		Question sut = new Question();
+
+		String json = sut.toJSON();
+		
+		JSONObject jobj = (JSONObject)JSONValue.parse(json);
+		
+		assertTrue(jobj != null);
+
+		assertTrue(StringUtil.equals(jobj.get("description"), ""));
+		assertTrue(StringUtil.equals(jobj.get("text"), ""));
+		assertTrue(StringUtil.equals(jobj.get("textWithoutHTML"), ""));
+		assertTrue(StringUtil.equals(jobj.get("choices"), ""));
+		assertTrue(StringUtil.equals(jobj.get("topics"), ""));
+		assertTrue(StringUtil.equals(jobj.get("references"), ""));
+		assertTrue(StringUtil.equals(jobj.get("user_id"), "-1"));
+		assertTrue(StringUtil.equals(jobj.get("user_name"), ""));
 	}
 	
 	@Test

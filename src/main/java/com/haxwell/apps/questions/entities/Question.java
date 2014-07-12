@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 
 import net.minidev.json.JSONObject;
 
+import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -218,13 +219,21 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		
 		String description = getDescription();
 		j.put("description", description == null ? "" : description);
-		j.put("text", getText());
-		j.put("textWithoutHTML", getTextWithoutHTML());
+		
+		String text = getText();
+		j.put("text", text == null ? "" : text);
+		
+		String textWOHMTL = getTextWithoutHTML();
+		j.put("textWithoutHTML", textWOHMTL == null ? "" : textWOHMTL);
+		
 		Difficulty diff = getDifficulty();
+		if (diff == null) diff = new Difficulty(DifficultyConstants.JUNIOR);
 		j.put("difficulty_id", diff.getId()+"");
 		j.put("difficulty_text", diff.getText());
-		j.put("type_id", getQuestionType().getId()+"");
-		j.put("type_text", getQuestionType().getText());
+
+		QuestionType qt = getQuestionType();
+		j.put("type_id", qt == null ? "-1" : qt.getId()+"");
+		j.put("type_text", qt == null ? "" : qt.getText());
 		j.put("choices", choices == null ? "" : choices.toArray());
 		j.put("topics", topics == null ? "" : topics.toArray());
 		j.put("references",  references == null ? "" : references.toArray());

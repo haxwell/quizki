@@ -2,6 +2,7 @@ package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,6 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
@@ -186,24 +190,22 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 	}
 
     public String toJSON() {
-    	StringBuffer sb = new StringBuffer();
+    	JSONObject j = new JSONObject();
     	
-    	sb.append(getJSONOpening());
-    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
-    	sb.append(getJSON("title", getText() + "", APPEND_COMMA));
-    	sb.append(getJSON("message", getMessage() + "", APPEND_COMMA));
-    	sb.append(getJSON("owningUserId", getUser().getId() + "", APPEND_COMMA));
-    	sb.append(getJSON("topics", getTopics().iterator(), APPEND_COMMA));
+    	j.put("id", getId() + "");
+    	j.put("title", getText() + "");
+    	j.put("message", getMessage() + "");
+    	j.put("owningUserId", getUser().getId() + "");
+    	j.put("topics", getTopics().toArray());
 
     	Difficulty diff = getDifficulty();
     	String diffId = (diff == null) ? DifficultyConstants.UNDEFINED+"" : diff.getId()+"";
     	String diffText = (diff == null) ? DifficultyConstants.UNDEFINED_STR : diff.getText();
     	
-		sb.append(getJSON("difficulty", diffId, APPEND_COMMA));
-    	sb.append(getJSON("difficulty_text", diffText, APPEND_COMMA));
-    	sb.append(getJSON("entityStatus", getEntityStatus() + ""));
-    	sb.append(getJSONClosing());
-    	
-    	return sb.toString();
+    	j.put("difficulty", diffId);
+    	j.put("difficulty_text", diffText);
+    	j.put("entityStatus", getEntityStatus() + "");
+
+    	return j.toJSONString();
     }
 }

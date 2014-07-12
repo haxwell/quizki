@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import com.haxwell.apps.questions.entities.EntityWithASequenceNumberBehavior;
+import net.minidev.json.JSONObject;
+
 import com.haxwell.apps.questions.interfaces.IChoice;
 
 
@@ -150,16 +150,13 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 	}
 	
     public String toJSON() {
-    	StringBuffer sb = new StringBuffer();
+    	JSONObject j = new JSONObject();
     	
-    	sb.append(getJSONOpening());
-    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
-    	sb.append(getJSON("text", getText(), APPEND_COMMA));
-    	sb.append(getJSON("iscorrect", getIscorrect() == 0 ? "false" : "true", APPEND_COMMA));
-    	sb.append(getJSON("sequence", sequence + ""));
+    	j.put("id", getId()+"");
+    	j.put("text", getText());
+    	j.put("iscorrect", getIscorrect() == 0 ? "false" : "true");
+    	j.put("sequence", sequence + "");
     	
-    	sb.append(getJSONClosing());
-    	
-    	return sb.toString();
+    	return j.toJSONString();
     }
 }

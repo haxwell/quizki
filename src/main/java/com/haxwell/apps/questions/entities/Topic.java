@@ -92,15 +92,12 @@ public class Topic extends AbstractEntity implements ITopic, EntityWithAnInteger
 	}
 	
     public String toJSON() {
-    	StringBuffer sb = new StringBuffer();
+    	JSONObject j = new JSONObject();
     	
-    	sb.append(getJSONOpening());
-    	sb.append(getJSON("id", getId() + "", APPEND_COMMA));
-    	sb.append(getJSON("text", getText()));
+    	j.put("id", getId());
+    	j.put("text", getText());
     	
-    	sb.append(getJSONClosing());
-    	
-    	return sb.toString();
+    	return j.toJSONString();
     }
     
     public Topic fromJSON(JSONObject obj) {

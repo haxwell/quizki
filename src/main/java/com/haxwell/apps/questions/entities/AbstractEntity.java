@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import net.minidev.json.JSONObject;
+
 public abstract class AbstractEntity implements Comparable {
 
 	protected final boolean APPEND_COMMA = true;
@@ -43,84 +45,14 @@ public abstract class AbstractEntity implements Comparable {
 	public String toJSON() {
 		return null;
 	}
-	
 
-	protected String getDynamicDataAsJSON() {
-		
+	protected void addDynamicDataToJSONObject(JSONObject j) {
 		Set<String> keys = dynamicData.keySet();
-		StringBuffer sb = new StringBuffer();
 		
-		if (keys.size() > 0) {
-			for (String key : keys) 
-				sb.append(getJSON(key, dynamicData.get(key).toString(), APPEND_COMMA));
+		j.put("dynamicDataFieldNames", keys.toArray());
 		
-			sb.append("\"dynamicDataFieldNames\" : [");
-			
-			boolean b = false;
-			for (String key : keys) {
-				if (b)
-					sb.append(",");
-				
-				sb.append("\"" + key + "\"");
-				
-				b = true;
-			}
-			
-			sb.append("]");
+		for(String key : keys) {
+			j.put(key,  dynamicData.get(key).toString());
 		}
-
-		return sb.toString();
-	}
-	
-	protected String getJSON(String fieldName, String value) {
-		return getJSON(fieldName, value, false);
-	}
-	
-	protected String getJSON(String fieldName, String value, boolean commaShouldBeAppended) {
-		if (value == null)
-			value = "";
-		else {
-			value = value.replace("\\", "\\\\");
-			value = value.replace("\"", "\\\"");
-		}
-		
-		String rtn = "\"" + fieldName + "\":\"" + value + "\"";
-		
-		if (commaShouldBeAppended)
-			rtn += ", ";
-		
-		return rtn;
-	}
-	
-	protected String getJSON(String fieldName, Iterator<? extends AbstractEntity> iterator) {
-		return getJSON(fieldName, iterator, false);
-	}
-	
-	protected String getJSON(String fieldName, Iterator<? extends AbstractEntity> iterator, boolean commaShouldBeAppended) {
-		StringBuffer rtn = new StringBuffer("");
-		
-		rtn.append("\"" + fieldName + "\": [");
-		
-		while (iterator.hasNext()) {
-			rtn.append(iterator.next().toJSON());
-			
-			if (iterator.hasNext())
-				rtn.append(", ");
-		}
-		
-		rtn.append("]");
-		
-		if (commaShouldBeAppended)
-			rtn.append(", ");
-		
-		return rtn.toString();
-	}
-	
-	protected String getJSONOpening() {
-		return "{ ";
-	}
-	
-	protected String getJSONClosing() {
-		return "}";
 	}
 }

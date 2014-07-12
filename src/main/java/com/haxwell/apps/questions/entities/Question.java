@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.minidev.json.JSONObject;
+
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -210,34 +212,27 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	
 	@Override
 	public String toJSON() {
-		StringBuffer sb = new StringBuffer();
+		JSONObject j = new JSONObject();
 		
-		sb.append(getJSONOpening());
-		sb.append(getJSON("id", getId() + "", APPEND_COMMA));
-		sb.append(getJSON("description", getDescription(), APPEND_COMMA));
-		sb.append(getJSON("text", getText(), APPEND_COMMA));
-		sb.append(getJSON("textWithoutHTML", getTextWithoutHTML(), APPEND_COMMA));
+		j.put("id", getId() + "");
+		j.put("description", getDescription());
+		j.put("text", getText());
+		j.put("textWithoutHTML", getTextWithoutHTML());
 		Difficulty diff = getDifficulty();
-		sb.append(getJSON("difficulty_id", diff.getId()+"", APPEND_COMMA));
-		sb.append(getJSON("difficulty_text", diff.getText(), APPEND_COMMA));
-		sb.append(getJSON("type_id", getQuestionType().getId()+"", APPEND_COMMA));
-		sb.append(getJSON("type_text", getQuestionType().getText(), APPEND_COMMA));
+		j.put("difficulty_id", diff.getId()+"");
+		j.put("difficulty_text", diff.getText());
+		j.put("type_id", getQuestionType().getId()+"");
+		j.put("type_text", getQuestionType().getText());
+		j.put("choices", choices.toArray());
+		j.put("topics", topics.toArray());
+		j.put("references",  references.toArray());
+		j.put("entityStatus", entityStatus);
+		j.put("user_id", getUser().getId()+"");
+		j.put("user_name", getUser().getUsername());
+		
+		addDynamicDataToJSONObject(j);
 
-		sb.append(getJSON("choices", choices.iterator(), APPEND_COMMA));
-		sb.append(getJSON("topics", topics.iterator(), APPEND_COMMA));
-		sb.append(getJSON("references", references.iterator(), APPEND_COMMA));
-		sb.append(getJSON("entityStatus", getEntityStatus() + "", APPEND_COMMA));
-
-		String str = getDynamicDataAsJSON();
-		sb.append(str);
-		if (str.length() > 0) sb.append(",");
-		
-		sb.append(getJSON("user_id", getUser().getId()+"", APPEND_COMMA));
-		sb.append(getJSON("user_name", getUser().getUsername()));
-		
-		sb.append(getJSONClosing());
-		
-		return sb.toString();
+		return j.toJSONString();
 	}
 	
 	@Override

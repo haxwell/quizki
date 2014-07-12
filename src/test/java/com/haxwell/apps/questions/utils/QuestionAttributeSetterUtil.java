@@ -66,6 +66,10 @@ public class QuestionAttributeSetterUtil {
 			handlerFactory.executeHandler(FilterConstants.ENTITY_ID_FILTER, attributes.get(FilterConstants.ENTITY_ID_FILTER), q);
 		}
 		
+		if (attributes.containsKey(FilterConstants.DIFFICULTY_FILTER)) {
+			handlerFactory.executeHandler(FilterConstants.DIFFICULTY_FILTER, attributes.get(FilterConstants.DIFFICULTY_FILTER), q);
+		}
+		
 		return q;
 	}
 	
@@ -78,6 +82,7 @@ public class QuestionAttributeSetterUtil {
 			map.put(FilterConstants.QUESTION_TYPE_FILTER, QuestionType_HandlerFactory.class);
 			map.put(FilterConstants.ENTITY_ID_FILTER, QuestionIDHandler.class);
 			map.put(FilterConstants.QUESTION_CONTAINS_FILTER, QuestionTextHandler.class);
+			map.put(FilterConstants.DIFFICULTY_FILTER, DifficultyHandler.class);
 		}
 		
 		Question executeHandler(String filterConstant, Object value, Question q) {
@@ -113,6 +118,21 @@ public class QuestionAttributeSetterUtil {
 			Long id = Long.parseLong(o.toString());
 			
 			q.setId(id);
+			
+			return q;
+		}
+	}
+	
+	//
+	// Difficulty Handler
+	//
+	private static class DifficultyHandler implements Handler {
+		public DifficultyHandler() { 
+			
+		}
+		
+		public Question set(Object o, Question q) {
+			q.setDifficulty(DifficultyUtil.getDifficulty(Integer.parseInt(o.toString())));
 			
 			return q;
 		}

@@ -291,7 +291,9 @@
 
 				var viewKey = model_factory.get( this.id + "ViewKey" );
 //				model_factory.get(viewKey + "DeletedAutocompleteEntries").add({key:entryText, value:entryText});
-				model_factory.get(viewKey + "AutocompleteEntries").reset(newColl);
+				var ace = model_factory.get(viewKey + "AutocompleteEntries");
+				newColl = _.reject(ace.models, function(item) { return entryText === item.get('value'); });
+				ace.reset(newColl);
 				
 				this.render();
 			}
@@ -370,10 +372,7 @@
 			text = removeAllOccurrences('[[', text);
 			text = removeAllOccurrences(']]', text);
 			
-			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
-			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
-			//  instead of a value. That should be cleaned up one day..
-			var checked = (this.model.get('iscorrect') == 'true' || this.model.get('iscorrect') === true) ? 'checked' : '';
+			var checked = this.model.get('iscorrect') === 'true' ? 'checked' : '';
 			var sequence = this.model.get('sequence') || 0;
 			
 			// TODO: now that Choice is a backbone model, and we're using backbone as we should.. is millisecond_id still necessary?
@@ -422,10 +421,7 @@
 			
 			var text = this.model.get('text');
 			
-			// we have to check true in two different ways, because we have two different means of getting here.. the put from the button/enter press
-			//  of the ***View, or the array of the initial question's choices.. the server in its ajax response is sending iscorrect as a string, 
-			//  instead of a value. That should be cleaned up one day..
-			var checked = (this.model.get('iscorrect') == 'true' || this.model.get('iscorrect') === true) ? 'checked' : '';
+			var checked = this.model.get('iscorrect') === 'true' ? 'checked' : '';
 			var sequence = this.model.get('sequence') || 0;
 			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
 			var id = this.model.get('id');

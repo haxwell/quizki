@@ -14,6 +14,23 @@ import com.haxwell.apps.questions.utils.StringUtil;
 
 public class AutocompletionManager extends Manager {
 
+	public static void write(long userId, long environmentId, String text) {
+		EntityManager em = emf.createEntityManager();
+
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		
+		String queryStr = "INSERT IGNORE INTO autocomplete_history (user_id, environment_id, text) VALUES (" + userId + ", " + environmentId + ", " + text + ")";
+			
+		Query query = em.createNativeQuery(queryStr);
+			
+		query.executeUpdate();
+		
+		transaction.commit();		
+		
+		em.close();
+	}
+	
 	public static void write(long userId, long environmentId, StringUtil.FieldIterator fieldIterator) {
 		EntityManager em = emf.createEntityManager();
 
@@ -28,6 +45,23 @@ public class AutocompletionManager extends Manager {
 			
 			query.executeUpdate();
 		}
+		
+		transaction.commit();		
+		
+		em.close();
+	}
+	
+	public static void delete(long userId, long environmentId, String text) {
+		EntityManager em = emf.createEntityManager();
+
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		
+		String queryStr = "DELETE FROM autocomplete_history WHERE user_id = " + userId + " AND environment_id = " + environmentId + " AND text = " + text;
+		
+		Query query = em.createNativeQuery(queryStr);
+		
+		query.executeUpdate();
 		
 		transaction.commit();		
 		

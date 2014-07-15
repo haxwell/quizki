@@ -157,27 +157,27 @@ public class QuestionTest {
 
 		JSONObject choice1 = (JSONObject)choicesJSON.get(0);
 		assertTrue(StringUtil.equals(choice1.get("id"), "1"));
-		assertTrue(choice1.get("iscorrect") instanceof Integer);
-		assertTrue(StringUtil.equals(choice1.get("iscorrect"), 1));
+		assertTrue(choice1.get("iscorrect") instanceof String);
+		assertTrue(StringUtil.equals(choice1.get("iscorrect"), "true"));
 		assertTrue(StringUtil.equals(choice1.get("text"), "choice1"));
-		assertTrue(choice1.get("sequence") instanceof Integer);
-		assertTrue(StringUtil.equals(choice1.get("sequence"), 0));
+		assertTrue(choice1.get("sequence") instanceof String);
+		assertTrue(StringUtil.equals(choice1.get("sequence"), "0"));
 		
 		JSONObject choice2 = (JSONObject)choicesJSON.get(1);
 		assertTrue(StringUtil.equals(choice2.get("id"), "2"));
-		assertTrue(choice2.get("iscorrect") instanceof Integer);
-		assertTrue(StringUtil.equals(choice2.get("iscorrect"), 0));
+		assertTrue(choice2.get("iscorrect") instanceof String);
+		assertTrue(StringUtil.equals(choice2.get("iscorrect"), "false"));
 		assertTrue(StringUtil.equals(choice2.get("text"), "choice2"));
-		assertTrue(choice2.get("sequence") instanceof Integer);
-		assertTrue(StringUtil.equals(choice2.get("sequence"), 0));
+		assertTrue(choice2.get("sequence") instanceof String);
+		assertTrue(StringUtil.equals(choice1.get("sequence"), "0"));
 		
 		JSONObject choice3 = (JSONObject)choicesJSON.get(2);
 		assertTrue(StringUtil.equals(choice3.get("id"), "3"));
-		assertTrue(choice3.get("iscorrect") instanceof Integer);
-		assertTrue(StringUtil.equals(choice3.get("iscorrect"), 0));
+		assertTrue(choice3.get("iscorrect") instanceof String);
+		assertTrue(StringUtil.equals(choice3.get("iscorrect"), "false"));
 		assertTrue(StringUtil.equals(choice3.get("text"), "choice3"));
-		assertTrue(choice3.get("sequence") instanceof Integer);
-		assertTrue(StringUtil.equals(choice3.get("sequence"), 0));
+		assertTrue(choice3.get("sequence") instanceof String);
+		assertTrue(StringUtil.equals(choice1.get("sequence"), "0"));
 
 		// TODO: test topics
 		// TODO: test references

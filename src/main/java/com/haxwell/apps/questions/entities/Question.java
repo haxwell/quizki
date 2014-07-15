@@ -1,6 +1,7 @@
 package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 import com.haxwell.apps.questions.constants.DifficultyConstants;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
@@ -234,7 +236,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		QuestionType qt = getQuestionType();
 		j.put("type_id", qt == null ? "-1" : qt.getId()+"");
 		j.put("type_text", qt == null ? "" : qt.getText());
-		j.put("choices", choices == null ? "" : choices.toArray());
+		j.put("choices", choices == null ? "" : getChoicesAsJSONArray());
 		j.put("topics", topics == null ? "" : topics.toArray());
 		j.put("references",  references == null ? "" : references.toArray());
 		j.put("entityStatus", entityStatus);
@@ -248,6 +250,16 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		return j.toJSONString();
 	}
 	
+	private ArrayList<JSONObject> getChoicesAsJSONArray() {
+		ArrayList<JSONObject> rtn = new ArrayList<>();
+		
+		for (Choice c : choices) {
+			rtn.add((JSONObject)JSONValue.parse(c.toJSON()));
+		}
+		
+		return rtn;
+	}
+
 	@Override
 	public int hashCode() {
 		return this.text.hashCode() + (int)this.id;

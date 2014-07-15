@@ -2,3 +2,4 @@ target
 build.bat
 setenv.bat
 src/META-INF
+/target

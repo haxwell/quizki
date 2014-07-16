@@ -111,7 +111,7 @@ public class QuestionUtil {
 				
 			List<String> successes = new ArrayList<String>();
 			
-			successes.add("Question '" + StringUtil.getStringWithEllipsis(question.getTextWithoutHTML(), 25) + "' was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a> <a id='createDupeQuestionLink' href='#'>(duplicate it)</a>");
+			successes.add("Question '" + StringUtil.getStringWithEllipsis(question.getTextWithoutHTML(), 40) + "' was successfully saved! <a href='/displayQuestion.jsp?questionId=" + qid + "'>(see it)</a>  <a href='/secured/question.jsp?questionId=" + qid + "'>(edit it)</a> <a id='createDupeQuestionLink' href='#'>(duplicate it)</a>");
 			
 			jobj.put("successes", successes);
 			

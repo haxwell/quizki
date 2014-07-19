@@ -193,7 +193,7 @@ var TypeSetChoiceChecker = (function() {
 	    		
 	    		if (choicesToBeAnsweredArrayAsString.indexOf(choice.get('id') > -1)) {
 					var fieldText = getTextOfGivenFieldForSetQuestion(fieldId, choice.get('text'));
-					var answeredCorrectly = (fieldText == answer.get('value'));
+					var answeredCorrectly = (fieldText.toLowerCase() == answer.get('value').toLowerCase());
 					
 					if (answeredCorrectly) {
 						ccm.set('correctnessStatus', CHOICE_IS_CORRECT_AND_CHOSEN);

@@ -39,7 +39,8 @@ public class SetQuestionTypeChecker extends AbstractQuestionTypeChecker {
 					text = StringUtil.getField(Integer.parseInt(fieldNum), "[[", "]]", c.getText());
 				}
 
-				rtn &= mapOfFieldNamesToValues.get(this.question.getId() + "," + choiceId + "," + fieldNum).equals(text);
+				String str = mapOfFieldNamesToValues.get(this.question.getId() + "," + choiceId + "," + fieldNum); 
+				rtn &= str.toLowerCase().equals(text.toLowerCase());
 			}
 		}
 		

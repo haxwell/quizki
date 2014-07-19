@@ -365,21 +365,20 @@
 		tagName:'li',
 		
 		initialize:function() {
-			this.model = arguments[0];
+			this.choiceModel = arguments[0];
 			
-			var text = this.model.get('text');
+			var text = this.choiceModel.get('text');
 			
 			text = removeAllOccurrences('[[', text);
 			text = removeAllOccurrences(']]', text);
 			
-			var checked = this.model.get('iscorrect') === 'true' ? 'checked' : '';
-			var sequence = this.model.get('sequence') || 0;
+			var checked = this.choiceModel.get('iscorrect') === 'true' ? 'checked' : '';
+			var sequence = this.choiceModel.get('sequence') || 0;
 			
-			// TODO: now that Choice is a backbone model, and we're using backbone as we should.. is millisecond_id still necessary?
-			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
-			var id = this.model.get('id');
+			var ui_id = this.choiceModel.get('ui_id');// || UI_ID_Generator.getNewId();
+			var id = this.choiceModel.get('id');
 			
-			this.viewmodel = new ChosenChoicesQuestionChoiceItemViewModel({text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id});
+			this.viewmodel = new ChosenChoicesQuestionChoiceItemViewModel({text:text,checked:checked,sequence:sequence,id:id,ui_id:ui_id});
 		},
 		setHideSwitchAndSequence:function() {
 			var currQuestion = model_factory.get('currentQuestion');
@@ -399,17 +398,25 @@
 
 			var cr = model_factory.get("correctnessResults");
 			var currQuestion = model_factory.get('currentQuestion');
-			var ccm = cr.findWhere({fieldId:currQuestion.getId() + ',' + _viewmodel.get('id')});
+			var contextBasedId = (_viewmodel.get('ui_id') == '-1') ? _viewmodel.get('id') : _viewmodel.get('ui_id');
+			var ccm = cr.findWhere({fieldId:currQuestion.getId() + ',' + contextBasedId});
 			
-			var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', {milli_id:_viewmodel.get('id'),text:_viewmodel.get('text'),comment:ccm.get('comment'),checked:_viewmodel.get('checked'),sequence:_viewmodel.get('sequence'),hideSequence:this.hideSequence,hideSwitch:this.hideSwitch,choiceCorrectStatusClass:ccm.get('cssClass')});
+			var template = view_utility.executeTemplate('/templates/ChosenChoicesQuestionChoiceItemView.html', 
+					{_id:contextBasedId,
+							text:_viewmodel.get('text'),
+							comment:ccm.get('comment'),
+							checked:_viewmodel.get('checked'),
+							sequence:_viewmodel.get('sequence'),
+							hideSequence:this.hideSequence, hideSwitch:this.hideSwitch, choiceCorrectStatusClass:ccm.get('cssClass')
+					});
             
 			this.$el.html( template );
 			
             return this;
 		},
-		milliseconds: function() { return this.viewmodel.get('id'); },
-		setText: function(newText) { ; },
-		getText: function() { return this.viewmodel.get('text'); },
+		getUIId: function() { return (this.viewmodel.get('ui_id') == '-1') ? this.viewmodel.get('id') : this.viewmodel.get('ui_id'); },
+		setText: function(newText) { ; }, // TODO: is this necessary??
+		getText: function() { return this.viewmodel.get('text'); }, // TODO: or this?
 	});
 	
 	// this view represents an item in a list of choices
@@ -417,16 +424,16 @@
 		tagName:'li',
 		
 		initialize: function() {
-			this.model = arguments[0];
+			this.choiceModel = arguments[0];
 			
-			var text = this.model.get('text');
+			var text = this.choiceModel.get('text');
 			
-			var checked = this.model.get('iscorrect') === 'true' ? 'checked' : '';
-			var sequence = this.model.get('sequence') || 0;
-			var millisecond_id = this.model.get('id') || new Date().getMilliseconds();
-			var id = this.model.get('id');
+			var checked = this.choiceModel.get('iscorrect') === 'true' ? 'checked' : '';
+			var sequence = this.choiceModel.get('sequence') || 0;
+			var ui_id = this.choiceModel.get('ui_id');// || UI_ID_Generator.getNewId();
+			var id = this.choiceModel.get('id');
 			
-			this.viewmodel = {text:text,checked:checked,sequence:sequence,id:id,millisecond_id:millisecond_id};
+			this.viewmodel = {text:text,checked:checked,sequence:sequence,id:id,ui_id:ui_id};
 			
 			this.disableCheckboxes = arguments[1];
 			
@@ -452,17 +459,22 @@
 			return "";
 		},
 		render:function() {
-            var _viewmodel = this.viewmodel,
-            	hideSequence = this.getHideSequence(),
-            	disabled = this.getDisabledText(),
-            	readOnlyAttr = (this.readOnly == true) ? "readOnly" : "";
+            var _viewmodel = this.viewmodel;
+            var hideSequence = this.getHideSequence();
+            var disabled = this.getDisabledText();
+            var readOnlyAttr = (this.readOnly == true) ? "readOnly" : "";
+            var contextBasedId = (_viewmodel.ui_id == '-1') ? _viewmodel.id : _viewmodel.ui_id;
             
-            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', {milli_id:_viewmodel.id,text:_viewmodel.text,checked:_viewmodel.checked,sequence:_viewmodel.sequence,hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr});
+            var template = view_utility.executeTemplate('/templates/QuestionChoiceItemView.html', 
+            		{_id: contextBasedId,
+            				text:_viewmodel.text,checked:_viewmodel.checked,sequence:_viewmodel.sequence,
+            				hideSequence:hideSequence,disabled:disabled,readOnly:readOnlyAttr
+            		});
 			this.$el.html( template );
 			
 			return this;
 		},
-		milliseconds: function() { return this.viewmodel.id; },
+		getUIId: function() { return (this.viewmodel.ui_id == '-1') ? this.viewmodel.id : this.viewmodel.ui_id;	},
 		setText: function(newText) { this.viewmodel.text = newText; },
 		getText: function() { return this.viewmodel.text; },
 		setIsCorrectChangedHandler: function(func) { this.onIsCorrectChangedHandler = func;},
@@ -554,10 +566,10 @@
 		},
 		close : function(event) {
 			var $currentLineItem = this.$el.find(".editing");
-			var millisecond_id = $currentLineItem.attr("id");
+			var ui_id = $currentLineItem.attr("id");
 
 			var currQuestion = model_factory.get("currentQuestion");
-			currQuestion.updateChoice(millisecond_id, 'text', $currentLineItem.find('.edit').val());
+			currQuestion.updateChoice(ui_id, 'text', $currentLineItem.find('.edit').val());
 		},
 		closeOnEnter : function(event) {
 			if (event.keyCode != 13) return;
@@ -570,17 +582,17 @@
 			// this is a callback, which will get the appropriate model from questionChoiceCollection
 			//  set the isCorrect attr on it. Does not redraw the list, thats already been done
 			var isCorrectChangedCallbackFunc = function(event,data) {
-				var millisecond_id = event.target.id.replace('switch','');
+				var ui_id = event.target.id.replace('switch','');
 				var currQuestion = model_factory.get("currentQuestion");
 				var v = $(event.target).find("div.switch-animate").hasClass('switch-on');
 				
-				currQuestion.updateChoice(millisecond_id, 'iscorrect', v+'', false);
+				currQuestion.updateChoice(ui_id, 'iscorrect', v+'', false);
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
-				var millisecond_id = event.target.id.replace('sequenceTextField','');
+				var ui_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				currQuestion.updateChoice(millisecond_id, 'sequence', $(event.target).val()+'', false);
+				currQuestion.updateChoice(ui_id, 'sequence', $(event.target).val()+'', false);
 			};
 			
 			var questionChoiceItemView = undefined;
@@ -594,7 +606,7 @@
 			
 			ul.append( questionChoiceItemView.render().$el.html() );
 			
-			var obj = {millisecondId:questionChoiceItemView.milliseconds(), view:questionChoiceItemView};
+			var obj = {ui_id:questionChoiceItemView.getUIId(), view:questionChoiceItemView};
 			
 			this.ChoiceItemViewCollection.push(obj);
 		},
@@ -616,11 +628,11 @@
 			if (!this.inExamContext) {
 				// find the bootstrap switch div, add a change listener to it, when change happens, call the handler
 				_.each(this.ChoiceItemViewCollection, function(model) {
-					$("#switch" + model.millisecondId).on('switch-change', model.view.getIsCorrectChangedHandler());
+					$("#switch" + model.ui_id).on('switch-change', model.view.getIsCorrectChangedHandler());
 				});
 				
 				_.each(this.ChoiceItemViewCollection, function(model) {
-					$("#sequenceTextField" + model.millisecondId).on('blur', model.view.getSequenceTextFieldBlurHandler());
+					$("#sequenceTextField" + model.ui_id).on('blur', model.view.getSequenceTextFieldBlurHandler());
 				});
 			}
 			
@@ -628,9 +640,9 @@
 		},
 		remove:function(event) {
 			var _el = this.$el.find("li:hover");
-			var currMillisecondId = _el.attr("id");
+			var currUIId = _el.attr("id");
 			
-			model_factory.get("currentQuestion").removeChoice(currMillisecondId);
+			model_factory.get("currentQuestion").removeChoice(currUIId);
 		}
 		
 	});
@@ -654,10 +666,11 @@
 			
 			this.setCurrentQuestionListenTo(currQuestion);
 			
-			var state = method_utility.getQuizkiObject({});
+//			var state = method_utility.getQuizkiObject({});
+//			var state = new KeyValuePair;
 			
 			// TODO: destroy this..
-			model_factory.put('EnterNewChoiceViewState', state);
+			model_factory.put('EnterNewChoiceViewState', new KeyValuePair);
 			
 			this.setStateOnInitialization();
 			
@@ -676,9 +689,11 @@
 			var state = model_factory.get('EnterNewChoiceViewState');
 			
 			if (bool)
-				state.val.checkBoxDisabled = "disabled";
+//				state.val.checkBoxDisabled = "disabled";
+				state.set('value', 'disabled');
 			else
-				state.val.checkBoxDisabled = "";
+//				state.val.checkBoxDisabled = "";
+				state.set('value', '');
 		},
 		setStateOnInitialization: function () {
 			var currentQuestion = model_factory.get('currentQuestion');
@@ -703,7 +718,7 @@
 			var state = model_factory.get('EnterNewChoiceViewState');
 			var readOnlyAttr = this.readOnly == true ? "disabled" : "";
 			
-			var template = view_utility.executeTemplate('/templates/EnterNewChoiceView.html', {readOnly:readOnlyAttr ,disabled:(state.val.checkBoxDisabled)});
+			var template = view_utility.executeTemplate('/templates/EnterNewChoiceView.html', {readOnly:readOnlyAttr ,disabled:(state.get('value'))});
 			this.$el.html( template );
 			
 			//get the actual bootstrap slider ui component div
@@ -717,18 +732,13 @@
 			"keypress #enterAnswerTextField" : "updateOnEnter"
 		},
 		btnClicked: function (event) { 
+			// take the text from the enter new choice item text field, and create choice(s) out of it
 			var $textField = $('#enterAnswerTextField');
 			var textFieldVal = $textField.val();
 			
 			if (textFieldVal == undefined || textFieldVal == '')
 				return;
 			
-//			var tokens = textFieldVal.split('|');
-//			
-//			for (var i=0; i<tokens.length; i++) {
-//				this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
-//			}
-
 			var collSize = this.processors.size();
 			var count = 0;
 			var textProcessed = false;
@@ -767,7 +777,7 @@
 					model_factory.get("currentQuestion").addChoice(tokens[0], true, "0");
 					
 					for (var i=1; i<tokens.length; i++) {
-						this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], false, "0");
+						this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], false, "0");
 					}
 					
 					rtn = true;
@@ -814,7 +824,7 @@
 				var tokens = textToProcess.split('|');
 
 				for (var i=0; i<tokens.length; i++) {
-					this.millisecond_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
+					this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
 				}
 				
 				return true;

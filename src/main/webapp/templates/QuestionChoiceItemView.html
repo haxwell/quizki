@@ -1,14 +1,14 @@
 
-		<li class="choiceItem span7 <%- readOnly %>"  id="<%- milli_id %>" data-choice-sequence="<%- sequence %>">
+		<li class="choiceItem span7 <%- readOnly %>"  id="<%- _id %>" data-choice-sequence="<%- sequence %>">
 			<div>
-				<div id="switch<%- milli_id %>" class="inline span1 switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
+				<div id="switch<%- _id %>" class="inline span1 switch-square" data-on-label="<i class='icon-ok greenText' style='font-size:1.5em;'></i>" data-off-label="<i style='font-size:1.5em;' class='icon-remove redText'></i>">
 					<input class="checkbox" type="checkbox" <%- checked %> <%- disabled %> />
 				</div>
 				<div class="<%- hideSequence %> sequenceDiv">
-					<input id="sequenceTextField<%- milli_id %>" class="sequenceTextField" type="text" value="<%- sequence %>" />
+					<input id="sequenceTextField<%- _id %>" class="sequenceTextField" type="text" value="<%- sequence %>" />
 				</div>
 				<div class="choiceTextDiv">
-					<div id="_choiceText<%- milli_id %>" class="inline span5 view">
+					<div id="_choiceText<%- _id %>" class="inline span5 view">
 					<%- text %>
 					</div>
 					<input class="edit hideForEditing" type="text" value="<%- text %>" />

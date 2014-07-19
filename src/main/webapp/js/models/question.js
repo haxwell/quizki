@@ -15,6 +15,17 @@ var QUESTION_TYPE_SET = 5;
 
 var SEQUENCE_0 = "0";
 
+var UI_ID_Generator = (function() {
+	var my = {};
+	
+	my.getNewId = function() {
+		return (Math.floor(Math.random() * 9999) + 1) + '';
+	};
+	
+	return my;
+	
+}());
+
 var QuestionTypes = (function() {
 	var my = {};
 
@@ -99,7 +110,7 @@ var ChosenChoicesQuestionChoiceItemViewModel = Backbone.Model.extend({
 		checked:'',
 		sequence:'',
 		id:'',
-		millisecond_id:''
+		ui_id:''
 	}
 });
 
@@ -432,31 +443,40 @@ var QuestionModel = Backbone.Model.extend({
 		return this.get('choices');
 	},
 	addChoice:function(_text, _iscorrect, _sequence, _metadata, throwEvent) {
-		var millisecond_id = (Math.floor(Math.random() * 9999) + 1) + '';
+		var uiid = UI_ID_Generator.getNewId();
 		
-		this.get('choices').add({id:millisecond_id,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false',metadata:_metadata});
+		this.get('choices').add({ui_id:uiid,text:_text,iscorrect:_iscorrect+'',sequence:_sequence,isselected:'false',metadata:_metadata});
 
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 		else
 			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
 		
-		return millisecond_id;
+		return uiid;
 	},
-	getChoice:function(_millisecondId) {
-		return this.get('choices').where({id:_millisecondId})[0];
+	getChoice:function(_id) {
+		var rtn;
+		
+		// try getting by the id
+		rtn = this.get('choices').where({id:_id})[0];
+		
+		if (rtn === undefined)
+			// try getting by the ui_id
+			rtn = this.get('choices').where({ui_id:_id})[0];
+		
+		return rtn;
 	},
-	updateChoice:function(_millisecondId, _attrToUpdate, _val, throwEvent) {
-		this.get('choices').where({id:_millisecondId})[0].set(_attrToUpdate, _val+'');
+	updateChoice:function(_id, _attrToUpdate, _val, throwEvent) {
+		this.getChoice(_id).set(_attrToUpdate, _val+'');
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});
 		else
 			this.saveSuppressedEvent('choicesChanged', {choices:{val:""}});
 	},
-	removeChoice:function(_millisecondId, throwEvent) {
+	removeChoice:function(_id, throwEvent) {
 		var choices = this.get('choices');
-		choices.reset(_.reject(choices.models, function(choice) { return choice.get('id') == _millisecondId; }));
+		choices.reset(_.reject(choices.models, function(choice) { return choice.get('ui_id') == _id || choice.get('id') == _id; }));
 		
 		if (throwEvent !== false)
 			this.trigger('choicesChanged', {choices:{val:""}});

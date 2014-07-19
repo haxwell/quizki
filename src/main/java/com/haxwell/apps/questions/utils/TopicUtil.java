@@ -110,6 +110,7 @@ public class TopicUtil {
 		else
 			arr = (JSONArray)obj;
 		
+		long interspersedId = -1;
 		for (int i=0; i < arr.size(); i++) {
 			JSONObject o = (JSONObject)arr.get(i);
 			
@@ -122,8 +123,10 @@ public class TopicUtil {
 				t.setText(text);
 
 				Long id = Long.parseLong((String)o.get("id"));
-				if (id != -1)
-					t.setId(id);
+				if (id == -1)
+					id = interspersedId--; // this is a new topic; give it a different, but negative, id
+
+				t.setId(id);
 			}
 			
 			rtn.add(t);

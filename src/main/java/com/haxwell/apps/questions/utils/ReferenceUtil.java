@@ -87,6 +87,7 @@ public class ReferenceUtil {
 			else
 				arr = (JSONArray)obj;
 			
+			long interspersedId = -1;
 			for (int i=0; i < arr.size(); i++) {
 				JSONObject o = (JSONObject)arr.get(i);
 				
@@ -100,8 +101,10 @@ public class ReferenceUtil {
 					r.setText(text);
 					
 					Long id = Long.parseLong((String)o.get("id"));
-					if (id != -1)
-						r.setId(id);
+					if (id == -1)
+						id = interspersedId--; // this is a new reference; give it a different, but negative, id
+
+					r.setId(id);
 				}
 				
 				rtn.add(r);

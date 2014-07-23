@@ -1,6 +1,6 @@
 package com.haxwell.apps.questions.managers;
 
-import java.util.HashSet;
+import java.util.HashSet;	
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -34,6 +34,22 @@ public class UserManager extends Manager {
 		
 		log.log(Level.FINE, "Returning from getUser().. no errors.. ");
 
+		return rtn;
+	}
+	
+	public static User getUserById(long id) {
+		EntityManager em = emf.createEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT * FROM users where id = ?1", User.class);
+		
+		query.setParameter(1, id);
+		
+		List<User> list = (List<User>)query.getResultList();
+		
+		User rtn = (list.size() > 0 ? list.get(0) : null);
+
+		em.close();
+		
 		return rtn;
 	}
 	

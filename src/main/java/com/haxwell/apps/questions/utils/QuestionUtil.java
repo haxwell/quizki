@@ -30,6 +30,7 @@ import com.haxwell.apps.questions.factories.DynamifierFactory;
 import com.haxwell.apps.questions.managers.AJAXReturnData;
 import com.haxwell.apps.questions.managers.Manager;
 import com.haxwell.apps.questions.managers.QuestionManager;
+import com.haxwell.apps.questions.managers.UserManager;
 
 public class QuestionUtil {
 
@@ -136,25 +137,39 @@ public class QuestionUtil {
 	public static Question buildQuestionBasedOnHttpServletRequest(HttpServletRequest request) {
 		Question question = new Question();
 		
-		User user = (User)request.getSession().getAttribute("currentUserEntity");
+		User currentUserEntity = (User)request.getSession().getAttribute("currentUserEntity");
 
-		String questionUserId = (String)request.getParameter("user_id");
-		Long user_id = Long.parseLong(questionUserId == null ? user.getId()+"" : questionUserId);
+		// if this question does not already have a creator user id (in other words, it appears brand spankin' new)
+		String user_id = request.getParameter("user_id"); 
+		if (user_id == null) {
+			// set the current user as the creator
+			question.setUser(currentUserEntity);
+		}
+		else {
+			// set the user who's user ID we have as the creator
+			User u = null;
+			
+			long parsedLong = Long.parseLong(user_id);
+			if (currentUserEntity.getId() == parsedLong) {
+				u = currentUserEntity;
+			}
+			else {
+				u = UserManager.getUserById(parsedLong);
+			}
+			
+			question.setUser(u);
+		}
+		
+		String id = (String)request.getParameter("id");
+		
+		if (id != null)
+			question.setId(Long.parseLong(id));
 
 		Object obj = request.getSession().getAttribute(Constants.NEXT_SEQUENCE_NUMBER);
 		int nextSequenceNumber = Integer.MIN_VALUE;
 
 		if (obj != null) {
 			nextSequenceNumber = Integer.parseInt(obj.toString());
-		}
-
-		if (user.getId() == user_id) {
-			String id = (String)request.getParameter("id");
-			
-			if (id != null)
-				question.setId(Long.parseLong(id));
-			
-			question.setUser(user);
 		}
 
 		question.setText((String)request.getParameter("text"));

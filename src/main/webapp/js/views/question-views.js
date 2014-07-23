@@ -128,6 +128,11 @@
 			    	
 			    	q.setId(-1);
 			    	
+			    	_.each(q.getChoices().models, function(model) { 
+			    		model.set('ui_id', UI_ID_Generator.getNewId());
+			    		model.set('id', '-1');
+			    	});
+			    	
 			    	model_factory.put("currentQuestion", q);
 			    	
 			    	$alertDiv.addClass('hidden');

@@ -202,24 +202,31 @@
 			var backboneModelKey = this.getBackboneModelKey();
 			model_constructor_factory.put(backboneModelKey, arguments[0].backboneFunc);
 			
-			this.modelToListenTo = arguments[0].modelToListenTo;
+			this.KeyTo_modelToListenTo = arguments[0].KeyTo_modelToListenTo;
 			this.modelEventToListenFor = arguments[0].modelEventToListenFor;
 			
-			if (this.modelToListenTo != undefined) {
-				var modelToListenTo = model_factory.get(this.modelToListenTo);
+			if (this.KeyTo_modelToListenTo != undefined) {
+				var modelToListenTo = model_factory.get(this.KeyTo_modelToListenTo);
 				this.listenTo(modelToListenTo, this.modelEventToListenFor, function() { 
-					var viewKey = model_factory.get(this.id + "ViewKey");
+
+					// commented this out because it was removing the autocomplete entries when 
+					//  the question type changed. Exactly what it was designed to do. The question
+					//  is why.. why did I ever want it to do that?? 
 					
-					model_factory.destroy( this.getBackboneModelKey() );
-					model_factory.destroy(viewKey + "AutocompleteHistory");
-					model_factory.destroy(viewKey + "AutocompleteField");
+					// Delete after Aug 26 '14, if no good reason found.
 					
-					model_factory.destroy(viewKey + "AutocompleteEntries");
-					model_factory.destroy(viewKey + "DeletedAutocompleteEntries");
-					model_factory.put(viewKey + "AutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
-					model_factory.put(viewKey + "DeletedAutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
-					
-					this.render();
+//					var viewKey = model_factory.get(this.id + "ViewKey");
+//					
+//					model_factory.destroy( this.getBackboneModelKey() );
+//					model_factory.destroy(viewKey + "AutocompleteHistory");
+//					model_factory.destroy(viewKey + "AutocompleteField");
+//					
+//					model_factory.destroy(viewKey + "AutocompleteEntries");
+//					model_factory.destroy(viewKey + "DeletedAutocompleteEntries");
+//					model_factory.put(viewKey + "AutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
+//					model_factory.put(viewKey + "DeletedAutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
+//					
+//					this.render();
 				});
 			}
 
@@ -670,9 +677,6 @@
 			this.listenTo(event_intermediary, 'currentQuestion::put::model_factory', function(newQuestion) { this.setStateOnQuestionTypeChangedEvent(event); this.render(); /*this.setCurrentQuestionListenTo(newQuestion);*/ });
 			
 			this.setCurrentQuestionListenTo(currQuestion);
-			
-//			var state = method_utility.getQuizkiObject({});
-//			var state = new KeyValuePair;
 			
 			// TODO: destroy this..
 			model_factory.put('EnterNewChoiceViewState', new KeyValuePair);

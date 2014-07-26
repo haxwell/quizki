@@ -100,7 +100,7 @@
 						{
 							el:$("#topicsWell"), 
 							viewKey:topicsViewKey, 
-							modelToListenTo:'event_intermediary', 
+							KeyTo_modelToListenTo:'event_intermediary', 
 							modelEventToListenFor:'currentQuestion::put::model_factory', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getTopics(); }, 
 							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setTopics(coll); }
@@ -110,7 +110,7 @@
 						{
 							el:$("#referencesWell"), 
 							viewKey:referencesViewKey, 
-							modelToListenTo:'event_intermediary', 
+							KeyTo_modelToListenTo:'event_intermediary', 
 							modelEventToListenFor:'currentQuestion::put::model_factory', 
 							backboneFunc:function() { return model_factory.get('currentQuestion').getReferences(); },
 							updateModelToListenToFunc:function(modelToListenTo, coll) { modelToListenTo.setReferences(coll); }

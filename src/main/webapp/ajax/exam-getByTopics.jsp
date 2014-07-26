@@ -1,10 +1,11 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
 	<jsp:directive.page import="java.util.logging.Logger"/>
 	<jsp:directive.page import="java.util.logging.Level"/>
+	<jsp:directive.page import="java.util.ArrayList"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.utils.ExamUtil"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.ExamManager"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.managers.TopicManager"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.CollectionUtil"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.utils.TopicUtil"/>
 	<jsp:directive.page import="net.minidev.json.JSONObject"/>
 	<jsp:directive.page import="net.minidev.json.JSONValue"/>
     <jsp:directive.page language="java"
@@ -29,7 +30,7 @@ String tJson = request.getParameter("topics_json");
 
 log.log(Level.SEVERE, tJson + "\n\n");
 
-String strr = CollectionUtil.toJSON(ExamManager.getExamsById(ExamManager.getExamsWhichContain(TopicUtil.getListFromJsonString(tJson))));
+String strr = ExamUtil.getJSONOfExamsWhichContainTheGivenTopics(tJson);
 
 writer.print(strr);
 

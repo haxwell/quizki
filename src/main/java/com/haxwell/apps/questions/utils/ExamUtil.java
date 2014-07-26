@@ -1,5 +1,6 @@
 package com.haxwell.apps.questions.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,14 @@ import com.haxwell.apps.questions.managers.QuestionManager;
 
 public class ExamUtil {
 
+	public static String getJSONOfExamsWhichContainTheGivenTopics(String tJson) {
+		ArrayList<Topic> al = new ArrayList<>();
+		
+		TopicUtil.getInstance().getObjectsFromJSONString(tJson, al);
+		
+		return CollectionUtil.toJSON(ExamManager.getExamsById(ExamManager.getExamsWhichContain( al )));
+	}
+	
 	public static ExamReportCardData gradeExam(String qJson, String aJson) {
 		//build a collection of question objects
 		List<Question> qList = QuestionUtil.getQuestions(qJson);

@@ -13,13 +13,12 @@ import com.haxwell.apps.questions.entities.EntityWithIDAndTextValuePairBehavior;
 import com.haxwell.apps.questions.entities.User;
 import com.haxwell.apps.questions.managers.AutocompletionManager;
 import com.haxwell.apps.questions.managers.EntityWithIDAndTextValuePairManager;
-import com.haxwell.apps.questions.managers.Manager;
 
 public abstract class AbstractQuestionAttributeUtil {
 	
 	public static Logger log = Logger.getLogger(AbstractQuestionAttributeUtil.class.getName());
 
-	public static void persistTopicsForAutocompletion(HttpServletRequest request) {
+	public void persistEntitiesForAutocompletion(HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute("currentUserEntity");
 
 		String userId = (String)request.getParameter("user_id");
@@ -40,7 +39,7 @@ public abstract class AbstractQuestionAttributeUtil {
 		}
 	}
 
-	protected static String getAutocompleteHistory(HttpServletRequest request) {
+	public String getAutocompleteHistory(HttpServletRequest request) {
 		User user = (User)request.getSession().getAttribute("currentUserEntity");
 
 		String userId = (String)request.getParameter("user_id");
@@ -51,7 +50,29 @@ public abstract class AbstractQuestionAttributeUtil {
 		return rtn;
 	}
 
-	public static Collection<EntityWithIDAndTextValuePairBehavior> getObjectsFromJSONString(String str, Collection<EntityWithIDAndTextValuePairBehavior> coll) {
+	public String getJSONOfAllEntitiesForQuestionsCreatedByAGivenUserThatContain(long userId, String containsFilter) {
+		Collection coll = getManager().getAllEntitiesForQuestionsCreatedByAGivenUserThatContain(userId, containsFilter);
+		
+		return CollectionUtil.toJSON(coll);
+	}
+	
+	public String getJSONOfAllEntitiesThatContain(String containsFilter) {
+		Collection coll = getManager().getAllEntitiesThatContain(containsFilter);
+		
+		return CollectionUtil.toJSON(coll);
+	}
+
+	/**
+	 * Given a string of (at present) Topics or References represented in JSON, this method will return a collection
+	 * of those objects based on the values in the JSON string. You must supply the Collection, generified for the type
+	 * that you want, ie ArrayList<Topic>, because I haven't figured out how to get this method to determine the type
+	 * you want, and then create a collection of that type. TODO, I guess.
+	 * 
+	 * @param str
+	 * @param coll
+	 * @return
+	 */
+	public Collection<EntityWithIDAndTextValuePairBehavior> getObjectsFromJSONString(String str, Collection coll) {
 		if (str.length() > 0) {
 			JSONValue jValue = new JSONValue();
 			JSONArray arr = null;
@@ -59,7 +80,7 @@ public abstract class AbstractQuestionAttributeUtil {
 			Object obj = jValue.parse(str);
 			
 			if (obj instanceof JSONObject)
-				arr = (JSONArray)((JSONObject)obj).get("topics");
+				arr = (JSONArray)((JSONObject)obj).get(getJSONArrayKey());
 			else
 				arr = (JSONArray)obj;
 			
@@ -77,7 +98,7 @@ public abstract class AbstractQuestionAttributeUtil {
 					
 					Long id = Long.parseLong((String)o.get("id"));
 					if (id == -1)
-						id = interspersedId--; // this is a new topic; give it a different, but negative, id
+						id = interspersedId--; // this is a new entity; give it a different, but negative, id
 
 					entity.setId(id);
 				}
@@ -89,44 +110,19 @@ public abstract class AbstractQuestionAttributeUtil {
 		return coll;
 	}
 	
-	
-	protected static String getKeyToDeletedAutocompleteEntriesInTheRequest() {
-		return null;
-	}
+	protected abstract Object getJSONArrayKey();
 
-	protected static long getAutocompletionConstant() {
-		return 0;
-	}
+	protected abstract String getKeyToDeletedAutocompleteEntriesInTheRequest();
 
-	protected static String getKeyToAutocompleteEntriesInTheRequest() {
-		return null;
-	}
+	protected abstract long getAutocompletionConstant();
 
-	protected static EntityWithIDAndTextValuePairManager getManager() {
-		return null;
-	}
-	
-	protected static EntityWithIDAndTextValuePairBehavior getEntityViaManager(String text) {
-		return null;
-	}
-	
-	protected static EntityWithIDAndTextValuePairBehavior getEntityViaManager(int id) {
-		return null;
-	}
-	
-	protected static EntityWithIDAndTextValuePairBehavior getNewEntity() {
-		return null;
-	}
+	protected abstract String getKeyToAutocompleteEntriesInTheRequest();
 
-	public static String getJSONOfAllEntitiesForQuestionsCreatedByAGivenUserThatContain(long userId, String containsFilter) {
-		Collection coll = getManager().getAllEntitiesForQuestionsCreatedByAGivenUserThatContain(userId, containsFilter);
-		
-		return CollectionUtil.toJSON(coll);
-	}
+	protected abstract EntityWithIDAndTextValuePairManager getManager();
 	
-	public static String getJSONOfAllEntitiesThatContain(String containsFilter) {
-		Collection coll = getManager().getAllEntitiesThatContain(containsFilter);
-		
-		return CollectionUtil.toJSON(coll);
-	}
+	protected abstract EntityWithIDAndTextValuePairBehavior getEntityViaManager(String text);
+	
+	protected abstract EntityWithIDAndTextValuePairBehavior getEntityViaManager(int id);
+	
+	protected abstract EntityWithIDAndTextValuePairBehavior getNewEntity();
 }

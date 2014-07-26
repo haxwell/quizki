@@ -12,6 +12,10 @@ public class TopicManager extends EntityWithIDAndTextValuePairManager {
 
 	static TopicManager instance = null;
 	
+	private TopicManager() {
+		
+	}
+	
 	public static EntityWithIDAndTextValuePairManager getInstance() {
 		if (instance == null)
 			instance = new TopicManager();

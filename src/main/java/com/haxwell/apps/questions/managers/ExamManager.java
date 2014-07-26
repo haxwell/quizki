@@ -435,7 +435,7 @@ public class ExamManager extends Manager {
 		return rtn;
 	}
 
-	public static List<Long> getExamsWhichContain(List<Topic> topics) {
+	public static List<Long> getExamsWhichContain(Collection<Topic> topics) {
 		List<Long> rtn = null;
 
 		if (topics != null && topics.size() > 0) {

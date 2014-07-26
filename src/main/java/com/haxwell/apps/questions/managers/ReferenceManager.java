@@ -9,6 +9,10 @@ import com.haxwell.apps.questions.entities.Reference;
 public class ReferenceManager extends EntityWithIDAndTextValuePairManager {
 
 	static ReferenceManager instance = null;
+		
+	private ReferenceManager() {
+		
+	}
 	
 	public static EntityWithIDAndTextValuePairManager getInstance() {
 		if (instance == null)

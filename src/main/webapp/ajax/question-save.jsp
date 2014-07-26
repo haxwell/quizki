@@ -31,8 +31,8 @@ JSONObject jobj = QuestionUtil.persistQuestionBasedOnHttpServletRequest(request)
 
 // only persist topics and references if there are no validation errors from the persist question operation
 if (!jobj.containsKey("errors")) {
-	TopicUtil.persistTopicsForAutocompletion(request);
-	ReferenceUtil.persistReferencesForAutocompletion(request);
+	TopicUtil.getInstance().persistEntitiesForAutocompletion(request);
+	ReferenceUtil.getInstance().persistEntitiesForAutocompletion(request);
 }
 
 String json = jobj.toJSONString();

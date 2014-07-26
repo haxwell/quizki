@@ -1,4 +1,4 @@
-package validators;
+package com.haxwell.apps.questions.validators;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

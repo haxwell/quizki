@@ -23,7 +23,7 @@ java.util.logging.Logger log = Logger.getLogger(this.getClass().getName());
 
 java.io.PrintWriter writer = response.getWriter();
 
-writer.print(ReferenceUtil.getAutocompleteHistoryForReferences(request));
+writer.print(ReferenceUtil.getInstance().getAutocompleteHistory(request));
 
 </jsp:scriptlet>
 	

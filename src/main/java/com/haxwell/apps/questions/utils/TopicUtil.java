@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.AutocompletionConstants;
 import com.haxwell.apps.questions.entities.EntityWithIDAndTextValuePairBehavior;
@@ -14,7 +16,7 @@ import com.haxwell.apps.questions.managers.TopicManager;
 
 public class TopicUtil extends AbstractQuestionAttributeUtil {
 	
-	public static Logger log = Logger.getLogger(TopicUtil.class.getName());
+	private static Logger log = LogManager.getLogger();
 
 	static TopicUtil instance = null;
 	
@@ -62,7 +64,11 @@ public class TopicUtil extends AbstractQuestionAttributeUtil {
 	}
 	
 	public Set<Topic> getTopicsFromJSONString(String str) {
+		log.entry();
+		
 		Collection<EntityWithIDAndTextValuePairBehavior> coll = new ArrayList<>();
+		
+		log.debug("getting topics from json string: " + str);
 		
 		getObjectsFromJSONString(str, coll);
 		
@@ -70,12 +76,14 @@ public class TopicUtil extends AbstractQuestionAttributeUtil {
 		
 		for (EntityWithIDAndTextValuePairBehavior entity : coll) {
 			Topic t = new Topic();
-
+			
 			t.setId(entity.getId());
 			t.setText(entity.getText());
 			
 			rtn.add(t);
 		}
+		
+		log.exit();
 		
 		return rtn;
 	}

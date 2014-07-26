@@ -77,7 +77,7 @@ var getTextOfAllDynamicFields = function(text) {
 		rtn.push(getTextOfGivenFieldForSetQuestion(i+1, text));
 	}
 	
-	console.log("returning with the text of " + rtn.length + " fields");
+	console.log("getTextOfAllDynamicFields: returning with the text of " + rtn.length + " fields");
 	
 	return rtn;
 };

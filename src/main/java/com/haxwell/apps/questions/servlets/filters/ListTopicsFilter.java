@@ -10,12 +10,13 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.annotation.WebFilter;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.entities.Topic;
 import com.haxwell.apps.questions.entities.User;
+import com.haxwell.apps.questions.managers.EntityWithIDAndTextValuePairManager;
 import com.haxwell.apps.questions.managers.TopicManager;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 
@@ -35,21 +36,21 @@ public class ListTopicsFilter extends AbstractFilter {
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			
-			Collection<Topic> coll; 
+			Collection coll; 
 			
 			User user = (User)req.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
+			EntityWithIDAndTextValuePairManager topicManager = TopicManager.getInstance();
 
 			if (user != null)
-				coll = TopicManager.getAllTopicsForQuestionsCreatedByAGivenUser(user.getId());
+				coll = topicManager.getAllEntitiesForQuestionsCreatedByAGivenUser(user.getId()); 
 			else
-				coll = TopicManager.getAllTopics();
+				coll = topicManager.getAllEntities();
 			
 			req.getSession().setAttribute(Constants.LIST_OF_TOPICS_TO_BE_DISPLAYED, coll);
 			
-			Collection<Topic> coll2 = TopicManager.getAllTopicsWithMoreThanXXQuestions(3);
+			List listOfMajorTopics =  topicManager.getAllEntitiesWithMoreThanXXQuestions(3);
 			
-			List<Integer> randomIndexes = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(coll2.size());
-			List<Topic> listOfMajorTopics = new ArrayList<Topic>(coll2);
+			List<Integer> randomIndexes = RandomIntegerUtil.getRandomlyOrderedListOfUniqueIntegers(listOfMajorTopics.size());
 
 			int count = listOfMajorTopics.size();
 			while (count-- > 5) {
@@ -59,7 +60,7 @@ public class ListTopicsFilter extends AbstractFilter {
 			
 			req.getSession().setAttribute(Constants.LIST_OF_MAJOR_TOPICS, listOfMajorTopics);
 			
-			req.getSession().setAttribute(Constants.TOTAL_NUMBER_OF_TOPICS, TopicManager.getTotalNumberOfTopics());
+			req.getSession().setAttribute(Constants.TOTAL_NUMBER_OF_TOPICS, topicManager.getTotalNumberOfEntities());
 		}
 		
 		// pass the request along the filter chain

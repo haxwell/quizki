@@ -11,7 +11,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -22,7 +21,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="reference")
-public class Reference extends AbstractEntity implements EntityWithAnIntegerIDBehavior, Serializable {
+public class Reference extends AbstractEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
 	private static final long serialVersionUID = 4623732L;
 
 	@Id

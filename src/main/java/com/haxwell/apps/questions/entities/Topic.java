@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import net.minidev.json.JSONObject;
 
-import com.haxwell.apps.questions.interfaces.ITopic;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 
@@ -23,7 +22,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="topic")
-public class Topic extends AbstractEntity implements ITopic, EntityWithAnIntegerIDBehavior, Serializable {
+public class Topic extends AbstractEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

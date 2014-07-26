@@ -32,10 +32,10 @@ String rtn = "";
 
 if (filterByUserId.equals("true")) {
 	User user = (User)request.getSession().getAttribute(Constants.CURRENT_USER_ENTITY);
-	rtn = TopicUtil.getJSONOfAllTopicsForQuestionsCreatedByAGivenUserThatContain(user.getId(), containsFilter); 
+	rtn = TopicUtil.getJSONOfAllEntitiesForQuestionsCreatedByAGivenUserThatContain(user.getId(), containsFilter); 
 }
 else {
-	rtn = TopicUtil.getJSONOfAllTopicsThatContain(containsFilter);
+	rtn = TopicUtil.getJSONOfAllEntitiesThatContain(containsFilter);
 }
 
 writer.print(rtn);

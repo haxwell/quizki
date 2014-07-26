@@ -177,8 +177,8 @@ public class QuestionUtil {
 		question.setDifficulty(DifficultyUtil.getDifficulty(request.getParameter("difficulty_id")));
 		question.setQuestionType(TypeUtil.getObjectFromStringTypeId(request.getParameter("type_id")));
 		question.setChoices(QuestionUtil.getSetFromJsonString(request.getParameter("choices"), nextSequenceNumber));
-		question.setTopics(TopicUtil.getSetFromJsonString((String)request.getParameter("topics")));
-		question.setReferences(ReferenceUtil.getSetFromJsonString((String)request.getParameter("references")));
+		question.setTopics(TopicUtil.getTopicsFromJSONString((String)request.getParameter("topics")));
+		question.setReferences(ReferenceUtil.getReferencesFromJSONString(((String)request.getParameter("references"))));
 		
 		return question;
 	}
@@ -323,8 +323,8 @@ public class QuestionUtil {
 			q.setQuestionType(TypeUtil.getObjectFromStringTypeId(o.get("type_id").toString()));
 			
 			q.setChoices(getSetFromJsonString(o.get("choices").toString(), -1));
-			q.setTopics(TopicUtil.getSetFromJsonString(o.get("topics").toString()));
-			q.setReferences(ReferenceUtil.getSetFromJsonString(o.get("references").toString()));
+			q.setTopics(TopicUtil.getTopicsFromJSONString(o.get("topics").toString()));
+			q.setReferences(ReferenceUtil.getReferencesFromJSONString(o.get("references").toString()));
 			
 			JSONArray dynarr = (JSONArray)o.get("dynamicDataFieldNames");
 			

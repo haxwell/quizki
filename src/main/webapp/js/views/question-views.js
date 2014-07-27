@@ -201,8 +201,16 @@
 			
 			model_constructor_factory.put(this.id + "ViewKey",function() {return ("" + viewKey); });
 			
+			// the key to use for storing the appropriate collection from the Question in the model
 			var backboneModelKey = this.getBackboneModelKey();
+			
+			// function to use getting the appropriate collection from the Question
 			model_constructor_factory.put(backboneModelKey, arguments[0].backboneFunc);
+			
+			// destroying our reference to that appropriate collection when the current question changes.
+			this.listenTo(event_intermediary, "currentQuestion::put::model_factory", function () {
+				model_factory.destroy(backboneModelKey);
+			});
 			
 			this.KeyTo_modelToListenTo = arguments[0].KeyTo_modelToListenTo;
 			this.modelEventToListenFor = arguments[0].modelEventToListenFor;

@@ -210,6 +210,7 @@
 			// destroying our reference to that appropriate collection when the current question changes.
 			this.listenTo(event_intermediary, "currentQuestion::put::model_factory", function () {
 				model_factory.destroy(backboneModelKey);
+				this.render();
 			});
 			
 			this.KeyTo_modelToListenTo = arguments[0].KeyTo_modelToListenTo;

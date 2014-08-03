@@ -7,7 +7,7 @@
 // First, it analyzes the market environment.
 var getBeginningAndEndingTextForSetQuestion = function(fieldId, text) {
 
-	var openingMarkerIndex = 0;
+	var openingMarkerIndex = -1;
 	var counter = 0;
 	var b = true;
 	

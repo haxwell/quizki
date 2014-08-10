@@ -45,7 +45,7 @@ Quizki is based around the concepts of <b>questions</b>, <b>answers</b>, and <b>
 The most important page in Quizki is the home page. You can get to it at anytime by clicking on the Quizki link in the upper left corner of any page. You can cancel anything you are doing in Quizki, by going to the home page.
 <br/><br/>
 
-In general, there a two types of actions you can do in Quizki...
+Primarily, there a two types of actions you can do in Quizki...
 <ul><li>You can take an Exam from Quizki.</li>
 <li>You can add a Question or Exam to Quizki.</li>
 </ul>
@@ -54,7 +54,7 @@ In general, there a two types of actions you can do in Quizki...
 <div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>
 <b id="questions">Lets talk about Questions first.</b>
 <br/><br/>	
-From the home page, click on the 'a question of your own' link.
+From the home page, click on the <b>Question</b> link.
 <br/><br/>	
 You will be brought to the Create Question page. From this page, you can enter the information necessary to give Quizki a very useful question.
 <br/><br/>	
@@ -69,9 +69,10 @@ Questions are made up of<br/>
 	<li><b>Type</b> - This refers to the format that the answers will come in. Your choices are:
 		<ul>			
 			<li><i>Single</i> - Given a list of possible answers, a SINGLE answer is correct.</li>
-			<li><i>Multiple</i> - Given a list of posisble answers, MULTIPLE answers must be selected in order to answer the question correctly.</li>
+			<li><i>Multiple</i> - Given a list of possible answers, MULTIPLE answers must be selected in order to answer the question correctly.</li>
 			<li><i>Phrase</i> - The question must be answered by typing a short phrase, for instance 'Denver' or 'The War of the Roses'.</li>
 			<li><i>Sequence</i> - Given a list of possible answers, the user must indicate the correct SEQUENCE they should be in, in order to answer the question correctly.</li>
+			<li><i>Set</i> - A list of items, one of which will be randomly blanked out when Quizki presents the question to you. You type the missing phrase.</li> 
 		</ul>
 	</li>
 	<li><b>Answers</b> - These are the potential answers to the question.
@@ -88,7 +89,7 @@ Questions are made up of<br/>
 <br/><br/>
 Once you have entered a few questions, you may want to arrange them in an exam.<br/><br/>
 
-From the home page, click on the link to 'Create your own unique exam.'<br/>
+From the home page, click on the 'Exam' link, to the right of the 'Question' link mentioned above.<br/>
 <br/>
 You will be brought to the Create Exam page. From this page, you select from the questions that have been entered in Quizki, building up a list of questions to group together in a specific exam.<br/><br/>	
 
@@ -99,19 +100,20 @@ Each exam has a...<br/>
 	<li><b>List of questions</b> - a listing of each of the questions that will be presented as part of this exam.</li>
 </ul>	
 
-By default, you can choose from all of the questions that you have entered. If you would like, you can choose from all of the questions that everybody else has entered, too! To change which questions you are able to choose from, select 'my' or 'all' in the Show .. Questions option on the right. <br/><br/>	
+By default, you can choose from all of the questions that you have entered. If you would like, you can choose from all of the questions that everybody else has entered, too! To change which questions you are able to choose from, select 'Mine' or 'All' in the first dropdown on the left. <br/><br/>	
 
 Regardless whether you are showing only your questions, or 'all' questions, you can filter the list further in three ways:<br/>	
 
 	<ul>
-	<li><b>Topic contains ...</b> - Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.</li>	
-	<li><b>Question contains ...</b> - Quizki will only show questions who's text or description contains the given string. So, if you enter 'bears' here, only questions with the word 'bears' in the text or the description will appear in the list.</li>	
-	<li><b>Include difficulties up to ...</b> - Quizki will only include questions that are LESS difficult than the value you select here. For instance, if you choose 'Intermediate' no questions which have a difficulty of 'Senior' or 'Guru' will appear.</li>
+	<li><b>Search in Questions ...</b> - Quizki will only show questions who's text or description contains the given string. So, if you enter 'bears' here, only questions with the word 'bears' in the text or the description will appear in the list.</li>	
+	<li><b>Search in Topics] ...</b> - Quizki will only show questions which have a topic that contains the string you entered here. For instance, if the only topics in Quizki are A, B, and C, if you enter B here, questions which belong to topic A and topic C will not appear, only questions who belong to Topic B.</li>
+	<li><b>Include Question Type ...</b> - Quizki will only include questions that have the type that you select here. For instance, if you choose 'Set' no questions which have a type of 'Single', 'Multiple', 'Sequence' or 'Phrase' will appear.</li>
+	<li><b>Include Difficulties ...</b> - Quizki will only include questions that have the difficulty value that you select here.</li>
 	</ul>
 
 This is the most detailed way of creating an exam. Once you select the questions you want, and hit Add Exam, the exam will be saved, and you can have Quizki present it to you at any time.<br/><br/>	
 
-If you don't want to go through the detail of choosing each question that will appear on your exam, you can, instead, select from a list of topics. Quizki will randomly choose questions that belong to the topics you chose. You can then take an exam right away, based on those questions.<br/><br/>	
+If you don't want to go through the detail of choosing each question that will appear on your exam, you can, instead, click <b>Generate Exam</b> from the home page, and create a list of topics. Quizki will then randomly choose questions that belong to the topics you chose. You can take the exam Quizki creates right away, based on those questions.<br/><br/>	
 
 Finally, the fastest, but least customized way, of taking an exam, is to choose from the list of popular topics on the home page. Quizki will generate an exam right away based on that topic, and you can test yourself on it immediately.<br/><br/>	
 
@@ -132,9 +134,9 @@ You press BEGIN to start taking the exam.<br/><br/>
 Once you are in the actual exam, you are presented with a question to answer. This question can be text, or pictures, or both. How you answer the question will depend on the type of question it is.<br/>	
 
 	<ul>
-	<li>If you have radio buttons to select from, this is a SINGLE question. You must choose the single correct answer.</li>
-	<li>If you have check boxes, this is a MULTIPLE question. There is more than one correct answer, and you must choose them all to answer the question correctly.</li>
-	<li>If you have a single text box, this is a STRING question. You must enter a short string of characters (perhaps a word or three) which correctly answers the question.</li>
+	<li>If you have boxes with red X's in them, these are Multiple choice questions. Clicking on an X changes it to a green check mark. To indicate that you've selected a choice to be the correct answer, click it, and change it to a green check mark.</li>
+	<li>If you have a single text box, this is a PHRASE question. You must enter some text (perhaps a word or three) which correctly answers the question.</li>
+	<li>If you have a list of choices, one of which has a single text box, this is a SET question. You must enter some text (perhaps a word or three) which correctly describes the missing element in the set.</li>
 	<li>If each answer has a small text box to the left of it, this is a SEQUENCE question. You must put a number in the text box indicating its position in the sequence of answers. For instance, you would put a 1 by the answer which should come first, a 2 by the second answer, etc.</li>
 	</ul>
 <br/>
@@ -142,13 +144,7 @@ Once you have answered a question, hit NEXT to go to the next question. If you w
 
 Once you have answered all of the questions, you will be presented with a final chance to go back and review your answers. If you are satisfied that everything has been answered correctly, you can click GRADE IT to find out how you did.<br/><br/>	
 
-Quizki will tell you how many questions you answered correctly, and how many you answered incorrectly. Questions in GREEN are ones you answered correctly. If the question is listed in RED, you missed this question. You can click on the question to view everything about it. The answers section is colored to describe how you answered the question.<br/>
-
-	<ul>
-	<li>If the text is <div class="selectedButNotCorrect" style="display:inline">red</div>, this is an answer that you selected INCORRECTLY.</li>
-	<li>If the text is <div class="correctButNotSelected" style="display:inline">red and bold</div>, this is an answer that you did NOT select, but that you should have.</li>
-	<li>If the text is <div class="selectedAndCorrect" style="display:inline">green</div>, you selected this answer correctly.</li>
-	</ul>
+Quizki will tell you how many questions you answered correctly, and how many you answered incorrectly. Questions with a GREEN circle to the left of them are ones you answered correctly. If the question has a RED circle, you missed this question. You can click on the question to get more information on why a choice was marked correct or incorrect.<br/>
 
 <br/><br/><br/>
 <div style="text-align:center"><a href="javascript:history.go(-1)">back</a></div>

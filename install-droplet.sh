@@ -70,18 +70,12 @@ echo "mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_data
 bash -c "cd ~/apps/quizki && mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql"
 sleep 5
 
-# install quizki
-#   cd ~/apps
-#   git clone https://github.com/haxwell/quizki.git
-#   cd quizki
-#   mvn clean package
-
 echo ----------------------------------
 echo
 
 echo "PATH=/home/quizki/apps/java/bin:/home/quizki/apps/apache-tomcat-7.0.57/bin:$PATH" >> ~/quizki_env_vars
-mv ~/quizki_env_vars /etc/profile.d/quizki_env_vars.sh
+cp ~/quizki_env_vars /etc/profile.d/quizki_env_vars.sh
 chmod +x /etc/profile.d/quizki_env_vars.sh
 
-echo "Reboot the droplet now. Then run ~/apps/quizki/install-droplet-post.sh"
+echo "Reboot the droplet now. Then run cd ~/apps/quizki && sudo ./install-droplet-post.sh"
 echo 

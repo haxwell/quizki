@@ -15,5 +15,4 @@ Assuming Ubuntu 14.04.
 
 5) Reboot, and then run the post install scrip
 > [reboot]
-> cd ~/apps/quizki
-> ./install-droplet-post.sh
+> cd ~/apps/quizki && ./install-droplet-post.sh

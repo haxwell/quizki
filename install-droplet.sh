@@ -35,8 +35,6 @@ dpkg-buildpackage -uc -us
 cp x64/* ~/apps/java -R
 
 echo "JAVA_HOME=/home/quizki/apps/java" >> ~/quizki_env_vars
-export JAVA_HOME=/home/quizki/apps/java
-export PATH=$JAVA_HOME/bin:$PATH
 sleep 5
 
 echo ----------------------------
@@ -52,8 +50,6 @@ tar -xvf apache-tomcat-7.0.57.tar.gz
 mv apache-tomcat-7.0.57 ~/apps/
 
 echo "TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57" >> ~/quizki_env_vars
-export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57
-export PATH=$TOMCAT_HOME/bin:$PATH
 sleep 5
 
 echo ------------------------------
@@ -82,4 +78,8 @@ sleep 5
 
 echo ----------------------------------
 echo
+
+echo PATH=$JAVA_HOME/bin:$TOMCAT_HOME/bin:$PATH >> ~/quizki_env_vars
+mv ~/quizki_env_vars /etc/profile.d/quizki_env_vars.sh
+chmod +x /etc/profile.d/quizki_env_vars.sh
 

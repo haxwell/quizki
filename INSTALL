@@ -20,6 +20,4 @@ Assuming Ubuntu 14.04.
 > cd quizki 
 > sudo ./install-droplet.sh
 
-5) Initialize Quizki Database
-> mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql
-> mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql
+

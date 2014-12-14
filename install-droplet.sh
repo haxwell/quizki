@@ -60,6 +60,9 @@ echo
 # install mysql
 apt-get install mysql-server
 
+mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql
+mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql
+
 # install quizki
 #   cd ~/apps
 #   git clone https://github.com/haxwell/quizki.git

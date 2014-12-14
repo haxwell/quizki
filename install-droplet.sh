@@ -17,7 +17,7 @@ echo ------------------------*
 echo
 cd ~
 apt-get update 
-apt-get install unzip git dpkg-dev maven
+apt-get install -y unzip git dpkg-dev maven
 mkdir work
 sleep 5
 
@@ -57,7 +57,7 @@ echo Installing MySQL
 echo ------------------------------
 echo 
 # install mysql
-apt-get install mysql-server
+apt-get install -y mysql-server
 
 echo "Initializing the Quizki user. Executing the following command. Use the 'root' password."
 echo

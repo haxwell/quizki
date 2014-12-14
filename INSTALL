@@ -13,7 +13,7 @@ Assuming Ubuntu 14.04.
 > cd ~
 > mkdir apps
 > cd apps
-> sudo apt-get install git
+> sudo apt-get install -y git
 > git clone https://github.com/haxwell/quizki.git
 
 4) Run the Quizki install script

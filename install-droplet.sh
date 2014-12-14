@@ -6,6 +6,10 @@
 # 
 # This script should be run as sudo
 #
+if [ "$(id -u)" != 0 ]; then
+    echo "You should run this as root."
+    exit 1
+fi
 
 cd ~
 apt-get update 

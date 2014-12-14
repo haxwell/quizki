@@ -42,7 +42,7 @@ export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57
 export PATH=$TOMCAT_HOME/bin:$PATH
 
 # install mysql
-apt-get install mysql
+apt-get install mysql-server
 
 # install quizki
 #   cd ~/apps

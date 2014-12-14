@@ -11,11 +11,19 @@ if [ "$(id -u)" != 0 ]; then
     exit 1
 fi
 
+echo *************************
+echo Doin\' setup stuff
+echo *************************
+echo
 cd ~
 apt-get update 
 apt-get install unzip git dpkg-dev maven
 mkdir work
 
+echo **************************
+echo Installing Oracle 8
+echo **************************
+echo
 # install oracle java 8 (remember to tip this guy)
 mkdir apps/java -p
 cd work
@@ -29,6 +37,10 @@ echo "JAVA_HOME=/home/quizki/apps/java" >> ~/quizki_env_vars
 export JAVA_HOME=/home/quizki/apps/java
 export PATH=$JAVA_HOME/bin:$PATH
 
+echo ****************************
+echo installing Tomcat
+echo ****************************
+echo
 # install tomcat
 cd ~
 mkdir apps/tomcat -p
@@ -41,6 +53,10 @@ echo "TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57" >> ~/quizki_env_vars
 export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57
 export PATH=$TOMCAT_HOME/bin:$PATH
 
+echo ******************************
+echo Installing MySQL
+echo ******************************
+echo 
 # install mysql
 apt-get install mysql-server
 
@@ -49,3 +65,7 @@ apt-get install mysql-server
 #   git clone https://github.com/haxwell/quizki.git
 #   cd quizki
 #   mvn clean package
+
+echo **********************************
+echo
+

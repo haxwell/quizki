@@ -79,7 +79,9 @@ sleep 5
 echo ----------------------------------
 echo
 
-echo PATH=$JAVA_HOME/bin:$TOMCAT_HOME/bin:$PATH >> ~/quizki_env_vars
+echo PATH=/home/quizki/apps/java/bin:/home/quizki/apps/apache-tomcat-7.0.57/bin:$PATH >> ~/quizki_env_vars
 mv ~/quizki_env_vars /etc/profile.d/quizki_env_vars.sh
 chmod +x /etc/profile.d/quizki_env_vars.sh
 
+echo "Reboot the droplet now."
+echo 

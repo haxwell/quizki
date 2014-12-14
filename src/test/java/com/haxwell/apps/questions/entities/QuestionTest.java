@@ -175,7 +175,8 @@ public class QuestionTest {
 		assertTrue(choicesJSON.size() == 3);
 
 		JSONObject choice1 = (JSONObject)choicesJSON.get(0);
-		assertTrue(StringUtil.equals(choice1.get("id"), "1"));
+		// TODO: verify what the correct behavior with number is.. should we be returning numbers or strings? Its number here, but on 'sequence' below, its a string...
+		assertTrue(StringUtil.equals(choice1.get("id")+"", "1")); 
 		assertTrue(choice1.get("iscorrect") instanceof String);
 		assertTrue(StringUtil.equals(choice1.get("iscorrect"), "true"));
 		assertTrue(StringUtil.equals(choice1.get("text"), "choice1"));
@@ -183,6 +184,7 @@ public class QuestionTest {
 		assertTrue(StringUtil.equals(choice1.get("sequence"), "0"));
 		
 		JSONObject choice2 = (JSONObject)choicesJSON.get(1);
+		// TODO: verify what the correct behavior with number is.. should we be returning numbers or strings? Its number here, but on 'sequence' below, its a string...		
 		assertTrue(StringUtil.equals(choice2.get("id"), "2"));
 		assertTrue(choice2.get("iscorrect") instanceof String);
 		assertTrue(StringUtil.equals(choice2.get("iscorrect"), "false"));
@@ -191,6 +193,7 @@ public class QuestionTest {
 		assertTrue(StringUtil.equals(choice1.get("sequence"), "0"));
 		
 		JSONObject choice3 = (JSONObject)choicesJSON.get(2);
+		// TODO: verify what the correct behavior with number is.. should we be returning numbers or strings? Its number here, but on 'sequence' below, its a string...
 		assertTrue(StringUtil.equals(choice3.get("id"), "3"));
 		assertTrue(choice3.get("iscorrect") instanceof String);
 		assertTrue(StringUtil.equals(choice3.get("iscorrect"), "false"));

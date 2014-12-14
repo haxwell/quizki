@@ -11,18 +11,19 @@ if [ "$(id -u)" != 0 ]; then
     exit 1
 fi
 
-echo *************************
+echo ------------------------*
 echo Doin\' setup stuff
-echo *************************
+echo ------------------------*
 echo
 cd ~
 apt-get update 
 apt-get install unzip git dpkg-dev maven
 mkdir work
+sleep 5
 
-echo **************************
+echo --------------------------
 echo Installing Oracle 8
-echo **************************
+echo --------------------------
 echo
 # install oracle java 8 (remember to tip this guy)
 mkdir apps/java -p
@@ -36,10 +37,11 @@ cp x64/* ~/apps/java -R
 echo "JAVA_HOME=/home/quizki/apps/java" >> ~/quizki_env_vars
 export JAVA_HOME=/home/quizki/apps/java
 export PATH=$JAVA_HOME/bin:$PATH
+sleep 5
 
-echo ****************************
+echo ----------------------------
 echo installing Tomcat
-echo ****************************
+echo ----------------------------
 echo
 # install tomcat
 cd ~
@@ -52,16 +54,25 @@ mv apache-tomcat-7.0.57 ~/apps/
 echo "TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57" >> ~/quizki_env_vars
 export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57
 export PATH=$TOMCAT_HOME/bin:$PATH
+sleep 5
 
-echo ******************************
+echo ------------------------------
 echo Installing MySQL
-echo ******************************
+echo ------------------------------
 echo 
 # install mysql
 apt-get install mysql-server
 
-mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql
-mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql
+echo "Initializing the Quizki user. Executing the following command. Use the 'root' password."
+echo
+echo "mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql"
+bash -c "cd ~/apps/quizki && mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql"
+
+echo "Initializing the Quizki database. Executing the following command. Use the 'quizki' password."
+echo
+echo "mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql"
+bash -c "cd ~/apps/quizki && mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql"
+sleep 5
 
 # install quizki
 #   cd ~/apps
@@ -69,6 +80,6 @@ mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_q
 #   cd quizki
 #   mvn clean package
 
-echo **********************************
+echo ----------------------------------
 echo
 

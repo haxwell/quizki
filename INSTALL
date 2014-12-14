@@ -1,0 +1,22 @@
+Installing Quizki on a completely new DigitalOcean droplet.
+
+Assuming Ubuntu 14.04.
+
+1) Add the Quizki user - 
+> sudo adduser quizki --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
+> echo "quizki:password" | sudo chpasswd
+> sudo adduser quizki sudo
+
+2) Login as the Quizki user
+
+3) Get the quizki git repository
+> cd ~
+> mkdir apps
+> cd apps
+> sudo apt-get install git
+> git clone https://github.com/haxwell/quizki.git
+
+4) Run the Quizki install script
+> cd quizki 
+> sudo ./install-droplet.sh
+

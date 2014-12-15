@@ -22,7 +22,7 @@ mkdir work
 sleep 5
 
 echo --------------------------
-echo Installing Oracle 8
+echo Installing Oracle Java 8
 echo --------------------------
 echo
 # install oracle java 8 (remember to tip this guy)

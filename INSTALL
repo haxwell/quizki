@@ -2,6 +2,13 @@ Installing Quizki on a completely new DigitalOcean droplet.
 
 Assuming Ubuntu 14.04.
 
+0) 
+> sudo visudo
+at the bottom of the file, enter the line:
+Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
+
+^X and save changes
+
 1) Add the Quizki user - 
 > sudo adduser quizki --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password && echo "quizki:password" | sudo chpasswd && sudo adduser quizki sudo
 

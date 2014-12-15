@@ -66,8 +66,8 @@ bash -c "cd ~/apps/quizki && mysql -u root -p < ./src/main/resources/META-INF/sq
 
 echo "Initializing the Quizki database. Executing the following command. Use the 'quizki' password."
 echo
-echo "mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql"
-bash -c "cd ~/apps/quizki && mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20140513.sql"
+echo "mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20141214.sql"
+bash -c "cd ~/apps/quizki && mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20141214.sql"
 sleep 5
 
 echo ----------------------------------

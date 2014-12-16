@@ -17,7 +17,7 @@ echo ------------------------*
 echo
 cd ~
 apt-get update 
-apt-get install -y unzip git dpkg-dev maven
+apt-get install -y unzip git dpkg-dev maven authbind
 mkdir work
 sleep 5
 

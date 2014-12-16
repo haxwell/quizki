@@ -28,6 +28,16 @@ echo ----------------------
 
 bash -c 'echo "#! /bin/sh" >> /home/quizki/apps/apache-tomcat-7.0.57/bin/setenv.sh'
 bash -c 'echo export JAVA_OPTS=\"$JAVA_OPTS -DQUIZKI_JDBC_URL=jdbc:mysql://localhost:3306/quizki_db -DSHIRO_SERVER_NAME=localhost\" >> /home/quizki/apps/apache-tomcat-7.0.57/bin/setenv.sh'
+bash -c 'echo CATALINA_OPTS="-Djava.net.preferIPv4Stack=true" >> /home/quizki/apps/apache-tomcat-7.0.57/bin/setenv.sh'
+
+touch /etc/authbind/byport/80
+chmod 500 /etc/authbind/byport/80
+chown quizki /etc/authbind/byport/80
+
+sudo sed -i 's/exec "$PRGDIR/exec authbind --deep "$PRGDIR/g' $TOMCAT_HOME/bin/startup.sh
+
+sudo sed -i 's/Connector port="8080" p/Connector port="80" p/g' $TOMCAT_HOME/conf/server.xml
+sudo sed -i 's/redirectPort="8443" /redirectPort="443" /g' $TOMCAT_HOME/conf/server.xml
 
 rm $TOMCAT_HOME/webapps/ROOT -rf
 cp target/quizki-1.3.war $TOMCAT_HOME/webapps/ROOT.war

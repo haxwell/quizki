@@ -23,3 +23,12 @@ Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
 5) Reboot, and then run the post install scrip
 > [reboot]
 > cd ~/apps/quizki && ./install-droplet-post.sh
+
+
+
+
+TODO NEXT: 
+- Remove docs, examples, manager, and other directories from Tomcat installation.
+- is email working? at present, its set up at zoho.com, but be sure you can send and receive email at jjames@quizki.com (or your own address if you're not me)
+
+

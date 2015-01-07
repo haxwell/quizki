@@ -5,7 +5,7 @@ A web application to help students of all stripes master their subject matter wi
 ---
 More documentation to come.
 
-For now, you'll need Tomcat and MySQL. You can build using Maven.
+You can install by following instructions in the INSTALL file.
 ---
 
 (c) 2013, 2014 Johnathan E. James

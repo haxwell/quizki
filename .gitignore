@@ -5,3 +5,6 @@ src/META-INF
 /target
 /target
 /target
+
+*.swp
+

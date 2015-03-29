@@ -1,0 +1,34 @@
+Installing Quizki on a completely new DigitalOcean droplet.
+
+Assuming Ubuntu 14.04.
+
+0) 
+> sudo visudo
+at the bottom of the file, enter the line:
+Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
+
+^X and save changes
+
+1) Add the Quizki user - 
+> sudo adduser quizki --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password && echo "quizki:password" | sudo chpasswd && sudo adduser quizki sudo
+
+2) Login as the Quizki user
+
+3) Get the quizki git repository
+> cd ~ && mkdir apps && cd apps && sudo apt-get install -y git && git clone https://github.com/haxwell/quizki.git && cd quizki
+
+4) Run the Quizki install script
+> sudo ./install-droplet.sh
+
+5) Reboot, and then run the post install scrip
+> [reboot]
+> cd ~/apps/quizki && ./install-droplet-post.sh
+
+
+
+
+TODO NEXT: 
+- Remove docs, examples, manager, and other directories from Tomcat installation.
+- is email working? at present, its set up at zoho.com, but be sure you can send and receive email at jjames@quizki.com (or your own address if you're not me)
+
+

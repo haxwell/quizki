@@ -348,7 +348,18 @@ var QuestionModel = Backbone.Model.extend({
 		
 		rtn += this.getTypeSpecificToJSON();
 		
-		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(this.get('choices').toJSON()), false);
+		var choices = this.get('choices');
+		_.each(choices.models, function (model)
+				{
+					// we remove the id if it is set to -1, because if there are multiple models
+					//  with the id of -1, only the first can be inserted in a collection.
+					if (model.id === "-1")
+					{
+						model.unset('id', {silent:true});
+					}
+				});
+
+		rtn += JSONUtility.getJSON_ExistingQuoteFriendly('choices', JSON.stringify(choices.toJSON()), false);
 		
 		rtn = JSONUtility.endJSONString(rtn);
 		

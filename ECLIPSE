@@ -1,0 +1,13 @@
+RECREATING QUIZKI'S DEV WORKSPACE
+-----------------------------------
+Starting from scratch.
+
+-- be sure all branches of the git repo and the local repo are synced.
+-- mvn clean packge, to be sure all code is building, tests are passing
+-- copy_quizki_war_to_tomcat.sh
+-- start tomcat
+-- you can hit localhost:8080 in a browser if you like, but most likely quizki is running.
+-- In Eclipse, in a clean workspace, import Git Project at: /home/jjames/haxSVN/trunk/projects/questions/src/quizki-tomcat-git
+--  Run > Debug Configurations > Remote Java Application. Create a new one, name it quizki_tomcat, hit apply and debug.
+
+You should be good to go now!

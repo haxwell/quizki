@@ -199,7 +199,10 @@ var JSONUtility = (function() {
 		if (valueToAdd == undefined || valueToAdd == null)
 			valueToAdd = '';
 		else
-			valueToAdd = valueToAdd.replace(/"/g, '\\\"');
+			if ($.type(valueToAdd) === "string") {
+				valueToAdd = valueToAdd.replace(/"/g, '\\\"');
+				valueToAdd = valueToAdd.replace(/\n/g, "\\n");
+			}
 		
 		var rtn = '\"' + fieldName + '\":\"' + valueToAdd + '\"';
 		

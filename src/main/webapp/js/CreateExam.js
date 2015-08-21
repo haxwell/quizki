@@ -189,9 +189,8 @@ function Exams_resetFilters() {
 	$("#containsFilter").attr("value", "");
 	$("#topicContainsFilter").attr("value", "");
 
-	$("#rangeOfQuestionsFilter > option[selected='selected']").removeAttr('selected');
-	$("#rangeOfQuestionsFilter > option[value='0']").attr('selected', 'selected');
-	$("#rangeOfQuestionsFilter > span.filter-option").html($("#rangeOfQuestionsFilter > option[value='0']").html());
+	setRangeOfQuestionsFilterToDefaultValue();
+	
 	$("button#rangeOfQuestionsFilter ~ ul > li.selected").removeClass('selected');
 	$("button#rangeOfQuestionsFilter ~ ul > li[rel='0']").addClass('selected');
 
@@ -210,4 +209,14 @@ function Exams_resetFilters() {
 
 function getTheAppropriateArray(parsedJSONObject) {
 	return parsedJSONObject.question;
+}
+
+function setRangeOfQuestionsFilterToDefaultValue() {
+	setRangeOfQuestionsFilterValue("1");
+}
+
+function setRangeOfQuestionsFilterValue(val) {
+	$("#rangeOfQuestionsFilter > option[selected='selected']").removeAttr('selected');
+	$("#rangeOfQuestionsFilter > option[value='"+val+"']").attr('selected', 'selected');
+	$("#rangeOfQuestionsFilter > span.filter-option").html($("#rangeOfQuestionsFilter > option[value='"+val+"']").html());
 }

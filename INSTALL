@@ -1,6 +1,6 @@
 Installing Quizki on a completely new DigitalOcean droplet.
 
-Assuming Ubuntu 14.04.
+Assuming Ubuntu 14.04, and that you are initially logged in as 'root'.
 
 0) 
 > sudo visudo
@@ -30,5 +30,11 @@ Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
 TODO NEXT: 
 - Remove docs, examples, manager, and other directories from Tomcat installation.
 - is email working? at present, its set up at zoho.com, but be sure you can send and receive email at jjames@quizki.com (or your own address if you're not me)
+
+NOTES
+======
+0) env_keep, as explained in 'man sudoers': "Environment variables to be preserved in the user's environment when the env_reset option is in effect.  This allows fine-grained control over the environment sudo-spawned processes will receive." So when you use sudo as the quizki user, these variables will be available for use in the sudo environment.
+
+1) This command adds a user named 'quizki' with a disabled password. The '--gecos' option is to prevent the command from requesting info interactively. Next, the password is set to 'password'. Finally the user is set to be allowed to use sudo.
 
 

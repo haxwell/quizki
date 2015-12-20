@@ -2,6 +2,15 @@ Installing Quizki on a completely new DigitalOcean droplet.
 
 Assuming Ubuntu 14.04, and that you are initially logged in as 'root'.
 
+SSH KEYS
+========
+If you are having to log in as root with a password, the ssh key on the local machine is not on the server. Get those keys set up, and then once you are logged in to the quizki server with your password, add the ssh key like so:
+
+cat ~/.ssh/id_rsa.pub | ssh root@[your.ip.address.here] "cat >> ~/.ssh/authorized_keys"
+
+INSTALL
+=======
+
 0) 
 > sudo visudo
 at the bottom of the file, enter the line:

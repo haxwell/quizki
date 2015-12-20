@@ -47,6 +47,14 @@ mkdir apps/tomcat -p
 cd work
 curl -# -L http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz > apache-tomcat-7.0.57.tar.gz
 tar -xvf apache-tomcat-7.0.57.tar.gz
+if [ $? -ne 0]; then
+    echo
+    echo "ERROR downloading Tomcat 7.0.57!"
+    echo
+    echo "I bet the link is bad. Replace the curl URL in the TOMCAT section of install-droplet.sh"
+    echo
+    exit
+fi
 mv apache-tomcat-7.0.57 ~/apps/
 
 echo "export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57" >> ~/quizki_env_vars

@@ -15,7 +15,7 @@ Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
 2) Login as the Quizki user
 
 3) Get the quizki git repository
-> cd ~ && mkdir apps && cd apps && sudo apt-get install -y git && git clone https://github.com/haxwell/quizki.git && cd quizki
+> cd ~ && mkdir apps && cd apps && sudo apt-get update && sudo apt-get install -y git && git clone https://github.com/haxwell/quizki.git && cd quizki
 
 4) Run the Quizki install script
 > sudo ./install-droplet.sh

@@ -37,4 +37,4 @@ NOTES
 
 1) This command adds a user named 'quizki' with a disabled password. The '--gecos' option is to prevent the command from requesting info interactively. Next, the password is set to 'password'. Finally the user is set to be allowed to use sudo.
 
-
+=======

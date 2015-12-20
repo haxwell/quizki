@@ -17,6 +17,8 @@
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
+	// REFACTOR: this is doing two things.. first it has the Quit button, and exits the exam. Second, it maintains
+	//  a counter for the current question number and total number of questions.
 	Quizki.QuitThisExamView = Backbone.View.extend({
 		initialize:function() {
 			this.listenTo(ExamEngine, 'examEngineSetNewCurrentQuestion', function(event) { this.render();});

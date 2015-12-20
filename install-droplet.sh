@@ -47,7 +47,7 @@ mkdir apps/tomcat -p
 cd work
 curl -# -L http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz > apache-tomcat-7.0.57.tar.gz
 tar -xvf apache-tomcat-7.0.57.tar.gz
-if [ $? -ne 0]; then
+if [ $? -ne 0 ]; then
     echo
     echo "ERROR downloading Tomcat 7.0.57!"
     echo

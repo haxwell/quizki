@@ -26,9 +26,9 @@ echo ----------------------
 echo setting up Tomcat
 echo ----------------------
 
-bash -c 'echo "#! /bin/sh" >> /home/quizki/apps/apache-tomcat-7.0.57/bin/setenv.sh'
-bash -c 'echo export JAVA_OPTS=\"$JAVA_OPTS -DQUIZKI_JDBC_URL=jdbc:mysql://localhost:3306/quizki_db -DSHIRO_SERVER_NAME=localhost\" >> /home/quizki/apps/apache-tomcat-7.0.57/bin/setenv.sh'
-bash -c 'echo CATALINA_OPTS="-Djava.net.preferIPv4Stack=true" >> /home/quizki/apps/apache-tomcat-7.0.57/bin/setenv.sh'
+bash -c 'echo "#! /bin/sh" >> /home/quizki/apps/apache-tomcat-7.0.67/bin/setenv.sh'
+bash -c 'echo export JAVA_OPTS=\"$JAVA_OPTS -DQUIZKI_JDBC_URL=jdbc:mysql://localhost:3306/quizki_db -DSHIRO_SERVER_NAME=localhost\" >> /home/quizki/apps/apache-tomcat-7.0.67/bin/setenv.sh'
+bash -c 'echo CATALINA_OPTS="-Djava.net.preferIPv4Stack=true" >> /home/quizki/apps/apache-tomcat-7.0.67/bin/setenv.sh'
 
 touch /etc/authbind/byport/80
 chmod 500 /etc/authbind/byport/80

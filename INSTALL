@@ -30,7 +30,7 @@ Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
 > sudo ./install-droplet.sh
 
 5) Reboot, and then run the post install scrip
-> [reboot]
+> sudo reboot
 > cd ~/apps/quizki && ./install-droplet-post.sh
 
 

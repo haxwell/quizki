@@ -53,6 +53,8 @@ if [ $? -ne 0 ]; then
     echo
     echo "I bet the link is bad. Replace the curl URL in the TOMCAT section of install-droplet.sh, and all the file names as appropriate."
     echo
+    echo "You will need to change the filename, etc in install-quizki-post.sh, too!!"
+    echo
     exit
 fi
 mv apache-tomcat-7.0.67 ~/apps/

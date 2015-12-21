@@ -50,10 +50,10 @@ public class AutoAuthenticateUserFilter extends AbstractFilter {
 
 		if (session.getAttribute(Constants.IN_PRODUCTION_MODE) == null) {
 			// TODO: get these from Spring instead
-			request.setAttribute("username", "johnathan");
-			request.setAttribute("password", "password");
-			
-			new LoginWithTheRequestCredentialsAction().doAction(request, response);
+//			request.setAttribute("username", "johnathan");
+//			request.setAttribute("password", "password");
+//
+//			new LoginWithTheRequestCredentialsAction().doAction(request, response);
 		}
 		
 		// pass the request along the filter chain

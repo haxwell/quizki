@@ -69,12 +69,18 @@ echo
 # install mysql
 apt-get install -y mysql-server
 
-echo "Initializing the Quizki user. Executing the following command. Use the 'root' password."
+echo "Initializing the Quizki user. Executing the following command."
+echo
+echo "Use the ROOT password!"
+sleep 7
 echo
 echo "mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql"
 bash -c "cd ~/apps/quizki && mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql"
 
-echo "Initializing the Quizki database. Executing the following command. Use the 'quizki' password."
+echo "Initializing the Quizki database. Executing the following command."
+echo 
+echo "Use the 'quizki' password."
+sleep 7
 echo
 echo "mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20150820.sql"
 bash -c "cd ~/apps/quizki && mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20150820.sql"

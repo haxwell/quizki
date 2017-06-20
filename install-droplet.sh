@@ -45,11 +45,11 @@ echo
 cd ~
 mkdir apps/tomcat -p
 cd work
-curl -# -L http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz > apache-tomcat-7.0.67.tar.gz
-tar -xvf apache-tomcat-7.0.67.tar.gz
+curl -# -L http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz > apache-tomcat-8.5.15.tar.gz
+tar -xvf apache-tomcat-8.5.15.tar.gz
 if [ $? -ne 0 ]; then
     echo
-    echo "ERROR downloading Tomcat 7.0.67!"
+    echo "ERROR downloading Tomcat 8.5.15!"
     echo
     echo "I bet the link is bad. Replace the curl URL in the TOMCAT section of install-droplet.sh, and all the file names as appropriate."
     echo
@@ -57,9 +57,9 @@ if [ $? -ne 0 ]; then
     echo
     exit
 fi
-mv apache-tomcat-7.0.67 ~/apps/
+mv apache-tomcat-8.5.15 ~/apps/
 
-echo "export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.67" >> ~/quizki_env_vars
+echo "export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-8.5.15" >> ~/quizki_env_vars
 sleep 5
 
 echo ------------------------------

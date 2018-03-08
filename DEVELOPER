@@ -1,0 +1,70 @@
+
+In general, to run Quizki from scratch...
+
+0. you'll need java, maven, tomcat, and mysql. Might as well go with the latest version of each.
+
+** Of course, be sure your servers are UP and RUNNING. **
+
+Create a file in $TOMCAT_HOME/bin called setenv.sh
+
+This file sets some environment variables that quizki will need while running in Tomcat
+
+add the following contents to setenv.sh 
+
+-----BEGIN------
+#! /bin/sh
+
+export JAVA_OPTS="$JAVA_OPTS -DQUIZKI_JDBC_URL=jdbc:mysql://localhost:3306/quizki_db -DSHIRO_SERVER_NAME=localhost"
+export CATALINA_OPTS="-Djava.net.preferIPv4Stack=true"
+-----END--------
+
+==> MySQL setup
+
+From the $QUIZKI_HOME directory (where ever you saved QUIZKI on your machine is $QUIZKI_HOME), 
+	* run the following command which will create a user named 'quizki' in your MySQL instance.
+
+mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql
+
+	* run the following command which will populate the database that quizki uses
+
+mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20150820.sql
+
+==> Apache Shiro build
+
+Move to a separate directory away from $QUIZKI_HOME, and run these commands
+
+----BEGIN
+git clone https://github.com/haxwell/apache-shiro-1.2.3.git
+cd apache-shiro-1.2.3
+git checkout 1.2.x
+mvn clean install -DskipTests
+----END
+
+Expect an error, but if you see lines similar to these in the Maven output, then everything is OKAY!
+
+[INFO] Apache Shiro ....................................... SUCCESS [ 23.175 s]
+[INFO] Apache Shiro :: Core ............................... SUCCESS [ 30.892 s]
+[INFO] Apache Shiro :: Web ................................ SUCCESS [ 10.196 s]
+
+==> Build Quizki
+
+from $QUIZKI_HOME, run the following command
+
+	mvn clean package
+
+It should build successfully, no errors!
+
+Copy the WAR file we just generated to Tomcat, where it will automatically deploy it (make it available)
+
+	cp target/quizki-1.3.war /home/jjames/apps/apache/tomcat/current/webapps/ROOT.war
+
+Then in your browser, go to 
+
+	http://localhost:8080
+
+If all went well, you will see the Quizki home page!
+
+----
+IN CASE IT DOESN'T GO WELL..
+
+Ask a senior developer for help!

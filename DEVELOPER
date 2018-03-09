@@ -3,6 +3,10 @@ In general, to run Quizki from scratch...
 
 0. you'll need java, maven, tomcat, and mysql. Might as well go with the latest version of each.
 
+Go to      https://dev.mysql.com/downloads/connector/j/     and download the mysql connector. Expand the file you've downloaded. Inside the directory you should see a file with a name similar to mysql-connector-java-5.1.xx-bin.jar. Copy this file to your $JAVA_HOME/lib directory.
+
+
+
 ** Of course, be sure your servers are UP and RUNNING. **
 
 Create a file in $TOMCAT_HOME/bin called setenv.sh

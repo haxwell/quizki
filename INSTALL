@@ -1,6 +1,15 @@
 Installing Quizki on a completely new DigitalOcean droplet.
 
-Assuming Ubuntu 14.04.
+Assuming Ubuntu 14.04, and that you are initially logged in as 'root'.
+
+SSH KEYS
+========
+If you are having to log in as root with a password, the ssh key on the local machine is not on the server. Get those keys set up, and then once you are logged in to the quizki server with your password, add the ssh key like so:
+
+cat ~/.ssh/id_rsa.pub | ssh root@[your.ip.address.here] "cat >> ~/.ssh/authorized_keys"
+
+INSTALL
+=======
 
 0) 
 > sudo visudo
@@ -15,13 +24,13 @@ Defaults        env_keep += "PATH JAVA_HOME TOMCAT_HOME"
 2) Login as the Quizki user
 
 3) Get the quizki git repository
-> cd ~ && mkdir apps && cd apps && sudo apt-get install -y git && git clone https://github.com/haxwell/quizki.git && cd quizki
+> cd ~ && mkdir apps && cd apps && sudo apt-get update && sudo apt-get install -y git && git clone https://github.com/haxwell/quizki.git && cd quizki
 
 4) Run the Quizki install script
 > sudo ./install-droplet.sh
 
 5) Reboot, and then run the post install scrip
-> [reboot]
+> sudo reboot
 > cd ~/apps/quizki && ./install-droplet-post.sh
 
 
@@ -34,3 +43,7 @@ TODO NEXT:
 NOTES
 ======
 0) env_keep, as explained in 'man sudoers': "Environment variables to be preserved in the user's environment when the env_reset option is in effect.  This allows fine-grained control over the environment sudo-spawned processes will receive." So when you use sudo as the quizki user, these variables will be available for use in the sudo environment.
+
+1) This command adds a user named 'quizki' with a disabled password. The '--gecos' option is to prevent the command from requesting info interactively. Next, the password is set to 'password'. Finally the user is set to be allowed to use sudo.
+
+=======

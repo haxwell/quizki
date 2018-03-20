@@ -45,11 +45,21 @@ echo
 cd ~
 mkdir apps/tomcat -p
 cd work
-curl -# -L http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-7/v7.0.57/bin/apache-tomcat-7.0.57.tar.gz > apache-tomcat-7.0.57.tar.gz
-tar -xvf apache-tomcat-7.0.57.tar.gz
-mv apache-tomcat-7.0.57 ~/apps/
+curl -# -L http://apache.mirrors.lucidnetworks.net/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz > apache-tomcat-8.5.15.tar.gz
+tar -xvf apache-tomcat-8.5.15.tar.gz
+if [ $? -ne 0 ]; then
+    echo
+    echo "ERROR downloading Tomcat 8.5.15!"
+    echo
+    echo "I bet the link is bad. Replace the curl URL in the TOMCAT section of install-droplet.sh, and all the file names as appropriate."
+    echo
+    echo "You will need to change the filename, etc in install-quizki-post.sh, too!!"
+    echo
+    exit
+fi
+mv apache-tomcat-8.5.15 ~/apps/
 
-echo "export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-7.0.57" >> ~/quizki_env_vars
+echo "export TOMCAT_HOME=/home/quizki/apps/apache-tomcat-8.5.15" >> ~/quizki_env_vars
 sleep 5
 
 echo ------------------------------
@@ -59,12 +69,18 @@ echo
 # install mysql
 apt-get install -y mysql-server
 
-echo "Initializing the Quizki user. Executing the following command. Use the 'root' password."
+echo "Initializing the Quizki user. Executing the following command."
+echo
+echo "Use the MySQL ROOT password!"
+sleep 7
 echo
 echo "mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql"
 bash -c "cd ~/apps/quizki && mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql"
 
-echo "Initializing the Quizki database. Executing the following command. Use the 'quizki' password."
+echo "Initializing the Quizki database. Executing the following command."
+echo 
+echo "Use the MySQL 'quizki' password."
+sleep 7
 echo
 echo "mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20150820.sql"
 bash -c "cd ~/apps/quizki && mysql -u quizki -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20150820.sql"

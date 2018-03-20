@@ -19,6 +19,8 @@
 -- Table structure for table `autocomplete_history`
 --
 
+USE quizki_db;
+
 DROP TABLE IF EXISTS `autocomplete_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

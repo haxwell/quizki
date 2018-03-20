@@ -1,0 +1,143 @@
+In general, to run Quizki from scratch...on a WINDOWS MACHINE. 
+
+
+0. you'll need Java, Maven, Tomcat, and MySql. Might as well go with the latest version of each.
+!! PLEASE MAKE SURE to create a seperate directory "C:\apps", and use this as the install directory. !! 
+
+For Tomcat, I recommend using "32-bit/64-bit Windows Service Installer" instead of "zip": https://tomcat.apache.org/download-90.cgi -- it will make life easier! 
+
+
+Be sure to add JAVA_HOME and MAVEN_HOME into your Environment Library. If you don't know where the environment library is, you can do a google search "Environment Library Windows (version)" and it should come up. A normal search, should show it. 
+ex: https://youtu.be/OfCTUGpWEdE?t=3m4s
+
+In Environment Library -> bottom section under System Variables, you can click "Edit..." to add:
+JAVA_HOME = C:\apps\Java\jdk-9.0.4
+MAVEN_HOME = C:\apps\apache-maven-3.5.3
+
+
+Also, add in the top section "User variables for ___", click on PATH. Then click "Edit..."
+Add "C:\apps\Java\jdk-9.0.4" and "C:\apps\apache-maven-3.5.3\bin"
+
+***I noticed that i had to add MySQL here too. "C:\apps\MySQL\MySQLServer5.7\bin". This is so you can run mysql command later via commandline.***
+
+Open up Windows commandline. Make sure you can use commands:
+java -version
+javac -version
+mvn -v
+
+
+
+Go to https://dev.mysql.com/downloads/connector/j/ and download the mysql connector. Expand the file you've downloaded. Inside the directory you should see a file with a name similar to mysql-connector-java-5.1.xx-bin.jar. Copy this .jar file to your "%JAVA_HOME%\lib" directory. End result looks like: "C:\apps\Java\jdk-9.0.4\lib\mysql-connector-java-5.1.xx-bin.jar"
+
+
+
+** For the below setups, be sure your servers are UP and RUNNING. You can check this by typing into the search "Services", and looking for Apache Tomcat server and MySQL server**
+
+
+
+==> Tomcat setup
+
+Test that you currently see your Tomcat home page on http://localhost:8080. This means that everything is working as expected and install was successful. 
+
+	To configure Tomcat server to run in console / commandline:
+
+Create a file in "C:\apps\apache\Tomcat 9.0\bin" called setenv.bat   
+(i renamed "Apache Software Foundation" to "apache" after the install, because spaces in filenames are bad.) 
+
+This file sets some environment variables that quizki will need while running in Tomcat
+
+Add the following contents to setenv.bat 
+
+-----BEGIN------
+set JAVA_OPTS=-DQUIZKI_JDBC_URL=jdbc:mysql://localhost:3306/quizki_db -DSHIRO_SERVER_NAME=localhost
+
+set CATALINA_OPTS=-Djava.net.preferIPv4Stack=true
+-----END--------
+
+
+	To configure Tomcat Server, running in application mode:
+
+Go to "C:\apps\apache\Tomcat 9.0\bin\Tomcat9w.exe". This will bring up the Tomcat server properties. 
+
+Under "Java" -> "Java Options", add these lines:
+-DQUIZKI_JDBC_URL=jdbc:mysql://localhost:3306/quizki_db
+-DSHIRO_SERVER_NAME=localhost"
+-Djava.net.preferIPv4Stack=true
+
+**Note: if you don't know which one to choose--just configure both. 
+
+
+
+==> MySQL setup
+
+(make sure that you have added MySQL server, to your environment library before this. else you can't run "mysql" command in commandline)
+
+Open up Windows Command Line. 
+
+Navigate to your %QUIZKI_HOME% directory (where ever you saved QUIZKI on your machine is %QUIZKI_HOME%), 
+
+example: cd C:\Users\Me\Documents\DenverMPJ\quizki-master
+
+	* run the following command which will create a user named 'quizki' in your MySQL instance.
+
+mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/init_quizki_user.sql
+
+	* run the following command which will populate the database that quizki uses
+
+mysql -u root -p < ./src/main/resources/META-INF/sql/mysql/populate_database_quizkiDotCom_20150820.sql
+
+
+
+
+==> Build Apache Shiro
+
+**before this, make sure you have installed GIT to your machine, so you can run the git command**
+
+Move to a separate directory away from %QUIZKI_HOME%, and run these commands in Windows commandline
+
+example: cd C:\Users\Me\Documents\DenverMPJ
+
+----BEGIN
+git clone https://github.com/haxwell/apache-shiro-1.2.3.git
+cd apache-shiro-1.2.3
+git checkout 1.2.x
+mvn clean install -DskipTests
+----END
+
+Expect LOTS of errors, but if you see the first 3 lines similar to these in the Maven output, then everything is OKAY!
+
+[INFO] Apache Shiro ....................................... SUCCESS [ 23.175 s]
+[INFO] Apache Shiro :: Core ............................... SUCCESS [ 30.892 s]
+[INFO] Apache Shiro :: Web ................................ SUCCESS [ 10.196 s]
+                     -----lots of errors afterwards----------
+
+
+
+
+==> Build Quizki
+
+from $QUIZKI_HOME, run the following command
+
+	mvn clean package
+
+It should build successfully, no errors!
+
+Copy the WAR file we just generated to Tomcat, where it will automatically deploy it (make it available)
+
+	Go into %QUIZKI_HOME% in file explorer, and click into target file (or directory).
+example: C:\Users\Me\Documents\DenverMPJ\quizki-master\target
+
+	There should be a quizki-1.3.war file there. 
+
+	Make a copy of this .war file, and rename to "ROOT.war". Copy to your %TOMCAT_HOME%\webapps. example "C:\apps\apache\Tomcat 9.0\webapps". Paste here.
+
+Then in your browser, go to 
+
+	http://localhost:8080
+
+If all went well, you will see the Quizki home page!
+
+----
+IN CASE IT DOESN'T GO WELL..
+
+Ask a senior developer for help!!

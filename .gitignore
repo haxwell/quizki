@@ -3,8 +3,7 @@ build.bat
 setenv.bat
 src/META-INF
 /target
-/target
-/target
+/.settings
 
 *.swp
 

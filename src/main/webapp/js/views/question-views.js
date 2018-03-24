@@ -831,7 +831,6 @@
 				var rtn = false;
 				
 				var cq = model_factory.get("currentQuestion");
-				console.log(cq);
 				var tokens = textToProcess.split('|');
 				var nextChoice = cq.attributes.choices.length;	//if length=1 next choice index is 1
 				var j = 0;										//token index

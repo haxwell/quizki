@@ -821,6 +821,36 @@
 				
 				return rtn;
 			}});
+			
+			coll.add({key:"Sequence", value:function(textToProcess) {
+				// if the question is of type Sequence and textToProcess is not null string then divide the text up into 1..n tokens
+				// set the next sequence number to the count of choices
+				// add the choices and their sequence number to the collection as correct
+				// ignore the isCorrectBoxValue for Sequence questions
+				
+				var rtn = false;
+				
+				var cq = model_factory.get("currentQuestion");
+				console.log(cq);
+				var tokens = textToProcess.split('|');
+				var nextChoice = cq.attributes.choices.length;	//if length=1 next choice index is 1
+				var j = 0;										//token index
+				
+				if (cq.getTypeId() === QUESTION_TYPE_SEQUENCE && textToProcess != "" && tokens.length >= 1) {
+					
+					for (var i=nextChoice; i < (nextChoice + tokens.length); i++) {		//add from 1 to n new choices
+						this.ui_id = cq.addChoice(tokens[j], true, i.toString());			//add choice with sequence # are all correct?? multiple ui_id's ok??
+						++j;																//next token
+					}
+					
+					rtn = true;
+				}
+				
+				return rtn;
+			}});
+			
+			
+			
 
 			coll.add({key:"trueFalse", value:function(textToProcess) {
 				

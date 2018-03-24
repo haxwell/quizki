@@ -19,8 +19,8 @@
 
 
 var Choice = Backbone.Model.extend({
+	idAttribute : 'ui_id',
 	defaults: {
-		idAttribute : 'ui_id',
 		id : '-1', // ID from the database, not set if this is Choice has not been persisted.
 		ui_id : '-1', // an ID for the User Interface to use.. not sent to the server
 		text : '',

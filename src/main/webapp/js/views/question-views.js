@@ -17,6 +17,10 @@
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
+const SEQUENCE_0 = "0";
+const IS_CORRECT = true;
+const NOT_CORRECT = false;
+
 	Quizki.QuestionTypeView = Backbone.View.extend({
 		initialize:function() {
 			this.readOnly = arguments[0].readOnly;
@@ -837,16 +841,16 @@
 					var textToProcess = textToProcess.toLowerCase();
 	
 					if (textToProcess === "tf") {
-						cq.addChoice("True", true, "0");
-						cq.addChoice("False", false, "0");
+                                                cq.addChoice("True", IS_CORRECT, SEQUENCE_0);
+						cq.addChoice("False", NOT_CORRECT, SEQUENCE_0);
 						
 						rtn = true;
 					}
 					else if (textToProcess === "ft") {
-						cq.addChoice("True", false, "0");
-						cq.addChoice("False", true, "0");
-						
-						rtn = true;
+						cq.addChoice("True", NOT_CORRECT, SEQUENCE_0);
+						cq.addChoice("False", IS_CORRECT, SEQUENCE_0);
+
+                                                rtn = true;
 					}
 				}
 				

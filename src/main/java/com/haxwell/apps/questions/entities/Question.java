@@ -52,7 +52,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="question")
-public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
+public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -312,7 +312,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 			else if (this.id < that.id)
 				return 1;
 			
-			rtn = this.text.compareTo(that.text);
+			rtn = this.text.compareTo(that.text); //this line is never reached
 		}
 		
 		return rtn;

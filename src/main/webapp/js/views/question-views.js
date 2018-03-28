@@ -814,10 +814,10 @@ const NOT_CORRECT = false;
 				
 				if (cq.getTypeId() === QUESTION_TYPE_SINGLE && isCorrectBoxValue === true && tokens.length > 1) {
 
-					model_factory.get("currentQuestion").addChoice(tokens[0], true, "0");
+					model_factory.get("currentQuestion").addChoice(tokens[0], IS_CORRECT, SEQUENCE_0);
 					
 					for (var i=1; i<tokens.length; i++) {
-						this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], false, "0");
+						this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], NOT_CORRECT, SEQUENCE_0);
 					}
 					
 					rtn = true;
@@ -864,7 +864,7 @@ const NOT_CORRECT = false;
 				var tokens = textToProcess.split('|');
 
 				for (var i=0; i<tokens.length; i++) {
-					this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
+					this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), SEQUENCE_0);
 				}
 				
 				return true;

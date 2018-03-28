@@ -297,7 +297,10 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		return rtn;
 	}
 	
-	@Override
+//	@Override
+	/*
+	 * The Comparable interface is removed from the AbstractEntity model in this version so the forced override isn't needed (but it happens)
+	 */
 	public int compareTo(Object o) {
 		int rtn = 0;
 		

@@ -280,7 +280,8 @@
 
 		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
 
-		<div id="divCreatedBy">..</div>
+		//Issue 165 fix. Added style height which previous defaulted to 0px
+		<div id="divCreatedBy" style="height:24px;" >..</div>
 
 		<div >
 			<div id="divTextarea">

@@ -21,8 +21,11 @@ package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -123,6 +126,27 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
     	id = DEFAULT_ID;
     	text = DEFAULT_TEXT;
     }
+    
+	protected Map<String, Object> dynamicData = new HashMap<String, Object>();
+
+
+	public Object getDynamicData(String key) {
+		return dynamicData.get(key);
+	}
+	
+	public void setDynamicData(String key, Object o) {
+		dynamicData.put(key, o);
+	}
+	
+	protected void addDynamicDataToJSONObject(JSONObject j) {
+		Set<String> keys = dynamicData.keySet();
+		
+		j.put("dynamicDataFieldNames", keys.toArray());
+		
+		for(String key : keys) {
+			j.put(key,  dynamicData.get(key).toString());
+		}
+	}
 
     @Override
     public long getId() {
@@ -312,7 +336,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 			else if (this.id < that.id)
 				return 1;
 			
-			rtn = this.text.compareTo(that.text); //this line is never reached
+			rtn = this.text.compareTo(that.text);
 		}
 		
 		return rtn;

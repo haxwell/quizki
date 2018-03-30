@@ -187,15 +187,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		return "exam";
 	}
 	
-	@Override
-	public Object getDynamicData(String key) {
-		return null;
-	}
-	
-	@Override
-	public void setDynamicData(String key, Object o) {
-		// do nothing
-	}
+
 	
 	@Override
 	public String toString()

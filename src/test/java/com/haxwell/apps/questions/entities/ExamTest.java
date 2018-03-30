@@ -114,7 +114,10 @@ public class ExamTest {
 		assertTrue(exam.getQuestions().size() == 0);
 		assertTrue(exam.getNumberOfQuestions() == 0);
 	}
-	
+/*
+ * 
+ * get/setDynamicData was removed and is not referenced anywhere in the project on this entity (except here)
+ * 	
 	@Test
 	public void testNoDynamicData() {
 		Exam exam = new Exam();
@@ -123,7 +126,7 @@ public class ExamTest {
 		
 		assertTrue(exam.getDynamicData("key") == null);
 	}
-
+*/
 	@Test
 	public void testEntityDescription() {
 		Exam exam = new Exam();
@@ -151,6 +154,9 @@ public class ExamTest {
 		sut.setEntityStatus(entityStatus);
 		sut.setTopics(topics);
 
+		/*
+		 * get/setDynamicData was removed from Exam and could not produce data in the JSON object
+		 * 
 		String dynamicDataKey1 = "dd1";
 		String dynamicDataValue1 = "v1";
 		String dynamicDataKey2 = "dd2";
@@ -158,7 +164,7 @@ public class ExamTest {
 		
 		sut.setDynamicData(dynamicDataKey1, dynamicDataValue1);
 		sut.setDynamicData(dynamicDataKey2, dynamicDataValue2);
-
+		*/
 		String json = sut.toJSON();
 		
 		JSONObject jobj = (JSONObject)JSONValue.parse(json);

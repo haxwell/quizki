@@ -281,7 +281,9 @@
 		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
 
 		<div id="divCreatedBy">..</div>
-
+		<!-- issue165 resolution is force next div to a new line. -->
+		<br/>
+		
 		<div >
 			<div id="divTextarea">
 			..

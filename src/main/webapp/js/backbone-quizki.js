@@ -38,13 +38,9 @@ KeyValueMap = function() {
 			get: function(id) {
 				return arr[id];
 			},
-			destroy: function(id) {
-				// TODO: eradicate this method.. remove() is a better name, consistent with Quizki.Collection
+			remove: function(id) {
 				delete arr[id];
 				dirty = true;
-			},
-			remove: function(id) {
-				this.destroy(id);
 			},
 			reset: function() {
 				arr = {};
@@ -114,7 +110,7 @@ var model_factory = (function(){
 				if (throwEvent !== false)
 					event_intermediary.throwEvent(id+'::put::model_factory', model);
 			},
-			destroy: function(id) {
+			remove: function(id) {
 				arr[id] = undefined;
 			}
 		};

@@ -191,6 +191,10 @@ div.base
     </c:choose>
 
 <br/><br/>
+</div>
+
+<div class="center" id="githubLogo">
+	<a id="quizkiGithubLink" href="https://github.com/haxwell/quizki"><img class="github_logo" src="/images/GitHub-Mark-32px.png"></img></a>
 </div>    
 
 </div> <!-- mainContentArea -->

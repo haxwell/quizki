@@ -226,7 +226,7 @@
 					var key = currQuestion.getId() + "," + currQuestion.getChoice(id).id;
 					var answers = model_factory.get("answersMap");
 
-					answers.destroy(key);
+					answers.remove(key);
 					
 					if (v == 'true')
 						answers.put(key, currQuestion.getChoice(id).get('text'));
@@ -247,7 +247,7 @@
 					var key = currQuestion.getId() + "," + currQuestion.getChoice(id).id;
 					var answers = model_factory.get("answersMap");
 					
-					answers.destroy(key);
+					answers.remove(key);
 					answers.put(key, newAnswer);
 					
 					event_intermediary.throwEvent('choicesChanged');
@@ -288,7 +288,7 @@
 					
 					var answers = model_factory.get('answersMap');
 					
-					answers.destroy(key);
+					answers.remove(key);
 					answers.put(key, newAnswer);
 					
 					event_intermediary.throwEvent('choicesChanged');

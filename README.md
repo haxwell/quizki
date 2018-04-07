@@ -18,36 +18,14 @@ For each of the software products listed below, install the most recent generall
 
 - [GitHub](https://github.com/) - used for version control
 - [Apache Tomcat](http://tomcat.apache.org/) - server used to run backend application
-- [MySQL Community Edition (GPL)](https://dev.mysql.com/downloads/) - database used with quizki
 - [Apache Maven](http://maven.apache.org/) - used to build the quizki initially and after code changes
+- [MySQL Community Edition (GPL)](https://dev.mysql.com/downloads/) - database used with quizki
 - browsers - [Google Chrome](http://google.com/chrome/), [Mozilla Foxfire](https://www.mozilla.org/en-US/firefox/), [Microsoft Internet Explorer](http://windows.microsoft.com/ie/) or other browsers
 - [Eclipse](https://www.eclipse.org/) - Eclipse is recommended. Yet, any Integrated Development Environment (IDE) provided it supports Java with Maven builds.
 
 ### Installing
 
-Installion of the tools listed above will vary slightly based upon the operating system you are using. To get started select the appropriate developer's file for the operating system on your local machine from the list provided below.
-
-
-- [Unix or Lnix](./developer)
-- [Windows](./DEVELOPER_WINDOWS.txt)
-- [iOS]() -- Oh my, ask Mr J!
-- [Other]() -- Rats, ask Mr J!
-
- 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
+Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the `DEVELOPER` file. If you are using Windows, check `DEVELOPER_WINDOWS.txt`. Both can be found in the root directory of Quizki.
 
 ## quizki Architecture
 
@@ -118,9 +96,6 @@ See also the list of [contributors](./contributors) who participated with later 
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](./LICENSE) file for details.
-
->>> ?? DO WE NEED TO ADD LICENCES FOR OTHER PACKAGES USED?
->>> REMEMBER TO ADD md extention to LICENSE file
 
 ## Acknowledgments
 

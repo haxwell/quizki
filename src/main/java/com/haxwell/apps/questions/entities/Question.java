@@ -55,7 +55,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="question")
-public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable, Comparable {
+public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable, Comparable<Question> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -321,11 +321,8 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		return rtn;
 	}
 	
-//	@Override
-	/*
-	 * The Comparable interface is removed from the AbstractEntity model in this version so the forced override isn't needed (but it happens)
-	 */
-	public int compareTo(Object o) {
+	@Override
+	public int compareTo(Question o) {
 		int rtn = 0;
 		
 		if (o instanceof Question){

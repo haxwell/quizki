@@ -74,6 +74,8 @@
 
 			<![CDATA[ <script src="../js/views/views.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/takeExam-views.js" type="text/javascript" ></script> ]]>
+                        
+                        <![CDATA[ <script src="../js/constants.js" type="text/javascript" ></script> ]]>
 			
 
 			<![CDATA[

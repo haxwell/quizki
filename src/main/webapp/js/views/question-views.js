@@ -625,13 +625,13 @@
 				var currQuestion = model_factory.get("currentQuestion");
 				var v = $(event.target).find("div.switch-animate").hasClass('switch-on');
 				
-				currQuestion.updateChoice(ui_id, 'iscorrect', v+'', false);
+				currQuestion.updateChoice(ui_id, 'iscorrect', v+'', NOT_CORRECT);
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var ui_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				currQuestion.updateChoice(ui_id, 'sequence', $(event.target).val()+'', false);
+				currQuestion.updateChoice(ui_id, 'sequence', $(event.target).val()+'', NOT_CORRECT);
 			};
 			
 			var questionChoiceItemView = undefined;
@@ -810,10 +810,10 @@
 				
 				if (cq.getTypeId() === QUESTION_TYPE_SINGLE && isCorrectBoxValue === true && tokens.length > 1) {
 
-					model_factory.get("currentQuestion").addChoice(tokens[0], true, "0");
+					model_factory.get("currentQuestion").addChoice(tokens[0], IS_CORRECT, SEQUENCE_0);
 					
 					for (var i=1; i<tokens.length; i++) {
-						this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], false, "0");
+						this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], NOT_CORRECT, SEQUENCE_0);
 					}
 					
 					rtn = true;
@@ -837,14 +837,14 @@
 					var textToProcess = textToProcess.toLowerCase();
 	
 					if (textToProcess === "tf") {
-						cq.addChoice("True", true, "0");
-						cq.addChoice("False", false, "0");
+						cq.addChoice("True", IS_CORRECT, SEQUENCE_0);
+						cq.addChoice("False", NOT_CORRECT, SEQUENCE_0);
 						
 						rtn = true;
 					}
 					else if (textToProcess === "ft") {
-						cq.addChoice("True", false, "0");
-						cq.addChoice("False", true, "0");
+						cq.addChoice("True", NOT_CORRECT, SEQUENCE_0);
+						cq.addChoice("False", IS_CORRECT, SEQUENCE_0);
 						
 						rtn = true;
 					}
@@ -860,7 +860,7 @@
 				var tokens = textToProcess.split('|');
 
 				for (var i=0; i<tokens.length; i++) {
-					this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), "0");
+					this.ui_id = model_factory.get("currentQuestion").addChoice(tokens[i], ($('#id_enterNewChoiceDiv > div.switch > div.switch-on').length > 0), SEQUENCE_0);
 				}
 				
 				return true;

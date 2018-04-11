@@ -1,5 +1,3 @@
-A Github test by adding this sentence.
-
 In general, to run Quizki from scratch...
 
 0. you'll need java, maven, tomcat, and mysql. Might as well go with the latest version of each.

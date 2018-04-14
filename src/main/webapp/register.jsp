@@ -49,11 +49,12 @@
 			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
 		</jsp:text>
 		
-		<script type="text/javascript">
-		 var RecaptchaOptions = {
-		    theme : 'clean'
-		 };
-		 </script>
+	     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	     <script>
+	       function onSubmit(token) {
+	         document.getElementById("new-registration-form").submit();
+	       }
+	     </script>		 
 				
 	</head>
 <body>
@@ -79,20 +80,14 @@
       	<br/>      	
       </c:if>
 
-	<form action="/RegisterUserServlet" method="post">
+	<form id="new-registration-form" action="/RegisterUserServlet" method="post">
 		Requested Username: <input type="text" name="username"/>
 		<br/><br/>
 		Requested Password: <input type="text" name="password"/>
 		<br/><br/>
 		
-		<jsp:scriptlet>
-			ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LcZhfASAAAAAO91hVTAX_p8PhGwealGfmmKHma8", "6LcZhfASAAAAAC5oKnOSx7dxaQhDIS_Nz5vxuwFg", false);
-			out.print(c.createRecaptchaHtml(null, null));
-		</jsp:scriptlet>
-        <br/>
-
 		<div class="span2">
-			<button class="btn btn-block" type="submit" name="button" value="Create Log In">Create Log In</button>
+			<button class="btn btn-block g-recaptcha" type="submit" name="button" value="Create Log In" data-sitekey="6LfdE90SAAAAACMMvcSYY_eDCB8dhhmY8hemrvKr" data-callback='onSubmit'>Create Log In</button>
 		</div>        
 	</form>
 

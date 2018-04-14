@@ -1,5 +1,8 @@
 package com.haxwell.apps.questions.servlets;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+
 /**
  * Copyright 2013,2014 Johnathan E. James - haxwell.org - jj-ccs.com - quizki.com
  *
@@ -20,18 +23,23 @@ package com.haxwell.apps.questions.servlets;
  */
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.managers.UserManager;
+
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 /**
  * Servlet implementation class LoginServlet
@@ -68,7 +76,7 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 
         String remoteAddr = request.getRemoteAddr();
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-        reCaptcha.setPrivateKey("6LcZhfASAAAAAC5oKnOSx7dxaQhDIS_Nz5vxuwFg");
+        reCaptcha.setPrivateKey("6LfdE90SAAAAABhv6mw2hG8zLhes3ioFJoEugBcp");
 
         String challenge = request.getParameter("recaptcha_challenge_field");
         String uresponse = request.getParameter("recaptcha_response_field");
@@ -114,5 +122,61 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 		}
         
 		forwardToJSP(request, response, fwdPage);
+	}
+	
+	protected boolean verifyCAPTCHA(String secret, String response) {
+		final String USER_AGENT = "Mozilla/5.0";
+		String urlStr = "https://www.google.com/recaptcha/api/siteverify";
+		URL url = null;
+		
+		try {
+			url = new URL(urlStr);
+		} catch (MalformedURLException mfe) {
+			// TODO: log this highly improbable exception
+		}
+		
+		HttpsURLConnection con = null;
+		
+		try {
+			con = (HttpsURLConnection) url.openConnection();
+		} catch (IOException ioe) {
+			// TODO: log this slightly improbable exception
+		}
+		
+		try {
+			con.setRequestMethod("POST");
+			con.setRequestProperty("User-Agent", USER_AGENT);
+			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+		} catch (ProtocolException pe) {
+			// TODO: log this blah blah blah
+		}
+		
+		try {
+			con.setDoOutput(true);
+			String urlParams = "secret="+secret+"&response="+response;		
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+			wr.writeBytes(urlParams);
+			wr.flush();
+			wr.close();
+			
+			int responseCode = con.getResponseCode();
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			
+			StringBuffer sb = new StringBuffer();
+			
+			while ((inputLine = br.readLine()) != null) {
+				sb.append(inputLine);
+			}
+		
+			br.close();
+			
+//			if (sb.equals(obj))
+		} catch (Exception e) {
+			// TODO: log these too..
+		}
+		
+		return true;
 	}
 }

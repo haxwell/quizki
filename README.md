@@ -2,7 +2,7 @@
 
 A web application to help students of all stripes master their subject matter with questions and answers they create, which are then shared with and validated by other students who are studying the same topics. The interface (will) allow the creation of any question, including, but certainly not limited to, flashcards.
 
-Go ahead, experiece [quizki](http://www.quizki.com) live! Afterward take time to read [about quizki](./ABOUT) for a general understanding of how the system works before getting started as a developer or tester.
+Go ahead, experience [quizki](http://www.quizki.com) live! Afterward take time to read [about quizki](./ABOUT) for a general understanding of how the system works before getting started as a developer or tester.
 
 ## Getting Started
 
@@ -14,9 +14,9 @@ See the Deployment section for notes on how to deploy the project on a live syst
 
 Listed below are the software products you will need resident on your local machine. 
 
-For each of the software products listed below, install the most recent generally available (GA) version. If you live on the edge, feel free to use the latest Alpha or Beta versions. Yet, if you are fairly new to programing, Alpha and Beta versions may contain problematic errors making it difficult to determine if your code or the software you are using is causing an anomaly. Thus, stay with the latest GA version to reduce complexity, as you learn to code.
+For each product, install the most recent generally available (GA) version. If you live on the edge, feel free to use the latest Alpha or Beta versions. Yet, if you are fairly new to programing, Alpha and Beta versions may contain problematic errors making it difficult to determine if your code or the software you are using is causing an anomaly. Thus, stay with the latest GA version to reduce complexity, as you learn to code.
 
-- [GitHub](https://github.com/) - used for version control
+- [Git](https://git-scm.com/downloads/) - Git and [GitHub](https://github.com/) are used for version control 
 - [Apache Tomcat](http://tomcat.apache.org/) - server used to run backend application
 - [Apache Maven](http://maven.apache.org/) - used to build the quizki initially and after code changes
 - [MySQL Community Edition (GPL)](https://dev.mysql.com/downloads/) - database used with quizki
@@ -25,9 +25,9 @@ For each of the software products listed below, install the most recent generall
 
 ### Installing
 
-Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the `DEVELOPER` file. If you are using Windows, check `DEVELOPER_WINDOWS.txt`. Both can be found in the root directory of Quizki.
+Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). Both can be found in the root directory of Quizki.
 
-## quizki Architecture
+## Quizki Architecture
 
 This is a new section not in the template. It was added because we need an overview of the archtecture.
 
@@ -84,7 +84,7 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of cond
 
 ## Versioning
 
-The current version is quizki-1.3. Future versions will use [CalVer](https://calver.org/) for versioning and will be tagged. To access versions available, see the [tags](./tags.md) on this repository. 
+The current version is quizki-1.3. Future versions will use [CalVer](https://calver.org/) for versioning and will be tagged. To access versions available, see the [tags](./tags.md) in the root directory of Quizki. 
 
 
 ## Authors
@@ -99,7 +99,7 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE
 
 ## Acknowledgments
 
-* **Billie Thompson** - *for the terrific README.md and CONTRIBUTING.md templates* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Billie Thompson** - *for the terrific README.md template* - [PurpleBooth](https://github.com/PurpleBooth)
 
 * **backbonejs.org** - *for the backbone.js version 1.1.2 used on this project* - [backbone.js on GitHub](https://github.com/jashkenas/backbone) 
 

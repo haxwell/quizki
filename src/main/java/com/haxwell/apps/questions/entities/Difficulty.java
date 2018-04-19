@@ -23,9 +23,12 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
+//import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+//This class did not implement javax.persistance.GenerationType using it now with ATE might cause conflicts in database
+
 
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -36,14 +39,14 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="difficulty")
-public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
+public class Difficulty extends AbstractTextEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	private long id;
 
 	private String text;
-
+*/
 	@OneToMany(mappedBy="difficulty")
 	Set<Question> questions;
 	
@@ -62,7 +65,7 @@ public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
     	this.text = str;
     	this.id = id;
     }
-
+/*
     public long getId() {
 		return this.id;
 	}
@@ -78,7 +81,7 @@ public class Difficulty implements EntityWithAnIntegerIDBehavior, Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+*/	
 	@Override
 	public boolean equals(Object o) {
 		boolean rtn = (this == o);

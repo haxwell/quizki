@@ -1,11 +1,8 @@
 package com.haxwell.apps.questions.entities;
 
-import javax.persistence.GenerationType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Transient;
 
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Column;
 
 
 /**
@@ -27,43 +24,17 @@ import javax.persistence.Transient;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-
 @MappedSuperclass
-public abstract class AbstractEntity {
+public class AbstractTextEntity extends AbstractEntity {
 	
-	//protected final boolean APPEND_COMMA = true;
+	@Column
+	protected String text;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected long id; //can this be set to a default?
-
-	public long getId() {
-		return this.id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	
-	// This method for compatibility with NotificationManager
 	public String getText() {
-		return this.getText();
+		return this.text;
 	}
 	
-	@Transient	
-	public User getUser() {
-		return null;
+	public void setText(String text) {
+		this.text = text;
 	}
-	@Transient
-	public String getEntityDescription()  {
-		return null;
-	}
-	
-	
-	public String toJSON() {
-		return null;
-	}
-
-	
 }

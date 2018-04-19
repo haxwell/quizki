@@ -26,9 +26,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -52,10 +49,6 @@ import com.haxwell.apps.questions.interfaces.IExam;
 @Table(name="exam")
 public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
 
 	private String title;
 	
@@ -89,15 +82,6 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 
     public Exam() {
     }
-
-    @Override
-    public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return this.title;
@@ -177,7 +161,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.difficulty = difficulty;
 	}
 
-	@Override
+//	@Override
 	public String getText() {
 		return getTitle();
 	}

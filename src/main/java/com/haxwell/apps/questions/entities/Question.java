@@ -30,9 +30,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -55,14 +52,12 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="question")
-public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable, Comparable<Question> {
+public class Question extends AbstractTextEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable, Comparable<Question> {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+
 	private String description;
-	private String text;
+
 	
 	@Column(name="ENTITY_STATUS")
 	private long entityStatus = EntityStatusConstants.ACTIVATED;	
@@ -127,6 +122,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
     	text = DEFAULT_TEXT;
     }
     
+    @Transient
 	protected Map<String, Object> dynamicData = new HashMap<String, Object>();
 
 
@@ -148,15 +144,6 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		}
 	}
 
-    @Override
-    public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public String getDescription() {
 		return this.description;
 	}
@@ -174,15 +161,6 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		str = str.replace("]]", "");
 		
 		return str;
-	}
-	
-	@Override
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public Difficulty getDifficulty() {

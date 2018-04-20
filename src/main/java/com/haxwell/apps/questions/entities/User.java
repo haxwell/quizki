@@ -36,12 +36,7 @@ import java.util.Set;
 @Table(name="users")
 public class User extends AbstractEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-/*
-	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)	
-	private long id;
-*/
+
 	private String password;
 
 	private String username;
@@ -73,15 +68,7 @@ public class User extends AbstractEntity implements EntityWithAnIntegerIDBehavio
 	public User(String username2) {
 		this.username = username2;
 	}
-/*
-	public long getId() {
-		return this.id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-*/
 	public String getPassword() {
 		return this.password;
 	}

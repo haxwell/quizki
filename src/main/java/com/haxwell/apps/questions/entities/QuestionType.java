@@ -35,12 +35,7 @@ import com.haxwell.apps.questions.utils.StringUtil;
 @Table(name="question_type")
 public class QuestionType extends AbstractTextEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-/*
-	@Id
-	private long id;
 
-	private String text;
-*/
 	@OneToMany(mappedBy="questionType")
 	Set<Question> questions;
 
@@ -59,23 +54,7 @@ public class QuestionType extends AbstractTextEntity implements EntityWithAnInte
     	this.id = id;
     	this.text = str;
     }
-/*
-    public long getId() {
-		return this.id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-*/	
 	public String toString()
 	{
 		return "id: " + id + " | type: " + text;

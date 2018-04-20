@@ -47,7 +47,7 @@ import com.haxwell.apps.questions.interfaces.IExam;
  */
 @Entity
 @Table(name="exam")
-public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
+public class Exam extends AbstractTextEntity implements IExam, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String title;
@@ -161,7 +161,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.difficulty = difficulty;
 	}
 
-//	@Override
+	@Override
 	public String getText() {
 		return getTitle();
 	}

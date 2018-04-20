@@ -28,7 +28,7 @@ import javax.persistence.Query;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.EntityTypeConstants;
-import com.haxwell.apps.questions.entities.AbstractEntity;
+import com.haxwell.apps.questions.entities.AbstractTextEntity;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Notification;
 import com.haxwell.apps.questions.entities.Question;
@@ -90,7 +90,7 @@ public class NotificationManager extends Manager {
 	// TODO, change EntityTypeId to an enum
 	public static void  issueNotification_entityWasVotedOn(long entityId, int entityTypeId)
 	{
-		AbstractEntity e = getAbstractEntity(entityId, entityTypeId);
+		AbstractTextEntity e = getAbstractTextEntity(entityId, entityTypeId);
 		
 		Notification notification = getNotification(entityId, entityTypeId, e.getUser().getId());
 
@@ -126,9 +126,9 @@ public class NotificationManager extends Manager {
 			updateNotification(notification);
 	}
 	
-	private static AbstractEntity getAbstractEntity(long entityId, int entityTypeId) 
+	private static AbstractTextEntity getAbstractTextEntity(long entityId, int entityTypeId) 
 	{
-		AbstractEntity e = null;
+		AbstractTextEntity e = null;
 		
 		if (entityTypeId == EntityTypeConstants.EXAM)
 			e = ExamManager.getExam(entityId);

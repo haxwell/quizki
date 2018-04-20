@@ -22,7 +22,6 @@ package com.haxwell.apps.questions.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-//import javax.persistence.Id;
 import javax.persistence.Table;
 
 
@@ -34,29 +33,8 @@ import javax.persistence.Table;
 @Table(name="user_roles")
 public class UserRole extends AbstractTextEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-/*
-	@Id
-	private long id;
 
-	private String text;
-*/
     public UserRole() {
     }
-/*
-    public long getId() {
-		return this.id;
-	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-*/
 }

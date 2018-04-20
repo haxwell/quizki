@@ -31,6 +31,8 @@ import javax.persistence.Transient;
 @MappedSuperclass
 public abstract class AbstractEntity {
 	
+	//protected final boolean APPEND_COMMA = true;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected long id; //can this be set to a default?
@@ -42,7 +44,13 @@ public abstract class AbstractEntity {
 	public void setId(long id) {
 		this.id = id;
 	}
-		
+	
+	
+	// This method for compatibility with NotificationManager
+	public String getText() {
+		return this.getText();
+	}
+	
 	@Transient	
 	public User getUser() {
 		return null;
@@ -52,7 +60,7 @@ public abstract class AbstractEntity {
 		return null;
 	}
 	
-	//In Java version 1.8 this can be moved to a default method in a QuizkiSerializable interface
+	
 	public String toJSON() {
 		return null;
 	}

@@ -22,6 +22,9 @@ package com.haxwell.apps.questions.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -35,7 +38,11 @@ import javax.persistence.Table;
 @Table(name="exam_feedback")
 public class ExamFeedback extends AbstractEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1264851209L;
-
+/*
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+*/
 	//bi-directional many-to-one association to User
     @ManyToOne
     @JoinColumn(name="commentingUserId")    
@@ -56,7 +63,16 @@ public class ExamFeedback extends AbstractEntity implements EntityWithAnIntegerI
 		this.comment = comment;
 		this.commentingUser = u;
 	}
+/*
+    @Override
+	public long getId() {
+		return this.id;
+	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+*/
 	public User getCommentingUser() {
 		return this.commentingUser;
 	}

@@ -39,7 +39,7 @@ Go to https://dev.mysql.com/downloads/connector/j/ and download the mysql connec
 
 Test that you currently see your Tomcat home page on http://localhost:8080. This means that everything is working as expected and install was successful. 
 
-	To configure Tomcat server to run in console / commandline:
+    Option 1 - To configure Tomcat server to run in console / commandline:
 
 Create a file in "C:\apps\apache\Tomcat 9.0\bin" called setenv.bat   
 (i renamed "Apache Software Foundation" to "apache" after the install, because spaces in filenames are bad.) 
@@ -55,7 +55,7 @@ set CATALINA_OPTS=-Djava.net.preferIPv4Stack=true
 -----END--------
 
 
-	To configure Tomcat Server, running in application mode:
+	Option 2 - To configure Tomcat Server, running in application mode:
 
 Go to "C:\apps\apache\Tomcat 9.0\bin\Tomcat9w.exe". This will bring up the Tomcat server properties. 
 

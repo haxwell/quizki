@@ -1,12 +1,4 @@
-package com.haxwell.apps.questions.entities;
-
-import javax.persistence.GenerationType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Transient;
-
-
+package com.haxwell.apps.questions.constants;
 
 /**
  * Copyright 2013,2014 Johnathan E. James - haxwell.org - jj-ccs.com - quizki.com
@@ -27,41 +19,33 @@ import javax.persistence.Transient;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-
-@MappedSuperclass
-public abstract class AbstractEntity {
+public enum DifficultyEnums {
 	
+ 	UNDEFINED (-1, "undefined"),
+ 	ALL_DIFFICULTIES (0, "all"), 
+ 	JUNIOR (1, "Junior"),
+	INTERMEDIATE (2, "intermediate"),
+	SENIOR (3, "senior"),
+	GURU (4, "guru");
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected long id; //can this be set to a default?
-
-	public long getId() {
-		return this.id;
+	private final long rank;
+	private final String valString;
+	
+	DifficultyEnums(long rank, String valString){
+		this.rank = rank;
+		this.valString = valString;
 	}
 	
-	public void setId(long id) {
-		this.id = id;
+	public long getRank() {
+		return this.rank;
 	}
 	
-	
-	public String getText() {
-		return null;
+	public String getValString() {
+		return this.valString;
 	}
 	
-	@Transient	
-	public User getUser() {
-		return null;
-	}
-	@Transient
-	public String getEntityDescription()  {
-		return null;
-	}
+		
 	
 	
-	public String toJSON() {
-		return null;
-	}
-
 	
 }

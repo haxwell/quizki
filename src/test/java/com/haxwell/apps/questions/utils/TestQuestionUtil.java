@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.Choice;
@@ -44,7 +44,7 @@ public class TestQuestionUtil {
 		long id = RandomIntegerUtil.getRandomInteger(1000);
 		String description = "description"+id;
 		String text = "<p>Some [[dynamic]] question text for question number " + id + "</p>";
-		Difficulty difficulty = new Difficulty(DifficultyConstants.GURU_STR, DifficultyConstants.GURU);
+		Difficulty difficulty = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
 		QuestionType qType = new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR);
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1); user.setUsername("username");
@@ -126,7 +126,7 @@ public class TestQuestionUtil {
 		String message = "examMessage"+id;
 		User user = new User(); user.setId(1); user.setUsername("username");
 		long entityStatus = EntityStatusConstants.ACTIVATED;
-		Difficulty difficulty = new Difficulty(DifficultyConstants.JUNIOR_STR, DifficultyConstants.JUNIOR);
+		Difficulty difficulty = new Difficulty(DifficultyEnums.JUNIOR.getValString(), DifficultyEnums.JUNIOR.getRank());
 		Set<Question> qset = TestQuestionUtil.getSetOfQuestions(3);
 		Set<Topic> topics = TestQuestionUtil.getSetOfTopics();
 		

@@ -33,7 +33,7 @@ import net.minidev.json.JSONValue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
@@ -63,7 +63,7 @@ public class QuestionTest {
 		String description = "description";
 		String text = "<p>Some [[dynamic]] question text</p>";
 		String notMarkedUpText = "Some dynamic question text";
-		Difficulty difficulty = new Difficulty(DifficultyConstants.GURU_STR, DifficultyConstants.GURU);
+		Difficulty difficulty = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
 		QuestionType qType = new QuestionType(TypeConstants.PHRASE_STR);
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1);
@@ -122,7 +122,7 @@ public class QuestionTest {
 		String description = "description";
 		String text = "<p>Some [[dynamic]] question text</p>";
 		String notMarkedUpText = "Some dynamic question text";
-		Difficulty difficulty = new Difficulty(DifficultyConstants.GURU_STR, DifficultyConstants.GURU);
+		Difficulty difficulty = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
 		QuestionType qType = new QuestionType(TypeConstants.PHRASE, TypeConstants.PHRASE_STR);
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1); user.setUsername("username");

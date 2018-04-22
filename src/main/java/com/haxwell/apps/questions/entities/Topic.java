@@ -42,12 +42,8 @@ import com.haxwell.apps.questions.utils.StringUtil;
 public class Topic extends AbstractTextEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
-
 	//Note: Because tests are not using persistence this annotation is not checked in testing
 	@AttributeOverride(name = "text", column = @Column(nullable=false,unique=true))
-
-	
 	
 	@ManyToMany(mappedBy="topics")
 	Set<Question> questions;

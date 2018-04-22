@@ -27,7 +27,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
@@ -113,7 +114,7 @@ public class ExamUtil {
 	
 	public static Difficulty getExamDifficulty(Exam exam)
 	{
-		int rtn = DifficultyConstants.JUNIOR-1;
+		int rtn = (int)DifficultyEnums.JUNIOR.getRank()-1;
 		
 		// get questions on the exam
 		Set<Question> questions = exam.getQuestions();
@@ -133,7 +134,7 @@ public class ExamUtil {
 		}
 		else {
 			
-			int rangeMax = (DifficultyConstants.GURU-1) * totalQuestionCount;
+			int rangeMax = ((int)DifficultyEnums.GURU.getRank()-1) * totalQuestionCount;
 			int maxSegmentSize = rangeMax / 4;
 			int segmentSizeRemainder = rangeMax % 4;
 			int currSegmentSize = 0;

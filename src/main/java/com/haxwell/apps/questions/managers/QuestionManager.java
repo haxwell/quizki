@@ -34,7 +34,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.FilterConstants;
 import com.haxwell.apps.questions.constants.TypeConstants;
 import com.haxwell.apps.questions.entities.AbstractEntity;
@@ -611,7 +611,7 @@ public class QuestionManager extends Manager {
 		
 		Question q = new Question();
 		
-		q.setDifficulty(new Difficulty(DifficultyConstants.JUNIOR));
+		q.setDifficulty(new Difficulty(DifficultyEnums.JUNIOR.getRank()));
 		q.setQuestionType(new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR));
 		q.setChoices(new HashSet<Choice>());
 		q.setTopics(new HashSet<Topic>());
@@ -664,7 +664,7 @@ public class QuestionManager extends Manager {
 		filter = fc.get(FilterConstants.DIFFICULTY_FILTER).toString();
 		filter = filter != null ? filter.toString() : "";
 		
-		if (!StringUtil.isNullOrEmpty(filter) && !filter.equals(DifficultyConstants.ALL_DIFFICULTIES+"")) {
+		if (!StringUtil.isNullOrEmpty(filter) && !filter.equals(DifficultyEnums.ALL_DIFFICULTIES.getRank()+"")) {
 			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
 		}
 		

@@ -40,7 +40,7 @@ import javax.persistence.Transient;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -250,7 +250,7 @@ public class Question extends AbstractTextEntity implements IQuestion, EntityWit
 		j.put("textWithoutHTML", textWOHMTL == null ? "" : textWOHMTL);
 		
 		Difficulty diff = getDifficulty();
-		if (diff == null) diff = new Difficulty(DifficultyConstants.JUNIOR);
+		if (diff == null) diff = new Difficulty(DifficultyEnums.JUNIOR.getRank());
 		j.put("difficulty_id", diff.getId()+"");
 		j.put("difficulty_text", diff.getText());
 

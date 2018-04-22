@@ -388,4 +388,18 @@ public class StringUtil {
 		
 		return shortened + ellipsis;
 	}
+	
+	public static String capitalize(String str) {
+		StringBuilder sb = new StringBuilder();
+		char c = (char) 'a';
+		
+		sb.insert(0, str.subSequence(1, str.length()));
+		c = str.charAt(0);
+		if (Character.isUpperCase(c)) {
+			sb.insert(0, c);
+		} else {
+			sb.insert(0, Character.toUpperCase(c));
+		}
+		return sb.toString();
+	}
 }

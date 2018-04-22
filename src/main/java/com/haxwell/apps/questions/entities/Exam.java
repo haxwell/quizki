@@ -36,7 +36,7 @@ import javax.persistence.Transient;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IExam;
 
@@ -194,8 +194,8 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     	j.put("topics", getTopics().toArray());
 
     	Difficulty diff = getDifficulty();
-    	String diffId = (diff == null) ? DifficultyConstants.UNDEFINED+"" : diff.getId()+"";
-    	String diffText = (diff == null) ? DifficultyConstants.UNDEFINED_STR : diff.getText();
+    	String diffId = (diff == null) ? DifficultyEnums.UNDEFINED.getRank() +"" : diff.getId()+"";
+    	String diffText = (diff == null) ? DifficultyEnums.UNDEFINED.getValString() : diff.getText();
     	
     	j.put("difficulty", diffId);
     	j.put("difficulty_text", diffText);

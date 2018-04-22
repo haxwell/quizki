@@ -19,8 +19,9 @@ package com.haxwell.apps.questions.utils;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.entities.Difficulty;
+import com.haxwell.apps.questions.utils.StringUtil;
 
 public class DifficultyUtil {
 
@@ -29,42 +30,33 @@ public class DifficultyUtil {
 	}
 	
 	public static int convertToInt(String parameter) {
-		
-		if (parameter.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
-			return 1;
-		if (parameter.toLowerCase().equals(DifficultyConstants.INTERMEDIATE_STR.toLowerCase()))
-			return 2;
-		if (parameter.toLowerCase().equals(DifficultyConstants.SENIOR_STR.toLowerCase()))
-			return 3;
-		if (parameter.toLowerCase().equals(DifficultyConstants.GURU_STR.toLowerCase()))
-			return 4;
-		
-		return 1;
-	}
-	
-	public static String convertToString(int i) {
-		if (i == DifficultyConstants.JUNIOR) return DifficultyConstants.JUNIOR_STR;
-		if (i == DifficultyConstants.INTERMEDIATE) return DifficultyConstants.INTERMEDIATE_STR;
-		if (i == DifficultyConstants.SENIOR) return DifficultyConstants.SENIOR_STR;
-		if (i == DifficultyConstants.GURU) return DifficultyConstants.GURU_STR;
-		
-		return null;
+
+		for (DifficultyEnums de : DifficultyEnums.values()) {
+			if (parameter.toLowerCase().equals(de.getValString().toLowerCase()))
+				return (int)de.getRank();
+		}
+		return 1; //this is an accepted value? Should it be 0 or -1 or a default??
 	}
 
-	public static String getDisplayString(String str)
-	{
-		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
-			return "Junior";
+
+	public static String convertToString(int i) {
+
+		for (DifficultyEnums de : DifficultyEnums.values()) {
+			if (i == de.getRank()) return de.getValString();
+		}
+		return null;
+	}
+	
+
+
+	public static String getDisplayString(String str){
 		
-		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
-			return "Intermediate";
-		
-		if (str.toLowerCase().equals(DifficultyConstants.SENIOR_STR.toLowerCase()))
-			return "Senior";
-		
-		if (str.toLowerCase().equals(DifficultyConstants.JUNIOR_STR.toLowerCase()))
-			return "Guru";
-		
+		for (DifficultyEnums de : DifficultyEnums.values()) {
+			String s = de.getValString().toLowerCase();
+			if (str.toLowerCase().equals(s))
+
+				return StringUtil.capitalize(s);	
+		}
 		return str;
 	}
 	
@@ -77,7 +69,7 @@ public class DifficultyUtil {
 	}
 
 	public static Difficulty getDifficulty(int i) {
-		if (i > DifficultyConstants.GURU || i < DifficultyConstants.JUNIOR)
+		if (i > DifficultyEnums.GURU.getRank() || i < DifficultyEnums.JUNIOR.getRank())
 			throw new IllegalArgumentException("Cannot create a Difficulty object with the ID [" + i + "]");
 		
 		Difficulty d = new Difficulty();
@@ -89,7 +81,7 @@ public class DifficultyUtil {
 	}
 	
 	public static Difficulty getDifficulty(String iint) {
-		if (iint == null) iint = DifficultyConstants.JUNIOR+"";
+		if (iint == null) iint = DifficultyEnums.JUNIOR.getRank()+"";
 		
 		return getDifficulty(Integer.parseInt(iint));
 	}

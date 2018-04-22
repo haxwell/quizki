@@ -25,7 +25,7 @@ import java.util.Set;
 
 import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
@@ -45,7 +45,7 @@ public class TestQuestionUtil {
 		String description = "description"+id;
 		String text = "<p>Some [[dynamic]] question text for question number " + id + "</p>";
 		Difficulty difficulty = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
-		QuestionType qType = new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR);
+		QuestionType qType = new QuestionType(TypeEnums.SINGLE.getRank(), TypeEnums.SINGLE.getValString());
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1); user.setUsername("username");
 		Set<Choice> choices = getSetOfChoices();

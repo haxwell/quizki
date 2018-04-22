@@ -37,7 +37,7 @@ import net.minidev.json.JSONValue;
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.constants.EventConstants;
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.dynamifiers.AbstractDynamifier;
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Choice;
@@ -219,7 +219,7 @@ public class QuestionUtil {
 		if (StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = "0";
 
 		String qtf = request.getParameter(FilterConstants.QUESTION_TYPE_FILTER);
-		if (StringUtil.isNullOrEmpty(qtf)) qtf = TypeConstants.ALL_TYPES + "";
+		if (StringUtil.isNullOrEmpty(qtf)) qtf = TypeEnums.ALL_TYPES.getRank() + "";
 
 		String roef = request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER);
 		if (StringUtil.isNullOrEmpty(roef)) roef = Constants.ALL_ITEMS + "";

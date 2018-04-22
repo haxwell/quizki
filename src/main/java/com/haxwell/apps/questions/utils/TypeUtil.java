@@ -19,7 +19,7 @@ package com.haxwell.apps.questions.utils;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.QuestionType;
 
 public class TypeUtil {
@@ -30,33 +30,22 @@ public class TypeUtil {
 	
 	public static long convertToLong(String parameter) {
 
-		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SINGLE_STR)))
-			return TypeConstants.SINGLE;
-		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.MULTIPLE_STR)))
-			return TypeConstants.MULTIPLE;
-		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.PHRASE_STR)))
-			return TypeConstants.PHRASE;
-		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SEQUENCE_STR)))
-			return TypeConstants.SEQUENCE;
-		if (parameter.toLowerCase().equals(StringUtil.removeQuotes(TypeConstants.SET_STR)))
-			return TypeConstants.SET;
-		
-		return TypeConstants.ALL_TYPES;
+		for (TypeEnums te : TypeEnums.values()) {
+			if (parameter.toLowerCase().equals(te.getValString())) {
+				return te.getRank();
+			}
+		}
+		return TypeEnums.ALL_TYPES.getRank();
 	}
 	
 	public static String convertToString(long l) {
-		if (l == TypeConstants.SINGLE)
-			return TypeConstants.SINGLE_STR;
-		if (l == TypeConstants.PHRASE)
-			return TypeConstants.PHRASE_STR;
-		if (l == TypeConstants.MULTIPLE)
-			return TypeConstants.MULTIPLE_STR;
-		if (l == TypeConstants.SEQUENCE)
-			return TypeConstants.SEQUENCE_STR;
-		if (l == TypeConstants.SET)
-			return TypeConstants.SET_STR;
-		
-		return TypeConstants.ALL_TYPES_STR;
+
+		for (TypeEnums te : TypeEnums.values()) {
+			if (l == te.getRank()) {
+				return te.getValString();
+			}
+		}
+		return TypeEnums.ALL_TYPES.getValString();
 	}
 
 	@Deprecated //use getObjectFromStringTypeId() instead
@@ -65,8 +54,8 @@ public class TypeUtil {
 		
 		long l = Long.parseLong(parameter);
 		
-		if (l < TypeConstants.SINGLE) // if the parameter they sent us is less than our lowest value, assume they meant our lowest value
-			l = TypeConstants.SINGLE;
+		if (l < TypeEnums.SINGLE.getRank()) // if the parameter they sent us is less than our lowest value, assume they meant our lowest value
+			l = TypeEnums.SINGLE.getRank();
 				
 		qt.setId(l);
 		qt.setText(convertToString((int)l));
@@ -82,7 +71,7 @@ public class TypeUtil {
 	 */
 	public static QuestionType getObjectFromStringTypeId(String str) {
 		if (str == null) 
-			str = TypeConstants.SINGLE+"";
+			str = TypeEnums.SINGLE.getValString()+"";
 		
 		long l = Long.parseLong(str);
 		

@@ -36,7 +36,7 @@ import org.junit.experimental.categories.Category;
 import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
 import com.haxwell.apps.questions.utils.RandomIntegerUtil;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -64,7 +64,7 @@ public class QuestionTest {
 		String text = "<p>Some [[dynamic]] question text</p>";
 		String notMarkedUpText = "Some dynamic question text";
 		Difficulty difficulty = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
-		QuestionType qType = new QuestionType(TypeConstants.PHRASE_STR);
+		QuestionType qType = new QuestionType(TypeEnums.PHRASE.getValString());
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1);
 		Set<Choice> choices = TestQuestionUtil.getSetOfChoices();
@@ -123,7 +123,7 @@ public class QuestionTest {
 		String text = "<p>Some [[dynamic]] question text</p>";
 		String notMarkedUpText = "Some dynamic question text";
 		Difficulty difficulty = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
-		QuestionType qType = new QuestionType(TypeConstants.PHRASE, TypeConstants.PHRASE_STR);
+		QuestionType qType = new QuestionType(TypeEnums.PHRASE.getRank(), TypeEnums.PHRASE.getValString());
 		long entityStatus = EntityStatusConstants.ACTIVATED;
 		User user = new User(); user.setId(1); user.setUsername("username");
 		Set<Choice> choices = TestQuestionUtil.getSetOfChoices();

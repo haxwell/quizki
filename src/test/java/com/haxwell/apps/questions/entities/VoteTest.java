@@ -25,7 +25,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.haxwell.apps.questions.constants.EntityTypeConstants;
+import com.haxwell.apps.questions.constants.EntityTypeEnums;
 
 @Category(com.haxwell.apps.questions.testTypes.UnitTests.class)
 public class VoteTest {
@@ -52,7 +52,7 @@ public class VoteTest {
 		long id = 1;
 		User user = new User();
 		long entityId = 1;
-		EntityType entityType = new EntityType(EntityTypeConstants.QUESTION_STR);
+		EntityType entityType = new EntityType(EntityTypeEnums.QUESTION.getValString());
 		
 		sut.setId(id);
 		sut.setUser(user);

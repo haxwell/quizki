@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.haxwell.apps.questions.constants.EntityTypeConstants;
+import com.haxwell.apps.questions.constants.EntityTypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.EntityType;
 import com.haxwell.apps.questions.entities.Exam;
@@ -51,7 +51,7 @@ public class EntityTypeFactoryTest {
 		EntityType et = EntityTypeFactory.getEntityTypeFor(exam);
 		
 		assertNotEquals(null, et);
-		assertEquals(et.getId(), EntityTypeConstants.EXAM);
+		assertEquals(et.getId(), EntityTypeEnums.EXAM.getRank());
 		assertTrue(StringUtil.equals(et.getText(), "Exam"));
 	}
 
@@ -62,7 +62,7 @@ public class EntityTypeFactoryTest {
 		EntityType et = EntityTypeFactory.getEntityTypeFor(q);
 		
 		assertNotEquals(null, et);
-		assertEquals(et.getId(), EntityTypeConstants.QUESTION);
+		assertEquals(et.getId(), EntityTypeEnums.QUESTION.getRank());
 		assertTrue(StringUtil.equals(et.getText(), "Question"));
 	}
 	

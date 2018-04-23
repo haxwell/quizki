@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.constants.EntityTypeConstants;
+import com.haxwell.apps.questions.constants.EntityTypeEnums;
 import com.haxwell.apps.questions.utils.StringUtil;
 
 @Category(com.haxwell.apps.questions.testTypes.UnitTests.class)
@@ -53,7 +54,7 @@ public class NotificationTest {
 		
 		long id = 1;
 		long entityId = 23;
-		EntityType entityType = new EntityType(EntityTypeConstants.EXAM, EntityTypeConstants.EXAM_STR);
+		EntityType entityType = new EntityType(EntityTypeEnums.EXAM.getRank(), EntityTypeEnums.EXAM.getValString());
 		long notificationId = 34;
 		int numOfInstances = 5;
 		String text = "notificationText";

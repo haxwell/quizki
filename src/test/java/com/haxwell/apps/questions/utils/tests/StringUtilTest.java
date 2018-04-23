@@ -147,4 +147,14 @@ public class StringUtilTest {
 		assertFalse(str2.length() == 25);
 		assertFalse(str2.endsWith("..."));
 	}
+	
+	@Test
+	public void testCapitalize() {
+		String str = "testing!";
+		
+		String str2 = StringUtil.capitalize(str);
+		
+		assertTrue(str2.equals("Testing!"));
+
+	}
 }

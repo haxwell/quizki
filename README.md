@@ -27,7 +27,7 @@ For each product, install the most recent generally available (GA) version. If y
 
 ### Installing
 
-Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). If you are using a MAC, check [Devloper_Mac](./Developer_Mac.txt). Each file can be found in the root directory of Quizki.
+Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). If you are using a MAC, check [DEVELOPER_MAC](./DEVELOPER_MAC.txt). Each file can be found in the root directory of Quizki.
 
 
 ## Quizki Overview
@@ -50,7 +50,7 @@ The frontend & backend uses the Backbone.js v1.1.2 (an older version) to dynamic
 
 ### Database
 
-The quizki database is a MySQL database. To investigate the  database schema you can use [SchemaSpy](http://schemaspy.sourceforge.net/). If you have installed MySQL Workbench, then you could alternatively reverse engineer then forward engineer to understand the fields and indexes.
+The quizki_db is a MySQL database. To investigate the database schema you can use [SchemaSpy](http://schemaspy.sourceforge.net/). If you have installed MySQL Workbench, then you could alternatively reverse engineer then forward engineer to understand the fields and indexes.
 
 
 ## Testing
@@ -58,7 +58,7 @@ The quizki database is a MySQL database. To investigate the  database schema you
 
 ### Backend tests 
 
-Debuging: You will need to start the Tomcat server with the `-Xdebug -Xrunjdwp ....` parameter set. Add details to the %TOMCAT\_HOME%/bin/setenv.bat (windows) or %TOMCAT_HOME%/bin/setenv.sh (Linux/BSD). Here is an example for the setenv.bat:
+Debuging: You will need to start the Tomcat server with the `-Xdebug -Xrunjdwp ....` parameter set. Add details to the %TOMCAT_HOME%/bin/setenv.bat (windows) or %TOMCAT_HOME%/bin/setenv.sh (Linux/BSD). Here is an example for the setenv.bat:
 
 	set CATALINA_OPTS=%CATALINA_OPTS% -Xdebug -Xrunjdwp:transport=dt_socket,address=8088,server=y,suspend=n
 
@@ -82,12 +82,12 @@ For instructions on how to deploy quizki on Blue Ocean read the [Install](./Inst
 
 Our Code of Conduct is a very simple rule: "Be nice or be gone."
 
-To contribute to quizki project join the Denver Mock Program Job MeetUp. We meet biweekly for Agile planning sessions on Monday evenings, and have 15 min Standup meetings on Tuesdays and Thursdays. Details are in the MeetUp. After joining you will be invited to access our tools: Slack communications channel, Trello and other tools. After setting up your Trello board, pick an issue from the backlog to work. The issues each refer to the github issues on [haxwell/quizki](https://github.com/haxwell/quizki).
+To contribute to quizki project join the [Denver Mock Program Job MeetUp](https://www.meetup.com/Denver-Mock-Programming-Job-Meetup/). We meet for biweekly Agile planning sessions on Monday evenings, and have 15 min Standup meetings on Tuesdays and Thursdays. Details are in the MeetUp. After joining you will be invited to access various tools: Slack communications channel, Trello and others. After setting up your Trello board, pick an issue from the "DMPJ - quizki" Trello backlog to work. The issues each refer to the GitHub issues on [haxwell/quizki](https://github.com/haxwell/quizki).
 
 For each issue you work, create a local/featureBranch off your local/devBranch. We work both fixes and new features using featureBranches. After you have tested the issue's solution, push the local/featureBranch to origin/featureBranch on GitHub, then issue a pull request to haxwell/quizki for your origin/featureBranch.
 
 
-If you are working a complex issue, then feel free to issue an inprogress pull request to discuss the progress and pontential solutions. Corrections may be recommended. If so, you can merge recommendations your local/featureBranch. Just fetch, pull, merge into your local/featureBranch, then push up the update to your origin/featureBranch.
+If you are working a complex issue, then feel free to issue an inprogress pull request to discuss the progress and pontential solutions. Corrections may be recommended. If so, you can merge recommendations your local/featureBranch. Just fetch, pull, merge into your local/featureBranch. Afterward push the updated local/featureBrancg to your origin/featureBranch.
 
 
 ## Versioning

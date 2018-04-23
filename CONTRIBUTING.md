@@ -1,1 +1,0 @@
-Remember to add the Contributing standards and Code of Conduct info here.

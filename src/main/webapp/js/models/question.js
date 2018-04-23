@@ -32,8 +32,6 @@ var QUESTION_TYPE_PHRASE = 3;
 var QUESTION_TYPE_SEQUENCE = 4;
 var QUESTION_TYPE_SET = 5;
 
-// var SEQUENCE_0 = "0";
-
 var UI_ID_Generator = (function() {
 	var my = {};
 	

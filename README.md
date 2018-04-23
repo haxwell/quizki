@@ -23,7 +23,7 @@ For each product, install the most recent generally available (GA) version. If y
 - [Apache Maven](http://maven.apache.org/) - used to build the quizki initially and after code changes
 - [MySQL Community Edition (GPL)](https://dev.mysql.com/downloads/) - database used with quizki
 - browsers - [Google Chrome](http://google.com/chrome/), [Mozilla Foxfire](https://www.mozilla.org/en-US/firefox/), [Microsoft Internet Explorer](http://windows.microsoft.com/ie/) or other browsers
-- [Eclipse](https://www.eclipse.org/) - Eclipse is recommended the recommended Integrated Development Environment (IDE) to use. Yet, any IDE will work provided it supports Java with Maven builds.
+- [Eclipse](https://www.eclipse.org/) - Eclipse is the recommended Integrated Development Environment (IDE) to use. Yet, any IDE will work provided it supports Java with Maven builds.
 
 ### Installing
 
@@ -67,7 +67,7 @@ Unit Testing: In your chosen IDE you can select and run individual JUnit tests. 
 
 ### Frontend tests
 
-Debuging: Most modern web browsers provide the abiltity to inspect elements and view source code. Just right click an object in the broswers and select Inspect Element at which time you can work with the browsers debug capabilites and set breakpoints.
+Debuging: Most modern web browsers provide the abiltity to inspect elements and view source code. Just right click an object in the broswers and select Inspect Element at which time you can work with the browser's debug capabilites and set breakpoints.
 
 Unit Testing: No automated tests exist for frontend unit testing.
 

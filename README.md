@@ -4,7 +4,9 @@ A web application to help students of all stripes master their subject matter wi
 
 Go ahead, experience [quizki](http://www.quizki.com) live! Afterward take time to read [about quizki](./ABOUT) for a general understanding of how the system works before getting started as a developer or tester.
 
+
 ## Getting Started
+
 
 The following paragraphs explain how to get a copy of quizki up and running on your local machine for development and testing purposes. 
 
@@ -25,89 +27,96 @@ For each product, install the most recent generally available (GA) version. If y
 
 ### Installing
 
-Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). Both can be found in the root directory of Quizki.
+Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). If you are using a MAC, check [Devloper_Mac](./Developer_Mac.txt). Each file can be found in the root directory of Quizki.
 
-## Quizki Architecture
 
-This is a new section not in the template. It was added because we need an overview of the archtecture.
+## Quizki Overview
 
-### Frontend
-Describe the frontend environment
+
+Quizki is a full stack application.
 
 ### Backend
-Describe the backend environment
+
+The backend is written in Java, JSPs, and JavaScript. 
+
+The virtual server is a Tomcat server. The system interfaces with the MySQL to store information for future use. 
+
+### Frontend
+
+The frontend is written with JavaScript, HTML and CSS.
+
+The frontend & backend uses the Backbone.js v1.1.2 (an older version) to dynamically create the HTML/CSS with which the user interacts. To understand backbone.js v1.1.2 access the documentation. Using GitHub, fork [Backbone.js](https://github.com/jashkenas/backbone/). Clone to your local computer, then get checkout 1.1.2 after which you can read the 1.1.2 documentation. 
+
 
 ### Database
-Describe the database
 
-### Odds and Ends
-Catch all for residuals
+The quizki database is a MySQL database. To investigate the  database schema you can use [SchemaSpy](http://schemaspy.sourceforge.net/). If you have installed MySQL Workbench, then you could alternatively reverse engineer then forward engineer to understand the fields and indexes.
 
 
-## Running the tests
+## Testing
 
-Explain how to run the automated tests for this system
 
-### Break down into end to end tests
+### Backend tests 
 
-Explain what these tests test and why
+Debuging: You will need to start the Tomcat server with the `-Xdebug -Xrunjdwp ....` parameter set. Add details to the %TOMCAT\_HOME%/bin/setenv.bat (windows) or %TOMCAT_HOME%/bin/setenv.sh (Linux/BSD). Here is an example for the setenv.bat:
 
-```
-Give an example
-```
+	set CATALINA_OPTS=%CATALINA_OPTS% -Xdebug -Xrunjdwp:transport=dt_socket,address=8088,server=y,suspend=n
 
-### And coding style tests
+Unit Testing: In your chosen IDE you can select and run individual JUnit tests. Or you can use the command line to run the entire suite of JUnit test available for quizki. From the command line, change to %QUIZKI_HOME% and run "mvn test".
+	
 
-Explain what these tests test and why
+### Frontend tests
 
-```
-Give an example
-```
+Debuging: Most modern web browsers provide the abiltity to inspect elements and view source code. Just right click an object in the broswers and select Inspect Element at which time you can work with the browsers debug capabilites and set breakpoints.
+
+Unit Testing: No automated tests exist for frontend unit testing.
+
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
 
-## Built With
+For instructions on how to deploy quizki on Blue Ocean read the [Install](./Install) file in quizki root directory.
 
->>> REMEMBER TO UPDATE THIS SECTION
-
-* [ ]() - The web framework used
-* [ ]() - Dependency Management
-* [ ]() - Used to generate RSS Feeds
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Our Code of Conduct is a very simple rule: "Be nice or be gone."
 
->>> REMEMBER TO ADD CONTENT TO THE CONTRIBUTING.md FILE.
+To contribute to quizki project join the Denver Mock Program Job MeetUp. We meet biweekly for Agile planning sessions on Monday evenings, and have 15 min Standup meetings on Tuesdays and Thursdays. Details are in the MeetUp. After joining you will be invited to access our tools: Slack communications channel, Trello and other tools. After setting up your Trello board, pick an issue from the backlog to work. The issues each refer to the github issues on [haxwell/quizki](https://github.com/haxwell/quizki).
+
+For each issue you work, create a local/featureBranch off your local/devBranch. We work both fixes and new features using featureBranches. After you have tested the issue's solution, push the local/featureBranch to origin/featureBranch on GitHub, then issue a pull request to haxwell/quizki for your origin/featureBranch.
+
+
+If you are working a complex issue, then feel free to issue an inprogress pull request to discuss the progress and pontential solutions. Corrections may be recommended. If so, you can merge recommendations your local/featureBranch. Just fetch, pull, merge into your local/featureBranch, then push up the update to your origin/featureBranch.
+
 
 ## Versioning
+
 
 The current version is quizki-1.3. Future versions will use [CalVer](https://calver.org/) for versioning and will be tagged. To access versions available, see the [tags](./tags.md) in the root directory of Quizki. 
 
 
 ## Authors
 
+
 * **Johnathan E. James** - *Creator of quizki 1.3!* - [haxwell](https://github.com/haxwell)
 
-See also the list of [contributors](./contributors) who participated with later versions of this project.
+See also the list of [contributors](./contributors) who participated with later versions of this project. 
+
 
 ## License
 
+
 This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE](./LICENSE) file for details.
 
+
 ## Acknowledgments
+
 
 * **Billie Thompson** - *for the terrific README.md template* - [PurpleBooth](https://github.com/PurpleBooth)
 
 * **backbonejs.org** - *for the backbone.js version 1.1.2 used on this project* - [backbone.js on GitHub](https://github.com/jashkenas/backbone) 
 
->>> ADD OTHER ACKNOWLEDGEMENTS
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
 
 
 (c) 2013, 2014, 2018 Johnathan E. James

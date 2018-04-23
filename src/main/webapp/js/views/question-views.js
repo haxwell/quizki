@@ -226,9 +226,9 @@
 			// function to use getting the appropriate collection from the Question
 			model_constructor_factory.put(backboneModelKey, arguments[0].backboneFunc);
 			
-			// destroying our reference to that appropriate collection when the current question changes.
+			// removing our reference to that appropriate collection when the current question changes.
 			this.listenTo(event_intermediary, "currentQuestion::put::model_factory", function () {
-				model_factory.destroy(backboneModelKey);
+				model_factory.remove(backboneModelKey);
 				this.render();
 			});
 			
@@ -244,12 +244,12 @@
 					
 					var viewKey = model_factory.get(this.id + "ViewKey");
 					
-					model_factory.destroy( this.getBackboneModelKey() );
-					model_factory.destroy(viewKey + "AutocompleteHistory");
-					model_factory.destroy(viewKey + "AutocompleteField");
+					model_factory.remove( this.getBackboneModelKey() );
+					model_factory.remove(viewKey + "AutocompleteHistory");
+					model_factory.remove(viewKey + "AutocompleteField");
 					
-					model_factory.destroy(viewKey + "AutocompleteEntries");
-					model_factory.destroy(viewKey + "DeletedAutocompleteEntries");
+					model_factory.remove(viewKey + "AutocompleteEntries");
+					model_factory.remove(viewKey + "DeletedAutocompleteEntries");
 					model_factory.put(viewKey + "AutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
 					model_factory.put(viewKey + "DeletedAutocompleteEntries", new Backbone.Collection([], {model: KeyValuePair}));
 					
@@ -389,7 +389,7 @@
 			
 			var _viewKey = model_factory.get( this.id + "ViewKey" );
 			
-			model_factory.destroy(_viewKey + "AutocompleteField");
+			model_factory.remove(_viewKey + "AutocompleteField");
 			
 			var currHtml = this.$el.html();
 			currHtml += view_utility.executeTemplate('/templates/AttributeWellViewInputField.html',{id:_id, viewKey:_viewKey});
@@ -705,7 +705,7 @@
 			
 			this.setCurrentQuestionListenTo(currQuestion);
 			
-			// TODO: destroy this..
+			// TODO: remove this..
 			model_factory.put('EnterNewChoiceViewState', new KeyValuePair);
 			
 			this.setStateOnInitialization();
@@ -821,6 +821,36 @@
 				
 				return rtn;
 			}});
+			
+			coll.add({key:"Sequence", value:function(textToProcess) {
+				// if the question is of type Sequence and textToProcess is not null string then divide the text up into 1..n tokens
+				// sequence numbers start at 1
+				// set the next sequence number to the count of existing choices +1
+				// add the new choices and their sequence number to the collection as correct
+				// ignore the isCorrectBoxValue for Sequence questions
+				
+				var rtn = false;
+				
+				var cq = model_factory.get("currentQuestion");
+				var tokens = textToProcess.split('|');
+				var nextSequenceNumber = cq.get('choices').length + 1;
+				var sequenceNumber;
+				var token;
+				
+				if (cq.getTypeId() === QUESTION_TYPE_SEQUENCE && textToProcess != "" && tokens.length >= 1) {
+					
+					for (sequenceNumber=nextSequenceNumber, token=0; sequenceNumber < (nextSequenceNumber + tokens.length); sequenceNumber++, token++) {		
+						this.ui_id = cq.addChoice(tokens[token], true, sequenceNumber.toString());
+					}
+					
+					rtn = true;
+				}
+				
+				return rtn;
+			}});
+			
+			
+			
 
 			coll.add({key:"trueFalse", value:function(textToProcess) {
 				

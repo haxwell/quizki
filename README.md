@@ -1,4 +1,4 @@
-# ![QUIZKI](./src/main/webapp/images/logo-light.png) **Under construction readme later**
+# ![QUIZKI](./src/main/webapp/images/logo-light.png) **README**
 
 A web application to help students of all stripes master their subject matter with questions and answers they create, which are then shared with and validated by other students who are studying the same topics. The interface (will) allow the creation of any question, including, but certainly not limited to, flashcards.
 
@@ -23,7 +23,7 @@ For each product, install the most recent generally available (GA) version. If y
 - [Apache Maven](http://maven.apache.org/) - used to build the quizki initially and after code changes
 - [MySQL Community Edition (GPL)](https://dev.mysql.com/downloads/) - database used with quizki
 - browsers - [Google Chrome](http://google.com/chrome/), [Mozilla Foxfire](https://www.mozilla.org/en-US/firefox/), [Microsoft Internet Explorer](http://windows.microsoft.com/ie/) or other browsers
-- [Eclipse](https://www.eclipse.org/) - Eclipse is recommended. Yet, any Integrated Development Environment (IDE) provided it supports Java with Maven builds.
+- [Eclipse](https://www.eclipse.org/) - Eclipse is recommended the recommended Integrated Development Environment (IDE) to use. Yet, any IDE will work provided it supports Java with Maven builds.
 
 ### Installing
 
@@ -45,7 +45,7 @@ The virtual server is a Tomcat server. The system interfaces with the MySQL to s
 
 The frontend is written with JavaScript, HTML and CSS.
 
-The frontend & backend uses the Backbone.js v1.1.2 (an older version) to dynamically create the HTML/CSS with which the user interacts. To understand backbone.js v1.1.2 access the documentation. Using GitHub, fork [Backbone.js](https://github.com/jashkenas/backbone/). Clone to your local computer, then get checkout 1.1.2 after which you can read the 1.1.2 documentation. 
+The frontend & backend uses the Backbone.js v1.1.2 (an older version) to dynamically create the HTML/CSS with which the user interacts. To understand backbone.js v1.1.2 access the documentation. Using GitHub, fork [Backbone.js](https://github.com/jashkenas/backbone/). Clone to your local computer, then git checkout 1.1.2 after which you can read the 1.1.2 documentation. 
 
 
 ### Database
@@ -62,7 +62,7 @@ Debuging: You will need to start the Tomcat server with the `-Xdebug -Xrunjdwp .
 
 	set CATALINA_OPTS=%CATALINA_OPTS% -Xdebug -Xrunjdwp:transport=dt_socket,address=8088,server=y,suspend=n
 
-Unit Testing: In your chosen IDE you can select and run individual JUnit tests. Or you can use the command line to run the entire suite of JUnit test available for quizki. From the command line, change to %QUIZKI_HOME% and run "mvn test".
+Unit Testing: In your chosen IDE you can select and run individual JUnit tests. Or you can use the command line to run the entire suite of JUnit test available for quizki. From the command line, change to %QUIZKI_HOME% and run "mvn test". Remember to rebuild the war file if before you run "mvn test", if you made any code changes.
 	
 
 ### Frontend tests
@@ -82,7 +82,7 @@ For instructions on how to deploy quizki on Blue Ocean read the [Install](./Inst
 
 Our Code of Conduct is a very simple rule: "Be nice or be gone."
 
-To contribute to quizki project join the [Denver Mock Program Job MeetUp](https://www.meetup.com/Denver-Mock-Programming-Job-Meetup/). We meet for biweekly Agile planning sessions on Monday evenings, and have 15 min Standup meetings on Tuesdays and Thursdays. Details are in the MeetUp. After joining you will be invited to access various tools: Slack communications channel, Trello and others. After setting up your Trello board, pick an issue from the "DMPJ - quizki" Trello backlog to work. The issues each refer to the GitHub issues on [haxwell/quizki](https://github.com/haxwell/quizki).
+To contribute to quizki project join the [Denver Mock Program Job MeetUp](https://www.meetup.com/Denver-Mock-Programming-Job-Meetup/). We meet for biweekly Agile planning sessions on Monday evenings, and have 15 min Standup meetings on Tuesday and Thursday mornings. Details are in the MeetUp. After joining you will be invited to access various tools: Slack communications channel, Trello and others. After setting up your Trello board, pick an issue from the "DMPJ - quizki" Trello backlog to work. The issues each refer to the GitHub issues on [haxwell/quizki](https://github.com/haxwell/quizki).
 
 For each issue you work, create a local/featureBranch off your local/devBranch. We work both fixes and new features using featureBranches. After you have tested the issue's solution, push the local/featureBranch to origin/featureBranch on GitHub, then issue a pull request to haxwell/quizki for your origin/featureBranch.
 

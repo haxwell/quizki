@@ -73,6 +73,8 @@
 
 			<![CDATA[ <script src="../js/generateExam.js" type="text/javascript" ></script> ]]>
 			<![CDATA[ <script src="../js/views/generateExam-views.js" type="text/javascript" ></script> ]]>
+                        
+                        <![CDATA[ <script src="./js/constants.js" type="text/javascript" ></script> ]]>
 
 			<![CDATA[
 			

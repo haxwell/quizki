@@ -35,7 +35,7 @@ public class DifficultyUtil {
 			if (parameter.toLowerCase().equals(de.getValString().toLowerCase()))
 				return (int)de.getRank();
 		}
-		return 1; //this is an accepted value? Should it be 0 or -1 or a default??
+		return 1; 
 	}
 
 

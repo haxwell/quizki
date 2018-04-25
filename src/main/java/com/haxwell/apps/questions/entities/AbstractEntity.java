@@ -34,7 +34,7 @@ public abstract class AbstractEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected long id; //can this be set to a default?
+	protected long id; 
 
 	public long getId() {
 		return this.id;

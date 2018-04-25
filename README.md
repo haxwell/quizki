@@ -27,7 +27,7 @@ For each product, install the most recent generally available (GA) version. If y
 
 ### Installing
 
-Installion of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). If you are using a MAC, check [DEVELOPER_MAC](./DEVELOPER_MAC.txt). Each file can be found in the root directory of Quizki.
+Installation of the tools listed above will vary slightly based upon the operating system you are using. If you are using a Linux/BSD system, check the [DEVELOPER](./DEVELOPER) file. If you are using Windows, check [DEVELOPER_WINDOWS](./DEVELOPER_WINDOWS.txt). If you are using a MAC, check [DEVELOPER_MAC](./DEVELOPER_MAC.txt). Each file can be found in the root directory of Quizki.
 
 
 ## Quizki Overview
@@ -45,7 +45,7 @@ The virtual server is a Tomcat server. The system interfaces with the MySQL to s
 
 The frontend is written with JavaScript, HTML and CSS.
 
-The frontend & backend uses the Backbone.js v1.1.2 (an older version) to dynamically create the HTML/CSS with which the user interacts. To understand backbone.js v1.1.2 access the documentation. Using GitHub, fork [Backbone.js](https://github.com/jashkenas/backbone/). Clone to your local computer, then git checkout 1.1.2 after which you can read the 1.1.2 documentation. 
+The frontend & backend use the Backbone.js v1.1.2 (an older version) to dynamically create the HTML/CSS with which the user interacts. To understand backbone.js v1.1.2 access the documentation. Using GitHub, fork [Backbone.js](https://github.com/jashkenas/backbone/). Clone to your local computer, then git checkout 1.1.2 after which you can read the 1.1.2 documentation. 
 
 
 ### Database
@@ -62,12 +62,12 @@ Debuging: You will need to start the Tomcat server with the `-Xdebug -Xrunjdwp .
 
 	set CATALINA_OPTS=%CATALINA_OPTS% -Xdebug -Xrunjdwp:transport=dt_socket,address=8088,server=y,suspend=n
 
-Unit Testing: In your chosen IDE you can select and run individual JUnit tests. Or you can use the command line to run the entire suite of JUnit test available for quizki. From the command line, change to %QUIZKI_HOME% and run "mvn test". Remember to rebuild the war file if before you run "mvn test", if you made any code changes.
+Unit Testing: In your chosen IDE you can select and run individual JUnit tests. Or you can use the command line to run the entire suite of JUnit tests available for quizki. From the command line, change to %QUIZKI_HOME% and run "mvn test". Remember to rebuild the war file before you run "mvn test", if you made any code changes.
 	
 
 ### Frontend tests
 
-Debuging: Most modern web browsers provide the abiltity to inspect elements and view source code. Just right click an object in the broswers and select Inspect Element at which time you can work with the browser's debug capabilites and set breakpoints.
+Debuging: Most modern web browsers provide the abiltity to inspect elements and view source code. Just right click an object in the broswer and select Inspect Element at which time you can work with the browser's debug capabilites and set breakpoints.
 
 Unit Testing: No automated tests exist for frontend unit testing.
 
@@ -87,7 +87,7 @@ To contribute to quizki project join the [Denver Mock Program Job MeetUp](https:
 For each issue you work, create a local/featureBranch off your local/devBranch. We work both fixes and new features using featureBranches. After you have tested the issue's solution, push the local/featureBranch to origin/featureBranch on GitHub, then issue a pull request to haxwell/quizki for your origin/featureBranch.
 
 
-If you are working a complex issue, then feel free to issue an inprogress pull request to discuss the progress and pontential solutions. Corrections may be recommended. If so, you can merge recommendations your local/featureBranch. Just fetch, pull, merge into your local/featureBranch. Afterward push the updated local/featureBrancg to your origin/featureBranch.
+If you are working a complex issue, then feel free to issue an inprogress pull request to discuss the progress and pontential solutions. Corrections may be recommended. If so, you can merge recommendations to your local/featureBranch. Just fetch, pull, merge into your local/featureBranch. Afterward push the updated local/featureBranch to your origin/featureBranch.
 
 
 ## Versioning

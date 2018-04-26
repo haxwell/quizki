@@ -1,0 +1,78 @@
+
+From JimD for testing setup on the Mac
+
+For our present and future Mac developers here is a good post on how the Mac handles java native and dynamic libraries. Run the code below to find out what your library path is set to. I tried to `echo $LD_LIBRARY_PATH` on my system but there was no response (or for `sudo echo...`). Apple has it’s own version of java, Apple Java and installation and library handling is integrated into the OS presumably for security purposes but more likely to disorient developers! :slightly_smiling_face:
+Note: I am not using Apple Java, you can use the latest Java by downloading an installer from Oracle and running it, but it leaves Apple Java on the system.
+https://www.chilkatsoft.com/java-loadLibrary-MacOSX.asp (edited)
+
+_______________________________________
+added this Plain Text snippet: Get library path for Mac 
+
+
+
+import java.util.StringTokenizer;
+
+public class LibraryPath {
+
+	public static String getPath() {
+	
+		String property = System.getProperty("java.library.path");
+		String path = "";
+		StringTokenizer parser = new StringTokenizer(property, ":", true);
+		
+		while (parser.hasMoreTokens()) {
+			
+			path += parser.nextToken();
+		}
+		return path;
+	}	
+}
+rename the paths and copy to your script directory. Type deployQuizki.sh to reload the latest WAR file.
+______________________________________________________
+
+Added and commented on this Plain Text snippet: Quizki Deployment Script For Mac 
+
+#! /bin/bash
+
+
+# replace this path with the path to your Tomcat install if differernt
+
+cd /Library/Tomcat/bin
+./shutdown.sh
+
+
+# Replace this path with the path to your Tomcat webapps directory
+
+cd /usr/local/apache-tomcat-9.0.6/webapps
+
+
+# Replace this path with the path to your Target file
+
+
+cp ~/eclipse-workspace/quizki2/target/quizki-1.3.war ROOT.war
+
+
+# same path as line 4
+
+
+cd /Library/Tomcat/bin
+
+
+# This will start Tomcat in Production mode
+
+
+# ./startup.sh
+
+
+# This will start it in Debug mode on the default port 8000
+
+./catalina.sh "jpda" "start"
+
+______________________________________________________
+
+Java running on MacOS 10.13 expects native code and dynamic libraries to be located in `/Users/your_user_name/Library/Java/Extensions` to get the debugger running you need to copy the file `JAVA_HOME/jre/lib/libjwdp.dylib` to this directory AND change the owner of the copy to `your_user_name:your_group`. You can find other library paths by running the previous code snippet. Any of these paths will work for the dynamic library locations. This applies to all `.dynlib` files so 
+moving them all over to the library path and and changing the ownership will prevent problems.
+
+The command `./catalina.sh jpda start` will start Tomcat in debug mode and the command `./shutdown.sh` will stop it. The command `./startup.sh` will start it in production mode (no debugger). Using this method NO changes are needed in `setenv.sh`.
+
+

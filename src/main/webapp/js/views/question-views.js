@@ -625,13 +625,13 @@
 				var currQuestion = model_factory.get("currentQuestion");
 				var v = $(event.target).find("div.switch-animate").hasClass('switch-on');
 				
-				currQuestion.updateChoice(ui_id, 'iscorrect', v+'', NOT_CORRECT);
+				currQuestion.updateChoice(ui_id, 'iscorrect', v+'', false);
 			};
 
 			var onSequenceTextFieldBlurFunc = function(event,data) {
 				var ui_id = event.target.id.replace('sequenceTextField','');
 				var currQuestion = model_factory.get("currentQuestion");
-				currQuestion.updateChoice(ui_id, 'sequence', $(event.target).val()+'', NOT_CORRECT);
+				currQuestion.updateChoice(ui_id, 'sequence', $(event.target).val()+'', false);
 			};
 			
 			var questionChoiceItemView = undefined;

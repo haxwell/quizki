@@ -149,7 +149,7 @@ var PostQuestionTextChangedEventFactory = (function () {
 					question.setDynamicData("dynamicFieldsPresent", dynamicFields.length > 0);
 					
 					for (var i=0; i < dynamicFields.length; i++) {
-						question.addChoice(dynamicFields[i], IS_CORRECT, SEQUENCE_0, "dynamicChoice", NOT_CORRECT);
+						question.addChoice(dynamicFields[i], IS_CORRECT, SEQUENCE_0, "dynamicChoice", false);
 					}
 					
 					question.fireLastSuppressedEvent();

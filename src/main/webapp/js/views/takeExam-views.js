@@ -113,6 +113,7 @@
 			this.eventHandlerMap = new KeyValueMap();
 
 			this.render();
+			
 		},
 		setEventHandler:function(key, func) {
 			this.eventHandlerMap.put(key, func);
@@ -334,6 +335,7 @@
 			_.each(this.ChoiceItemViewCollection, function(model) {
 				$("#switch" + model.view.id).on('switch-change', model.view.getEventHandler("iscorrectchanged"));
 				$("#sequenceTextField" + model.view.id).on('blur', model.view.getEventHandler("onsequencetextfieldblur"));
+				$("#phraseTextField" + model.view.id).focus();
 				$("#phraseTextField" + model.view.id).on('blur', model.view.getEventHandler("onphrasetextfieldblur"));
 				$("#phraseTextField" + model.view.id).on('keypress', model.view.getEventHandler("onphrasetextfieldkeypress"));
 				$("#phraseTextField" + model.view.id).on('blur', model.view.getEventHandler("onphrasetextfieldblur_setquestion"));

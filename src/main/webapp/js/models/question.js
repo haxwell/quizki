@@ -672,20 +672,6 @@ var PhraseQuestionModel = DynamicDataQuestionModel.extend({
 });
 
 
-//  since this is a declaration of a function, how do you say this function needs a function passed in, when 
-//  all you are doing is passing the variable (representing the function's) name? for instance if I'm passing
-//.  this function to another function, how does 
-//
-//		foo(getFunctionToRetrieveCurrentQuestion)
-//
-//	indicate to foo, it should pass a function as the parameter?
-// 
-// I don't know, but I know it will come along eventually.. so when it does.. address this note..
-//
-// UPDATE: perhaps don't use a pointer to a function like this, but an actual function declaration? But still,
-//  when passing the declaration itself, how do you say function required.. selector required. Do you? or does
-//  the calling method just need to know?
-
 //
 // Assumptions: Assumes there is a field defined matching $("#idEntityIdField").. It should contain the id of
 //  the entity, likely passed in as a URL parameter.

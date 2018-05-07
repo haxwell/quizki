@@ -10,6 +10,6 @@ src/META-INF
 
 *.swp
 
-
+ReadMe.txt
 
 src/main/webapp/META-INF/context.xml

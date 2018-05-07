@@ -10,6 +10,6 @@ src/META-INF
 
 *.swp
 
-META-INF/
+
 
 src/main/webapp/META-INF/context.xml

@@ -87,7 +87,8 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 						List<Long> list = new ArrayList<Long>();
 						list.add(Long.parseLong(topicIdRequestParameter.toString()));
 						
-						exam = ExamGenerationManager.generateExam(3, list, new ArrayList<Long>(), DifficultyConstants.INTERMEDIATE, false);
+						int NUM_OF_QUESTIONS = 3;
+						exam = ExamGenerationManager.generateExam(NUM_OF_QUESTIONS, list, new ArrayList<Long>(), DifficultyConstants.INTERMEDIATE, false);
 					}
 					else if (session.getAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN) != null)
 					{

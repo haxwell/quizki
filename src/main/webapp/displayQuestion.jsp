@@ -283,6 +283,7 @@
 		<hr style="margin-top:1px; margin-bottom:5px; padding:1px;"/>
 
 		<div id="divCreatedBy">..</div>
+		<br/>
 
 		<div >
 			<div id="divTextarea">

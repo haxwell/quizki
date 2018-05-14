@@ -149,7 +149,7 @@ var PostQuestionTextChangedEventFactory = (function () {
 					question.setDynamicData("dynamicFieldsPresent", dynamicFields.length > 0);
 					
 					for (var i=0; i < dynamicFields.length; i++) {
-						question.addChoice(dynamicFields[i], IS_CORRECT, SEQUENCE_0, "dynamicChoice", NOT_CORRECT);
+						question.addChoice(dynamicFields[i], IS_CORRECT, SEQUENCE_0, "dynamicChoice", false);
 					}
 					
 					question.fireLastSuppressedEvent();
@@ -745,6 +745,11 @@ var getQuestionByAJAXCall = function(data_url, data_obj, func) {
 		
 		var parsedJSONObject = jQuery.parseJSON(jsonExport);
 		
+		// set the ui_id value of each choice to the id of that choice
+		parsedJSONObject.question[0].choices.forEach(function(choice) { 
+			choice.ui_id = choice.id;
+		})
+
 		rtn = QuestionModelFactory.getQuestionModel_AJAX(parsedJSONObject.question[0]);
 		
 		if (func !== undefined)

@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.ExamFeedback;
@@ -87,7 +87,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 						List<Long> list = new ArrayList<Long>();
 						list.add(Long.parseLong(topicIdRequestParameter.toString()));
 						
-						exam = ExamGenerationManager.generateExam(3, list, new ArrayList<Long>(), DifficultyConstants.INTERMEDIATE, false);
+						exam = ExamGenerationManager.generateExam(3, list, new ArrayList<Long>(), DifficultyEnums.INTERMEDIATE.getRank(), false);
 					}
 					else if (session.getAttribute(Constants.ALLOW_GENERATED_EXAM_TO_BE_TAKEN) != null)
 					{
@@ -102,7 +102,7 @@ public class InitializeSessionForRunningAnExamFilter extends AbstractFilter {
 				
 				// 2. Set session attributes based on the exam object we just got..
 				if (exam != null) {
-					Difficulty examDifficulty = new ExamUtil().getExamDifficulty(exam);
+					Difficulty examDifficulty = ExamUtil.getExamDifficulty(exam);
 					exam.setDifficulty(examDifficulty);
 					
 					session.setAttribute(Constants.CURRENT_EXAM, null);

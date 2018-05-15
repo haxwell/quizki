@@ -36,7 +36,7 @@ import com.haxwell.apps.questions.checkers.SequenceQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SetQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SingleQuestionTypeChecker;
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
 
@@ -52,7 +52,7 @@ public class QuestionTypeCheckerFactoryTest {
 	public void testGetQuestionTypeChecker_forASingleQuestion() {
 		Map<String, Object> attributes = new HashMap<>();
 		
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SINGLE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.SINGLE.getRank());
 		
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
@@ -67,7 +67,7 @@ public class QuestionTypeCheckerFactoryTest {
 	public void testGetQuestionTypeChecker_forAMultipleQuestion() {
 		Map<String, Object> attributes = new HashMap<>();
 		
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.MULTIPLE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.MULTIPLE.getRank());
 		
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
@@ -82,7 +82,7 @@ public class QuestionTypeCheckerFactoryTest {
 	public void testGetQuestionTypeChecker_forASequenceQuestion() {
 		Map<String, Object> attributes = new HashMap<>();
 		
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SEQUENCE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.SEQUENCE.getRank());
 		
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
@@ -98,7 +98,7 @@ public class QuestionTypeCheckerFactoryTest {
 		Map<String, Object> attributes = new HashMap<>();
 		
 		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "Phrase Question Text");
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.PHRASE.getRank());
 		
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);
@@ -113,7 +113,7 @@ public class QuestionTypeCheckerFactoryTest {
 	public void testGetQuestionTypeChecker_forASetQuestion() {
 		Map<String, Object> attributes = new HashMap<>();
 		
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SET);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.SET.getRank());
 		
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);

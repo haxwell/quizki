@@ -26,9 +26,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -39,7 +36,7 @@ import javax.persistence.Transient;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IExam;
 
@@ -52,10 +49,6 @@ import com.haxwell.apps.questions.interfaces.IExam;
 @Table(name="exam")
 public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
 
 	private String title;
 	
@@ -89,15 +82,6 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 
     public Exam() {
     }
-
-    @Override
-    public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getTitle() {
 		return this.title;
@@ -177,7 +161,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		this.difficulty = difficulty;
 	}
 
-	@Override
+//	@Override
 	public String getText() {
 		return getTitle();
 	}
@@ -187,15 +171,7 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
 		return "exam";
 	}
 	
-	@Override
-	public Object getDynamicData(String key) {
-		return null;
-	}
-	
-	@Override
-	public void setDynamicData(String key, Object o) {
-		// do nothing
-	}
+
 	
 	@Override
 	public String toString()
@@ -218,8 +194,8 @@ public class Exam extends AbstractEntity implements IExam, EntityWithAnIntegerID
     	j.put("topics", getTopics().toArray());
 
     	Difficulty diff = getDifficulty();
-    	String diffId = (diff == null) ? DifficultyConstants.UNDEFINED+"" : diff.getId()+"";
-    	String diffText = (diff == null) ? DifficultyConstants.UNDEFINED_STR : diff.getText();
+    	String diffId = (diff == null) ? DifficultyEnums.UNDEFINED.getRank() +"" : diff.getId()+"";
+    	String diffText = (diff == null) ? DifficultyEnums.UNDEFINED.getValString() : diff.getText();
     	
     	j.put("difficulty", diffId);
     	j.put("difficulty_text", diffText);

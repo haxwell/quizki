@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.haxwell.apps.questions.constants.EntityTypeConstants;
+import com.haxwell.apps.questions.constants.EntityTypeEnums;
 import com.haxwell.apps.questions.managers.ExamManager;
 import com.haxwell.apps.questions.managers.Manager;
 import com.haxwell.apps.questions.managers.QuestionManager;
@@ -41,7 +41,7 @@ public class ManagerFactoryTest {
 
 	@Test
 	public void testGetManager_Exam() {
-		Manager m = ManagerFactory.getManager(EntityTypeConstants.EXAM_STR);
+		Manager m = ManagerFactory.getManager(EntityTypeEnums.EXAM.getValString());
 		
 		assertNotEquals(null, m);
 		assertTrue(m instanceof ExamManager);
@@ -49,7 +49,7 @@ public class ManagerFactoryTest {
 
 	@Test
 	public void testGetManager_Question() {
-		Manager m = ManagerFactory.getManager(EntityTypeConstants.QUESTION_STR);
+		Manager m = ManagerFactory.getManager(EntityTypeEnums.QUESTION.getValString());
 		
 		assertNotEquals(null, m);
 		assertTrue(m instanceof QuestionManager);

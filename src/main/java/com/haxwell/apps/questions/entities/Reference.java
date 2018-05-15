@@ -23,9 +23,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -40,14 +37,9 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="reference")
-public class Reference extends AbstractEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
+public class Reference extends AbstractTextEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
 	private static final long serialVersionUID = 4623732L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
-
-	private String text;
 
 	@ManyToMany(mappedBy="references")
 	Set<Question> questions;
@@ -62,22 +54,6 @@ public class Reference extends AbstractEntity implements EntityWithIDAndTextValu
     public Reference(String str) {
     	this.text = str;
     }
-
-    public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
 	
 	@Override
 	public int hashCode()

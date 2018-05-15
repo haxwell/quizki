@@ -19,7 +19,7 @@ package com.haxwell.apps.questions.utils;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-import com.haxwell.apps.questions.constants.EntityTypeConstants;
+import com.haxwell.apps.questions.constants.EntityTypeEnums;
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Question;
@@ -29,9 +29,9 @@ public class EntityTypeUtil {
 	
 	public static int getEnityTypeConstant(AbstractEntity e) {
 		if (e instanceof Exam)
-			return EntityTypeConstants.EXAM;
+			return (int)EntityTypeEnums.EXAM.getRank();
 		else if (e instanceof Question) 
-			return EntityTypeConstants.QUESTION;
+			return (int)EntityTypeEnums.QUESTION.getRank();
 		
 		return -1;
 	}

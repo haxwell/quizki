@@ -25,7 +25,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.entities.Difficulty;
 import com.haxwell.apps.questions.utils.StringUtil;
 
@@ -41,33 +41,33 @@ public class DifficultyTest {
 	
 	@Test
 	public void testObjectStringConstructor() {
-		Difficulty sut = new Difficulty(DifficultyConstants.GURU_STR);
-		assertTrue(StringUtil.equals(sut.getText(), DifficultyConstants.GURU_STR));
+		Difficulty sut = new Difficulty(DifficultyEnums.GURU.getValString());
+		assertTrue(StringUtil.equals(sut.getText(), DifficultyEnums.GURU.getValString()));
 	}
 	
 	@Test
 	public void testObjectLongConstructor() {
-		Difficulty sut = new Difficulty(DifficultyConstants.GURU);
+		Difficulty sut = new Difficulty(DifficultyEnums.GURU.getRank());
 		assertTrue(sut.getText() == null);
-		assertTrue(sut.getId() == DifficultyConstants.GURU);
+		assertTrue(sut.getId() == DifficultyEnums.GURU.getRank());
 	}
 	
 	@Test
 	public void testObjectStringLongConstructor() {
-		Difficulty sut = new Difficulty(DifficultyConstants.GURU_STR, DifficultyConstants.GURU);
-		assertTrue(StringUtil.equals(sut.getText(), DifficultyConstants.GURU_STR));
-		assertTrue(sut.getId() == DifficultyConstants.GURU);
+		Difficulty sut = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
+		assertTrue(StringUtil.equals(sut.getText(), DifficultyEnums.GURU.getValString()));
+		assertTrue(sut.getId() == DifficultyEnums.GURU.getRank());
 	}
 
 	@Test
 	public void testSettersAndGetters() {
-		Difficulty sut = new Difficulty(DifficultyConstants.GURU_STR, DifficultyConstants.GURU);
+		Difficulty sut = new Difficulty(DifficultyEnums.GURU.getValString(), DifficultyEnums.GURU.getRank());
 		
-		sut.setText(DifficultyConstants.SENIOR_STR);
-		sut.setId(DifficultyConstants.INTERMEDIATE);
+		sut.setText(DifficultyEnums.SENIOR.getValString());
+		sut.setId(DifficultyEnums.INTERMEDIATE.getRank());
 		
-		assertTrue(StringUtil.equals(sut.getText(), DifficultyConstants.SENIOR_STR));
-		assertTrue(sut.getId() == DifficultyConstants.INTERMEDIATE);
+		assertTrue(StringUtil.equals(sut.getText(), DifficultyEnums.SENIOR.getValString()));
+		assertTrue(sut.getId() == DifficultyEnums.INTERMEDIATE.getRank());
 	}
 	
 	@Test

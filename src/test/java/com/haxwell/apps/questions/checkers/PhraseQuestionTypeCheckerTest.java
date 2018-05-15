@@ -33,7 +33,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
@@ -50,7 +50,7 @@ public class PhraseQuestionTypeCheckerTest {
 		Map<String, Object> attributes = new HashMap<>();
 		
 		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A Simple Phrase Question");
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.PHRASE.getRank());
 		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
 		
 		Question q = new Question();
@@ -68,7 +68,7 @@ public class PhraseQuestionTypeCheckerTest {
 		Map<String, Object> attributes = new HashMap<>();
 		
 		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A [[Dynamic]] Phrase [[Question]]");
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.PHRASE.getRank());
 		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
 		
 		Question q = new Question();
@@ -86,7 +86,7 @@ public class PhraseQuestionTypeCheckerTest {
 		Map<String, Object> attributes = new HashMap<>();
 		
 		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A [[Dynamic]] Phrase [[Question]]");
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.PHRASE.getRank());
 		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
 		
 		Question q = new Question();
@@ -103,7 +103,7 @@ public class PhraseQuestionTypeCheckerTest {
 		Map<String, Object> attributes = new HashMap<>();
 		
 		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A [[Dynamic]] Phrase [[Question]]");
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.PHRASE.getRank());
 		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
 		
 		Question q = new Question();
@@ -121,7 +121,7 @@ public class PhraseQuestionTypeCheckerTest {
 		Map<String, Object> attributes = new HashMap<>();
 		
 		attributes.put(FilterConstants.QUESTION_CONTAINS_FILTER, "A [[Dynamic]] Phrase [[Question]]");
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.PHRASE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.PHRASE.getRank());
 		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
 		
 		Question q = new Question();

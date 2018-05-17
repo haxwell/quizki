@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 
@@ -183,11 +183,11 @@ public class QuestionAttributeSetterUtil {
 		QuestionType_HandlerFactory() {
 			map = new HashMap<>();
 			
-			map.put(TypeConstants.SINGLE, QuestionType_Single_Handler.class);
-			map.put(TypeConstants.MULTIPLE, QuestionType_Multiple_Handler.class);
-			map.put(TypeConstants.SEQUENCE, QuestionType_Sequence_Handler.class);
-			map.put(TypeConstants.PHRASE, QuestionType_Phrase_Handler.class);
-			map.put(TypeConstants.SET, QuestionType_Set_Handler.class);
+			map.put(TypeEnums.SINGLE.getRank(), QuestionType_Single_Handler.class);
+			map.put(TypeEnums.MULTIPLE.getRank(), QuestionType_Multiple_Handler.class);
+			map.put(TypeEnums.SEQUENCE.getRank(), QuestionType_Sequence_Handler.class);
+			map.put(TypeEnums.PHRASE.getRank(), QuestionType_Phrase_Handler.class);
+			map.put(TypeEnums.SET.getRank(), QuestionType_Set_Handler.class);
 		}
 		
 		public Question set(Object o, Question q) {

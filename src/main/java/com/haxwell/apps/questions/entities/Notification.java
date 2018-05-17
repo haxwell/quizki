@@ -25,9 +25,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -41,15 +41,15 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="notification")
-public class Notification implements EntityWithAnIntegerIDBehavior, Serializable {
+public class Notification extends AbstractTextEntity implements EntityWithAnIntegerIDBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
-
+/*
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
 	private String text;
-
+*/
 	//bi-directional many-to-one association to User
     @ManyToOne
 	private User user;
@@ -73,7 +73,7 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
     
     public Notification() {
     }
-
+/*
     public long getId() {
 		return this.id;
 	}
@@ -81,7 +81,7 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
 	public void setId(long id) {
 		this.id = id;
 	}
-
+*/
     public long getNotificationId() {
 		return this.notificationId;
 	}
@@ -89,7 +89,7 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
 	public void setNotificationId(long id) {
 		this.notificationId = id;
 	}
-
+/*
 	public String getText() {
 		return this.text;
 	}
@@ -97,7 +97,7 @@ public class Notification implements EntityWithAnIntegerIDBehavior, Serializable
 	public void setText(String text) {
 		this.text = text;
 	}
-
+*/
 	public User getUser() {
 		return this.user;
 	}

@@ -25,7 +25,7 @@ import com.haxwell.apps.questions.checkers.PhraseQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SequenceQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SetQuestionTypeChecker;
 import com.haxwell.apps.questions.checkers.SingleQuestionTypeChecker;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.entities.QuestionType;
 
@@ -37,15 +37,15 @@ public class QuestionTypeCheckerFactory {
 		
 		long qtId = (qt != null ? qt.getId() : -1);
 		
-		if (qtId == TypeConstants.SINGLE)
+		if (qtId == TypeEnums.SINGLE.getRank())
 			return new SingleQuestionTypeChecker(q);
-		else if (qtId == TypeConstants.MULTIPLE)
+		else if (qtId == TypeEnums.MULTIPLE.getRank())
 			return new MultiQuestionTypeChecker(q);
-		else if (qtId == TypeConstants.PHRASE)
+		else if (qtId == TypeEnums.PHRASE.getRank())
 			return new PhraseQuestionTypeChecker(q);
-		else if (qtId == TypeConstants.SEQUENCE)
+		else if (qtId == TypeEnums.SEQUENCE.getRank())
 			return new SequenceQuestionTypeChecker(q);
-		else if (qtId == TypeConstants.SET)
+		else if (qtId == TypeEnums.SET.getRank())
 			return new SetQuestionTypeChecker(q);
 		
 		return null;

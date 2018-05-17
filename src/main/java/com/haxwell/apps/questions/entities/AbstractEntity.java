@@ -1,5 +1,13 @@
 package com.haxwell.apps.questions.entities;
 
+import javax.persistence.GenerationType;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Transient;
+
+
+
 /**
  * Copyright 2013,2014 Johnathan E. James - haxwell.org - jj-ccs.com - quizki.com
  *
@@ -19,59 +27,41 @@ package com.haxwell.apps.questions.entities;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
-import net.minidev.json.JSONObject;
+@MappedSuperclass
+public abstract class AbstractEntity {
+	
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	protected long id; 
 
-public abstract class AbstractEntity implements Comparable {
-
-	protected final boolean APPEND_COMMA = true;
-	
-	protected Map<String, Object> dynamicData = new HashMap<String, Object>();
-	
-	@Override
-	public int compareTo(Object o) {
-		return 0;
-	}
-
-	public Object getDynamicData(String key) {
-		return dynamicData.get(key);
-	}
-	
-	public void setDynamicData(String key, Object o) {
-		dynamicData.put(key, o);
-	}
-	
 	public long getId() {
-		return Long.MIN_VALUE;
+		return this.id;
 	}
 	
-	public User getUser() {
-		return null;
+	public void setId(long id) {
+		this.id = id;
 	}
 	
-	public String getEntityDescription()  {
-		return null;
-	}
 	
 	public String getText() {
 		return null;
 	}
 	
+	@Transient	
+	public User getUser() {
+		return null;
+	}
+	@Transient
+	public String getEntityDescription()  {
+		return null;
+	}
+	
+	
 	public String toJSON() {
 		return null;
 	}
 
-	protected void addDynamicDataToJSONObject(JSONObject j) {
-		Set<String> keys = dynamicData.keySet();
-		
-		j.put("dynamicDataFieldNames", keys.toArray());
-		
-		for(String key : keys) {
-			j.put(key,  dynamicData.get(key).toString());
-		}
-	}
+	
 }

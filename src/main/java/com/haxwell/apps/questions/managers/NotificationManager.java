@@ -27,7 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.EntityTypeConstants;
+import com.haxwell.apps.questions.constants.EntityTypeEnums;
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Exam;
 import com.haxwell.apps.questions.entities.Notification;
@@ -130,9 +130,9 @@ public class NotificationManager extends Manager {
 	{
 		AbstractEntity e = null;
 		
-		if (entityTypeId == EntityTypeConstants.EXAM)
+		if (entityTypeId == EntityTypeEnums.EXAM.getRank())
 			e = ExamManager.getExam(entityId);
-		else if (entityTypeId == EntityTypeConstants.QUESTION)
+		else if (entityTypeId == EntityTypeEnums.QUESTION.getRank())
 			e = QuestionManager.getQuestionById(entityId);
 		
 		return e;
@@ -142,9 +142,9 @@ public class NotificationManager extends Manager {
 	{
 		long rtn = -1;
 		
-		if (entityTypeId == EntityTypeConstants.EXAM)
+		if (entityTypeId == EntityTypeEnums.EXAM.getRank())
 			rtn = Constants.NOTIFICATION_ID_VOTED_ON_EXAM;
-		else if (entityTypeId == EntityTypeConstants.QUESTION)
+		else if (entityTypeId == EntityTypeEnums.QUESTION.getRank())
 			rtn = Constants.NOTIFICATION_ID_VOTED_ON_QUESTION;
 		
 		return rtn;

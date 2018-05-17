@@ -31,7 +31,7 @@ import net.minidev.json.JSONValue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.utils.StringUtil;
 import com.haxwell.apps.questions.utils.TestQuestionUtil;
@@ -48,7 +48,7 @@ public class ExamTest {
 		String message = "examMessage";
 		User user = new User(); user.setId(1); user.setUsername("username");
 		long entityStatus = EntityStatusConstants.ACTIVATED;
-		Difficulty difficulty = new Difficulty(DifficultyConstants.JUNIOR_STR, DifficultyConstants.JUNIOR);
+		Difficulty difficulty = new Difficulty(DifficultyEnums.JUNIOR.getValString(), DifficultyEnums.JUNIOR.getRank());
 		Set<Question> qset = TestQuestionUtil.getSetOfQuestions(3);
 		Set<Topic> topics = TestQuestionUtil.getSetOfTopics();
 		
@@ -69,8 +69,8 @@ public class ExamTest {
 		assertTrue(exam.getUser().getId() == 1);
 		assertTrue(exam.getUser().getUsername().equals("username"));
 		assertTrue(exam.getEntityStatus() == EntityStatusConstants.ACTIVATED);
-		assertTrue(exam.getDifficulty().getId() == DifficultyConstants.JUNIOR);
-		assertTrue(StringUtil.equals(exam.getDifficulty().getText(), DifficultyConstants.JUNIOR_STR));
+		assertTrue(exam.getDifficulty().getId() == DifficultyEnums.JUNIOR.getRank());
+		assertTrue(StringUtil.equals(exam.getDifficulty().getText(), DifficultyEnums.JUNIOR.getValString()));
 		
 		Set<Question> examQuestions = exam.getQuestions();
 		for (Question q : examQuestions) {
@@ -114,7 +114,10 @@ public class ExamTest {
 		assertTrue(exam.getQuestions().size() == 0);
 		assertTrue(exam.getNumberOfQuestions() == 0);
 	}
-	
+/*
+ * 
+ * get/setDynamicData was removed and is not referenced anywhere in the project on this entity (except here)
+ * 	
 	@Test
 	public void testNoDynamicData() {
 		Exam exam = new Exam();
@@ -123,7 +126,7 @@ public class ExamTest {
 		
 		assertTrue(exam.getDynamicData("key") == null);
 	}
-
+*/
 	@Test
 	public void testEntityDescription() {
 		Exam exam = new Exam();
@@ -140,7 +143,7 @@ public class ExamTest {
 		String message = "examMessage";
 		User user = new User(); user.setId(1); user.setUsername("username");
 		long entityStatus = EntityStatusConstants.ACTIVATED;
-		Difficulty difficulty = new Difficulty(DifficultyConstants.JUNIOR_STR, DifficultyConstants.JUNIOR);
+		Difficulty difficulty = new Difficulty(DifficultyEnums.JUNIOR.getValString(), DifficultyEnums.JUNIOR.getRank());
 		Set<Topic> topics = TestQuestionUtil.getSetOfTopics();
 		
 		sut.setId(id);
@@ -151,6 +154,9 @@ public class ExamTest {
 		sut.setEntityStatus(entityStatus);
 		sut.setTopics(topics);
 
+		/*
+		 * get/setDynamicData was removed from Exam and could not produce data in the JSON object
+		 * 
 		String dynamicDataKey1 = "dd1";
 		String dynamicDataValue1 = "v1";
 		String dynamicDataKey2 = "dd2";
@@ -158,7 +164,7 @@ public class ExamTest {
 		
 		sut.setDynamicData(dynamicDataKey1, dynamicDataValue1);
 		sut.setDynamicData(dynamicDataKey2, dynamicDataValue2);
-
+		*/
 		String json = sut.toJSON();
 		
 		JSONObject jobj = (JSONObject)JSONValue.parse(json);
@@ -199,7 +205,7 @@ public class ExamTest {
 		String message = "examMessage";
 		User user = new User(); user.setId(1); user.setUsername("username");
 		long entityStatus = EntityStatusConstants.ACTIVATED;
-//		Difficulty difficulty = new Difficulty(DifficultyConstants.JUNIOR);
+//		Difficulty difficulty = new Difficulty(DifficultyEnums.JUNIOR.getRank());
 		Set<Topic> topics = TestQuestionUtil.getSetOfTopics();
 		
 		sut.setId(id);
@@ -231,8 +237,8 @@ public class ExamTest {
 			assertFalse(StringUtil.isNullOrEmpty(topicobj.get("text").toString()));
 		}
 		
-		assertTrue(StringUtil.equals(jobj.get("difficulty"), DifficultyConstants.UNDEFINED));
-		assertTrue(StringUtil.equals(jobj.get("difficulty_text"), DifficultyConstants.UNDEFINED_STR));
+		assertTrue(StringUtil.equals(jobj.get("difficulty"), DifficultyEnums.UNDEFINED.getRank()));
+		assertTrue(StringUtil.equals(jobj.get("difficulty_text"), DifficultyEnums.UNDEFINED.getValString()));
 		
 		assertTrue(StringUtil.equals(jobj.get("entityStatus"), entityStatus));
 	}

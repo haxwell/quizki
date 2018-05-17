@@ -32,7 +32,7 @@ import org.junit.experimental.categories.Category;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.factories.DynamifierFactory;
@@ -49,7 +49,7 @@ public class SetQuestionTypeCheckerTest {
 		// Generate the question object
 		Map<String, Object> attributes = new HashMap<>();
 		attributes.put(FilterConstants.ENTITY_ID_FILTER, RandomIntegerUtil.getRandomInteger(1000));
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SET);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.SET.getRank());
 		
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);

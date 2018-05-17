@@ -31,7 +31,6 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.FilterCollection"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.DifficultyConstants"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.constants.TypeConstants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.FilterConstants"/>
 	<jsp:directive.page import="java.util.List"/>
 	<jsp:directive.page import="java.util.Set"/>

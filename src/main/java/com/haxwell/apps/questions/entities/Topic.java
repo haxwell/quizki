@@ -24,9 +24,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.AttributeOverride;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -41,15 +39,11 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="topic")
-public class Topic extends AbstractEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
+public class Topic extends AbstractTextEntity implements EntityWithIDAndTextValuePairBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id = -1;
-
-	@Column(nullable=false,unique=true)
-	private String text;
+	//Note: Because tests are not using persistence this annotation is not checked in testing
+	@AttributeOverride(name = "text", column = @Column(nullable=false,unique=true))
 	
 	@ManyToMany(mappedBy="topics")
 	Set<Question> questions;
@@ -65,22 +59,6 @@ public class Topic extends AbstractEntity implements EntityWithIDAndTextValuePai
     	this.text = str;
     }
 
-    public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-	
 	@Override
 	public int hashCode()
 	{

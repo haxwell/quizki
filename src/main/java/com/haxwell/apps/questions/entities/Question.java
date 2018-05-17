@@ -21,15 +21,15 @@ package com.haxwell.apps.questions.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -40,7 +40,7 @@ import javax.persistence.Transient;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.EntityStatusConstants;
 import com.haxwell.apps.questions.interfaces.IQuestion;
 import com.haxwell.apps.questions.utils.StringUtil;
@@ -52,14 +52,12 @@ import com.haxwell.apps.questions.utils.StringUtil;
  */
 @Entity
 @Table(name="question")
-public class Question extends AbstractEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable {
+public class Question extends AbstractTextEntity implements IQuestion, EntityWithAnIntegerIDBehavior, EntityWithADifficultyObjectBehavior, Serializable, Comparable<Question> {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+
 	private String description;
-	private String text;
+
 	
 	@Column(name="ENTITY_STATUS")
 	private long entityStatus = EntityStatusConstants.ACTIVATED;	
@@ -123,14 +121,27 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
     	id = DEFAULT_ID;
     	text = DEFAULT_TEXT;
     }
+    
+    @Transient
+	protected Map<String, Object> dynamicData = new HashMap<String, Object>();
 
-    @Override
-    public long getId() {
-		return this.id;
+
+	public Object getDynamicData(String key) {
+		return dynamicData.get(key);
 	}
-
-	public void setId(long id) {
-		this.id = id;
+	
+	public void setDynamicData(String key, Object o) {
+		dynamicData.put(key, o);
+	}
+	
+	protected void addDynamicDataToJSONObject(JSONObject j) {
+		Set<String> keys = dynamicData.keySet();
+		
+		j.put("dynamicDataFieldNames", keys.toArray());
+		
+		for(String key : keys) {
+			j.put(key,  dynamicData.get(key).toString());
+		}
 	}
 
 	public String getDescription() {
@@ -150,15 +161,6 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		str = str.replace("]]", "");
 		
 		return str;
-	}
-	
-	@Override
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public Difficulty getDifficulty() {
@@ -248,7 +250,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 		j.put("textWithoutHTML", textWOHMTL == null ? "" : textWOHMTL);
 		
 		Difficulty diff = getDifficulty();
-		if (diff == null) diff = new Difficulty(DifficultyConstants.JUNIOR);
+		if (diff == null) diff = new Difficulty(DifficultyEnums.JUNIOR.getRank());
 		j.put("difficulty_id", diff.getId()+"");
 		j.put("difficulty_text", diff.getText());
 
@@ -298,7 +300,7 @@ public class Question extends AbstractEntity implements IQuestion, EntityWithAnI
 	}
 	
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Question o) {
 		int rtn = 0;
 		
 		if (o instanceof Question){

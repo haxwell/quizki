@@ -1,4 +1,9 @@
-package com.haxwell.apps.questions.factories;
+package com.haxwell.apps.questions.entities;
+
+
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Column;
+
 
 /**
  * Copyright 2013,2014 Johnathan E. James - haxwell.org - jj-ccs.com - quizki.com
@@ -19,18 +24,17 @@ package com.haxwell.apps.questions.factories;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-import com.haxwell.apps.questions.constants.EntityTypeEnums;
-import com.haxwell.apps.questions.entities.AbstractEntity;
-import com.haxwell.apps.questions.entities.EntityType;
-import com.haxwell.apps.questions.entities.Exam;
-import com.haxwell.apps.questions.entities.Question;
-
-public class EntityTypeFactory {
-
-	public static EntityType getEntityTypeFor(AbstractEntity e) {
-		if (e instanceof Exam) return new EntityType(EntityTypeEnums.EXAM.getRank(), "Exam");
-		if (e instanceof Question) return new EntityType(EntityTypeEnums.QUESTION.getRank(), "Question");
-		
-		return null;
+@MappedSuperclass
+public class AbstractTextEntity extends AbstractEntity {
+	
+	@Column
+	protected String text;
+	
+	public String getText() {
+		return this.text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 }

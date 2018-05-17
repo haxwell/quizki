@@ -34,9 +34,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.DifficultyConstants;
+import com.haxwell.apps.questions.constants.DifficultyEnums;
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.AbstractEntity;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Difficulty;
@@ -544,10 +544,10 @@ public class QuestionManager extends Manager {
 	}
 	
 	private static boolean isDynamificationNeeded(Question q) {
-		if (q.getQuestionType().getId() == TypeConstants.SET)
+		if (q.getQuestionType().getId() == TypeEnums.SET.getRank())
 			return true;
 		
-		if (q.getQuestionType().getId() == TypeConstants.PHRASE && StringUtil.getCountOfDynamicFields(q.getText()) > 0)
+		if (q.getQuestionType().getId() == TypeEnums.PHRASE.getRank() && StringUtil.getCountOfDynamicFields(q.getText()) > 0)
 			return true;
 		
 		return false;
@@ -611,8 +611,8 @@ public class QuestionManager extends Manager {
 		
 		Question q = new Question();
 		
-		q.setDifficulty(new Difficulty(DifficultyConstants.JUNIOR));
-		q.setQuestionType(new QuestionType(TypeConstants.SINGLE, TypeConstants.SINGLE_STR));
+		q.setDifficulty(new Difficulty(DifficultyEnums.JUNIOR.getRank()));
+		q.setQuestionType(new QuestionType(TypeEnums.SINGLE.getRank(), TypeEnums.SINGLE.getValString()));
 		q.setChoices(new HashSet<Choice>());
 		q.setTopics(new HashSet<Topic>());
 		q.setReferences(new HashSet<Reference>());
@@ -651,7 +651,7 @@ public class QuestionManager extends Manager {
 		
 		filter = fc.get(FilterConstants.QUESTION_TYPE_FILTER).toString();
 		
-		if (!StringUtil.isNullOrEmpty(filter) && (!filter.equals(TypeConstants.ALL_TYPES+""))) {
+		if (!StringUtil.isNullOrEmpty(filter) && (!filter.equals(TypeEnums.ALL_TYPES.getRank()+""))) {
 			arr.add(new QuestionTypeFilter(Integer.parseInt(filter)));
 		}
 		
@@ -664,7 +664,7 @@ public class QuestionManager extends Manager {
 		filter = fc.get(FilterConstants.DIFFICULTY_FILTER).toString();
 		filter = filter != null ? filter.toString() : "";
 		
-		if (!StringUtil.isNullOrEmpty(filter) && !filter.equals(DifficultyConstants.ALL_DIFFICULTIES+"")) {
+		if (!StringUtil.isNullOrEmpty(filter) && !filter.equals(DifficultyEnums.ALL_DIFFICULTIES.getRank()+"")) {
 			arr.add(new DifficultyFilter(Integer.parseInt(filter)));
 		}
 		
@@ -682,7 +682,7 @@ public class QuestionManager extends Manager {
 //		if (!StringUtil.isNullOrEmpty(topicFilterText))
 //			arr.add(new QuestionTopicFilter(topicFilterText));
 //
-//		if (questionType != null && questionType != TypeConstants.ALL_TYPES )
+//		if (questionType != null && questionType != TypeEnums.ALL_TYPES.getRank() )
 //			arr.add(new QuestionTypeFilter(questionType));
 //
 //		return new ListFilterer<Question>().process(rtn, arr);

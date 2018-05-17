@@ -29,7 +29,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.haxwell.apps.questions.constants.Constants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.interfaces.IChoice;
@@ -95,7 +95,7 @@ public class ChoiceManager extends Manager {
 		List<String> errors = new ArrayList<String>();
 		
 		long questionTypeId = question.getQuestionType().getId();
-		if (questionTypeId != TypeConstants.PHRASE && choicesSet.size() < 2)
+		if (questionTypeId != TypeEnums.PHRASE.getRank() && choicesSet.size() < 2)
 			errors.add("There must be at least two choices."); 
 		
 		Set<String> choiceTextsSet = new HashSet<String>();
@@ -138,31 +138,31 @@ public class ChoiceManager extends Manager {
 		
 		boolean addedErrorRegardingMultipleCorrectChoicesNeeded = false;
 
-		if (questionTypeId == TypeConstants.SINGLE && correctChoiceCount > 1)
+		if (questionTypeId == TypeEnums.SINGLE.getRank() && correctChoiceCount > 1)
 			errors.add("The question type is set to Single but you've marked more than one choice as correct.");
 		
-		if (questionTypeId == TypeConstants.MULTIPLE && choicesSet.size() >= 2 && correctChoiceCount < 2)
+		if (questionTypeId == TypeEnums.MULTIPLE.getRank() && choicesSet.size() >= 2 && correctChoiceCount < 2)
 		{
 			errors.add("The question type is set to Multiple but you haven't marked multiple correct choices.");
 			addedErrorRegardingMultipleCorrectChoicesNeeded = true;
 		}
 		
-		if (questionTypeId == TypeConstants.PHRASE && choicesSet.size() != correctChoiceCount)
+		if (questionTypeId == TypeEnums.PHRASE.getRank() && choicesSet.size() != correctChoiceCount)
 			errors.add("The question type is set to Phrase but there is an incorrect choice. All choices must be correct.");
 
-		if (questionTypeId == TypeConstants.SEQUENCE && choicesSet.size() != correctChoiceCount)
+		if (questionTypeId == TypeEnums.SEQUENCE.getRank() && choicesSet.size() != correctChoiceCount)
 			errors.add("The question type is set to Sequence but there is an incorrect choice. All choices must be correct.");
 		
 		if (correctChoiceCount == 0 && addedErrorRegardingMultipleCorrectChoicesNeeded == false)
 			errors.add("At least one of the choices must be correct.");
 		
-		if (questionTypeId == TypeConstants.SEQUENCE && (sequenceNumbers.size() != choicesSet.size()))
+		if (questionTypeId == TypeEnums.SEQUENCE.getRank() && (sequenceNumbers.size() != choicesSet.size()))
 			errors.add("At least one of the choices is missing a sequence number.");
 		
-		if (questionTypeId == TypeConstants.SEQUENCE && !sequenceNumbers.contains(1))
+		if (questionTypeId == TypeEnums.SEQUENCE.getRank() && !sequenceNumbers.contains(1))
 			errors.add("There is an error in the sequence numbers. The sequence must begin with the number 1.");
 
-		if (questionTypeId == TypeConstants.SEQUENCE && !validateSequenceNumbersExistFromOneToTheNumberOfChoices(sequenceNumbers, choicesSet))
+		if (questionTypeId == TypeEnums.SEQUENCE.getRank() && !validateSequenceNumbersExistFromOneToTheNumberOfChoices(sequenceNumbers, choicesSet))
 			errors.add("There is an error in the sequence numbers. The number '" + sequenceNumbers.iterator().next() + "' is not in sequence!");
 		
 		return errors;

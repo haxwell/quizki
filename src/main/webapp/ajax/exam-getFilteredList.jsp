@@ -30,7 +30,7 @@
 	<jsp:directive.page import="com.haxwell.apps.questions.utils.FilterCollection"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.Constants"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.DifficultyConstants"/>
-	<jsp:directive.page import="com.haxwell.apps.questions.constants.TypeConstants"/>
+	<jsp:directive.page import="com.haxwell.apps.questions.constants.DifficultyEnums"/>
 	<jsp:directive.page import="com.haxwell.apps.questions.constants.FilterConstants"/>
 	<jsp:directive.page import="java.util.List"/>
 	<jsp:directive.page import="java.util.Set"/>
@@ -65,7 +65,7 @@ String difficultyFilterValue = request.getParameter(FilterConstants.DIFFICULTY_F
 
 log.log(Level.SEVERE, "difficultyFilterValue " + difficultyFilterValue);
 
-if (StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = DifficultyConstants.GURU+"";
+if (StringUtil.isNullOrEmpty(difficultyFilterValue)) difficultyFilterValue = DifficultyEnums.GURU.getRank()+"";
 
 String roef = request.getParameter(FilterConstants.RANGE_OF_ENTITIES_FILTER);
 

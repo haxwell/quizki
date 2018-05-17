@@ -23,9 +23,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -40,7 +37,7 @@ import com.haxwell.apps.questions.interfaces.IChoice;
  */
 @Entity
 @Table(name="choice")
-public class Choice extends AbstractEntity implements IChoice, EntityWithAnIntegerIDBehavior, EntityWithASequenceNumberBehavior, Serializable {
+public class Choice extends AbstractTextEntity implements IChoice, EntityWithAnIntegerIDBehavior, EntityWithASequenceNumberBehavior, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int CORRECT = 1;
@@ -49,16 +46,11 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 	public static final int NO_SEQUENCE = 0;
 	
 	public static final int NO_ID = 0;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
 
 	private int iscorrect;
 
 	private int sequence;
 
-	private String text;
 
 	@ManyToMany(mappedBy="choices")
 	Set<Question> questions;
@@ -93,14 +85,6 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
     	this.iscorrect = isCorrect == CORRECT ? 1 : 0;
     	this.sequence = sequence;
     }
-    
-    public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public int getIscorrect() {
 		return this.iscorrect;
@@ -122,14 +106,6 @@ public class Choice extends AbstractEntity implements IChoice, EntityWithAnInteg
 
 	public void setSequence(int sequence) {
 		this.sequence = sequence;
-	}
-
-	public String getText() {
-		return this.text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	@Override

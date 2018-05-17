@@ -32,8 +32,6 @@ var QUESTION_TYPE_PHRASE = 3;
 var QUESTION_TYPE_SEQUENCE = 4;
 var QUESTION_TYPE_SET = 5;
 
-var SEQUENCE_0 = "0";
-
 var UI_ID_Generator = (function() {
 	var my = {};
 	
@@ -151,7 +149,7 @@ var PostQuestionTextChangedEventFactory = (function () {
 					question.setDynamicData("dynamicFieldsPresent", dynamicFields.length > 0);
 					
 					for (var i=0; i < dynamicFields.length; i++) {
-						question.addChoice(dynamicFields[i], true, SEQUENCE_0, "dynamicChoice", false);
+						question.addChoice(dynamicFields[i], IS_CORRECT, SEQUENCE_0, "dynamicChoice", false);
 					}
 					
 					question.fireLastSuppressedEvent();

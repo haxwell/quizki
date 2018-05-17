@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import com.haxwell.apps.questions.constants.FilterConstants;
-import com.haxwell.apps.questions.constants.TypeConstants;
+import com.haxwell.apps.questions.constants.TypeEnums;
 import com.haxwell.apps.questions.entities.Choice;
 import com.haxwell.apps.questions.entities.Question;
 import com.haxwell.apps.questions.utils.QuestionAttributeSetterUtil;
@@ -42,7 +42,7 @@ public class SingleQuestionTypeCheckerTest {
 	public void testQuestionIsCorrect() {
 		Map<String, Object> attributes = new HashMap<>();
 		
-		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeConstants.SINGLE);
+		attributes.put(FilterConstants.QUESTION_TYPE_FILTER, TypeEnums.SINGLE.getRank());
 
 		Question q = new Question();
 		q = QuestionAttributeSetterUtil.setQuestionAttributes(attributes, q);

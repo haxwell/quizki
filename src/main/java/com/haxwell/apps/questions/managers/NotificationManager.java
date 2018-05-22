@@ -191,7 +191,7 @@ public class NotificationManager extends Manager {
 	{
 		EntityManager em = emf.createEntityManager();
 		
-		String queryStr = "UPDATE Notification n SET n.numOfInstances=:numOfInstances, n.text=:text WHERE n.id=:notificationId";
+		String queryStr = "UPDATE Notification n SET n.num_of_instances=:numOfInstances, n.text=:text WHERE n.id=:notificationId";
 		
 		Query query = em.createQuery(queryStr);
 		

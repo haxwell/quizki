@@ -45,7 +45,6 @@
 		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
-			<![CDATA[ <script src='https://www.google.com/recaptcha/api.js' async defer></script> ]]>
 			<![CDATA[ <script src="pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
 		</jsp:text>
 		
@@ -79,8 +78,6 @@
 		Requested Password: <input type="text" name="password"/>
 		<br/><br/>
         <br/>
-
-		<div class="g-recaptcha" data-sitekey="6LfdE90SAAAAACMMvcSYY_eDCB8dhhmY8hemrvKr"></div>
 
 		<div class="span2">
 			<button class="btn btn-block" type="submit" name="button" value="Create Log In">Create Log In</button>

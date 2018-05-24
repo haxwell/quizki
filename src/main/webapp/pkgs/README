@@ -1,0 +1,4 @@
+NOTE TO DEVELOPERS...
+
+These are the various libraries that quizki depends on. If you're debugging, just know that this stuff is outside of quizki, and unless you're really sure about
+what you're doing, you can just assume this stuff works.

@@ -18,10 +18,10 @@
  -->
 
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
-	<jsp:directive.page import="net.tanesha.recaptcha.ReCaptcha" />
-    <jsp:directive.page import="net.tanesha.recaptcha.ReCaptchaFactory" />
     <jsp:directive.page import="java.util.logging.Logger" />
     <jsp:directive.page import="java.util.logging.Level" />
+    
+	    
     
     <jsp:directive.page language="java"
         contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
@@ -45,6 +45,7 @@
 		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
+			<![CDATA[ <script src='https://www.google.com/recaptcha/api.js'></script> ]]>
 			<![CDATA[ <script src="pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
 			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
 		</jsp:text>
@@ -84,12 +85,9 @@
 		<br/><br/>
 		Requested Password: <input type="text" name="password"/>
 		<br/><br/>
-		
-		<jsp:scriptlet>
-			ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LcZhfASAAAAAO91hVTAX_p8PhGwealGfmmKHma8", "6LcZhfASAAAAAC5oKnOSx7dxaQhDIS_Nz5vxuwFg", false);
-			out.print(c.createRecaptchaHtml(null, null));
-		</jsp:scriptlet>
         <br/>
+
+		<div class="g-recaptcha" data-sitekey="6LfdE90SAAAAACMMvcSYY_eDCB8dhhmY8hemrvKr"></div>
 
 		<div class="span2">
 			<button class="btn btn-block" type="submit" name="button" value="Create Log In">Create Log In</button>

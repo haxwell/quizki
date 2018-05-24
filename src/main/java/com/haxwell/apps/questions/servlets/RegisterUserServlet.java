@@ -19,7 +19,7 @@ package com.haxwell.apps.questions.servlets;
  * along with Quizki. If not, see http://www.gnu.org/licenses.
  */
 
-import java.io.IOException;	
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.managers.UserManager;
-import com.haxwell.apps.questions.utils.RestClient;
 
 /**
  * Servlet implementation class LoginServlet
@@ -61,47 +60,21 @@ public class RegisterUserServlet extends AbstractHttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String resp1 = request.getParameter("g-recaptcha-response");
-		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
 		ArrayList<String> errors = new ArrayList<String>();
 		ArrayList<String> successes = new ArrayList<String>();		
 
-        String remoteAddr = request.getRemoteAddr();
-        
-        String challenge = request.getParameter("recaptcha_challenge_field");
-        String uresponse = request.getParameter("recaptcha_response_field");
-        
-        try {
-        	RestClient restClient = new RestClient();
-        	
-        	String secret = "6LfdE90SAAAAABhv6mw2hG8zLhes3ioFJoEugBcp";
-        	String post = restClient.post("https://www.google.com/recaptcha/api/siteverify", "{secret: \"" + secret + "\", response: \"" + resp1 + "\", remoteip: \"" + remoteAddr + "\"}");
-        	
-        	log.info(" *****  RECAPTCHA RESPONSE **** ");
-        	log.info(post);
-        }
-        catch (Exception e) {
-        	errors.add("Caught Exception trying to verify the Captcha. Sorry about that.");
-        }
-
-//        if (reCaptchaResponse != null) {
-//	        if (reCaptchaResponse.isValid()) {
-//	            if (username.length() < 5)
-//	            	errors.add("The username '" + username + "' is too short. It must be at least 5 characters long.");
-//	            
-//	        	if (errors.size() == 0 && UserManager.getUser(username) != null)
-//	    			errors.add("The username '" + username + "' already exists....");
-//	    	}
-//	        else
-//	        {
-//	        	errors.add("The text you entered for the CAPTCHA was wrong....");
-//	        }
-//        }
-        
-        if (password.length() < 6)
+		/**
+		 * TODO: Add some check here to be sure the creator the account is human.
+		 * 
+		 * Ask a question like 10 + __ + ten (or whatever, in words) = {answer}
+		 * 
+		 * where the user has to supply the missing value.
+		 */
+		
+		if (password.length() < 6)
         {
         	errors.add("The password must be at least 6 characters.");
         }

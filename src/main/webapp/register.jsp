@@ -45,17 +45,10 @@
 		<link rel="shortcut icon" href="images/favicon.ico" />
 		
 		<jsp:text>
-			<![CDATA[ <script src='https://www.google.com/recaptcha/api.js'></script> ]]>
+			<![CDATA[ <script src='https://www.google.com/recaptcha/api.js' async defer></script> ]]>
 			<![CDATA[ <script src="pkgs/jquery/jquery-1.11.1.min.js" type="text/javascript"></script> ]]>
-			<![CDATA[ <script src="js/createQuestion.js" type="text/javascript" ></script> ]]>
 		</jsp:text>
 		
-		<script type="text/javascript">
-		 var RecaptchaOptions = {
-		    theme : 'clean'
-		 };
-		 </script>
-				
 	</head>
 <body>
 

@@ -1,0 +1,33 @@
+build.bat
+setenv.bat
+src/META-INF
+*.swp
+
+# Maven
+target
+/target
+
+# Eclipse
+/.settings
+.classpath
+.project
+
+# IntelliJ
+out/
+.idea/
+*.iws
+*.iml
+*.ipr
+
+ReadMe.txt
+
+src/main/webapp/META-INF/context.xml
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+nbactions.xml
+nb-configuration.xml

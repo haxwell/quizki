@@ -19,6 +19,9 @@ out/
 *.iml
 *.ipr
 
+ReadMe.txt
+
+src/main/webapp/META-INF/context.xml
 # NetBeans
 nbproject/private/
 build/
@@ -28,3 +31,4 @@ nbdist/
 .nb-gradle/
 nbactions.xml
 nb-configuration.xml
+META-INF/context.xml

@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `choice`;
 CREATE TABLE `choice` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `text` varchar(1000) NOT NULL,
-  `is_correct` int(11) NOT NULL,
+  `isCorrect` int(11) NOT NULL,
   `sequence` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1400 DEFAULT CHARSET=latin1;
@@ -179,12 +179,12 @@ DROP TABLE IF EXISTS `exam_feedback`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exam_feedback` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `exam_id` bigint(20) NOT NULL,
-  `commenting_user_id` bigint(20) NOT NULL,
+  `examId` bigint(20) NOT NULL,
+  `commentingUserId` bigint(20) NOT NULL,
   `comment` varchar(1024) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `exam_id` (`exam_id`),
-  KEY `commenting_user_id` (`commenting_user_id`)
+  KEY `examId` (`examId`),
+  KEY `commentingUserId` (`commentingUserId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -264,7 +264,7 @@ CREATE TABLE `notification` (
   `text` varchar(1000) NOT NULL,
   `entity_type_id` bigint(20) DEFAULT NULL,
   `entity_id` bigint(20) DEFAULT NULL,
-  `num_of_instances` int(11) NOT NULL DEFAULT '0',
+  `numOfInstances` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `entity_type_id` (`entity_type_id`),
@@ -543,12 +543,12 @@ DROP TABLE IF EXISTS `votes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `votes` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `entity_type_id` bigint(20) NOT NULL,
-  `entity_id` bigint(20) NOT NULL,
-  `thumbs_up` int(11) NOT NULL,
-  `thumbs_down` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`entity_id`,`entity_type_id`),
+  `userId` bigint(20) NOT NULL,
+  `entityTypeId` bigint(20) NOT NULL,
+  `entityId` bigint(20) NOT NULL,
+  `thumbsUp` int(11) NOT NULL,
+  `thumbsDown` int(11) NOT NULL,
+  PRIMARY KEY (`userId`,`entityId`,`entityTypeId`),
   KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

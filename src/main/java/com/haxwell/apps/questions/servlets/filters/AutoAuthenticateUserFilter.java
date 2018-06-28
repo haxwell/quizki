@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import com.haxwell.apps.questions.constants.Constants;
 import com.haxwell.apps.questions.servlets.actions.LoginWithTheRequestCredentialsAction;
 
@@ -47,6 +48,11 @@ public class AutoAuthenticateUserFilter extends AbstractFilter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpSession session = ((HttpServletRequest)request).getSession();
+		HttpServletResponse res = (HttpServletResponse) response;
+		
+		//allow cross origin access for Quizki-frontend access temporarily in classic version
+		res.addHeader("Access-Control-Allow-Origin", "*");
+		res.addHeader("content-type", "text/plain" );
 
 		if (session.getAttribute(Constants.IN_PRODUCTION_MODE) == null) {
 			// TODO: get these from Spring instead
